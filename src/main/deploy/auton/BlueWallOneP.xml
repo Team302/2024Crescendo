@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+    <primitive id="RESET_POSITION"
+	            pathname="BlueWallOne1.wpilib.json"
+               intake="INTAKE_HOLD"/>
+   <!--score preloaded cone-->
+    <snippet file="ScoreCone.xml"/>
+    <!--drive to charing station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne1.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="0.8"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne4.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="4.0"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne2.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="5.0"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne3.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="2.0"
+               />
+    <!--drive onto charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne1Slow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="3.0"
+               />
+    <!--auto balance-->
+    <primitive id="AUTO_BALANCE"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="10.0"
+               />
+</auton>

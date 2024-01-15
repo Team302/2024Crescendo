@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+    <primitive id="DO_NOTHING"
+               headingOption="FACE_APRIL_TAG"
+               arm="CUBE_BACKROW_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_HOLD_CUBE"
+               time="0.65"
+               />
+    <primitive id="DO_NOTHING"
+               headingOption="FACE_APRIL_TAG"
+               arm="CUBE_BACKROW_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_EXPEL"
+               time="0.25"
+               />
+</auton>

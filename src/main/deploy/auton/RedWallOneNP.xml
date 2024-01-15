@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+    <primitive id="RESET_POSITION"
+	           pathname="RedWallOne1.wpilib.json"
+               intake="INTAKE_HOLD"/>
+    <!--score preloaded cone-->
+    <snippet file="ScoreCone.xml"/>
+
+    <!--drive to charing station-->
+    <primitive id="DRIVE_PATH"
+               pathname="RedWallOne1.wpilib.json"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="0.5"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="RedWallOne4.wpilib.json"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="3.0"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="RedWallOne2.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="179.5"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="7.0"
+               />
+    <!-- do nothing!-->
+    <primitive id="DO_NOTHING"
+               headingOption="SPECIFIED_ANGLE"
+               heading="179.5"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="10.0"
+               />
+</auton>

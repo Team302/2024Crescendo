@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE statedata SYSTEM "stateData.dtd">
+<statedata>
+  <controlData
+    identifier="intake"
+    mode="PERCENT_OUTPUT"
+    constrolServer="MOTORCONTROLLER"
+    proportional="0.0"
+    integral="0.0"
+    derivative="0.0"
+    feedforward="0.0"
+    izone="0.0"
+    maxacceleration="0.0"
+    cruisevelocity="0.0" />
+  <mechanismTarget
+    stateIdentifier="INTAKE_OFF"
+    controlDataIdentifier="intake"
+    controlDataIdentifier2="intake"
+    value="0"
+    secondValue="0"
+    solenoid="REVERSE"
+    solenoid2="NONE" />
+  <mechanismTarget
+    stateIdentifier="INTAKE"
+    controlDataIdentifier="intake"
+    controlDataIdentifier2="intake"
+    value="1"
+    secondValue="1"
+    solenoid="ON"
+    solenoid2="NONE" />
+  <mechanismTarget
+    stateIdentifier="INTAKE_HOLD"
+    controlDataIdentifier="intake"
+    controlDataIdentifier2="intake"
+    value="0.20"
+    secondValue="0.20"
+    solenoid="REVERSE"
+    solenoid2="NONE" />
+  <mechanismTarget
+    stateIdentifier="INTAKE_HOLD_CUBE"
+    controlDataIdentifier="intake"
+    controlDataIdentifier2="intake"
+    value="0.20"
+    secondValue="0.20"
+    solenoid="ON"
+    solenoid2="NONE" />
+  <mechanismTarget
+    stateIdentifier="INTAKE_RELEASE"
+    controlDataIdentifier="intake"
+    controlDataIdentifier2="intake"
+    value="-0.05"
+    secondValue="-0.05"
+    solenoid="ON"
+    solenoid2="NONE" />
+  <mechanismTarget
+    stateIdentifier="INTAKE_EXPEL"
+    controlDataIdentifier="intake"
+    controlDataIdentifier2="intake"
+    value="-1"
+    secondValue="-1"
+    solenoid="REVERSE"
+    solenoid2="NONE" />  
+  <mechanismTarget
+    stateIdentifier="INTAKE_EXPEL_LOW"
+    controlDataIdentifier="intake"
+    controlDataIdentifier2="intake"
+    value="-0.3"
+    secondValue="-0.3"
+    solenoid="REVERSE"
+    solenoid2="NONE" />
+  <mechanismTarget
+    stateIdentifier="HP_CONE_INTAKE"
+    controlDataIdentifier="intake"
+    controlDataIdentifier2="intake"
+    value="0.75"
+    secondValue="0.75"
+    solenoid="REVERSE"
+    solenoid2="NONE" />
+
+</statedata>

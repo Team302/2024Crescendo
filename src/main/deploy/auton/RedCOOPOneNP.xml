@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+<primitive id="RESET_POSITION"
+	           pathname="RedCOOPOne1Slow.wpilib.json"
+               intake="INTAKE_HOLD"/>
+    <!--score preloaded cone-->
+    <snippet file="ScoreCone.xml"/>
+
+    <!--do nothing!-->
+    <primitive id="DO_NOTHING"
+               intake="INTAKE_OFF"
+               time="10.0"
+               />
+</auton>

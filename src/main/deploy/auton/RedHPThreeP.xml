@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+<primitive id="RESET_POSITION_PATH_PLANNER"
+	           pathname="RedHPScore1"
+			/>
+<primitive id="DO_NOTHING"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               intake="INTAKE"
+			   extender="STARTING_POSITION_EXTEND"
+               time="0.5"/>
+    <!--drive to cube-->
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="RedHPScore1"
+			   arm="FLOOR_POSITION_ROTATE"
+               intake="INTAKE"
+			   extender="FLOOR_EXTEND"
+               time="2.35"/>
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="RedHPScore2"
+			   arm="FLOOR_POSITION_ROTATE"
+               intake="INTAKE_HOLD_CUBE"
+			   extender="STARTING_POSITION_EXTEND"
+               time="2.8"/>
+<!--score cube-->
+        <snippet file="ScoreHighCube.xml"/>
+<!--drive to cube-->
+<primitive id="DRIVE_PATH_PLANNER"
+	        pathname="RedHPScore3"
+			arm="FLOOR_POSITION_ROTATE"
+            intake="INTAKE"
+			extender="STARTING_POSITION_EXTEND"
+            time="3.5"/>
+</auton>

@@ -1,0 +1,314 @@
+<!ELEMENT robot (pdp?, pcm*, pigeon*, limelight*, chassis, mechanism*, camera*, roborio*, led* )>
+
+<!ELEMENT roborio EMPTY>
+<!ATTLIST roborio
+          orientation ( X_FORWARD_Y_LEFT |
+                        X_LEFT_Y_BACKWARD |
+                        X_BACKWARD_Y_RIGHT |
+                        X_RIGHT_Y_FORWARD |
+                        X_FORWARD_Y_RIGHT |
+                        X_LEFT_Y_FORWARD |
+                        X_BACKWARD_Y_LEFT |
+                        X_RIGHT_Y_BACKWARD |
+                        X_UP_Y_LEFT |
+                        X_LEFT_Y_DOWN |
+                        X_DOWN_Y_RIGHT |
+                        X_RIGHT_Y_UP |
+                        X_UP_Y_RIGHT |
+                        X_LEFT_Y_UP |
+                        X_DOWN_Y_LEFT |
+                        X_RIGHT_Y_DOWN) "X_FORWARD_Y_LEFT"
+>
+
+<!-- ========================================================================================================================================== -->
+<!--	PDP (power distribution panel) 		 																									-->
+<!-- ========================================================================================================================================== -->
+<!ELEMENT pdp EMPTY>
+<!ATTLIST pdp 
+          canId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
+                              20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
+                              30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
+                              40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
+                              50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
+                              60 | 61 | 62 ) "0"
+          type              ( CTRE | REV ) "CTRE"
+>
+
+<!-- ========================================================================================================================================== -->
+<!--	PCM (pneumatic control module) 		 																									-->
+<!-- ========================================================================================================================================== -->
+<!ELEMENT pcm (analogInput?) >
+<!ATTLIST pcm 
+          canId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
+                              20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
+                              30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
+                              40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
+                              50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
+                              60 | 61 | 62 ) "0"
+        minPSI              CDATA "95.0"
+        maxPSI              CDATA "115.0"
+>
+
+
+<!ELEMENT pigeon EMPTY>
+<!ATTLIST pigeon 
+          canId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
+                              20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
+                              30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
+                              40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
+                              50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
+                              60 | 61 | 62 ) "0"
+          canBusName CDATA "rio"
+          type      (pigeon1 | pigeon2) "pigeon1"
+          rotation CDATA "0.0"
+          usage     (CENTER_OF_ROTATION)  "CENTER_OF_ROTATION"
+>
+
+<!ELEMENT pwmultrasonic EMPTY>
+<!ATTLIST pwmultrasonic 
+		  usage				( front | back ) "front"
+          pwmId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 ) "0"
+>
+
+<!ELEMENT analogultrasonic EMPTY>
+<!ATTLIST analogultrasonic 
+		  usage				( front | back ) "front"
+          analogId          (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 ) "0"
+>
+<!ELEMENT lidar EMPTY>
+<!ATTLIST lidar 
+          usage              ( front | back  ) "front"
+          inputpin			 CDATA "0"
+          triggerpin		 CDATA "0"
+>
+
+<!ELEMENT limelight EMPTY>
+<!ATTLIST limelight 
+		  usage 			( MAINLIMELIGHT | SECONDARYLIMELIGHT ) "MAINLIMELIGHT"
+		  tablename         CDATA #REQUIRED
+		  mountingheight    CDATA #REQUIRED
+		  horizontaloffset  CDATA "0.0"
+		  mountingangle     CDATA #REQUIRED
+		  forwardOffset         CDATA #REQUIRED
+          pitch           CDATA #REQUIRED
+          yaw             CDATA #REQUIRED
+          roll            (0 | 90 | 180 | 270) "0"
+		  targetheight      CDATA #REQUIRED
+		  targetheight2     CDATA #REQUIRED
+		  defaultledmode	( currentpipeline | off | blink | on ) "currentpipeline" 
+		  defaultcammode    ( vision | drivercamera ) "vision"
+		  streammode        ( sidebyside | pipmain | pipsecondary ) "sidebyside"
+		  snapshots         ( off | twopersec ) "off"
+		  crosshairx        CDATA #IMPLIED
+		  crosshairy        CDATA #IMPLIED
+		  secondcrosshairx  CDATA #IMPLIED
+		  secondcrosshairy  CDATA #IMPLIED
+>
+
+<!ELEMENT camera EMPTY>
+<!ATTLIST camera 
+          id                CDATA "0"
+          format            ( KMJPEG| KYUYV | KRGB565 | KBGR | KGRAY ) "KMJPEG"
+          width			 	CDATA "640"
+          height		 	CDATA "480"
+          fps			 	CDATA "30"
+		  thread            ( true | false ) "false"
+>
+<!ELEMENT led EMPTY>
+<!ATTLIST led 
+          pwmId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 ) "0"
+          number            CDATA #REQUIRED
+>
+
+<!ELEMENT blinkin EMPTY>
+<!ATTLIST blinkin 
+		  usage				( front | back | top | bottom ) "front"
+          pwmId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 ) "0"
+>
+
+
+
+
+
+<!-- ========================================================================================================================================== -->
+<!--	chassis  																																-->
+<!--    Wheel Base is front-back distance between wheel centers  Track is the distance between wheels on an "axle"     							-->   
+<!-- ========================================================================================================================================== -->
+<!ELEMENT chassis (motor*, swervemodule*)>
+<!ATTLIST chassis 
+          type                              ( TANK | MECANUM | SWERVE) "TANK"
+          wheelDiameter                     CDATA #REQUIRED
+          wheelBase                         CDATA #REQUIRED
+          track                             CDATA #REQUIRED
+          wheelSpeedCalcOption              (WPI | ETHER | 2910 ) "ETHER"
+          poseEstimationOption              (WPI | EULERCHASSIS | EULERWHEEL | POSECHASSIS | POSEWHEEL) "EULERCHASSIS"
+          maxVelocity                       CDATA #REQUIRED
+          maxAngularVelocity                CDATA #REQUIRED
+          maxAcceleration                   CDATA #REQUIRED
+          maxAngularAcceleration            CDATA #REQUIRED
+          networkTable                      CDATA #IMPLIED
+          controlFile                       CDATA #IMPLIED
+>
+
+<!ELEMENT swervemodule (motor*, cancoder?)>
+<!ATTLIST swervemodule 
+          type                                              (LEFT_FRONT | RIGHT_FRONT | LEFT_BACK | RIGHT_BACK ) "LEFT_FRONT"
+          turn_p                                            CDATA "0.0"
+          turn_i                                            CDATA "0.0"
+          turn_d                                            CDATA "0.0"
+          turn_f                                            CDATA "0.0"
+          turn_nominal_val                                  CDATA "0.0"
+          turn_peak_val                                     CDATA "1.0"
+          turn_max_acc                                      CDATA "0.0"
+          turn_cruise_vel                                   CDATA "0.0"
+          countsOnTurnEncoderPerDegreesOnAngleSensor        CDATA "1.0"
+>
+
+<!-- ========================================================================================================================================== -->
+<!--	mechanism  																																-->
+<!--    see MechanismTypes::MechanismTypes() for the valid mechanism type strings                                                               -->
+<!-- ========================================================================================================================================== -->
+<!ELEMENT mechanism (motor*, solenoid*, servo*, analogInput*, digitalInput*, cancoder*, colorsensor?)>
+<!ATTLIST mechanism
+          type              CDATA #REQUIRED
+          networkTable      CDATA #IMPLIED
+          controlFile       CDATA #IMPLIED
+>
+
+<!-- Solenoids -->
+<!-- See SolenoidUsage.cpp for the valid usage strings -->
+<!ELEMENT solenoid EMPTY >
+<!ATTLIST solenoid 
+		  usage 			CDATA #REQUIRED
+          canId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
+                              20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
+                              30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
+                              40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
+                              50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
+                              60 | 61 | 62 ) "0"
+          channel           (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 ) "0"
+          reversed          (true | false ) "false"
+          type              (CTREPCM | REVPH ) "REVPH"
+>
+<!-- Servos -->
+<!-- see ServoUsage.cpp for the valid strings for usage -->
+<!ELEMENT servo EMPTY>
+<!ATTLIST servo 
+          usage             CDATA #REQUIRED
+          pwmId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 ) "0"
+          minAngle			CDATA "0.0"
+          maxAngle          CDATA "360.0"
+>
+
+<!ELEMENT colorsensor EMPTY>
+<!ATTLIST colorsensor 
+          port ( kOnboard | kMXP ) "kOnboard" 
+>
+
+
+<!-- ========================================================================================================================================== -->
+<!-- 	shared items				 																											-->
+<!-- ========================================================================================================================================== -->
+
+<!-- motor  -->
+<!-- See MotorControllerUsage.cpp for valid usage strings -->
+<!ELEMENT motor (digitalInput*)>
+<!ATTLIST motor 
+          usage             	    CDATA #REQUIRED
+          canId             		(  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              		  10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
+                              		  20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
+                              		  30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
+                              		  40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
+                              		  50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
+                              		  60 | 61 | 62 ) "0"
+          canBusName                CDATA "rio"
+		  pdpID						CDATA #IMPLIED
+          type              		( TALONSRX | FALCON | BRUSHLESS_SPARK_MAX | BRUSHED_SPARK_MAX ) "TALONSRX"
+          inverted          		( true | false ) "false"
+          sensorInverted    		( true | false ) "false"
+          feedbackDevice    		( NONE | INTERNAL | QUADENCODER |  ANALOG |  
+                                      TACHOMETER | PULSEWIDTHENCODERPOSITION  |  
+                                      SENSORSUM |  SENSORDIFFERENCE |  
+                                      REMOTESENSOR0 |  REMOTESENSOR1 | SOFTWAREEMULATEDSENSOR ) "NONE"
+          countsPerRev      		CDATA "0"
+          gearRatio         		CDATA "1"
+          brakeMode         		( true | false ) "false"
+          follow 					CDATA "-1"
+          peakCurrentDuration 		CDATA #IMPLIED
+          continuousCurrentLimit 	CDATA #IMPLIED
+          peakCurrentLimit			CDATA #IMPLIED
+          currentLimiting   		( true | false ) "false"  
+          forwardlimitswitch        ( true | false ) "false" 
+          forwardlimitswitchopen    ( true | false ) "true"        
+          reverselimitswitch        ( true | false ) "false" 
+          reverselimitswitchopen    ( true | false ) "true"        
+          voltageCompensationSaturation CDATA "12.0"
+          voltageCompensationEnable (true | false)  "false"  
+		  countsPerInch             CDATA "0"  
+          countsPerDegree		    CDATA "0"
+>
+
+
+<!-- analogInput  -->
+<!ELEMENT analogInput EMPTY>
+<!ATTLIST analogInput 
+          type              ( PRESSURE_GAUGE ) "PRESSURE_GAUGE"
+          analogId          (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 ) "0"
+          voltageMin        CDATA "0.0"
+          voltageMax        CDATA "5.0"
+          outputMin         CDATA #REQUIRED
+          outputMax         CDATA #REQUIRED
+>
+
+<!-- digitalInput  -->
+<!-- See DigitalInputUsage.cpp for valid strings for usage -->
+<!ELEMENT digitalInput EMPTY>
+<!ATTLIST digitalInput 
+          usage             CDATA #REQUIRED
+          digitalId         (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
+                              20 | 21 | 22 | 23 | 24 | 25 ) "0"
+          reversed          (true | false ) "false"
+          debouncetime      CDATA "0.0"
+>
+
+<!ELEMENT cancoder EMPTY >
+<!ATTLIST cancoder
+          canId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
+                              20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
+                              30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
+                              40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
+                              50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
+                              60 | 61 | 62 ) "0"
+          canBusName    CDATA "rio"
+          offset        CDATA "0.0"
+          reverse       (true | false) "false"
+>
+
+
+<!-- TalonTach  -->
+<!ELEMENT talontach EMPTY>
+<!ATTLIST talontach 
+          usage             (  0 |  1 |  2 |  3 |  4 |  5 |  6 ) "0" 
+          canId             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
+                              20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
+                              30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
+                              40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
+                              50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
+                              60 | 61 | 62 ) "0"
+          generalpin        (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 ) "0"
+
+          
+>

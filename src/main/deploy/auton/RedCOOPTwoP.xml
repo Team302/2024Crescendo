@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+    <primitive id="RESET_POSITION"
+	           pathname="RedCOOPOne1CubeSlow.wpilib.json"
+               intake="INTAKE_HOLD"/>
+    <!--score preloaded cone-->
+    <snippet file="ScoreCone.xml"/> 
+    <!--drive over charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="RedCOOPOne1CubeSlow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="FLOOR_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="6.0"
+               />
+    <!--drive picking up cube after charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="RedCOOPTwo1Slow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="FLOOR_POSITION_ROTATE"
+               extender="FLOOR_EXTEND"
+               intake="INTAKE"
+               time="2.0"
+               />
+    <!--grab cube-->
+
+    <!--drive onto charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="RedCOOPTwo2Slow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="FLOOR_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_HOLD_CUBE"
+               time="3.5"
+               />
+    <!--Balance on charging station-->
+    <primitive id="AUTO_BALANCE"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_HOLD_CUBE"
+               time="10.0"
+               />
+</auton>

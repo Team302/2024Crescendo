@@ -1,0 +1,23 @@
+<!ELEMENT waypoints(waypoint*)>
+
+<!ELEMENT waypoint EMPTY>
+<!ATTLIST waypoint
+            identifier (GRID_WALL_INTERMEDIATE |
+                      GRID_COOP_INTERMEDIATE |
+                      GRID_HP_INTERMEDIATE |
+                      GRID_WALL_COL_ONE |
+                      GRID_WALL_COL_TWO |
+                      GRID_WALL_COL_THREE |
+                      GRID_COOP_COL_ONE |
+                      GRID_COOP_COL_TWO |
+                      GRID_COOP_COL_THREE |
+                      GRID_HP_COL_ONE |
+                      GRID_HP_COL_TWO |
+                      GRID_HP_COL_THREE) "GRID_WALL_INTERMEDIATE"
+            blueXCoordinate CDATA "0.0"
+            blueYCoordinate CDATA "0.0"
+            blueRotation CDATA "0.0"
+            redXCoordinate CDATA "0.0"
+            redYCoordinate CDATA "0.0"
+            redRotation CDATA "0.0"
+>

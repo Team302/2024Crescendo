@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+    <primitive id="RESET_POSITION"
+	           pathname="BlueCOOPOne1CubeSlow.wpilib.json"
+               intake="INTAKE_HOLD"/>
+    <!--score preloaded cone-->
+    <snippet file="ScoreCone.xml"/> 
+    <!--drive over charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueCOOPOne1CubeSlow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="6.0"
+               />
+    <!--drive picking up a cube after the charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueCOOPOne2Slow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE"
+               time="2.0"
+               />
+ <!--grab cube-->
+    <primitive id="DO_NOTHING"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="FLOOR_EXTEND"
+               intake="INTAKE"
+               time="1.0"
+               />
+    <!--drive onto charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueCOOPOne3Slow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_HOLD_CUBE"
+               time="3.5"
+               />
+    <!--Balance on charging station-->
+    <primitive id="AUTO_BALANCE"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_HOLD_CUBE"
+               time="10.0"
+               />
+</auton>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+<primitive id="RESET_POSITION"
+	           pathname="BlueCOOPOne1CubeSlow.wpilib.json"
+               intake="INTAKE_HOLD"/>
+    <!--score preloaded cube-->
+    <snippet file="ScoreCube.xml"/>
+    <!--drive over charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueCOOPOne1CubeSlow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="9.0"
+               />
+    <!--drive onto charging station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueCOOPOne2CubeSlow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="10.0"
+               />
+    <!--auto balance-->
+    <primitive id="AUTO_BALANCE"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="10.0"
+               />
+</auton>

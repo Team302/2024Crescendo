@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+<primitive id="RESET_POSITION_PATH_PLANNER"
+	           pathname="BlueWall1"/>
+<!--score preloaded cone-->
+<primitive id="DO_NOTHING"
+	           time="1.0"/>
+<!--drive to cube-->
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="BlueWall1"
+               time="4.0"/>
+<!--pick up cube-->
+<primitive id="DO_NOTHING"
+	           time="0.25"/>  
+<!--drive to scoreing station-->
+<!--
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="BlueWall2"
+               time="4.0"/> -->
+<!--score cube-->
+<!--
+<primitive id="DO_NOTHING"
+	           time="1.0"/> -->
+<!--drive to cone-->
+<!--
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="BlueWall3"
+               time="4.0"/> -->
+<!--pick up cone-->
+<!--
+<primitive id="DO_NOTHING"
+	           time="0.25"/> -->
+<!--drive to scoring station-->
+<!--
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="BlueWall4"
+               time="4.0"/> -->
+<!--score cone-->
+<!--
+<primitive id="DO_NOTHING"
+	           time="1.0"/> -->
+</auton>

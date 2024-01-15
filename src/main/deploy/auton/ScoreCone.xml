@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+    <primitive id="DO_NOTHING"
+               arm="CONE_BACKROW_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               time="0.45"
+               />
+    <primitive id="DO_NOTHING"
+               arm="CONE_BACKROW_ROTATE"
+               extender="CONE_BACKROW_EXTEND"
+                intake="INTAKE_HOLD"
+               time="1.0"
+               />
+    <primitive id="DO_NOTHING"
+               arm="FLOOR_POSITION_ROTATE_AUTON_HOLD"
+               extender="CONE_BACKROW_EXTEND"
+               intake="INTAKE_RELEASE"
+               time="0.25"
+               />
+    <primitive id="DO_NOTHING"
+               arm="CONE_BACKROW_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_RELEASE"
+               time="0.25"
+               />
+    <primitive id="DO_NOTHING"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_RELEASE"
+               time="0.25"
+               />
+</auton>

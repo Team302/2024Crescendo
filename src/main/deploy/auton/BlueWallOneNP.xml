@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+   <primitive id="RESET_POSITION"
+	            pathname="BlueWallOne1.wpilib.json"
+               intake="INTAKE_HOLD"/>
+    <!--score preloaded cone-->
+    <snippet file="ScoreCone.xml"/>
+    <!--drive to charing station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne1.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="0.5"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne4.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="4.0"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne2.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="7.0"
+               />
+    <!--do nothing!-->
+    <primitive id="DO_NOTHING"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_OFF"
+               time="10.0"
+               />
+</auton>

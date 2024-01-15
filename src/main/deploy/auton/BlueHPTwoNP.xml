@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+<primitive id="RESET_POSITION_PATH_PLANNER"
+	           pathname="BlueHP1"
+			/>
+    <!--score preloaded cone-->
+    <snippet file="ScoreCone.xml"/>
+    <!--drive to charing station-->
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="BlueHP1"
+			   arm="FLOOR_POSITION_ROTATE_AUTON"
+               intake="INTAKE_OFF"
+			   extender="STARTING_POSITION_EXTEND"
+               time="2.25"/>
+<primitive id="DO_NOTHING"
+			   arm="FLOOR_POSITION_ROTATE"
+               intake="INTAKE"
+			   extender="FLOOR_EXTEND"
+               time="0.35"/>
+<!--drive to cone-->
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="BlueHP2"
+			   arm="FLOOR_POSITION_ROTATE"
+               intake="INTAKE"
+			   extender="FLOOR_EXTEND"
+               time="3.0"/>
+<!--drive to scoring station-->
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="BlueHP3"
+			   arm="FLOOR_POSITION_ROTATE"
+               intake="INTAKE_HOLD_CUBE"
+			   extender="STARTING_POSITION_EXTEND"
+               time="3.0"/>
+<!--score cone-->
+        <snippet file="ScoreHighCube.xml"/>
+
+<primitive id="DRIVE_PATH_PLANNER"
+	           pathname="BlueHP4"
+			   arm="FLOOR_POSITION_ROTATE"
+               intake="INTAKE_OFF"
+			   extender="STARTING_POSITION_EXTEND"
+               time="3.0"/>
+</auton>

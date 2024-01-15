@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+   <primitive id="RESET_POSITION"
+	            pathname="BlueWallOne1.wpilib.json"
+               intake="INTAKE_HOLD"/>
+    <!--score preloaded cone-->
+    <snippet file="ScoreCone.xml"/>
+    <!--drive to charing station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne1.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE"
+               time="0.8"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne4.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE"
+               time="1.0"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallOne2Slow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE"
+               time="3.5"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallTwo1.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE"
+               time="1.5"
+               />
+    <!--pick up cube-->
+    <primitive id="DO_NOTHING"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE"
+               time="1.0"
+               />
+    <primitive id="DO_NOTHING"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="FLOOR_EXTEND"
+               intake="INTAKE"
+               time="0.4"
+               />
+    <primitive id="DO_NOTHING"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="FLOOR_POSITION_ROTATE_AUTON"
+               extender="FLOOR_EXTEND"
+               intake="INTAKE_HOLD"
+               time="0.4"
+               />
+   <!--drive to scoring station-->
+    <primitive id="DRIVE_PATH"
+               pathname="BlueWallTwo2.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               arm="HOLD_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_HOLD"
+               time="3.0"
+               />
+    <primitive id="DRIVE_PATH"
+               pathname="BlueHPOne4Slow.wpilib.json"
+               headingOption="SPECIFIED_ANGLE"
+               heading="0"
+               intake="INTAKE_HOLD"               
+               time="6.0"
+               />
+    <primitive id="AUTO_BALANCE"
+               headingOption="SPECIFIED_ANGLE"
+               heading="180"
+               arm="STARTING_POSITION_ROTATE"
+               extender="STARTING_POSITION_EXTEND"
+               intake="INTAKE_HOLD"
+               time="10.0"
+               />
+</auton>

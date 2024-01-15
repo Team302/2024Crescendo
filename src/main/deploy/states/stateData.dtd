@@ -1,0 +1,35 @@
+<!ELEMENT statedata (state+)>
+
+<!ELEMENT state (actuator+)>
+<!ATTLIST state identifier CDATA #REQUIRED>
+
+<!ELEMENT actuator (controlData?, target)>
+<!ATTLIST actuator identifier CDATA #REQUIRED
+                   controlMode (   PERCENT_OUTPUT | 
+                                   VELOCITY_INCH | 
+                                   VELOCITY_DEGREES  | 
+                                   VELOCITY_RPS |
+                                   VOLTAGE | 
+                                   TRAPEZOID | 
+                                   POSITION_DEGREES | 
+                                   POSITION_INCH) "PERCENT_OUTPUT"
+                   target  value CDATA #IMPLIED
+                   solenoid (NONE | ON | REVERSE) "NONE"
+                   controlDataIdentifier CDATA #IMPLIED>
+
+<!ELEMENT controlData EMPTY>
+<!ATTLIST controlData
+          identifier CDATA  #REQUIRED
+	      constrolServer ( MOTORCONTROLLER | ROBORIO ) "MOTORCONTROLLER"
+          proportional CDATA "0.0"
+          integral CDATA "0.0"
+          derivative CDATA "0.0"
+          feedforward CDATA "0.0"
+          feedforwardType (VOLTAGE | TORQUE_CURRENT | DUTY_CYCLE) "DUTY_CYCLE"
+          enableFOC (true | false) "false"
+          izone CDATA "0.0"
+          maxacceleration CDATA "0.0"
+          cruisevelocity CDATA "0.0"
+> 
+
+

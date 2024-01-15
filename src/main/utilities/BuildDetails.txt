@@ -1,0 +1,6 @@
+Team Number: (TN)302(TN)
+Build Date (Formatted): (FD)18:52:00 10/13/2023(FD)
+Build Date: (D)20231013185200(D)
+Branch: (B)mechs(B)
+Author: (A)Joe Witcpalek(A)
+Commit Hash: (H)063fb60351e7bb31b744dda3155f0a01d04b9c30(H)
