@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema xmlns="http://tempuri.org/stateData" elementFormDefault="qualified" targetNamespace="http://tempuri.org/stateData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="statedata">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="controlData" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="mechanismTarget" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="controlData">
+    <xs:complexType>
+      <xs:attribute name="identifier" type="xs:string" use="required" />
+      <xs:attribute default="PERCENT_OUTPUT" name="mode">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="PERCENT_OUTPUT" />
+            <xs:enumeration value="VELOCITY_INCH" />
+            <xs:enumeration value="VELOCITY_DEGREES" />
+            <xs:enumeration value="VELOCITY_RPS" />
+            <xs:enumeration value="VOLTAGE" />
+            <xs:enumeration value="CURRENT" />
+            <xs:enumeration value="TRAPEZOID" />
+            <xs:enumeration value="MOTION_PROFILE" />
+            <xs:enumeration value="MOTION_PROFILE_ARC" />
+            <xs:enumeration value="POSITION_DEGREES" />
+            <xs:enumeration value="POSITION_INCH" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute default="MOTORCONTROLLER" name="constrolServer">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="MOTORCONTROLLER" />
+            <xs:enumeration value="ROBORIO" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute default="0.0" name="proportional" type="xs:string" />
+      <xs:attribute default="0.0" name="integral" type="xs:string" />
+      <xs:attribute default="0.0" name="derivative" type="xs:string" />
+      <xs:attribute default="0.0" name="feedforward" type="xs:string" />
+      <xs:attribute default="0.0" name="izone" type="xs:string" />
+      <xs:attribute default="0.0" name="maxacceleration" type="xs:string" />
+      <xs:attribute default="0.0" name="cruisevelocity" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mechanismTarget">
+    <xs:complexType>
+      <xs:attribute name="stateIdentifier" type="xs:string" use="required" />
+      <xs:attribute name="controlDataIdentifier" type="xs:string" use="required" />
+      <xs:attribute name="controlDataIdentifier2" type="xs:string" />
+      <xs:attribute name="value" type="xs:string" use="required" />
+      <xs:attribute name="secondValue" type="xs:string" />
+      <xs:attribute default="NONE" name="solenoid">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="NONE" />
+            <xs:enumeration value="ON" />
+            <xs:enumeration value="REVERSE" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute default="NONE" name="solenoid2">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="NONE" />
+            <xs:enumeration value="ON" />
+            <xs:enumeration value="REVERSE" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

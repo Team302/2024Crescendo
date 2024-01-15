@@ -1,0 +1,46 @@
+Documentation for 302CodeGenerator
+
+How to create robot.xsd (Do this if robot.dtd is changed)
+	1) Open robot.dtd in Visual Studio 2019
+	2) In the Visual Studio menu click XML -> Create Schema
+				-> The output is robot.xsd
+	3) In the XSD file, replace each instance of:
+			<xs:attribute default="0" name="canId">
+				<xs:simpleType>
+					.
+					.
+					.
+				</xs:simpleType>	
+			</xs:attribute>
+			
+		with
+			<xs:attribute default="0" name="canId" type="xs:unsignedInt">
+			</xs:attribute>
+			
+		so that when the C# class is generated, it field will be of type unsigned Int
+	
+How to create stateData.xsd (Do this if stateData.dtd is changed)
+	1) Open stateData.dtd in Visual Studio 2019
+	2) In the Visual Studio menu click XML -> Create Schema
+				-> The output is stateData.xsd
+
+How to create / regenerate the C# classes corresponding to the XSD files (Do this if any of the above .xsd files are changed)
+	1) Open a cmd window
+	2) Change directory to XSD_to_CSharp
+	3) Execute generateRobotClasses.bat
+		-> the .cs files will be generated in the folder FRCrobotCodeGen302
+
+Notes
+	The following marks the start of a hand coded portion:
+		//========= Hand modified code start section x ======== 
+
+	The following marks the end of a hand coded portion:
+		//========= Hand modified code end section x ========
+		
+	Rules
+		1) In a particular template, the section IDs must be unique.	
+		2) Hand modified delimeters cannot be nested
+		
+	When generating code, the code between the start and end delimiters will be copied and then restored	
+
+		
