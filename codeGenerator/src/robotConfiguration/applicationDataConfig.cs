@@ -29,24 +29,6 @@ namespace applicationConfiguration
 
                 addProgress("Loading robot configuration " + theRobotConfigFullPathFileName);
                 theRobotVariants = loadRobotConfiguration(theRobotConfigFullPathFileName);
-
-                // switch off validation... maybe switch it on once we understand how it works
-                //foreach (applicationData theRobot in theRobotVariants.robot)
-                //{
-                //    ValidationContext context = new ValidationContext(theRobot.pdp);
-                //    IList<ValidationResult> errors = new List<ValidationResult>();
-
-                //    addProgress("Validating Robot with ID " + theRobot.robotID);
-                //    if (!Validator.TryValidateObject(theRobot.pdp, context, errors, true))
-                //    {
-                //        addProgress("Error(s) found ");
-                //        //todo should the error be "fixed" without user intervention?
-                //        foreach (ValidationResult result in errors)
-                //            addProgress(result.ErrorMessage);
-                //    }
-                //    else
-                //        addProgress("Validation passed");
-                //}
             }
             catch (Exception ex)
             {
@@ -167,89 +149,113 @@ namespace applicationConfiguration
             if (obj == null)
                 return;
 
-            PropertyInfo[] PIs = obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-
-            foreach (PropertyInfo pi in PIs)
+            if (obj.GetType() == typeof(string))
             {
-                if (pi.Name == "name")
+                if (String.IsNullOrEmpty((string)obj))
+                    obj = objectName;
+            }
+            else
+            {
+                PropertyInfo[] PIs = obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+                foreach (PropertyInfo pi in PIs)
                 {
-                    pi.SetValue(obj, objectName);
-                }
-                else if (isACollection(pi.PropertyType))
-                {
-                    ICollection listObject = pi.GetValue(obj) as ICollection;
-                    int index = 0;
-                    foreach (object o in listObject)
+                    if (pi.Name == "name")
                     {
-                        initializeData(listObject, o, string.Format("{0}[{1}]", pi.Name, index), null);
+                        if (string.IsNullOrEmpty(pi.GetValue(obj).ToString()))
+                            pi.SetValue(obj, objectName);
                     }
-                }
-                else
-                {
-                    if (obj is baseElement)
+                    else if (isACollection(pi.PropertyType))
                     {
-                        baseElement beObj = (baseElement)obj;
-                        beObj.parent = parent;
-
-                        PropertyInfo namePI = obj.GetType().GetProperty("name");
-                        if (namePI != null)
-                            namePI.SetValue(obj, objectName);
-
-                        if (attributes != null)
+                        ICollection listObject = pi.GetValue(obj) as ICollection;
+                        int index = 0;
+                        foreach (object o in listObject)
                         {
-                            beObj.isTunable = attributes.Find(a => a.GetType() == typeof(TunableParameterAttribute)) != null;
-                            beObj.isConstant = (attributes.Find(a => a.GetType() == typeof(ConstantAttribute)) != null) ||
-                                attributes.Find(a => a.GetType() == typeof(ConstantInMechInstanceAttribute)) != null;
-
-                            PhysicalUnitsFamilyAttribute phyUnitsFamilyAttr = (PhysicalUnitsFamilyAttribute)attributes.Find(a => a.GetType() == typeof(PhysicalUnitsFamilyAttribute));
-                            if (phyUnitsFamilyAttr != null)
-                            {
-                                beObj.unitsFamily = phyUnitsFamilyAttr.family;
-                                beObj.unitsFamilyDefinedByAttribute = true;
-                            }
-
-                            RangeAttribute rangeAttr = (RangeAttribute)attributes.Find(a => a.GetType() == typeof(RangeAttribute));
-                            if (rangeAttr != null)
-                            {
-                                beObj.range.maxRange = Convert.ToDouble(rangeAttr.Maximum);
-                                beObj.range.minRange = Convert.ToDouble(rangeAttr.Minimum);
-                            }
-
-                            DefaultValueAttribute defaultValueAttr = (DefaultValueAttribute)attributes.Find(a => a.GetType() == typeof(DefaultValueAttribute));
-                            if (defaultValueAttr != null)
-                                beObj.theDefault.value = defaultValueAttr.Value;
-
-                            DataDescriptionAttribute descriptionAttr = (DataDescriptionAttribute)attributes.Find(a => a.GetType() == typeof(DataDescriptionAttribute));
-                            if (descriptionAttr != null)
-                                beObj.description = descriptionAttr.description;
+                            initializeData(listObject, o, string.Format("{0}[{1}]", pi.Name, index), null);
                         }
-
-                        if (beObj.unitsFamily != physicalUnit.Family.none)
-                        {
-                            PropertyInfo unitsInfo = obj.GetType().GetProperty("__units__");
-
-                            if (unitsInfo != null)
-                            {
-                                object unitsObj = unitsInfo.GetValue(obj);
-                                if ((unitsObj == null) || (unitsObj.ToString() == ""))
-                                {
-                                    physicalUnit pu = physicalUnits.Find(u => u.family == beObj.unitsFamily);
-                                    unitsInfo.SetValue(obj, pu.shortName);
-                                }
-                            }
-                        }
-
-                        break;
-                    }
-                    else if (pi.PropertyType != typeof(string))
-                    {
-                        List<Attribute> theAttributes = pi.GetCustomAttributes().ToList();
-                        object theObj = pi.GetValue(obj);
-                        initializeData(obj, theObj, pi.Name, theAttributes);
                     }
                     else
                     {
+                        if (obj is baseElement)
+                        {
+                            baseElement beObj = (baseElement)obj;
+                            beObj.parent = parent;
 
+                            PropertyInfo namePI = obj.GetType().GetProperty("name");
+                            if (namePI != null)
+                            {
+                                if (string.IsNullOrEmpty(namePI.GetValue(obj).ToString()))
+                                    namePI.SetValue(obj, objectName);
+                            }
+
+                            if (attributes != null)
+                            {
+                                beObj.isTunable = attributes.Find(a => a.GetType() == typeof(TunableParameterAttribute)) != null;
+                                beObj.isConstantInMechInstance = attributes.Find(a => a.GetType() == typeof(ConstantInMechInstanceAttribute)) != null;
+                                beObj.isConstant = (attributes.Find(a => a.GetType() == typeof(ConstantAttribute)) != null); 
+                                
+
+                                PhysicalUnitsFamilyAttribute phyUnitsFamilyAttr = (PhysicalUnitsFamilyAttribute)attributes.Find(a => a.GetType() == typeof(PhysicalUnitsFamilyAttribute));
+                                if (phyUnitsFamilyAttr != null)
+                                {
+                                    beObj.unitsFamily = phyUnitsFamilyAttr.family;
+                                    beObj.unitsFamilyDefinedByAttribute = true;
+                                }
+
+                                RangeAttribute rangeAttr = (RangeAttribute)attributes.Find(a => a.GetType() == typeof(RangeAttribute));
+                                if (rangeAttr != null)
+                                {
+                                    beObj.range.maxRange = Convert.ToDouble(rangeAttr.Maximum);
+                                    beObj.range.minRange = Convert.ToDouble(rangeAttr.Minimum);
+                                }
+
+                                DefaultValueAttribute defaultValueAttr = (DefaultValueAttribute)attributes.Find(a => a.GetType() == typeof(DefaultValueAttribute));
+                                if (defaultValueAttr != null)
+                                    beObj.theDefault.value = defaultValueAttr.Value;
+
+                                List<Attribute> description = attributes.FindAll(a => a.GetType() == typeof(DataDescriptionAttribute));
+                                foreach (Attribute attr in description)
+                                    beObj.description += ((DataDescriptionAttribute)attr).description + Environment.NewLine;
+
+                                beObj.description = beObj.description.Trim();
+                            }
+
+                            //check if the units should be constant in a mechanism instance
+                            PropertyInfo physicalUnitsPI = obj.GetType().GetProperty("physicalUnits");
+                            if (physicalUnitsPI != null)
+                            {
+                                List<ConstantInMechInstanceAttribute> constAttr = physicalUnitsPI.GetCustomAttributes<ConstantInMechInstanceAttribute>().ToList();
+                                if (constAttr.Count > 0)
+                                    beObj.unitsFamilyConstInMechInstance = true;
+                            }
+
+                            if (beObj.unitsFamily != physicalUnit.Family.none)
+                            {
+                                PropertyInfo unitsInfo = obj.GetType().GetProperty("__units__");
+
+                                if (unitsInfo != null)
+                                {
+                                    object unitsObj = unitsInfo.GetValue(obj);
+                                    if ((unitsObj == null) || (unitsObj.ToString() == ""))
+                                    {
+                                        physicalUnit pu = physicalUnits.Find(u => u.family == beObj.unitsFamily);
+                                        unitsInfo.SetValue(obj, pu.shortName);
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
+                        else if (pi.PropertyType != typeof(string))
+                        {
+                            List<Attribute> theAttributes = pi.GetCustomAttributes().ToList();
+                            object theObj = pi.GetValue(obj);
+                            initializeData(obj, theObj, pi.Name, theAttributes);
+                        }
+                        else
+                        {
+
+                        }
                     }
                 }
             }
@@ -498,9 +504,18 @@ namespace applicationConfiguration
 
             foreach (mechanism mech in tempList)
             {
-                mechanism temp = new mechanism();
-                temp.name = mech.name;
-                theRobotVariants.Mechanisms.Add(temp);
+                foreach (applicationData r in theRobotVariants.Robots)
+                {
+                    if (r.mechanismInstances.Find(m => (m.mechanism.name == mech.name) && (m.mechanism.GUID == mech.GUID)) != null)
+                    {
+                        mechanism temp = new mechanism();
+                        temp.name = mech.name;
+                        temp.GUID = mech.GUID;
+                        theRobotVariants.Mechanisms.Add(temp);
+                        break; 
+                    }
+                }
+
             }
 
             var robotSerializer = new XmlSerializer(typeof(topLevelAppDataElement));

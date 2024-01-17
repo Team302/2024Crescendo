@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topLevelAppDataElement xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Robots>
+    <applicationData>
+      <PowerDistributionPanel>
+        <name>pdp</name>
+        <canID>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>0</value>
+        </canID>
+      </PowerDistributionPanel>
+      <PneumaticControlModules />
+      <Pigeons>
+        <pigeon>
+          <name>PIGEON_ROBOT_CENTER</name>
+          <canID>
+            <unitsFamily>none</unitsFamily>
+            <name>uintParameter</name>
+            <__units__ />
+            <type>UInt32</type>
+            <value>0</value>
+          </canID>
+          <rotation>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </rotation>
+        </pigeon>
+      </Pigeons>
+      <Limelights />
+      <Chassis>
+        <motor />
+        <swervemodule />
+        <wheelDiameter>
+          <unitsFamily>length</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>m</__units__>
+          <type>Double</type>
+          <value>1</value>
+        </wheelDiameter>
+        <wheelBase>
+          <unitsFamily>length</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>m</__units__>
+          <type>Double</type>
+          <value>1</value>
+        </wheelBase>
+        <track>
+          <unitsFamily>length</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>m</__units__>
+          <type>Double</type>
+          <value>1</value>
+        </track>
+        <maxVelocity>
+          <unitsFamily>velocity</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>m/s</__units__>
+          <type>Double</type>
+          <value>0</value>
+        </maxVelocity>
+        <maxAngularVelocity>
+          <unitsFamily>angularVelocity</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>rad/s</__units__>
+          <type>Double</type>
+          <value>0</value>
+        </maxAngularVelocity>
+        <maxAcceleration>
+          <unitsFamily>acceleration</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>m/s^2</__units__>
+          <type>Double</type>
+          <value>0</value>
+        </maxAcceleration>
+        <maxAngularAcceleration>
+          <unitsFamily>angularAcceleration</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>rad/s^2</__units__>
+          <type>Double</type>
+          <value>0</value>
+        </maxAngularAcceleration>
+      </Chassis>
+      <mechanismInstances />
+      <Cameras />
+      <Roborios />
+      <Leds />
+      <robotID>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>302</value>
+      </robotID>
+      <name>MinimalRobot</name>
+    </applicationData>
+  </Robots>
+  <Mechanisms />
+</topLevelAppDataElement>

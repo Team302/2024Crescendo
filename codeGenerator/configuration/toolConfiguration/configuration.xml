@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
-<toolConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <rootOutputFolder>..\..\src\main\cpp</rootOutputFolder>
-  <robotConfiguration>..\RobotConfigurations\testRobotConfig.xml</robotConfiguration>
+<toolConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <rootOutputFolder>..\..\..\src\main\cpp</rootOutputFolder>
+  <robotConfiguration>..\Minimal\minimalRobot.xml</robotConfiguration>
   <appDataConfigurations>
-    <string>C:\FRC\2023SummerProject\codeGenerator\configuration\RobotConfigurations\testRobotConfig.xml</string>
-    <string>../RobotConfigurations/testRobotConfig.xml</string>
+    <string>../Minimal/minimalRobot.xml</string>
+
   </appDataConfigurations>
   <collectionBaseTypes>
     <string>ApplicationData.MotorController</string>
     <string>ApplicationData.PriceChange</string>
     <string>ApplicationData.parameter</string>
   </collectionBaseTypes>
-    <physicalUnits>
+  <physicalUnits>
     <physicalUnit>
       <shortName>%</shortName>
       <longName>Percent</longName>
@@ -20,9 +20,15 @@
     </physicalUnit>
     <physicalUnit>
       <shortName>s</shortName>
-      <longName>Seconds</longName>
+      <longName>Second</longName>
       <family>time</family>
-      <wpiClassName>Units.seconds</wpiClassName>
+      <wpiClassName>units::time::second_t</wpiClassName>
+    </physicalUnit>
+    <physicalUnit>
+      <shortName>ms</shortName>
+      <longName>millisecond</longName>
+      <family>time</family>
+      <wpiClassName>units::time::millisecond_t</wpiClassName>
     </physicalUnit>
     <physicalUnit>
       <shortName>W</shortName>
@@ -34,13 +40,13 @@
       <shortName>V</shortName>
       <longName>Volts</longName>
       <family>voltage</family>
-      <wpiClassName>Units.voltage</wpiClassName>
+      <wpiClassName>units::voltage::volt_t</wpiClassName>
     </physicalUnit>
     <physicalUnit>
       <shortName>A</shortName>
       <longName>Amperes</longName>
       <family>current</family>
-      <wpiClassName>Units.Amps</wpiClassName>
+      <wpiClassName>units::current::ampere_t</wpiClassName>
     </physicalUnit>
     <physicalUnit>
       <shortName>g</shortName>
@@ -52,13 +58,13 @@
       <shortName>m</shortName>
       <longName>meters</longName>
       <family>length</family>
-      <wpiClassName>Units.meters</wpiClassName>
+      <wpiClassName>units::length::meter_t</wpiClassName>
     </physicalUnit>
     <physicalUnit>
       <shortName>in</shortName>
       <longName>inches</longName>
       <family>length</family>
-      <wpiClassName>Units.inches</wpiClassName>
+      <wpiClassName>units::length::inch_t</wpiClassName>
     </physicalUnit>
     <physicalUnit>
       <shortName>m/s</shortName>
@@ -76,7 +82,7 @@
       <shortName>deg</shortName>
       <longName>degree</longName>
       <family>angle</family>
-      <wpiClassName>Units.degrees</wpiClassName>
+      <wpiClassName>units::angle::degree_t</wpiClassName>
     </physicalUnit>
     <physicalUnit>
       <shortName>rad</shortName>
@@ -112,26 +118,122 @@
       <shortName>rad/s</shortName>
       <longName>radians per second</longName>
       <family>angularVelocity</family>
-      <wpiClassName>Units.radians_per_second</wpiClassName>
+      <wpiClassName>units::angular_velocity::radians_per_second_t</wpiClassName>
     </physicalUnit>
     <physicalUnit>
       <shortName>deg/s</shortName>
       <longName>degrees per second</longName>
       <family>angularVelocity</family>
-      <wpiClassName>Units.degrees_per_second</wpiClassName>
+      <wpiClassName>units::angular_velocity::degrees_per_second_t</wpiClassName>
     </physicalUnit>
-	<physicalUnit>
+    <physicalUnit>
       <shortName>PSI</shortName>
       <longName>pounds per square inch</longName>
       <family>pressure</family>
       <wpiClassName>Units.pounds_per_square_inch</wpiClassName>
     </physicalUnit>
   </physicalUnits>
-
   <templateMechanismCppPath>..\templates\MECHANISM_NAME.cpp</templateMechanismCppPath>
   <templateMechanismHPath>..\templates\MECHANISM_NAME.h</templateMechanismHPath>
   <templateRobotDefinitionsCppPath>..\templates\RobotDefinitions.cpp</templateRobotDefinitionsCppPath>
   <templateRobotDefinitionsHPath>..\templates\RobotDefinitions.h</templateRobotDefinitionsHPath>
+  <codeTemplateFiles>
+    <codeTemplateFile>
+      <name>RobotElementNames</name>
+      <templateFilePathName>..\..\templates\RobotElementNames.h</templateFilePathName>
+      <outputFilePathName>configs\RobotElementNames.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>MechanismTypes</name>
+      <templateFilePathName>..\..\templates\MechanismTypes.h</templateFilePathName>
+      <outputFilePathName>mechanisms\MechanismTypes.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>MechanismDefinition_h</name>
+      <templateFilePathName>..\..\templates\Mechanism.h</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_NAME.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>MechanismDefinition_cpp</name>
+      <templateFilePathName>..\..\templates\Mechanism.cpp</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_NAME.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>MechanismInstance_gen_h</name>
+      <templateFilePathName>..\..\templates\MechanismInstance_gen.h</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_gen.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>MechanismInstance_gen_cpp</name>
+      <templateFilePathName>..\..\templates\MechanismInstance_gen.cpp</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_gen.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>MechanismInstance_h</name>
+      <templateFilePathName>..\..\templates\MechanismInstance.h</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>MechanismInstance_cpp</name>
+      <templateFilePathName>..\..\templates\MechanismInstance.cpp</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>RobotConfigMgr_h</name>
+      <templateFilePathName>..\..\templates\RobotConfigMgr.h</templateFilePathName>
+      <outputFilePathName>configs\RobotConfigMgr.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>RobotConfigMgr_cpp</name>
+      <templateFilePathName>..\..\templates\RobotConfigMgr.cpp</templateFilePathName>
+      <outputFilePathName>configs\RobotConfigMgr.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>RobotConfigRobotSpecific_h</name>
+      <templateFilePathName>..\..\templates\RobotConfigRobotSpecific.h</templateFilePathName>
+      <outputFilePathName>configs\RobotConfig$$_ROBOT_NAME_$$.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>RobotConfigRobotSpecific_cpp</name>
+      <templateFilePathName>..\..\templates\RobotConfigRobotSpecific.cpp</templateFilePathName>
+      <outputFilePathName>configs\RobotConfig$$_ROBOT_NAME_$$.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>BaseStateGen_h</name>
+      <templateFilePathName>..\..\templates\baseStateGen.h</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_Base_StateGen.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>BaseStateGen_cpp</name>
+      <templateFilePathName>..\..\templates\baseStateGen.cpp</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_Base_StateGen.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>stateGen_h</name>
+      <templateFilePathName>..\..\templates\stateGen.h</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_STATE_NAME_StateGen.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>stateGen_cpp</name>
+      <templateFilePathName>..\..\templates\stateGen.cpp</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_STATE_NAME_StateGen.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>stateGen_Decorator_h</name>
+      <templateFilePathName>..\..\templates\stateGen_Decorator.h</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_STATE_NAME_State.h</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>stateGen_Decorator_cpp</name>
+      <templateFilePathName>..\..\templates\stateGen_Decorator.cpp</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_STATE_NAME_State.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
+      <name>chassis_h</name>
+      <templateFilePathName>..\..\templates\Chassis.h</templateFilePathName>
+      <outputFilePathName>mechanisms\ROBOT_NAME_CHASSIS_NAME.h</outputFilePathName>
+    </codeTemplateFile>
+  </codeTemplateFiles>
   <CopyrightNotice>
 //====================================================================================================================================================
 // Copyright 2023 Lake Orion Robotics FIRST Team 302
@@ -150,10 +252,8 @@
 
 </CopyrightNotice>
   <GenerationNotice>
-//==============================================================
-// This file is auto generated by FRCrobotCodeGen302.exe Version $CODE_GENERATOR_VERSION$ 
-// Changes to this file may cause incorrect behavior and will be lost when 
-// the code is regenerated, unless the changes are delimited by:
-//==============================================================
+// This file was automatically generated by the Team 302 code generator version $CODE_GENERATOR_VERSION$
+// Generated on $GENERATION_DATE$ $GENERATION_TIME$
 </GenerationNotice>
+  <EditorFormattingDisable>// clang-format off</EditorFormattingDisable>
 </toolConfiguration>

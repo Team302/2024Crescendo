@@ -20,12 +20,16 @@ namespace DataConfiguration
         [XmlIgnore]
         public object parent { get; set; } = null;
         [XmlIgnore]
+        public bool isConstantInMechInstance { get; set; } = false; // Defined by an attribute
+        [XmlIgnore]
         public bool isConstant { get; set; } = false; // Defined by an attribute
         [XmlIgnore]
         public bool isTunable { get; set; } = false; // Defined by an attribute
         public physicalUnit.Family unitsFamily { get; set; } = physicalUnit.Family.none; // Defined by an attribute or through the GUI
         [XmlIgnore]
         public bool unitsFamilyDefinedByAttribute { get; set; } = false; // true if an attribute defines the unitsFamily
+        [XmlIgnore]
+        public bool unitsFamilyConstInMechInstance { get; set; } = false; // true if the ConstantInMechInstanceAttribute attribute is defined for unitsFamily
         [XmlIgnore]
         public string physicalUnits { get; set; } = ""; // Defined by the GUI
         [XmlIgnore]
@@ -70,8 +74,12 @@ namespace DataConfiguration
 
     public partial class parameter : baseElement
     {
-        
-        public string __units__ { get; set; } = "";
+
+        public string __units__
+        {
+            get { return physicalUnits; }
+            set { physicalUnits = value; }
+        }
 
         [Constant()]
         public string type { get; set; }
@@ -124,8 +132,8 @@ namespace DataConfiguration
 
         public doubleParameter()
         {
-            range.minRange = Convert.ToDouble(decimal.MinValue/2);
-            range.maxRange = Convert.ToDouble(decimal.MaxValue/2);
+            range.minRange = Convert.ToDouble(decimal.MinValue / 2);
+            range.maxRange = Convert.ToDouble(decimal.MaxValue / 2);
             showExpanded = false;
             type = value.GetType().Name;
         }
@@ -137,6 +145,11 @@ namespace DataConfiguration
                 return string.Format("{0} ({1})", instanceName, value);
             else
                 return string.Format("{0} ({1} {2})", instanceName, value, __units__);
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
         }
     }
 
@@ -196,6 +209,26 @@ namespace DataConfiguration
             return getDisplayName(propertyName, value, out refresh);
         }
     }
+    [Serializable()]
+    public partial class doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst : doubleParameterUserDefinedTunable
+    {
+        [ConstantInMechInstance]
+        new public physicalUnit.Family unitsFamily
+        {
+            get => base.unitsFamily;
+            set => base.unitsFamily = value;
+        }
+        [ConstantInMechInstance]
+        new public string name
+        {
+            get => base.name;
+            set => base.name = value;
+        }
+        public doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst()
+        {
+            type = value.GetType().Name;
+        }
+    }
     #endregion
 
     #region int definitions
@@ -220,6 +253,11 @@ namespace DataConfiguration
                 return string.Format("{0} ({1})", instanceName, value);
             else
                 return string.Format("{0} ({1} {2})", instanceName, value, __units__);
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
         }
     }
 
@@ -304,6 +342,11 @@ namespace DataConfiguration
             else
                 return string.Format("{0} ({1} {2})", instanceName, value, __units__);
         }
+
+        public override string ToString()
+        {
+            return value.ToString();
+        }
     }
 
     [Serializable()]
@@ -383,11 +426,18 @@ namespace DataConfiguration
 
             return string.Format("{0} ({1})", instanceName, value);
         }
+        public override string ToString()
+        {
+            return value.ToString().ToLower();
+        }
     }
 
     [Serializable()]
     public partial class boolParameterUserDefinedBase : parameter
     {
+        [Constant]
+        new public physicalUnit.Family unitsFamily { get; set; }
+
         protected string getDisplayName(string propertyName, bool value, out helperFunctions.RefreshLevel refresh)
         {
             refresh = helperFunctions.RefreshLevel.none;
@@ -436,7 +486,52 @@ namespace DataConfiguration
             return getDisplayName(propertyName, value, out refresh);
         }
     }
+
+    [Serializable()]
+    public partial class boolParameterUserDefinedTunableOnlyValueChangeableInMechInst : boolParameterUserDefinedTunable
+    {
+        [ConstantInMechInstance]
+        new public string name
+        {
+            get => base.name;
+            set => base.name = value;
+        }
+        public boolParameterUserDefinedTunableOnlyValueChangeableInMechInst()
+        {
+            type = value.GetType().Name;
+        }
+    }
     #endregion
+
+
+    [Serializable()]
+    [NotUserAddable]
+    public partial class stringParameterConstInMechInstance : parameter
+    {
+        [ConstantInMechInstance]
+        public string value { get; set; }
+
+        public stringParameterConstInMechInstance()
+        {
+            if (string.IsNullOrEmpty(value))
+                value = "value";
+
+            showExpanded = false;
+            type = value.GetType().Name;
+
+        }
+        override public string getDisplayName(string instanceName, out helperFunctions.RefreshLevel refresh)
+        {
+            refresh = helperFunctions.RefreshLevel.none;
+
+            return string.Format("{0}", value);
+        }
+
+        public override string ToString()
+        {
+            return value;
+        }
+    }
 
     #region ====================== Attribute definitions
     // if applied to a property, it means that live tuning over network tables is enabled
@@ -472,7 +567,7 @@ namespace DataConfiguration
         }
     }
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class, AllowMultiple = true)]
     public class DataDescriptionAttribute : Attribute
     {
         public string description { get; set; }
@@ -489,6 +584,54 @@ namespace DataConfiguration
         public PhysicalUnitsFamilyAttribute(physicalUnit.Family family)
         {
             this.family = family;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public class ImplementationNameAttribute : Attribute
+    {
+        public string name { get; set; }
+        public ImplementationNameAttribute(string name)
+        {
+            this.name = name;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class UserIncludeFileAttribute : Attribute
+    {
+        public string pathName { get; set; }
+        public UserIncludeFileAttribute(string pathName)
+        {
+            this.pathName = pathName;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class UsingAttribute : Attribute
+    {
+        public string theUsing { get; set; }
+        public UsingAttribute(string theUsing)
+        {
+            this.theUsing = theUsing;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class OptionalAttribute : Attribute
+    {
+        public OptionalAttribute()
+        {
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class SystemIncludeFileAttribute : Attribute
+    {
+        public string pathName { get; set; }
+        public SystemIncludeFileAttribute(string pathName)
+        {
+            this.pathName = pathName;
         }
     }
     #endregion
@@ -586,7 +729,7 @@ namespace DataConfiguration
                     {
                         theObj = Activator.CreateInstance(pi.PropertyType);
                         pi.SetValue(obj, theObj);
-                        if (recursive)
+                        if ((recursive) && baseDataConfiguration.isACollection(obj))
                             initializeNullProperties(theObj);
                     }
                 }

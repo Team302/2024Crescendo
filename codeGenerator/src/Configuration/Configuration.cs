@@ -27,15 +27,26 @@ namespace Configuration
         public string templateRobotDefinitionsCppPath = "";
         public string templateRobotDefinitionsHPath = "";
 
+        public List<codeTemplateFile> codeTemplateFiles = new List<codeTemplateFile>();
 
         public string CopyrightNotice = "";
         public string GenerationNotice = "";
+        public string EditorFormattingDisable = "";
 
         public void loadDummyData()
         {
         }
         public override string ToString()
         {
+            return "";
+        }
+
+        public string getWPIphysicalUnitType(string unitShortName)
+        {
+            physicalUnit pu = physicalUnits.Find(u => u.shortName == unitShortName);
+            if (pu != null)
+                return pu.wpiClassName;
+
             return "";
         }
 
@@ -51,15 +62,41 @@ namespace Configuration
 
             robotConfiguration_temp = robotConfiguration;
             robotConfiguration = RelativePath(rootPath, robotConfiguration);
+
+            this.physicalUnits.RemoveAll(p => p.family == physicalUnit.Family.all);
         }
 
         private void postSerialize()
         {
             rootOutputFolder = rootOutputFolder_temp;
             robotConfiguration = robotConfiguration_temp;
+
+            int cnt = physicalUnits.Count;
+            for (int i = 0; i < cnt; i++)
+            {
+                physicalUnit temp = new physicalUnit();
+                temp.family = physicalUnit.Family.all;
+                temp.shortName = physicalUnits[i].shortName;
+                temp.longName = physicalUnits[i].longName;
+                temp.wpiClassName = physicalUnits[i].wpiClassName;
+
+                physicalUnits.Add(temp);
+            }
+
         }
-        private void postDeSerialize()
+        private void postDeSerialize(toolConfiguration tc)
         {
+            int cnt = tc.physicalUnits.Count;
+            for(int i=0; i < cnt; i++)
+            {
+                physicalUnit temp = new physicalUnit();
+                temp.family = physicalUnit.Family.all;
+                temp.shortName = tc.physicalUnits[i].shortName;
+                temp.longName = tc.physicalUnits[i].longName;
+                temp.wpiClassName = tc.physicalUnits[i].wpiClassName;
+
+                tc.physicalUnits.Add(temp);
+            }
         }
         public void serialize(string rootPath)
         {
@@ -82,10 +119,15 @@ namespace Configuration
                 toolConfiguration tc = (toolConfiguration)mySerializer.Deserialize(myFileStream);
                 tc.configurationFullPath = fullFilePathName;
 
-                postDeSerialize();
+                postDeSerialize(tc);
 
                 return tc;
             }
+        }
+
+        public codeTemplateFile getTemplateInfo(string name)
+        {
+            return this.codeTemplateFiles.Find(t => t.name == name);
         }
 
         public string RelativePath(string absPath, string relTo)
@@ -132,8 +174,17 @@ namespace Configuration
 
             return relativePath.ToString();
         }
+
+
     }
 
+    [Serializable]
+    public class codeTemplateFile
+    {
+        public string name { get; set; }
+        public string templateFilePathName { get; set; }
+        public string outputFilePathName { get; set; }
+    }
 
     [Serializable]
     public class physicalUnit

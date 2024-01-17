@@ -19,6 +19,7 @@
 *.so
 *.dylib
 *.dll
+!codeGenerator/tool/*.dll
 
 # Fortran module files
 *.mod
@@ -32,6 +33,8 @@
 
 # Executables
 *.exe
+!codeGenerator/tool/*.exe
+!codeGenerator/src/XSD_to_CSharp/*.exe
 *.out
 *.app
 
@@ -157,6 +160,15 @@ gradle-app.setting
 .project
 .settings/
 bin/
+
+#Visual Studio code generator ignores
+codeGenerator/src/*/*/Debug
+codeGenerator/src/*/*/Release
+codeGenerator/src/.vs
+codeGenerator/src/packages
+codeGenerator/guiTests/configuration
+codeGenerator/guiTests/robotConfiguration
+*.csproj.user
 
 # IntelliJ
 *.iml
