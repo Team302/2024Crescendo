@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D8726625-5DBC-46E6-A6BC-816E6C9C3469}</ProjectGuid>
+    <ProjectGuid>{F299AF03-5169-4B71-9889-C82A428CCE46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CoreCodeGenerator</RootNamespace>
-    <AssemblyName>CoreCodeGenerator</AssemblyName>
+    <RootNamespace>CodeBeautifier</RootNamespace>
+    <AssemblyName>CodeBeautifier</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,34 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="baseGenerator.cs" />
-    <Compile Include="ChassisGenerator.cs" />
-    <Compile Include="codeGenerator_302Robotics.cs" />
-    <Compile Include="MechanismInstanceGenerator.cs" />
-    <Compile Include="MechanismGenerator.cs" />
-    <Compile Include="MiscellaneousGenerator.cs" />
-    <Compile Include="MotorControlData.cs" />
+    <Compile Include="AStyleCaller.cs" />
+    <Compile Include="AStyleInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RobotConfigManagerGenerator.cs" />
-    <Compile Include="RobotConfigRobotSpecificGenerator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CodeBeautifier\CodeBeautifier.csproj">
-      <Project>{f299af03-5169-4b71-9889-c82a428cce46}</Project>
-      <Name>CodeBeautifier</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Configuration\Configuration.csproj">
-      <Project>{48cc06ef-8522-46b4-a570-10924dc0fcc5}</Project>
-      <Name>Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataConfiguration\DataConfiguration.csproj">
-      <Project>{c6873437-dcd6-4894-8bc3-68b3f92e9899}</Project>
-      <Name>DataConfiguration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\robotConfiguration\ApplicationData.csproj">
-      <Project>{301cab4c-ff29-4111-8d59-b4e69f485bd8}</Project>
-      <Name>ApplicationData</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

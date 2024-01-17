@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+#include <frc/RobotController.h>
 #include <Robot.h>
 
 #include <string>
@@ -52,16 +53,11 @@ void Robot::RobotInit()
     Logger::GetLogger()->PutLoggingSelectionsOnDashboard();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("arrived"));
 
-    // Read build details for team number, branch, and more
-    //    m_detailsReader = new BuildDetailsReader();
-    //    m_details = m_detailsReader->ReadBuildDetails();
-
-    //    m_robot = RobotDefinitions::GetRobotDefinition(m_details.teamNumber);
-
     m_controller = nullptr;
 
+    int32_t teamNumber = frc::RobotController::GetTeamNumber();
     // Build the robot
-    RobotConfigMgr::GetInstance()->InitRobot(RobotConfigMgr::RobotIdentifier::EXAMPLE);
+    RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
 
     auto waypointParser = WaypointXmlParser::GetInstance();

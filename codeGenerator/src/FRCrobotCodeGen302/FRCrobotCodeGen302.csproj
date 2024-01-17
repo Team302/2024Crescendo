@@ -29,7 +29,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -39,7 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -138,10 +138,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if exist C:\FRC\2023ChargedUp\codeGenerator\tool\ (
-copy $(TargetPath) C:\FRC\2023ChargedUp\codeGenerator\tool\
-copy $(TargetDir)\*.dll C:\FRC\2023ChargedUp\codeGenerator\tool\
-)</PostBuildEvent>
+    <PostBuildEvent>if exist $(SolutionDir)\..\tool\ (
+copy $(TargetPath) $(SolutionDir)\..\tool\
+copy $(TargetDir)\*.dll $(SolutionDir)\..\tool\
+
+copy $(SolutionDir)\..\tool\AStyle32*.dll $(TargetDir)
+)
+
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
