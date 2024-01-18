@@ -35,7 +35,6 @@
 #include "units/length.h"
 #include "units/velocity.h"
 #include "frc/kinematics/SwerveModulePosition.h"
-// #include "frc/kinematics/SwerveDriveKinematics.h'
 
 // Team 302 includes
 #include "chassis/PoseEstimatorEnum.h"
@@ -418,4 +417,8 @@ units::length::inch_t SwerveChassis::GetWheelDiameter() const
         return m_frontLeft->GetWheelDiameter();
     }
     return units::length::inch_t(0.0);
+}
+
+void SwerveChassis::LogInformation()
+{
 }

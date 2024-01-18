@@ -46,10 +46,11 @@
 #include <chassis/ChassisMovement.h>
 #include <DragonVision/DragonVision.h>
 #include "hw/interfaces/IDragonPigeon.h"
+#include "utils/logging/LoggableItem.h"
 
 class RobotDrive;
 
-class SwerveChassis : public IChassis
+class SwerveChassis : public IChassis, public LoggableItem
 {
 public:
     /// @brief Construct a swerve chassis
@@ -141,6 +142,7 @@ public:
     ISwerveDriveState *GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption);
 
     ISwerveDriveOrientation *GetHeadingState(ChassisMovement moveInfo);
+    void LogInformation() override;
 
 private:
     ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
