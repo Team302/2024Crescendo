@@ -58,6 +58,8 @@ private:
             11,  // Modern Robotics 12VDC Motor
             21,  // Johnson Electric Gear Motor
             9,   // TETRIX MAX TorqueNADO Motor
+            360, // Kraken x60
+            211, // Neo Vortex
             0    // No motor
     };
 
@@ -80,29 +82,33 @@ private:
             0.3, // Modern Robotics 12VDC Motor
             0.9, // Johnson Electric Gear Motor
             0.2, // TETRIX MAX TorqueNADO Motor
+            2,   // Kraken x 60
+            3.6, // Neo Vortex
             0    // No motor
     };
 
     const int maximumPowerValues[IDragonMotorController::MOTOR_TYPE::MAX_MOTOR_TYPES] =
         {
-            783, // Falcon 500
-            516, // NEO Motor
-            332, // NEO 550 Motor
-            337, // CIM Motor
-            215, // Mini CIM Motor
-            149, // BAG Motor
-            347, // 775pro Motor
-            134, // AndyMark 9015
-            25,  // AndyMark NeveRest
-            43,  // AndyMark RS775-125
-            327, // AndyMark Redline A
-            28,  // REV Robotgics HD Hex Motor
-            246, // BaneBots RS-775 18V
-            190, // BaneBots RS-550
-            29,  // Modern Robotics 12VDC Motor
-            45,  // Johnson Electric Gear Motor
-            26,  // TETRIX MAX TorqueNADO Motor
-            0    // No motor
+            783,  // Falcon 500
+            516,  // NEO Motor
+            332,  // NEO 550 Motor
+            337,  // CIM Motor
+            215,  // Mini CIM Motor
+            149,  // BAG Motor
+            347,  // 775pro Motor
+            134,  // AndyMark 9015
+            25,   // AndyMark NeveRest
+            43,   // AndyMark RS775-125
+            327,  // AndyMark Redline A
+            28,   // REV Robotgics HD Hex Motor
+            246,  // BaneBots RS-775 18V
+            190,  // BaneBots RS-550
+            29,   // Modern Robotics 12VDC Motor
+            45,   // Johnson Electric Gear Motor
+            26,   // TETRIX MAX TorqueNADO Motor
+            1108, // Kraken x 60
+            640,  // Neo Vortex
+            0     // No motor
     };
 
     const double stallTorqueValues[IDragonMotorController::MOTOR_TYPE::MAX_MOTOR_TYPES] =
@@ -124,6 +130,8 @@ private:
             0.19,  // Modern Robotics 12VDC Motor
             4.09,  // Johnson Electric Gear Motor
             0.17,  // TETRIX MAX TorqueNADO Motor
+            7.09,  // Kraken x 60
+            3.6,   // Neo Vortex
             0      // No motor
     };
 
@@ -146,6 +154,8 @@ private:
             5900,  // Modern Robotics 12VDC Motor
             420,   // Johnson Electric Gear Motor
             5920,  // TETRIX MAX TorqueNADO Motor
+            6000,  // Kraken x 60
+            6784,  // Neo Vortex
             0      // No motor
     };
 
