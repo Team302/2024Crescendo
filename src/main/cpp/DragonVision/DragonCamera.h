@@ -20,7 +20,7 @@
 
 #include <string>
 #include <vector>
-#include <frc/geometry/Pose2d.h>
+#include <frc/geometry/Pose3d.h>
 
 class DragonCamera
 {
@@ -40,12 +40,10 @@ public:
     units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
     units::angle::degree_t GetTargetVerticalOffset() const;
     units::time::microsecond_t GetPipelineLatency() const;
-    std::vector<double> Get3DSolve() const;
     PIPELINE getPipeline() const;
     int getAprilTagID() const;
 
-    frc::Pose2d GetRedFieldPosition() const;
-    frc::Pose2d GetBlueFieldPosition() const;
+    frc::Pose3d GetFieldPosition() const;
 
     //  Estimating targets
 
@@ -61,18 +59,20 @@ public:
 
     // Limelight
 
-    units::angle::degree_t GetLimelightPitch() const { return m_pitch; }
-    units::angle::degree_t GetLimelightYaw() const { return m_yaw; }
-    units::angle::degree_t GetLimelightRoll() const { return m_roll; }
-    units::length::inch_t GetLimelightMountingHeight() const { return m_mountHeight; }
-    std::optional<units::length::inch_t> GetTargetHeight() const;
+    units::angle::degree_t GetCameraPitch() const { return m_pitch; }
+    units::angle::degree_t GetCameraYaw() const { return m_yaw; }
+    units::angle::degree_t GetCameraRoll() const { return m_roll; }
+    units::length::inch_t GetCameraMountingHeight() const { return m_mountHeight; }
+    units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
+    units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
+    units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
 
-    void SetLimelightPosition(units::length::inch_t mountHeight,
-                              units::length::inch_t mountHorizontalOffset,
-                              units::length::inch_t mountForwardOffset,
-                              units::angle::degree_t pitch,
-                              units::angle::degree_t yaw,
-                              units::angle::degree_t roll);
+    void SetCameraPosition(units::length::inch_t mountHeight,
+                           units::length::inch_t mountHorizontalOffset,
+                           units::length::inch_t mountForwardOffset,
+                           units::angle::degree_t pitch,
+                           units::angle::degree_t yaw,
+                           units::angle::degree_t roll);
 
     DragonCamera(
         std::string cameraName,                         /// <I> camera name/type
@@ -84,14 +84,16 @@ public:
         units::angle::degree_t yaw,                     /// <I> - Yaw of limelight
         units::angle::degree_t roll                     /// <I> - Roll of limelight
     );
+    DragonCamera() = delete;
 
 protected:
     units::angle::degree_t GetTx() const;
     units::angle::degree_t GetTy() const;
 
     units::length::inch_t m_mountHeight;
-    units::length::inch_t m_mountingHorizontalOffset;
-    units::length::inch_t m_mountingForwardOffset;
+    units::length::inch_t m_mountingXOffset;
+    units::length::inch_t m_mountingYOffset;
+    units::length::inch_t m_mountingZOffset;
     units::angle::degree_t m_yaw;
     units::angle::degree_t m_pitch;
     units::angle::degree_t m_roll;
