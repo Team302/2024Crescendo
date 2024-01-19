@@ -20,21 +20,15 @@
 class DragonPhotonCam : public DragonCamera
 {
 public:
-    DragonPhotonCam(std::string name,                               /// <I> - camera name
-                    units::length::inch_t mountingHeight,           /// <I> - mounting height of the limelight
-                    units::length::inch_t mountingHorizontalOffset, /// <I> - mounting horizontal offset from the middle of the robot
-                    units::length::inch_t forwardOffset,            /// <I> mounting offset forward/back
-                    units::angle::degree_t pitch,                   /// <I> - Pitch of limelight
-                    units::angle::degree_t yaw,                     /// <I> - Yaw of limelight
-                    units::angle::degree_t roll);
+    DragonPhotonCam(std::string name,                       /// <I> - camera name
+                    DragonCamera::PIPELINE initialPipeline, /// <I> - pipeline the camera starts in
+                    units::length::inch_t mountingXOffset,  /// <I> - mounting forward (relative to robot) offset of the limelight
+                    units::length::inch_t mountingYOffset,  /// <I> - mounting horizontal (left/right of robot) from the middle of the robot
+                    units::length::inch_t mountingZOffset,  /// <I> mounting offset up/down
+                    units::angle::degree_t pitch,           /// <I> - Pitch of limelight
+                    units::angle::degree_t yaw,             /// <I> - Yaw of limelight
+                    units::angle::degree_t roll);           /// <I> - Roll of limelight
 
 private:
-    photon::PhotonCamera m_camera;
-    std::string m_name;
-    units::length::inch_t m_mountHeight;
-    units::length::inch_t m_mountingHorizontalOffset;
-    units::length::inch_t m_mountingForwardOffset;
-    units::angle::degree_t m_yaw;
-    units::angle::degree_t m_pitch;
-    units::angle::degree_t m_roll;
+    photon::PhotonCamera *m_camera; // photoncamera instance
 };

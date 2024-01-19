@@ -12,3 +12,18 @@
 /// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 /// OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+
+// Team 302 Includes
+#include "DragonVision/DragonPhotonCam.h"
+
+DragonPhotonCam::DragonPhotonCam(std::string name,
+                                 DragonCamera::PIPELINE initialPipeline,
+                                 units::length::inch_t mountingXOffset,
+                                 units::length::inch_t mountingYOffset,
+                                 units::length::inch_t mountingZOffset,
+                                 units::angle::degree_t pitch,
+                                 units::angle::degree_t yaw,
+                                 units::angle::degree_t roll) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
+                                                                m_camera(new photon::PhotonCamera(name))
+{
+}
