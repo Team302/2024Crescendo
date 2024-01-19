@@ -13,7 +13,7 @@
 /// OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include <photon/PhotonCamera.h>
+#include "photon/PhotonCamera.h"
 
 #include "DragonVision/DragonCamera.h"
 
