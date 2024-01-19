@@ -27,10 +27,11 @@
 #include <frc/geometry/Pose2d.h>
 
 // Team 302 includes
-#include <DragonVision/DragonAprilTagInfo.h>
+#include "DragonVision/DragonAprilTagInfo.h"
 
 // Third Party Includes
 
+//DragonLimelight needs to be a child of DragonCamera
 class DragonLimelight
 {
 public:
@@ -41,7 +42,7 @@ public:
         UNKNOWN = -1,
         OFF = 0,
         APRIL_TAG = 1,
-
+    //These can be removed, add NOTE_COLOR and NOTE_ML
         CONE = 3,
         CUBE = 4,
         CONE_SUBSTATION = 5,
@@ -138,6 +139,9 @@ public:
     units::angle::degree_t GetLimelightYaw() const { return m_yaw; }
     units::angle::degree_t GetLimelightRoll() const { return m_roll; }
     units::length::inch_t GetLimelightMountingHeight() const { return m_mountHeight; }
+    //Switch/add GetLimelightMountingHeight to MountingX/Y/ZOffset
+
+//get rid of GetTargetHeight
     std::optional<units::length::inch_t> GetTargetHeight() const;
 
 protected:
@@ -160,8 +164,6 @@ protected:
     units::angle::degree_t m_roll;
     units::length::inch_t m_targetHeight;
     units::length::inch_t m_targetHeight2;
-
-    // double PI = 3.14159265;
 
 private:
     DragonAprilTagInfo m_aprilTagInfo;
