@@ -44,31 +44,31 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angle::radian_t angleError = units::angle::radian_t(0.0);
 
     // get targetdata from the vision system
-    if (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) != DragonLimelight::PIPELINE_MODE::APRIL_TAG)
+    /*  if (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) != DragonLimelight::PIPELINE_MODE::APRIL_TAG)
+      {
+          m_vision->setPipeline(DragonLimelight::PIPELINE_MODE::APRIL_TAG);
+      }
+
+      auto targetData = m_vision->getTargetInfo();
+
+      if ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
     {
-        m_vision->setPipeline(DragonLimelight::PIPELINE_MODE::APRIL_TAG);
-    }
-
-    auto targetData = m_vision->getTargetInfo();
-
-    if ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
+        if (!AtTargetAngle(targetData, &angleError)) */
     {
-        if (!AtTargetAngle(targetData, &angleError))
-        {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
 
-            omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
+        omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
 
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega Before Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega Before Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
 
-            omega = limitAngularVelocityToBetweenMinAndMax(omega);
+        omega = limitAngularVelocityToBetweenMinAndMax(omega);
 
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega After Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega After Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
 
-            chassisMovement.chassisSpeeds.omega = omega;
-        }
+        chassisMovement.chassisSpeeds.omega = omega;
     }
 }
+//}
 
 bool FaceAprilTag::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error)
 {

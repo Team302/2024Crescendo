@@ -32,9 +32,9 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angle::radian_t angleError = units::angle::radian_t(0.0);
 
     // get targetdata from the vision system
-    auto targetData = m_vision->getTargetInfo();
+    // auto targetData = m_vision->getTargetInfo();
 
-    if ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
+    /* ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
     {
         if (!AtTargetAngle(targetData, &angleError))
         {
@@ -49,6 +49,7 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             chassisMovement.chassisSpeeds.omega = omega;
         }
     }
+    */
 }
 
 bool FaceGamePiece::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error)
