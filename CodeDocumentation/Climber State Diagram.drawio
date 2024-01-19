@@ -1,0 +1,120 @@
+<mxfile host="Electron" modified="2024-01-19T18:31:34.871Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" etag="5UT4BMztzDtF3Zd_HOgu" version="22.1.18" type="device">
+  <diagram name="Page-1" id="7JSrTSUAfBA1Y6AAACkT">
+    <mxGraphModel dx="2758" dy="4448" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;dashPattern=12 12;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="-2010" width="1250" height="1026" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;Manual&amp;nbsp;&lt;/p&gt;&lt;hr&gt;&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Init: N/A&lt;br&gt;Run:&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Solenoid: Activates&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Motors Run % output?(might still be able to be position control) based on Right stick Up/Down&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Exit: N/A&lt;/p&gt;" style="shape=mxgraph.sysml.simpleState;html=1;overflow=fill;whiteSpace=wrap;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1759" y="-1809" width="240" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-3" value="Climber Mechanism" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=31;" vertex="1" parent="1">
+          <mxGeometry x="1258" y="-1964" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-4" value="Climber Mech Motors/Actuator:&amp;nbsp;&lt;br&gt;&lt;span style=&quot;font-size:inherit;&quot;&gt;Left Winch&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:inherit;&quot;&gt;Right Winch&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:inherit;&quot;&gt;Ratchet Solenoid&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1174" y="-1903" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-5" value="Climber Mech Sensor:&amp;nbsp;&lt;br&gt;Center of Robot Pigeon&lt;br&gt;Integrated Motor Encoder for Both Winch Motors&lt;br&gt;Limit Switches for Bottom Position on each side (Could be on chassis)&amp;nbsp;&lt;br&gt;Tie Limit Switches to motor directly" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1364" y="-1899" width="400" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;Off/Hold&lt;/p&gt;&lt;hr&gt;&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Init: Control Constants for Winch Motors&lt;br&gt;Run:&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Solenoid: Off&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;M&lt;span style=&quot;background-color: initial;&quot;&gt;otors off or Hold at Current Position (in)&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Both Motors Off or at&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Exit: N/A&lt;/p&gt;" style="shape=mxgraph.sysml.simpleState;html=1;overflow=fill;whiteSpace=wrap;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1752" y="-1574" width="254" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="FIMyjUegxXdDTG1FlUWc-6" target="FIMyjUegxXdDTG1FlUWc-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-8" value="Driver Abs(Right Stick Input)&amp;nbsp;&amp;gt;= % 5 AND Climbing Mode Activated" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="FIMyjUegxXdDTG1FlUWc-7">
+          <mxGeometry x="-0.1104" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-9" value="Note: Pressing Select Button on Driver controller activates Climbing Mode&lt;br&gt;LED Changes to Red" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1774" y="-1914" width="211" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="FIMyjUegxXdDTG1FlUWc-2" target="FIMyjUegxXdDTG1FlUWc-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2170" y="-1734" />
+              <mxPoint x="2170" y="-1509" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-11" value="Driver Abs(Right Stick Input) &amp;lt; 5%&amp;nbsp; Or NOT in climb Mode" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="FIMyjUegxXdDTG1FlUWc-10">
+          <mxGeometry x="-0.4285" relative="1" as="geometry">
+            <mxPoint y="57" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-12" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;Prepare to Climb&lt;/p&gt;&lt;hr&gt;&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Init: N/A&lt;br&gt;Run:&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Solenoid Active&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;then&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;Winch motor go to +X in (10?)&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Exit: N/A&lt;/p&gt;" style="shape=mxgraph.sysml.simpleState;html=1;overflow=fill;whiteSpace=wrap;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1774" y="-1344" width="210" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-13" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1239" y="-1749" as="sourcePoint" />
+            <mxPoint x="1239" y="-1809" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-14" value="Note: Positive (+) Direction is up on the hooks, down is negative" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1258" y="-1814" width="136" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="FIMyjUegxXdDTG1FlUWc-6" target="FIMyjUegxXdDTG1FlUWc-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-16" value="Driver Presses Prep To Climb Button (Same button to line up with vision)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="FIMyjUegxXdDTG1FlUWc-15">
+          <mxGeometry x="-0.1065" y="3" relative="1" as="geometry">
+            <mxPoint x="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-17" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;Climb&lt;/p&gt;&lt;hr&gt;&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Init: N/A&lt;br&gt;Run:&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Solenoid: Off&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Winch Motor:Set Target to -X in or till hit limit switch&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Exit: N/A&lt;/p&gt;" style="shape=mxgraph.sysml.simpleState;html=1;overflow=fill;whiteSpace=wrap;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1774" y="-1144" width="210" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="FIMyjUegxXdDTG1FlUWc-12" target="FIMyjUegxXdDTG1FlUWc-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-19" value="Press Auto Climb Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="FIMyjUegxXdDTG1FlUWc-18">
+          <mxGeometry x="-0.1714" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="FIMyjUegxXdDTG1FlUWc-12" target="FIMyjUegxXdDTG1FlUWc-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1509" y="-1279" />
+              <mxPoint x="1509" y="-1734" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="FIMyjUegxXdDTG1FlUWc-17">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1654" y="-1076.5" as="sourcePoint" />
+            <mxPoint x="1759" y="-1734" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1774" y="-1076" />
+              <mxPoint x="1509" y="-1076" />
+              <mxPoint x="1509" y="-1734" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-22" value="Driver Abs(Right Stick Input)&amp;nbsp;&amp;gt;= % 5 AND Climbing Mode Activated" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="FIMyjUegxXdDTG1FlUWc-21">
+          <mxGeometry x="0.1957" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="FIMyjUegxXdDTG1FlUWc-17" target="FIMyjUegxXdDTG1FlUWc-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2170" y="-1079" />
+              <mxPoint x="2170" y="-1509" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FIMyjUegxXdDTG1FlUWc-24" value="Hits both Limit Switches OR (At Target&amp;nbsp; AND Pigeon Roll &amp;lt; X%)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="FIMyjUegxXdDTG1FlUWc-23">
+          <mxGeometry x="0.1261" y="2" relative="1" as="geometry">
+            <mxPoint x="12" y="145" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
