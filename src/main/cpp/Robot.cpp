@@ -36,7 +36,7 @@
 
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
-#include "configs/usages/CanSensorUsage.h"
+#include "configs/RobotElementNames.h"
 
 /* How to check robot variant
 #if ROBOT_VARIANT == 2024
@@ -121,7 +121,7 @@ void Robot::RobotPeriodic()
         feedback->UpdateFeedback();
     }
 
-    auto pigeon = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(CanSensorUsage::CANSENSOR_USAGE::PIGEON_ROBOT_CENTER);
+    auto pigeon = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER);
     if (pigeon == nullptr)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DEUBGGING"), string("Pigeon Nullptr?"), "true");

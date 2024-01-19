@@ -21,7 +21,7 @@
 
 #include "units/time.h"
 #include "hw/DragonDigitalInput.h"
-#include <configs/usages/DigitalInputUsage.h>
+#include <configs/RobotElementNames.h>
 #include "utils/logging/Logger.h"
 
 using namespace frc;
@@ -29,7 +29,7 @@ using namespace std;
 
 DragonDigitalInput::DragonDigitalInput(
 	string networkTableName,
-	DigitalInputUsage::DIGITAL_INPUT_USAGE usage, // <I> - Usage of the digital input
+	RobotElementNames::DIGITAL_INPUT_USAGE usage, // <I> - Usage of the digital input
 	int deviceID,								  // <I> - digial io ID
 	bool reversed,								  // <I>
 	units::time::second_t debounceTime) : m_networkTableName(networkTableName),
@@ -45,7 +45,7 @@ DragonDigitalInput::~DragonDigitalInput()
 	delete m_digital;
 }
 
-DigitalInputUsage::DIGITAL_INPUT_USAGE DragonDigitalInput::GetType() const
+RobotElementNames::DIGITAL_INPUT_USAGE DragonDigitalInput::GetType() const
 {
 	return m_type;
 }

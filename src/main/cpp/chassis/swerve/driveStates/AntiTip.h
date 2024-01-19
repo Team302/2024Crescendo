@@ -14,28 +14,21 @@
 //====================================================================================================================================================
 
 #pragma once
-#include <string>
 
-#include "State.h"
-#include "mechanisms/controllers/MechanismTargetData.h"
+#include "units/length.h"
+#include "units/time.h"
+#include "units/velocity.h"
 
-#include "mechanisms/example/generated/ExampleStopStateGen.h"
+// Team302 Includes
+#include "chassis/swerve/SwerveChassis.h"
+#include <chassis/ChassisMovement.h>
 
-using namespace std;
-class ExampleStopState : public State
+class AntiTip
 {
-public:
-    ExampleStopState() = delete;
-    ExampleStopState(std::string stateName,
-                     int stateId,
-                     ExampleStopStateGen *generatedState);
-    ~ExampleStopState() = default;
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
-    bool IsTransitionCondition(bool considerGamepadTransitions) const override;
+    AntiTip() = delete;
+    ~AntiTip() = delete;
 
-private:
-    ExampleStopStateGen *m_genState;
+public:
+    static void CorrectForTipping(ChassisMovement &chassisMovement, units::velocity::feet_per_second_t m_maxspeed);
+    static void DecideTipCorrection(ChassisMovement &chassisMovement, units::velocity::feet_per_second_t m_maxspeed);
 };

@@ -22,7 +22,7 @@
 
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
-#include "configs/usages/CanSensorUsage.h"
+#include "configs/RobotElementNames.h"
 #include "hw/interfaces/IDragonPigeon.h"
 
 #include <utils/FMSData.h>
@@ -88,7 +88,7 @@ bool FaceAprilTag::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData,
             // This is calculated by taking arc/inverse tangent of our field oriented yError, divided by our field oriented xError
             // and the offset to the back of the cube node
 
-            auto pigeon = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(CanSensorUsage::CANSENSOR_USAGE::PIGEON_ROBOT_CENTER);
+            auto pigeon = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER);
             units::angle::degree_t robotYaw = units::angle::degree_t(pigeon->GetYaw());
 
             auto angleToTag = units::angle::radian_t(std::atan2(yError.to<double>(), xError.to<double>()));
