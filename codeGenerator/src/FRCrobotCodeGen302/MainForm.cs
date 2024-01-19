@@ -817,7 +817,7 @@ namespace FRCrobotCodeGen302
                     if (nt.obj is baseElement)
                     {
                         baseElement beObj = ((baseElement)nt.obj);
-                        if (!beObj.isConstant)
+                        if (!( beObj.isConstant || (beObj.isConstantInMechInstance && isInaMechanismInstance)))
                         {
                             if (beObj.showExpanded)
                             {
