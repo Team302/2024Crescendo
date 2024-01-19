@@ -12,3 +12,29 @@
 /// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 /// OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+
+#include <photon/PhotonCamera.h>
+
+#include "DragonVision/DragonCamera.h"
+
+class DragonPhotonCam : public DragonCamera
+{
+public:
+    DragonPhotonCam(std::string name,                               /// <I> - camera name
+                    units::length::inch_t mountingHeight,           /// <I> - mounting height of the limelight
+                    units::length::inch_t mountingHorizontalOffset, /// <I> - mounting horizontal offset from the middle of the robot
+                    units::length::inch_t forwardOffset,            /// <I> mounting offset forward/back
+                    units::angle::degree_t pitch,                   /// <I> - Pitch of limelight
+                    units::angle::degree_t yaw,                     /// <I> - Yaw of limelight
+                    units::angle::degree_t roll);
+
+private:
+    photon::PhotonCamera m_camera;
+    std::string m_name;
+    units::length::inch_t m_mountHeight;
+    units::length::inch_t m_mountingHorizontalOffset;
+    units::length::inch_t m_mountingForwardOffset;
+    units::angle::degree_t m_yaw;
+    units::angle::degree_t m_pitch;
+    units::angle::degree_t m_roll;
+};
