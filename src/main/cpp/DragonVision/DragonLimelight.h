@@ -116,15 +116,18 @@ public:
 
     frc::Pose2d GetRedFieldPosition() const;
     frc::Pose2d GetBlueFieldPosition() const;
+//need GetOriginFieldPosition
 
     units::length::inch_t EstimateTargetXdistance() const;
     units::length::inch_t EstimateTargetYdistance() const;
+//Need Zdistance
 
     units::length::inch_t EstimateTargetXdistance_RelToRobotCoords() const;
     units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const;
+//need Zdistance
 
     // Setters
-    void SetTargetHeight(units::length::inch_t targetHeight);
+    void SetTargetHeight(units::length::inch_t targetHeight); //don't need targetheight
     void SetLEDMode(DragonLimelight::LED_MODE mode);
     void SetCamMode(DragonLimelight::CAM_MODE mode);
     bool SetPipeline(int pipeline);
