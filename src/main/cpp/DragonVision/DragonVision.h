@@ -19,9 +19,9 @@
 #include <string>
 
 #include "State.h"
-#include <DragonVision/DragonCamera.h>
-#include <DragonVision/DragonVisionTarget.h>
-#include <DragonVision/DragonVisonStructs.h>
+#include "DragonVision/DragonCamera.h"
+#include "DragonVision/DragonVisionTarget.h"
+#include "DragonVision/DragonVisonStructs.h"
 
 using std::map;
 
