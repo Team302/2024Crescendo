@@ -44,8 +44,8 @@ public:
     // std::shared_ptr<DragonVisionTarget> getTargetInfo(LIMELIGHT_POSITION position) const;
     // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
 
-    VisionPose GetRobotPosition() const;
-    VisionData GetVisionData();
+    std::optional<VisionPose> GetRobotPosition() const;
+    std::optional<VisionData> GetVisionData() const;
 
 private:
     DragonVision();
