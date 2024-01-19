@@ -53,29 +53,29 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 
     m_dragonVision = DragonVision::GetDragonVision();
     if (m_dragonVision != nullptr)
-        m_dragonVision->setPipeline(m_pipelineMode);
+        //  m_dragonVision->setPipeline(m_pipelineMode);
 
-    if (m_chassis != nullptr)
-    {
-        m_visionDrive = dynamic_cast<VisionDrive *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE));
-
-        m_visionDrive->ResetVisionDrive();
-        m_visionDrive->setVisionPipeline(m_pipelineMode);
-        m_visionDrive->setInAutonMode(true);
-
-        switch (m_pipelineMode)
+        if (m_chassis != nullptr)
         {
-        case DragonLimelight::PIPELINE_MODE::APRIL_TAG:
-            m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
-            break;
-        case DragonLimelight::PIPELINE_MODE::CONE:
-        case DragonLimelight::PIPELINE_MODE::CUBE:
-            m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-            break;
-        default:
-            break;
+            m_visionDrive = dynamic_cast<VisionDrive *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE));
+
+            m_visionDrive->ResetVisionDrive();
+            m_visionDrive->setVisionPipeline(m_pipelineMode);
+            m_visionDrive->setInAutonMode(true);
+
+            switch (m_pipelineMode)
+            {
+            case DragonLimelight::PIPELINE_MODE::APRIL_TAG:
+                m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
+                break;
+            case DragonLimelight::PIPELINE_MODE::CONE:
+            case DragonLimelight::PIPELINE_MODE::CUBE:
+                m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+                break;
+            default:
+                break;
+            }
         }
-    }
 }
 
 void VisionDrivePrimitive::Run()
