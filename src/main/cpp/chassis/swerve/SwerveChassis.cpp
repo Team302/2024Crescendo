@@ -190,7 +190,11 @@ void SwerveChassis::ZeroAlignSwerveModules()
 /// @brief Drive the chassis
 void SwerveChassis::Drive(ChassisMovement moveInfo)
 {
-    void SwerveChassis::LogInformation();
+    m_drive = moveInfo.chassisSpeeds.vx;
+    m_steer = moveInfo.chassisSpeeds.vy;
+    m_rotate = moveInfo.chassisSpeeds.omega;
+
+    LogInformation();
 
     m_currentOrientationState = GetHeadingState(moveInfo);
     if (m_currentOrientationState != nullptr)
@@ -411,8 +415,11 @@ units::length::inch_t SwerveChassis::GetWheelDiameter() const
 
 void SwerveChassis::LogInformation()
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vx"), moveInfo.chassisSpeeds.vx.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vy"), moveInfo.chassisSpeeds.vy.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Omega"), moveInfo.chassisSpeeds.omega.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current pose"), GetHeadingState(moveInfo)());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vx"), m_drive.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vy"), m_steer.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Omega"), m_rotate.to<double>());
+    auto pose = GetPose();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current x position"), pose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current y position"), pose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
 }
