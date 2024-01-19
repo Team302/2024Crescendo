@@ -103,6 +103,8 @@ public:
     ///-----------------------------------------------------------------------------------
     ~DragonLimelight() = default;
 
+///These methods need to override the methods of the same name from DragonCamera
+
     bool HasTarget() const;
     units::angle::degree_t GetTargetHorizontalOffset() const;
     units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
