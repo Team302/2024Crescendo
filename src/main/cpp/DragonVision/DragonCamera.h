@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 #include <frc/geometry/Pose3d.h>
-
+#include <frc/DriverStation.h>
 class DragonCamera
 {
 public:
@@ -36,59 +36,61 @@ public:
 
     // Getters
 
-    units::angle::degree_t GetTargetHorizontalOffset() const;
-    units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
-    units::angle::degree_t GetTargetVerticalOffset() const;
-    units::time::microsecond_t GetPipelineLatency() const;
-    PIPELINE getPipeline() const;
-    int getAprilTagID() const;
+    virtual units::angle::degree_t GetTargetHorizontalOffset() const;
+    virtual units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
+    virtual units::angle::degree_t GetTargetVerticalOffset() const;
+    virtual units::time::microsecond_t GetPipelineLatency() const;
+    virtual PIPELINE getPipeline() const;
+    virtual int getAprilTagID() const;
 
-    frc::Pose3d GetFieldPosition() const;
-
+    virtual frc::Pose3d GetFieldPosition() const;
+    virtual frc::Pose3d GetFieldPosisition(frc::DriverStation::Alliance alliance);
     //  Estimating targets
 
-    units::length::inch_t EstimateTargetXdistance() const;
-    units::length::inch_t EstimateTargetYdistance() const;
+    virtual units::length::inch_t EstimateTargetXdistance() const;
+    virtual units::length::inch_t EstimateTargetYdistance() const;
 
-    units::length::inch_t EstimateTargetXdistance_RelToRobotCoords() const;
-    units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const;
+    virtual units::length::inch_t EstimateTargetXdistance_RelToRobotCoords() const;
+    virtual units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const;
 
     // Setters
 
-    bool SetPipeline(int pipeline);
+    virtual bool SetPipeline(int pipeline);
 
     // Limelight
 
-    units::angle::degree_t GetCameraPitch() const { return m_pitch; }
-    units::angle::degree_t GetCameraYaw() const { return m_yaw; }
-    units::angle::degree_t GetCameraRoll() const { return m_roll; }
-    units::length::inch_t GetCameraMountingHeight() const { return m_mountHeight; }
-    units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
-    units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
-    units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
+    virtual units::angle::degree_t GetCameraPitch() const { return m_pitch; }
+    virtual units::angle::degree_t GetCameraYaw() const { return m_yaw; }
+    virtual units::angle::degree_t GetCameraRoll() const { return m_roll; }
+    virtual units::length::inch_t GetCameraMountingHeight() const { return m_mountHeight; }
+    virtual units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
+    virtual units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
+    virtual units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
 
-    void SetCameraPosition(units::length::inch_t mountHeight,
-                           units::length::inch_t mountHorizontalOffset,
-                           units::length::inch_t mountForwardOffset,
-                           units::angle::degree_t pitch,
-                           units::angle::degree_t yaw,
-                           units::angle::degree_t roll);
+    virtual void SetCameraPosition(units::length::inch_t mountHeight,
+                                   units::length::inch_t mountingXOffset,
+                                   units::length::inch_t mountingYOffset,
+                                   units::length::inch_t mountingZOffset,
+                                   units::angle::degree_t pitch,
+                                   units::angle::degree_t yaw,
+                                   units::angle::degree_t roll);
 
     DragonCamera(
-        std::string cameraName,                         /// <I> camera name/type
-        PIPELINE pipeline,                              /// <I> enum for pipeline
-        units::length::inch_t mountingHeight,           /// <I> - mounting height of the limelight
-        units::length::inch_t mountingHorizontalOffset, /// <I> - mounting horizontal offset from the middle of the robot
-        units::length::inch_t forwardOffset,            /// <I> mounting offset forward/back
-        units::angle::degree_t pitch,                   /// <I> - Pitch of limelight
-        units::angle::degree_t yaw,                     /// <I> - Yaw of limelight
-        units::angle::degree_t roll                     /// <I> - Roll of limelight
+        std::string cameraName,                /// <I> camera name/type
+        PIPELINE pipeline,                     /// <I> enum for pipeline
+        units::length::inch_t mountingHeight,  /// <I> - mounting height of the limelight
+        units::length::inch_t mountingXOffset, /// <I> - mounting horizontal offset from the middle of the robot
+        units::length::inch_t mountingYOffset,
+        units::length::inch_t mountingZOffset, /// <I> mounting offset forward/back
+        units::angle::degree_t pitch,          /// <I> - Pitch of limelight
+        units::angle::degree_t yaw,            /// <I> - Yaw of limelight
+        units::angle::degree_t roll            /// <I> - Roll of limelight
     );
     DragonCamera() = delete;
 
 protected:
-    units::angle::degree_t GetTx() const;
-    units::angle::degree_t GetTy() const;
+    virtual units::angle::degree_t GetTx() const;
+    virtual units::angle::degree_t GetTy() const;
 
     units::length::inch_t m_mountHeight;
     units::length::inch_t m_mountingXOffset;

@@ -13,5 +13,30 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include <DragonVision\DragonCamera.h>
-#
+#include "DragonVision\DragonCamera.h"
+
+#include "units/angle.h"
+#include "units/length.h"
+#include "units/time.h"
+
+#include <string>
+#include <vector>
+#include <frc/geometry/Pose3d.h>
+
+DragonCamera::DragonCamera(std::string cameraName,                /// <I> camera name/type
+                           PIPELINE pipeline,                     /// <I> enum for pipeline
+                           units::length::inch_t mountingHeight,  /// <I> - mounting height of the limelight
+                           units::length::inch_t mountingXOffset, /// <I> - mounting horizontal offset from the middle of the robot
+                           units::length::inch_t mountingYOffset,
+                           units::length::inch_t mountingZOffset, /// <I> mounting offset forward/back
+                           units::angle::degree_t pitch,          /// <I> - Pitch of limelight
+                           units::angle::degree_t yaw,            /// <I> - Yaw of limelight
+                           units::angle::degree_t roll) : m_mountHeight(mountingHeight),
+                                                          m_mountingXOffset(mountingXOffset),
+                                                          m_mountingYOffset(mountingYOffset),
+                                                          m_mountingZOffset(mountingZOffset),
+                                                          m_yaw(yaw),
+                                                          m_pitch(pitch),
+                                                          m_roll(roll)
+{
+}
