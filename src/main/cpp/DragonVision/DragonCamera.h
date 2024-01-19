@@ -50,9 +50,11 @@ public:
 
     virtual units::length::inch_t EstimateTargetXdistance() const = 0;
     virtual units::length::inch_t EstimateTargetYdistance() const = 0;
+    //need estimate Z Distance
 
     virtual units::length::inch_t EstimateTargetXdistance_RelToRobotCoords() const = 0;
     virtual units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const = 0;
+    //need estimate Z distance
 
     // Setters
     virtual double GetTargetArea() const = 0;
