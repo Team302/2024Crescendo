@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2024-01-19T18:31:41.045Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" etag="rK_8iR-Y0kj7g_LGDdO5" version="22.1.18" type="device">
+<mxfile host="Electron" modified="2024-01-19T18:32:44.864Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" etag="lPooT2ZQg_0V22A9tGQz" version="22.1.18" type="device">
   <diagram name="Page-1" id="SxmHXgbdub1f-YGlgZbq">
-    <mxGraphModel dx="8217" dy="6883" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="6066" dy="4448" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -28,7 +28,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="VLMINEPQ1F-yur1shJ9g-9" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;dashPattern=12 12;" parent="1" vertex="1">
-          <mxGeometry x="-1910" y="-2750" width="2280" height="1747" as="geometry" />
+          <mxGeometry x="770" y="-2210" width="2280" height="1747" as="geometry" />
         </mxCell>
         <mxCell id="IniwkxjAmzZjP31r2jV5-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;State&lt;/p&gt;&lt;hr&gt;&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Init: activate motor&lt;br&gt;Run: doActivity&lt;br&gt;Exit:&lt;/p&gt;" style="shape=mxgraph.sysml.simpleState;html=1;overflow=fill;whiteSpace=wrap;align=center;" parent="1" vertex="1">
           <mxGeometry x="-1550" y="-1180" width="140" height="90" as="geometry" />
