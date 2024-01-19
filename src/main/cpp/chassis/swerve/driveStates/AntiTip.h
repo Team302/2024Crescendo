@@ -22,28 +22,14 @@
 
 // Team302 Includes
 #include "chassis/swerve/SwerveChassis.h"
-#include <chassis/swerve/driveStates/ISwerveDriveState.h>
 #include <chassis/ChassisMovement.h>
-#include "teleopcontrol/TeleopControl.h"
 
-class RobotDrive : public ISwerveDriveState
+class AntiTip
 {
+    AntiTip() = delete;
+    ~AntiTip() = delete;
+
 public:
-    RobotDrive();
-    ~RobotDrive() = default;
-
-    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
-        ChassisMovement &chassisMovement) override;
-
-    void Init(ChassisMovement &chassisMovement) override;
-
-protected:
-    frc::SwerveModuleState m_flState;
-    frc::SwerveModuleState m_frState;
-    frc::SwerveModuleState m_blState;
-    frc::SwerveModuleState m_brState;
-
-    units::length::inch_t m_wheelbase;
-    units::length::inch_t m_wheeltrack;
-    units::velocity::feet_per_second_t m_maxspeed;
+    static void CorrectForTipping(ChassisMovement &chassisMovement, units::velocity::feet_per_second_t m_maxspeed);
+    static void DecideTipCorrection(ChassisMovement &chassisMovement, units::velocity::feet_per_second_t m_maxspeed);
 };

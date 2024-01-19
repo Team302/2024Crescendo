@@ -17,6 +17,7 @@
 #include <chassis/swerve/driveStates/StopDrive.h>
 #include <chassis/ChassisMovement.h>
 #include <chassis/swerve/driveStates/RobotDrive.h>
+#include <chassis/swerve/driveStates/AntiTip.h>
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
 
@@ -33,7 +34,7 @@ std::array<frc::SwerveModuleState, 4> StopDrive::UpdateSwerveModuleStates(Chassi
 {
     if (chassisMovement.checkTipping)
     {
-        CorrectForTipping(chassisMovement); // TODO:  can we remove this; robot drive handles this
+        AntiTip::CorrectForTipping(chassisMovement, m_maxspeed); // TODO:  can we remove this; robot drive handles this
         return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
     }
 
