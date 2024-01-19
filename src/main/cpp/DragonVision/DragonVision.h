@@ -51,8 +51,9 @@ private:
     DragonVision();
     ~DragonVision() = default;
 
-    // change to get dragon camera
-    //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
+    // change to get camera
+    // can be changed to inline and reutnr straight from map
+    //DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
 
     static DragonVision *m_dragonVision;
 
