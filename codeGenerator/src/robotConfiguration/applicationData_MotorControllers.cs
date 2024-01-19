@@ -739,7 +739,7 @@ namespace ApplicationData
     [Serializable]
     [ImplementationName("DragonTalonSRX")]
     [UserIncludeFile("hw/DragonTalonSRX.h")]
-    public class TalonSRX : MotorController
+    public class    TalonSRX : MotorController
     {
         [Serializable]
         public class LimitSwitches : baseDataClass
@@ -986,9 +986,8 @@ namespace ApplicationData
 
     public class SparkMax : MotorController
     {
-        public enum MotorType { kBrushed = 0, kBrushless = 1 };
+        public enum Type { kBrushed = 0, kBrushless = 1 };
         public enum SensorType { kNoSensor = 0, kHallSensor = 1, kQuadrature = 2 }
-
         public enum ControlType
         {
             kDutyCycle = 0,
@@ -1022,8 +1021,104 @@ namespace ApplicationData
             kStatus7 = 7,
         }
 
-        public MotorType motorBrushType { get; set; }
+        [Serializable]
+        public class CurrentLimits_SparkMax : baseDataClass
+        {
+            [DefaultValue(false)]
+            [ConstantInMechInstance]
+            public boolParameter EnableCurrentLimits { get; set; }
+
+            [DefaultValue(0)]
+            [PhysicalUnitsFamily(physicalUnit.Family.current)]
+            [ConstantInMechInstance]
+            public intParameter PeakCurrentLimit { get; set; }
+
+            [DefaultValue(0)]
+            [PhysicalUnitsFamily(physicalUnit.Family.time)]
+            [ConstantInMechInstance]
+            public intParameter PeakCurrentLimitTimeout { get; set; }
+
+            [DefaultValue(0)]
+            [PhysicalUnitsFamily(physicalUnit.Family.time)]
+            [ConstantInMechInstance]
+            public intParameter PeakCurrentDuration { get; set; }
+
+            [DefaultValue(0)]
+            [PhysicalUnitsFamily(physicalUnit.Family.time)]
+            [ConstantInMechInstance]
+            public intParameter PeakCurrentDurationTimeout { get; set; }
+
+
+            [DefaultValue(0)]
+            [PhysicalUnitsFamily(physicalUnit.Family.current)]
+            [ConstantInMechInstance]
+            public intParameter ContinuousCurrentLimit { get; set; }
+
+            [DefaultValue(0)]
+            [PhysicalUnitsFamily(physicalUnit.Family.time)]
+            [ConstantInMechInstance]
+            public intParameter ContinuousCurrentLimitTimeout { get; set; }
+
+            public CurrentLimits_SparkMax()
+            {
+                int index = this.GetType().Name.IndexOf("_");
+                if (index > 0)
+                    defaultDisplayName = this.GetType().Name.Substring(0, index);
+                else
+                    defaultDisplayName = this.GetType().Name;
+            }
+        }
+        public CurrentLimits_SparkMax currentLimits { get; set; }
+
+        [Serializable]
+        public class ConfigMotorSettings_SparkMax : baseDataClass
+        {
+            [DefaultValue(InvertedValue.CounterClockwise_Positive)]
+            [ConstantInMechInstance]
+            public InvertedValue inverted { get; set; }
+
+            [DefaultValue(NeutralModeValue.Coast)]
+            [ConstantInMechInstance]
+            public NeutralModeValue mode { get; set; }
+
+            public ConfigMotorSettings_SparkMax()
+            {
+                int index = this.GetType().Name.IndexOf("_");
+                if (index > 0)
+                    defaultDisplayName = this.GetType().Name.Substring(0, index);
+                else
+                    defaultDisplayName = this.GetType().Name;
+            }
+        }
+        public ConfigMotorSettings_SparkMax theConfigMotorSettings { get; set; }
+
+        [DefaultValue(1.0)]
+        [ConstantInMechInstance]
+        public doubleParameter RotationOffset { get; set; }
+
+
+        public Type motorBrushType { get; set; }
 
         public SensorType sensorType { get; set;}
+
+        override public List<string> generateIndexedObjectCreation(int currentIndex)
+        {
+            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType {4},rev::SparkRelativeEncoder::Type {5},{6})",
+                name,
+                getImplementationName(),
+                canID.value.ToString(),
+                utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
+                motorBrushType,
+                sensorType,
+                theDistanceAngleCalcInfo.gearRatio); //todo: install notepad++ :)
+
+
+            List<string> code = new List<string>() { "", theDistanceAngleCalcInfo.getDefinition(name), creation };
+
+            code.AddRange(generateObjectAddToMaps());
+            code.Add("");
+
+            return code;
+        }
     }
 }
