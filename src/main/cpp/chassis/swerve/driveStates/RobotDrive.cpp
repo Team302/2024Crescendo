@@ -28,6 +28,7 @@
 #include "configs/RobotConfigMgr.h"
 #include "utils/logging/Logger.h"
 #include <utils/FMSData.h>
+#include <chassis/swerve/driveStates/AntiTip.h>
 
 using std::string;
 
@@ -58,7 +59,7 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
 {
     if (chassisMovement.checkTipping)
     {
-        DecideTipCorrection(chassisMovement);
+        AntiTip::DecideTipCorrection(chassisMovement, m_maxspeed);
     }
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Vx", chassisMovement.chassisSpeeds.vx.to<double>());
@@ -152,48 +153,6 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
         m_brState.speed *= ratio;
     }
     return {m_flState, m_frState, m_blState, m_brState};
-}
-
-void RobotDrive::DecideTipCorrection(ChassisMovement &chassisMovement)
-
-{
-    if (frc::DriverStation::IsFMSAttached())
-    {
-        if (frc::DriverStation::GetMatchTime() > units::time::second_t(20.0))
-        {
-            CorrectForTipping(chassisMovement);
-        }
-    }
-    else
-    {
-        CorrectForTipping(chassisMovement);
-    }
-}
-void RobotDrive::CorrectForTipping(ChassisMovement &chassisMovement)
-{
-    // TODO: add checktipping variable to network table
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    if (chassis != nullptr)
-    {
-        // pitch is positive when back of robot is lifted and negative when front of robot is lifted
-        // vx is positive driving forward, so if pitch is +, need to slow down
-        auto pitch = chassis->GetPitch();
-        if (std::abs(pitch.to<double>()) > chassisMovement.tippingTolerance.to<double>())
-        {
-            auto adjust = m_maxspeed * chassisMovement.tippingCorrection * pitch.to<double>();
-            chassisMovement.chassisSpeeds.vx -= adjust;
-        }
-
-        // roll is positive when the left side of the robot is lifted and negative when the right side of the robot is lifted
-        // vy is positive strafing left, so if roll is +, need to strafe slower
-        auto roll = chassis->GetRoll();
-        if (std::abs(roll.to<double>()) > chassisMovement.tippingTolerance.to<double>())
-        {
-            auto adjust = m_maxspeed * chassisMovement.tippingCorrection * roll.to<double>();
-            chassisMovement.chassisSpeeds.vy -= adjust;
-        }
-    }
 }
 
 void RobotDrive::Init(ChassisMovement &chassisMovement)
