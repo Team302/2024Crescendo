@@ -32,7 +32,7 @@ public:
         COLOR_THRESHOLD
     };
 
-    bool HasTarget() const;
+    virtual bool HasTarget() const;
 
     // Getters
 
@@ -54,18 +54,16 @@ public:
     virtual units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const;
 
     // Setters
-
+    virtual double GetTargetArea() const;
     virtual bool SetPipeline(int pipeline);
-
-    // Limelight
-
-    virtual units::angle::degree_t GetCameraPitch() const { return m_pitch; }
-    virtual units::angle::degree_t GetCameraYaw() const { return m_yaw; }
-    virtual units::angle::degree_t GetCameraRoll() const { return m_roll; }
-    virtual units::length::inch_t GetCameraMountingHeight() const { return m_mountHeight; }
-    virtual units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
-    virtual units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
-    virtual units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
+    virtual units::angle::degree_t GetTargetSkew() const;
+    units::angle::degree_t GetCameraPitch() const { return m_pitch; }
+    units::angle::degree_t GetCameraYaw() const { return m_yaw; }
+    units::angle::degree_t GetCameraRoll() const { return m_roll; }
+    units::length::inch_t GetCameraMountingHeight() const { return m_mountHeight; }
+    units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
+    units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
+    units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
 
     virtual void SetCameraPosition(units::length::inch_t mountHeight,
                                    units::length::inch_t mountingXOffset,
@@ -89,9 +87,6 @@ public:
     DragonCamera() = delete;
 
 protected:
-    virtual units::angle::degree_t GetTx() const;
-    virtual units::angle::degree_t GetTy() const;
-
     units::length::inch_t m_mountHeight;
     units::length::inch_t m_mountingXOffset;
     units::length::inch_t m_mountingYOffset;

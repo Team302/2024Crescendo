@@ -40,3 +40,8 @@ DragonCamera::DragonCamera(std::string cameraName,                /// <I> camera
                                                           m_roll(roll)
 {
 }
+
+frc::Pose3d DragonCamera::GetFieldPosisition(frc::DriverStation::Alliance alliance)
+{
+    frc::Pose3d GetFieldPosition();
+}
