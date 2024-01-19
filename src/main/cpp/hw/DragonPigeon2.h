@@ -18,7 +18,7 @@
 #include <memory>
 
 #include "ctre/phoenix6/Pigeon2.hpp"
-#include "configs/usages/CanSensorUsage.h"
+#include "configs/RobotElementNames.h"
 #include "hw/interfaces/IDragonPigeon.h"
 
 class DragonPigeon2 : public IDragonPigeon
@@ -26,7 +26,7 @@ class DragonPigeon2 : public IDragonPigeon
 public:
     DragonPigeon2(int canID,
                   std::string canBusName,
-                  CanSensorUsage::CANSENSOR_USAGE usage,
+                  RobotElementNames::PIGEON_USAGE usage,
                   units::angle::degree_t initialYaw,
                   units::angle::degree_t initialPitch,
                   units::angle::degree_t initialRoll);
@@ -40,5 +40,5 @@ public:
 
 private:
     ctre::phoenix6::hardware::Pigeon2 m_pigeon;
-    CanSensorUsage::CANSENSOR_USAGE m_usage;
+    RobotElementNames::PIGEON_USAGE m_usage;
 };

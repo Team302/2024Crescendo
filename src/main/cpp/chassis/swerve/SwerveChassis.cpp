@@ -61,7 +61,7 @@
 
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
-#include "configs/usages/CanSensorUsage.h"
+#include "configs/RobotElementNames.h"
 
 #include "DragonVision/DragonLimelight.h"
 #include "DragonVision/LimelightFactory.h"
@@ -123,7 +123,7 @@ SwerveChassis::SwerveChassis(
                                m_maxAngularSpeed(maxAngularSpeed),
                                m_maxAcceleration(maxAcceleration),               // Not used at the moment
                                m_maxAngularAcceleration(maxAngularAcceleration), // Not used at the moment
-                               m_pigeon(RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(CanSensorUsage::CANSENSOR_USAGE::PIGEON_ROBOT_CENTER)),
+                               m_pigeon(RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER)),
                                m_accel(BuiltInAccelerometer()),
                                m_runWPI(false),
                                m_poseOpt(PoseEstimatorEnum::WPI),

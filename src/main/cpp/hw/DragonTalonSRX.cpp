@@ -31,7 +31,7 @@
 #include "hw/interfaces/IDragonMotorController.h"
 #include "hw/DragonTalonSRX.h"
 #include "hw/factories/PDPFactory.h"
-#include "configs/usages/MotorControllerUsage.h"
+#include "configs/RobotElementNames.h"
 #include "hw/DistanceAngleCalcStruc.h"
 #include "utils/ConversionUtils.h"
 #include "utils/logging/Logger.h"
@@ -48,7 +48,7 @@ using namespace ctre::phoenix::motorcontrol;
 using namespace ctre::phoenix::motorcontrol::can;
 
 DragonTalonSRX::DragonTalonSRX(string networkTableName,
-							   MotorControllerUsage::MOTOR_CONTROLLER_USAGE deviceType,
+							   RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
 							   int deviceID,
 							   int pdpID,
 							   const DistanceAngleCalcStruc &calcStruc,
@@ -239,7 +239,7 @@ void DragonTalonSRX::SetSensorInverted(bool inverted)
 	m_talon.get()->SetSensorPhase(inverted);
 }
 
-MotorControllerUsage::MOTOR_CONTROLLER_USAGE DragonTalonSRX::GetType() const
+RobotElementNames::MOTOR_CONTROLLER_USAGE DragonTalonSRX::GetType() const
 {
 	return m_type;
 }
