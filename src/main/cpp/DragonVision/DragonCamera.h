@@ -32,7 +32,7 @@ public:
         COLOR_THRESHOLD
     };
 
-    virtual bool HasTarget() const;
+    virtual bool HasTarget() const = 0;
 
     // Getters
 
@@ -50,11 +50,11 @@ public:
 
     virtual units::length::inch_t EstimateTargetXdistance() const = 0;
     virtual units::length::inch_t EstimateTargetYdistance() const = 0;
-    //need estimate Z Distance
+    // need estimate Z Distance
 
     virtual units::length::inch_t EstimateTargetXdistance_RelToRobotCoords() const = 0;
     virtual units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const = 0;
-    //need estimate Z distance
+    // need estimate Z distance
 
     // Setters
     virtual double GetTargetArea() const = 0;
@@ -67,13 +67,13 @@ public:
     units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
     units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
 
-    virtual void SetCameraPosition(
+    void SetCameraPosition(
         units::length::inch_t mountingXOffset,
         units::length::inch_t mountingYOffset,
         units::length::inch_t mountingZOffset,
         units::angle::degree_t pitch,
         units::angle::degree_t yaw,
-        units::angle::degree_t roll);
+        units::angle::degree_t roll); /// TODO: implement
 
     DragonCamera(
         std::string cameraName, /// <I> camera name/type
