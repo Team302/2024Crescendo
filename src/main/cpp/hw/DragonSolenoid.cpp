@@ -19,7 +19,7 @@
 
 #include <frc/Solenoid.h>
 #include "hw/DragonSolenoid.h"
-#include <configs/usages/SolenoidUsage.h>
+#include <configs/RobotElementNames.h>
 #include "utils/logging/Logger.h"
 #include <frc/Compressor.h>
 
@@ -28,7 +28,7 @@ using namespace std;
 
 DragonSolenoid::DragonSolenoid(
     string networkTableName,
-    SolenoidUsage::SOLENOID_USAGE usage,
+    RobotElementNames::SOLENOID_USAGE usage,
     int pcmID,
     PneumaticsModuleType pcmType,
     int channel,
@@ -39,7 +39,7 @@ DragonSolenoid::DragonSolenoid(
 
 DragonSolenoid::DragonSolenoid(
     string networkTableName,
-    SolenoidUsage::SOLENOID_USAGE usage,
+    RobotElementNames::SOLENOID_USAGE usage,
     int pcmID,
     PneumaticsModuleType pcmType,
     int forwardChannel,
@@ -111,7 +111,7 @@ void DragonSolenoid::Set(
 
 void DragonSolenoid::InitSingle(
     string networkTableName,
-    SolenoidUsage::SOLENOID_USAGE usage,
+    RobotElementNames::SOLENOID_USAGE usage,
     int pcmID,
     frc::PneumaticsModuleType pcmType,
     int channel,
@@ -126,7 +126,7 @@ void DragonSolenoid::InitSingle(
 
 void DragonSolenoid::InitDouble(
     string networkTableName,
-    SolenoidUsage::SOLENOID_USAGE usage,
+    RobotElementNames::SOLENOID_USAGE usage,
     int pcmID,
     frc::PneumaticsModuleType pcmType,
     int forwardChannel,
@@ -176,7 +176,7 @@ bool DragonSolenoid::IsDisabled() const
     return val;
 }
 
-SolenoidUsage::SOLENOID_USAGE DragonSolenoid::GetType() const
+RobotElementNames::SOLENOID_USAGE DragonSolenoid::GetType() const
 {
     return m_usage;
 }

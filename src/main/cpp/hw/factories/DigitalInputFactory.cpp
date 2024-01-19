@@ -22,7 +22,7 @@
 // Team 302 includes
 #include "hw/DragonDigitalInput.h"
 #include "hw/factories/DigitalInputFactory.h"
-#include "configs/usages/DigitalInputUsage.h"
+#include "configs/RobotElementNames.h"
 
 // Third Party Includes
 #include "units/time.h"
@@ -44,7 +44,7 @@ DigitalInputFactory *DigitalInputFactory::GetFactory()
 /// @returns DragonDigitalInput*     pointer to the digital input or nullptr if it fails
 DragonDigitalInput *DigitalInputFactory::CreateInput(
     string networkTableName,
-    DigitalInputUsage::DIGITAL_INPUT_USAGE type,
+    RobotElementNames::DIGITAL_INPUT_USAGE type,
     int digitalID,
     bool reversed,
     units::time::second_t debounceTime)
@@ -62,7 +62,7 @@ DragonDigitalInput *DigitalInputFactory::CreateInput(
 /// @brief   Get the requested Digital input
 /// @returns DragonDigitalInput*     pointer to the digital input or nullptr if it doesn't exist
 DragonDigitalInput *DigitalInputFactory::GetInput(
-    DigitalInputUsage::DIGITAL_INPUT_USAGE type)
+    RobotElementNames::DIGITAL_INPUT_USAGE type)
 {
     DragonDigitalInput *sensor = nullptr;
     switch (type)

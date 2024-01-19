@@ -23,7 +23,7 @@ using std::string;
 
 DragonPigeon2::DragonPigeon2(int canID,
                              string canBusName,
-                             CanSensorUsage::CANSENSOR_USAGE usage,
+                             RobotElementNames::PIGEON_USAGE usage,
                              units::angle::degree_t initialYaw,
                              units::angle::degree_t initialPitch,
                              units::angle::degree_t initialRoll) : m_pigeon(Pigeon2(canID, canBusName)),

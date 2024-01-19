@@ -19,11 +19,7 @@
 #include "chassis/swerve/SwerveChassis.h"
 #include "chassis/IChassis.h"
 
-#include "configs/usages/CanSensorUsage.h"
-#include "configs/usages/DigitalInputUsage.h"
-#include "configs/usages/MotorControllerUsage.h"
-#include "configs/usages/ServoUsage.h"
-#include "configs/usages/SolenoidUsage.h"
+#include "configs/RobotElementNames.h"
 
 #include "hw/interfaces/IDragonMotorController.h"
 #include "hw/interfaces/IDragonPigeon.h"
@@ -44,12 +40,12 @@ public:
     virtual SwerveChassis *GetSwerveChassis() const;
     virtual IChassis *GetIChassis() const;
 
-    virtual IDragonMotorController *GetMotorController(MotorControllerUsage::MOTOR_CONTROLLER_USAGE usage);
-    virtual DragonSolenoid *GetSolenoid(SolenoidUsage::SOLENOID_USAGE usage);
-    virtual DragonServo *GetServo(ServoUsage::SERVO_USAGE usage);
+    virtual IDragonMotorController *GetMotorController(RobotElementNames::MOTOR_CONTROLLER_USAGE usage);
+    virtual DragonSolenoid *GetSolenoid(RobotElementNames::SOLENOID_USAGE usage);
+    virtual DragonServo *GetServo(RobotElementNames::SERVO_USAGE usage);
 
-    virtual DragonCanCoder *GetCanCoder(CanSensorUsage::CANSENSOR_USAGE usage);
-    virtual IDragonPigeon *GetPigeon(CanSensorUsage::CANSENSOR_USAGE usage);
+    virtual DragonCanCoder *GetCanCoder(RobotElementNames::CANCODER_USAGE usage);
+    virtual IDragonPigeon *GetPigeon(RobotElementNames::PIGEON_USAGE usage);
 
     // TODO:  add methods to access mechanisms and hardware as necessary
 
