@@ -29,6 +29,8 @@ public:
                     units::angle::degree_t yaw,             /// <I> - Yaw of limelight
                     units::angle::degree_t roll);           /// <I> - Roll of limelight
 
+/// Need to add DragonCamera overrides
+
 private:
     photon::PhotonCamera *m_camera; // photoncamera instance
 };
