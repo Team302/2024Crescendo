@@ -19,7 +19,7 @@
 #include <string>
 
 #include "State.h"
-#include <DragonVision/DragonLimelight.h>
+#include <DragonVision/DragonCamera.h>
 #include <DragonVision/DragonVisionTarget.h>
 #include <DragonVision/DragonVisonStructs.h>
 
@@ -31,7 +31,7 @@ class DragonVision
 public:
     static DragonVision *GetDragonVision();
 
-    enum LIMELIGHT_POSITION
+    enum CAMERA_POSITION
     {
         FRONT,
         BACK,
@@ -45,7 +45,7 @@ public:
     // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
 
     std::optional<VisionPose> GetRobotPosition() const;
-    std::optional<VisionData> GetVisionData() const;
+    std::optional<VisionData> GetVisionData();
 
 private:
     DragonVision();
@@ -56,5 +56,5 @@ private:
 
     static DragonVision *m_dragonVision;
 
-    // std::map<LIMELIGHT_POSITION, DragonLimelight *> m_DragonLimelightMap;
+    std::map<CAMERA_POSITION, DragonCamera *> m_DragonCameraMap;
 };

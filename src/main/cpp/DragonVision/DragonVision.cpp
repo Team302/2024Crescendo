@@ -42,116 +42,116 @@ DragonVision *DragonVision::GetDragonVision()
 
 DragonVision::DragonVision()
 {
-	m_DragonLimelightMap[LIMELIGHT_POSITION::FRONT] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::PRIMARY);
-	m_DragonLimelightMap[LIMELIGHT_POSITION::BACK] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::SECONDARY);
+	// m_DragonCameraMap[CAMERA_POSITION::FRONT] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::PRIMARY);
+	// m_DragonCameraMap[CAMERA_POSITION::BACK] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::SECONDARY);
 }
 
-bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position)
-{
-	DragonLimelight *dll = getLimelight(position);
+// bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, CAMERA_POSITION position)
+// {
+// 	DragonLimelight *dll = getLimelight(position);
 
-	if (dll != nullptr)
-	{
-		return dll->SetPipeline(mode);
-	}
-	return false;
-}
+// 	if (dll != nullptr)
+// 	{
+// 		return dll->SetPipeline(mode);
+// 	}
+// 	return false;
+// }
 
-bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode)
-{
-	return setPipeline(mode, LIMELIGHT_POSITION::FRONT);
-}
+// bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode)
+// {
+// 	return setPipeline(mode, CAMERA_POSITION::FRONT);
+// }
 
-DragonLimelight::PIPELINE_MODE DragonVision::getPipeline(LIMELIGHT_POSITION position)
-{
-	DragonLimelight *dll = getLimelight(position);
+// DragonLimelight::PIPELINE_MODE DragonVision::getPipeline(CAMERA_POSITION position)
+// {
+// 	DragonLimelight *dll = getLimelight(position);
 
-	if (dll != nullptr)
-	{
-		return dll->getPipeline();
-	}
+// 	if (dll != nullptr)
+// 	{
+// 		return dll->getPipeline();
+// 	}
 
-	return DragonLimelight::PIPELINE_MODE::UNKNOWN;
-}
+// 	return DragonLimelight::PIPELINE_MODE::UNKNOWN;
+// }
 
 /// @brief Use this function to get the currently detected target information
 /// @param position From which limelight to get the info
 /// @return If a target has not been acquired, returns null, otherwise a pointer to an object containing all the information
-std::shared_ptr<DragonVisionTarget> DragonVision::getTargetInfo(LIMELIGHT_POSITION position) const
-{
-	DragonLimelight *dll = getLimelight(position);
+// std::shared_ptr<DragonVisionTarget> DragonVision::getTargetInfo(CAMERA_POSITION position) const
+// {
+// 	DragonLimelight *dll = getLimelight(position);
 
-	if ((dll != nullptr) && (dll->HasTarget()))
-	{
-		std::shared_ptr<DragonVisionTarget>
-			dvt = make_shared<DragonVisionTarget>(
-				dll->getPipeline(),
-				dll->EstimateTargetXdistance(),
-				dll->GetTargetHorizontalOffset(),
-				dll->GetTargetVerticalOffset(),
-				dll->EstimateTargetXdistance_RelToRobotCoords(),
-				dll->EstimateTargetYdistance_RelToRobotCoords(),
-				dll->getAprilTagID(),
-				dll->GetPipelineLatency());
-		return dvt;
-	}
+// 	if ((dll != nullptr) && (dll->HasTarget()))
+// 	{
+// 		std::shared_ptr<DragonVisionTarget>
+// 			dvt = make_shared<DragonVisionTarget>(
+// 				dll->getPipeline(),
+// 				dll->EstimateTargetXdistance(),
+// 				dll->GetTargetHorizontalOffset(),
+// 				dll->GetTargetVerticalOffset(),
+// 				dll->EstimateTargetXdistance_RelToRobotCoords(),
+// 				dll->EstimateTargetYdistance_RelToRobotCoords(),
+// 				dll->getAprilTagID(),
+// 				dll->GetPipelineLatency());
+// 		return dvt;
+// 	}
 
-	return nullptr;
-}
+// 	return nullptr;
+// }
 
-std::shared_ptr<DragonVisionTarget> DragonVision::getTargetInfo() const
-{
-	return getTargetInfo(LIMELIGHT_POSITION::FRONT);
-}
+// std::shared_ptr<DragonVisionTarget> DragonVision::getTargetInfo() const
+// {
+// 	return getTargetInfo(CAMERA_POSITION::FRONT);
+// }
 
-frc::Pose2d DragonVision::GetRobotPosition() const
-{
-	// frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
-	DragonLimelight *dllFront = getLimelight(LIMELIGHT_POSITION::FRONT);
-	DragonLimelight *dllBack = getLimelight(LIMELIGHT_POSITION::BACK);
+// frc::Pose2d DragonVision::GetRobotPosition() const
+// {
+// 	// frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
+// 	DragonLimelight *dllFront = getLimelight(CAMERA_POSITION::FRONT);
+// 	DragonLimelight *dllBack = getLimelight(CAMERA_POSITION::BACK);
 
-	// get alliance, if red, still get blue x,y,z, but use red rotation x,y,z
+// 	// get alliance, if red, still get blue x,y,z, but use red rotation x,y,z
 
-	if ((dllFront != nullptr) && (dllFront->HasTarget()))
-	{
-		return dllFront->GetBlueFieldPosition();
-	}
-	else if ((dllBack != nullptr) && (dllBack->HasTarget()))
-	{
-		return dllBack->GetBlueFieldPosition();
-	}
-	else
-	{
-		return frc::Pose2d{};
-	}
-}
+// 	if ((dllFront != nullptr) && (dllFront->HasTarget()))
+// 	{
+// 		return dllFront->GetBlueFieldPosition();
+// 	}
+// 	else if ((dllBack != nullptr) && (dllBack->HasTarget()))
+// 	{
+// 		return dllBack->GetBlueFieldPosition();
+// 	}
+// 	else
+// 	{
+// 		return frc::Pose2d{};
+// 	}
+// }
 
-frc::Pose2d DragonVision::GetRobotPosition(LIMELIGHT_POSITION position) const
-{
-	DragonLimelight *limelight = getLimelight(position);
-	// frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
+// frc::Pose2d DragonVision::GetRobotPosition(CAMERA_POSITION position) const
+// {
+// 	DragonLimelight *limelight = getLimelight(position);
+// 	// frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
 
-	if ((limelight != nullptr) && (limelight->HasTarget()))
-	{
-		return limelight->GetBlueFieldPosition();
-	}
-	else
-	{
-		return frc::Pose2d{};
-	}
-}
+// 	if ((limelight != nullptr) && (limelight->HasTarget()))
+// 	{
+// 		return limelight->GetBlueFieldPosition();
+// 	}
+// 	else
+// 	{
+// 		return frc::Pose2d{};
+// 	}
+// }
 
-/// @brief Gets a pointer to the limelight at the specified position
-/// @param position The physical location of the limelight
-/// @return A pointer to the lilelight object
-DragonLimelight *DragonVision::getLimelight(LIMELIGHT_POSITION position) const
-{
-	auto theLimeLightInfo = m_DragonLimelightMap.find(position);
+// /// @brief Gets a pointer to the limelight at the specified position
+// /// @param position The physical location of the limelight
+// /// @return A pointer to the lilelight object
+// DragonLimelight *DragonVision::getLimelight(CAMERA_POSITION position) const
+// {
+// 	auto theLimeLightInfo = m_DragonLimelightMap.find(position);
 
-	if (theLimeLightInfo != m_DragonLimelightMap.end())
-	{
-		return theLimeLightInfo->second;
-	}
+// 	if (theLimeLightInfo != m_DragonLimelightMap.end())
+// 	{
+// 		return theLimeLightInfo->second;
+// 	}
 
-	return nullptr;
-}
+// 	return nullptr;
+//}
