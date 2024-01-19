@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2022 Lake Orion Robotics FIRST Team 302
 //
@@ -13,48 +12,20 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-
 #pragma once
-#include <map>
-#include <string>
 
-#include "State.h"
-#include <DragonVision/DragonLimelight.h>
-#include <DragonVision/DragonVisionTarget.h>
-#include <DragonVision/DragonVisonStructs.h>
+#include "frc/geometry/Pose3d.h"
+#include "frc/geometry/Transform3d.h"
+#include "units/time.h"
 
-using std::map;
-
-class DragonLimelight;
-class DragonVision
+struct VisionPose
 {
-public:
-    static DragonVision *GetDragonVision();
+    frc::Pose3d estimated_Pose;
+    units::time::millisecond_t timeStamp;
+};
 
-    enum LIMELIGHT_POSITION
-    {
-        FRONT,
-        BACK,
-        BACK_INTAKE
-    };
-
-    // bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);
-    // bool setPipeline(DragonLimelight::PIPELINE_MODE mode);
-    // DragonLimelight::PIPELINE_MODE getPipeline(LIMELIGHT_POSITION position);
-    // std::shared_ptr<DragonVisionTarget> getTargetInfo(LIMELIGHT_POSITION position) const;
-    // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
-
-    VisionPose GetRobotPosition() const;
-    VisionData GetVisionData();
-
-private:
-    DragonVision();
-    ~DragonVision() = default;
-
-    // change to get dragon camera
-    //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
-
-    static DragonVision *m_dragonVision;
-
-    // std::map<LIMELIGHT_POSITION, DragonLimelight *> m_DragonLimelightMap;
+struct VisionData
+{
+    frc::Transform3d deltaToTarget;
+    int tagId;
 };
