@@ -51,6 +51,15 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 	m_DragonCameraMap[position] = camera;
 }
 
+std::optional<VisionPose> DragonVision::GetRobotPosition() const
+{
+	return VisionPose{};
+}
+
+std::optional<VisionData> DragonVision::GetVisionData() const
+{
+	return VisionData{};
+}
 // bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, CAMERA_POSITION position)
 // {
 // 	DragonLimelight *dll = getLimelight(position);
