@@ -50,7 +50,7 @@ using namespace std;
 /// Description:    Create the object
 ///-----------------------------------------------------------------------------------
 DragonLimelight::DragonLimelight(
-    string name,                            /// <I> - network table name
+    string networkTableName,                /// <I> networkTableName
     DragonCamera::PIPELINE initialPipeline, /// <I> enum for pipeline
     units::length::inch_t mountingXOffset,  /// <I> x offset of cam from robot center (forward relative to robot)
     units::length::inch_t mountingYOffset,  /// <I> y offset of cam from robot center (left relative to robot)
@@ -61,8 +61,8 @@ DragonLimelight::DragonLimelight(
     LED_MODE ledMode,
     CAM_MODE camMode,
     STREAM_MODE streamMode,
-    SNAPSHOT_MODE snapMode) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                              m_networktable(NetworkTableInstance::GetDefault().GetTable(name.c_str()))
+    SNAPSHOT_MODE snapMode) : DragonCamera(networkTableName, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
+                              m_networktable(NetworkTableInstance::GetDefault().GetTable(networkTableName.c_str()))
 {
     SetPipeline(PIPELINE::OFF);
     SetLEDMode(ledMode);
