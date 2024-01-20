@@ -85,15 +85,10 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
     // Since our Vx is forward and Vy is strafe we need to rotate the vectors
     // We will use these variable names in the code to help tie back to the document.
     // Variable names, though, will follow C++ standards and start with a lower case letter.
-    auto l = m_wheelbase;
-    auto w = m_wheeltrack;
 
-    auto vy = 1.0 * chassisMovement.chassisSpeeds.vx;
-    auto vx = -1.0 * chassisMovement.chassisSpeeds.vy;
-    auto omega = chassisMovement.chassisSpeeds.omega;
     /*
         units::time::second_t kLooperDt = units::time::second_t(20.0 / 1000.0);
-        frc::Pose2d robot_pose_vel = frc::Pose2d(vx * kLooperDt, vy * kLooperDt, frc::Rotation2d(omega * kLooperDt));
+    s    frc::Pose2d robot_pose_vel = frc::Pose2d(vx * kLooperDt, vy * kLooperDt, frc::Rotation2d(omega * kLooperDt));
         // frc::Twist2d twist_vel = chassis->GetPose().Log(robot_pose_vel);
         frc::Twist2d twist_vel = frc::Pose2d().Log(robot_pose_vel);
         // chassisMovement.chassisSpeeds = frc::ChassisSpeeds(twist_vel.dx / kLooperDt, twist_vel.dy / kLooperDt, twist_vel.dtheta / kLooperDt);
@@ -102,56 +97,6 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
         // vy = twist_vel.dx / kLooperDt;
         // omega = twist_vel.dtheta / kLooperDt;
     */
-    units::length::meter_t centerOfRotationW = (w / 2.0) - chassisMovement.centerOfRotationOffset.Y();
-    units::length::meter_t centerOfRotationL = (l / 2.0) - chassisMovement.centerOfRotationOffset.X();
-
-    units::velocity::meters_per_second_t omegaW = omega.to<double>() * centerOfRotationW / 1_s;
-    units::velocity::meters_per_second_t omegaL = omega.to<double>() * centerOfRotationL / 1_s;
-
-    auto a = vx + omegaL;
-    auto b = vx - omegaL;
-    auto c = vy + omegaW;
-    auto d = vy - omegaW;
-
-    // here we'll negate the angle to conform to the positive CCW convention
-    m_flState.angle = units::angle::radian_t(atan2(b.to<double>(), d.to<double>()));
-    m_flState.angle = -1.0 * m_flState.angle.Degrees();
-    m_flState.speed = units::velocity::meters_per_second_t(sqrt(pow(b.to<double>(), 2) + pow(d.to<double>(), 2)));
-    double maxCalcSpeed = abs(m_flState.speed.to<double>());
-
-    m_frState.angle = units::angle::radian_t(atan2(b.to<double>(), c.to<double>()));
-    m_frState.angle = -1.0 * m_frState.angle.Degrees();
-    m_frState.speed = units::velocity::meters_per_second_t(sqrt(pow(b.to<double>(), 2) + pow(c.to<double>(), 2)));
-    if (abs(m_frState.speed.to<double>()) > maxCalcSpeed)
-    {
-        maxCalcSpeed = abs(m_frState.speed.to<double>());
-    }
-
-    m_blState.angle = units::angle::radian_t(atan2(a.to<double>(), d.to<double>()));
-    m_blState.angle = -1.0 * m_blState.angle.Degrees();
-    m_blState.speed = units::velocity::meters_per_second_t(sqrt(pow(a.to<double>(), 2) + pow(d.to<double>(), 2)));
-    if (abs(m_blState.speed.to<double>()) > maxCalcSpeed)
-    {
-        maxCalcSpeed = abs(m_blState.speed.to<double>());
-    }
-
-    m_brState.angle = units::angle::radian_t(atan2(a.to<double>(), c.to<double>()));
-    m_brState.angle = -1.0 * m_brState.angle.Degrees();
-    m_brState.speed = units::velocity::meters_per_second_t(sqrt(pow(a.to<double>(), 2) + pow(c.to<double>(), 2)));
-    if (abs(m_brState.speed.to<double>()) > maxCalcSpeed)
-    {
-        maxCalcSpeed = abs(m_brState.speed.to<double>());
-    }
-
-    // normalize speeds if necessary (maxCalcSpeed > max attainable speed)
-    if (maxCalcSpeed > m_maxspeed.to<double>())
-    {
-        auto ratio = m_maxspeed.to<double>() / maxCalcSpeed;
-        m_flState.speed *= ratio;
-        m_frState.speed *= ratio;
-        m_blState.speed *= ratio;
-        m_brState.speed *= ratio;
-    }
     return {m_flState, m_frState, m_blState, m_brState};
 }
 
