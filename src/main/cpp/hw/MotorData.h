@@ -58,7 +58,7 @@ private:
             11,  // Modern Robotics 12VDC Motor
             21,  // Johnson Electric Gear Motor
             9,   // TETRIX MAX TorqueNADO Motor
-            360, // Kraken x60
+            366, // Kraken x60
             211, // Neo Vortex
             0    // No motor
     };
