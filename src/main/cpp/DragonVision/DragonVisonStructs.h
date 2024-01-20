@@ -16,6 +16,7 @@
 
 #include "frc/geometry/Pose3d.h"
 #include "frc/geometry/Transform3d.h"
+#include "wpi/array.h"
 #include "units/time.h"
 
 struct VisionPose
@@ -28,4 +29,5 @@ struct VisionData
 {
     frc::Transform3d deltaToTarget = frc::Transform3d{};
     int tagId = -1;
+    wpi::array<double, 3> visionMeasurementStdDevs = {0.1, 0.1, 0.1};
 };

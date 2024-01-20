@@ -31,6 +31,25 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 {
 }
 
+VisionPose DragonPhotonCam::GetFieldPosition()
+{ /*
+     double poseAmbiguity = target.GetPoseAmbiguity();
+     frc::Transform3d bestCameraToTarget = target.getBestCameraToTarget();*/
+    // above maps camera space to object space, transform camera position to get to apriltag
+
+    /*
+        Pose Ambiguity plus possibly robot yaw compared to actual (pigeon, method from MechanicalAdvantage)
+        can be a measure of confidence in the pose, possibly manipulate standard deviations
+
+        will need PhotonPoseEstimator
+    */
+}
+
+VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
+{
+}
+
+
 /// @brief  get Yaw of possible target.
 /// @return units::angle::degree_t - Counter Clockwize/left for positive.
 units::angle::degree_t DragonPhotonCam::GetTargetYaw() const // originally Yaw was y-angle
@@ -75,9 +94,39 @@ units::angle::degree_t DragonPhotonCam::GetTargetSkew() const
 }
 
 units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
-units::angle::degree_t DragonPhotonCam::GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
-units::angle::degree_t DragonPhotonCam::GetTargetZAngle() const {}
-units::time::microsecond_t DragonPhotonCam::GetPipelineLatency() const {}
+
+units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+
+/// @brief Get Pitch to Target
+/// @return units::angle::degree_t - positive up
+units::angle::degree_t DragonPhotonCam::GetTargetPitch() const
+{
+    // get latest detections
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check for detections
+    if (result.HasTargets())
+    {
+
+        // get the most accurate data according to contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // return
+        return units::angle::degree_t(target.GetPitch());
+    }
+
+    // if it isn't found
+    return (units::angle::degree_t)0;
+}
+
+units::time::millisecond_t DragonPhotonCam::GetPipelineLatency() const
+{
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // get the total latency
+    units::second_t latency = result.GetLatency();
+}
 
 int DragonPhotonCam::GetAprilTagID() const
 {
@@ -98,6 +147,8 @@ int DragonPhotonCam::GetAprilTagID() const
     return -1;
 }
 
+/// @brief Get target area
+/// @return Double - Percentage (0-100)
 double DragonPhotonCam::GetTargetArea() const
 {
     // get latest detections

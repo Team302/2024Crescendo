@@ -18,12 +18,9 @@
 #include <map>
 #include <string>
 
-#include "State.h"
-#include "DragonVision/DragonCamera.h"
+#include "DragonVision/DragonVisonStructs.h"
 
-using std::map;
-
-class DragonLimelight;
+class DragonCamera;
 class DragonVision
 {
 public:
