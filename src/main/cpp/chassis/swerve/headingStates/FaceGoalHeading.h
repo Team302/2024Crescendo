@@ -29,7 +29,7 @@ public:
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 private:
-    DragonTargetFinder m_targetFinder;
+    DragonTargetFinder m_targetFinder; // not sure what that does, or if it's neccesary
 
-    DragonCamera *m_vision;
+    DragonVision *m_vision;
 };
