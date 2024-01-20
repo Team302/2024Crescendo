@@ -219,8 +219,7 @@ units::angle::degree_t DragonLimelight::GetTargetHorizontalOffset() const
 units::angle::degree_t DragonLimelight::GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
 {
     // Get the horizontal angle to the target and convert to radians
-    units::angle::degree_t limelightFrameHorizAngle = GetTargetHorizontalOffset();
-    units::angle::radian_t limelightFrameHorizAngleRad = limelightFrameHorizAngle;
+    units::angle::radian_t limelightFrameHorizAngleRad = GetTargetHorizontalOffset();
 
     units::length::inch_t targetXdistance = EstimateTargetXDistance();
 
