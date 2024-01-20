@@ -18,27 +18,38 @@
 
 #pragma once
 
-//========================================================================================================
-///	 @class			MechanismTypes
-///  @brief      	This contains the enum for the mechanism types
-//========================================================================================================
-class MechanismTypes
+#include <string>
+#include <memory>
+
+// FRC Includes
+#include <networktables/NetworkTable.h>
+
+#include "mechanisms/base/BaseMech.h"
+#include "configs/RobotConfigMgr.h"
+
+#include "hw/DragonSparkMax.h"
+
+class mechanism_1 : public BaseMech
 {
 public:
-	//==================================================================================
-	/// enum:           MECHANISM_TYPE
-	/// description:    Indicates the type of mechanism
-	//==================================================================================
-	enum MECHANISM_TYPE
-	{
-		UNKNOWN_MECHANISM = -1,
+	mechanism_1() = delete;
+	~mechanism_1() = default;
+	mechanism_1 ( MechanismTypes::MECHANISM_TYPE type, std::string networkTableName );
 
-		MECHANISMINSTANCENAME_1,
+	virtual void Initialize ( RobotConfigMgr::RobotIdentifier robotFullName ) = 0;
+	void Cyclic();
 
-		MAX_MECHANISM_TYPES
-	};
+	DragonSparkMax* SparkMax_1;
+
+protected:
+	std::string m_ntName;
+	std::string m_tuningIsEnabledStr;
+	bool m_tuning = false;
+	std::shared_ptr<nt::NetworkTable> m_table;
 
 private:
-	MechanismTypes() = delete;
-	~MechanismTypes() = delete;
+	void CheckForTuningEnabled();
+	void ReadTuningParamsFromNT();
+	void PushTuningParamsToNT();
+
 };
