@@ -125,6 +125,8 @@ int DragonPhotonCam::GetAprilTagID() const
     return -1;
 }
 
+/// @brief Get target area
+/// @return Double - Percentage (0-100)
 double DragonPhotonCam::GetTargetArea() const
 {
     // get latest detections
