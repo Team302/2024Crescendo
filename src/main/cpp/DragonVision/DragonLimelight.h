@@ -36,19 +36,6 @@
 class DragonLimelight : public DragonCamera
 {
 public:
-    // set the values according to the pipeline indices in the limelights
-    // this assumes that each of the limelights has the same pipelines and they are in the same order
-    enum PIPELINE_MODE
-    {
-        UNKNOWN = -1,
-        OFF = 0,
-        APRIL_TAG = 1,
-        // These can be removed, add NOTE_COLOR and NOTE_ML
-        NOTE_COLOR,
-        NOTE_ML,
-        MAX_PIPELINE_MODE
-    };
-
     enum LED_MODE
     {
         LED_DEFAULT,
