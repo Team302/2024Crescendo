@@ -45,13 +45,14 @@ public:
     std::optional<VisionPose> GetRobotPosition() const;
     std::optional<VisionData> GetVisionData() const;
 
+    void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
+
 private:
     DragonVision();
     ~DragonVision() = default;
 
-    // change to get camera
-    // can be changed to inline and reutnr straight from map
-    // DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
+    // may not be needed, if so can be changed to inline and return from map
+    //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
 
     static DragonVision *m_dragonVision;
 
