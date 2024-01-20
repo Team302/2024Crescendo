@@ -62,6 +62,21 @@ int DragonPhotonCam::GetAprilTagID() const
     return -1;
 }
 
+double DragonPhotonCam::GetTargetArea() const
+{
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    if (result.HasTargets())
+    {
+
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        return target.GetArea();
+    }
+
+    return -1;
+}
+
 units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
 {
 }
