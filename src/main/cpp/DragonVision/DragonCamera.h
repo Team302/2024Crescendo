@@ -37,14 +37,14 @@ public:
     };
 
     DragonCamera(
-        std::string cameraName,                  /// <I> camera name/type
-        PIPELINE pipeline,                       /// <I> enum for pipeline
-        units::length::inch_t mountingXDistance, /// <I> x offset of cam from robot center (forward relative to robot is positive)
-        units::length::inch_t mountingYDistance, /// <I> y offset of cam from robot center (left relative to robot is positive)
-        units::length::inch_t mountingZDistance, /// <I> z offset of cam from robot center (up relative to robot is positive)
-        units::angle::degree_t pitch,            /// <I> - Pitch of camera
-        units::angle::degree_t yaw,              /// <I> - Yaw of camera
-        units::angle::degree_t roll              /// <I> - Roll of camera
+        std::string cameraName,                /// <I> camera name/type
+        PIPELINE pipeline,                     /// <I> enum for pipeline
+        units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot is positive)
+        units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot is positive)
+        units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot is positive)
+        units::angle::degree_t pitch,          /// <I> - Pitch of camera
+        units::angle::degree_t yaw,            /// <I> - Yaw of camera
+        units::angle::degree_t roll            /// <I> - Roll of camera
     );
     DragonCamera() = delete;
 
