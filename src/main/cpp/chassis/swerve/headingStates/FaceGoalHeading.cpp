@@ -17,7 +17,7 @@
 #include <chassis/swerve/headingStates/FaceGoalHeading.h>
 
 FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
-                                     m_limelight()
+                                     m_vision()
 // visionapi Review how LimelightFactory should be fixed here
 {
 }
