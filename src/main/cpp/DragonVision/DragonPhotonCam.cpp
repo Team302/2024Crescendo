@@ -49,7 +49,6 @@ VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance allian
 {
 }
 
-
 /// @brief  get Yaw of possible target.
 /// @return units::angle::degree_t - Counter Clockwize/left for positive.
 units::angle::degree_t DragonPhotonCam::GetTargetYaw() const // originally Yaw was y-angle
@@ -171,11 +170,6 @@ double DragonPhotonCam::GetTargetArea() const
 
 units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
 {
-}
-units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const {}
-units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const {}
-units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords() const
-{
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
@@ -193,7 +187,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords(
         return trans.X();
     }
 }
-units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords() const
+units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const
 {
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -211,21 +205,18 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords(
         return trans.Y();
     }
 }
+units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const
+{
+}
+
+units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords() const
+{
+}
+units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords() const
+{
+}
 units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords() const
 {
-    // get latest detections
-    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-
-        // get the most accurate data according to contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-        frc::Transform3d trans = target.GetBestCameraToTarget();
-        trans.Z();
-        return trans.Z();
-    }
 }
 bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
 {

@@ -27,6 +27,7 @@
 #include "auton/PrimitiveEnums.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "DragonVision/DragonVision.h"
+#include "DragonVision/DragonCamera.h"
 #include "chassis/swerve/driveStates/VisionDrive.h"
 #include "chassis/IChassis.h"
 // @ADDMECH include for your mechanism
