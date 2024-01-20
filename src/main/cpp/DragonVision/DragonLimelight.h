@@ -20,35 +20,22 @@
 #include <vector>
 
 // FRC includes
-#include <networktables/NetworkTable.h>
+#include "networktables/NetworkTable.h"
 #include "units/angle.h"
 #include "units/length.h"
 #include "units/time.h"
-#include <frc/geometry/Pose2d.h>
+#include "frc/geometry/Pose2d.h"
 
 // Team 302 includes
-#include <DragonVision/DragonAprilTagInfo.h>
+#include "DragonVision/DragonAprilTagInfo.h"
+#include "DragonVision/DragonCamera.h"
 
 // Third Party Includes
 
-class DragonLimelight
+// DragonLimelight needs to be a child of DragonCamera
+class DragonLimelight : public DragonCamera
 {
 public:
-    // set the values according to the pipeline indices in the limelights
-    // this assumes that each of the limelights has the same pipelines and they are in the same order
-    enum PIPELINE_MODE
-    {
-        UNKNOWN = -1,
-        OFF = 0,
-        APRIL_TAG = 1,
-
-        CONE = 3,
-        CUBE = 4,
-        CONE_SUBSTATION = 5,
-        CUBE_SUBSTATION = 6,
-        MAX_PIPELINE_MODE
-    };
-
     enum LED_MODE
     {
         LED_DEFAULT,
@@ -82,15 +69,14 @@ public:
     ///-----------------------------------------------------------------------------------
     DragonLimelight() = delete;
     DragonLimelight(
-        std::string tableName,                          /// <I> - network table name
-        units::length::inch_t mountingHeight,           /// <I> - mounting height of the limelight
-        units::length::inch_t mountingHorizontalOffset, /// <I> - mounting horizontal offset from the middle of the robot
-        units::length::inch_t forwardOffset,            /// <I> mounting offset forward/back
-        units::angle::degree_t pitch,                   /// <I> - Pitch of limelight
-        units::angle::degree_t yaw,                     /// <I> - Yaw of limelight
-        units::angle::degree_t roll,                    /// <I> - Roll of limelight
-        units::length::inch_t targetHeight,             /// <I> - height the target
-        units::length::inch_t targetHeight2,            /// <I> - height of second target
+        std::string name,                        /// <I> - network table name
+        PIPELINE initialPipeline,                /// <I> enum for starting pipeline
+        units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+        units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+        units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+        units::angle::degree_t pitch,            /// <I> - Pitch of camera
+        units::angle::degree_t yaw,              /// <I> - Yaw of camera
+        units::angle::degree_t roll,             /// <I> - Roll of camera
         LED_MODE ledMode,
         CAM_MODE camMode,
         STREAM_MODE streamMode,
@@ -103,65 +89,49 @@ public:
     ~DragonLimelight() = default;
 
     bool HasTarget() const;
-    units::angle::degree_t GetTargetHorizontalOffset() const;
-    units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
-    units::angle::degree_t GetTargetVerticalOffset() const;
+
+    units::angle::degree_t GetTargetYAngle() const;
+    units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
+    units::angle::degree_t GetTargetZAngle() const;
+    units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
     double GetTargetArea() const;
     units::angle::degree_t GetTargetSkew() const;
     units::time::microsecond_t GetPipelineLatency() const;
     std::vector<double> Get3DSolve() const;
-    PIPELINE_MODE getPipeline() const;
-    int getAprilTagID() const;
+    int GetAprilTagID() const;
 
-    frc::Pose2d GetRedFieldPosition() const;
-    frc::Pose2d GetBlueFieldPosition() const;
+    VisionPose GetFieldPosition() const;
+    VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const;
 
-    units::length::inch_t EstimateTargetXdistance() const;
-    units::length::inch_t EstimateTargetYdistance() const;
+    VisionPose GetRedFieldPosition() const;
+    VisionPose GetBlueFieldPosition() const;
+    VisionPose GetOriginFieldPosition() const;
 
-    units::length::inch_t EstimateTargetXdistance_RelToRobotCoords() const;
-    units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetXDistance() const;
+    units::length::inch_t EstimateTargetYDistance() const;
+    units::length::inch_t EstimateTargetZDistance() const;
+
+    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
 
     // Setters
-    void SetTargetHeight(units::length::inch_t targetHeight);
     void SetLEDMode(DragonLimelight::LED_MODE mode);
     void SetCamMode(DragonLimelight::CAM_MODE mode);
-    bool SetPipeline(int pipeline);
     void SetStreamMode(DragonLimelight::STREAM_MODE mode);
     void ToggleSnapshot(DragonLimelight::SNAPSHOT_MODE toggle);
     void SetCrosshairPos(double crosshairPosX, double crosshairPosY);
     void SetSecondaryCrosshairPos(double crosshairPosX, double crosshairPosY);
 
-    void PrintValues(); // Prints out all values to ensure everything is working and connected
+    bool UpdatePipeline();
 
-    units::angle::degree_t GetLimelightPitch() const { return m_pitch; }
-    units::angle::degree_t GetLimelightYaw() const { return m_yaw; }
-    units::angle::degree_t GetLimelightRoll() const { return m_roll; }
-    units::length::inch_t GetLimelightMountingHeight() const { return m_mountHeight; }
-    std::optional<units::length::inch_t> GetTargetHeight() const;
+    void PrintValues(); // Prints out all values to ensure everything is working and connected
 
 protected:
     units::angle::degree_t GetTx() const;
     units::angle::degree_t GetTy() const;
 
-    void SetLimelightPosition(units::length::inch_t mountHeight,
-                              units::length::inch_t mountHorizontalOffset,
-                              units::length::inch_t mountForwardOffset,
-                              units::angle::degree_t pitch,
-                              units::angle::degree_t yaw,
-                              units::angle::degree_t roll);
-
     std::shared_ptr<nt::NetworkTable> m_networktable;
-    units::length::inch_t m_mountHeight;
-    units::length::inch_t m_mountingHorizontalOffset;
-    units::length::inch_t m_mountingForwardOffset;
-    units::angle::degree_t m_yaw;
-    units::angle::degree_t m_pitch;
-    units::angle::degree_t m_roll;
-    units::length::inch_t m_targetHeight;
-    units::length::inch_t m_targetHeight2;
-
-    // double PI = 3.14159265;
 
 private:
     DragonAprilTagInfo m_aprilTagInfo;

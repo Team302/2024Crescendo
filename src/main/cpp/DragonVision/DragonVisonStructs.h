@@ -1,6 +1,5 @@
-
 //====================================================================================================================================================
-// Copyright 2024 Lake Orion Robotics FIRST Team 302
+// Copyright 2022 Lake Orion Robotics FIRST Team 302
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -13,42 +12,20 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-
 #pragma once
-#include "State.h"
-#include "units/angle.h"
-#include "units/angular_velocity.h"
-#include <units/angular_acceleration.h>
 
-#include <frc/controller/PIDController.h>
-// #include <frc/controller/ProfiledPIDController.h>
-// #include <frc/trajectory/TrapezoidProfile.h>
+#include "frc/geometry/Pose3d.h"
+#include "frc/geometry/Transform3d.h"
+#include "units/time.h"
 
-#include "chassis/swerve/SwerveChassis.h"
-
-///	 @brief     this state will allow the robot to rotate to a specified angle
-class TurnToAngle : public State
+struct VisionPose
 {
-public:
-    TurnToAngle() = delete;
-    TurnToAngle(
-        units::angle::degree_t targetAngle);
-    ~TurnToAngle() = default;
+    frc::Pose3d estimated_Pose = frc::Pose3d{};
+    units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0);
+};
 
-    void Init() override;
-    void Run() override;
-    bool AtTarget() override;
-
-private:
-    units::angle::degree_t m_targetAngle;
-
-    // Need to tune these
-    const double kP = 0.004;
-    const double kI = 0.0001;
-    const double kD = 0.0;
-    const double kF = 0.0;
-    const units::angle::degree_t m_angleTolerance = units::angle::degree_t(2.0);
-    frc::PIDController m_pid{kP, kI, kD};
-    SwerveChassis *m_chassis;
-    bool m_atTarget;
+struct VisionData
+{
+    frc::Transform3d deltaToTarget = frc::Transform3d{};
+    int tagId = -1;
 };
