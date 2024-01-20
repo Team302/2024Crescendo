@@ -193,7 +193,7 @@ units::angle::degree_t DragonLimelight::GetTy() const
     return units::angle::degree_t(0.0);
 }
 
-units::angle::degree_t DragonLimelight::GetTargetYAngle() const
+units::angle::degree_t DragonLimelight::GetTargetYaw() const
 {
     if (abs(m_roll.to<double>()) < 1.0)
     {
@@ -215,10 +215,10 @@ units::angle::degree_t DragonLimelight::GetTargetYAngle() const
     return GetTx();
 }
 
-units::angle::degree_t DragonLimelight::GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
+units::angle::degree_t DragonLimelight::GetTargetYawRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
 {
     // Get the horizontal angle to the target and convert to radians
-    units::angle::radian_t limelightFrameHorizAngleRad = GetTargetYAngle();
+    units::angle::radian_t limelightFrameHorizAngleRad = GetTargetYaw();
 
     units::length::inch_t targetXdistance = EstimateTargetXDistance();
 
@@ -236,7 +236,7 @@ units::angle::degree_t DragonLimelight::GetTargetYAngleRobotFrame(units::length:
     return angleOffset;
 }
 
-units::angle::degree_t DragonLimelight::GetTargetZAngle() const
+units::angle::degree_t DragonLimelight::GetTargetPitch() const
 {
     if (abs(m_roll.to<double>()) < 1.0)
     {
@@ -258,7 +258,7 @@ units::angle::degree_t DragonLimelight::GetTargetZAngle() const
     return GetTy();
 }
 
-units::angle::degree_t DragonLimelight::GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
+units::angle::degree_t DragonLimelight::GetTargetPitchRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
 {
     return units::angle::degree_t(-1.0);
 }
