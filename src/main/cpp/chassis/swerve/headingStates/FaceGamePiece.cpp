@@ -21,61 +21,37 @@
 #include "utils/logging/Logger.h"
 
 FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG)
-// m_vision(DragonVision::GetDragonVision())
 {
+    m_vision = DragonVision::GetDragonVision();
 }
 
 void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
-    units::angular_velocity::radians_per_second_t omega = units::angular_velocity::radians_per_second_t(0.0);
-
     units::angle::radian_t angleError = units::angle::radian_t(0.0);
 
-    // get targetdata from the vision system
-    // visionapi - update this for new dragon vision
-    // auto targetData = m_vision->getTargetInfo();
-
-    /* ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
-    {
-        if (!AtTargetAngle(targetData, &angleError))
-        {
-            omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "Omega Before Limiting (DPS)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
-
-            omega = limitAngularVelocityToBetweenMinAndMax(omega);
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "Omega After Limiting (DPS)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
-
-            chassisMovement.chassisSpeeds.omega = omega;
-        }
-    }
-    */
+    units::angular_velocity::radians_per_second_t omega = units::angular_velocity::radians_per_second_t(0.0);
 }
-/*
-bool FaceGamePiece::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error)
+bool FaceGamePiece::AtTargetAngle(VisionData visionData, units::angle::radian_t *angleError)
 {
-    if (targetData != nullptr)
+
+    units::length::inch_t yError = visionData.deltaToTarget.Y();
+    units::length::inch_t xError = visionData.deltaToTarget.X();
+
+    if (std::abs(xError.to<double>()) > 0.01)
     {
-        units::length::inch_t yError = targetData->getYdistanceToTargetRobotFrame();
-        units::length::inch_t xError = targetData->getXdistanceToTargetRobotFrame();
+        *angleError = units::angle::radian_t(std::atan2(yError.to<double>(), xError.to<double>()));
 
-        if (std::abs(xError.to<double>()) > 0.01)
+        if (std::abs((*angleError).to<double>()) < m_AngularTolerance_rad)
         {
-            *error = units::angle::radian_t(std::atan2(yError.to<double>(), xError.to<double>()));
-
-            if (std::abs((*error).to<double>()) < m_AngularTolerance_rad)
-            {
-                return true;
-            }
+            return true;
         }
     }
     return false;
 }
-*/
+
 units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularVelocity)
 {
-    /*
+
     double sign = angularVelocity.to<double>() < 0 ? -1 : 1;
 
     if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
@@ -84,5 +60,5 @@ units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocit
     if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
         angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
 
-    return angularVelocity; */
+    return angularVelocity;
 }
