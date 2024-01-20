@@ -13,31 +13,28 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
+#include "DragonVision/DragonCamera.h"
 
-// Team302 Includes
-#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <DragonVision/DragonVision.h>
+#include "units/angle.h"
+#include "units/length.h"
+#include "units/time.h"
 
-class FaceGamePiece : public ISwerveDriveOrientation
+#include <string>
+#include <vector>
+#include <frc/geometry/Pose3d.h>
+
+DragonCamera::DragonCamera(std::string cameraName, /// <I> camera name/type
+                           PIPELINE pipeline,      /// <I> enum for pipeline
+                           units::length::inch_t mountingXDistance,
+                           units::length::inch_t mountingYDistance,
+                           units::length::inch_t mountingZDistance,
+                           units::angle::degree_t pitch, /// <I> - Pitch of limelight
+                           units::angle::degree_t yaw,   /// <I> - Yaw of limelight
+                           units::angle::degree_t roll) : m_mountingXOffset(mountingXDistance),
+                                                          m_mountingYOffset(mountingYDistance),
+                                                          m_mountingZOffset(mountingZDistance),
+                                                          m_yaw(yaw),
+                                                          m_pitch(pitch),
+                                                          m_roll(roll)
 {
-public:
-    FaceGamePiece();
-    ~FaceGamePiece();
-
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
-
-private:
-    units::angular_velocity::radians_per_second_t limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularSpeed);
-    /*
-    bool AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error);
-
-    DragonLimelight::PIPELINE_MODE m_pipelineMode;
-    DragonVision *m_vision;
-
-    // Angular movement settings
-    const double m_minimumOmega_radps = 0.7;
-    const double m_maximumOmega_radps = 1.5;
-    const double m_AngularTolerance_rad = std::numbers::pi * 2.0 / 180.0;
-    double m_visionKP_Angle = 6.0;*/
-};
+}
