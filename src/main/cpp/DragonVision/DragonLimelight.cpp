@@ -31,7 +31,7 @@
 #include "units/length.h"
 
 // Team 302 includes
-#include 'DragonVision/DragonLimelight.h"
+#include "DragonVision/DragonLimelight.h"
 #include "utils/logging/Logger.h"
 
 // Third Party Includes
@@ -39,11 +39,10 @@
 using namespace nt;
 using namespace std;
 
-
-/// TODO 
+/// TODO
 /// Need to support DragonLimelight becoming a child of DragonCamera
 /// Need to remove everything involving target height, should use apriltag field positions
-///Need to support new OriginFieldPosition function, look at limelight docs NetworkTables API
+/// Need to support new OriginFieldPosition function, look at limelight docs NetworkTables API
 
 ///-----------------------------------------------------------------------------------
 /// Method:         DragonLimelight (constructor)

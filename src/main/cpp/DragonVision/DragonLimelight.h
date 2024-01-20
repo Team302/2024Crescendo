@@ -20,19 +20,20 @@
 #include <vector>
 
 // FRC includes
-#include <networktables/NetworkTable.h>
+#include "networktables/NetworkTable.h"
 #include "units/angle.h"
 #include "units/length.h"
 #include "units/time.h"
-#include <frc/geometry/Pose2d.h>
+#include "frc/geometry/Pose2d.h"
 
 // Team 302 includes
 #include "DragonVision/DragonAprilTagInfo.h"
+#include <DragonVision/DragonCamera.h>
 
 // Third Party Includes
 
-//DragonLimelight needs to be a child of DragonCamera
-class DragonLimelight
+// DragonLimelight needs to be a child of DragonCamera
+class DragonLimelight : public DragonCamera
 {
 public:
     // set the values according to the pipeline indices in the limelights
@@ -42,7 +43,7 @@ public:
         UNKNOWN = -1,
         OFF = 0,
         APRIL_TAG = 1,
-    //These can be removed, add NOTE_COLOR and NOTE_ML
+        // These can be removed, add NOTE_COLOR and NOTE_ML
         CONE = 3,
         CUBE = 4,
         CONE_SUBSTATION = 5,
@@ -103,36 +104,41 @@ public:
     ///-----------------------------------------------------------------------------------
     ~DragonLimelight() = default;
 
-///These methods need to override the methods of the same name from DragonCamera
+    /// These methods need to override the methods of the same name from DragonCamera
 
     bool HasTarget() const;
+
     units::angle::degree_t GetTargetHorizontalOffset() const;
     units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
     units::angle::degree_t GetTargetVerticalOffset() const;
+    units::angle::degree_t GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
     double GetTargetArea() const;
     units::angle::degree_t GetTargetSkew() const;
     units::time::microsecond_t GetPipelineLatency() const;
     std::vector<double> Get3DSolve() const;
-    PIPELINE_MODE getPipeline() const;
-    int getAprilTagID() const;
+    DragonCamera::PIPELINE GetPipeline() const;
+    int GetAprilTagID() const;
 
-    frc::Pose2d GetRedFieldPosition() const;
-    frc::Pose2d GetBlueFieldPosition() const;
-//need GetOriginFieldPosition
+    frc::Pose3d GetFieldPosition() const;
+    frc::Pose3d GetFieldPosition(frc::DriverStation::Alliance alliance) const;
 
-    units::length::inch_t EstimateTargetXdistance() const;
-    units::length::inch_t EstimateTargetYdistance() const;
-//Need Zdistance
+    frc::Pose3d GetRedFieldPosition() const;
+    frc::Pose3d GetBlueFieldPosition() const;
+    frc::Pose3d GetOriginFieldPosition() const;
 
-    units::length::inch_t EstimateTargetXdistance_RelToRobotCoords() const;
-    units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const;
-//need Zdistance
+    units::length::inch_t EstimateTargetXDistance() const;
+    units::length::inch_t EstimateTargetYDistance() const;
+    units::length::inch_t EstimateTargetZDistance() const;
+
+    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
 
     // Setters
-    void SetTargetHeight(units::length::inch_t targetHeight); //don't need targetheight
+    void SetTargetHeight(units::length::inch_t targetHeight); // don't need targetheight
     void SetLEDMode(DragonLimelight::LED_MODE mode);
     void SetCamMode(DragonLimelight::CAM_MODE mode);
-    bool SetPipeline(int pipeline);
+    bool SetPipeline(DragonCamera::PIPELINE pipeline);
     void SetStreamMode(DragonLimelight::STREAM_MODE mode);
     void ToggleSnapshot(DragonLimelight::SNAPSHOT_MODE toggle);
     void SetCrosshairPos(double crosshairPosX, double crosshairPosY);
@@ -140,35 +146,11 @@ public:
 
     void PrintValues(); // Prints out all values to ensure everything is working and connected
 
-    units::angle::degree_t GetLimelightPitch() const { return m_pitch; }
-    units::angle::degree_t GetLimelightYaw() const { return m_yaw; }
-    units::angle::degree_t GetLimelightRoll() const { return m_roll; }
-    units::length::inch_t GetLimelightMountingHeight() const { return m_mountHeight; }
-    //Switch/add GetLimelightMountingHeight to MountingX/Y/ZOffset
-
-//get rid of GetTargetHeight
-    std::optional<units::length::inch_t> GetTargetHeight() const;
-
 protected:
     units::angle::degree_t GetTx() const;
     units::angle::degree_t GetTy() const;
 
-    void SetLimelightPosition(units::length::inch_t mountHeight,
-                              units::length::inch_t mountHorizontalOffset,
-                              units::length::inch_t mountForwardOffset,
-                              units::angle::degree_t pitch,
-                              units::angle::degree_t yaw,
-                              units::angle::degree_t roll);
-
     std::shared_ptr<nt::NetworkTable> m_networktable;
-    units::length::inch_t m_mountHeight;
-    units::length::inch_t m_mountingHorizontalOffset;
-    units::length::inch_t m_mountingForwardOffset;
-    units::angle::degree_t m_yaw;
-    units::angle::degree_t m_pitch;
-    units::angle::degree_t m_roll;
-    units::length::inch_t m_targetHeight;
-    units::length::inch_t m_targetHeight2;
 
 private:
     DragonAprilTagInfo m_aprilTagInfo;
