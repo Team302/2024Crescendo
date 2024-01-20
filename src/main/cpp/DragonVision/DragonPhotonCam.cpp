@@ -52,6 +52,7 @@ VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance allian
 units::angle::degree_t DragonPhotonCam::GetTargetYAngle() const
 {
 }
+
 units::angle::degree_t DragonPhotonCam::GetTargetSkew() const
 {
 
