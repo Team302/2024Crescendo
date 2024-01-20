@@ -55,10 +55,11 @@ string AutonSelector::GetSelectedAutoFile()
 	autonfile += std::string("/auton/");
 	autonfile += GetAlianceColor();
 	autonfile += GetStartPos();
-	autonfile += GetNumofPiecesinauton();
-	autonfile += GetParkOnChargeStation();
-	autonfile += GetCube();
+	autonfile += GetNumofPiecesinautonWing();
+	autonfile += GetNumofPiecesinautonCenter();
 	autonfile += std::string(".xml");
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("auton"), string("file"), autonfile);
 
 	auto table = nt::NetworkTableInstance::GetDefault().GetTable("auton file");
 
@@ -69,7 +70,7 @@ string AutonSelector::GetSelectedAutoFile()
 		autonfile = frc::filesystem::GetDeployDirectory();
 		autonfile += std::string("/auton/");
 		autonfile += GetAlianceColor();
-		autonfile += ("COOPThreeP.xml");
+		autonfile += ("DefaultFile.xml");
 
 		table.get()->PutBoolean("File Exists", false);
 	}
@@ -95,11 +96,6 @@ bool AutonSelector::FileExists(const std::string &name)
 	return false;
 }
 
-string AutonSelector::GetParkOnChargeStation()
-{
-	return m_chrgstatchooser.GetSelected();
-}
-
 string AutonSelector::GetAlianceColor()
 {
 	if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
@@ -117,14 +113,14 @@ string AutonSelector::GetStartPos()
 	return m_startposchooser.GetSelected();
 }
 
-string AutonSelector::GetNumofPiecesinauton()
+string AutonSelector::GetNumofPiecesinautonWing()
 {
-	return m_numofgamepiecechooser.GetSelected();
+	return m_numofgamepiecewing.GetSelected();
 }
 
-string AutonSelector::GetCube()
+string AutonSelector::GetNumofPiecesinautonCenter()
 {
-	return m_cubechooser.GetSelected();
+	return m_numofgamepiececenter.GetSelected();
 }
 
 //---------------------------------------------------------------------
@@ -136,22 +132,23 @@ string AutonSelector::GetCube()
 void AutonSelector::PutChoicesOnDashboard()
 {
 
-	m_startposchooser.AddOption("Gridcoop", "COOP");
-	m_startposchooser.AddOption("Gridwall", "Wall");
-	m_startposchooser.AddOption("Gridhp", "HP");
+	m_startposchooser.AddOption("Amp", "Amp");
+	m_startposchooser.AddOption("SubWoofer", "SubWoofer");
+	m_startposchooser.AddOption("Podium", "Podium");
+	m_startposchooser.AddOption("Wide", "Wide");
 	frc::SmartDashboard::PutData("StartPos", &m_startposchooser);
 
-	m_numofgamepiecechooser.AddOption("1", "One");
-	m_numofgamepiecechooser.AddOption("2", "Two");
-	m_numofgamepiecechooser.AddOption("3", "Three");
-	m_numofgamepiecechooser.AddOption("4", "Four");
-	frc::SmartDashboard::PutData("Numofpcs", &m_numofgamepiecechooser);
+	m_numofgamepiecewing.AddOption("0", "Wing0");
+	m_numofgamepiecewing.AddOption("1", "Wing1");
+	m_numofgamepiecewing.AddOption("2", "Wing2");
+	m_numofgamepiecewing.AddOption("3", "Wing3");
+	frc::SmartDashboard::PutData("NumofWingpcs", &m_numofgamepiecewing);
 
-	m_chrgstatchooser.AddOption("yes", "P");
-	m_chrgstatchooser.AddOption("no", "NP");
-	frc::SmartDashboard::PutData("park on charg station", &m_chrgstatchooser);
-
-	m_cubechooser.AddOption("Yes", "Cube");
-	m_cubechooser.AddOption("No", "");
-	frc::SmartDashboard::PutData("get cube", &m_cubechooser);
+	m_numofgamepiececenter.AddOption("0", "Center0");
+	m_numofgamepiececenter.AddOption("1", "Center1");
+	m_numofgamepiececenter.AddOption("2", "Center2");
+	m_numofgamepiececenter.AddOption("3", "Center3");
+	m_numofgamepiececenter.AddOption("4", "Center4");
+	m_numofgamepiececenter.AddOption("5", "Center5");
+	frc::SmartDashboard::PutData("NumofCenterpcs", &m_numofgamepiececenter);
 }
