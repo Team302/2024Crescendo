@@ -31,8 +31,8 @@
 #include "utils/logging/Logger.h"
 
 FaceAprilTag::FaceAprilTag() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG)
-// m_pipelineMode(DragonLimelight::APRIL_TAG),
-//     m_vision(DragonVision::GetDragonVision())
+                                   m_pipelineMode(DragonCamera::APRIL_TAG),
+                               m_vision(DragonVision::GetDragonVision())
 {
 }
 
@@ -44,34 +44,35 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
     // get targetdata from the vision system
     // visionapi - update this for new dragon vision
-    /*  if (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) != DragonLimelight::PIPELINE_MODE::APRIL_TAG)
-      {
-          m_vision->setPipeline(DragonLimelight::PIPELINE_MODE::APRIL_TAG);
-      }
-
-      auto targetData = m_vision->getTargetInfo();
-
-      if ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
+    if (m_vision->GetPipeline(DragonVision::CAMERA_POSITION::FRONT) != DragonCamera::PIPELINE::APRIL_TAG)
     {
-        if (!AtTargetAngle(targetData, &angleError)) */
+        m_vision->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::FRONT);
+    }
+    // need to adjust getvisiondata to give these params
+    auto targetData = m_vision->GetVisionData();
+
+    if ((targetData != nullptr) && (m_vision->GetPipeline(DragonVision::CAMERA_POSITION::FRONT) == targetData->getTargetType()))
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
+        if (!AtTargetAngle(targetData, &angleError))
+        {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
 
-        // omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
+            // omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
 
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega Before Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega Before Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
 
-        omega = limitAngularVelocityToBetweenMinAndMax(omega);
+            omega = limitAngularVelocityToBetweenMinAndMax(omega);
 
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega After Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega After Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
 
-        chassisMovement.chassisSpeeds.omega = omega;
+            chassisMovement.chassisSpeeds.omega = omega;
+        }
     }
 }
-//}
 
-/*bool FaceAprilTag::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error)
+bool FaceAprilTag::AtTargetAngle(units::angle::radian_t *error)
 {
+    DragonVision::GetVisionData;
     if (targetData != nullptr)
     {
         units::length::inch_t yError = targetData->getYdistanceToTargetRobotFrame();
@@ -116,17 +117,17 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         }
     }
     return false;
-}*/
+}
 
 units::angular_velocity::radians_per_second_t FaceAprilTag::limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularVelocity)
 {
     double sign = angularVelocity.to<double>() < 0 ? -1 : 1;
-    /*
-        if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
-            angularVelocity = units::angular_velocity::radians_per_second_t(m_minimumOmega_radps * sign);
 
-        if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
-            angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
+    if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
+        angularVelocity = units::angular_velocity::radians_per_second_t(m_minimumOmega_radps * sign);
 
-        return angularVelocity;*/
+    if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
+        angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
+
+    return angularVelocity;
 }
