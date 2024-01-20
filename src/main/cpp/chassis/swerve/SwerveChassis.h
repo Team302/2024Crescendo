@@ -46,10 +46,11 @@
 #include "chassis/ChassisMovement.h"
 #include "DragonVision/DragonVision.h"
 #include "hw/interfaces/IDragonPigeon.h"
+#include "utils/logging/LoggableItem.h"
 
 class RobotDrive;
 
-class SwerveChassis : public IChassis
+class SwerveChassis : public IChassis, public LoggableItem
 {
 public:
     /// @brief Construct a swerve chassis
@@ -127,6 +128,7 @@ public:
     ISwerveDriveState *GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption);
 
     ISwerveDriveOrientation *GetHeadingState(ChassisMovement moveInfo);
+    void LogInformation() override;
 
 private:
     ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
@@ -159,8 +161,6 @@ private:
 
     IDragonPigeon *m_pigeon;
     frc::BuiltInAccelerometer m_accel;
-    bool m_runWPI;
-    PoseEstimatorEnum m_poseOpt;
     frc::Pose2d m_pose;
     units::angle::degree_t m_offsetPoseAngle;
     units::velocity::meters_per_second_t m_drive;
