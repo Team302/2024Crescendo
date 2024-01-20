@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -22,24 +21,23 @@
 #include "hw/interfaces/IDragonMotorController.h"
 
 #include "ctre/phoenix/motorcontrol/RemoteSensorSource.h" // need to remove dependency on ctre
-#include "rev/CANSparkMax.h"
+#include "rev/CANSparkFlex.h"
 
 // namespaces
 using namespace rev;
 
-class DragonSparkMax : public IDragonMotorController
+class DragonSparkFlex : public IDragonMotorController
 {
 public:
     // note: two PIDs: 0 is position, 1 is velocity
     //  Constructors
-    DragonSparkMax() = delete;
-    DragonSparkMax(int id,
-                   RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
-                   rev::CANSparkMax::MotorType motorType,
-                   rev::SparkRelativeEncoder::Type feedbackType,
-                   double gearRatio);
-
-    virtual ~DragonSparkMax() = default;
+    DragonSparkFlex() = delete;
+    DragonSparkFlex(int id,
+                    RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
+                    rev::CANSparkFlex::MotorType motorType,
+                    rev::SparkRelativeEncoder::Type feedbackType,
+                    double gearRatio);
+    virtual ~DragonSparkFlex() = default;
 
     // Getters
     double GetRotations() override;
@@ -60,7 +58,8 @@ public:
     void InvertEncoder(bool inverted);
     void SetSmartCurrentLimiting(int limit);
     void SetSecondaryCurrentLimiting(int limit, int duration);
-    // CANError Follow(DragonSparkMax* leader, bool invert = false);
+
+    double GetGearRatio() const override {return m_gearRatio;}
 
     // dummy methods below
     // std::shared_ptr<frc::MotorController> GetSpeedController() override;
@@ -79,17 +78,15 @@ public:
     double GetCountsPerDegree() const override;
     void EnableDisableLimitSwitches(bool enable) override;
     double GetCountsPerRev() const override { return 1.0; }
-    double GetGearRatio() const override { return 1.0; } //Should this return m_gearRatio?
 
 private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
-    rev::CANSparkMax *m_spark;
-    // DRAGON_CONTROL_MODE m_controlMode;
+    rev::CANSparkFlex *m_spark;
     double m_outputRotationOffset;
     double m_gearRatio;
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
 
-    rev::CANSparkMax *GetSparkMax();
+    rev::CANSparkFlex *GetSparkMax();
 };
