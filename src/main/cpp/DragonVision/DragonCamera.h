@@ -32,60 +32,61 @@ public:
         COLOR_THRESHOLD
     };
 
-    virtual bool HasTarget() const;
+    DragonCamera(
+        std::string cameraName,                /// <I> camera name/type
+        PIPELINE pipeline,                     /// <I> enum for pipeline
+        units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+        units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+        units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+        units::angle::degree_t pitch,          /// <I> - Pitch of limelight
+        units::angle::degree_t yaw,            /// <I> - Yaw of limelight
+        units::angle::degree_t roll            /// <I> - Roll of limelight
+    );
+    DragonCamera() = delete;
+
+    virtual bool HasTarget() const = 0;
 
     // Getters
-
     virtual units::angle::degree_t GetTargetHorizontalOffset() const = 0;
     virtual units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
     virtual units::angle::degree_t GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
     virtual units::angle::degree_t GetTargetVerticalOffset() const = 0;
     virtual units::time::microsecond_t GetPipelineLatency() const = 0;
-    virtual PIPELINE getPipeline() const = 0;
-    virtual int getAprilTagID() const = 0;
+    virtual PIPELINE GetPipeline() const = 0;
+    virtual units::angle::degree_t GetTargetSkew() const = 0;
+    virtual double GetTargetArea() const = 0;
+    virtual int GetAprilTagID() const = 0;
 
     virtual frc::Pose3d GetFieldPosition() const = 0;
-    virtual frc::Pose3d GetFieldPosisition(frc::DriverStation::Alliance alliance) = 0;
-    //  Estimating targets
+    virtual frc::Pose3d GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
 
-    virtual units::length::inch_t EstimateTargetXdistance() const = 0;
-    virtual units::length::inch_t EstimateTargetYdistance() const = 0;
-    //need estimate Z Distance
+    //  Estimating distance
+    virtual units::length::inch_t EstimateTargetXDistance() const = 0;
+    virtual units::length::inch_t EstimateTargetYDistance() const = 0;
+    virtual units::length::inch_t EstimateTargetZDistance() const = 0;
 
-    virtual units::length::inch_t EstimateTargetXdistance_RelToRobotCoords() const = 0;
-    virtual units::length::inch_t EstimateTargetYdistance_RelToRobotCoords() const = 0;
-    //need estimate Z distance
+    virtual units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const = 0;
 
-    // Setters
-    virtual double GetTargetArea() const = 0;
-    virtual bool SetPipeline(int pipeline) = 0;
-    virtual units::angle::degree_t GetTargetSkew() const = 0;
+    // Getters
     units::angle::degree_t GetCameraPitch() const { return m_pitch; }
     units::angle::degree_t GetCameraYaw() const { return m_yaw; }
     units::angle::degree_t GetCameraRoll() const { return m_roll; }
-    units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
     units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
+    units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
     units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
 
-    virtual void SetCameraPosition(
+    // Setters
+    virtual bool SetPipeline(PIPELINE pipeline) = 0;
+
+    void SetCameraPosition(
         units::length::inch_t mountingXOffset,
         units::length::inch_t mountingYOffset,
         units::length::inch_t mountingZOffset,
         units::angle::degree_t pitch,
         units::angle::degree_t yaw,
-        units::angle::degree_t roll);
-
-    DragonCamera(
-        std::string cameraName, /// <I> camera name/type
-        PIPELINE pipeline,      /// <I> enum for pipeline
-        units::length::inch_t mountingXOffset,
-        units::length::inch_t mountingYOffset,
-        units::length::inch_t mountingZOffset,
-        units::angle::degree_t pitch, /// <I> - Pitch of limelight
-        units::angle::degree_t yaw,   /// <I> - Yaw of limelight
-        units::angle::degree_t roll   /// <I> - Roll of limelight
-    );
-    DragonCamera() = delete;
+        units::angle::degree_t roll); /// TODO: implement
 
 protected:
     units::length::inch_t m_mountingXOffset;
