@@ -93,20 +93,14 @@ using frc::Transform2d;
 /// @param [in] SwerveModule*           backright:          back right swerve module
 /// @param [in] units::length::inch_t                   wheelBase:          distance between the front and rear wheels
 /// @param [in] units::length::inch_t                   track:              distance between the left and right wheels
-/// @param [in] units::velocity::meters_per_second_t    maxSpeed:           maximum linear speed of the chassis
-/// @param [in] units::radians_per_second_t             maxAngularSpeed:    maximum rotation speed of the chassis
-/// @param [in] double                                  maxAcceleration:    maximum acceleration in meters_per_second_squared
 SwerveChassis::SwerveChassis(
     SwerveModule *frontLeft,
     SwerveModule *frontRight,
     SwerveModule *backLeft,
     SwerveModule *backRight,
+    IDragonPigeon *pigeon,
     units::length::inch_t wheelBase,
     units::length::inch_t track,
-    units::velocity::meters_per_second_t maxSpeed,
-    units::radians_per_second_t maxAngularSpeed,
-    units::acceleration::meters_per_second_squared_t maxAcceleration,
-    units::angular_acceleration::radians_per_second_squared_t maxAngularAcceleration,
     string networkTableName) : m_frontLeft(frontLeft),
                                m_frontRight(frontRight),
                                m_backLeft(backLeft),
@@ -118,11 +112,7 @@ SwerveChassis::SwerveChassis(
                                m_brState(),
                                m_wheelBase(wheelBase),
                                m_track(track),
-                               m_maxSpeed(maxSpeed),
-                               m_maxAngularSpeed(maxAngularSpeed),
-                               m_maxAcceleration(maxAcceleration),               // Not used at the moment
-                               m_maxAngularAcceleration(maxAngularAcceleration), // Not used at the moment
-                               m_pigeon(RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER)),
+                               m_pigeon(pigeon),
                                m_accel(BuiltInAccelerometer()),
                                m_runWPI(false),
                                m_poseOpt(PoseEstimatorEnum::WPI),
@@ -151,10 +141,6 @@ SwerveChassis::SwerveChassis(
                                m_vision(DragonVision::GetDragonVision()),
                                m_networkTableName(networkTableName)
 {
-    frontLeft->Init(maxSpeed, maxAngularSpeed, maxAcceleration, maxAngularAcceleration, m_frontLeftLocation);
-    frontRight->Init(maxSpeed, maxAngularSpeed, maxAcceleration, maxAngularAcceleration, m_frontRightLocation);
-    backLeft->Init(maxSpeed, maxAngularSpeed, maxAcceleration, maxAngularAcceleration, m_backLeftLocation);
-    backRight->Init(maxSpeed, maxAngularSpeed, maxAcceleration, maxAngularAcceleration, m_backRightLocation);
     ZeroAlignSwerveModules();
 }
 
