@@ -71,7 +71,7 @@ private:
 
     void AlignRawVision(ChassisMovement &chassisMovement);
 
-    // bool AtTargetX(std::shared_ptr<DragonVisionTarget> targetData);
+    bool AtTargetX(std::shared_ptr<DragonVisionTarget> targetData);
     bool AtTargetY(std::shared_ptr<DragonVisionTarget> targetData);
     bool AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error);
 

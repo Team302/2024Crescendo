@@ -61,25 +61,26 @@ DragonLimelight *LimelightFactory::CreateLimelight(
     if (usage == LimelightUsages::PRIMARY)
     {
         if (m_limelight == nullptr)
-        {
-            m_limelight = new DragonLimelight(tableName,
-                                              mountingHeight,
-                                              mountingHorizontalOffset,
-                                              forwardOffset,
-                                              pitch,
-                                              yaw,
-                                              roll,
-                                              targetHeight,
-                                              targetHeight2,
-                                              ledMode,
-                                              camMode,
-                                              streamMode,
-                                              snapMode);
+        { /*
+             m_limelight = new DragonLimelight(tableName,
+                                               mountingHeight,
+                                               mountingHorizontalOffset,
+                                               forwardOffset,
+                                               pitch,
+                                               yaw,
+                                               roll,
+                                               targetHeight,
+                                               targetHeight2,
+                                               ledMode,
+                                               camMode,
+                                               streamMode,
+                                               snapMode);*/
         }
         return m_limelight;
     }
     else
     {
+        /*
         if (m_limelight2 == nullptr)
         {
             m_limelight2 = new DragonLimelight(tableName,
@@ -97,6 +98,7 @@ DragonLimelight *LimelightFactory::CreateLimelight(
                                                snapMode);
         }
         return m_limelight2;
+        */
     }
     return nullptr;
 }

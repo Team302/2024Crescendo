@@ -28,7 +28,8 @@
 
 // Team 302 includes
 #include "DragonVision/DragonAprilTagInfo.h"
-#include <DragonVision/DragonCamera.h>
+#include "DragonVision/DragonCamera.h"
+#include "DragonVision/DragonVisonStructs.h"
 
 // Third Party Includes
 
@@ -84,15 +85,14 @@ public:
     ///-----------------------------------------------------------------------------------
     DragonLimelight() = delete;
     DragonLimelight(
-        std::string tableName,                          /// <I> - network table name
-        units::length::inch_t mountingHeight,           /// <I> - mounting height of the limelight
-        units::length::inch_t mountingHorizontalOffset, /// <I> - mounting horizontal offset from the middle of the robot
-        units::length::inch_t forwardOffset,            /// <I> mounting offset forward/back
-        units::angle::degree_t pitch,                   /// <I> - Pitch of limelight
-        units::angle::degree_t yaw,                     /// <I> - Yaw of limelight
-        units::angle::degree_t roll,                    /// <I> - Roll of limelight
-        units::length::inch_t targetHeight,             /// <I> - height the target
-        units::length::inch_t targetHeight2,            /// <I> - height of second target
+        std::string name,                      /// <I> - network table name
+        PIPELINE initialPipeline,              /// <I> enum for starting pipeline
+        units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+        units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+        units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+        units::angle::degree_t pitch,          /// <I> - Pitch of camera
+        units::angle::degree_t yaw,            /// <I> - Yaw of camera
+        units::angle::degree_t roll,           /// <I> - Roll of camera
         LED_MODE ledMode,
         CAM_MODE camMode,
         STREAM_MODE streamMode,
@@ -116,15 +116,14 @@ public:
     units::angle::degree_t GetTargetSkew() const;
     units::time::microsecond_t GetPipelineLatency() const;
     std::vector<double> Get3DSolve() const;
-    DragonCamera::PIPELINE GetPipeline() const;
     int GetAprilTagID() const;
 
-    frc::Pose3d GetFieldPosition() const;
-    frc::Pose3d GetFieldPosition(frc::DriverStation::Alliance alliance) const;
+    VisionPose GetFieldPosition() const;
+    VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const;
 
-    frc::Pose3d GetRedFieldPosition() const;
-    frc::Pose3d GetBlueFieldPosition() const;
-    frc::Pose3d GetOriginFieldPosition() const;
+    VisionPose GetRedFieldPosition() const;
+    VisionPose GetBlueFieldPosition() const;
+    VisionPose GetOriginFieldPosition() const;
 
     units::length::inch_t EstimateTargetXDistance() const;
     units::length::inch_t EstimateTargetYDistance() const;
@@ -135,14 +134,14 @@ public:
     units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
 
     // Setters
-    void SetTargetHeight(units::length::inch_t targetHeight); // don't need targetheight
     void SetLEDMode(DragonLimelight::LED_MODE mode);
     void SetCamMode(DragonLimelight::CAM_MODE mode);
-    bool SetPipeline(DragonCamera::PIPELINE pipeline);
     void SetStreamMode(DragonLimelight::STREAM_MODE mode);
     void ToggleSnapshot(DragonLimelight::SNAPSHOT_MODE toggle);
     void SetCrosshairPos(double crosshairPosX, double crosshairPosY);
     void SetSecondaryCrosshairPos(double crosshairPosX, double crosshairPosY);
+
+    bool UpdatePipeline();
 
     void PrintValues(); // Prints out all values to ensure everything is working and connected
 
