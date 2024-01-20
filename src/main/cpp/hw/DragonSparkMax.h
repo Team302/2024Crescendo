@@ -71,6 +71,7 @@ public:
     void SetVoltage(units::volt_t output) override;
     double GetCounts() override;
     void SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType) override;
+    bool IsMotorInverted() const override;
     bool IsForwardLimitSwitchClosed() override;
     bool IsReverseLimitSwitchClosed() override;
     void EnableVoltageCompensation(double fullvoltage) override;

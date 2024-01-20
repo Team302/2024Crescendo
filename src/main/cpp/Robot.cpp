@@ -16,7 +16,6 @@
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
 #include <driveteamfeedback/DriverFeedback.h>
-#include <DragonVision/LimelightFactory.h>
 #include <PeriodicLooper.h>
 #include <Robot.h>
 #include <robotstate/RobotState.h>
@@ -119,18 +118,6 @@ void Robot::RobotPeriodic()
     if (feedback != nullptr)
     {
         feedback->UpdateFeedback();
-    }
-
-    auto pigeon = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER);
-    if (pigeon == nullptr)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DEUBGGING"), string("Pigeon Nullptr?"), "true");
-    }
-    else
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pigeon"), string("Pigeon Yaw"), pigeon->GetYaw().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pigeon"), string("Pigeon Pitch"), pigeon->GetPitch().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pigeon"), string("Pigeon Roll"), pigeon->GetRoll().to<double>());
     }
 }
 

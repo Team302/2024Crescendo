@@ -122,6 +122,7 @@ public:
     double GetCountsPerDegree() const override;
     double GetCounts() override;
     void EnableDisableLimitSwitches(bool enable) override;
+    // ctre::phoenix6::hardware::TalonFX GetTalonFX() const { return m_talon; }
 
 private:
     std::string m_networkTableName;

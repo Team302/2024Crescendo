@@ -24,9 +24,7 @@
 #include <auton/PrimitiveParser.h>
 #include <auton/drivePrimitives/IPrimitive.h>
 #include "utils/logging/Logger.h"
-
 #include <pugixml/pugixml.hpp>
-
 using namespace std;
 using namespace pugi;
 
@@ -126,7 +124,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
                     // auto extenderstate = ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND;
                     // auto intakestate = IntakeStateMgr::INTAKE_STATE::HOLD;
-                    auto pipelineMode = DragonLimelight::PIPELINE_MODE::UNKNOWN;
+                    auto pipelineMode = DragonCamera::PIPELINE::UNKNOWN;
 
                     // @ADDMECH Initialize your mechanism state
                     for (xml_attribute attr = primitiveNode.first_attribute(); attr; attr = attr.next_attribute())
@@ -185,24 +183,25 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             if (strcmp(attr.value(), "UNKNOWN") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::UNKNOWN;
+                                pipelineMode = DragonCamera::PIPELINE::UNKNOWN;
                             }
                             else if (strcmp(attr.value(), "OFF") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::OFF;
+                                pipelineMode = DragonCamera::PIPELINE::OFF;
                             }
                             else if (strcmp(attr.value(), "APRIL_TAG") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::APRIL_TAG;
+                                pipelineMode = DragonCamera::PIPELINE::APRIL_TAG;
                             }
-                            else if (strcmp(attr.value(), "CONE") == 0)
+                            else if (strcmp(attr.value(), "MACHINE_LEARNING") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::CONE;
+                                pipelineMode = DragonCamera::PIPELINE::MACHINE_LEARNING;
                             }
-                            else if (strcmp(attr.value(), "CUBE") == 0)
+                            else if (strcmp(attr.value(), "COLOR_THRESHOLD") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::CUBE;
+                                pipelineMode = DragonCamera::PIPELINE::COLOR_THRESHOLD;
                             }
+
                             else
                             {
                                 Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("PrimitiveParser::ParseXML invalid pipeline mode"), attr.value());

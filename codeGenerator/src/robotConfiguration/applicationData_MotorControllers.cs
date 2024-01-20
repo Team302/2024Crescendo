@@ -50,6 +50,7 @@ namespace ApplicationData
     [Serializable()]
     [XmlInclude(typeof(TalonFX))]
     [XmlInclude(typeof(TalonSRX))]
+    [XmlInclude(typeof(SparkMax))]
     public class MotorController : baseRobotElementClass
     {
         public enum InvertedValue { CounterClockwise_Positive, Clockwise_Positive }
@@ -313,12 +314,12 @@ namespace ApplicationData
     [Serializable()]
     [ImplementationName("DragonTalonFX")]
     [UserIncludeFile("hw/DragonTalonFX.h")]
-    [Using("ctre::phoenixpro::signals::ForwardLimitSourceValue")]
-    [Using("ctre::phoenixpro::signals::ForwardLimitTypeValue")]
-    [Using("ctre::phoenixpro::signals::ReverseLimitSourceValue")]
-    [Using("ctre::phoenixpro::signals::ReverseLimitTypeValue")]
-    [Using("ctre::phoenixpro::signals::InvertedValue")]
-    [Using("ctre::phoenixpro::signals::NeutralModeValue")]
+    [Using("ctre::phoenix6::signals::ForwardLimitSourceValue")]
+    [Using("ctre::phoenix6::signals::ForwardLimitTypeValue")]
+    [Using("ctre::phoenix6::signals::ReverseLimitSourceValue")]
+    [Using("ctre::phoenix6::signals::ReverseLimitTypeValue")]
+    [Using("ctre::phoenix6::signals::InvertedValue")]
+    [Using("ctre::phoenix6::signals::NeutralModeValue")]
     [Using("ctre::phoenix::motorcontrol::RemoteSensorSource")]
     public class TalonFX : MotorController
     {
@@ -533,8 +534,8 @@ namespace ApplicationData
                                             theConfigHWLimitSW.revOpenClose
                                            ));
 
-            initCode.Add(string.Format(@"{0}->ConfigMotorSettings(ctre::phoenixpro::signals::{1}::{2}, // ctre::phoenixpro::signals::InvertedValue
-                                            ctre::phoenixpro::signals::{3}::{4}, // ctre::phoenixpro::signals::NeutralModeValue                  
+            initCode.Add(string.Format(@"{0}->ConfigMotorSettings(ctre::phoenix6::signals::{1}::{2}, // ctre::phoenixpro::signals::InvertedValue
+                                            ctre::phoenix6::signals::{3}::{4}, // ctre::phoenixpro::signals::NeutralModeValue                  
                                             {5}, // deadbandPercent                 
                                             {6}, // peakForwardDutyCycle                 
                                             {7} ); // peakReverseDutyCycle"
@@ -589,11 +590,13 @@ namespace ApplicationData
 
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},\"{4}\")",
+            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3}, {4}, IDragonMotorController::MOTOR_TYPE::{5}, \"{6}\")",
                 name,
                 getImplementationName(),
                 utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
                 canID.value.ToString(),
+                theDistanceAngleCalcInfo.getName(name),
+                motorType,
                 canBusName.ToString());
 
             List<string> code = new List<string>() { "", theDistanceAngleCalcInfo.getDefinition(name), creation };
@@ -1103,7 +1106,7 @@ namespace ApplicationData
 
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType {4},rev::SparkRelativeEncoder::Type {5},{6})",
+            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},{6})",
                 name,
                 getImplementationName(),
                 canID.value.ToString(),
@@ -1119,6 +1122,90 @@ namespace ApplicationData
             code.Add("");
 
             return code;
+        }
+
+        override public List<string> generateInitialization()
+        {
+            List<string> initCode = new List<string>();
+
+
+
+            initCode.Add(string.Format(@"{0}->SetRemoteSensor({1},
+                                                              ctre::phoenix::motorcontrol::{2}::{2}_{3} );",
+                                                                    name,
+                                                                    remoteSensor.CanID.value,
+                                                                    remoteSensor.Source.GetType().Name,
+                                                                    remoteSensor.Source
+                                                                    ));
+
+            initCode.Add(string.Format("{0}->Invert( {1});",
+                                                                    name,
+                                                                    (theConfigMotorSettings.inverted == InvertedValue.CounterClockwise_Positive).ToString().ToLower()));
+
+            initCode.Add(string.Format("{0}->EnableBrakeMode( {1});",
+                                                                    name,
+                                                                    (theConfigMotorSettings.mode == NeutralModeValue.Brake).ToString().ToLower()));
+
+            initCode.Add(string.Format("{0}->EnableCurrentLimiting( {1});",
+                                                                    name,
+                                                                    currentLimits.EnableCurrentLimits.value.ToString().ToLower()));
+
+            //initCode.Add(string.Format(@"{0}->ConfigPeakCurrentLimit(units::current::ampere_t ( {1}({2})).to<int>(), 
+            //                                                         units::time::millisecond_t({3}({4})).to<int>() );",      //todo check return code
+            //                                                        name,
+            //                                                        generatorContext.theGeneratorConfig.getWPIphysicalUnitType(currentLimits.PeakCurrentLimit.physicalUnits),
+            //                                                        currentLimits.PeakCurrentLimit.value,
+            //                                                        generatorContext.theGeneratorConfig.getWPIphysicalUnitType(currentLimits.PeakCurrentLimitTimeout.physicalUnits),
+            //                                                        currentLimits.PeakCurrentLimitTimeout.value));
+
+            //initCode.Add(string.Format(@"{0}->ConfigPeakCurrentDuration(units::time::millisecond_t ( {1}({2})).to<int>(), 
+            //                                                            units::time::millisecond_t({3}({4})).to<int>() );",      //todo check return code
+            //                                                        name,
+            //                                                        generatorContext.theGeneratorConfig.getWPIphysicalUnitType(currentLimits.PeakCurrentDuration.physicalUnits),
+            //                                                        currentLimits.PeakCurrentDuration.value,
+            //                                                        generatorContext.theGeneratorConfig.getWPIphysicalUnitType(currentLimits.PeakCurrentDurationTimeout.physicalUnits),
+            //                                                        currentLimits.PeakCurrentDurationTimeout.value));
+
+            //initCode.Add(string.Format(@"{0}->ConfigContinuousCurrentLimit(units::current::ampere_t ( {1}({2})).to<int>(), 
+            //                                                               units::time::millisecond_t({3}({4})).to<int>() );",      //todo check return code
+            //                                                        name,
+            //                                                        generatorContext.theGeneratorConfig.getWPIphysicalUnitType(currentLimits.ContinuousCurrentLimit.physicalUnits),
+            //                                                        currentLimits.ContinuousCurrentLimit.value,
+            //                                                        generatorContext.theGeneratorConfig.getWPIphysicalUnitType(currentLimits.ContinuousCurrentLimitTimeout.physicalUnits),
+            //                                                        currentLimits.ContinuousCurrentLimitTimeout.value));
+
+            initCode.Add(string.Format("{0}->SetDiameter(units::length::inch_t ( {1}({2})).to<double>());",      //todo Should SetDiameter(double) be called within the constructor, since the diameter is inside the calcStruct that is passed to the constructor?
+                                                                    name,
+                                                                    generatorContext.theGeneratorConfig.getWPIphysicalUnitType(theDistanceAngleCalcInfo.diameter.physicalUnits),
+                                                                    theDistanceAngleCalcInfo.diameter.value));
+
+            //initCode.Add(string.Format("{0}->EnableDisableLimitSwitches( {1});",
+            //                                                        name,
+            //                                                        limitSwitches.LimitSwitchesEnabled.value.ToString().ToLower()));
+
+            //initCode.Add(string.Format("{0}->SetForwardLimitSwitch( {1});",
+            //                                                        name,
+            //                                                        (limitSwitches.ForwardLimitSwitch == SwitchConfiguration.NormallyOpen).ToString().ToLower()));
+
+            //initCode.Add(string.Format("{0}->SetReverseLimitSwitch( {1});",
+            //                                                        name,
+            //                                                        (limitSwitches.ReverseLimitSwitch == SwitchConfiguration.NormallyOpen).ToString().ToLower()));
+
+            if (enableFollowID.value)
+            {
+                initCode.Add(string.Format("{0}->SetAsFollowerMotor( {1} );",
+                                                                        name,
+                                                                        followID.value));
+            }
+            else
+                initCode.Add(string.Format("// {0} : Follower motor mode is not enabled", name));
+
+            initCode.AddRange(base.generateInitialization());
+
+            initCode.Add(Environment.NewLine);
+
+
+            return initCode;
         }
     }
 }

@@ -37,8 +37,7 @@ BaseMech::BaseMech(MechanismTypes::MECHANISM_TYPE type,
                    string networkTableName) : LoggableItem(),
                                               m_type(type),
                                               m_controlFile(controlFileName),
-                                              m_ntName(networkTableName),
-                                              m_stateMgr(nullptr)
+                                              m_ntName(networkTableName)
 {
     if (controlFileName.empty())
     {
@@ -53,8 +52,7 @@ BaseMech::BaseMech(MechanismTypes::MECHANISM_TYPE type,
 BaseMech::BaseMech(MechanismTypes::MECHANISM_TYPE type) : LoggableItem(),
                                                           m_type(type),
                                                           m_controlFile(),
-                                                          m_ntName(),
-                                                          m_stateMgr(nullptr)
+                                                          m_ntName()
 {
 }
 
@@ -83,15 +81,4 @@ string BaseMech::GetNetworkTableName() const
 void BaseMech::LogInformation()
 {
     // NO-OP - subclasses override when necessary
-}
-
-void BaseMech::AddStateMgr(
-    StateMgr *mgr)
-{
-    m_stateMgr = mgr;
-}
-
-StateMgr *BaseMech::GetStateMgr() const
-{
-    return m_stateMgr;
 }
