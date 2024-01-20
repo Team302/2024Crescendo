@@ -40,9 +40,9 @@ DragonVision *DragonVision::GetDragonVision()
 // state functions
 
 DragonVision::DragonVision()
-{
-	m_DragonLimelightMap[LIMELIGHT_POSITION::FRONT] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::PRIMARY);
-	m_DragonLimelightMap[LIMELIGHT_POSITION::BACK] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::SECONDARY);
+{ // LimelightFactory object should be substituted here.
+  //  m_DragonLimelightMap[LIMELIGHT_POSITION::FRONT] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::PRIMARY);
+  //  m_DragonLimelightMap[LIMELIGHT_POSITION::BACK] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::SECONDARY);
 }
 
 bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position)

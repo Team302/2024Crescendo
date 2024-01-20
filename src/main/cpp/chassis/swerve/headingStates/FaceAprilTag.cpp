@@ -18,7 +18,6 @@
 
 // Team302 Includes
 #include <chassis/swerve/headingStates/FaceAprilTag.h>
-#include <DragonVision/LimelightFactory.h>
 
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
