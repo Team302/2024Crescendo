@@ -43,7 +43,7 @@ public:
     // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
 
     std::optional<VisionPose> GetRobotPosition() const;
-    std::optional<VisionData> GetVisionData();
+    std::optional<VisionData> GetVisionData() const;
 
 private:
     DragonVision();
