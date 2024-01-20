@@ -32,6 +32,7 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angle::radian_t angleError = units::angle::radian_t(0.0);
 
     // get targetdata from the vision system
+    // visionapi - update this for new dragon vision
     // auto targetData = m_vision->getTargetInfo();
 
     /* ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
