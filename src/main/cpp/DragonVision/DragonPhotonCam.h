@@ -29,8 +29,6 @@ public:
                     units::angle::degree_t yaw,             /// <I> - Yaw of limelight
                     units::angle::degree_t roll);           /// <I> - Roll of limelight
 
-    /// Need to add DragonCamera overrides
-
     units::angle::degree_t GetTargetHorizontalOffset() const;
     units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
     units::angle::degree_t GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;

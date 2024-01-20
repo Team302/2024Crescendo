@@ -45,10 +45,8 @@ public:
         OFF = 0,
         APRIL_TAG = 1,
         // These can be removed, add NOTE_COLOR and NOTE_ML
-        CONE = 3,
-        CUBE = 4,
-        CONE_SUBSTATION = 5,
-        CUBE_SUBSTATION = 6,
+        NOTE_COLOR,
+        NOTE_ML,
         MAX_PIPELINE_MODE
     };
 
@@ -103,8 +101,6 @@ public:
     /// Description:    Delete the object
     ///-----------------------------------------------------------------------------------
     ~DragonLimelight() = default;
-
-    /// These methods need to override the methods of the same name from DragonCamera
 
     bool HasTarget() const;
 
