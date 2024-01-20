@@ -20,8 +20,8 @@
 /// debugging
 #include "utils/logging/Logger.h"
 
-FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG),
-                                 m_vision(DragonVision::GetDragonVision())
+FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG)
+// m_vision(DragonVision::GetDragonVision())
 {
 }
 
@@ -51,7 +51,7 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     }
     */
 }
-
+/*
 bool FaceGamePiece::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error)
 {
     if (targetData != nullptr)
@@ -71,9 +71,10 @@ bool FaceGamePiece::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData
     }
     return false;
 }
-
+*/
 units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularVelocity)
 {
+    /*
     double sign = angularVelocity.to<double>() < 0 ? -1 : 1;
 
     if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
@@ -82,5 +83,5 @@ units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocit
     if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
         angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
 
-    return angularVelocity;
+    return angularVelocity; */
 }

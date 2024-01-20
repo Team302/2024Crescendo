@@ -35,7 +35,7 @@ VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(),
                                                    // m_visionVYPID(1.0, 0.05, 0.0), // kP, kI, kD
                                                    // m_visionVXPID(1.0, 0.05, 0.0), // kP, kI, kD
                                                    m_alignmentMethod(ALIGNMENT_METHOD::ROTATE),
-                                                   m_pipelineMode(DragonLimelight::APRIL_TAG),
+                                                   m_pipelineMode(DragonCamera::APRIL_TAG),
                                                    m_inAutonMode(false),
                                                    m_robotDrive(robotDrive),
                                                    m_chassis(nullptr),
@@ -152,97 +152,97 @@ units::angular_velocity::radians_per_second_t VisionDrive::limitAngularVelocityT
     return angularVelocity;
 }
 
-bool VisionDrive::AtTargetX(std::shared_ptr<DragonVisionTarget> targetData)
-{ /*
-     if (targetData != nullptr)
-     {
-         units::length::inch_t xError = targetData->getXdistanceToTargetRobotFrame() - units::length::inch_t(m_centerOfRobotToBumperEdge_in + m_visionAlignmentXoffset_in);
-         DragonLimelight::PIPELINE_MODE pipelineMode = DragonVision::GetDragonVision()->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT);
-
-         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "AtTargetX_XError", xError.to<double>());
-
-         if (pipelineMode == DragonLimelight::PIPELINE_MODE::APRIL_TAG)
-         {
-             if (std::abs(xError.to<double>()) < m_linearTolerance_in)
-             {
-                 return true;
-             }
-         }
-         else
-         {
-             units::angle::degree_t verticalAngle = targetData->getVerticalAngleToTarget();
-
-             // vertical angle is positive, so we are looking at high cone
-             if (verticalAngle.to<double>() > 0.0)
-             {
-                 if ((std::abs(xError.to<double>()) - m_highConeDistance) < m_linearTolerance_in)
-                 {
-                     return true;
-                 }
-             }
-             else // vert angle is negative, so we're looking at low cone
-             {
-                 if ((std::abs(xError.to<double>()) - m_lowConeDistance) < m_linearTolerance_in)
-                 {
-                     return true;
-                 }
-             }
-         }
-     }*/
-    return false;
-}
-
-bool VisionDrive::AtTargetY(std::shared_ptr<DragonVisionTarget> targetData)
-{
+// bool VisionDrive::AtTargetX(std::shared_ptr<DragonVisionTarget> targetData)
+/*{
     if (targetData != nullptr)
     {
-        units::length::inch_t yError = targetData->getYdistanceToTargetRobotFrame();
+        units::length::inch_t xError = targetData->getXdistanceToTargetRobotFrame() - units::length::inch_t(m_centerOfRobotToBumperEdge_in + m_visionAlignmentXoffset_in);
+        DragonLimelight::PIPELINE_MODE pipelineMode = DragonVision::GetDragonVision()->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT);
 
-        if (std::abs(yError.to<double>()) < m_linearTolerance_in)
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "AtTargetX_XError", xError.to<double>());
+
+        if (pipelineMode == DragonLimelight::PIPELINE_MODE::APRIL_TAG)
         {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool VisionDrive::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error)
-{
-    if (targetData != nullptr)
-    {
-        units::length::inch_t yError = targetData->getYdistanceToTargetRobotFrame();
-        units::length::inch_t xError = targetData->getXdistanceToTargetRobotFrame();
-
-        if (std::abs(xError.to<double>()) > 0.01)
-        {
-            *error = units::angle::radian_t(std::atan2(yError.to<double>(), xError.to<double>()));
-
-            if (std::abs((*error).to<double>()) < m_AngularTolerance_rad)
+            if (std::abs(xError.to<double>()) < m_linearTolerance_in)
             {
                 return true;
             }
         }
-    }
-    return false;
-}
+        else
+        {
+            units::angle::degree_t verticalAngle = targetData->getVerticalAngleToTarget();
 
-bool VisionDrive::isAligned(DragonLimelight::PIPELINE_MODE pipelineMode)
-{ /*
-     if (pipelineMode == DragonLimelight::PIPELINE_MODE::APRIL_TAG)
-     {
-         auto targetData = DragonVision::GetDragonVision()->getTargetInfo();
-         if (targetData != nullptr)
+            // vertical angle is positive, so we are looking at high cone
+            if (verticalAngle.to<double>() > 0.0)
+            {
+                if ((std::abs(xError.to<double>()) - m_highConeDistance) < m_linearTolerance_in)
+                {
+                    return true;
+                }
+            }
+            else // vert angle is negative, so we're looking at low cone
+            {
+                if ((std::abs(xError.to<double>()) - m_lowConeDistance) < m_linearTolerance_in)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+   return false;
+}*/
+/*
+    bool VisionDrive::AtTargetY(std::shared_ptr<DragonVisionTarget> targetData)
+    {
+        if (targetData != nullptr)
+        {
+            units::length::inch_t yError = targetData->getYdistanceToTargetRobotFrame();
+
+            if (std::abs(yError.to<double>()) < m_linearTolerance_in)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool VisionDrive::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t * error)
+    {
+        if (targetData != nullptr)
+        {
+            units::length::inch_t yError = targetData->getYdistanceToTargetRobotFrame();
+            units::length::inch_t xError = targetData->getXdistanceToTargetRobotFrame();
+
+            if (std::abs(xError.to<double>()) > 0.01)
+            {
+                *error = units::angle::radian_t(std::atan2(yError.to<double>(), xError.to<double>()));
+
+                if (std::abs((*error).to<double>()) < m_AngularTolerance_rad)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool VisionDrive::isAligned(DragonLimelight::PIPELINE_MODE pipelineMode)
+    {
+         if (pipelineMode == DragonLimelight::PIPELINE_MODE::APRIL_TAG)
          {
-             units::angle::radian_t angleError = units::angle::radian_t(0.0);
-             return AtTargetAngle(targetData, &angleError);
+             auto targetData = DragonVision::GetDragonVision()->getTargetInfo();
+             if (targetData != nullptr)
+             {
+                 units::angle::radian_t angleError = units::angle::radian_t(0.0);
+                 return AtTargetAngle(targetData, &angleError);
+             }
          }
-     }
-     else
-     {
-         return m_haveGamePiece;
-     }*/
-    return false;
-}
+         else
+         {
+             return m_haveGamePiece;
+         }
+return false;
+}*/
 
 void VisionDrive::ResetVisionDrive()
 {
