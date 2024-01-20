@@ -35,6 +35,8 @@ public:
     units::angle::degree_t GetTargetZAngle() const;
     units::time::microsecond_t GetPipelineLatency() const;
     int GetAprilTagID() const;
+    units::angle::degree_t GetTargetSkew() const;
+    double GetTargetArea() const;
     units::length::inch_t EstimateTargetXDistance() const;
     units::length::inch_t EstimateTargetYDistance() const;
     units::length::inch_t EstimateTargetZDistance() const;

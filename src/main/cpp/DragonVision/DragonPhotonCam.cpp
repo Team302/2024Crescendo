@@ -13,6 +13,9 @@
 /// OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+// Photon Includes
+#include "photon/targeting/PhotonPipelineResult.h"
+
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
 
@@ -29,13 +32,39 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 }
 
 /// no op ~
-units::angle::degree_t DragonPhotonCam::GetTargetYAngle() const {}
-units::angle::degree_t DragonPhotonCam::GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+units::angle::degree_t DragonPhotonCam::GetTargetYAngle() const
+{
+}
+
+units::angle::degree_t DragonPhotonCam::GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
+{
+}
 units::angle::degree_t DragonPhotonCam::GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
 units::angle::degree_t DragonPhotonCam::GetTargetZAngle() const {}
 units::time::microsecond_t DragonPhotonCam::GetPipelineLatency() const {}
-int DragonPhotonCam::GetAprilTagID() const {}
-units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const {}
+
+int DragonPhotonCam::GetAprilTagID() const
+{
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check if we have detections
+    if (result.HasTargets())
+    {
+        // get the most accurate according to configured contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // return detected tag's id
+        return target.GetFiducialId();
+    }
+
+    // if no tag found, return -1
+    return -1;
+}
+
+units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
+{
+}
 units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const {}
 units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const {}
 units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords() const {}
