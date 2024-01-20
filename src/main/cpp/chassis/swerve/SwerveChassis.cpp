@@ -61,7 +61,7 @@
 
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
-#include "configs/usages/CanSensorUsage.h"
+#include "configs/RobotElementNames.h"
 
 #include "DragonVision/DragonLimelight.h"
 #include "DragonVision/LimelightFactory.h"

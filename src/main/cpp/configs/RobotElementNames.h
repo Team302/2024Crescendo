@@ -44,6 +44,7 @@ public:
 	enum PIGEON_USAGE
 	{
 		UNKNOWN_PIGEON = -1,
+		PIGEON_ROBOT_CENTER,
 		MAX_PIGEON
 	};
 

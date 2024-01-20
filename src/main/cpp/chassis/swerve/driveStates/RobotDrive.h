@@ -46,7 +46,4 @@ protected:
     units::length::inch_t m_wheelbase;
     units::length::inch_t m_wheeltrack;
     units::velocity::feet_per_second_t m_maxspeed;
-
-    void CorrectForTipping(ChassisMovement &chassisMovement);
-    void DecideTipCorrection(ChassisMovement &chassisMovement);
 };
