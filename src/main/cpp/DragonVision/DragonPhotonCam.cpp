@@ -52,10 +52,30 @@ VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance allian
 {
 }
 
-units::angle::degree_t DragonPhotonCam::GetTargetYAngle() const
+
+/// @brief  get Yaw of possible target.
+/// @return units::angle::degree_t - Counter Clockwize/left for positive.
+units::angle::degree_t DragonPhotonCam::GetTargetYaw() const // originally Yaw was y-angle
 {
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check if we have detections
+    if (result.HasTargets())
+    {
+        // get the most accurate according to configured contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // return Yaw. This also multiplys it by -1 to invert to a global use in the 302 code
+        return units::angle::degree_t(-1.0 * target.GetYaw());
+    }
+
+    // if no tag found, return 0
+    return (units::angle::degree_t)0;
 }
 
+/// @brief get TargetSkew of possible target.
+/// @return Skew casted as units::angle::degree_t. Counter Clockwize/left for positive.
 units::angle::degree_t DragonPhotonCam::GetTargetSkew() const
 {
 
@@ -76,7 +96,8 @@ units::angle::degree_t DragonPhotonCam::GetTargetSkew() const
     return (units::angle::degree_t)0;
 }
 
-units::angle::degree_t DragonPhotonCam::GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+
 units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
 
 /// @brief Get Pitch to Target
@@ -156,10 +177,59 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
 }
 units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const {}
 units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const {}
-units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords() const {}
-units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords() const {}
-units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords() const {}
+units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords() const
+{
+    // get latest detections
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
+    // check for detections
+    if (result.HasTargets())
+    {
+
+        // get the most accurate data according to contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        frc::Transform3d trans = target.GetBestCameraToTarget();
+
+        trans.X();
+
+        return trans.X();
+    }
+}
+units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords() const
+{
+    // get latest detections
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check for detections
+    if (result.HasTargets())
+    {
+
+        // get the most accurate data according to contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+        frc::Transform3d trans = target.GetBestCameraToTarget();
+
+        trans.Y();
+
+        return trans.Y();
+    }
+}
+units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords() const
+{
+    // get latest detections
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check for detections
+    if (result.HasTargets())
+    {
+
+        // get the most accurate data according to contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+        frc::Transform3d trans = target.GetBestCameraToTarget();
+        trans.Z();
+        return trans.Z();
+    }
+}
 bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
 {
     return false;
