@@ -35,10 +35,27 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 units::angle::degree_t DragonPhotonCam::GetTargetYAngle() const
 {
 }
-
-units::angle::degree_t DragonPhotonCam::GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
+units::angle::degree_t DragonPhotonCam::GetTargetSkew() const
 {
+
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check if we have detections
+    if (result.HasTargets())
+    {
+        // get the most accurate according to configured contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // return degree skew as units object. This would originally be a double
+        return units::angle::degree_t(target.GetSkew());
+    }
+
+    // if no tag found, return 0
+    return (units::angle::degree_t)0;
 }
+
+units::angle::degree_t DragonPhotonCam::GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
 units::angle::degree_t DragonPhotonCam::GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
 units::angle::degree_t DragonPhotonCam::GetTargetZAngle() const {}
 units::time::microsecond_t DragonPhotonCam::GetPipelineLatency() const {}
