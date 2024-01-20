@@ -42,6 +42,9 @@ VisionPose DragonPhotonCam::GetFieldPosition()
         can be a measure of confidence in the pose, possibly manipulate standard deviations
 
         will need PhotonPoseEstimator
+
+        PoseEstimator should probably be located in vision drive
+        This should return "traditional" way to calculate field pose by transforming from known apriltag field position
     */
 }
 
