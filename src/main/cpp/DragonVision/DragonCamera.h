@@ -30,6 +30,7 @@ public:
     enum PIPELINE
     {
         OFF,
+        UNKNOWN,
         MACHINE_LEARNING,
         APRIL_TAG,
         COLOR_THRESHOLD
