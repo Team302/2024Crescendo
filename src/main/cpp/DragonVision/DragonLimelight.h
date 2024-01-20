@@ -29,7 +29,6 @@
 // Team 302 includes
 #include "DragonVision/DragonAprilTagInfo.h"
 #include "DragonVision/DragonCamera.h"
-#include "DragonVision/DragonVisonStructs.h"
 
 // Third Party Includes
 

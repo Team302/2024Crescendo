@@ -20,8 +20,6 @@
 
 #include "State.h"
 #include "DragonVision/DragonCamera.h"
-#include "DragonVision/DragonVisionTarget.h"
-#include "DragonVision/DragonVisonStructs.h"
 
 using std::map;
 
@@ -53,7 +51,7 @@ private:
 
     // change to get camera
     // can be changed to inline and reutnr straight from map
-    //DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
+    // DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
 
     static DragonVision *m_dragonVision;
 
