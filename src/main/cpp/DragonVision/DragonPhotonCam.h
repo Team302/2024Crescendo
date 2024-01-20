@@ -31,6 +31,14 @@ public:
 
 /// Need to add DragonCamera overrides
 
+    units::angle::degree_t GetTargetHorizontalOffset() const;
+    units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t * targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
+    units::angle::degree_t GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
+    units::angle::degree_t GetTargetVerticalOffset() const;
+    units::time::microsecond_t GetPipelineLatency() const;
+    PIPELINE getPipeline() const;
+    int getAprilTagID() const;
+
 private:
     photon::PhotonCamera *m_camera; // photoncamera instance
 };
