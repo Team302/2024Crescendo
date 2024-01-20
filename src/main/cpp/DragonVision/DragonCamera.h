@@ -51,10 +51,10 @@ public:
     virtual bool HasTarget() const = 0;
 
     // Getters
-    virtual units::angle::degree_t GetTargetHorizontalOffset() const = 0;
-    virtual units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetVerticalOffset() const = 0;
+    virtual units::angle::degree_t GetTargetYOffset() const = 0;
+    virtual units::angle::degree_t GetTargetYOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
+    virtual units::angle::degree_t GetTargetZOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
+    virtual units::angle::degree_t GetTargetZOffset() const = 0;
     virtual units::time::microsecond_t GetPipelineLatency() const = 0;
     virtual units::angle::degree_t GetTargetSkew() const = 0;
     virtual double GetTargetArea() const = 0;
