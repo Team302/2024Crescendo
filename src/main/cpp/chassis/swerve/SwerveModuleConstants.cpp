@@ -36,9 +36,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 12.8;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -57,9 +58,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 12.8;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -78,9 +80,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 12.8;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -99,9 +102,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 12.8;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -120,9 +124,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -141,9 +146,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -162,9 +168,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -183,17 +190,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.0);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -212,6 +212,15 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
+
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
+        attr.angleControl.SetP(30.0);
+        attr.angleControl.SetI(0.0);
+        attr.angleControl.SetD(0.2);
+        attr.angleControl.SetF(0.0);
+        attr.angleControl.SetCruiseVelocity(1.0);
+        attr.angleControl.SetMaxAcceleration(1.0);
 
         attr.angleGearRatio = 150.0 / 7.0;
         attr.sensorToMechanismRatio = 1.0;
@@ -225,9 +234,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -246,9 +256,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -267,9 +278,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -288,9 +300,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);
@@ -309,9 +322,10 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
         attr.driveControl.SetI(0.0);
         attr.driveControl.SetD(0.0);
         attr.driveControl.SetF(0.0);
+        attr.driveControl.SetFOCEnabled(true);
 
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::TRAPEZOID);
+        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
         attr.angleControl.SetP(30.0);
         attr.angleControl.SetI(0.0);
         attr.angleControl.SetD(0.2);

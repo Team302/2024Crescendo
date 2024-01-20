@@ -179,8 +179,6 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     // finally, get the value between -90 and 90
     Rotation2d currAngle = Rotation2d(m_turnSensor->GetAbsolutePosition());
     auto optimizedState = Optimize(targetState, currAngle);
-    // auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
-    // auto optimizedState = targetState;
 
     // Set Turn Target
     SetTurnAngle(optimizedState.angle.Degrees());
@@ -198,19 +196,14 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
 /// @param [in] const SwerveModuleState& desired state of the swerve module
 /// @param [in] const Rotation2d& current angle of the swerve module
 /// @returns SwerveModuleState optimized swerve module state
-SwerveModuleState SwerveModule::Optimize(
-    const SwerveModuleState &desiredState,
-    const Rotation2d &currentAngle)
+SwerveModuleState SwerveModule::Optimize(const SwerveModuleState &desiredState,
+                                         const Rotation2d &currentAngle)
 {
     SwerveModuleState optimizedState;
     optimizedState.angle = desiredState.angle;
     optimizedState.speed = desiredState.speed;
 
     auto delta = AngleUtils::GetDeltaAngle(currentAngle.Degrees(), optimizedState.angle.Degrees());
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, "Optimize current", currentAngle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, "Optimize target", optimizedState.angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, "Optimize delta", delta.to<double>());
 
     // deal with roll over issues (e.g. want to go from -180 degrees to 180 degrees or vice versa)
     // keep the current angle
@@ -225,18 +218,15 @@ SwerveModuleState SwerveModule::Optimize(
     {
         optimizedState.speed *= -1.0;
         optimizedState.angle = optimizedState.angle + Rotation2d{180_deg};
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, "Optimize reversing", delta.to<double>());
     }
 
     // if the delta is > 90 degrees, rotate the opposite way and reverse the wheel
     if ((units::math::abs(delta) - 90_deg) > 0.1_deg)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, "optimized", (desiredState.angle + Rotation2d{180_deg}).Degrees().to<double>());
         return {-desiredState.speed, desiredState.angle + Rotation2d{180_deg}};
     }
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, "optimized", desiredState.angle.Degrees().to<double>());
         return {desiredState.speed, desiredState.angle};
     }
 }
@@ -256,11 +246,6 @@ void SwerveModule::RunCurrentState()
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
     m_activeState.speed = (abs(speed.to<double>() / m_maxVelocity.to<double>()) < 0.05) ? 0_mps : speed;
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("State Speed - mps"), m_activeState.speed.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("Wheel Diameter - meters"), units::length::meter_t(m_wheelDiameter).to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("drive motor id"), m_driveMotor->GetID());
-
     if (m_runClosedLoopDrive)
     {
         // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
@@ -281,34 +266,7 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
     m_activeState.angle = targetAngle;
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("turn motor id"), m_turnMotor->GetID());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("target angle"), targetAngle.to<double>());
-
-    auto deltaAngle = AngleUtils::GetDeltaAngle(m_turnSensor->GetAbsolutePosition(), targetAngle);
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("current angle"), m_turnSensor->GetAbsolutePosition().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("delta angle"), deltaAngle.to<double>());
-
-    if (abs(deltaAngle.to<double>()) > 1.0)
-    {
-        // TODO: re-work logic
-        /**
-        auto motor = m_turnMotor->GetSpeedController();
-        auto fx = dynamic_cast<WPI_TalonFX *>(motor);
-        auto sensors = fx->GetSensorCollection();
-        **/
-        // auto deltaTicks = m_countsOnTurnEncoderPerDegreesOnAngleSensor * deltaAngle.to<double>();
-
-        // double currentTicks = sensors.GetIntegratedSensorPosition();
-        // double desiredTicks = currentTicks + deltaTicks;
-
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("currentTicks"), currentTicks);
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("deltaTicks"), deltaTicks);
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_nt, string("desiredTicks"), desiredTicks);
-
-        // m_turnMotor->Set(desiredTicks);
-    }
+    m_turnMotor->Set(targetAngle.to<double>());
 }
 
 /// @brief stop the drive and turn motors
