@@ -50,19 +50,19 @@ using namespace std;
 /// Description:    Create the object
 ///-----------------------------------------------------------------------------------
 DragonLimelight::DragonLimelight(
-    string name,                             /// <I> - network table name
-    DragonCamera::PIPELINE initialPipeline,  /// <I> enum for pipeline
-    units::length::inch_t mountingXDistance, /// <I> x offset of cam from robot center (forward relative to robot)
-    units::length::inch_t mountingYDistance, /// <I> y offset of cam from robot center (left relative to robot)
-    units::length::inch_t mountingZDistance, /// <I> z offset of cam from robot center (up relative to robot)
-    units::angle::degree_t pitch,            /// <I> - Pitch of camera
-    units::angle::degree_t yaw,              /// <I> - Yaw of camera
-    units::angle::degree_t roll,             /// <I> - Roll of camera
+    string networkTableName,                /// <I> networkTableName
+    DragonCamera::PIPELINE initialPipeline, /// <I> enum for pipeline
+    units::length::inch_t mountingXOffset,  /// <I> x offset of cam from robot center (forward relative to robot)
+    units::length::inch_t mountingYOffset,  /// <I> y offset of cam from robot center (left relative to robot)
+    units::length::inch_t mountingZOffset,  /// <I> z offset of cam from robot center (up relative to robot)
+    units::angle::degree_t pitch,           /// <I> - Pitch of camera
+    units::angle::degree_t yaw,             /// <I> - Yaw of camera
+    units::angle::degree_t roll,            /// <I> - Roll of camera
     LED_MODE ledMode,
     CAM_MODE camMode,
     STREAM_MODE streamMode,
-    SNAPSHOT_MODE snapMode) : DragonCamera(name, initialPipeline, mountingXDistance, mountingYDistance, mountingZDistance, pitch, yaw, roll),
-                              m_networktable(NetworkTableInstance::GetDefault().GetTable(name.c_str()))
+    SNAPSHOT_MODE snapMode) : DragonCamera(networkTableName, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
+                              m_networktable(NetworkTableInstance::GetDefault().GetTable(networkTableName.c_str()))
 {
     SetPipeline(PIPELINE::OFF);
     SetLEDMode(ledMode);

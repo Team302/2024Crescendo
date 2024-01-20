@@ -19,13 +19,13 @@
 #include "units/angle.h"
 #include "units/length.h"
 #include "units/time.h"
-#include <DragonVision/DragonLimelight.h>
+#include <DragonVision/DragonVision.h>
 class DragonVisionTarget
 {
 public:
     DragonVisionTarget() = default;
 
-    DragonVisionTarget(DragonLimelight::PIPELINE_MODE targetType,
+    DragonVisionTarget(DragonCamera::PIPELINE targetType,
                        units::length::inch_t distanceFromTarget,
                        units::angle::degree_t horizontalAngleFromTarget,
                        units::angle::degree_t verticalAngleFromTarget,
@@ -41,7 +41,7 @@ public:
     units::length::inch_t getYdistanceToTargetRobotFrame();
     units::length::inch_t getXdistanceToTargetRobotFrame();
     units::angle::degree_t getVerticalAngleToTarget();
-    DragonLimelight::PIPELINE_MODE getTargetType();
+    DragonCamera::PIPELINE getTargetType();
     units::time::millisecond_t getLatency();
     int getApriltagID();
 
@@ -51,7 +51,7 @@ private:
     units::length::inch_t m_yDistanceToTargetRobotFrame;
     units::length::inch_t m_xDistanceToTargetRobotFrame;
     units::angle::degree_t m_verticalAngleToTarget;
-    DragonLimelight::PIPELINE_MODE m_targetType;
+    DragonCamera::PIPELINE m_targetType;
     int m_tagID;
     units::time::millisecond_t m_latency;
 };
