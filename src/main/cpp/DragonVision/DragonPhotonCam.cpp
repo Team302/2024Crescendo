@@ -64,16 +64,21 @@ int DragonPhotonCam::GetAprilTagID() const
 
 double DragonPhotonCam::GetTargetArea() const
 {
+    // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
+    // check for detections
     if (result.HasTargets())
     {
 
+        // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
+        // return
         return target.GetArea();
     }
 
+    // if it isn't found
     return -1;
 }
 
