@@ -48,10 +48,10 @@ public:
     // robot state change subscriber override
     void Update(RobotStateChanges::StateChange change, int state) override;
 
-    bool isAligned(DragonLimelight::PIPELINE_MODE pipelineMode);
+    bool isAligned(DragonCamera::PIPELINE pipelineMode);
 
     void setAlignmentMethod(ALIGNMENT_METHOD alignmentMethod) { m_alignmentMethod = alignmentMethod; }
-    void setVisionPipeline(DragonLimelight::PIPELINE_MODE pipeline) { m_pipelineMode = pipeline; }
+    void setVisionPipeline(DragonCamera::PIPELINE pipeline) { m_pipelineMode = pipeline; }
     void setInAutonMode(bool inAuton) { m_inAutonMode = inAuton; }
 
 private:
@@ -66,15 +66,15 @@ private:
     };
 
     ALIGNMENT_METHOD m_alignmentMethod;
-    DragonLimelight::PIPELINE_MODE m_pipelineMode;
+    DragonCamera::PIPELINE m_pipelineMode;
     bool m_inAutonMode;
 
     void AlignRawVision(ChassisMovement &chassisMovement);
-
-    bool AtTargetX(std::shared_ptr<DragonVisionTarget> targetData);
-    bool AtTargetY(std::shared_ptr<DragonVisionTarget> targetData);
-    bool AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error);
-
+    /*
+        bool AtTargetX(std::shared_ptr<DragonVisionTarget> targetData);
+        bool AtTargetY(std::shared_ptr<DragonVisionTarget> targetData);
+        bool AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error);
+    */
     RobotDrive *m_robotDrive;
 
     double m_kP_X = 0.1;
