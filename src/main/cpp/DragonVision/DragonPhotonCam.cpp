@@ -26,19 +26,23 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
                                  units::angle::degree_t roll) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
                                                                 m_camera(new photon::PhotonCamera(name))
 {
-    /// no op ~
-    units::angle::degree_t GetTargetHorizontalOffset() const {}
-    units::angle::degree_t GetTargetHorizontalOffsetRobotFrame(units::length::inch_t * targetDistOffset_RF, units::length::inch_t * targetDistfromRobot_RF) const {}
-    units::angle::degree_t GetTargetVerticalOffsetRobotFrame(units::length::inch_t * targetDistOffset_RF, units::length::inch_t * targetDistfromRobot_RF) const {}
-    units::angle::degree_t GetTargetVerticalOffset() const {}
-    units::time::microsecond_t GetPipelineLatency() const {}
-    PIPELINE getPipeline() const {}
-    int getAprilTagID() const {}
-    units::length::inch_t EstimateTargetXDistance() const {}
-    units::length::inch_t EstimateTargetYDistance() const {}
-    units::length::inch_t EstimateTargetZDistance() const {}
-    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const {}
-    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const {}
-    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const {}
-    bool SetPipeline(PIPELINE pipeline) {}
+}
+
+/// no op ~
+units::angle::degree_t DragonPhotonCam::GetTargetHorizontalOffset() const {}
+units::angle::degree_t DragonPhotonCam::GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+units::angle::degree_t DragonPhotonCam::GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+units::angle::degree_t DragonPhotonCam::GetTargetVerticalOffset() const {}
+units::time::microsecond_t DragonPhotonCam::GetPipelineLatency() const {}
+int DragonPhotonCam::GetAprilTagID() const {}
+units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const {}
+units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const {}
+units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const {}
+units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords() const {}
+units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords() const {}
+units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords() const {}
+
+bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
+{
+    return false;
 }
