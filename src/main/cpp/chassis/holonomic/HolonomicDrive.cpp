@@ -117,11 +117,8 @@ void HolonomicDrive::Run()
                 // set pipeline to discover retroreflective
                 if (m_desiredGamePiece == RobotStateChanges::GamePiece::Cube)
                     // visionapi - revisit this with me dragonvision
-                    //   DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CUBE : DragonLimelight::PIPELINE_MODE::CUBE_SUBSTATION);
-                    //   else
-                    //    DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CONE : DragonLimelight::PIPELINE_MODE::CONE_SUBSTATION);
-
-                    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+                    DragonVision::GetDragonVision()->SetPipeline(DragonCamera::PIPELINE::MACHINE_LEARNING, DragonVision::CAMERA_POSITION::BACK_INTAKE);
+                moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
                 if (alignFloorPiece)
                     moveInfo.driveOption = ChassisOptionEnums::DriveStateType::VISION_DRIVE;
 
@@ -131,7 +128,7 @@ void HolonomicDrive::Run()
             if (controller->IsButtonPressed(TeleopControlFunctions::ALIGN_APRIL_TAG))
             {
                 // set pipeline to discover april tags
-                //  DragonVision::GetDragonVision()->setPipeline(DragonLimelight::PIPELINE_MODE::APRIL_TAG);
+                DragonVision::GetDragonVision()->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::FRONT);
                 moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
                 moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
             }
