@@ -105,8 +105,6 @@ private:
 
     units::length::inch_t m_wheelDiameter;
 
-    std::string m_nt;
-
     frc::SwerveModuleState m_activeState;
     frc::Pose2d m_currentPose;
     units::angular_velocity::revolutions_per_minute_t m_currentSpeed;
@@ -115,4 +113,16 @@ private:
     units::velocity::meters_per_second_t m_maxVelocity;
     bool m_runClosedLoopDrive = true;
     double m_countsOnTurnEncoderPerDegreesOnAngleSensor;
+
+    double m_turnKp = 0.0;
+    double m_turnKi = 0.0;
+    double m_turnKd = 0.0;
+    double m_turnKf = 0.0;
+    double m_turnCruiseVel = 0.0;
+    double m_turnMaxAcc = 0.0;
+
+    double m_driveKp = 0.0;
+    double m_driveKi = 0.0;
+    double m_driveKd = 0.0;
+    double m_driveKf = 0.0;
 };

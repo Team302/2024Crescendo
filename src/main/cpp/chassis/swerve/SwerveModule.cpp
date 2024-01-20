@@ -20,12 +20,12 @@
 #include <string>
 
 // FRC includes
+#include "frc/controller/PIDController.h"
 #include "frc/geometry/Rotation2d.h"
 #include "frc/trajectory/TrapezoidProfile.h"
-#include "frc/controller/PIDController.h"
-#include "networktables/NetworkTableInstance.h"
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableEntry.h"
+#include "networktables/NetworkTableInstance.h"
 #include "units/angle.h"
 #include "units/length.h"
 #include "units/velocity.h"
@@ -51,10 +51,6 @@ using ctre::phoenix6::hardware::CANcoder;
 using ctre::phoenix6::hardware::TalonFX;
 using ctre::phoenix6::signals::AbsoluteSensorRangeValue;
 
-// using namespace ctre::phoenix;
-// using namespace ctre::phoenix::motorcontrol::can;
-// using namespace ctre::phoenix::sensors;
-
 /// @brief Constructs a Swerve Module.  This is assuming 2 TalonFX (Falcons) with a CanCoder for the turn angle
 /// @param [in] SwerveModuleConstants.ModuleID                                                type:           Which Swerve Module is it
 /// @param [in] shared_ptr<IDragonMotorController>                      driveMotor:     Motor that makes the robot move
@@ -69,42 +65,40 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
                                                        m_driveMotor(driveMotor),
                                                        m_turnMotor(turnMotor),
                                                        m_turnSensor(canCoder),
-                                                       m_nt(),
                                                        m_activeState(),
                                                        m_currentPose(),
                                                        m_currentSpeed(0.0_rpm),
                                                        m_currentRotations(0.0)
 {
-
-    switch (GetModuleID())
-    {
-    case SwerveModuleConstants::ModuleID::LEFT_FRONT:
-        m_nt = string("LeftFrontSwerveModule");
-        break;
-
-    case SwerveModuleConstants::ModuleID::LEFT_BACK:
-        m_nt = string("LeftBackSwerveModule");
-        break;
-
-    case SwerveModuleConstants::ModuleID::RIGHT_FRONT:
-        m_nt = string("RightFrontSwerveModule");
-        break;
-
-    case SwerveModuleConstants::ModuleID::RIGHT_BACK:
-        m_nt = string("RightBackSwerveModule");
-        break;
-
-    default:
-        m_nt = string("UnknownSwerveModule");
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_nt, string("SwerveModuleDrive"), string("unknown module"));
-        break;
-    }
-
     Rotation2d ang{units::angle::degree_t(0.0)};
+
+    // subscribe to the topic in "datatable" called "Y"
+    ySub = datatable->GetDoubleTopic("Y").Subscribe(0.0);
+
     m_activeState.angle = ang;
     m_activeState.speed = 0_mps;
 
     auto attrs = SwerveModuleConstants::GetSwerveModuleAttrs(type);
+    m_turnKp = attrs.angleControl.GetP();
+    m_turnKi = attrs.angleControl.GetI();
+    m_turnKd = attrs.angleControl.GetD();
+    m_turnKf = attrs.angleControl.GetF();
+    m_turnCruiseVel = attrs.angleControl.GetCruiseVelocity();
+    m_turnMaxAcc = attrs.angleControl.GetMaxAcceleration();
+
+    m_driveKp = attrs.driveControl.GetP();
+    m_driveKi = attrs.driveControl.GetI();
+    m_driveKd = attrs.driveControl.GetD();
+    m_driveKf = attrs.driveControl.GetF();
+
+    auto ntinstance = nt::NetworkTableInstance::GetDefault();
+    auto ntentry = ntinstance.GetTable("SwerveModuleAttrs");
+    auto kP = ntentry->GetDoubleTopic("turn P").Subscribe(m_turnKp);
+    auto kP = ntentry->GetDoubleTopic("turn I").Subscribe(m_turnKi);
+    auto kP = ntentry->GetDoubleTopic("turn D").Subscribe(m_turnKd);
+    auto kP = ntentry->GetDoubleTopic("turn F").Subscribe(m_turnKf);
+    auto kP = ntentry->GetDoubleTopic("turn Cruise Vel").Subscribe(m_turnKf);
+    auto kP = ntentry->GetDoubleTopic("turn Max Accel").Subscribe(m_turnKf);
 
     auto driveTalon = dynamic_cast<DragonTalonFX *>(m_driveMotor);
     if (driveTalon != nullptr)
