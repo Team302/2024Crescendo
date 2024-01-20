@@ -30,8 +30,9 @@ public:
     enum PIPELINE
     {
         OFF,
+        UNKNOWN,
         MACHINE_LEARNING,
-        APIRL_TAG,
+        APRIL_TAG,
         COLOR_THRESHOLD
     };
 
@@ -63,13 +64,13 @@ public:
     virtual VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
 
     //  Estimating distance
-    virtual units::length::inch_t EstimateTargetXDistance() const = 0;
-    virtual units::length::inch_t EstimateTargetYDistance() const = 0;
-    virtual units::length::inch_t EstimateTargetZDistance() const = 0;
+    virtual units::length::inch_t GetEstimatedTargetXDistance() const = 0;
+    virtual units::length::inch_t GetEstimatedTargetYDistance() const = 0;
+    virtual units::length::inch_t GetEstimatedTargetZDistance() const = 0;
 
-    virtual units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const = 0;
-    virtual units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const = 0;
-    virtual units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t GetEstimatedTargetXDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t GetEstimatedTargetYDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t GetEstimatedTargetZDistance_RelToRobotCoords() const = 0;
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }

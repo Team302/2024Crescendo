@@ -189,7 +189,6 @@ units::angle::degree_t DragonLimelight::GetTy() const
         double v = nt->GetNumber("ty", 0.0);
 
         return units::angle::degree_t(v);
-        // return units::angle::degree_t(nt->GetNumber("ty", 0.0));
     }
     return units::angle::degree_t(0.0);
 }
