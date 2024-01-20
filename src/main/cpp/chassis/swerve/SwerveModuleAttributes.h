@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -16,20 +15,24 @@
 
 #pragma once
 
-#include "hw/builtinaccel/DragonBuiltInAccelerometer.h"
+// FRC Includes
+#include "units/length.h"
 
-class DragonRoboRioAccelXLeftYDown : public DragonBuiltinAccelerometer
+// Team302 Includes
+#include "chassis/swerve/SwerveModuleConstants.h"
+#include "mechanisms/controllers/ControlData.h"
+
+// Third party includes
+
+/// @brief This is used to give all neccessary data to ISwerveDriveStates
+
+struct SwerveModuleAttributes
 {
-public:
-	DragonRoboRioAccelXLeftYDown() = default;
-	virtual ~DragonRoboRioAccelXLeftYDown() = default;
-
-	/// @return The acceleration of the roboRIO along the robot X axis (forward) in g-forces
-	inline units::acceleration::feet_per_second_squared_t GetX() override { return -1.0 * units::acceleration::feet_per_second_squared_t(m_builtin->GetZ()); }
-
-	/// @return The acceleration of the roboRIO along the robot Y axis (left) in g-forces
-	inline units::acceleration::feet_per_second_squared_t GetY() override { return units::acceleration::feet_per_second_squared_t(m_builtin->GetX()); }
-
-	/// @return The acceleration of the roboRIO along the robot Z axis (up) in g-forces
-	inline units::acceleration::feet_per_second_squared_t GetZ() override { return -1.0 * units::acceleration::feet_per_second_squared_t(m_builtin->GetY()); }
+    units::length::inch_t wheelDiameter = units::length::inch_t(4.0);
+    double driveGearRatio = 1.0;
+    ControlData driveControl = ControlData();
+    double angleGearRatio = 1.0;
+    ControlData angleControl = ControlData();
+    double sensorToMechanismRatio = 1.0;
+    double rotorToSensorRatio = 12.8;
 };

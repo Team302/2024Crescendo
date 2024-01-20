@@ -12,34 +12,49 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+
 #pragma once
 
-#include "chassis/swerve/SwerveModule.h"
-#include "hw/DragonCanCoder.h"
-#include "hw/interfaces/IDragonMotorController.h"
-#include "mechanisms/controllers/ControlData.h"
+// C++ Includes
 
-class SwerveModuleBuilder
+// FRC Includes
+
+// Team 302 Includes
+#include "chassis/swerve/SwerveModuleAttributes.h"
+
+// Third Party Includes
+
+class SwerveModuleConstants
 {
 public:
-    SwerveModuleBuilder();
-    ~SwerveModuleBuilder() = default;
+    enum ModuleID
+    {
+        LEFT_FRONT,
+        RIGHT_FRONT,
+        LEFT_BACK,
+        RIGHT_BACK
+    };
 
-    void SetModuleID(SwerveModule::ModuleID id);
-    void SetMotors(IDragonMotorController &driveMotor,
-                   IDragonMotorController &turnMotor);
-    void SetCanCoder(DragonCanCoder &angleSensor);
-    void SetTurnControlData(ControlData &pid, double encoderCountsPerAngleSensorDegree);
-    void SetWheelDiameter(units::length::inch_t diameter);
-    bool IsValid() const;
-    SwerveModule *Commit();
+    enum ModuleType
+    {
+        SDS_MK4_L1,
+        SDS_MK4_L2,
+        SDS_MK4_L3,
+        SDS_MK4_L4,
+        SDS_MK4_L1_COLSON,
+        SDS_MK4_L2_COLSON,
+        SDS_MK4_L3_COLSON,
+        SDS_MK4_L4_COLSON,
+        SDS_MK4I_L1,
+        SDS_MK4I_L2,
+        SDS_MK4I_L3,
+        SDS_MK4I_L1_COLSON,
+        SDS_MK4I_L2_COLSON,
+        SDS_MK4I_L3_COLSON
+    };
 
-private:
-    SwerveModule::ModuleID m_moduleID;
-    IDragonMotorController *m_driveMotor;
-    IDragonMotorController *m_turnMotor;
-    DragonCanCoder *m_canCoder;
-    ControlData *m_turnControlData;
-    double m_countsOnTurnEncoderPerDegreesOnAngleSensor;
-    units::length::inch_t m_wheelDiameter;
+    SwerveModuleConstants() = delete;
+    ~SwerveModuleConstants() = delete;
+
+    static SwerveModuleAttributes GetSwerveModuleAttrs(ModuleType type);
 };

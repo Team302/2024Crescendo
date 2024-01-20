@@ -36,7 +36,7 @@ class StateMgr : public LoggableItem
 public:
     StateMgr();
     ~StateMgr() = default;
-    void Init(BaseMech *mech, const std::map<std::string, StateStruc> &stateMap);
+    void Init(BaseMech *mech);
 
     /// @brief  run the current state
     /// @return void
@@ -71,6 +71,7 @@ protected:
     bool m_checkGamePadTransitions;
 
     std::vector<State *> GetStateVector() { return m_stateVector; };
+    void AddToStateVector(State *state);
 
 private:
     BaseMech *m_mech;
