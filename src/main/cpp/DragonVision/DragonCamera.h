@@ -37,24 +37,24 @@ public:
     };
 
     DragonCamera(
-        std::string cameraName,                /// <I> camera name/type
-        PIPELINE pipeline,                     /// <I> enum for pipeline
-        units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot is positive)
-        units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot is positive)
-        units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot is positive)
-        units::angle::degree_t pitch,          /// <I> - Pitch of camera
-        units::angle::degree_t yaw,            /// <I> - Yaw of camera
-        units::angle::degree_t roll            /// <I> - Roll of camera
+        std::string cameraName,                  /// <I> camera name/type
+        PIPELINE pipeline,                       /// <I> enum for pipeline
+        units::length::inch_t mountingXDistance, /// <I> x offset of cam from robot center (forward relative to robot is positive)
+        units::length::inch_t mountingYDistance, /// <I> y offset of cam from robot center (left relative to robot is positive)
+        units::length::inch_t mountingZDistance, /// <I> z offset of cam from robot center (up relative to robot is positive)
+        units::angle::degree_t pitch,            /// <I> - Pitch of camera
+        units::angle::degree_t yaw,              /// <I> - Yaw of camera
+        units::angle::degree_t roll              /// <I> - Roll of camera
     );
     DragonCamera() = delete;
 
     virtual bool HasTarget() const = 0;
 
     // Getters
-    virtual units::angle::degree_t GetTargetYOffset() const = 0;
-    virtual units::angle::degree_t GetTargetYOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetZOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetZOffset() const = 0;
+    virtual units::angle::degree_t GetTargetYAngle() const = 0;
+    virtual units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
+    virtual units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
+    virtual units::angle::degree_t GetTargetZAngle() const = 0;
     virtual units::time::microsecond_t GetPipelineLatency() const = 0;
     virtual units::angle::degree_t GetTargetSkew() const = 0;
     virtual double GetTargetArea() const = 0;

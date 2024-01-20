@@ -25,14 +25,14 @@
 
 DragonCamera::DragonCamera(std::string cameraName, /// <I> camera name/type
                            PIPELINE pipeline,      /// <I> enum for pipeline
-                           units::length::inch_t mountingXOffset,
-                           units::length::inch_t mountingYOffset,
-                           units::length::inch_t mountingZOffset,
+                           units::length::inch_t mountingXDistance,
+                           units::length::inch_t mountingYDistance,
+                           units::length::inch_t mountingZDistance,
                            units::angle::degree_t pitch, /// <I> - Pitch of limelight
                            units::angle::degree_t yaw,   /// <I> - Yaw of limelight
-                           units::angle::degree_t roll) : m_mountingXOffset(mountingXOffset),
-                                                          m_mountingYOffset(mountingYOffset),
-                                                          m_mountingZOffset(mountingZOffset),
+                           units::angle::degree_t roll) : m_mountingXOffset(mountingXDistance),
+                                                          m_mountingYOffset(mountingYDistance),
+                                                          m_mountingZOffset(mountingZDistance),
                                                           m_yaw(yaw),
                                                           m_pitch(pitch),
                                                           m_roll(roll)

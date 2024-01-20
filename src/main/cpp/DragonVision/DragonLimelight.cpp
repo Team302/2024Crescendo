@@ -50,18 +50,18 @@ using namespace std;
 /// Description:    Create the object
 ///-----------------------------------------------------------------------------------
 DragonLimelight::DragonLimelight(
-    string name,                            /// <I> - network table name
-    DragonCamera::PIPELINE initialPipeline, /// <I> enum for pipeline
-    units::length::inch_t mountingXOffset,  /// <I> x offset of cam from robot center (forward relative to robot)
-    units::length::inch_t mountingYOffset,  /// <I> y offset of cam from robot center (left relative to robot)
-    units::length::inch_t mountingZOffset,  /// <I> z offset of cam from robot center (up relative to robot)
-    units::angle::degree_t pitch,           /// <I> - Pitch of camera
-    units::angle::degree_t yaw,             /// <I> - Yaw of camera
-    units::angle::degree_t roll,            /// <I> - Roll of camera
+    string name,                             /// <I> - network table name
+    DragonCamera::PIPELINE initialPipeline,  /// <I> enum for pipeline
+    units::length::inch_t mountingXDistance, /// <I> x offset of cam from robot center (forward relative to robot)
+    units::length::inch_t mountingYDistance, /// <I> y offset of cam from robot center (left relative to robot)
+    units::length::inch_t mountingZDistance, /// <I> z offset of cam from robot center (up relative to robot)
+    units::angle::degree_t pitch,            /// <I> - Pitch of camera
+    units::angle::degree_t yaw,              /// <I> - Yaw of camera
+    units::angle::degree_t roll,             /// <I> - Roll of camera
     LED_MODE ledMode,
     CAM_MODE camMode,
     STREAM_MODE streamMode,
-    SNAPSHOT_MODE snapMode) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
+    SNAPSHOT_MODE snapMode) : DragonCamera(name, initialPipeline, mountingXDistance, mountingYDistance, mountingZDistance, pitch, yaw, roll),
                               m_networktable(NetworkTableInstance::GetDefault().GetTable(name.c_str()))
 {
     SetPipeline(PIPELINE::OFF);
@@ -193,7 +193,7 @@ units::angle::degree_t DragonLimelight::GetTy() const
     return units::angle::degree_t(0.0);
 }
 
-units::angle::degree_t DragonLimelight::GetTargetHorizontalOffset() const
+units::angle::degree_t DragonLimelight::GetTargetYAngle() const
 {
     if (abs(m_roll.to<double>()) < 1.0)
     {
@@ -215,10 +215,10 @@ units::angle::degree_t DragonLimelight::GetTargetHorizontalOffset() const
     return GetTx();
 }
 
-units::angle::degree_t DragonLimelight::GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
+units::angle::degree_t DragonLimelight::GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
 {
     // Get the horizontal angle to the target and convert to radians
-    units::angle::radian_t limelightFrameHorizAngleRad = GetTargetHorizontalOffset();
+    units::angle::radian_t limelightFrameHorizAngleRad = GetTargetYAngle();
 
     units::length::inch_t targetXdistance = EstimateTargetXDistance();
 
@@ -236,7 +236,7 @@ units::angle::degree_t DragonLimelight::GetTargetHorizontalOffsetRobotFrame(unit
     return angleOffset;
 }
 
-units::angle::degree_t DragonLimelight::GetTargetVerticalOffset() const
+units::angle::degree_t DragonLimelight::GetTargetZAngle() const
 {
     if (abs(m_roll.to<double>()) < 1.0)
     {
@@ -258,7 +258,7 @@ units::angle::degree_t DragonLimelight::GetTargetVerticalOffset() const
     return GetTy();
 }
 
-units::angle::degree_t DragonLimelight::GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
+units::angle::degree_t DragonLimelight::GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
 {
     return units::angle::degree_t(-1.0);
 }

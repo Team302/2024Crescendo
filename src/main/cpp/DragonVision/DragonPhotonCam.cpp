@@ -29,10 +29,10 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 }
 
 /// no op ~
-units::angle::degree_t DragonPhotonCam::GetTargetHorizontalOffset() const {}
-units::angle::degree_t DragonPhotonCam::GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
-units::angle::degree_t DragonPhotonCam::GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
-units::angle::degree_t DragonPhotonCam::GetTargetVerticalOffset() const {}
+units::angle::degree_t DragonPhotonCam::GetTargetYAngle() const {}
+units::angle::degree_t DragonPhotonCam::GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+units::angle::degree_t DragonPhotonCam::GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+units::angle::degree_t DragonPhotonCam::GetTargetZAngle() const {}
 units::time::microsecond_t DragonPhotonCam::GetPipelineLatency() const {}
 int DragonPhotonCam::GetAprilTagID() const {}
 units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const {}
