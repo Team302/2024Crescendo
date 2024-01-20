@@ -38,6 +38,13 @@ public:
     units::time::microsecond_t GetPipelineLatency() const;
     PIPELINE getPipeline() const;
     int getAprilTagID() const;
+    units::length::inch_t EstimateTargetXDistance() const;
+    units::length::inch_t EstimateTargetYDistance() const;
+    units::length::inch_t EstimateTargetZDistance() const;
+    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
+    bool SetPipeline(PIPELINE pipeline);
 
 private:
     photon::PhotonCamera *m_camera; // photoncamera instance
