@@ -60,7 +60,7 @@ std::optional<VisionData> DragonVision::GetVisionData() const
 {
 	return VisionData{};
 }
-bool DragonVision::setPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position)
+bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position)
 {
 	m_DragonCameraMap[position]->SetPipeline(mode);
 	m_DragonCameraMap[position]->UpdatePipeline();

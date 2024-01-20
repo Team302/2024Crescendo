@@ -36,7 +36,7 @@ public:
         BACK_INTAKE
     };
 
-    bool setPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position);
+    bool SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position);
     // bool setPipeline(DragonLimelight::PIPELINE_MODE mode);
     DragonCamera::PIPELINE GetPipeline(CAMERA_POSITION position);
     // std::shared_ptr<DragonVisionTarget> getTargetInfo(LIMELIGHT_POSITION position) const;
