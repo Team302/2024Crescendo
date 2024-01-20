@@ -31,7 +31,7 @@ public:
     {
         OFF,
         MACHINE_LEARNING,
-        APIRL_TAG,
+        APRIL_TAG,
         COLOR_THRESHOLD
     };
 
