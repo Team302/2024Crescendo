@@ -31,8 +31,8 @@ public:
 
     units::angle::degree_t GetTargetYAngle() const;
     units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
-    units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
-    units::angle::degree_t GetTargetZAngle() const;
+    units::angle::degree_t GetTargetPitchRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
+    units::angle::degree_t GetTargetPitch() const;
 
     units::time::millisecond_t GetPipelineLatency() const;
     int GetAprilTagID() const;
