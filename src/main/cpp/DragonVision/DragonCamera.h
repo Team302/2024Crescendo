@@ -108,7 +108,7 @@ protected:
 TODO:
       one large comment block in FaceAprilTage.cpp
 
-      one large comment block in VisionDrive.cppp
+      one large comment block in VisionDrive.cpp
 
       one comment block, one comment line in FaceGamePiece.cpp
 
@@ -116,5 +116,6 @@ TODO:
 
       one commented line in VisionDrivePrimitive.cpp
 
+      commneted lines in FaceGoalHeading.h/cpp
 TODO:
 */
