@@ -35,7 +35,6 @@
 #include "units/length.h"
 #include "units/velocity.h"
 #include "frc/kinematics/SwerveModulePosition.h"
-// #include "frc/kinematics/SwerveDriveKinematics.h'
 
 // Team 302 includes
 #include "chassis/PoseEstimatorEnum.h"
@@ -115,8 +114,6 @@ SwerveChassis::SwerveChassis(
                                m_track(track),
                                m_pigeon(pigeon),
                                m_accel(BuiltInAccelerometer()),
-                               m_runWPI(false),
-                               m_poseOpt(PoseEstimatorEnum::WPI),
                                m_pose(),
                                m_offsetPoseAngle(0_deg), // not used at the moment
                                m_drive(units::velocity::meters_per_second_t(0.0)),
@@ -177,9 +174,11 @@ void SwerveChassis::ZeroAlignSwerveModules()
 /// @brief Drive the chassis
 void SwerveChassis::Drive(ChassisMovement moveInfo)
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vx"), moveInfo.chassisSpeeds.vx.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vy"), moveInfo.chassisSpeeds.vy.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Omega"), moveInfo.chassisSpeeds.omega.to<double>());
+    m_drive = moveInfo.chassisSpeeds.vx;
+    m_steer = moveInfo.chassisSpeeds.vy;
+    m_rotate = moveInfo.chassisSpeeds.omega;
+
+    LogInformation();
 
     m_currentOrientationState = GetHeadingState(moveInfo);
     if (m_currentOrientationState != nullptr)
@@ -187,14 +186,7 @@ void SwerveChassis::Drive(ChassisMovement moveInfo)
         m_currentOrientationState->UpdateChassisSpeeds(moveInfo);
     }
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("VxAfterHeading"), moveInfo.chassisSpeeds.vx.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("VyAfterHeading"), moveInfo.chassisSpeeds.vy.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("OmegaAfterHeading"), moveInfo.chassisSpeeds.omega.to<double>());
-
     m_currentDriveState = GetDriveState(moveInfo);
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("m_currentDriveState "), m_currentDriveState != nullptr ? string("not nullptr ") : string("nullptr"));
-
     if (m_currentDriveState != nullptr)
     {
         auto states = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
@@ -315,11 +307,6 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
     m_hasResetToVisionTarget = false;
-    //}
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SwerveOdometry"), std::string("X Position: "), m_poseEstimator.GetEstimatedPosition().X().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SwerveOdometry"), std::string("Y Position: "), m_poseEstimator.GetEstimatedPosition().Y().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SwerveOdometry"), std::string("Rotation: "), m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().to<double>());
 }
 /// @brief set all of the encoders to zero
 void SwerveChassis::SetEncodersToZero()
@@ -373,10 +360,9 @@ void SwerveChassis::ResetYaw()
     ZeroAlignSwerveModules();
 }
 
-ChassisSpeeds SwerveChassis::GetFieldRelativeSpeeds(
-    units::meters_per_second_t xSpeed,
-    units::meters_per_second_t ySpeed,
-    units::radians_per_second_t rot)
+ChassisSpeeds SwerveChassis::GetFieldRelativeSpeeds(units::meters_per_second_t xSpeed,
+                                                    units::meters_per_second_t ySpeed,
+                                                    units::radians_per_second_t rot)
 {
     units::angle::radian_t yaw(m_pigeon->GetYaw());
     auto temp = xSpeed * cos(yaw.to<double>()) + ySpeed * sin(yaw.to<double>());
@@ -404,4 +390,15 @@ units::length::inch_t SwerveChassis::GetWheelDiameter() const
         return m_frontLeft->GetWheelDiameter();
     }
     return units::length::inch_t(0.0);
+}
+
+void SwerveChassis::LogInformation()
+{
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vx"), m_drive.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vy"), m_steer.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Omega"), m_rotate.to<double>());
+    auto pose = GetPose();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current x position"), pose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current y position"), pose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
 }
