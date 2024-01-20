@@ -21,7 +21,7 @@
 
 struct VisionPose
 {
-    frc::Pose3d estimated_Pose = frc::Pose3d{};
+    frc::Pose3d estimatedPose = frc::Pose3d{};
     units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0);
     wpi::array<double, 3> visionMeasurementStdDevs = {0.1, 0.1, 0.1};
 };
