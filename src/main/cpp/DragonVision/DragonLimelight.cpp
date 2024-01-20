@@ -28,6 +28,7 @@
 #include "networktables/DoubleArrayTopic.h"
 #include "frc/geometry/Pose3d.h"
 #include "frc/geometry/Rotation3d.h"
+#include "frc/Timer.h"
 #include "units/length.h"
 
 // Team 302 includes
@@ -49,69 +50,30 @@ using namespace std;
 /// Description:    Create the object
 ///-----------------------------------------------------------------------------------
 DragonLimelight::DragonLimelight(
-    string tableName,                               /// <I> - network table name
-    units::length::inch_t mountingHeight,           /// <I> - mounting height of the limelight
-    units::length::inch_t mountingHorizontalOffset, /// <I> - mounting horizontal offset from the middle of the robot,
-    units::length::inch_t forwardOffset,            /// <I> mounting offset forward/back
-    units::angle::degree_t pitch,                   /// <I> - Pitch of limelight
-    units::angle::degree_t yaw,                     /// <I> - Yaw of limelight
-    units::angle::degree_t roll,                    /// <I> - Roll of limelight                /// <I> - clockwise rotation of limelight
-    units::length::inch_t targetHeight,             /// <I> - height the target
-    units::length::inch_t targetHeight2,            /// <I> - height of second target
+    string name,                            /// <I> - network table name
+    DragonCamera::PIPELINE initialPipeline, /// <I> enum for pipeline
+    units::length::inch_t mountingXOffset,  /// <I> x offset of cam from robot center (forward relative to robot)
+    units::length::inch_t mountingYOffset,  /// <I> y offset of cam from robot center (left relative to robot)
+    units::length::inch_t mountingZOffset,  /// <I> z offset of cam from robot center (up relative to robot)
+    units::angle::degree_t pitch,           /// <I> - Pitch of camera
+    units::angle::degree_t yaw,             /// <I> - Yaw of camera
+    units::angle::degree_t roll,            /// <I> - Roll of camera
     LED_MODE ledMode,
     CAM_MODE camMode,
     STREAM_MODE streamMode,
-    SNAPSHOT_MODE snapMode) : m_networktable(NetworkTableInstance::GetDefault().GetTable(tableName.c_str())),
-                              m_mountHeight(mountingHeight),
-                              m_mountingHorizontalOffset(mountingHorizontalOffset),
-                              m_mountingForwardOffset(forwardOffset),
-                              m_yaw(yaw),
-                              m_pitch(pitch),
-                              m_roll(roll),
-                              m_targetHeight(targetHeight),
-                              m_targetHeight2(targetHeight2)
+    SNAPSHOT_MODE snapMode) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
+                              m_networktable(NetworkTableInstance::GetDefault().GetTable(name.c_str()))
 {
-    SetPipeline(PIPELINE_MODE::OFF);
+    SetPipeline(PIPELINE::OFF);
     SetLEDMode(ledMode);
     SetCamMode(camMode);
     SetStreamMode(streamMode);
     ToggleSnapshot(snapMode);
-    SetLimelightPosition(mountingHeight,
-                         mountingHorizontalOffset,
-                         forwardOffset,
-                         pitch,
-                         yaw,
-                         roll);
-}
-
-void DragonLimelight::SetLimelightPosition(units::length::inch_t mountHeight,
-                                           units::length::inch_t mountHorizontalOffset,
-                                           units::length::inch_t mountForwardOffset,
-                                           units::angle::degree_t pitch,
-                                           units::angle::degree_t yaw,
-                                           units::angle::degree_t roll)
-{
-    m_mountHeight = mountHeight;
-    m_mountingHorizontalOffset = mountHorizontalOffset;
-    m_mountingForwardOffset = mountForwardOffset;
-    m_pitch = pitch;
-    m_yaw = yaw;
-    m_roll = roll;
-}
-
-DragonLimelight::PIPELINE_MODE DragonLimelight::getPipeline() const
-{
-    auto nt = m_networktable.get();
-    if (nt != nullptr)
-    {
-        return (PIPELINE_MODE)(nt->GetNumber("getpipe", PIPELINE_MODE::UNKNOWN));
-    }
-    return PIPELINE_MODE::UNKNOWN;
 }
 
 /// @brief Assume that the current pipeline is AprilTag and that a target is detected
 /// @return -1 if the network table cannot be found
-int DragonLimelight::getAprilTagID() const
+int DragonLimelight::GetAprilTagID() const
 {
     auto nt = m_networktable.get();
     if (nt != nullptr)
@@ -122,40 +84,74 @@ int DragonLimelight::getAprilTagID() const
     return -1;
 }
 
-frc::Pose2d DragonLimelight::GetRedFieldPosition() const
+VisionPose DragonLimelight::GetFieldPosition() const
+{
+    return VisionPose{};
+}
+
+VisionPose DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance alliance) const
+{
+    return VisionPose{};
+}
+
+VisionPose DragonLimelight::GetRedFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
-        auto blueTopic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpiblue");
+        auto redTopic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpired");
 
-        std::vector<double> bluePosition = blueTopic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
+        std::vector<double> redPosition = redTopic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
 
-        // do we want to also store total latency (7th element in array) here?
+        units::time::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
+        units::time::millisecond_t timestamp = currentTime - units::millisecond_t(redPosition[6] / 1000.0);
 
-        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(bluePosition[3]), units::angle::degree_t(bluePosition[4]), units::angle::degree_t(bluePosition[5])};
-        return frc::Pose3d{units::meter_t(bluePosition[0]), units::meter_t(bluePosition[1]), units::meter_t(bluePosition[2]), rotation}.ToPose2d();
+        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(redPosition[3]), units::angle::degree_t(redPosition[4]), units::angle::degree_t(redPosition[5])};
+
+        return VisionPose{frc::Pose3d{units::meter_t(redPosition[0]), units::meter_t(redPosition[1]), units::meter_t(redPosition[2]), rotation}, timestamp};
     }
     else
     {
-        return frc::Pose2d{};
+        return VisionPose{};
     }
 }
 
-frc::Pose2d DragonLimelight::GetBlueFieldPosition() const
+VisionPose DragonLimelight::GetBlueFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
-        auto topic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpiblue");
+        auto topic = m_networktable.get()->GetDoubleArrayTopic("botpose");
         std::vector<double> position = topic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
 
-        // do we want to also store total latency (7th element in array) here?
+        units::time::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
+        units::time::millisecond_t timestamp = currentTime - units::millisecond_t(position[6] / 1000.0);
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
-        return frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}.ToPose2d();
+        return VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp};
     }
     else
     {
-        return frc::Pose2d{};
+        return VisionPose{};
+    }
+}
+
+VisionPose DragonLimelight::GetOriginFieldPosition() const
+{
+    if (m_networktable.get() != nullptr)
+    {
+        auto redTopic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpired");
+
+        std::vector<double> position = redTopic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
+
+        units::time::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
+        units::time::millisecond_t timestamp = currentTime - units::millisecond_t(position[6] / 1000.0);
+
+        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
+
+        return VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp};
+    }
+    else
+    {
+        return VisionPose{};
     }
 }
 
@@ -222,20 +218,16 @@ units::angle::degree_t DragonLimelight::GetTargetHorizontalOffset() const
 
 units::angle::degree_t DragonLimelight::GetTargetHorizontalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
 {
-    // Get the horizontal angle to the target and conver to radians
+    // Get the horizontal angle to the target and convert to radians
     units::angle::degree_t limelightFrameHorizAngle = GetTargetHorizontalOffset();
     units::angle::radian_t limelightFrameHorizAngleRad = limelightFrameHorizAngle;
 
-    units::length::inch_t targetXdistance = EstimateTargetXdistance();
+    units::length::inch_t targetXdistance = EstimateTargetXDistance();
 
     units::length::inch_t targetHorizOffset = targetXdistance * tan(limelightFrameHorizAngleRad.to<double>());
 
-    units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + m_mountingHorizontalOffset; // the offset is negative if the limelight is to the left of the center of the robot
-    units::length::inch_t targetDistanceRobotFrame = targetXdistance + m_mountingForwardOffset;         // the offset is negative if the limelight is behind the center of the robot
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("targetHorizOffset_inch "), targetHorizOffset.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("targetHorizOffsetRobotFrame_inch "), targetHorizOffsetRobotFrame.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("targetDistanceRobotFrame_inch "), targetDistanceRobotFrame.to<double>());
+    units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + m_mountingYOffset; // the offset is positive if the limelight is to the left of the center of the robot
+    units::length::inch_t targetDistanceRobotFrame = targetXdistance + m_mountingXOffset;      // the offset is negative if the limelight is behind the center of the robot
 
     // units::angle::radian_t angleOffset = units::angle::radian_t(atan((targetHorizOffsetRobotFrame / targetDistanceRobotFrame).to<float>()));
     units::angle::radian_t angleOffset = units::angle::radian_t(0);
@@ -268,6 +260,11 @@ units::angle::degree_t DragonLimelight::GetTargetVerticalOffset() const
     return GetTy();
 }
 
+units::angle::degree_t DragonLimelight::GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const
+{
+    return units::angle::degree_t(-1.0);
+}
+
 double DragonLimelight::GetTargetArea() const
 {
     auto nt = m_networktable.get();
@@ -298,12 +295,6 @@ units::time::microsecond_t DragonLimelight::GetPipelineLatency() const
     return units::time::second_t(0.0);
 }
 
-void DragonLimelight::SetTargetHeight(
-    units::length::inch_t targetHeight)
-{
-    m_targetHeight = targetHeight;
-}
-
 void DragonLimelight::SetLEDMode(DragonLimelight::LED_MODE mode)
 {
     auto nt = m_networktable.get();
@@ -322,12 +313,12 @@ void DragonLimelight::SetCamMode(DragonLimelight::CAM_MODE mode)
     }
 }
 
-bool DragonLimelight::SetPipeline(int pipeline)
+bool DragonLimelight::UpdatePipeline()
 {
     auto nt = m_networktable.get();
     if (nt != nullptr)
     {
-        return nt->PutNumber("pipeline", pipeline);
+        return nt->PutNumber("pipeline", m_pipeline);
     }
     return false;
 }
@@ -372,94 +363,76 @@ void DragonLimelight::ToggleSnapshot(DragonLimelight::SNAPSHOT_MODE toggle)
 }
 
 void DragonLimelight::PrintValues()
-{
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues HasTarget"), to_string(HasTarget()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues XOffset"), to_string(GetTargetHorizontalOffset().to<double>()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues YOffset"), to_string(GetTargetVerticalOffset().to<double>()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues Area"), to_string(GetTargetArea()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues Skew"), to_string(GetTargetSkew().to<double>()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues Latency"), to_string(GetPipelineLatency().to<double>()));
+{ /*
+    Should do something similar but in DragonCamera instead of DragonLimelight
+
+     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues HasTarget"), to_string(HasTarget()));
+     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues XOffset"), to_string(GetTargetHorizontalOffset().to<double>()));
+     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues YOffset"), to_string(GetTargetVerticalOffset().to<double>()));
+     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues Area"), to_string(GetTargetArea()));
+     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues Skew"), to_string(GetTargetSkew().to<double>()));
+     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("PrintValues Latency"), to_string(GetPipelineLatency().to<double>()));
+ */
 }
 
-std::optional<units::length::inch_t> DragonLimelight::GetTargetHeight() const
-{
-    PIPELINE_MODE mode = getPipeline();
-    if (mode == PIPELINE_MODE::APRIL_TAG)
-    {
-        return m_aprilTagInfo.GetHeight(getAprilTagID());
-    }
-    else if ((mode == PIPELINE_MODE::CUBE) || mode == PIPELINE_MODE::CONE)
-    {
-        return units::length::inch_t(5);
-    }
-    else if ((mode == PIPELINE_MODE::CONE_SUBSTATION) || (mode == PIPELINE_MODE::CUBE_SUBSTATION))
-    {
-        return units::length::inch_t(42);
-    }
+units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
+{ /*
+     Needs to be redone:
+     If apriltag, use Pose3d and get x value
+     If else, for now jsut return -1.0 until we can get an accurate measurement
 
-    return {};
+
+
+
+     units::angle::degree_t totalAngleFromHorizontal; ///< the vertical angle from a horizontal datum to the target
+     units::angle::degree_t limelightAngleFromHorizontal;
+     units::angle::degree_t limelightRoll = GetCameraRoll();
+
+     // First determin the limelightAngleFromHorizontal depending on the mounting orientation
+     if (abs(limelightRoll.to<double>()) < 1.0)
+     {
+         limelightAngleFromHorizontal = GetCameraPitch();
+     }
+     else if (abs(limelightRoll.to<double>() - 90.0) < 1.0)
+     {
+         limelightAngleFromHorizontal = -1.0 * GetCameraYaw();
+     }
+     else if (abs(limelightRoll.to<double>() - 180.0) < 1.0)
+     {
+         limelightAngleFromHorizontal = -1.0 * GetCameraPitch();
+     }
+     else if (abs(limelightRoll.to<double>() - 270.0) < 1.0)
+     {
+         limelightAngleFromHorizontal = GetCameraYaw();
+     }
+     else
+     {
+         // not handled. The only allowed Roll values are 0, 90, 180, 270
+     }
+
+     totalAngleFromHorizontal = (limelightAngleFromHorizontal + GetTargetVerticalOffset());
+
+     units::angle::radian_t angleRad = totalAngleFromHorizontal; // angle in radians
+     double tanOfAngle = tan(angleRad.to<double>());
+
+     if (theTargetHeight.has_value())
+     {
+         auto deltaHeight = theTargetHeight.value() - GetLimelightMountingHeight();
+         units::length::inch_t x_distanceToTarget = units::length::inch_t(deltaHeight / tanOfAngle);
+
+         return x_distanceToTarget;
+     }
+ */
+    return units::length::inch_t(-1.0);
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetXdistance() const
+units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 {
-    units::angle::degree_t totalAngleFromHorizontal; ///< the vertical angle from a horizontal datum to the target
-    units::angle::degree_t limelightAngleFromHorizontal;
-    units::angle::degree_t limelightRoll = GetLimelightRoll();
+    /*
+     Needs to be redone:
+     If apriltag, use Pose3d and get y value
+     If else, for now jsut return -1.0 until we can get an accurate measurement
 
-    // First determin the limelightAngleFromHorizontal depending on the mounting orientation
-    if (abs(limelightRoll.to<double>()) < 1.0)
-    {
-        limelightAngleFromHorizontal = GetLimelightPitch();
-    }
-    else if (abs(limelightRoll.to<double>() - 90.0) < 1.0)
-    {
-        limelightAngleFromHorizontal = -1.0 * GetLimelightYaw();
-    }
-    else if (abs(limelightRoll.to<double>() - 180.0) < 1.0)
-    {
-        limelightAngleFromHorizontal = -1.0 * GetLimelightPitch();
-    }
-    else if (abs(limelightRoll.to<double>() - 270.0) < 1.0)
-    {
-        limelightAngleFromHorizontal = GetLimelightYaw();
-    }
-    else
-    {
-        // not handled. The only allowed Roll values are 0, 90, 180, 270
-    }
-
-    totalAngleFromHorizontal = (limelightAngleFromHorizontal + GetTargetVerticalOffset());
-
-    units::angle::radian_t angleRad = totalAngleFromHorizontal; // angle in radians
-    double tanOfAngle = tan(angleRad.to<double>());
-
-    std::optional<units::length::inch_t> theTargetHeight = GetTargetHeight();
-
-    if (theTargetHeight.has_value())
-    {
-        auto deltaHeight = theTargetHeight.value() - GetLimelightMountingHeight();
-        units::length::inch_t x_distanceToTarget = units::length::inch_t(deltaHeight / tanOfAngle);
-
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("totalAngleFromHorizontal "), totalAngleFromHorizontal.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("angleRad "), angleRad.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("limelightAngleFromHorizontal "), limelightAngleFromHorizontal.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("Limelight mounting angle "), GetLimelightPitch().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("target vertical angle "), GetTargetVerticalOffset().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("deltaHeight "), deltaHeight.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("tanOfAngle "), tanOfAngle);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("x_distanceToTarget "), (x_distanceToTarget).to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("targetHeight "), theTargetHeight.value().to<double>());
-
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("x_distanceToTarget_LL_inch "), x_distanceToTarget.to<double>());
-
-        return x_distanceToTarget;
-    }
-
-    return units::length::inch_t(0);
-}
-
-units::length::inch_t DragonLimelight::EstimateTargetYdistance() const
-{
     // Get the horizontal angle to the target and convert to radians
     units::angle::degree_t limelightFrameHorizAngle = GetTargetHorizontalOffset();
     units::angle::radian_t limelightFrameHorizAngleRad = limelightFrameHorizAngle;
@@ -471,22 +444,54 @@ units::length::inch_t DragonLimelight::EstimateTargetYdistance() const
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("targetYoffset_LL_inch "), targetYoffset.to<double>());
 
     return targetYoffset;
+    */
+
+    return units::length::inch_t(-1.0);
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetXdistance_RelToRobotCoords() const
+units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
 {
-    units::length::inch_t targetXoffset_RF_inch = EstimateTargetXdistance() + m_mountingForwardOffset; ///< the offset is negative if the limelight is behind the center of the robot
+    /*
+     Needs to be redone:
+     If apriltag, use Pose3d and get z value
+     If else, for now jsut return -1.0 until we can get an accurate measurement
+    */
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("targetXoffset_RF_inch "), targetXoffset_RF_inch.to<double>());
-
-    return targetXoffset_RF_inch;
+    return units::length::inch_t(-1.0);
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetYdistance_RelToRobotCoords() const
+units::length::inch_t DragonLimelight::EstimateTargetXDistance_RelToRobotCoords() const
 {
-    units::length::inch_t targetYoffset_RF_inch = EstimateTargetYdistance() + m_mountingHorizontalOffset; ///< the offset is negative if the limelight is to the left of the center of the robot
+    if (EstimateTargetXDistance().to<double>() != -1.0)
+    {
+        units::length::inch_t targetXoffset_RF_inch = EstimateTargetXDistance() + m_mountingXOffset; ///< the offset is negative if the limelight is behind the center of the robot
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("targetYoffset_RF_inch "), targetYoffset_RF_inch.to<double>());
+        return targetXoffset_RF_inch;
+    }
+    else
+        return units::length::inch_t(-1.0);
+}
 
-    return targetYoffset_RF_inch;
+units::length::inch_t DragonLimelight::EstimateTargetYDistance_RelToRobotCoords() const
+{
+    if (EstimateTargetYDistance().to<double>() != -1.0)
+    {
+        units::length::inch_t targetYoffset_RF_inch = EstimateTargetYDistance() + m_mountingYOffset; ///< the offset is positive if the limelight is to the left of the center of the robot
+
+        return targetYoffset_RF_inch;
+    }
+    else
+        return units::length::inch_t(-1.0);
+}
+
+units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords() const
+{
+    if (EstimateTargetZDistance().to<double>() != -1.0)
+    {
+        units::length::inch_t targetZoffset_RF_inch = EstimateTargetZDistance() + m_mountingZOffset; ///< the offset is positive if the limelight is above the center of the robot
+
+        return targetZoffset_RF_inch;
+    }
+    else
+        return units::length::inch_t(-1.0);
 }

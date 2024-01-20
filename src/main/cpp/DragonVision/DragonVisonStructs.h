@@ -20,12 +20,12 @@
 
 struct VisionPose
 {
-    frc::Pose3d estimated_Pose;
-    units::time::millisecond_t timeStamp;
+    frc::Pose3d estimated_Pose = frc::Pose3d{};
+    units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0);
 };
 
 struct VisionData
 {
-    frc::Transform3d deltaToTarget;
-    int tagId;
+    frc::Transform3d deltaToTarget = frc::Transform3d{};
+    int tagId = -1;
 };

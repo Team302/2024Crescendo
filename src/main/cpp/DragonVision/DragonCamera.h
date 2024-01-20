@@ -20,13 +20,16 @@
 
 #include <string>
 #include <vector>
-#include <frc/geometry/Pose3d.h>
-#include <frc/DriverStation.h>
+#include "frc/geometry/Pose3d.h"
+#include "frc/DriverStation.h"
+#include "DragonVision/DragonVisonStructs.h"
+
 class DragonCamera
 {
 public:
     enum PIPELINE
     {
+        OFF,
         MACHINE_LEARNING,
         APIRL_TAG,
         COLOR_THRESHOLD
@@ -35,12 +38,12 @@ public:
     DragonCamera(
         std::string cameraName,                /// <I> camera name/type
         PIPELINE pipeline,                     /// <I> enum for pipeline
-        units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
-        units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
-        units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
-        units::angle::degree_t pitch,          /// <I> - Pitch of limelight
-        units::angle::degree_t yaw,            /// <I> - Yaw of limelight
-        units::angle::degree_t roll            /// <I> - Roll of limelight
+        units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot is positive)
+        units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot is positive)
+        units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot is positive)
+        units::angle::degree_t pitch,          /// <I> - Pitch of camera
+        units::angle::degree_t yaw,            /// <I> - Yaw of camera
+        units::angle::degree_t roll            /// <I> - Roll of camera
     );
     DragonCamera() = delete;
 
@@ -52,13 +55,12 @@ public:
     virtual units::angle::degree_t GetTargetVerticalOffsetRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
     virtual units::angle::degree_t GetTargetVerticalOffset() const = 0;
     virtual units::time::microsecond_t GetPipelineLatency() const = 0;
-    virtual PIPELINE GetPipeline() const = 0;
     virtual units::angle::degree_t GetTargetSkew() const = 0;
     virtual double GetTargetArea() const = 0;
     virtual int GetAprilTagID() const = 0;
 
-    virtual frc::Pose3d GetFieldPosition() const = 0;
-    virtual frc::Pose3d GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
+    virtual VisionPose GetFieldPosition() const = 0;
+    virtual VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
 
     //  Estimating distance
     virtual units::length::inch_t EstimateTargetXDistance() const = 0;
@@ -70,6 +72,7 @@ public:
     virtual units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const = 0;
 
     // Getters
+    PIPELINE GetPipeline() const { return m_pipeline; }
     units::angle::degree_t GetCameraPitch() const { return m_pitch; }
     units::angle::degree_t GetCameraYaw() const { return m_yaw; }
     units::angle::degree_t GetCameraRoll() const { return m_roll; }
@@ -78,7 +81,7 @@ public:
     units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
 
     // Setters
-    virtual bool SetPipeline(PIPELINE pipeline) = 0;
+    void SetPipeline(PIPELINE pipeline) { m_pipeline = pipeline; }
 
     void SetCameraPosition(
         units::length::inch_t mountingXOffset,
@@ -89,12 +92,15 @@ public:
         units::angle::degree_t roll); /// TODO: implement
 
 protected:
+    virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
+
     units::length::inch_t m_mountingXOffset;
     units::length::inch_t m_mountingYOffset;
     units::length::inch_t m_mountingZOffset;
     units::angle::degree_t m_yaw;
     units::angle::degree_t m_pitch;
     units::angle::degree_t m_roll;
+    PIPELINE m_pipeline;
 };
 
 /*
