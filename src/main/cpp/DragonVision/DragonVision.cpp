@@ -20,7 +20,6 @@
 // Team 302 includes
 
 #include <DragonVision/DragonVision.h>
-#include <DragonVision/LimelightFactory.h>
 #include <utils/FMSData.h>
 
 #include <string>

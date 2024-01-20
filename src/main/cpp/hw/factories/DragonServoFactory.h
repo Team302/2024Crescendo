@@ -22,7 +22,7 @@
 #include "units/angle.h"
 
 // Team 302 includes
-#include <configs/usages/ServoUsage.h>
+#include <configs/RobotElementNames.h>
 
 class DragonServo;
 
@@ -43,7 +43,7 @@ public:
     /// @return DragonServo*    - could be nullptr if invalid inputs are supplied
     DragonServo *CreateDragonServo(
         std::string networkTableName,
-        ServoUsage::SERVO_USAGE deviceUsage,
+        RobotElementNames::SERVO_USAGE deviceUsage,
         int deviceID,
         units::angle::degree_t minAngle,
         units::angle::degree_t maxAngle);
@@ -52,7 +52,7 @@ public:
     /// @param [in] DragonServo::SERVO_USAGE   deviceUsage  Usage of the servo
     /// @return DragonServo*    - could be nullptr if invalid inputs are supplied
     DragonServo *GetDragonServo(
-        ServoUsage::SERVO_USAGE deviceUsage);
+        RobotElementNames::SERVO_USAGE deviceUsage);
 
 private:
     DragonServoFactory() = default;
@@ -60,5 +60,5 @@ private:
 
     static DragonServoFactory *m_instance;
 
-    std::map<ServoUsage::SERVO_USAGE, DragonServo *> m_servos;
+    std::map<RobotElementNames::SERVO_USAGE, DragonServo *> m_servos;
 };

@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -15,30 +14,25 @@
 //====================================================================================================================================================
 
 #pragma once
-#include "configs/RobotConfig.h"
-#include "hw/DragonTalonFX.h"
-#include "mechanisms/example/decoratormods/Example.h"
 
-class RobotConfigExample : public RobotConfig
+// FRC Includes
+#include "units/length.h"
+
+// Team302 Includes
+#include "chassis/swerve/SwerveModuleConstants.h"
+#include "mechanisms/controllers/ControlData.h"
+
+// Third party includes
+
+/// @brief This is used to give all neccessary data to ISwerveDriveStates
+
+struct SwerveModuleAttributes
 {
-public:
-    RobotConfigExample() = default;
-    ~RobotConfigExample() = default;
-
-protected:
-    // actuators
-    void DefineMotorControllers() override;
-    void DefineSolenoids() override;
-
-    // sensors
-    void DefineCANSensors() override;
-
-    // mechanisms
-    void DefineMechanisms() override;
-
-private:
-    DragonTalonFX *m_motor1 = nullptr;
-    DragonTalonFX *m_motor2 = nullptr;
-    DragonCanCoder *m_cancoder = nullptr;
-    Example *m_example = nullptr;
+    units::length::inch_t wheelDiameter = units::length::inch_t(4.0);
+    double driveGearRatio = 1.0;
+    ControlData driveControl = ControlData();
+    double angleGearRatio = 1.0;
+    ControlData angleControl = ControlData();
+    double sensorToMechanismRatio = 1.0;
+    double rotorToSensorRatio = 12.8;
 };

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "configs/usages/DigitalInputUsage.h"
+#include "configs/RobotElementNames.h"
 #include "units/time.h"
 namespace frc
 {
@@ -33,7 +33,7 @@ public:
 	//------------------------------------------------------------------------------
 	DragonDigitalInput(
 		std::string networkTableName,
-		DigitalInputUsage::DIGITAL_INPUT_USAGE type,
+		RobotElementNames::DIGITAL_INPUT_USAGE type,
 		int deviceID,  // <I> - digial io ID
 		bool reversed, // <I>
 		units::time::second_t debounceTime);
@@ -43,12 +43,12 @@ public:
 
 	bool Get() const;
 	int GetChannel() const;
-	DigitalInputUsage::DIGITAL_INPUT_USAGE GetType() const;
+	RobotElementNames::DIGITAL_INPUT_USAGE GetType() const;
 
 private:
 	std::string m_networkTableName;
 	frc::DigitalInput *m_digital;
 	frc::Debouncer *m_debouncer;
 	bool m_reversed;
-	DigitalInputUsage::DIGITAL_INPUT_USAGE m_type;
+	RobotElementNames::DIGITAL_INPUT_USAGE m_type;
 };

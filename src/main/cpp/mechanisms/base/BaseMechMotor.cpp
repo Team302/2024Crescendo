@@ -24,7 +24,7 @@
 
 // Team 302 includes
 #include "hw/interfaces/IDragonMotorController.h"
-#include "configs/usages/MotorControllerUsage.h"
+#include "configs/RobotElementNames.h"
 #include "mechanisms/base/BaseMechMotor.h"
 #include "mechanisms/controllers/ControlData.h"
 #include "utils/logging/Logger.h"
@@ -162,11 +162,12 @@ void BaseMechMotor::SetControlConstants(int slot, ControlData pid)
 /// @brief log data to the network table if it is activated and time period has past
 void BaseMechMotor::LogInformation()
 {
-    auto usageMap = MotorControllerUsage::GetInstance();
-    auto usage = usageMap->GetUsage(GetMotor().GetType());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, usage + "Target", GetTarget());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, GetNetworkTableName(), usage + "angular velocity - RPM", GetRPM().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, GetNetworkTableName(), usage + "position - degrees", GetPositionDegrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, GetNetworkTableName(), usage + "velocity - FPS", GetFeetPerSec().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, GetNetworkTableName(), usage + "position - inch", GetPositionInches().to<double>());
+    // todo how to replace this
+    // auto usageMap = RobotElementNames::GetInstance();
+    // auto usage = usageMap->GetUsage(GetMotor().GetType());
+    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, usage + "Target", GetTarget());
+    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, GetNetworkTableName(), usage + "angular velocity - RPM", GetRPM().to<double>());
+    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, GetNetworkTableName(), usage + "position - degrees", GetPositionDegrees().to<double>());
+    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, GetNetworkTableName(), usage + "velocity - FPS", GetFeetPerSec().to<double>());
+    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, GetNetworkTableName(), usage + "position - inch", GetPositionInches().to<double>());
 }

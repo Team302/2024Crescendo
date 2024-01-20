@@ -14,28 +14,47 @@
 //====================================================================================================================================================
 
 #pragma once
-#include <string>
 
-#include "State.h"
-#include "mechanisms/controllers/MechanismTargetData.h"
+// C++ Includes
 
-#include "mechanisms/example/generated/ExampleForwardStateGen.h"
+// FRC Includes
 
-using namespace std;
-class ExampleForwardState : public State
+// Team 302 Includes
+#include "chassis/swerve/SwerveModuleAttributes.h"
+
+// Third Party Includes
+
+class SwerveModuleConstants
 {
 public:
-    ExampleForwardState() = delete;
-    ExampleForwardState(std::string stateName,
-                        int stateId,
-                        ExampleForwardStateGen *generatedState);
-    ~ExampleForwardState() = default;
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
-    bool IsTransitionCondition(bool considerGamepadTransitions) const override;
+    enum ModuleID
+    {
+        LEFT_FRONT,
+        RIGHT_FRONT,
+        LEFT_BACK,
+        RIGHT_BACK
+    };
 
-private:
-    ExampleForwardStateGen *m_genState;
+    enum ModuleType
+    {
+        SDS_MK4_L1,
+        SDS_MK4_L2,
+        SDS_MK4_L3,
+        SDS_MK4_L4,
+        SDS_MK4_L1_COLSON,
+        SDS_MK4_L2_COLSON,
+        SDS_MK4_L3_COLSON,
+        SDS_MK4_L4_COLSON,
+        SDS_MK4I_L1,
+        SDS_MK4I_L2,
+        SDS_MK4I_L3,
+        SDS_MK4I_L1_COLSON,
+        SDS_MK4I_L2_COLSON,
+        SDS_MK4I_L3_COLSON
+    };
+
+    SwerveModuleConstants() = delete;
+    ~SwerveModuleConstants() = delete;
+
+    static SwerveModuleAttributes GetSwerveModuleAttrs(ModuleType type);
 };

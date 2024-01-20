@@ -27,7 +27,7 @@ using ctre::phoenix6::signals::SensorDirectionValue;
 using std::string;
 
 DragonCanCoder::DragonCanCoder(string networkTableName,
-                               CanSensorUsage::CANSENSOR_USAGE usage,
+                               RobotElementNames::CANCODER_USAGE usage,
                                int canID,
                                string canBusName,
                                double offset,

@@ -49,15 +49,12 @@ HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
                                    IRobotStateChangeSubscriber(),
                                    m_chassis(nullptr),
                                    m_swerve(nullptr),
-                                   m_trajectoryGenerator(nullptr),
                                    m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
-                                   m_generatedTrajectory(frc::Trajectory()),
                                    m_desiredGamePiece(RobotStateChanges::GamePiece::None)
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     m_swerve = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    m_trajectoryGenerator = m_swerve != nullptr ? new DragonTrajectoryGenerator(m_swerve->GetMaxSpeed(), m_swerve->GetMaxAcceleration()) : nullptr;
     RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredGamePiece);
 }
 

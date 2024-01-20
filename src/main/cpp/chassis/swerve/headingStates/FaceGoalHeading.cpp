@@ -15,10 +15,10 @@
 
 // Team302 Includes
 #include <chassis/swerve/headingStates/FaceGoalHeading.h>
-#include <DragonVision/LimelightFactory.h>
 
 FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
-                                     m_vision(LimelightFactory::GetLimelightFactory()->GetLimelight())
+                                     m_limelight()
+// visionapi Review how LimelightFactory should be fixed here
 {
 }
 

@@ -17,7 +17,7 @@
 #include <string>
 
 #include "hw/DragonServo.h"
-#include "configs/usages/ServoUsage.h"
+#include "configs/RobotElementNames.h"
 #include "utils/logging/Logger.h"
 
 #include <frc/Servo.h>
@@ -26,7 +26,7 @@ using namespace frc;
 using namespace std;
 
 DragonServo::DragonServo(
-    ServoUsage::SERVO_USAGE deviceUsage, // <I> - Usage of the servo
+    RobotElementNames::SERVO_USAGE deviceUsage, // <I> - Usage of the servo
     int deviceID,                        // <I> - PWM ID
     units::angle::degree_t minAngle,     // <I> - Minimun desired angle
     units::angle::degree_t maxAngle      // <I> - Maximum desired angle
@@ -89,7 +89,7 @@ void DragonServo::MoveToMinAngle()
     SetAngle(m_minAngle);
 }
 
-ServoUsage::SERVO_USAGE DragonServo::GetUsage() const
+RobotElementNames::SERVO_USAGE DragonServo::GetUsage() const
 {
     return m_usage;
 }
