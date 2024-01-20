@@ -71,34 +71,10 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
                                                        m_currentRotations(0.0)
 {
     Rotation2d ang{units::angle::degree_t(0.0)};
-
-    // subscribe to the topic in "datatable" called "Y"
-    ySub = datatable->GetDoubleTopic("Y").Subscribe(0.0);
-
     m_activeState.angle = ang;
     m_activeState.speed = 0_mps;
 
     auto attrs = SwerveModuleConstants::GetSwerveModuleAttrs(type);
-    m_turnKp = attrs.angleControl.GetP();
-    m_turnKi = attrs.angleControl.GetI();
-    m_turnKd = attrs.angleControl.GetD();
-    m_turnKf = attrs.angleControl.GetF();
-    m_turnCruiseVel = attrs.angleControl.GetCruiseVelocity();
-    m_turnMaxAcc = attrs.angleControl.GetMaxAcceleration();
-
-    m_driveKp = attrs.driveControl.GetP();
-    m_driveKi = attrs.driveControl.GetI();
-    m_driveKd = attrs.driveControl.GetD();
-    m_driveKf = attrs.driveControl.GetF();
-
-    auto ntinstance = nt::NetworkTableInstance::GetDefault();
-    auto ntentry = ntinstance.GetTable("SwerveModuleAttrs");
-    auto kP = ntentry->GetDoubleTopic("turn P").Subscribe(m_turnKp);
-    auto kP = ntentry->GetDoubleTopic("turn I").Subscribe(m_turnKi);
-    auto kP = ntentry->GetDoubleTopic("turn D").Subscribe(m_turnKd);
-    auto kP = ntentry->GetDoubleTopic("turn F").Subscribe(m_turnKf);
-    auto kP = ntentry->GetDoubleTopic("turn Cruise Vel").Subscribe(m_turnKf);
-    auto kP = ntentry->GetDoubleTopic("turn Max Accel").Subscribe(m_turnKf);
 
     auto driveTalon = dynamic_cast<DragonTalonFX *>(m_driveMotor);
     if (driveTalon != nullptr)
@@ -167,6 +143,8 @@ frc::SwerveModulePosition SwerveModule::GetPosition() const
 /// @returns void
 void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
 {
+    UpdateTuningParms();
+
     // Update targets so the angle turned is less than 90 degrees
     // If the desired angle is less than 90 degrees from the target angle (e.g., -90 to 90 is the amount of turn), just use the angle and speed values
     // if it is more than 90 degrees (90 to 270), the can turn the opposite direction -- increase the angle by 180 degrees -- and negate the wheel speed
@@ -268,4 +246,148 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 void SwerveModule::StopMotors()
 {
     // TODO: add method to stop motor and do it for both turn and drive motors
+}
+
+std::shared_ptr<nt::NetworkTable> SwerveModule::GetNetworkTable()
+{
+    auto ntinstance = nt::NetworkTableInstance::GetDefault();
+    return ntinstance.GetTable("SwerveModuleAttrs");
+}
+
+void SwerveModule::InitTuningParms(const SwerveModuleAttributes &attrs)
+{
+    m_turnControl = attrs.angleControl.GetMode();
+    m_turnKp = attrs.angleControl.GetP();
+    m_turnKi = attrs.angleControl.GetI();
+    m_turnKd = attrs.angleControl.GetD();
+    m_turnKf = attrs.angleControl.GetF();
+    m_turnCruiseVel = attrs.angleControl.GetCruiseVelocity();
+    m_turnMaxAcc = attrs.angleControl.GetMaxAcceleration();
+
+    m_driveControl = attrs.driveControl.GetMode();
+    m_driveKp = attrs.driveControl.GetP();
+    m_driveKi = attrs.driveControl.GetI();
+    m_driveKd = attrs.driveControl.GetD();
+    m_driveKf = attrs.driveControl.GetF();
+}
+void SwerveModule::DisplayTuningParms()
+{
+    auto ntentry = GetNetworkTable();
+    m_tkp = ntentry->GetDoubleTopic("turn P").Subscribe(m_turnKp);
+    m_tki = ntentry->GetDoubleTopic("turn I").Subscribe(m_turnKi);
+    m_tkd = ntentry->GetDoubleTopic("turn D").Subscribe(m_turnKd);
+    m_tkf = ntentry->GetDoubleTopic("turn F").Subscribe(m_turnKf);
+    m_tmvel = ntentry->GetDoubleTopic("turn Cruise Vel").Subscribe(m_turnKf);
+    m_tmacc = ntentry->GetDoubleTopic("turn Max Accel").Subscribe(m_turnKf);
+
+    m_dkp = ntentry->GetDoubleTopic("drive P").Subscribe(m_driveKp);
+    m_dki = ntentry->GetDoubleTopic("drive I").Subscribe(m_driveKi);
+    m_dkd = ntentry->GetDoubleTopic("drive D").Subscribe(m_driveKd);
+    m_dkf = ntentry->GetDoubleTopic("drive F").Subscribe(m_driveKf);
+}
+
+void SwerveModule::UpdateTuningParms()
+{
+    bool needToUpdate = false;
+    auto ntentry = GetNetworkTable();
+
+    auto value = m_tkp.Get();
+    if (value != m_turnKp)
+    {
+        needToUpdate = true;
+        m_turnKp = value;
+    }
+
+    value = m_tki.Get();
+    if (value != m_turnKi)
+    {
+        needToUpdate = true;
+        m_turnKi = value;
+    }
+
+    value = m_tkd.Get();
+    if (value != m_turnKd)
+    {
+        needToUpdate = true;
+        m_turnKd = value;
+    }
+
+    value = m_tkf.Get();
+    if (value != m_turnKf)
+    {
+        needToUpdate = true;
+        m_turnKf = value;
+    }
+
+    value = m_tmacc.Get();
+    if (value != m_turnMaxAcc)
+    {
+        needToUpdate = true;
+        m_turnMaxAcc = value;
+    }
+
+    value = m_tmvel.Get();
+    if (value != m_turnCruiseVel)
+    {
+        needToUpdate = true;
+        m_turnCruiseVel = value;
+    }
+
+    value = m_dkp.Get();
+    if (value != m_driveKp)
+    {
+        needToUpdate = true;
+        m_driveKp = value;
+    }
+
+    value = m_dki.Get();
+    if (value != m_driveKi)
+    {
+        needToUpdate = true;
+        m_driveKi = value;
+    }
+
+    value = m_dkd.Get();
+    if (value != m_driveKd)
+    {
+        needToUpdate = true;
+        m_driveKd = value;
+    }
+
+    value = m_dkf.Get();
+    if (value != m_driveKf)
+    {
+        needToUpdate = true;
+        m_driveKf = value;
+    }
+
+    if (needToUpdate)
+    {
+        ControlData turncd;
+        turncd.SetMode(m_turnControl);
+        turncd.SetP(m_turnKp);
+        turncd.SetI(m_turnKi);
+        turncd.SetD(m_turnKd);
+        turncd.SetF(m_turnKf);
+        turncd.SetMaxAcceleration(m_turnMaxAcc);
+        turncd.SetCruiseVelocity(m_turnCruiseVel);
+        auto turnTalon = dynamic_cast<DragonTalonFX *>(m_turnMotor);
+        if (turnTalon != nullptr)
+        {
+            turnTalon->SetControlConstants(0, turncd);
+        }
+
+        ControlData drivecd;
+        drivecd.SetMode(m_driveControl);
+        drivecd.SetP(m_driveKp);
+        drivecd.SetI(m_driveKi);
+        drivecd.SetD(m_driveKd);
+        drivecd.SetF(m_driveKf);
+
+        auto driveTalon = dynamic_cast<DragonTalonFX *>(m_driveMotor);
+        if (driveTalon != nullptr)
+        {
+            driveTalon->SetControlConstants(0, drivecd);
+        }
+    }
 }

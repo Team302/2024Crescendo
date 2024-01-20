@@ -26,6 +26,8 @@
 #include "frc/geometry/Translation2d.h"
 #include "frc/kinematics/SwerveModulePosition.h"
 #include "frc/kinematics/SwerveModuleState.h"
+#include "networktables/DoubleTopic.h"
+#include "networktables/NetworkTable.h"
 #include "units/acceleration.h"
 #include "units/angular_acceleration.h"
 #include "units/angular_velocity.h"
@@ -89,6 +91,11 @@ public:
     void StopMotors();
 
 private:
+    std::shared_ptr<nt::NetworkTable> GetNetworkTable();
+    void InitTuningParms(const SwerveModuleAttributes &attrs);
+    void DisplayTuningParms();
+    void UpdateTuningParms();
+
     // Note:  the following was taken from the WPI code and tweaked because we were seeing some weird
     //        reversals that we believe was due to not using a tolerance
     frc::SwerveModuleState Optimize(const frc::SwerveModuleState &desiredState,
@@ -114,6 +121,7 @@ private:
     bool m_runClosedLoopDrive = true;
     double m_countsOnTurnEncoderPerDegreesOnAngleSensor;
 
+    ControlModes::CONTROL_TYPE m_turnControl = ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE;
     double m_turnKp = 0.0;
     double m_turnKi = 0.0;
     double m_turnKd = 0.0;
@@ -121,8 +129,20 @@ private:
     double m_turnCruiseVel = 0.0;
     double m_turnMaxAcc = 0.0;
 
+    ControlModes::CONTROL_TYPE m_driveControl = ControlModes::CONTROL_TYPE::VELOCITY_RPS;
     double m_driveKp = 0.0;
     double m_driveKi = 0.0;
     double m_driveKd = 0.0;
     double m_driveKf = 0.0;
+
+    nt::DoubleSubscriber m_tkp;
+    nt::DoubleSubscriber m_tki;
+    nt::DoubleSubscriber m_tkd;
+    nt::DoubleSubscriber m_tkf;
+    nt::DoubleSubscriber m_tmvel;
+    nt::DoubleSubscriber m_tmacc;
+    nt::DoubleSubscriber m_dkp;
+    nt::DoubleSubscriber m_dki;
+    nt::DoubleSubscriber m_dkd;
+    nt::DoubleSubscriber m_dkf;
 };
