@@ -88,5 +88,5 @@ private:
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
 
-    rev::CANSparkFlex *GetSparkMax();
+    rev::CANSparkFlex *GetSparkFlex();
 };
