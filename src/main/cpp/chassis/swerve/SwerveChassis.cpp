@@ -114,8 +114,6 @@ SwerveChassis::SwerveChassis(
                                m_track(track),
                                m_pigeon(pigeon),
                                m_accel(BuiltInAccelerometer()),
-                               m_runWPI(false),
-                               m_poseOpt(PoseEstimatorEnum::WPI),
                                m_pose(),
                                m_offsetPoseAngle(0_deg), // not used at the moment
                                m_drive(units::velocity::meters_per_second_t(0.0)),
@@ -189,9 +187,6 @@ void SwerveChassis::Drive(ChassisMovement moveInfo)
     }
 
     m_currentDriveState = GetDriveState(moveInfo);
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("m_currentDriveState "), m_currentDriveState != nullptr ? string("not nullptr ") : string("nullptr"));
-
     if (m_currentDriveState != nullptr)
     {
         auto states = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
@@ -312,7 +307,6 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
     m_hasResetToVisionTarget = false;
-    //}
 }
 /// @brief set all of the encoders to zero
 void SwerveChassis::SetEncodersToZero()
@@ -366,10 +360,9 @@ void SwerveChassis::ResetYaw()
     ZeroAlignSwerveModules();
 }
 
-ChassisSpeeds SwerveChassis::GetFieldRelativeSpeeds(
-    units::meters_per_second_t xSpeed,
-    units::meters_per_second_t ySpeed,
-    units::radians_per_second_t rot)
+ChassisSpeeds SwerveChassis::GetFieldRelativeSpeeds(units::meters_per_second_t xSpeed,
+                                                    units::meters_per_second_t ySpeed,
+                                                    units::radians_per_second_t rot)
 {
     units::angle::radian_t yaw(m_pigeon->GetYaw());
     auto temp = xSpeed * cos(yaw.to<double>()) + ySpeed * sin(yaw.to<double>());

@@ -161,8 +161,6 @@ private:
 
     IDragonPigeon *m_pigeon;
     frc::BuiltInAccelerometer m_accel;
-    bool m_runWPI;
-    PoseEstimatorEnum m_poseOpt;
     frc::Pose2d m_pose;
     units::angle::degree_t m_offsetPoseAngle;
     units::velocity::meters_per_second_t m_drive;
