@@ -20,7 +20,7 @@
 /// debugging
 #include "utils/logging/Logger.h"
 
-FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG)
+FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE)
 {
     m_vision = DragonVision::GetDragonVision();
 }

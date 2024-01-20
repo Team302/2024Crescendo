@@ -25,6 +25,10 @@
 #include <chassis/swerve/driveStates/FieldDrive.h>
 #include <DragonVision/DragonVision.h>
 #include <robotstate/IRobotStateChangeSubscriber.h>
+#include "chassis/swerve/driveStates/VisionDrive.h"
+class FaceGamePiece
+{
+};
 
 class VisionDrive : public RobotDrive, public IRobotStateChangeSubscriber
 {
@@ -70,11 +74,11 @@ private:
     bool m_inAutonMode;
 
     void AlignRawVision(ChassisMovement &chassisMovement);
-    /*
-        bool AtTargetX(std::shared_ptr<DragonVisionTarget> targetData);
-        bool AtTargetY(std::shared_ptr<DragonVisionTarget> targetData);
-        bool AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error);
-    */
+
+    bool AtTargetX(DragonVision visionData);
+    bool AtTargetY(DragonVision vivionData);
+    bool AtTargetAngle(DragonVision visionData, units::angle::radian_t *angleError);
+
     RobotDrive *m_robotDrive;
 
     double m_kP_X = 0.1;
