@@ -51,7 +51,7 @@ StateMgr::StateMgr() : m_checkGamePadTransitions(true),
 void StateMgr::Init(BaseMech *mech)
 {
     m_mech = mech;
-    if (m_stateVector.size() > 0)
+    if (!m_stateVector.empty())
     {
         m_currentState = m_stateVector[0];
         m_currentStateID = 0;
@@ -157,19 +157,4 @@ int StateMgr::GetCurrentStateParam(PrimitiveParams *currentParams)
 
 void StateMgr::LogInformation()
 {
-    if (m_mech != nullptr)
-    {
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_mech->GetNetworkTableName(), string("current state id"), m_currentStateID);
-        // if (m_currentState != nullptr)
-        // {
-        //     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_mech->GetNetworkTableName(), string("current state"), m_currentState->GetStateName());
-        //     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_mech->GetNetworkTableName(), string("current state id"), m_currentState->GetStateId());
-        // }
-        // auto index = 0;
-        // for (auto state : m_stateVector)
-        // {
-        //     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_mech->GetNetworkTableName(), string("StateMgr: ") + to_string(index) + string(" - ") + string("state name"), state->GetStateName());
-        //     index++;
-        // }
-    }
 }
