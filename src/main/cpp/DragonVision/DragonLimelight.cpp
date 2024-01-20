@@ -283,7 +283,7 @@ units::angle::degree_t DragonLimelight::GetTargetSkew() const
     return units::angle::degree_t(0.0);
 }
 
-units::time::microsecond_t DragonLimelight::GetPipelineLatency() const
+units::time::millisecond_t DragonLimelight::GetPipelineLatency() const
 {
     auto nt = m_networktable.get();
     if (nt != nullptr)

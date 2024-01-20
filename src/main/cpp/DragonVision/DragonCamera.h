@@ -55,7 +55,7 @@ public:
     virtual units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
     virtual units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
     virtual units::angle::degree_t GetTargetZAngle() const = 0;
-    virtual units::time::microsecond_t GetPipelineLatency() const = 0;
+    virtual units::time::millisecond_t GetPipelineLatency() const = 0;
     virtual units::angle::degree_t GetTargetSkew() const = 0;
     virtual double GetTargetArea() const = 0;
     virtual int GetAprilTagID() const = 0;
