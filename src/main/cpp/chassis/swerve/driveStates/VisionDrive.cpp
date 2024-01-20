@@ -226,24 +226,24 @@ units::angular_velocity::radians_per_second_t VisionDrive::limitAngularVelocityT
         }
         return false;
     }
-
-    bool VisionDrive::isAligned(DragonLimelight::PIPELINE_MODE pipelineMode)
-    {
-         if (pipelineMode == DragonLimelight::PIPELINE_MODE::APRIL_TAG)
-         {
-             auto targetData = DragonVision::GetDragonVision()->getTargetInfo();
-             if (targetData != nullptr)
-             {
-                 units::angle::radian_t angleError = units::angle::radian_t(0.0);
-                 return AtTargetAngle(targetData, &angleError);
-             }
-         }
-         else
-         {
-             return m_haveGamePiece;
-         }
-return false;
-}*/
+*/
+bool VisionDrive::isAligned(DragonCamera::PIPELINE pipelineMode)
+{ /*
+      if (pipelineMode == DragonLimelight::PIPELINE_MODE::APRIL_TAG)
+      {
+          auto targetData = DragonVision::GetDragonVision()->getTargetInfo();
+          if (targetData != nullptr)
+          {
+              units::angle::radian_t angleError = units::angle::radian_t(0.0);
+              return AtTargetAngle(targetData, &angleError);
+          }
+      }
+      else
+      {
+          return m_haveGamePiece;
+      } */
+    return false;
+}
 
 void VisionDrive::ResetVisionDrive()
 {

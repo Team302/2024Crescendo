@@ -51,8 +51,8 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "m_pipelineMode", m_pipelineMode);
 
-    m_dragonVision = DragonVision::GetDragonVision();
-    if (m_dragonVision != nullptr)
+    m_vision = DragonVision::GetDragonVision();
+    if (m_vision != nullptr)
         //  m_dragonVision->setPipeline(m_pipelineMode);
 
         if (m_chassis != nullptr)
@@ -64,16 +64,14 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
             m_visionDrive->setInAutonMode(true);
 
             switch (m_pipelineMode)
-            { /*
-             case DragonLimelight::PIPELINE_MODE::APRIL_TAG:
-                 m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
-                 break;
-             case DragonLimelight::PIPELINE_MODE::CONE:
-             case DragonCamera::PIPELINE::CUBE:
-                 m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-                 break;
-             default:
-                 break;*/
+            {
+            case DragonCamera::PIPELINE::APRIL_TAG:
+                m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
+                break;
+                m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+                break;
+            default:
+                break;
             }
         }
 }
@@ -97,12 +95,12 @@ void VisionDrivePrimitive::Run()
 
 bool VisionDrivePrimitive::IsDone()
 {
-    /* bool done = false;
+    bool done = false;
 
-     if (m_visionDrive != nullptr)
-         done = m_visionDrive->isAligned(m_pipelineMode);
+    if (m_visionDrive != nullptr)
+        done = m_visionDrive->isAligned(m_pipelineMode);
 
-     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "ArrivedAtDone", done);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "ArrivedAtDone", done);
 
-     return done || m_timer->HasElapsed(units::time::second_t(m_timeout));*/
+    return done || m_timer->HasElapsed(units::time::second_t(m_timeout));
 }
