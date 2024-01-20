@@ -23,7 +23,7 @@
 
 #include <mechanisms/controllers/ControlModes.h>
 #include "hw/interfaces/IDragonMotorController.h"
-#include "configs/usages/MotorControllerUsage.h"
+#include "configs/RobotElementNames.h"
 
 // Third Party Includes
 #include <ctre/phoenix/motorcontrol/RemoteSensorSource.h>
@@ -36,7 +36,7 @@ public:
     // Constructors
     DragonTalonBase() = delete;
     DragonTalonBase(
-        MotorControllerUsage::MOTOR_CONTROLLER_USAGE deviceType,
+        RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
         int deviceID,
         int pdpID,
         int countsPerRev,
@@ -51,7 +51,7 @@ public:
     // Getters (override)
     double GetRotations() const override;
     double GetRPS() const override;
-    MotorControllerUsage::MOTOR_CONTROLLER_USAGE GetType() const override;
+    RobotElementNames::MOTOR_CONTROLLER_USAGE GetType() const override;
     int GetID() const override;
     double GetCurrent() const override;
     IDragonMotorController::MOTOR_TYPE GetMotorType() const override;
@@ -139,7 +139,7 @@ public:
     private:
         std::shared_ptr<ctre::phoenix::motorcontrol::can::WPI_TalonSRX>  m_talon;
         ControlModes::CONTROL_TYPE m_controlMode;
-        MotorControllerUsage::MOTOR_CONTROLLER_USAGE m_type;
+        RobotElementNames::MOTOR_CONTROLLER_USAGE m_type;
 
         int m_id;
         int m_pdp;
