@@ -29,8 +29,8 @@ public:
                     units::angle::degree_t yaw,             /// <I> - Yaw of limelight
                     units::angle::degree_t roll);           /// <I> - Roll of limelight
 
-    units::angle::degree_t GetTargetYAngle() const;
-    units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
+    units::angle::degree_t GetTargetYaw() const;
+    units::angle::degree_t GetTargetYawRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
     units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
     units::angle::degree_t GetTargetZAngle() const;
     units::time::microsecond_t GetPipelineLatency() const;
