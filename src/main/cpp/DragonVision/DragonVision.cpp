@@ -40,10 +40,16 @@ DragonVision *DragonVision::GetDragonVision()
 
 // state functions
 
+// visionapi
 DragonVision::DragonVision()
 {
 	// m_DragonCameraMap[CAMERA_POSITION::FRONT] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::PRIMARY);
 	// m_DragonCameraMap[CAMERA_POSITION::BACK] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::SECONDARY);
+}
+
+void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
+{
+	m_DragonCameraMap[position] = camera;
 }
 
 // bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, CAMERA_POSITION position)
