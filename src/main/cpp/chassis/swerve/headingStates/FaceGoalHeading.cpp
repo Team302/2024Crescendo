@@ -16,11 +16,11 @@
 // Team302 Includes
 #include <chassis/swerve/headingStates/FaceGoalHeading.h>
 
-// FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
-//                                     m_limelight(LimelightFactory::GetLimelightFactory()->GetLimelight())
-// Review how LimelightFactory should be fixed here/object substituted since LimelightFactory does not exist
-// {
-// }
+FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
+                                     m_limelight()
+// visionapi Review how LimelightFactory should be fixed here
+{
+}
 
 void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
