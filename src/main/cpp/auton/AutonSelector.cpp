@@ -59,6 +59,8 @@ string AutonSelector::GetSelectedAutoFile()
 	autonfile += GetNumofPiecesinautonCenter();
 	autonfile += std::string(".xml");
 
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("auton"), string("file"), autonfile);
+
 	auto table = nt::NetworkTableInstance::GetDefault().GetTable("auton file");
 
 	table.get()->PutString("determined name", autonfile);
@@ -68,7 +70,7 @@ string AutonSelector::GetSelectedAutoFile()
 		autonfile = frc::filesystem::GetDeployDirectory();
 		autonfile += std::string("/auton/");
 		autonfile += GetAlianceColor();
-		autonfile += ("COOPThreeP.xml");
+		autonfile += ("DefaultFile.xml");
 
 		table.get()->PutBoolean("File Exists", false);
 	}
@@ -130,23 +132,23 @@ string AutonSelector::GetNumofPiecesinautonCenter()
 void AutonSelector::PutChoicesOnDashboard()
 {
 
-	m_startposchooser.AddOption("Amp", "Wing1");
-	m_startposchooser.AddOption("Subwoofer", "Wing2");
-	m_startposchooser.AddOption("Podium", "Wing3");
-	m_startposchooser.AddOption("Wide", "Wing4");
+	m_startposchooser.AddOption("Amp", "Amp");
+	m_startposchooser.AddOption("SubWoofer", "SubWoofer");
+	m_startposchooser.AddOption("Podium", "Podium");
+	m_startposchooser.AddOption("Wide", "Wide");
 	frc::SmartDashboard::PutData("StartPos", &m_startposchooser);
 
-	m_numofgamepiecewing.AddOption("0", "Zero");
-	m_numofgamepiecewing.AddOption("1", "One");
-	m_numofgamepiecewing.AddOption("2", "Two");
-	m_numofgamepiecewing.AddOption("3", "Three");
+	m_numofgamepiecewing.AddOption("0", "Wing0");
+	m_numofgamepiecewing.AddOption("1", "Wing1");
+	m_numofgamepiecewing.AddOption("2", "Wing2");
+	m_numofgamepiecewing.AddOption("3", "Wing3");
 	frc::SmartDashboard::PutData("NumofWingpcs", &m_numofgamepiecewing);
 
-	m_numofgamepiececenter.AddOption("0", "Zero");
-	m_numofgamepiececenter.AddOption("1", "One");
-	m_numofgamepiececenter.AddOption("2", "Two");
-	m_numofgamepiececenter.AddOption("3", "Three");
-	m_numofgamepiececenter.AddOption("4", "Four");
-	m_numofgamepiececenter.AddOption("5", "Five");
+	m_numofgamepiececenter.AddOption("0", "Center0");
+	m_numofgamepiececenter.AddOption("1", "Center1");
+	m_numofgamepiececenter.AddOption("2", "Center2");
+	m_numofgamepiececenter.AddOption("3", "Center3");
+	m_numofgamepiececenter.AddOption("4", "Center4");
+	m_numofgamepiececenter.AddOption("5", "Center5");
 	frc::SmartDashboard::PutData("NumofCenterpcs", &m_numofgamepiececenter);
 }
