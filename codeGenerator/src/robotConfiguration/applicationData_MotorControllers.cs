@@ -313,12 +313,12 @@ namespace ApplicationData
     [Serializable()]
     [ImplementationName("DragonTalonFX")]
     [UserIncludeFile("hw/DragonTalonFX.h")]
-    [Using("ctre::phoenixpro::signals::ForwardLimitSourceValue")]
-    [Using("ctre::phoenixpro::signals::ForwardLimitTypeValue")]
-    [Using("ctre::phoenixpro::signals::ReverseLimitSourceValue")]
-    [Using("ctre::phoenixpro::signals::ReverseLimitTypeValue")]
-    [Using("ctre::phoenixpro::signals::InvertedValue")]
-    [Using("ctre::phoenixpro::signals::NeutralModeValue")]
+    [Using("ctre::phoenix6::signals::ForwardLimitSourceValue")]
+    [Using("ctre::phoenix6::signals::ForwardLimitTypeValue")]
+    [Using("ctre::phoenix6::signals::ReverseLimitSourceValue")]
+    [Using("ctre::phoenix6::signals::ReverseLimitTypeValue")]
+    [Using("ctre::phoenix6::signals::InvertedValue")]
+    [Using("ctre::phoenix6::signals::NeutralModeValue")]
     [Using("ctre::phoenix::motorcontrol::RemoteSensorSource")]
     public class TalonFX : MotorController
     {
@@ -533,8 +533,8 @@ namespace ApplicationData
                                             theConfigHWLimitSW.revOpenClose
                                            ));
 
-            initCode.Add(string.Format(@"{0}->ConfigMotorSettings(ctre::phoenixpro::signals::{1}::{2}, // ctre::phoenixpro::signals::InvertedValue
-                                            ctre::phoenixpro::signals::{3}::{4}, // ctre::phoenixpro::signals::NeutralModeValue                  
+            initCode.Add(string.Format(@"{0}->ConfigMotorSettings(ctre::phoenix6::signals::{1}::{2}, // ctre::phoenixpro::signals::InvertedValue
+                                            ctre::phoenix6::signals::{3}::{4}, // ctre::phoenixpro::signals::NeutralModeValue                  
                                             {5}, // deadbandPercent                 
                                             {6}, // peakForwardDutyCycle                 
                                             {7} ); // peakReverseDutyCycle"
@@ -589,11 +589,13 @@ namespace ApplicationData
 
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},\"{4}\")",
+            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3}, {4}, IDragonMotorController::MOTOR_TYPE::{5}, \"{6}\")",
                 name,
                 getImplementationName(),
                 utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
                 canID.value.ToString(),
+                theDistanceAngleCalcInfo.getName(name),
+                motorType,
                 canBusName.ToString());
 
             List<string> code = new List<string>() { "", theDistanceAngleCalcInfo.getDefinition(name), creation };

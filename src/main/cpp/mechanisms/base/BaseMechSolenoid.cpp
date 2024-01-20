@@ -55,5 +55,5 @@ bool BaseMechSolenoid::IsSolenoidActivated() const
 /// @brief log data to the network table if it is activated and time period has past
 void BaseMechSolenoid::LogInformation()
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, "Solenoid", IsSolenoidActivated());
+    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, "Solenoid", IsSolenoidActivated());
 }
