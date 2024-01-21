@@ -74,12 +74,12 @@ public:
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }
-    units::angle::degree_t GetCameraPitch() const { return m_pitch; }
-    units::angle::degree_t GetCameraYaw() const { return m_yaw; }
-    units::angle::degree_t GetCameraRoll() const { return m_roll; }
-    units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
-    units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
-    units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
+    units::angle::degree_t GetCameraPitch() const { return m_robotCenterToCam.Rotation().Y(); }
+    units::angle::degree_t GetCameraYaw() const { return m_robotCenterToCam.Rotation().Z(); }
+    units::angle::degree_t GetCameraRoll() const { return m_robotCenterToCam.Rotation().X(); } // rotates around x-axis
+    units::length::inch_t GetMountingXOffset() const { return m_robotCenterToCam.X(); }
+    units::length::inch_t GetMountingYOffset() const { return m_robotCenterToCam.Y(); }
+    units::length::inch_t GetMountingZOffset() const { return m_robotCenterToCam.Z(); }
 
     // Setters
     void SetPipeline(PIPELINE pipeline) { m_pipeline = pipeline; }
@@ -95,12 +95,7 @@ public:
 protected:
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
 
-    units::length::inch_t m_mountingXOffset;
-    units::length::inch_t m_mountingYOffset;
-    units::length::inch_t m_mountingZOffset;
-    units::angle::degree_t m_yaw;
-    units::angle::degree_t m_pitch;
-    units::angle::degree_t m_roll;
+    frc::Transform3d m_robotCenterToCam;
     PIPELINE m_pipeline;
 };
 

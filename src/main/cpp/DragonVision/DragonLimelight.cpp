@@ -195,19 +195,19 @@ units::angle::degree_t DragonLimelight::GetTy() const
 
 units::angle::degree_t DragonLimelight::GetTargetYaw() const
 {
-    if (abs(m_roll.to<double>()) < 1.0)
+    if (abs(GetCameraRoll().to<double>()) < 1.0)
     {
         return -1.0 * GetTx();
     }
-    else if (abs(m_roll.to<double>() - 90.0) < 1.0)
+    else if (abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
     {
         return GetTy();
     }
-    else if (abs(m_roll.to<double>() - 180.0) < 1.0)
+    else if (abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
     {
         return GetTx();
     }
-    else if (abs(m_roll.to<double>() - 270.0) < 1.0)
+    else if (abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
     {
         return -1.0 * GetTy();
     }
@@ -224,8 +224,8 @@ units::angle::degree_t DragonLimelight::GetTargetYawRobotFrame(units::length::in
 
     units::length::inch_t targetHorizOffset = targetXdistance * tan(limelightFrameHorizAngleRad.to<double>());
 
-    units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + m_mountingYOffset; // the offset is positive if the limelight is to the left of the center of the robot
-    units::length::inch_t targetDistanceRobotFrame = targetXdistance + m_mountingXOffset;      // the offset is negative if the limelight is behind the center of the robot
+    units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + GetMountingYOffset(); // the offset is positive if the limelight is to the left of the center of the robot
+    units::length::inch_t targetDistanceRobotFrame = targetXdistance + GetMountingXOffset();      // the offset is negative if the limelight is behind the center of the robot
 
     // units::angle::radian_t angleOffset = units::angle::radian_t(atan((targetHorizOffsetRobotFrame / targetDistanceRobotFrame).to<float>()));
     units::angle::radian_t angleOffset = units::angle::radian_t(0);
@@ -238,19 +238,19 @@ units::angle::degree_t DragonLimelight::GetTargetYawRobotFrame(units::length::in
 
 units::angle::degree_t DragonLimelight::GetTargetPitch() const
 {
-    if (abs(m_roll.to<double>()) < 1.0)
+    if (abs(GetCameraRoll().to<double>()) < 1.0)
     {
         return GetTy();
     }
-    else if (abs(m_roll.to<double>() - 90.0) < 1.0)
+    else if (abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
     {
         return GetTx();
     }
-    else if (abs(m_roll.to<double>() - 180.0) < 1.0)
+    else if (abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
     {
         return -1.0 * GetTy();
     }
-    else if (abs(m_roll.to<double>() - 270.0) < 1.0)
+    else if (abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
     {
         return -1.0 * GetTx();
     }
@@ -462,7 +462,7 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance_RelToRobotCoords(
 {
     if (EstimateTargetXDistance().to<double>() != -1.0)
     {
-        units::length::inch_t targetXoffset_RF_inch = EstimateTargetXDistance() + m_mountingXOffset; ///< the offset is negative if the limelight is behind the center of the robot
+        units::length::inch_t targetXoffset_RF_inch = EstimateTargetXDistance() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
 
         return targetXoffset_RF_inch;
     }
@@ -474,7 +474,7 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance_RelToRobotCoords(
 {
     if (EstimateTargetYDistance().to<double>() != -1.0)
     {
-        units::length::inch_t targetYoffset_RF_inch = EstimateTargetYDistance() + m_mountingYOffset; ///< the offset is positive if the limelight is to the left of the center of the robot
+        units::length::inch_t targetYoffset_RF_inch = EstimateTargetYDistance() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
 
         return targetYoffset_RF_inch;
     }
@@ -486,7 +486,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
 {
     if (EstimateTargetZDistance().to<double>() != -1.0)
     {
-        units::length::inch_t targetZoffset_RF_inch = EstimateTargetZDistance() + m_mountingZOffset; ///< the offset is positive if the limelight is above the center of the robot
+        units::length::inch_t targetZoffset_RF_inch = EstimateTargetZDistance() + GetMountingZOffset(); ///< the offset is positive if the limelight is above the center of the robot
 
         return targetZoffset_RF_inch;
     }

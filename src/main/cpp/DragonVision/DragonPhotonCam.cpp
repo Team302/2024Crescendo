@@ -171,6 +171,8 @@ double DragonPhotonCam::GetTargetArea() const
     return -1;
 }
 
+/// @brief Estimate the X distance to the detected target
+/// @return units::length::inch_t - Positive is forward
 units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
 {
     // get latest detections
@@ -183,13 +185,15 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        frc::Transform3d trans = target.GetBestCameraToTarget();
+        // Get transformation from camera to target
+        frc::Transform3d transform = target.GetBestCameraToTarget();
 
-        trans.X();
-
-        return trans.X();
+        return transform.X();
     }
 }
+
+/// @brief Estimate the Y distance to the detected target
+/// @return units::length::inch_t - Positive is left
 units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const
 {
     // get latest detections
@@ -201,19 +205,38 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const
 
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
-        frc::Transform3d trans = target.GetBestCameraToTarget();
 
-        trans.Y();
+        // Get transformation from camera to target
+        frc::Transform3d transform = target.GetBestCameraToTarget();
 
-        return trans.Y();
+        return transform.Y();
     }
 }
+
+/// @brief Estimate the Z distance to the detected target
+/// @return units::length::inch_t - Positive is up
 units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const
 {
+    // get latest detections
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check for detections
+    if (result.HasTargets())
+    {
+
+        // get the most accurate data according to contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // Get transformation from camera to target
+        frc::Transform3d transform = target.GetBestCameraToTarget();
+
+        return transform.Z();
+    }
 }
 
 units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords() const
 {
+    // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
 }
 units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords() const
 {

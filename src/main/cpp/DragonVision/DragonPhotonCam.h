@@ -31,9 +31,7 @@ public:
 
     units::angle::degree_t GetTargetYaw() const;
     units::angle::degree_t GetTargetYawRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
-    
-  
-    
+
     units::angle::degree_t GetTargetPitchRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
     units::angle::degree_t GetTargetPitch() const;
 
