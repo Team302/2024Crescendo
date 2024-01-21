@@ -15,6 +15,7 @@
 
 // Team302 Includes
 #include <chassis/swerve/headingStates/FaceGoalHeading.h>
+#include <utils/logging/Logger.h>
 
 FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
                                      m_vision(DragonVision::GetDragonVision())
@@ -31,8 +32,9 @@ void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         if (optionalData.has_value())
         {
             VisionData validVisionData = optionalData.value();
-            // double rotCorrection = abs(validVisionData->GetVisionData().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
-            // rot += (m_vision->GetVisionData()) / 1_s * rotCorrection;
+            double rotCorrection = abs(validVisionData->GetVisionData().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
+            rot += (m_vision->GetVisionData());
+            rot / 1_s * rotCorrection;
         }
         else
         {
@@ -40,10 +42,11 @@ void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         }
     }
 
+    // this else is probably not needed because m_vision should never be a null pointer
     else
     {
-        //        auto targetAngle = units::angle::degree_t(m_targetFinder.GetTargetAngleD(SwerveOdometry::GetInstance()->GetPose()));
-        auto targetAngle = units::angle::degree_t(0.0);
-        rot -= CalcHeadingCorrection(targetAngle, m_kPGoalHeadingControl);
+        // auto targetAngle = units::angle::degree_t(m_targetFinder.GetTargetAngleD(SwerveOdometry::GetInstance()->GetPose()));
+        // auto targetAngle = units::angle::degree_t(0.0);
+        // rot -= CalcHeadingCorrection(targetAngle, m_kPGoalHeadingControl);
     }
 }

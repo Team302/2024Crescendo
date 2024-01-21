@@ -111,8 +111,6 @@ TODO:
 
       one comment block, one comment line in FaceGamePiece.cpp
 
-      four commented lines in HolonomicDrive.cpp
-
        VisionDrivePrimitive.cpp(removed commented lines, still need code)
 
        FaceGoalHeading.cpp (33-34 change to add actual code)

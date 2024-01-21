@@ -31,7 +31,7 @@
 #include "utils/logging/Logger.h"
 
 FaceAprilTag::FaceAprilTag() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG)
-                                   m_pipelineMode(DragonCamera::APRIL_TAG),
+                                   m_pipelineMode(DragonCamera::PIPELINE),
                                m_vision(DragonVision::GetDragonVision())
 {
 }
@@ -53,7 +53,7 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
     if ((targetData != nullptr) && (m_vision->GetPipeline(DragonVision::CAMERA_POSITION::FRONT) == targetData->getTargetType()))
     {
-        if (!AtTargetAngle(targetData, &angleError))
+        if (!AtTargetAngle(&angleError))
         {
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
 
