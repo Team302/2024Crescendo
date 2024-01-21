@@ -171,7 +171,8 @@ namespace applicationConfiguration
                         int index = 0;
                         foreach (object o in listObject)
                         {
-                            initializeData(listObject, o, string.Format("{0}[{1}]", pi.Name, index), null);
+                            List<Attribute> attrs = o.GetType().GetCustomAttributes().ToList();
+                            initializeData(listObject, o, string.Format("{0}[{1}]", pi.Name, index), attrs);
                         }
                     }
                     else

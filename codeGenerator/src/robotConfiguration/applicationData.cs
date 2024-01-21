@@ -1671,6 +1671,27 @@ namespace ApplicationData
         }
     }
 
+    [Serializable]
+    public class motorTarget : baseRobotElementClass
+    {
+        public doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target { get; set; }
+
+        [ConstantInMechInstance]
+        [DataDescription("The name of the motor that this target applies to")]
+        public string motorName { get;set; }
+
+        [ConstantInMechInstance]
+        [DataDescription("The name of the control data to use in order to reach this target")]
+        public string controlDataName { get; set; }
+
+        public motorTarget()
+        {
+            target.name = "Target";
+            motorName = "theMotorName";
+            controlDataName = "theControlData";
+        }
+    }
+
     [Serializable()]
     public class state : baseRobotElementClass
     {
@@ -1679,6 +1700,7 @@ namespace ApplicationData
         [ConstantInMechInstance()]
         public List<stringParameterConstInMechInstance> transitionsTo { get; set; }
 
+        public List<motorTarget> motorTargets { get; set; }
         public List<doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst> doubleTargets { get; set; }
         public List<boolParameterUserDefinedTunableOnlyValueChangeableInMechInst> booleanTargets { get; set; }
 
@@ -1705,7 +1727,7 @@ namespace ApplicationData
         {
             if (generatorContext.theMechanismInstance != null)
             {
-                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, *this))",
+                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this))",
                 name,
                 generatorContext.theMechanismInstance.name,
                 index);

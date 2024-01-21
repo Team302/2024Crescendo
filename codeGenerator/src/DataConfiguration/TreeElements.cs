@@ -506,6 +506,7 @@ namespace DataConfiguration
 
     [Serializable()]
     [NotUserAddable]
+    [ConstantInMechInstance]
     public partial class stringParameterConstInMechInstance : parameter
     {
         [ConstantInMechInstance]
@@ -551,7 +552,7 @@ namespace DataConfiguration
         }
     }
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class, AllowMultiple = false)]
     public class ConstantInMechInstanceAttribute : Attribute
     {
         public ConstantInMechInstanceAttribute()
