@@ -18,7 +18,6 @@
 // Team302 Includes
 #include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
 #include <DragonVision/DragonVision.h>
-class DragonCamera;
 class FaceGamePiece : public ISwerveDriveOrientation
 {
 public:
