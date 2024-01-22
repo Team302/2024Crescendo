@@ -1726,7 +1726,8 @@ namespace FRCrobotCodeGen302
                         }
                         catch { }
 
-                        theAppDataConfiguration.initializeData(nodeTag.getObject(lastSelectedArrayNode.Tag), obj, nameStr, null);
+                        List<Attribute> attributes = obj.GetType().GetCustomAttributes().ToList();
+                        theAppDataConfiguration.initializeData(nodeTag.getObject(lastSelectedArrayNode.Tag), obj, nameStr, attributes);
                         AddNode(lastSelectedArrayNode, obj, elementType.Name + (count - 1), null);
                     }
                 }
