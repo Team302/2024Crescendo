@@ -7,7 +7,7 @@
 <!ATTLIST primitive 
           id                ( DO_NOTHING | HOLD_POSITION | 
                               DRIVE_DISTANCE | DRIVE_TIME | 
-                              TURN_ANGLE_ABS | TURN_ANGLE_REL | DRIVE_PATH | DRIVE_PATH_PLANNER | RESET_POSITION | RESET_POSITION_PATH_PLANNER | AUTO_BALANCE | VISION_ALIGN) "DO_NOTHING"
+                              TURN_ANGLE_ABS | TURN_ANGLE_REL | DRIVE_PATH | DRIVE_PATH_PLANNER | RESET_POSITION | RESET_POSITION_PATH_PLANNER | VISION_ALIGN) "DO_NOTHING"
 		  time				CDATA #IMPLIED
           distance		    CDATA "0.0"
           headingOption     CDATA "MAINTAIN"
