@@ -198,20 +198,21 @@ namespace CoreCodeGenerator
                                 resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
                                 resultString = resultString.Replace("$$_STATE_NAME_$$", s.name);
 
-                                List<string> targetDecl = new List<string>();
-                                foreach (doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst d in s.doubleTargets)
-                                {
-                                    string varType = "double";
-                                    if (d.unitsFamily != physicalUnit.Family.none)
-                                        varType = generatorContext.theGeneratorConfig.getWPIphysicalUnitType(d.__units__);
+                                //List<string> targetDecl = new List<string>();
+                                //foreach (doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst d in s.doubleTargets)
+                                //{
+                                //    string varType = "double";
+                                //    if (d.unitsFamily != physicalUnit.Family.none)
+                                //        varType = generatorContext.theGeneratorConfig.getWPIphysicalUnitType(d.__units__);
 
-                                    targetDecl.Add(string.Format("{0} {1} = {0}({2})", varType, d.name, d.value));
-                                }
-                                foreach (boolParameterUserDefinedTunableOnlyValueChangeableInMechInst d in s.booleanTargets)
-                                {
-                                    targetDecl.Add(string.Format("bool {0} = {1}", d.name, d.value.ToString().ToLower()));
-                                }
-                                resultString = resultString.Replace("$$_TARGET_DECLARATIONS_$$", ListToString(targetDecl, ";"));
+                                //    targetDecl.Add(string.Format("{0} {1} = {0}({2})", varType, d.name, d.value));
+                                //}
+                                //foreach (boolParameterUserDefinedTunableOnlyValueChangeableInMechInst d in s.booleanTargets)
+                                //{
+                                //    targetDecl.Add(string.Format("bool {0} = {1}", d.name, d.value.ToString().ToLower()));
+                                //}
+                                //resultString = resultString.Replace("$$_TARGET_DECLARATIONS_$$", ListToString(targetDecl, ";"));
+                                resultString = resultString.Replace("$$_TARGET_DECLARATIONS_$$", "");
 
                                 filePathName = getMechanismFullFilePathName(mechanismName,
                                                                             cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName).Replace("STATE_NAME", s.name)
@@ -272,7 +273,7 @@ namespace CoreCodeGenerator
                                             if (targetUnitsType == "")
                                                 motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
                                             else
-                                                motorTargets.Add(String.Format("SetTargetControl({0}, *Get{1}().{2}, {5}({3}({4})))",
+                                                motorTargets.Add(String.Format("SetTargetControl({0}, *(Get{1}()->{2}), {5}({3}({4})))",
                                                     motorEnumName,
                                                     mi.name,
                                                     mcd.name,

@@ -1695,14 +1695,10 @@ namespace ApplicationData
     [Serializable()]
     public class state : baseRobotElementClass
     {
-        public List<motorControlDataLink> motorControlDataLinks { get; set; }
-
         [ConstantInMechInstance()]
         public List<stringParameterConstInMechInstance> transitionsTo { get; set; }
 
         public List<motorTarget> motorTargets { get; set; }
-        public List<doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst> doubleTargets { get; set; }
-        public List<boolParameterUserDefinedTunableOnlyValueChangeableInMechInst> booleanTargets { get; set; }
 
         public state()
         {

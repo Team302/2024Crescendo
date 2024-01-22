@@ -1465,28 +1465,28 @@ namespace FRCrobotCodeGen302
                                 addedItems = true;
                             }
                         }
-                        foreach (solenoid sol in m.solenoid)
-                        {
-                            boolParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.booleanTargets.Find(t => t.name == sol.name);
-                            if (target == null)
-                            {
-                                boolParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new boolParameterUserDefinedTunableOnlyValueChangeableInMechInst();
-                                newTarget.name = sol.name;
-                                s.booleanTargets.Add(newTarget);
-                                addedItems = true;
-                            }
-                        }
-                        foreach (servo ser in m.servo)
-                        {
-                            doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.doubleTargets.Find(t => t.name == ser.name);
-                            if (target == null)
-                            {
-                                doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst();
-                                newTarget.name = ser.name;
-                                s.doubleTargets.Add(newTarget);
-                                addedItems = true;
-                            }
-                        }
+                        //foreach (solenoid sol in m.solenoid)
+                        //{
+                        //    boolParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.booleanTargets.Find(t => t.name == sol.name);
+                        //    if (target == null)
+                        //    {
+                        //        boolParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new boolParameterUserDefinedTunableOnlyValueChangeableInMechInst();
+                        //        newTarget.name = sol.name;
+                        //        s.booleanTargets.Add(newTarget);
+                        //        addedItems = true;
+                        //    }
+                        //}
+                        //foreach (servo ser in m.servo)
+                        //{
+                        //    doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.doubleTargets.Find(t => t.name == ser.name);
+                        //    if (target == null)
+                        //    {
+                        //        doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst();
+                        //        newTarget.name = ser.name;
+                        //        s.doubleTargets.Add(newTarget);
+                        //        addedItems = true;
+                        //    }
+                        //}
                     }
 
                     if (addedItems)

@@ -377,16 +377,19 @@ namespace applicationConfiguration
                             {
                                 if (pi.Name != "parent")
                                 {
-                                    object theStructureObj = pi.GetValue(structureSource);
-                                    object theParametersObj = pi.GetValue(parametersSource);
+                                    if (pi.GetCustomAttribute<ConstantInMechInstanceAttribute>() == null)
+                                    {
+                                        object theStructureObj = pi.GetValue(structureSource);
+                                        object theParametersObj = pi.GetValue(parametersSource);
 
-                                    if (isABasicSystemType(theStructureObj))
-                                    {
-                                        pi.SetValue(structureSource, pi.GetValue(parametersSource));
-                                    }
-                                    else if ((theStructureObj != null) && (theParametersObj != null))
-                                    {
-                                        MergeMechanismParametersIntoStructure(theStructureObj, theParametersObj);
+                                        if (isABasicSystemType(theStructureObj))
+                                        {
+                                            pi.SetValue(structureSource, pi.GetValue(parametersSource));
+                                        }
+                                        else if ((theStructureObj != null) && (theParametersObj != null))
+                                        {
+                                            MergeMechanismParametersIntoStructure(theStructureObj, theParametersObj);
+                                        }
                                     }
                                 }
                             }
