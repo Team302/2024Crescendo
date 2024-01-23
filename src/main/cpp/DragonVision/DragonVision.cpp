@@ -15,8 +15,6 @@
 
 // C++ Includes
 
-// FRC includes
-#include "frc/apriltag/AprilTagFields.h"
 // Team 302 includes
 
 #include "DragonVision/DragonVision.h"
@@ -37,7 +35,16 @@ DragonVision *DragonVision::GetDragonVision()
 	return DragonVision::m_dragonVision;
 }
 
-DragonVision::DragonVision() : m_aprilTagLayout(frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
+frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
+{
+	if (m_aprilTagLayout != frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
+	{
+		m_aprilTagLayout = frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo);
+	}
+	return m_aprilTagLayout;
+}
+
+DragonVision::DragonVision()
 {
 }
 

@@ -20,6 +20,7 @@
 
 // FRC Includes
 #include "frc/apriltag/AprilTagFieldLayout.h"
+#include "frc/apriltag/AprilTagFields.h"
 
 #include "State.h"
 #include "DragonVision/DragonCamera.h"
@@ -31,6 +32,8 @@ class DragonVision
 {
 public:
     static DragonVision *GetDragonVision();
+
+    static frc::AprilTagFieldLayout GetAprilTagLayout();
 
     enum CAMERA_POSITION
     {
@@ -50,8 +53,6 @@ public:
 
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
 
-    frc::AprilTagFieldLayout GetAprilTagLayout() const { return m_aprilTagLayout; }
-
 private:
     DragonVision();
     ~DragonVision() = default;
@@ -61,7 +62,7 @@ private:
 
     static DragonVision *m_dragonVision;
 
-    frc::AprilTagFieldLayout m_aprilTagLayout;
+    static frc::AprilTagFieldLayout m_aprilTagLayout;
 
     std::map<CAMERA_POSITION, DragonCamera *> m_DragonCameraMap;
 };
