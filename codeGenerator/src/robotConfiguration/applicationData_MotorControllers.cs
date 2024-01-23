@@ -984,11 +984,11 @@ namespace ApplicationData
         }
     }
 
-    [Serializable]
-    [ImplementationName("DragonSparkMax")]
-    [UserIncludeFile("hw/DragonSparkMax.h")]
 
-    public class SparkMax : MotorController
+
+    [Serializable]
+    [NotUserAddable]
+    public class SparkController : MotorController
     {
         public enum Type { kBrushed = 0, kBrushless = 1 };
         public enum SensorType { kNoSensor = 0, kHallSensor = 1, kQuadrature = 2 }
@@ -1003,7 +1003,7 @@ namespace ApplicationData
             kSmartVelocity = 6
         }
 
-       public enum ParameterStatus
+        public enum ParameterStatus
         {
             kOK = 0,
             kInvalidID = 1,
@@ -1026,7 +1026,7 @@ namespace ApplicationData
         }
 
         [Serializable]
-        public class CurrentLimits_SparkMax : baseDataClass
+        public class CurrentLimits_SparkController : baseDataClass
         {
             [DefaultValue(false)]
             [ConstantInMechInstance]
@@ -1063,7 +1063,7 @@ namespace ApplicationData
             [ConstantInMechInstance]
             public intParameter ContinuousCurrentLimitTimeout { get; set; }
 
-            public CurrentLimits_SparkMax()
+            public CurrentLimits_SparkController()
             {
                 int index = this.GetType().Name.IndexOf("_");
                 if (index > 0)
@@ -1072,10 +1072,10 @@ namespace ApplicationData
                     defaultDisplayName = this.GetType().Name;
             }
         }
-        public CurrentLimits_SparkMax currentLimits { get; set; }
+        public CurrentLimits_SparkController currentLimits { get; set; }
 
         [Serializable]
-        public class ConfigMotorSettings_SparkMax : baseDataClass
+        public class ConfigMotorSettings_SparkController : baseDataClass
         {
             [DefaultValue(InvertedValue.CounterClockwise_Positive)]
             [ConstantInMechInstance]
@@ -1085,7 +1085,7 @@ namespace ApplicationData
             [ConstantInMechInstance]
             public NeutralModeValue mode { get; set; }
 
-            public ConfigMotorSettings_SparkMax()
+            public ConfigMotorSettings_SparkController()
             {
                 int index = this.GetType().Name.IndexOf("_");
                 if (index > 0)
@@ -1094,7 +1094,7 @@ namespace ApplicationData
                     defaultDisplayName = this.GetType().Name;
             }
         }
-        public ConfigMotorSettings_SparkMax theConfigMotorSettings { get; set; }
+        public ConfigMotorSettings_SparkController theConfigMotorSettings { get; set; }
 
         [DefaultValue(1.0)]
         [ConstantInMechInstance]
@@ -1103,8 +1103,15 @@ namespace ApplicationData
 
         public Type motorBrushType { get; set; }
 
-        public SensorType sensorType { get; set;}
+        public SensorType sensorType { get; set; }
+    }
 
+
+    [Serializable]
+    [ImplementationName("DragonSparkMax")]
+    [UserIncludeFile("hw/DragonSparkMax.h")]
+    public class SparkMax : SparkController
+    {
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
             string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},{6})",
@@ -1209,127 +1216,12 @@ namespace ApplicationData
             return initCode;
         }
     }
+
     [Serializable]
     [ImplementationName("DragonSparkFlex")]
     [UserIncludeFile("hw/DragonSparkFlex.h")]
-
-    public class SparkFlex : MotorController
+    public class SparkFlex : SparkController
     {
-        public enum Type { kBrushed = 0, kBrushless = 1 };
-        public enum SensorType { kNoSensor = 0, kHallSensor = 1, kQuadrature = 2 }
-        public enum ControlType
-        {
-            kDutyCycle = 0,
-            kVelocity = 1,
-            kVoltage = 2,
-            kPosition = 3,
-            kSmartMotion = 4,
-            kCurrent = 5,
-            kSmartVelocity = 6
-        }
-
-        public enum ParameterStatus
-        {
-            kOK = 0,
-            kInvalidID = 1,
-            kMismatchType = 2,
-            kAccessMode = 3,
-            kInvalid = 4,
-            kNotImplementedDeprecated = 5,
-        }
-
-        public enum PeriodicFrame
-        {
-            kStatus0 = 0,
-            kStatus1 = 1,
-            kStatus2 = 2,
-            kStatus3 = 3,
-            kStatus4 = 4,
-            kStatus5 = 5,
-            kStatus6 = 6,
-            kStatus7 = 7,
-        }
-
-        [Serializable]
-        public class CurrentLimits_SparkFlex : baseDataClass
-        {
-            [DefaultValue(false)]
-            [ConstantInMechInstance]
-            public boolParameter EnableCurrentLimits { get; set; }
-
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.current)]
-            [ConstantInMechInstance]
-            public intParameter PeakCurrentLimit { get; set; }
-
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.time)]
-            [ConstantInMechInstance]
-            public intParameter PeakCurrentLimitTimeout { get; set; }
-
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.time)]
-            [ConstantInMechInstance]
-            public intParameter PeakCurrentDuration { get; set; }
-
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.time)]
-            [ConstantInMechInstance]
-            public intParameter PeakCurrentDurationTimeout { get; set; }
-
-
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.current)]
-            [ConstantInMechInstance]
-            public intParameter ContinuousCurrentLimit { get; set; }
-
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.time)]
-            [ConstantInMechInstance]
-            public intParameter ContinuousCurrentLimitTimeout { get; set; }
-
-            public CurrentLimits_SparkFlex()
-            {
-                int index = this.GetType().Name.IndexOf("_");
-                if (index > 0)
-                    defaultDisplayName = this.GetType().Name.Substring(0, index);
-                else
-                    defaultDisplayName = this.GetType().Name;
-            }
-        }
-        public CurrentLimits_SparkFlex currentLimits { get; set; }
-
-        [Serializable]
-        public class ConfigMotorSettings_SparkFlex : baseDataClass
-        {
-            [DefaultValue(InvertedValue.CounterClockwise_Positive)]
-            [ConstantInMechInstance]
-            public InvertedValue inverted { get; set; }
-
-            [DefaultValue(NeutralModeValue.Coast)]
-            [ConstantInMechInstance]
-            public NeutralModeValue mode { get; set; }
-
-            public ConfigMotorSettings_SparkFlex()
-            {
-                int index = this.GetType().Name.IndexOf("_");
-                if (index > 0)
-                    defaultDisplayName = this.GetType().Name.Substring(0, index);
-                else
-                    defaultDisplayName = this.GetType().Name;
-            }
-        }
-        public ConfigMotorSettings_SparkFlex theConfigMotorSettings { get; set; }
-
-        [DefaultValue(1.0)]
-        [ConstantInMechInstance]
-        public doubleParameter RotationOffset { get; set; }
-
-
-        public Type motorBrushType { get; set; }
-
-        public SensorType sensorType { get; set; }
-
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
             string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkFlex::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},{6})",

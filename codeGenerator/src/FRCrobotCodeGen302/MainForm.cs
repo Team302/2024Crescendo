@@ -597,7 +597,17 @@ namespace FRCrobotCodeGen302
                 Type elementType = obj.GetType().GetGenericArguments().Single();
                 List<Type> subTypes = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == elementType).ToList();
                 foreach (Type type in subTypes)
-                    addRobotElementType(type, types);
+                {
+                    if (!addRobotElementType(type, types))
+                    {
+                        //todo handle more than one level of inheritance
+                        List<Type> subTypesExt = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == type).ToList();
+                        foreach (Type type_ in subTypesExt)
+                        {
+                            addRobotElementType(type_, types);
+                        }
+                    }
+                }
             }
             else
             {
@@ -613,14 +623,24 @@ namespace FRCrobotCodeGen302
                             Type elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
                             List<Type> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
                             foreach (Type type in subTypes)
-                                addRobotElementType(type, types);
+                            {
+							    //todo handle more than one level of inheritance
+                                if(!addRobotElementType(type, types))
+                                {
+                                    List<Type> subTypesExt = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == type).ToList();
+                                    foreach (Type type_ in subTypesExt)
+                                    {
+                                        addRobotElementType(type_, types);
+                                    }
+                                }
+                            }
                         }
                     }
                     //else if (theRobotConfiguration.isASubClassedCollection(obj.GetType()))
                     //{
-                    //    //Type elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
-                    //    //List<Type> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
-                    //    //foreach (Type type in subTypes)
+                    //    //Type_ elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
+                    //    //List<Type_> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
+                    //    //foreach (Type_ type in subTypes)
                     //    //    types.Add(new robotElementType(type));
                     //}
                     else if (DataConfiguration.baseDataConfiguration.isACollection(propertyInfo.PropertyType))
@@ -647,9 +667,9 @@ namespace FRCrobotCodeGen302
             return types;
         }
 
-        void addRobotElementType(Type theType, string name, List<robotElementType> types)
+        bool addRobotElementType(Type theType, string name, List<robotElementType> types)
         {
-            NotUserAddableAttribute nuaa = theType.GetCustomAttribute<NotUserAddableAttribute>();
+            NotUserAddableAttribute nuaa = theType.GetCustomAttribute<NotUserAddableAttribute>(false);
             if (nuaa == null)
             {
                 if (name == null)
@@ -657,12 +677,14 @@ namespace FRCrobotCodeGen302
                 else
                     types.Add(new robotElementType(theType, name));
 
+                return true;
             }
+            return false;
         }
 
-        void addRobotElementType(Type theType, List<robotElementType> types)
+        bool addRobotElementType(Type theType, List<robotElementType> types)
         {
-            addRobotElementType(theType, null, types);
+            return addRobotElementType(theType, null, types);
         }
 
         void hideAllValueEntryBoxes()
@@ -1524,6 +1546,8 @@ namespace FRCrobotCodeGen302
                         obj = Activator.CreateInstance(((robotElementType)robotElementObj).t);
 
                         Type baseType = ((robotElementType)robotElementObj).t.BaseType;
+                        if (baseType.GetCustomAttribute<NotUserAddableAttribute>(false) != null)
+                            baseType = baseType.BaseType; //todo handle more than 1 level of inhertance
                         name = baseType.Name;
 
                         Type t = nodeTag.getType(lastSelectedValueNode.Tag);
