@@ -47,7 +47,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     primStringToEnumMap["DRIVE_PATH_PLANNER"] = DRIVE_PATH_PLANNER;
     primStringToEnumMap["RESET_POSITION"] = RESET_POSITION;
     primStringToEnumMap["RESET_POSITION_PATH_PLANNER"] = RESET_POSITION_PATH_PLANNER;
-    primStringToEnumMap["AUTO_BALANCE"] = AUTO_BALANCE;
     primStringToEnumMap["VISION_ALIGN"] = VISION_ALIGN;
 
     map<string, ChassisOptionEnums::HeadingOption> headingOptionMap;
