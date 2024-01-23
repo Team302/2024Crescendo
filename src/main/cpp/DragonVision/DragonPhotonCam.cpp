@@ -88,6 +88,8 @@ VisionPose DragonPhotonCam::GetFieldPosition()
 
         */
     }
+
+    return VisionPose{};
 }
 
 VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
