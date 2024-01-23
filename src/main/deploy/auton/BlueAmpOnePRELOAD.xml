@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+<primitive id="RESET_POSITION_PATH_PLANNER"
+	           pathname="BlueAmpOneCross.wpilib.json"
+               />
+               <!--Rotate from 180 to -136.31-->
+</auton>
