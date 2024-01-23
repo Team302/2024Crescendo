@@ -18,9 +18,11 @@
 
 // FRC Includes
 #include "frc/apriltag/AprilTagFieldLayout.h"
+#include "frc/Timer.h"
 
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
+#include "DragonVision/DragonVision.h"
 
 DragonPhotonCam::DragonPhotonCam(std::string name,
                                  DragonCamera::PIPELINE initialPipeline,
@@ -35,23 +37,7 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 }
 
 VisionPose DragonPhotonCam::GetFieldPosition()
-{ /*
-    visionapi - add traditional way
-
-     double poseAmbiguity = target.GetPoseAmbiguity();
-     frc::Transform3d bestCameraToTarget = target.getBestCameraToTarget();*/
-    // above maps camera space to object space, transform camera position to get to apriltag
-
-    /*
-        Pose Ambiguity plus possibly robot yaw compared to actual (pigeon, method from MechanicalAdvantage)
-        can be a measure of confidence in the pose, possibly manipulate standard deviations
-
-        will need PhotonPoseEstimator
-
-        PoseEstimator should probably be located in vision drive
-        This should return "traditional" way to calculate field pose by transforming from known apriltag field position
-    */
-
+{
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
@@ -67,26 +53,33 @@ VisionPose DragonPhotonCam::GetFieldPosition()
         // get detected tag id
         int tagId = target.GetFiducialId();
 
-        // std::optional<frc::Pose3d> potentialPose = frc::AprilTagFieldLayout::GetTagPose(tagId);
+        std::optional<frc::Pose3d> potentialPose = DragonVision::GetAprilTagLayout().GetTagPose(tagId);
 
-        /*
-        if(potentialPose.has_value())
+        if (potentialPose.has_value())
         {
-            fieldRelativeTagPose.plus(cameraToTarget.inverse()).plus(cameraToRobot);
+            frc::Pose3d fieldRelativeTagPose = potentialPose.value();
 
-            //initial pose = Tag (field relative)
-            //transform target -> cam (reason for inverse is we get cam -> target, direction matters)
-            //then transform cam -> robot (again, need to inverse since we get robot -> cam)
-            frc::Pose3d fieldRelPose = potentialPose.value().plus(camToTargetTransform.inverse()).plus(m_robotToCamTransform.inverse());
+            // Initial pose = Tag (field relative)
+            // Transform target -> cam (reason for inverse is we get cam -> target, direction matters)
+            // Then transform cam -> robot (again, need to inverse since we get robot -> cam)
+            // Final pose = Robot (field relative)
+            frc::Pose3d fieldRelPose = fieldRelativeTagPose + camToTargetTransform.Inverse() + m_robotCenterToCam.Inverse();
 
-            timestamp = frc::FPGAGetTimeStamp();
+            units::time::millisecond_t timestamp = frc::Timer::GetFPGATimestamp();
 
-            visionStdMeasurements = default(0.1) / target.GetPoseAmbiguity();
+            // Get the pose ambiguity from PhotonVision
+            double ambiguity = target.GetPoseAmbiguity();
+
+            // Get the default values for std deviations
+            wpi::array<double, 3> visionStdMeasurements = VisionPose{}.visionMeasurementStdDevs;
+
+            // Add ambiguity to those default values, may want to multiply by some factor to decrease our confidence depending on ambiguity
+            visionStdMeasurements[0] += ambiguity;
+            visionStdMeasurements[1] += ambiguity;
+            visionStdMeasurements[2] += ambiguity;
 
             return VisionPose(fieldRelPose, timestamp, visionStdMeasurements);
         }
-
-        */
     }
 
     return VisionPose{};
