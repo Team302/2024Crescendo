@@ -33,6 +33,8 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 
 VisionPose DragonPhotonCam::GetFieldPosition()
 { /*
+    visionapi - add traditional way
+
      double poseAmbiguity = target.GetPoseAmbiguity();
      frc::Transform3d bestCameraToTarget = target.getBestCameraToTarget();*/
     // above maps camera space to object space, transform camera position to get to apriltag
@@ -77,7 +79,6 @@ units::angle::degree_t DragonPhotonCam::GetTargetYaw() const // originally Yaw w
 /// @return Skew casted as units::angle::degree_t. Counter Clockwize/left for positive.
 units::angle::degree_t DragonPhotonCam::GetTargetSkew() const
 {
-
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
@@ -109,7 +110,6 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitch() const
     // check for detections
     if (result.HasTargets())
     {
-
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
@@ -128,6 +128,8 @@ units::time::millisecond_t DragonPhotonCam::GetPipelineLatency() const
 
     // get the total latency
     units::second_t latency = result.GetLatency();
+
+    return latency;
 }
 
 int DragonPhotonCam::GetAprilTagID() const
@@ -190,6 +192,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
 
         return transform.X();
     }
+
+    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the Y distance to the detected target
@@ -211,6 +215,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const
 
         return transform.Y();
     }
+
+    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the Z distance to the detected target
@@ -232,6 +238,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const
 
         return transform.Z();
     }
+
+    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the X distance to the detected target in relation to robot
@@ -245,15 +253,16 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords(
     // check for detections
     if (result.HasTargets())
     {
-
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
         // Get transformation from camera to target
         frc::Transform3d transform = target.GetBestCameraToTarget();
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
+        return target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
     }
+
+    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the Y distance to the detected target in relation to robot
@@ -268,15 +277,16 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords(
     // check for detections
     if (result.HasTargets())
     {
-
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
         // Get transformation from camera to target
         frc::Transform3d transform = target.GetBestCameraToTarget();
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
+        return target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
     }
+
+    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the Z distance to the detected target in relation to robot
@@ -290,15 +300,17 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
     // check for detections
     if (result.HasTargets())
     {
-
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
         // Get transformation from camera to target
         frc::Transform3d transform = target.GetBestCameraToTarget();
+
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
+        return target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
     }
+
+    return units::length::inch_t(-1.0);
 }
 bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
 {
