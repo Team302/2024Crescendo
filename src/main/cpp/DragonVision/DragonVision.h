@@ -41,11 +41,16 @@ public:
         NOTE,
         RED_SPEAKER,
         BLUE_SPEAKER,
-        SUBWOOFER,
-        AMP,
-        CENTER_STAGE,
-        LEFT_STAGE,
-        RIGHT_STAGE
+        RED_SUBWOOFER,
+        BLUE_SUBWOOFER,
+        RED_AMP,
+        BLUE_AMP,
+        RED_CENTER_STAGE,
+        RED_LEFT_STAGE,
+        RED_RIGHT_STAGE,
+        BLUE_CENTER_STAGE,
+        BLUE_LEFT_STAGE,
+        BLUE_RIGHT_STAGE
     };
 
     // bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);
