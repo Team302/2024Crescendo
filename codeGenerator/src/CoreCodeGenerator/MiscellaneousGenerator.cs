@@ -62,6 +62,9 @@ namespace CoreCodeGenerator
             List<Type> theTypeList = Assembly.GetAssembly(typeof(baseRobotElementClass)).GetTypes()
                   .Where(t => (t.BaseType == typeof(baseRobotElementClass))).ToList();
 
+            //todo remove once chassis is auto generated
+            names.Add("pigeon::PIGEON_ROBOT_CENTER");
+
             StringBuilder sb = new StringBuilder();
             foreach (Type type in theTypeList)
             {
