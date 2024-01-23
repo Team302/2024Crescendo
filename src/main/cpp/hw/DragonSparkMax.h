@@ -80,7 +80,7 @@ public:
     double GetCountsPerDegree() const override;
     void EnableDisableLimitSwitches(bool enable) override;
     double GetCountsPerRev() const override { return 1.0; }
-    double GetGearRatio() const override { return 1.0; }
+    double GetGearRatio() const override { return 1.0; } //Should this return m_gearRatio?
 
 private:
     double GetRotationsWithGearNoOffset() const;
