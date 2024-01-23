@@ -52,66 +52,60 @@ VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(),
 
 std::array<frc::SwerveModuleState, 4> VisionDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
-    auto visionData = DragonVision::GetDragonVision()->GetVisionData();
+    std::optional<VisionData> visionData = m_vision->GetVisionData();
 
-    // bool targetDataIsNullptr = visionData == nullptr;
-
-    // if (!targetDataIsNullptr)
-    // {
-    //     m_lostGamePieceTimer->Stop();
-    //     m_lostGamePieceTimer->Reset();
-    // }
-    // else
-    // {
-    //     m_lostGamePieceTimer->Start();
-    // }
-    /*
-    if (!targetDataIsNullptr)
+    if (!visionData.has_value())
     {
-        // if (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType())
+        m_lostGamePieceTimer->Stop();
+        m_lostGamePieceTimer->Reset();
+    }
+    else
+    {
+        m_lostGamePieceTimer->Start();
+    }
+
+    if (visionData.has_value())
+    {
+
+        bool atTarget_angle = false;
+
+        units::angle::radian_t angleError = units::angle::radian_t(0.0);
+
+        atTarget_angle = AtTargetAngle(visionData, &angleError);
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
+
+        // Do not move in the X direction until the other measure angle is within a certain tolerance
+        if (std::abs(units::angle::degree_t(angleError).to<double>()) < m_inhibitXspeedAboveAngularError.to<double>())
+            m_moveInXDir = true;
+
+        if (std::abs(units::angle::degree_t(angleError).to<double>()) > m_stopXSpeedAboveAngleError.to<double>())
+            m_moveInXDir = false;
+
+        if (m_vision->getPipeline(DragonVision::LIMELIGHT::OFF) == DragonLimelight::PIPELINE_MODE::APRIL_TAG)
         {
-            bool atTarget_angle = false;
+            m_moveInXDir = false;
+        }
 
-            units::angle::radian_t angleError = units::angle::radian_t(0.0);
+        if (m_moveInXDir)
+        {
+            units::velocity::meters_per_second_t xSpeed = units::velocity::meters_per_second_t(0.0);
+            units::length::inch_t xError = targetData->getXdistanceToTargetRobotFrame() - units::length::inch_t(m_centerOfRobotToBumperEdge_in + m_gamePieceToBumperOffset);
 
-            AtTargetAngle( visionData, units::angle::radian_t * angleError);
-
-            atTarget_angle = AtTargetAngle(DragonVIsion visionData, units::angle::radian_t * angleError);
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
-
-            // Do not move in the X direction until the other measure angle is within a certain tolerance
-            if (std::abs(units::angle::degree_t(angleError).to<double>()) < m_inhibitXspeedAboveAngularError.to<double>())
-                m_moveInXDir = true;
-
-            if (std::abs(units::angle::degree_t(angleError).to<double>()) > m_stopXSpeedAboveAngleError.to<double>())
-                m_moveInXDir = false;
-
-            if (m_vision->getPipeline(DragonVision::LIMELIGHT::OFF) == DragonLimelight::PIPELINE_MODE::APRIL_TAG)
+            if (units::math::abs(xError).to<double>() < m_xErrorThreshold)
             {
-                m_moveInXDir = false;
+                m_xErrorUnderThreshold = true;
             }
 
-            if (m_moveInXDir)
-            {
-                units::velocity::meters_per_second_t xSpeed = units::velocity::meters_per_second_t(0.0);
-                units::length::inch_t xError = targetData->getXdistanceToTargetRobotFrame() - units::length::inch_t(m_centerOfRobotToBumperEdge_in + m_gamePieceToBumperOffset);
+            xSpeed = units::length::meter_t(xError * m_visionKP_X) / 1_s;
 
-                if (units::math::abs(xError).to<double>() < m_xErrorThreshold)
-                {
-                    m_xErrorUnderThreshold = true;
-                }
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "XSpeed Before Limiting (MPS)", xSpeed.to<double>());
 
-                xSpeed = units::length::meter_t(xError * m_visionKP_X) / 1_s;
+            xSpeed = limitVelocityToBetweenMinAndMax(xSpeed);
 
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "XSpeed Before Limiting (MPS)", xSpeed.to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "XSpeed After Limiting (MPS)", xSpeed.to<double>());
 
-                xSpeed = limitVelocityToBetweenMinAndMax(xSpeed);
-
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "VisionDrive", "XSpeed After Limiting (MPS)", xSpeed.to<double>());
-
-                chassisMovement.chassisSpeeds.vx = xSpeed;
-            }
+            chassisMovement.chassisSpeeds.vx = xSpeed;
         }
     }
 
@@ -119,7 +113,6 @@ std::array<frc::SwerveModuleState, 4> VisionDrive::UpdateSwerveModuleStates(Chas
     {
         chassisMovement.chassisSpeeds.vx = units::velocity::meters_per_second_t(m_minimumSpeed_mps);
     }
-    */
     return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
@@ -208,7 +201,7 @@ bool VisionDrive::AtTargetY(DragonVision visionData)
      return false;*/
 }
 
-bool VisionDrive::AtTargetAngle(DragonVision visionData, units::angle::radian_t *angleError)
+bool VisionDrive::AtTargetAngle(std::optional<VisionData> visionData, units::angle::radian_t *angleError)
 { /*
      if (targetData != nullptr)
      {
@@ -224,9 +217,8 @@ bool VisionDrive::AtTargetAngle(DragonVision visionData, units::angle::radian_t 
                  return true;
              }
          }
-     }
-     return false;
- */
+     }*/
+    return false;
 }
 
 bool VisionDrive::isAligned(DragonCamera::PIPELINE pipelineMode)

@@ -75,7 +75,7 @@ private:
 
     bool AtTargetX(DragonVision visionData);
     bool AtTargetY(DragonVision vivionData);
-    bool AtTargetAngle(DragonVision visionData, units::angle::radian_t *angleError);
+    bool AtTargetAngle(std::optional<VisionData> visionData, units::angle::radian_t *angleError);
 
     RobotDrive *m_robotDrive;
 
