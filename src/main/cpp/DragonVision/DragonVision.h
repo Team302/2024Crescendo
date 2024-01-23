@@ -40,6 +40,23 @@ public:
         BACK_INTAKE
     };
 
+    enum VISION_ELEMENT
+    {
+        NOTE,
+        RED_SPEAKER,
+        BLUE_SPEAKER,
+        RED_SUBWOOFER,
+        BLUE_SUBWOOFER,
+        RED_AMP,
+        BLUE_AMP,
+        RED_CENTER_STAGE,
+        RED_LEFT_STAGE,
+        RED_RIGHT_STAGE,
+        BLUE_CENTER_STAGE,
+        BLUE_LEFT_STAGE,
+        BLUE_RIGHT_STAGE
+    };
+
     // bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);
     // bool setPipeline(DragonLimelight::PIPELINE_MODE mode);
     // DragonLimelight::PIPELINE_MODE getPipeline(LIMELIGHT_POSITION position);
@@ -47,7 +64,7 @@ public:
     // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
 
     std::optional<VisionPose> GetRobotPosition() const;
-    std::optional<VisionData> GetVisionData() const;
+    std::optional<VisionData> GetVisionData(VISION_ELEMENT element) const;
 
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
 
