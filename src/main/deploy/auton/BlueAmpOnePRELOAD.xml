@@ -3,8 +3,21 @@
 <auton>
 
 <primitive id= "RESET_POSITON_PATH_PLANNER"
-pathname= 
+pathname= "BlueAmpOneCross"/>
 
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpOneCross"
+time= "0.5"
 />
+<!--Drives for half a second-->
+
+<primitive id = "ShootWhenStop.xml"/>
+<!--Stops and shoots-->
+
+<primitive id = "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpOneCross"
+time= "2.0"/>
+<!--Drives across the line-->
 
 </auton>
