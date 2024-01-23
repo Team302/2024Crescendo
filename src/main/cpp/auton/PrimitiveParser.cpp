@@ -216,6 +216,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                             hasError = true;
                         }
                     }
+
                     if (!hasError)
                     {
                         paramVector.emplace_back(new PrimitiveParams(primitiveType,
