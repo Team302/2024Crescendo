@@ -36,6 +36,18 @@ public:
         BACK_INTAKE
     };
 
+    enum VISION_ELEMENT
+    {
+        NOTE,
+        RED_SPEAKER,
+        BLUE_SPEAKER,
+        SUBWOOFER,
+        AMP,
+        CENTER_STAGE,
+        LEFT_STAGE,
+        RIGHT_STAGE
+    };
+
     // bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);
     // bool setPipeline(DragonLimelight::PIPELINE_MODE mode);
     // DragonLimelight::PIPELINE_MODE getPipeline(LIMELIGHT_POSITION position);
