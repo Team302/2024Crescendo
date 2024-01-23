@@ -36,7 +36,7 @@ private:
 
     DragonCamera::PIPELINE m_pipelineMode;
     DragonVision *m_vision;
-    std::optional<VisionData> visionData = DragonVision::GetDragonVision()->GetVisionData();
+    std::optional<VisionData> visionDataOptional = DragonVision::GetDragonVision()->GetVisionData();
 
     // Angular movement settings
     const double m_minimumOmega_radps = 0.5;

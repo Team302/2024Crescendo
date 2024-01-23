@@ -30,11 +30,11 @@
 /// debugging
 #include "utils/logging/Logger.h"
 
-FaceAprilTag::FaceAprilTag() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG)
-                                   m_pipelineMode(DragonCamera::PIPELINE::APRIL_TAG),
-                               m_vision(DragonVision::GetDragonVision())
+FaceAprilTag::FaceAprilTag() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG),
+                               m_pipelineMode(DragonCamera::PIPELINE::APRIL_TAG),
+                               m_vision(DragonVision::GetDragonVision()) {}
 
-                                   void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement & chassisMovement)
+void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     units::angular_velocity::radians_per_second_t omega = units::angular_velocity::radians_per_second_t(0.0);
 
@@ -47,7 +47,7 @@ FaceAprilTag::FaceAprilTag() : ISwerveDriveOrientation(ChassisOptionEnums::Headi
         m_vision->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::FRONT);
     }
 
-    if (visionData.has_value())
+    if (visionDataOptional.has_value())
     {
         if (!AtTargetAngle(&angleError))
         {
@@ -68,10 +68,11 @@ FaceAprilTag::FaceAprilTag() : ISwerveDriveOrientation(ChassisOptionEnums::Headi
 
 bool FaceAprilTag::AtTargetAngle(units::angle::radian_t *error)
 {
-    if (visionData.has_value())
+    if (visionDataOptional.has_value())
     {
-        units::length::inch_t yError = visionData->getYdistanceToTargetRobotFrame();
-        units::length::inch_t xError = visionData->getXdistanceToTargetRobotFrame();
+        VisionData visionData = visionDataOptional.value();
+        units::length::meter_t yError = visionData.deltaToTarget.Y();
+        units::length::meter_t xError = visionData.deltaToTarget.X();
 
         if (std::abs(xError.to<double>()) > 0.01)
         {
