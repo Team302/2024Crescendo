@@ -16,6 +16,9 @@
 // Photon Includes
 #include "photon/targeting/PhotonPipelineResult.h"
 
+// FRC Includes
+#include "frc/apriltag/AprilTagFieldLayout.h"
+
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
 
@@ -48,10 +51,48 @@ VisionPose DragonPhotonCam::GetFieldPosition()
         PoseEstimator should probably be located in vision drive
         This should return "traditional" way to calculate field pose by transforming from known apriltag field position
     */
+
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check if we have detections
+    if (result.HasTargets())
+    {
+        // get the most accurate according to configured contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // Get transformation from camera to target
+        frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
+
+        // get detected tag id
+        int tagId = target.GetFiducialId();
+
+        // std::optional<frc::Pose3d> potentialPose = frc::AprilTagFieldLayout::GetTagPose(tagId);
+
+        /*
+        if(potentialPose.has_value())
+        {
+            fieldRelativeTagPose.plus(cameraToTarget.inverse()).plus(cameraToRobot);
+
+            //initial pose = Tag (field relative)
+            //transform target -> cam (reason for inverse is we get cam -> target, direction matters)
+            //then transform cam -> robot (again, need to inverse since we get robot -> cam)
+            frc::Pose3d fieldRelPose = potentialPose.value().plus(camToTargetTransform.inverse()).plus(m_robotToCamTransform.inverse());
+
+            timestamp = frc::FPGAGetTimeStamp();
+
+            visionStdMeasurements = default(0.1) / target.GetPoseAmbiguity();
+
+            return VisionPose(fieldRelPose, timestamp, visionStdMeasurements);
+        }
+
+        */
+    }
 }
 
 VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
 {
+    return GetFieldPosition();
 }
 
 /// @brief  get Yaw of possible target.
@@ -177,6 +218,8 @@ double DragonPhotonCam::GetTargetArea() const
 /// @return units::length::inch_t - Positive is forward
 units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
 {
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
@@ -200,6 +243,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
 /// @return units::length::inch_t - Positive is left
 units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const
 {
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
@@ -223,6 +268,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const
 /// @return units::length::inch_t - Positive is up
 units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const
 {
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
@@ -247,6 +294,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance() const
 
 units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords() const
 {
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
@@ -267,10 +316,10 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords(
 
 /// @brief Estimate the Y distance to the detected target in relation to robot
 /// @return units::length::inch_t - Positive is left
-
 units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords() const
-
 {
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
@@ -294,6 +343,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords(
 
 units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords() const
 {
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
