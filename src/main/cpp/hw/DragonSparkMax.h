@@ -91,6 +91,8 @@ private:
     double m_gearRatio;
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
+    rev::SparkRelativeEncoder m_encoder;
+    rev::SparkPIDController m_pidController;
 
     rev::CANSparkMax *GetSparkMax();
 };

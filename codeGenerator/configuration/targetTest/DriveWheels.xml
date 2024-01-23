@@ -1257,7 +1257,7 @@
         <type>Double</type>
         <value>1</value>
       </RotationOffset>
-      <motorBrushType>kBrushed</motorBrushType>
+      <motorBrushType>kBrushless</motorBrushType>
       <sensorType>kNoSensor</sensorType>
     </MotorController>
   </MotorControllers>

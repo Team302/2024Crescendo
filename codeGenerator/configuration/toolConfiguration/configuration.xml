@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <toolConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <rootOutputFolder>..\..\..\src\main\cpp</rootOutputFolder>
-  <robotConfiguration>..\Minimal\minimalRobot.xml</robotConfiguration>
+  <robotConfiguration>..\targetTest\targetTest.xml</robotConfiguration>
   <appDataConfigurations>
     <string>../Minimal/minimalRobot.xml</string>
-
+    <string>../targetTest/targetTest.xml</string>
   </appDataConfigurations>
   <collectionBaseTypes>
     <string>ApplicationData.MotorController</string>

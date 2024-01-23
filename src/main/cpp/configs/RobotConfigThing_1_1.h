@@ -17,27 +17,19 @@
 // Generated on Monday, January 22, 2024 8:14:39 PM
 
 #pragma once
-
 #include "configs/RobotConfig.h"
+#include "mechanisms/thing1DriveWheels/decoratormods/thing1DriveWheels.h"
 
-class RobotConfigMgr
+class RobotConfigThing_1_1 : public RobotConfig
 {
 public:
-	enum RobotIdentifier
-	{
-		Thing_1_1 = 1,
+	RobotConfigThing_1_1() = default;
+	~RobotConfigThing_1_1() = default;
 
-		MAX_ROBOT_IDENTIFIERS
-	};
-
-	static RobotConfigMgr* GetInstance();
-	RobotConfig* GetCurrentConfig() const { return m_config; }
-	void InitRobot ( RobotIdentifier );
+protected:
+	void DefineMechanisms() override;
 
 private:
-	RobotConfigMgr();
-	~RobotConfigMgr() = default;
+	thing1DriveWheels* m_thething1DriveWheels = nullptr;
 
-	static RobotConfigMgr* m_instance;
-	RobotConfig* m_config;
 };
