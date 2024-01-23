@@ -16,11 +16,11 @@
 // C++ Includes
 
 // FRC includes
-
+#include "frc/apriltag/AprilTagFields.h"
 // Team 302 includes
 
-#include <DragonVision/DragonVision.h>
-#include <utils/FMSData.h>
+#include "DragonVision/DragonVision.h"
+#include "utils/FMSData.h"
 
 #include <string>
 // Third Party Includes
@@ -37,13 +37,8 @@ DragonVision *DragonVision::GetDragonVision()
 	return DragonVision::m_dragonVision;
 }
 
-// state functions
-
-// visionapi
-DragonVision::DragonVision()
+DragonVision::DragonVision() : m_aprilTagLayout(frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
 {
-	// m_DragonCameraMap[CAMERA_POSITION::FRONT] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::PRIMARY);
-	// m_DragonCameraMap[CAMERA_POSITION::BACK] = LimelightFactory::GetLimelightFactory()->GetLimelight(LimelightUsages::SECONDARY);
 }
 
 void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
