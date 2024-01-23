@@ -32,9 +32,9 @@ void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         if (optionalData.has_value())
         {
             VisionData validVisionData = optionalData.value();
-            double rotCorrection = abs(validVisionData->GetVisionData().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
-            rot += (m_vision->GetVisionData());
-            rot / 1_s * rotCorrection;
+            // double rotCorrection = abs(validVisionData->GetVisionData().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
+            // rot += (m_vision->GetVisionData());
+            // rot / 1_s * rotCorrection;
         }
         else
         {

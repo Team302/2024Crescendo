@@ -73,9 +73,9 @@ private:
 
     void AlignRawVision(ChassisMovement &chassisMovement);
 
-    bool AtTargetX(DragonVision visionData);
-    bool AtTargetY(DragonVision vivionData);
-    bool AtTargetAngle(std::optional<VisionData> visionData, units::angle::radian_t *angleError);
+    bool AtTargetX(VisionData visionData);
+    bool AtTargetY(VisionData vivionData);
+    bool AtTargetAngle(VisionData visionData, units::angle::radian_t *angleError);
 
     RobotDrive *m_robotDrive;
 
