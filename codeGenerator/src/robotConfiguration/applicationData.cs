@@ -137,6 +137,16 @@ namespace ApplicationData
         public List<applicationData> Robots { get; set; }
 
         [DataDescription("The mechanism templates")]
+        [DataDescription("How to build a mechanism:")]
+        [DataDescription("  1) Define all the motors")]
+        [DataDescription("  2) Define the digital inputs")]
+        [DataDescription("  3) Define the control datas")]
+        [DataDescription("  4) Define all the states")]
+        [DataDescription("  5) Select states and push \"Configure States\"")]
+        [DataDescription("  6) In each state select the correct control datas")]
+        [DataDescription("  7) Specify the transitions")]
+        [DataDescription("  8) Generate")]
+        [DataDescription("  9) Fill in the isTransition functions")]
         public List<mechanism> Mechanisms { get; set; }
 
         public topLevelAppDataElement()
