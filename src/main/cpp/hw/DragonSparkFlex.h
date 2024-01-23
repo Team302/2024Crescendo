@@ -59,7 +59,7 @@ public:
     void SetSmartCurrentLimiting(int limit);
     void SetSecondaryCurrentLimiting(int limit, int duration);
 
-    double GetGearRatio() const override {return m_gearRatio;}
+    double GetGearRatio() const override { return m_gearRatio; }
 
     // dummy methods below
     // std::shared_ptr<frc::MotorController> GetSpeedController() override;
@@ -70,6 +70,7 @@ public:
     void SetVoltage(units::volt_t output) override;
     double GetCounts() override;
     void SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType) override;
+    bool IsMotorInverted() const override;
     bool IsForwardLimitSwitchClosed() override;
     bool IsReverseLimitSwitchClosed() override;
     void EnableVoltageCompensation(double fullvoltage) override;

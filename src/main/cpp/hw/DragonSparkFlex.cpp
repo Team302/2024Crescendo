@@ -196,6 +196,10 @@ void DragonSparkFlex::SetVoltage(units::volt_t output)
     m_spark->SetVoltage(output);
 }
 
+bool DragonSparkFlex::IsMotorInverted() const
+{
+}
+
 bool DragonSparkFlex::IsForwardLimitSwitchClosed()
 {
     return false;
