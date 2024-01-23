@@ -118,8 +118,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto distance = 0.0;
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
-                    auto startDriveSpeed = 0.0;
-                    auto endDriveSpeed = 0.0;
                     std::string pathName;
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
                     // auto extenderstate = ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND;
@@ -166,14 +164,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         else if (strcmp(attr.name(), "heading") == 0)
                         {
                             heading = attr.as_float();
-                        }
-                        else if (strcmp(attr.name(), "drivespeed") == 0)
-                        {
-                            startDriveSpeed = attr.as_float();
-                        }
-                        else if (strcmp(attr.name(), "enddrivespeed") == 0)
-                        {
-                            endDriveSpeed = attr.as_float();
                         }
                         else if (strcmp(attr.name(), "pathname") == 0)
                         {
@@ -223,8 +213,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      distance,
                                                                      headingOption,
                                                                      heading,
-                                                                     startDriveSpeed,
-                                                                     endDriveSpeed,
                                                                      pathName,
                                                                      pipelineMode
                                                                      // @ADDMECH add parameter for your mechanism state
@@ -273,8 +261,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Distance"), param->GetDistance());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
-        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Drive Speed"), param->GetDriveSpeed());
-        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("End Drive Speed"), param->GetEndDriveSpeed());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
         // @ADDMECH Log state data
         // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("armstate"), param->GetArmState());
