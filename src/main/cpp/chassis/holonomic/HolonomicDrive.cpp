@@ -116,6 +116,7 @@ void HolonomicDrive::Run()
             {
                 // set pipeline to discover retroreflective
                 if (m_desiredGamePiece == RobotStateChanges::GamePiece::Cube)
+                    // visionapi - revisit this with me dragonvision
                     //   DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CUBE : DragonLimelight::PIPELINE_MODE::CUBE_SUBSTATION);
                     //   else
                     //    DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CONE : DragonLimelight::PIPELINE_MODE::CONE_SUBSTATION);

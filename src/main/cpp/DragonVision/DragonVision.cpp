@@ -16,10 +16,11 @@
 // C++ Includes
 
 // FRC includes
-
+#include "frc/apriltag/AprilTagFields.h"
 // Team 302 includes
 
-#include <DragonVision/DragonVision.h>
+#include "DragonVision/DragonVision.h"
+#include "utils/FMSData.h"
 
 #include <string>
 // Third Party Includes
@@ -36,9 +37,7 @@ DragonVision *DragonVision::GetDragonVision()
 	return DragonVision::m_dragonVision;
 }
 
-// state functions
-
-DragonVision::DragonVision()
+DragonVision::DragonVision() : m_aprilTagLayout(frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
 {
 }
 

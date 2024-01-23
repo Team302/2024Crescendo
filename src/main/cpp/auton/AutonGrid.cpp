@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -14,41 +13,37 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-#include "State.h"
-#include "units/angle.h"
-#include "units/angular_velocity.h"
-#include <units/angular_acceleration.h>
+// FRC Includes
+#include <frc/geometry/Pose2d.h>
+#include <math.h>
 
-#include <frc/controller/PIDController.h>
-// #include <frc/controller/ProfiledPIDController.h>
-// #include <frc/trajectory/TrapezoidProfile.h>
+// Team302 Includes
+#include "auton/AutonGrid.h"
 
-#include "chassis/swerve/SwerveChassis.h"
+// Thirdparty includes
+Autongrid *Autongrid::m_instance = nullptr;
 
-///	 @brief     this state will allow the robot to rotate to a specified angle
-class TurnToAngle : public State
+Autongrid *Autongrid::GetInstance()
 {
-public:
-    TurnToAngle() = delete;
-    TurnToAngle(
-        units::angle::degree_t targetAngle);
-    ~TurnToAngle() = default;
+    if (Autongrid::m_instance == nullptr)
+    {
+        Autongrid::m_instance = new Autongrid();
+    }
+}
 
-    void Init() override;
-    void Run() override;
-    bool AtTarget() override;
+bool Autongrid::IsPoseInGrid(XGRID xgrid, YGRID ygrid, frc::Pose2d robotPose)
+{
+    auto x = static_cast<double>((xgrid));
+    auto y = static_cast<double>((ygrid));
 
-private:
-    units::angle::degree_t m_targetAngle;
+    return ((robotPose.X()) <= m_gridRes * (x) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y) && (robotPose.Y()) >= m_gridRes * (y - 1));
+}
+bool Autongrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygrid2, frc::Pose2d robotPose)
+{
+    auto x = static_cast<double>((xgrid1));
+    auto y = static_cast<double>((ygrid1));
+    auto x2 = static_cast<double>((xgrid2));
+    auto y2 = static_cast<double>((ygrid2));
 
-    // Need to tune these
-    const double kP = 0.004;
-    const double kI = 0.0001;
-    const double kD = 0.0;
-    const double kF = 0.0;
-    const units::angle::degree_t m_angleTolerance = units::angle::degree_t(2.0);
-    frc::PIDController m_pid{kP, kI, kD};
-    SwerveChassis *m_chassis;
-    bool m_atTarget;
-};
+    return ((robotPose.X()) <= m_gridRes * (x2) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y2) && (robotPose.Y()) >= m_gridRes * (y - 1));
+}

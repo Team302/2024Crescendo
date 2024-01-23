@@ -18,7 +18,11 @@
 #include <map>
 #include <string>
 
+// FRC Includes
+#include "frc/apriltag/AprilTagFieldLayout.h"
+
 #include "DragonVision/DragonVisonStructs.h"
+#include "DragonVision/DragonCamera.h"
 
 class DragonCamera;
 class DragonVision
@@ -44,6 +48,8 @@ public:
 
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
 
+    frc::AprilTagFieldLayout GetAprilTagLayout() const { return m_aprilTagLayout; }
+
 private:
     DragonVision();
     ~DragonVision() = default;
@@ -52,6 +58,8 @@ private:
     //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
 
     static DragonVision *m_dragonVision;
+
+    frc::AprilTagFieldLayout m_aprilTagLayout;
 
     std::map<CAMERA_POSITION, DragonCamera *> m_DragonCameraMap;
 };
