@@ -1150,7 +1150,7 @@
                     <value>false</value>
                   </enableClosedLoop>
                 </voltageRamping>
-                <motorType>NEO500MOTOR</motorType>
+                <motorType>NEOMOTOR</motorType>
                 <canID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
@@ -1278,10 +1278,10 @@
                   <name>doubleParameter</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0</value>
                 </RotationOffset>
-                <motorBrushType>kBrushed</motorBrushType>
-                <sensorType>kNoSensor</sensorType>
+                <motorBrushType>kBrushless</motorBrushType>
+                <sensorType>kHallSensor</sensorType>
               </MotorController>
             </MotorControllers>
             <closedLoopControlParameters />
