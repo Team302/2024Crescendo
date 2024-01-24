@@ -95,6 +95,7 @@ public:
 protected:
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
 
+    frc::Pose3d m_cameraPose;
     frc::Transform3d m_robotCenterToCam;
     PIPELINE m_pipeline;
 };

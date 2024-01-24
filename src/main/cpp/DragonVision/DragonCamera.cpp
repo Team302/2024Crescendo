@@ -30,9 +30,10 @@ DragonCamera::DragonCamera(std::string cameraName, /// <I> camera name/type
                            units::length::inch_t mountingZDistance,
                            units::angle::degree_t pitch, /// <I> - Pitch of limelight
                            units::angle::degree_t yaw,   /// <I> - Yaw of limelight
-                           units::angle::degree_t roll) : m_robotCenterToCam(mountingXDistance,
-                                                                             mountingYDistance,
-                                                                             mountingZDistance,
-                                                                             frc::Rotation3d(roll, pitch, yaw))
+                           units::angle::degree_t roll) : m_cameraPose(mountingXDistance,
+                                                                       mountingYDistance,
+                                                                       mountingZDistance,
+                                                                       frc::Rotation3d(roll, pitch, yaw)),
+                                                          m_robotCenterToCam(frc::Pose3d{}, m_cameraPose)
 {
 }
