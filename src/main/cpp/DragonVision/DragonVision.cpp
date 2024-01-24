@@ -59,7 +59,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element) co
 	return std::nullopt;
 }
 
-std::optional<VisionPose> GetRobotPosition() const
+std::optional<VisionPose> DragonVision::GetRobotPosition() const
 {
 	// if we aren't able to calculate our pose from vision, return a null optional
 	return std::nullopt;
