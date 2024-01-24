@@ -53,7 +53,32 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 	m_DragonCameraMap[position] = camera;
 }
 
-std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element) const {}
+std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
+{
+
+	if (element == VISION_ELEMENT::NOTE)
+	{
+		// units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
+		// units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
+		VisionData translation;
+		return translation;
+	}
+	else
+	{
+		if (element)
+
+		{
+			// frc::Pose3d robotPose = m_dragonCamera->GetFieldPosition();
+			// frc::Pose3d targetElementPose = fieldConstants.Get(ELEMENT);
+			// VisionData transform = robotPose - targetElementPose;
+			// VisionData translation = transform.translation;
+			// return translation;
+		}
+	}
+
+	//if we don't see any vision targets, return null optional
+	return std::nullopt;
+}
 
 // bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, CAMERA_POSITION position)
 // {
