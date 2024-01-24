@@ -137,6 +137,16 @@ namespace ApplicationData
         public List<applicationData> Robots { get; set; }
 
         [DataDescription("The mechanism templates")]
+        [DataDescription("How to build a mechanism:")]
+        [DataDescription("  1) Define all the motors")]
+        [DataDescription("  2) Define the digital inputs")]
+        [DataDescription("  3) Define the control datas")]
+        [DataDescription("  4) Define all the states")]
+        [DataDescription("  5) Select states and push \"Configure States\"")]
+        [DataDescription("  6) In each state select the correct control datas")]
+        [DataDescription("  7) Specify the transitions")]
+        [DataDescription("  8) Generate")]
+        [DataDescription("  9) Fill in the isTransition functions")]
         public List<mechanism> Mechanisms { get; set; }
 
         public topLevelAppDataElement()
@@ -1671,16 +1681,34 @@ namespace ApplicationData
         }
     }
 
+    [Serializable]
+    public class motorTarget : baseRobotElementClass
+    {
+        public doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target { get; set; }
+
+        [ConstantInMechInstance]
+        [DataDescription("The name of the motor that this target applies to")]
+        public string motorName { get;set; }
+
+        [ConstantInMechInstance]
+        [DataDescription("The name of the control data to use in order to reach this target")]
+        public string controlDataName { get; set; }
+
+        public motorTarget()
+        {
+            target.name = "Target";
+            motorName = "theMotorName";
+            controlDataName = "theControlData";
+        }
+    }
+
     [Serializable()]
     public class state : baseRobotElementClass
     {
-        public List<motorControlDataLink> motorControlDataLinks { get; set; }
-
         [ConstantInMechInstance()]
         public List<stringParameterConstInMechInstance> transitionsTo { get; set; }
 
-        public List<doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst> doubleTargets { get; set; }
-        public List<boolParameterUserDefinedTunableOnlyValueChangeableInMechInst> booleanTargets { get; set; }
+        public List<motorTarget> motorTargets { get; set; }
 
         public state()
         {
@@ -1705,7 +1733,7 @@ namespace ApplicationData
         {
             if (generatorContext.theMechanismInstance != null)
             {
-                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, *this))",
+                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this))",
                 name,
                 generatorContext.theMechanismInstance.name,
                 index);

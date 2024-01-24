@@ -128,8 +128,8 @@ void CyclePrimitives::RunDriveStop()
 										  0.0,		  // distance
 										  ChassisOptionEnums::HeadingOption::MAINTAIN,
 										  0.0, // heading
-										  0.0, // start drive speed
-										  0.0, // end drive speed
+											   //   0.0, // start drive speed
+											   //   0.0, // end drive speed
 										  string(),
 										  DragonCamera::PIPELINE::UNKNOWN
 										  // @ADDMECH mechanism state
