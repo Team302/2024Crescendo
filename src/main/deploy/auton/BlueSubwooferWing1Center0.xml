@@ -7,7 +7,7 @@ pathname="BlueSubwooferWing1Center0.path"/>
 <!--Reseting our position-->
 
 <snippet file= "ShootWhenStop.xml"/>
-<!--We're stopping and shooting-->
+<!--We're stopping and shooting to start-->
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname="BlueSubwooferWing1Center0.path"
@@ -19,7 +19,7 @@ time= "1.26"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname="BlueSubwooferWing1Center0.path"
-time= "2"/>
+time= "2.0"/>
 <!--We're driving across the line-->
 
 </auton>
