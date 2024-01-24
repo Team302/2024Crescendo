@@ -18,16 +18,20 @@
 #include <map>
 #include <string>
 
-#include "State.h"
+// FRC Includes
+#include "frc/apriltag/AprilTagFieldLayout.h"
+#include "frc/apriltag/AprilTagFields.h"
+
+#include "DragonVision/DragonVisonStructs.h"
 #include "DragonVision/DragonCamera.h"
 
-using std::map;
-
-class DragonLimelight;
+class DragonCamera;
 class DragonVision
 {
 public:
     static DragonVision *GetDragonVision();
+
+    static frc::AprilTagFieldLayout GetAprilTagLayout();
 
     enum CAMERA_POSITION
     {
@@ -72,6 +76,8 @@ private:
     //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
 
     static DragonVision *m_dragonVision;
+
+    static frc::AprilTagFieldLayout m_aprilTagLayout;
 
     std::map<CAMERA_POSITION, DragonCamera *> m_DragonCameraMap;
 };

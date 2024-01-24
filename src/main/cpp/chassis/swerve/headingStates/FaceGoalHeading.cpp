@@ -26,14 +26,14 @@ void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     units::angular_velocity::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
 
-    if (m_vision != nullptr && abs(m_vision->GetTargetYAngle().to<double>()) < 1.0 && m_vision->HasTarget())
+    if (m_vision != nullptr && abs(m_vision->GetTargetYaw().to<double>()) < 1.0 && m_vision->HasTarget())
     {
         // Hold position
     }
     else if (m_vision != nullptr && m_vision->HasTarget())
     {
-        double rotCorrection = abs(m_vision->GetTargetYAngle().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
-        rot += (m_vision->GetTargetYAngle()) / 1_s * rotCorrection;
+        double rotCorrection = abs(m_vision->GetTargetYaw().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
+        rot += (m_vision->GetTargetYaw()) / 1_s * rotCorrection;
     }
     else
     {
