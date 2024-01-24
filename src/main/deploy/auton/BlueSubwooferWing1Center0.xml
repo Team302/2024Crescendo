@@ -3,20 +3,22 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname="BlueSubTwoCrossPath.path"/>
+pathname="BlueSubwooferWing1Center0.path"/>
 <!--Reseting our position-->
 
 <snippet file= "ShootWhenStop.xml"/>
 <!--We're stopping and shooting-->
 
 <primitive id= "DRIVE_PATH_PLANNER"
+pathname="BlueSubwooferWing1Center0.path"
 time= "1.26"/>
 <!--Go forward as the path says-->
 
-<snippet file= "ShootWhenStop"/>
+<snippet file= "ShootWhenStop.xml"/>
 <!--We're stopping and shooting-->
 
 <primitive id= "DRIVE_PATH_PLANNER"
+pathname="BlueSubwooferWing1Center0.path"
 time= "2"/>
 <!--We're driving across the line-->
 
