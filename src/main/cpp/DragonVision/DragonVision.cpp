@@ -75,6 +75,15 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 			// return translation;
 		}
 	}
+
+	//if we don't see any vision targets, return null optional
+	return std::nullopt;
+}
+
+std::optional<VisionPose> DragonVision::GetRobotPosition()
+{
+	// if we aren't able to calculate our pose from vision, return a null optional
+	return std::nullopt;
 }
 
 // bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, CAMERA_POSITION position)
