@@ -63,7 +63,7 @@ public:
     // std::shared_ptr<DragonVisionTarget> getTargetInfo(LIMELIGHT_POSITION position) const;
     // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
 
-    std::optional<VisionPose> GetRobotPosition() const;
+    std::optional<VisionPose> GetRobotPosition();
     std::optional<VisionData> GetVisionData(VISION_ELEMENT element);
 
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
