@@ -36,76 +36,25 @@ public:
         HOLD_POSITION,
         ARCADE_THROTTLE,
         ARCADE_STEER,
-        DRIVE_TO_LEFT_GRID,
-        DRIVE_TO_CENTER_GRID,
-        DRIVE_TO_RIGHT_GRID,
-        DRIVE_TO_LEFT_NODE,
-        DRIVE_TO_RIGHT_NODE,
-        DRIVE_TO_HUMAN_PLAYER_RIGHT,
-        DRIVE_TO_HUMAN_PLAYER_LEFT,
-        BALANCE_MODE,
-        AUTO_BALANCE,
         SLOW_MODE,
         AUTO_TURN_FORWARD,
         AUTO_TURN_BACKWARD,
         // Standish raw vision
         ALIGN_APRIL_TAG,
         ALIGN_FLOOR_GAME_PIECE,
-        ALIGN_SUBSTATION_GAME_PIECE,
         // Scoring states
         DEBUG_INC_P,
         DEBUG_DEC_P,
         DEBUG_INC_I,
         DEBUG_DEC_I, // Scoring states
-        // HOLD_POSITION, // may not need this state
-        BACKROW,
-        MIDROW,
-        HUMAN_PLAYER_STATION,
-        STARTING_POSITION,
-        FLOOR_POSITION,
-        // DEBUGGING Arm states, when cleaned up, leave MANUAL_ROTATE
-        HOLD_POSITION_ROTATE,
-        MANUAL_ROTATE,
-        CUBE_BACKROW_ROTATE,
-        CONE_BACKROW_ROTATE,
-        CUBE_MIDROW_ROTATE,
-        CONE_MIDROW_ROTATE,
-        HUMAN_PLAYER_STATION_ROTATE,
-        STARTING_POSITION_ROTATE,
-        FLOOR_POSITION_ROTATE,
-        // DEBUGGING Extender states, when cleaned up, leave MANUAL_EXTEND_RETRACT
-        HOLD_POSITION_EXTEND,
-        MANUAL_EXTEND_RETRACT,
-        CUBE_BACKROW_EXTEND,
-        CONE_BACKROW_EXTEND,
-        CUBE_MIDROW_EXTEND,
-        CONE_MIDROW_EXTEND,
-        HUMAN_PLAYER_STATION_EXTEND,
-        STARTING_POSITION_EXTEND,
-        FLOOR_EXTEND,
-        // Turn about point states
-        FRONT_LEFT_BUMPER_TURNABOUT_POINT,
-        FRONT_RIGHT_BUMPER_TURNABOUT_POINT,
-        // CYCLE_GAMEPIECE states
-        OPEN,
-        GRAB,
-        CYCLE_CYCLE_GAMEPIECE,
-        // Active intake controls?
-        INTAKE_OFF,
-        INTAKE,
-        HOLD,
-        EXPEL,
-        EXPEL_LOW,
-        RELEASE,
-        // Compressor ON/Off controls
-        TOGGLE_COMPRESSER,
         // tip correction controls
         TIPCORRECTION_TOGGLE,
         // Example Mechanism
         EXAMPLE_MECH_FORWARD,
         EXAMPLE_MECH_REVERSE,
-
-        MAX_FUNCTIONS,
+        // Cresendo Modes
+        CLIMB_MODE,
+        SCORING_MODE,
 
     };
 };
