@@ -12,7 +12,7 @@ time= "0.5"
 />
 <!--Drives for half a second-->
 
-<primitive id = "ShootWhenStop.xml"/>
+<snippet file = "ShootWhenStop.xml"/>
 <!--Stops and shoots-->
 
 <primitive id = "DRIVE_PATH_PLANNER"
