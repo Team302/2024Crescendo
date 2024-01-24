@@ -26,7 +26,8 @@ class Autongrid
 public:
     enum XGRID
     {
-        A = 1,
+        NO_VALUE,
+        A,
         B,
         C,
         D,
@@ -52,7 +53,8 @@ public:
         X,
         Y,
         Z,
-        AA
+        AA,
+        MAX_VALUE
     };
 
     enum YGRID
