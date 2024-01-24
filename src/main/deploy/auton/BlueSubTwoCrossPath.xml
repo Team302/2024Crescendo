@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER"
+pathname="BlueSubTwoCrossPath.path"/>
+<!--Reseting our position-->
+
+<snippet file= "ShootWhenStop.xml"/>
+<!--We're stopping and shooting-->
+
+<primitive id= "DRIVE_PATH_PLANNER"
+time= "1.26"/>
+<!--Go forward as the path says-->
+
+<snippet file= "ShootWhenStop"/>
+<!--We're stopping and shooting-->
+
+<primitive id= "DRIVE_PATH_PLANNER"
+time= "2"/>
+<!--We're driving across the line-->
+
+</auton>
