@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 2.4368488376615383,
-        "y": 5.556066607628169
+        "x": 2.4064733843753405,
+        "y": 5.585253456221199
       },
       "prevControl": {
-        "x": 3.2873615296779133,
-        "y": 5.556066607628169
+        "x": 3.2569860763917156,
+        "y": 5.585253456221199
       },
       "nextControl": {
-        "x": 1.9614876747143348,
-        "y": 5.556066607628169
+        "x": 1.931112221428137,
+        "y": 5.585253456221199
       },
       "isLocked": false,
       "linkedName": null
@@ -133,7 +133,48 @@
       }
     }
   ],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake On",
+      "waypointRelativePos": 2.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Intake Off",
+      "waypointRelativePos": 3.15,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Launch preloaded cone",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Launch wing cone",
+      "waypointRelativePos": 3.15,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
