@@ -64,7 +64,7 @@ public:
     // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
 
     std::optional<VisionPose> GetRobotPosition() const;
-    std::optional<VisionData> GetVisionData(VISION_ELEMENT element) const;
+    std::optional<VisionData> GetVisionData(VISION_ELEMENT element);
 
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
 
@@ -78,6 +78,8 @@ private:
     static DragonVision *m_dragonVision;
 
     static frc::AprilTagFieldLayout m_aprilTagLayout;
+
+    DragonCamera *m_dragonCamera;
 
     std::map<CAMERA_POSITION, DragonCamera *> m_DragonCameraMap;
 };
