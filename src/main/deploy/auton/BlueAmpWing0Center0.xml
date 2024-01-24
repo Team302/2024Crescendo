@@ -3,11 +3,11 @@
 <auton>
 
 <primitive id= "RESET_POSITON_PATH_PLANNER"
-pathname= "BlueAmpOneCross"/>
+pathname= "BlueAmpWing0Center0.path"/>
 
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpOneCross"
+pathname= "BlueAmpWing0Center0.path"
 time= "0.5"
 />
 <!--Drives for half a second-->
@@ -16,7 +16,7 @@ time= "0.5"
 <!--Stops and shoots-->
 
 <primitive id = "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpOneCross"
+pathname= "BlueAmpWing0Center0.path"
 time= "2.0"/>
 <!--Drives across the line-->
 
