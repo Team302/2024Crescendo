@@ -15,10 +15,10 @@
 
 // Team302 Includes
 #include <chassis/swerve/headingStates/FaceGoalHeading.h>
-#include <DragonVision/LimelightFactory.h>
 
 FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
-                                     m_limelight(LimelightFactory::GetLimelightFactory()->GetLimelight())
+                                     m_vision()
+// visionapi Review how LimelightFactory should be fixed here
 {
 }
 
@@ -26,14 +26,14 @@ void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     units::angular_velocity::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
 
-    if (m_limelight != nullptr && abs(m_limelight->GetTargetHorizontalOffset().to<double>()) < 1.0 && m_limelight->HasTarget())
+    if (m_vision != nullptr && abs(m_vision->GetTargetYAngle().to<double>()) < 1.0 && m_vision->HasTarget())
     {
         // Hold position
     }
-    else if (m_limelight != nullptr && m_limelight->HasTarget())
+    else if (m_vision != nullptr && m_vision->HasTarget())
     {
-        double rotCorrection = abs(m_limelight->GetTargetHorizontalOffset().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
-        rot += (m_limelight->GetTargetHorizontalOffset()) / 1_s * rotCorrection;
+        double rotCorrection = abs(m_vision->GetTargetYAngle().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
+        rot += (m_vision->GetTargetYAngle()) / 1_s * rotCorrection;
     }
     else
     {

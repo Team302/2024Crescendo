@@ -53,7 +53,7 @@ private:
     VisionDrive *m_visionDrive;
     ChassisOptionEnums::HeadingOption m_headingOption;
     std::string m_ntName;
-    DragonLimelight::PIPELINE_MODE m_pipelineMode;
+    DragonCamera::PIPELINE m_pipelineMode;
 
     frc::Timer *m_timer;
     units::time::second_t m_timeout;
