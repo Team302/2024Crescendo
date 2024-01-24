@@ -58,9 +58,13 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 
 	if (element == VISION_ELEMENT::NOTE)
 	{
-		// units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
-		// units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
-		VisionData translation;
+		units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
+		units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
+		units::angle::degree_t roll;
+		units::length::meter_t distance;
+		frc::Rotation3d rotation3d = {roll, pitch, yaw};
+		frc::Translation3d translation3d = {distance, rotation3d};
+		VisionData translation = {translation3d, 0};
 		return translation;
 	}
 	else
@@ -76,7 +80,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 		}
 	}
 
-	//if we don't see any vision targets, return null optional
+	// if we don't see any vision targets, return null optional
 	return std::nullopt;
 }
 
