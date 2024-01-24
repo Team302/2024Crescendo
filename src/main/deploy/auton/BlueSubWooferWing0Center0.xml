@@ -2,7 +2,7 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 <primitive id = "RESET_POSITION_PATH_PLANNER"
-pathname = "subwoofer_preloaded"/>
+pathname = "BlueSubWooferWing0Center0"/>
 
 <primitive id = "ShootWhenStop.xml"/>
 
