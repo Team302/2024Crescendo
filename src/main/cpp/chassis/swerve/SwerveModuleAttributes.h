@@ -16,7 +16,9 @@
 #pragma once
 
 // FRC Includes
+#include "units/angular_velocity.h"
 #include "units/length.h"
+#include "units/velocity.h"
 
 // Team302 Includes
 #include "chassis/swerve/SwerveModuleConstants.h"
@@ -35,4 +37,6 @@ struct SwerveModuleAttributes
     ControlData angleControl = ControlData();
     double sensorToMechanismRatio = 1.0;
     double rotorToSensorRatio = 12.8;
+    units::velocity::feet_per_second_t maxSpeed = units::velocity::feet_per_second_t(0.0);
+    units::angular_velocity::degrees_per_second_t maxAngSpeed = units::angular_velocity::degrees_per_second_t(0.0);
 };

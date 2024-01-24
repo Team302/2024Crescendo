@@ -214,6 +214,16 @@ ISwerveDriveState *SwerveChassis::GetSpecifiedDriveState(ChassisOptionEnums::Dri
     return itr->second;
 }
 
+ISwerveDriveOrientation *SwerveChassis::GetSpecifiedHeadingState(ChassisOptionEnums::HeadingOption headingOption)
+{
+    auto itr = m_headingStateMap.find(headingOption);
+    if (itr == m_headingStateMap.end())
+    {
+        return m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN];
+    }
+    return itr->second;
+}
+
 ISwerveDriveOrientation *SwerveChassis::GetHeadingState(ChassisMovement moveInfo)
 {
     auto itr = m_headingStateMap.find(moveInfo.headingOption);
@@ -390,6 +400,22 @@ units::length::inch_t SwerveChassis::GetWheelDiameter() const
         return m_frontLeft->GetWheelDiameter();
     }
     return units::length::inch_t(0.0);
+}
+units::velocity::meters_per_second_t SwerveChassis::GetMaxSpeed() const
+{
+    if (m_frontLeft != nullptr)
+    {
+        return m_frontLeft->GetMaxSpeed();
+    }
+    return units::velocity::meters_per_second_t(0.0);
+}
+units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed() const
+{
+    if (m_frontLeft != nullptr)
+    {
+        return m_frontLeft->GetMaxAngularSpeed();
+    }
+    return units::angular_velocity::radians_per_second_t(0.0);
 }
 
 void SwerveChassis::LogInformation()

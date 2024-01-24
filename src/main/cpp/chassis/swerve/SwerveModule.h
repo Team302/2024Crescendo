@@ -87,6 +87,8 @@ public:
     /// @returns SwerveModuleConstants.ModuleID
     SwerveModuleConstants::ModuleID GetModuleID() { return m_moduleID; }
     units::length::inch_t GetWheelDiameter() const { return m_wheelDiameter; }
+    units::velocity::feet_per_second_t GetMaxSpeed() const { return m_maxSpeed; }
+    units::angular_velocity::degrees_per_second_t GetMaxAngularSpeed() const { return m_maxAngSpeed; }
 
     void StopMotors();
 
@@ -111,6 +113,8 @@ private:
     DragonCanCoder *m_turnSensor;
 
     units::length::inch_t m_wheelDiameter;
+    units::velocity::feet_per_second_t m_maxSpeed;
+    units::angular_velocity::degrees_per_second_t m_maxAngSpeed;
 
     frc::SwerveModuleState m_activeState;
     frc::Pose2d m_currentPose;

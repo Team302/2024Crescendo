@@ -104,6 +104,9 @@ public:
     units::length::inch_t GetWheelDiameter() const override;
     units::length::inch_t GetWheelBase() const { return m_wheelBase; }
     units::length::inch_t GetTrack() const { return m_track; }
+    units::velocity::meters_per_second_t GetMaxSpeed() const override;
+    units::angular_velocity::radians_per_second_t GetMaxAngularSpeed() const override;
+
     SwerveModule *GetFrontLeft() const { return m_frontLeft; }
     SwerveModule *GetFrontRight() const { return m_frontRight; }
     SwerveModule *GetBackLeft() const { return m_backLeft; }
@@ -133,14 +136,9 @@ public:
 private:
     ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
 
-    frc::ChassisSpeeds GetFieldRelativeSpeeds(
-        units::meters_per_second_t xSpeed,
-        units::meters_per_second_t ySpeed,
-        units::radians_per_second_t rot);
-
-    units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(
-        units::angle::degree_t targetAngle,
-        double kP);
+    frc::ChassisSpeeds GetFieldRelativeSpeeds(units::meters_per_second_t xSpeed,
+                                              units::meters_per_second_t ySpeed,
+                                              units::radians_per_second_t rot);
 
     SwerveModule *m_frontLeft;
     SwerveModule *m_frontRight;

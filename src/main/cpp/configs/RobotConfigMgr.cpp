@@ -48,6 +48,11 @@ void RobotConfigMgr::InitRobot ( RobotIdentifier id )
 		m_config = new RobotConfigMinimalRobot_302();
 		break;
 
+	case RobotIdentifier::CHASSISBOT_9998:
+		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing robot " ), string ( "CHASSISBOT_9998" ), string ( "Yes" ) );
+		m_config = new RobotConfigMinimalRobot_302();
+		break;
+
 	default:
 		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Skipping robot initialization because of unknown robot id " ), string ( "" ), id );
 		break;

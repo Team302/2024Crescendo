@@ -65,6 +65,9 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
                                                        m_driveMotor(driveMotor),
                                                        m_turnMotor(turnMotor),
                                                        m_turnSensor(canCoder),
+                                                       m_wheelDiameter(units::length::inch_t(0.0)),
+                                                       m_maxSpeed(units::velocity::feet_per_second_t(0.0)),
+                                                       m_maxAngSpeed(units::angular_velocity::degrees_per_second_t(0.0)),
                                                        m_activeState(),
                                                        m_currentPose(),
                                                        m_currentSpeed(0.0_rpm),
@@ -75,6 +78,9 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
     m_activeState.speed = 0_mps;
 
     auto attrs = SwerveModuleConstants::GetSwerveModuleAttrs(type);
+    m_wheelDiameter = attrs.wheelDiameter;
+    m_maxSpeed = attrs.maxSpeed;
+    m_maxAngSpeed = attrs.maxAngSpeed;
 
     auto driveTalon = dynamic_cast<DragonTalonFX *>(m_driveMotor);
     if (driveTalon != nullptr)
