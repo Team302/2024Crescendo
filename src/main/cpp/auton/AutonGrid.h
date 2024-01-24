@@ -21,7 +21,7 @@
 
 // Thirdparty includes
 
-class Autongrid
+class AutonGrid
 {
 public:
     enum XGRID
@@ -54,11 +54,12 @@ public:
         Y,
         Z,
         AA,
-        MAX_VALUE
+        EXCEEDING_VALUE
     };
 
     enum YGRID
     {
+        NO_VALUE,
         _1 = 1,
         _2,
         _3,
@@ -112,18 +113,19 @@ public:
         _51,
         _52,
         _53,
-        _54
+        _54,
+        EXCEEDING_VALUE
 
     };
 
-    static Autongrid *GetInstance();
+    static AutonGrid *GetInstance();
 
     bool IsPoseInGrid(XGRID xgrid, YGRID ygrid, frc::Pose2d robotPose);
     bool IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygrid2, frc::Pose2d robotPose);
 
 private:
-    Autongrid() = default;
-    ~Autongrid() = default;
-    static Autongrid *m_instance;
+    AutonGrid() = default;
+    ~AutonGrid() = default;
+    static AutonGrid *m_instance;
     units::length::foot_t m_gridRes = units::length::foot_t(1.0);
 };

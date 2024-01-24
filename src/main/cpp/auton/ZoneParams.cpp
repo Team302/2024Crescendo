@@ -14,31 +14,16 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include "auton/PrimitiveEnums.h"
-#include "auton/PrimitiveParams.h"
-#include "chassis/IChassis.h"
-#include "chassis/ChassisOptionEnums.h"
+#include "auton/AutonGrid.h"
+#include "auton/ZoneParams.h"
 
 // @ADDMECH include for your mechanism state mgr
 
 // @ADDMECH mechanism state for mech as parameter
-PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
-								 units::time::second_t time,
-								 float distance,
-								 ChassisOptionEnums::HeadingOption headingOpt,
-								 float heading,
-								 float startDriveSpeed,
-								 float endDriveSpeed,
-								 std::string pathName,
-								 DragonCamera::PIPELINE pipelineMode) : m_id(id), // Primitive ID
-																		m_time(time),
-																		m_distance(distance),
-																		m_headingOption(headingOpt),
-																		m_heading(heading),
-																		m_startDriveSpeed(startDriveSpeed),
-																		m_endDriveSpeed(endDriveSpeed),
-																		m_pathName(pathName),
-																		m_pipelineMode(pipelineMode)
+ZoneParams::ZoneParams(int xgrid1,
+					   int ygrid1,
+					   int xgrid2,
+					   int ygrid2)
 // @ADDMECH initilize state mgr attribute
 {
 }

@@ -21,29 +21,35 @@
 #include "auton/AutonGrid.h"
 
 // Thirdparty includes
-Autongrid *Autongrid::m_instance = nullptr;
+AutonGrid *AutonGrid::m_instance = nullptr;
 
-Autongrid *Autongrid::GetInstance()
+AutonGrid *AutonGrid::GetInstance()
 {
-    if (Autongrid::m_instance == nullptr)
+    if (AutonGrid::m_instance == nullptr)
     {
-        Autongrid::m_instance = new Autongrid();
+        AutonGrid::m_instance = new AutonGrid();
     }
 }
 
-bool Autongrid::IsPoseInGrid(XGRID xgrid, YGRID ygrid, frc::Pose2d robotPose)
+bool AutonGrid::IsPoseInGrid(XGRID xgrid, YGRID ygrid, frc::Pose2d robotPose)
 {
     auto x = static_cast<double>((xgrid));
     auto y = static_cast<double>((ygrid));
 
-    return ((robotPose.X()) <= m_gridRes * (x) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y) && (robotPose.Y()) >= m_gridRes * (y - 1));
+    return ((robotPose.X()) <= m_gridRes * (x) 
+    && (robotPose.X()) >= m_gridRes * (x - 1) 
+    && (robotPose.Y()) <= m_gridRes * (y) 
+    && (robotPose.Y()) >= m_gridRes * (y - 1));
 }
-bool Autongrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygrid2, frc::Pose2d robotPose)
+bool AutonGrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygrid2, frc::Pose2d robotPose)
 {
     auto x = static_cast<double>((xgrid1));
     auto y = static_cast<double>((ygrid1));
     auto x2 = static_cast<double>((xgrid2));
     auto y2 = static_cast<double>((ygrid2));
 
-    return ((robotPose.X()) <= m_gridRes * (x2) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y2) && (robotPose.Y()) >= m_gridRes * (y - 1));
+    return ((robotPose.X()) <= m_gridRes * (x2) 
+    && (robotPose.X()) >= m_gridRes * (x - 1) 
+    && (robotPose.Y()) <= m_gridRes * (y2) 
+    && (robotPose.Y()) >= m_gridRes * (y - 1));
 }

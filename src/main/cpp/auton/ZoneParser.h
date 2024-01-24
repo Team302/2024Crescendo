@@ -25,8 +25,8 @@
 
 // Third Party Includes
 
-class PrimitiveParser
+class ZoneParser
 {
 public:
-    static PrimitiveParamsVector ParseXML(std::string fileName);
+    static ZoneParamsVector ParseXML(xml_node zonenode);
 };

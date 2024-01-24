@@ -24,66 +24,23 @@
 #include "units/time.h"
 
 // Team 302 includes
-#include "auton/PrimitiveEnums.h"
-#include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonVision.h"
-#include "chassis/swerve/driveStates/VisionDrive.h"
-#include "chassis/IChassis.h"
+#include "auton/AutonGrid.h"
 // @ADDMECH include for your mechanism
 
 // Third Party Includes
 
-class PrimitiveParams
+class ZoneParams
 {
-public:
-    // @ADDMECH add parameter for your mechanism state
-    PrimitiveParams(
-        PRIMITIVE_IDENTIFIER id,
-        units::time::second_t time,
-        float distance,
-        ChassisOptionEnums::HeadingOption headingOption,
-        float heading,
-        float startDriveSpeed,
-        float endDriveSpeed,
-        std::string pathName,
-        DragonCamera::PIPELINE pipelineMode);
-
-    PrimitiveParams() = delete;
-    virtual ~PrimitiveParams() = default; // Destructor
-
-    // Some getters
-    PRIMITIVE_IDENTIFIER GetID() const { return m_id; };
-    units::time::second_t GetTime() const { return m_time; };
-    float GetDistance() const { return m_distance; };
-    ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
-    float GetHeading() const { return m_heading; };
-    float GetDriveSpeed() const { return m_startDriveSpeed; };
-    float GetEndDriveSpeed() const { return m_endDriveSpeed; };
-    std::string GetPathName() const { return m_pathName; };
-    DragonCamera::PIPELINE GetPipelineMode() const { return m_pipelineMode; }
-
-    // @ADDMECH Add methods to get the state mgr for mechanism
-
-    // Setters
-    void
-    SetDistance(float distance)
-    {
-        m_distance = distance;
-    }
-    void SetPathName(std::string path) { m_pathName = path; }
-
 private:
-    // Primitive Parameters
-    PRIMITIVE_IDENTIFIER m_id; // Primitive ID
-    units::time::second_t m_time;
-    float m_distance;
-    ChassisOptionEnums::HeadingOption m_headingOption;
-    float m_heading;
-    float m_startDriveSpeed;
-    float m_endDriveSpeed;
-    std::string m_pathName;
-    // @ADDMECH add attribute for your mechanism state
-    DragonCamera::PIPELINE m_pipelineMode;
+    ZoneParams(
+        int xgrid1,
+        int ygrid1,
+        int xgrid2,
+        int ygrid2);
+
+    ZoneParams() = delete;
+    ~ZoneParams() = default; // Destructor
+
 };
 
-typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;
+typedef std::vector<ZoneParams *> ZoneParamsVector;

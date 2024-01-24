@@ -224,7 +224,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             if (strcmp(child.name(), "zone") == 0)
                             {
-                                ZoneParser::ParseXML(child);
+                                ZoneParser::ParseXML(zonenode);
                             }
                         }
                     }
