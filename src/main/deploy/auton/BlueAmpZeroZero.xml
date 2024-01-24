@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+<primitive id="RESET_POSITION_PATH_PLANNER"
+	           pathname="BlueAmpZeroZero.path"
+               />
+<primitve id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpZeroZero.path"
+time= "1.26"/>
+<!--Drive-->
+
+<snippet file= "ShootWhenStop.xml">
+<!--Shoot-->
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpZeroZero.path"
+time= "2.0"/>
+<!--Drive-->
+
+</auton>
