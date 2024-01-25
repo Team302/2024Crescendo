@@ -362,3 +362,17 @@ bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
 {
     return false;
 }
+
+VisionData DragonPhotonCam::GetPoseRelativeToApriltag()
+{
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+    if (result.HasTargets())
+    {
+        // get the most accurate according to configured contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
+    }
+    return VisionData{camToTargetTransform.Translation()};
+}
