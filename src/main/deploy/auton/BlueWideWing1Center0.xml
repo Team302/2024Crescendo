@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER"
+pathname= "BlueWideWing1Center0.path"/>
+
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueWideWing1Center0.path"
+time= "1.9"
+/>
+<!--Drives-->
+
+<snippet file = "ShootWhenStop.xml"/>
+<!--Stops and shoots-->
+
+<primitive id = "DRIVE_PATH_PLANNER"
+pathname= "BlueWideWing1Center0.path"
+time= "3.1"/>
+<!--Assumed to intake and drives across the line-->
+
+</auton>
