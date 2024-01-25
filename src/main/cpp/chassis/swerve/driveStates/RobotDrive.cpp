@@ -42,7 +42,7 @@ RobotDrive::RobotDrive() : ISwerveDriveState::ISwerveDriveState(),
                            m_maxspeed(units::velocity::feet_per_second_t(1.0))
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {
         m_wheelbase = chassis->GetWheelBase();
@@ -66,38 +66,8 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Vy", chassisMovement.chassisSpeeds.vy.to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Omega", chassisMovement.chassisSpeeds.omega.to<double>());
 
-    // These calculations are based on Ether's Chief Delphi derivation
-    // The only changes are that that derivation is based on positive angles being clockwise
-    // and our codes/sensors are based on positive angles being counter clockwise.
-
-    // A = Vx - omega * L/2
-    // B = Vx + omega * L/2
-    // C = Vy - omega * W/2
-    // D = Vy + omega * W/2
-    //
-    // Where:
-    // Vx is the sideways (strafe) vector
-    // Vy is the forward vector
-    // omega is the rotation about Z vector
-    // L is the wheelbase (front to back)
-    // W is the wheeltrack (side to side)
-    //
-    // Since our Vx is forward and Vy is strafe we need to rotate the vectors
-    // We will use these variable names in the code to help tie back to the document.
-    // Variable names, though, will follow C++ standards and start with a lower case letter.
-
-    /*
-        units::time::second_t kLooperDt = units::time::second_t(20.0 / 1000.0);
-    s    frc::Pose2d robot_pose_vel = frc::Pose2d(vx * kLooperDt, vy * kLooperDt, frc::Rotation2d(omega * kLooperDt));
-        // frc::Twist2d twist_vel = chassis->GetPose().Log(robot_pose_vel);
-        frc::Twist2d twist_vel = frc::Pose2d().Log(robot_pose_vel);
-        // chassisMovement.chassisSpeeds = frc::ChassisSpeeds(twist_vel.dx / kLooperDt, twist_vel.dy / kLooperDt, twist_vel.dtheta / kLooperDt);
-
-        // vx = twist_vel.dx / kLooperDt;
-        // vy = twist_vel.dx / kLooperDt;
-        // omega = twist_vel.dtheta / kLooperDt;
-    */
-    return {m_flState, m_frState, m_blState, m_brState};
+    wpi::array<frc::SwerveModuleState, 4> states = chassis->GetKinematics().ToSwerveModuleStates(chassisMovement.chassisSpeeds, chassisMovement.centerOfRotationOffset + m_centerOfRotation);
+    return {states[0], states[1], states[2], states[3]};
 }
 
 void RobotDrive::Init(ChassisMovement &chassisMovement)
