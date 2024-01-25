@@ -11,9 +11,15 @@ time = "1.55"/>
 <primitive id = "ShootWhenStop.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-time = "2.85"/>
+time = "1.45"/>
+
+<!--Intake On-->
+<primitive id = "DRIVE_PATH_PLANNER" 
+time = "1.40"/>
 
 <primitive id = "ShootWhenStop.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
 time = "3.81"/>
+
+<auton/>
