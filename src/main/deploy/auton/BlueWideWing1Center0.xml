@@ -8,7 +8,7 @@ pathname= "BlueWideWing1Center0.path"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueWideWing1Center0.path"
-time= "1.9"
+time= "1.2"
 />
 <!--Drives-->
 
@@ -17,7 +17,10 @@ time= "1.9"
 
 <primitive id = "DRIVE_PATH_PLANNER"
 pathname= "BlueWideWing1Center0.path"
-time= "3.1"/>
+time= "1.4"/>
 <!--Assumed to intake and drives across the line-->
+
+<snippet file = "StopWhenShoot.xml"/>
+<!--Stops and shoots with the new wing note-->
 
 </auton>
