@@ -42,12 +42,12 @@ RobotDrive::RobotDrive() : ISwerveDriveState::ISwerveDriveState(),
                            m_maxspeed(units::velocity::feet_per_second_t(1.0))
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-    chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    if (chassis != nullptr)
+    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    if (m_chassis != nullptr)
     {
-        m_wheelbase = chassis->GetWheelBase();
-        m_wheeltrack = chassis->GetTrack();
-        m_maxspeed = chassis->GetMaxSpeed();
+        m_wheelbase = m_chassis->GetWheelBase();
+        m_wheeltrack = m_chassis->GetTrack();
+        m_maxspeed = m_chassis->GetMaxSpeed();
     }
     else
     {
@@ -66,7 +66,7 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Vy", chassisMovement.chassisSpeeds.vy.to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Omega", chassisMovement.chassisSpeeds.omega.to<double>());
 
-    wpi::array<frc::SwerveModuleState, 4> states = chassis->GetKinematics().ToSwerveModuleStates(chassisMovement.chassisSpeeds, chassisMovement.centerOfRotationOffset + m_centerOfRotation);
+    wpi::array<frc::SwerveModuleState, 4> states = m_chassis->GetKinematics().ToSwerveModuleStates(chassisMovement.chassisSpeeds, chassisMovement.centerOfRotationOffset + m_centerOfRotation);
     return {states[0], states[1], states[2], states[3]};
 }
 

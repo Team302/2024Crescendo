@@ -17,10 +17,13 @@
 // Generated on Tuesday, January 16, 2024 5:37:08 PM
 
 #pragma once
+#include "chassis/swerve/SwerveChassis.h"
+#include "chassis/swerve/SwerveModule.h"
 #include "configs/RobotConfig.h"
 #include "hw/DragonCanCoder.h"
 #include "hw/DragonPigeon2.h"
 #include "hw/DragonTalonFX.h"
+#include "hw/interfaces/IDragonMotorController.h"
 
 class RobotConfigChassisRobot_9998 : public RobotConfig
 {
@@ -28,6 +31,7 @@ public:
 	RobotConfigChassisRobot_9998() = default;
 	~RobotConfigChassisRobot_9998() = default;
     SwerveChassis *GetSwerveChassis() const override;
+    IChassis *GetIChassis() const override;
 
 protected:
     void DefineMotorControllers() override;

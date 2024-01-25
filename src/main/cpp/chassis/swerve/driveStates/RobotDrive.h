@@ -38,7 +38,7 @@ public:
     void Init(ChassisMovement &chassisMovement) override;
 
 protected:
-    SwerveChassis *chassis;
+    SwerveChassis *m_chassis;
 
     frc::SwerveModuleState m_flState;
     frc::SwerveModuleState m_frState;
