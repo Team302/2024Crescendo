@@ -19,8 +19,7 @@
 #include <string>
 
 #include "State.h"
-#include <DragonVision/DragonLimelight.h>
-#include <DragonVision/DragonVisionTarget.h>
+#include "DragonVision/DragonCamera.h"
 
 using std::map;
 
@@ -30,28 +29,49 @@ class DragonVision
 public:
     static DragonVision *GetDragonVision();
 
-    enum LIMELIGHT_POSITION
+    enum CAMERA_POSITION
     {
         FRONT,
-        BACK
+        BACK,
+        BACK_INTAKE
     };
 
-    bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);
-    bool setPipeline(DragonLimelight::PIPELINE_MODE mode);
-    DragonLimelight::PIPELINE_MODE getPipeline(LIMELIGHT_POSITION position);
-    std::shared_ptr<DragonVisionTarget> getTargetInfo(LIMELIGHT_POSITION position) const;
-    std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
+    enum VISION_ELEMENT
+    {
+        NOTE,
+        RED_SPEAKER,
+        BLUE_SPEAKER,
+        RED_SUBWOOFER,
+        BLUE_SUBWOOFER,
+        RED_AMP,
+        BLUE_AMP,
+        RED_CENTER_STAGE,
+        RED_LEFT_STAGE,
+        RED_RIGHT_STAGE,
+        BLUE_CENTER_STAGE,
+        BLUE_LEFT_STAGE,
+        BLUE_RIGHT_STAGE
+    };
 
-    frc::Pose2d GetRobotPosition() const;
-    frc::Pose2d GetRobotPosition(LIMELIGHT_POSITION position) const;
+    // bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);
+    // bool setPipeline(DragonLimelight::PIPELINE_MODE mode);
+    // DragonLimelight::PIPELINE_MODE getPipeline(LIMELIGHT_POSITION position);
+    // std::shared_ptr<DragonVisionTarget> getTargetInfo(LIMELIGHT_POSITION position) const;
+    // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
+
+    std::optional<VisionPose> GetRobotPosition() const;
+    std::optional<VisionData> GetVisionData(VISION_ELEMENT element) const;
+
+    void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
 
 private:
     DragonVision();
     ~DragonVision() = default;
 
-    DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
+    // may not be needed, if so can be changed to inline and return from map
+    //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
 
     static DragonVision *m_dragonVision;
 
-    std::map<LIMELIGHT_POSITION, DragonLimelight *> m_DragonLimelightMap;
+    std::map<CAMERA_POSITION, DragonCamera *> m_DragonCameraMap;
 };

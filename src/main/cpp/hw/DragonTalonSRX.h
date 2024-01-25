@@ -25,7 +25,7 @@
 #include "hw/DistanceAngleCalcStruc.h"
 #include "hw/interfaces/IDragonControlToVendorControlAdapter.h"
 #include "hw/interfaces/IDragonMotorController.h"
-#include "configs/usages/MotorControllerUsage.h"
+#include "configs/RobotElementNames.h"
 #include "mechanisms/controllers/ControlModes.h"
 
 // Third Party Includes
@@ -39,7 +39,7 @@ public:
     // Constructors
     DragonTalonSRX() = delete;
     DragonTalonSRX(std::string networkTableName,
-                   MotorControllerUsage::MOTOR_CONTROLLER_USAGE deviceType,
+                   RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                    int deviceID,
                    int pdpID,
                    const DistanceAngleCalcStruc &calcStruc,
@@ -51,7 +51,7 @@ public:
     // Getters (override)
     double GetRotations() override;
     double GetRPS() override;
-    MotorControllerUsage::MOTOR_CONTROLLER_USAGE GetType() const override;
+    RobotElementNames::MOTOR_CONTROLLER_USAGE GetType() const override;
     int GetID() const override;
     double GetCurrent() override;
     IDragonMotorController::MOTOR_TYPE GetMotorType() const override;
@@ -128,7 +128,7 @@ private:
     std::string m_networkTableName;
     std::shared_ptr<ctre::phoenix::motorcontrol::can::WPI_TalonSRX> m_talon;
     IDragonControlToVendorControlAdapter *m_controller[4];
-    MotorControllerUsage::MOTOR_CONTROLLER_USAGE m_type;
+    RobotElementNames::MOTOR_CONTROLLER_USAGE m_type;
 
     int m_id;
     int m_pdp;

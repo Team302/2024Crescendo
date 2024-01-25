@@ -18,7 +18,7 @@
 
 #include <memory>
 
-#include "configs/usages/MotorControllerUsage.h"
+#include "configs/RobotElementNames.h"
 #include "hw/interfaces/IDragonMotorController.h"
 
 #include "ctre/phoenix/motorcontrol/RemoteSensorSource.h" // need to remove dependency on ctre
@@ -34,7 +34,7 @@ public:
     //  Constructors
     DragonSparkMax() = delete;
     DragonSparkMax(int id,
-                   MotorControllerUsage::MOTOR_CONTROLLER_USAGE deviceType,
+                   RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                    rev::CANSparkMax::MotorType motorType,
                    rev::SparkRelativeEncoder::Type feedbackType,
                    double gearRatio);
@@ -44,7 +44,7 @@ public:
     // Getters
     double GetRotations() override;
     double GetRPS() override;
-    MotorControllerUsage::MOTOR_CONTROLLER_USAGE GetType() const override;
+    RobotElementNames::MOTOR_CONTROLLER_USAGE GetType() const override;
     int GetID() const override;
 
     // Setters
@@ -71,6 +71,7 @@ public:
     void SetVoltage(units::volt_t output) override;
     double GetCounts() override;
     void SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType) override;
+    bool IsMotorInverted() const override;
     bool IsForwardLimitSwitchClosed() override;
     bool IsReverseLimitSwitchClosed() override;
     void EnableVoltageCompensation(double fullvoltage) override;
@@ -79,7 +80,7 @@ public:
     double GetCountsPerDegree() const override;
     void EnableDisableLimitSwitches(bool enable) override;
     double GetCountsPerRev() const override { return 1.0; }
-    double GetGearRatio() const override { return 1.0; }
+    double GetGearRatio() const override { return 1.0; } //Should this return m_gearRatio?
 
 private:
     double GetRotationsWithGearNoOffset() const;
@@ -88,8 +89,10 @@ private:
     // DRAGON_CONTROL_MODE m_controlMode;
     double m_outputRotationOffset;
     double m_gearRatio;
-    MotorControllerUsage::MOTOR_CONTROLLER_USAGE m_deviceType;
+    RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
+    rev::SparkRelativeEncoder m_encoder;
+    rev::SparkPIDController m_pidController;
 
     rev::CANSparkMax *GetSparkMax();
 };

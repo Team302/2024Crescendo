@@ -64,6 +64,10 @@ int MotorData::getStallCurrent(IDragonMotorController::MOTOR_TYPE motorType) con
         return stallCurrentValues[IDragonMotorController::JOHNSONELECTRICALGEARMOTOR];
     case IDragonMotorController::TETRIXMAXTORQUENADOMOTOR:
         return stallCurrentValues[IDragonMotorController::TETRIXMAXTORQUENADOMOTOR];
+    case IDragonMotorController::KRAKEN60:
+        return stallCurrentValues[IDragonMotorController::KRAKEN60];
+    case IDragonMotorController::VORTEX:
+        return stallCurrentValues[IDragonMotorController::VORTEX];
 
     default:
         return 0;
@@ -108,6 +112,10 @@ double MotorData::getFreeCurrent(IDragonMotorController::MOTOR_TYPE motorType) c
         return freeCurrentValues[IDragonMotorController::JOHNSONELECTRICALGEARMOTOR];
     case IDragonMotorController::TETRIXMAXTORQUENADOMOTOR:
         return freeCurrentValues[IDragonMotorController::TETRIXMAXTORQUENADOMOTOR];
+    case IDragonMotorController::KRAKEN60:
+        return freeCurrentValues[IDragonMotorController::KRAKEN60];
+    case IDragonMotorController::VORTEX:
+        return freeCurrentValues[IDragonMotorController::VORTEX];
     default:
         return 0;
     }
@@ -151,6 +159,10 @@ int MotorData::getFreeSpeed(IDragonMotorController::MOTOR_TYPE motorType) const
         return freeSpeedValues[IDragonMotorController::JOHNSONELECTRICALGEARMOTOR];
     case IDragonMotorController::TETRIXMAXTORQUENADOMOTOR:
         return freeSpeedValues[IDragonMotorController::TETRIXMAXTORQUENADOMOTOR];
+    case IDragonMotorController::KRAKEN60:
+        return freeSpeedValues[IDragonMotorController::KRAKEN60];
+    case IDragonMotorController::VORTEX:
+        return freeSpeedValues[IDragonMotorController::VORTEX];
     default:
         return 0;
     }
@@ -194,6 +206,10 @@ int MotorData::getMaximumPower(IDragonMotorController::MOTOR_TYPE motorType) con
         return maximumPowerValues[IDragonMotorController::JOHNSONELECTRICALGEARMOTOR];
     case IDragonMotorController::TETRIXMAXTORQUENADOMOTOR:
         return maximumPowerValues[IDragonMotorController::TETRIXMAXTORQUENADOMOTOR];
+    case IDragonMotorController::KRAKEN60:
+        return maximumPowerValues[IDragonMotorController::KRAKEN60];
+    case IDragonMotorController::VORTEX:
+        return maximumPowerValues[IDragonMotorController::VORTEX];
     default:
         return 0;
     }
@@ -236,6 +252,10 @@ double MotorData::getStallTorque(IDragonMotorController::MOTOR_TYPE motorType) c
         return stallTorqueValues[IDragonMotorController::JOHNSONELECTRICALGEARMOTOR];
     case IDragonMotorController::TETRIXMAXTORQUENADOMOTOR:
         return stallTorqueValues[IDragonMotorController::TETRIXMAXTORQUENADOMOTOR];
+    case IDragonMotorController::KRAKEN60:
+        return stallTorqueValues[IDragonMotorController::KRAKEN60];
+    case IDragonMotorController::VORTEX:
+        return stallTorqueValues[IDragonMotorController::VORTEX];
     default:
         return 0;
     }

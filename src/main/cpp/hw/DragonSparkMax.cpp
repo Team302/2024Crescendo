@@ -14,7 +14,7 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include "configs/usages/MotorControllerUsage.h"
+#include "configs/RobotElementNames.h"
 #include "hw/DragonSparkMax.h"
 #include "mechanisms/controllers/ControlData.h"
 
@@ -22,7 +22,7 @@
 using rev::CANSparkMax;
 
 DragonSparkMax::DragonSparkMax(int id,
-                               MotorControllerUsage::MOTOR_CONTROLLER_USAGE deviceType,
+                               RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                                CANSparkMax::MotorType motorType,
                                rev::SparkRelativeEncoder::Type feedbackType,
                                double gearRatio) : IDragonMotorController(),
@@ -32,15 +32,17 @@ DragonSparkMax::DragonSparkMax(int id,
                                                    m_outputRotationOffset(0.0),
                                                    m_gearRatio(gearRatio),
                                                    m_deviceType(deviceType),
-                                                   m_feedbackType(feedbackType)
+                                                   m_feedbackType(feedbackType),
+                                                   m_encoder(m_spark->GetEncoder(m_feedbackType)),
+                                                   m_pidController(m_spark->GetPIDController())
 {
     m_spark->RestoreFactoryDefaults(true);
-    auto pid = m_spark->GetPIDController();
-    pid.SetOutputRange(-1.0, 1.0, 0);
-    pid.SetOutputRange(-1.0, 1.0, 1);
+
+    m_pidController.SetOutputRange(-1.0, 1.0, 0);
+    m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09); // 0.2 0.25
     m_spark->SetClosedLoopRampRate(0.02);
-    m_spark->GetEncoder(m_feedbackType).SetPosition(0);
+    m_encoder.SetPosition(0);
     SetRotationOffset(0);
 }
 
@@ -51,10 +53,10 @@ double DragonSparkMax::GetRotations()
 
 double DragonSparkMax::GetRPS()
 {
-    return m_spark->GetEncoder(m_feedbackType).GetVelocity() / 60.0;
+    return m_encoder.GetVelocity() / 60.0;
 }
 
-MotorControllerUsage::MOTOR_CONTROLLER_USAGE DragonSparkMax::GetType() const
+RobotElementNames::MOTOR_CONTROLLER_USAGE DragonSparkMax::GetType() const
 {
     return m_deviceType;
 }
@@ -66,11 +68,10 @@ int DragonSparkMax::GetID() const
 
 void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInfo)
 {
-    auto pid = m_spark->GetPIDController();
-    pid.SetP(controlInfo.GetP(), slot);
-    pid.SetI(controlInfo.GetI(), slot);
-    pid.SetD(controlInfo.GetD(), slot);
-    pid.SetFF(controlInfo.GetF(), slot);
+    m_pidController.SetP(controlInfo.GetP(), slot);
+    m_pidController.SetI(controlInfo.GetI(), slot);
+    m_pidController.SetD(controlInfo.GetD(), slot);
+    m_pidController.SetFF(controlInfo.GetF(), slot);
 
     switch (controlInfo.GetMode())
     {
@@ -79,11 +80,11 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
         break;
 
     case ControlModes::POSITION_INCH:
-        pid.SetReference(0, CANSparkMax::ControlType::kPosition, slot);
+        m_pidController.SetReference(0, CANSparkMax::ControlType::kPosition, slot);
         break;
 
     case ControlModes::VELOCITY_RPS:
-        pid.SetReference(0, CANSparkMax::ControlType::kVelocity, slot);
+        m_pidController.SetReference(0, CANSparkMax::ControlType::kVelocity, slot);
         break;
 
     default:
@@ -156,7 +157,7 @@ void DragonSparkMax::Invert(bool inverted)
 
 double DragonSparkMax::GetRotationsWithGearNoOffset() const
 {
-    return m_spark->GetEncoder(m_feedbackType).GetPosition() * m_gearRatio;
+    return m_encoder.GetPosition() * m_gearRatio;
 }
 
 void DragonSparkMax::InvertEncoder(bool inverted)
@@ -195,6 +196,10 @@ void DragonSparkMax::SetDiameter(double diameter)
 void DragonSparkMax::SetVoltage(units::volt_t output)
 {
     m_spark->SetVoltage(output);
+}
+
+bool DragonSparkMax::IsMotorInverted() const
+{
 }
 
 bool DragonSparkMax::IsForwardLimitSwitchClosed()

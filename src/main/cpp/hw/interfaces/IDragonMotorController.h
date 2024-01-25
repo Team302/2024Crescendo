@@ -25,7 +25,7 @@
 #include <frc/motorcontrol/MotorController.h>
 
 // Team 302 includes
-#include "configs/usages/MotorControllerUsage.h"
+#include "configs/RobotElementNames.h"
 #include <mechanisms/controllers/ControlModes.h>
 #include "mechanisms/controllers/ControlData.h"
 
@@ -81,11 +81,11 @@ public:
     virtual double GetRPS() = 0;
 
     /// @brief  Return the usage of the motor
-    /// @return MotorControllerUsage::MOTOR_CONTROLLER_USAGE - what the motor is used for
-    virtual MotorControllerUsage::MOTOR_CONTROLLER_USAGE GetType() const = 0;
+    /// @return RobotElementNames::MOTOR_CONTROLLER_USAGE - what the motor is used for
+    virtual RobotElementNames::MOTOR_CONTROLLER_USAGE GetType() const = 0;
 
     /// @brief  Return the type of  motor
-    /// @return MotorControllerUsage::MOTOR_CONTROLLER_USAGE - what the motor type is
+    /// @return RobotElementNames::MOTOR_CONTROLLER_USAGE - what the motor type is
     virtual IDragonMotorController::MOTOR_TYPE GetMotorType() const = 0;
 
     /// @brief  Return the current usage

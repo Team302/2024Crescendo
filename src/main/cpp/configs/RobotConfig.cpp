@@ -97,27 +97,27 @@ IChassis *RobotConfig::GetIChassis() const
     return nullptr;
 }
 
-IDragonMotorController *RobotConfig::GetMotorController(MotorControllerUsage::MOTOR_CONTROLLER_USAGE usage)
+IDragonMotorController *RobotConfig::GetMotorController(RobotElementNames::MOTOR_CONTROLLER_USAGE usage)
 {
     return nullptr;
 }
 
-DragonSolenoid *RobotConfig::GetSolenoid(SolenoidUsage::SOLENOID_USAGE usage)
+DragonSolenoid *RobotConfig::GetSolenoid(RobotElementNames::SOLENOID_USAGE usage)
 {
     return nullptr;
 }
 
-DragonServo *RobotConfig::GetServo(ServoUsage::SERVO_USAGE usage)
+DragonServo *RobotConfig::GetServo(RobotElementNames::SERVO_USAGE usage)
 {
     return nullptr;
 }
 
-DragonCanCoder *RobotConfig::GetCanCoder(CanSensorUsage::CANSENSOR_USAGE usage)
+DragonCanCoder *RobotConfig::GetCanCoder(RobotElementNames::CANCODER_USAGE usage)
 {
     return nullptr;
 }
 
-IDragonPigeon *RobotConfig::GetPigeon(CanSensorUsage::CANSENSOR_USAGE usage)
+IDragonPigeon *RobotConfig::GetPigeon(RobotElementNames::PIGEON_USAGE usage)
 {
     return nullptr;
 }

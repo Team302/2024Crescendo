@@ -18,7 +18,7 @@
 
 #include <string>
 #include "ctre/phoenix6/CANcoder.hpp"
-#include "configs/usages/CanSensorUsage.h"
+#include "configs/RobotElementNames.h"
 #include "units/angle.h"
 #include "units/angular_velocity.h"
 
@@ -26,7 +26,7 @@ class DragonCanCoder
 {
 public:
 	DragonCanCoder(std::string networkTableName,
-				   CanSensorUsage::CANSENSOR_USAGE usage,
+				   RobotElementNames::CANCODER_USAGE usage,
 				   int canID,
 				   std::string canBusName,
 				   double offset,
@@ -41,10 +41,10 @@ public:
 	units::angular_velocity::revolutions_per_minute_t GetVelocity();
 	int GetCanId();
 	std::string GetNetworkTableName() const { return m_networkTableName; }
-	CanSensorUsage::CANSENSOR_USAGE GetUsage() const { return m_usage; }
+	RobotElementNames::CANCODER_USAGE GetUsage() const { return m_usage; }
 
 private:
 	std::string m_networkTableName;
-	CanSensorUsage::CANSENSOR_USAGE m_usage;
+	RobotElementNames::CANCODER_USAGE m_usage;
 	ctre::phoenix6::hardware::CANcoder m_cancoder;
 };
