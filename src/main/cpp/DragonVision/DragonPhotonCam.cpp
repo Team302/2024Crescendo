@@ -15,6 +15,7 @@
 
 // Photon Includes
 #include "photon/targeting/PhotonPipelineResult.h"
+#include "photon/PhotonUtils.h"
 
 // FRC Includes
 #include "frc/apriltag/AprilTagFieldLayout.h"
@@ -132,9 +133,45 @@ units::angle::degree_t DragonPhotonCam::GetTargetSkew() const
     return (units::angle::degree_t)0;
 }
 
-units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+/// Here's a way to use a transformation to get
 
-units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const {}
+units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame() const
+{
+}
+
+units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame() const
+{
+    // get latest detections
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check for detections
+    if (result.HasTargets())
+    {
+        // get the most accurate according to configured contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        int tagId = target.GetFiducialId();
+
+        // if we don't see a tag we are detecting a note instead
+        if (tagId == -1)
+        {
+            units::meter_t distanceToTarget = photon::PhotonUtils::CalculateDistanceToTarget(m_cameraPose.Z(),
+                                                                                             m_noteVerticalOffset,
+                                                                                             m_cameraPose.Rotation().Y(),
+                                                                                             units::degree_t{target.GetPitch()});
+
+            units::angle::radian_t pitchRobotRelative = units::math::atan2(m_cameraPose.Z(), distanceToTarget);
+
+            return pitchRobotRelative;
+        }
+        else // we see an april tag
+        {
+            units::angle::radian_t cameraPitch = units::degree_t(target.GetPitch());
+
+            frc::Transform3d camToTarget = target.GetBestCameraToTarget();
+        }
+    }
+}
 
 /// @brief Get Pitch to Target
 /// @return units::angle::degree_t - positive up
