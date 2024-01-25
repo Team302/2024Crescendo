@@ -58,6 +58,12 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	// frc::GetVisionData();
 
 	// logic for selecting which camera
+	DragonCamera *selectedcam = nullptr;
+	if (m_DragonCameraMap[FRONT]->GetAprilTagID() != -1)
+		selectedcam = FRONT;
+
+	else if (m_DragonCameraMap[BACK]->GetAprilTagID() != -1)
+		selectedcam = BACK;
 
 	if (element == VISION_ELEMENT::NOTE)
 	{
