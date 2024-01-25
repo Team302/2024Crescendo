@@ -56,6 +56,12 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 {
 	// logic for selecting which camera
+	DragonCamera *selectedcam = nullptr;
+	if (m_DragonCameraMap[FRONT]->GetAprilTagID() != -1)
+		selectedcam = FRONT;
+
+	else if (m_DragonCameraMap[BACK]->GetAprilTagID() != -1)
+		selectedcam = BACK;
 
 	if (element == VISION_ELEMENT::NOTE)
 	{
