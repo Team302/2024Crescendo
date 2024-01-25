@@ -22,24 +22,24 @@
 
 #include <auton/ZoneParams.h>
 #include <auton/ZoneParser.h>
-#include <auton/ZoneParser.h>
 #include "utils/logging/Logger.h"
 #include <pugixml/pugixml.hpp>
 using namespace std;
 using namespace pugi;
 
-ZoneParamsVector ZoneParser::ParseXML(xml_node zonenode)
+ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
 {
     ZoneParams *zone = nullptr;
     auto hasError = false;
 
+    AutonGrid::XGRID xgrid1 = AutonGrid::XGRID::NO_VALUE;
+    AutonGrid::YGRID ygrid1 = AutonGrid::YGRID::NONE;
+    AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
+    AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
+
     for (xml_attribute attr = zonenode.first_attribute(); attr; attr = attr.next_attribute())
     {
 
-        AutonGrid::XGRID xgrid1 = AutonGrid::XGRID::NO_VALUE;
-        AutonGrid::YGRID ygrid1 = AutonGrid::YGRID::NO_VALUE;
-        AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
-        AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NO_VALUE;
         if (strcmp(attr.name(), "xgrid1") == 0)
         {
             auto val = attr.as_int();
@@ -51,7 +51,7 @@ ZoneParamsVector ZoneParser::ParseXML(xml_node zonenode)
         if (strcmp(attr.name(), "ygrid1") == 0)
         {
             auto val = attr.as_int();
-            if (val > AutonGrid::YGRID::NO_VALUE && val < AutonGrid::YGRID::EXCEEDING_VALUE)
+            if (val > AutonGrid::YGRID::NONE && val < AutonGrid::YGRID::EXCEEDED)
             {
                 ygrid1 = static_cast<AutonGrid::YGRID>(val);
             }
@@ -67,7 +67,7 @@ ZoneParamsVector ZoneParser::ParseXML(xml_node zonenode)
         if (strcmp(attr.name(), "ygrid2") == 0)
         {
             auto val = attr.as_int();
-            if (val > AutonGrid::YGRID::NO_VALUE && val < AutonGrid::YGRID::EXCEEDING_VALUE)
+            if (val > AutonGrid::YGRID::NONE && val < AutonGrid::YGRID::EXCEEDED)
             {
                 ygrid2 = static_cast<AutonGrid::YGRID>(val);
             }
@@ -76,22 +76,13 @@ ZoneParamsVector ZoneParser::ParseXML(xml_node zonenode)
 
     if (!hasError)
     {
-        ZoneParamsVector.emplace_back(new ZoneParams(xgrid1,
-                                                     ygrid1,
-                                                     xgrid2,
-                                                     ygrid2));
-    }
-    else
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("ZoneParser"), string("ParseXML"), string("Has Error"));
+        return (new ZoneParams(xgrid1,
+                               ygrid1,
+                               xgrid2,
+                               ygrid2));
     }
 
-    if (!hasError)
-    {
-        zone = new ZoneParams(xgrid1,
-                              ygrid1,
-                              xgrid2,
-                              ygrid2);
-    }
-    return zone;
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("ZoneParser"), string("ParseXML"), string("Has Error"));
+
+    return nullptr;
 }

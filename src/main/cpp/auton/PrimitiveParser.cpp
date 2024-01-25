@@ -123,6 +123,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto startDriveSpeed = 0.0;
                     auto endDriveSpeed = 0.0;
                     std::string pathName;
+                    ZoneParamsVector zones;
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
                     // auto extenderstate = ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND;
                     // auto intakestate = IntakeStateMgr::INTAKE_STATE::HOLD;
@@ -224,32 +225,33 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             if (strcmp(child.name(), "zone") == 0)
                             {
-                                ZoneParser::ParseXML(zonenode);
+                                zones.emplace_back(ZoneParser::ParseXML(child));
                             }
                         }
                     }
-                }
 
-                if (!hasError)
-                {
-                    paramVector.emplace_back(new PrimitiveParams(primitiveType,
-                                                                 time,
-                                                                 distance,
-                                                                 headingOption,
-                                                                 heading,
-                                                                 startDriveSpeed,
-                                                                 endDriveSpeed,
-                                                                 pathName,
-                                                                 pipelineMode
-                                                                 // @ADDMECH add parameter for your mechanism state
-                                                                 // armstate,
-                                                                 // extenderstate,
-                                                                 // intakestate,
-                                                                 ));
-                }
-                else
-                {
-                    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML"), string("Has Error"));
+                    if (!hasError)
+                    {
+                        paramVector.emplace_back(new PrimitiveParams(primitiveType,
+                                                                     time,
+                                                                     distance,
+                                                                     headingOption,
+                                                                     heading,
+                                                                     startDriveSpeed,
+                                                                     endDriveSpeed,
+                                                                     pathName,
+                                                                     pipelineMode,
+                                                                     zones
+                                                                     // @ADDMECH add parameter for your mechanism state
+                                                                     // armstate,
+                                                                     // extenderstate,
+                                                                     // intakestate,
+                                                                     ));
+                    }
+                    else
+                    {
+                        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML"), string("Has Error"));
+                    }
                 }
             }
         }

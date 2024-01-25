@@ -3,5 +3,14 @@
 <auton>
     <primitive id="VISION_ALIGN"
 	           pipeline="APRIL_TAG"
-               time="3.0"/>
+               time="3.0">
+        <zone xgrid1
+         ygrid1
+         xgrid2
+         ygrid2 />
+        <zone xxxxx />
+        <grid xxxxx />
+        <zone xxxxx />
+        <zone xxxxx />
+    </primitive>
 </auton>

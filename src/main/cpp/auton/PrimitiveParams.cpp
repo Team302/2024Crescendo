@@ -30,15 +30,16 @@ PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
 								 float startDriveSpeed,
 								 float endDriveSpeed,
 								 std::string pathName,
-								 DragonCamera::PIPELINE pipelineMode) : m_id(id), // Primitive ID
-																		m_time(time),
-																		m_distance(distance),
-																		m_headingOption(headingOpt),
-																		m_heading(heading),
-																		m_startDriveSpeed(startDriveSpeed),
-																		m_endDriveSpeed(endDriveSpeed),
-																		m_pathName(pathName),
-																		m_pipelineMode(pipelineMode)
+								 DragonCamera::PIPELINE pipelineMode,
+								 ZoneParamsVector zones) : m_id(id), // Primitive ID
+														   m_time(time),
+														   m_distance(distance),
+														   m_headingOption(headingOpt),
+														   m_heading(heading),
+														   m_startDriveSpeed(startDriveSpeed),
+														   m_endDriveSpeed(endDriveSpeed),
+														   m_pathName(pathName),
+														   m_pipelineMode(pipelineMode)
 // @ADDMECH initilize state mgr attribute
 {
 }

@@ -29,6 +29,7 @@
 #include "DragonVision/DragonVision.h"
 #include "chassis/swerve/driveStates/VisionDrive.h"
 #include "chassis/IChassis.h"
+#include "auton/ZoneParams.h"
 // @ADDMECH include for your mechanism
 
 // Third Party Includes
@@ -46,7 +47,8 @@ public:
         float startDriveSpeed,
         float endDriveSpeed,
         std::string pathName,
-        DragonCamera::PIPELINE pipelineMode);
+        DragonCamera::PIPELINE pipelineMode,
+        ZoneParamsVector zones);
 
     PrimitiveParams() = delete;
     virtual ~PrimitiveParams() = default; // Destructor
@@ -61,6 +63,7 @@ public:
     float GetEndDriveSpeed() const { return m_endDriveSpeed; };
     std::string GetPathName() const { return m_pathName; };
     DragonCamera::PIPELINE GetPipelineMode() const { return m_pipelineMode; }
+    ZoneParamsVector GetZones() const { return m_zones; }
 
     // @ADDMECH Add methods to get the state mgr for mechanism
 
@@ -84,6 +87,7 @@ private:
     std::string m_pathName;
     // @ADDMECH add attribute for your mechanism state
     DragonCamera::PIPELINE m_pipelineMode;
+    ZoneParamsVector m_zones;
 };
 
 typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;

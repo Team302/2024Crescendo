@@ -31,7 +31,7 @@
 
 class ZoneParams
 {
-private:
+public:
     ZoneParams(
         int xgrid1,
         int ygrid1,
@@ -40,7 +40,11 @@ private:
 
     ZoneParams() = delete;
     ~ZoneParams() = default; // Destructor
-
+private:
+    int m_xgrid1;
+    int m_ygrid1;
+    int m_xgrid2;
+    int m_ygrid2;
 };
 
 typedef std::vector<ZoneParams *> ZoneParamsVector;

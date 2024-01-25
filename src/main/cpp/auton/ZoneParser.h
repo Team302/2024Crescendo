@@ -24,9 +24,10 @@
 #include <auton/PrimitiveParams.h>
 
 // Third Party Includes
+#include <pugixml/pugixml.hpp>
 
 class ZoneParser
 {
 public:
-    static ZoneParamsVector ParseXML(xml_node zonenode);
+    static ZoneParams *ParseXML(pugi::xml_node zonenode);
 };
