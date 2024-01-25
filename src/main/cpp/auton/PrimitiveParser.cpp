@@ -43,7 +43,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     map<string, PRIMITIVE_IDENTIFIER> primStringToEnumMap;
     primStringToEnumMap["DO_NOTHING"] = DO_NOTHING;
     primStringToEnumMap["HOLD_POSITION"] = HOLD_POSITION;
-    primStringToEnumMap["DRIVE_PATH"] = DRIVE_PATH;
     primStringToEnumMap["DRIVE_PATH_PLANNER"] = DRIVE_PATH_PLANNER;
     primStringToEnumMap["RESET_POSITION"] = RESET_POSITION;
     primStringToEnumMap["RESET_POSITION_PATH_PLANNER"] = RESET_POSITION_PATH_PLANNER;
@@ -251,11 +250,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     for (auto itr = paramVector.rbegin(); itr != paramVector.rend(); ++itr)
     {
         auto param = *itr;
-        if (param->GetID() == PRIMITIVE_IDENTIFIER::DRIVE_PATH)
-        {
-            path = param->GetPathName();
-        }
-        else if (param->GetID() == PRIMITIVE_IDENTIFIER::RESET_POSITION)
+        if (param->GetID() == PRIMITIVE_IDENTIFIER::RESET_POSITION)
         {
             if (param->GetPathName().empty())
             {
