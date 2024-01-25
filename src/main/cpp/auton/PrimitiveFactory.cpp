@@ -19,7 +19,6 @@
 #include <auton/PrimitiveFactory.h>
 #include <auton/PrimitiveParser.h>
 #include <auton/drivePrimitives/VisionDrivePrimitive.h>
-#include <auton/drivePrimitives/AutoBalance.h>
 #include <auton/drivePrimitives/DriveStop.h>
 #include <auton/drivePrimitives/DrivePathPlanner.h>
 #include <auton/drivePrimitives/DriveHoldPosition.h>
