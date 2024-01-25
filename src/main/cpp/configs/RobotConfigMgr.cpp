@@ -22,6 +22,7 @@
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMinimalRobot_302.h"
+#include "configs/RobotConfigChassisRobot_9998.h"
 
 using namespace std;
 
@@ -50,7 +51,7 @@ void RobotConfigMgr::InitRobot ( RobotIdentifier id )
 
 	case RobotIdentifier::CHASSISBOT_9998:
 		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing robot " ), string ( "CHASSISBOT_9998" ), string ( "Yes" ) );
-		m_config = new RobotConfigMinimalRobot_302();
+		m_config = new RobotConfigChassisRobot_9998();
 		break;
 
 	default:

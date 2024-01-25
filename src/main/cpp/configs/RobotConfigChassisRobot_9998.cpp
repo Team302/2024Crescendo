@@ -35,7 +35,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                             1,
                                             calcStruc,
                                             IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                            string("CANIVORE"));
+                                            string("Canivore"));
        m_frontLeftDrive->SetCurrentLimits(true,
                                           units::current::ampere_t(25.0),
                                           true,
@@ -48,10 +48,10 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
 
        m_frontLeftTurn = new DragonTalonFX(string("LF_SWERVE"),
                                            RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_TURN,
-                                           13,
+                                           3,
                                            calcStruc,
                                            IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                           string("CANIVORE"));
+                                           string("Canivore"));
        m_frontLeftTurn->SetCurrentLimits(true,
                                          units::current::ampere_t(25.0),
                                          true,
@@ -67,7 +67,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                              0,
                                              calcStruc,
                                              IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                             string("CANIVORE"));
+                                             string("Canivore"));
        m_frontRightDrive->SetCurrentLimits(true,
                                            units::current::ampere_t(25.0),
                                            true,
@@ -83,7 +83,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                             2,
                                             calcStruc,
                                             IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                            string("CANIVORE"));
+                                            string("Canivore"));
        m_frontRightTurn->SetCurrentLimits(true,
                                           units::current::ampere_t(25.0),
                                           true,
@@ -99,7 +99,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                            18,
                                            calcStruc,
                                            IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                           string("CANIVORE"));
+                                           string("Canivore"));
        m_backLeftDrive->SetCurrentLimits(true,
                                          units::current::ampere_t(25.0),
                                          true,
@@ -115,7 +115,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                           16,
                                           calcStruc,
                                           IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                          string("CANIVORE"));
+                                          string("Canivore"));
        m_backLeftTurn->SetCurrentLimits(true,
                                         units::current::ampere_t(25.0),
                                         true,
@@ -131,7 +131,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                             17,
                                             calcStruc,
                                             IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                            string("CANIVORE"));
+                                            string("Canivore"));
        m_backRightDrive->SetCurrentLimits(true,
                                           units::current::ampere_t(25.0),
                                           true,
@@ -147,7 +147,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                            19,
                                            calcStruc,
                                            IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                           string("CANIVORE"));
+                                           string("Canivore"));
        m_backRightTurn->SetCurrentLimits(true,
                                          units::current::ampere_t(25.0),
                                          true,
@@ -161,7 +161,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
 void RobotConfigChassisRobot_9998::DefineCANSensors()
 {
        m_pigeon = new DragonPigeon2(0,
-                                    string("CANIVORE"),
+                                    string("Canivore"),
                                     RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER,
                                     units::angle::degree_t(0.0),
                                     units::angle::degree_t(0.0),
@@ -170,28 +170,28 @@ void RobotConfigChassisRobot_9998::DefineCANSensors()
        m_frontLeftCC = new DragonCanCoder(string("RB_SWERVE"),
                                           RobotElementNames::CANCODER_USAGE::BACK_RIGHT_SWERVE,
                                           19,
-                                          string("CANIVORE"),
+                                          string("Canivore"),
                                           156.7092,
                                           false);
 
        m_frontRightCC = new DragonCanCoder(string("RF_SWERVE"),
                                            RobotElementNames::CANCODER_USAGE::FRONT_RIGHT_SWERVE,
                                            2,
-                                           string("CANIVORE"),
+                                           string("Canivore"),
                                            -51.5923,
                                            false);
 
        m_backLeftCC = new DragonCanCoder(string("LB_SWERVE"),
                                          RobotElementNames::CANCODER_USAGE::BACK_LEFT_SWERVE,
                                          19,
-                                         string("CANIVORE"),
+                                         string("Canivore"),
                                          43.945,
                                          false);
 
        m_backRightCC = new DragonCanCoder(string("LF_SWERVE"),
                                           RobotElementNames::CANCODER_USAGE::FRONT_LEFT_SWERVE,
                                           3,
-                                          string("CANIVORE"),
+                                          string("Canivore"),
                                           -105.3812,
                                           false);
 }
@@ -226,4 +226,9 @@ void RobotConfigChassisRobot_9998::DefineChassis()
                                            units::length::inch_t(22.75),
                                            units::length::inch_t(22.75),
                                            string("SwerveChassis"));
+}
+
+SwerveChassis *RobotConfigChassisRobot_9998::GetSwerveChassis() const
+{
+       return m_swerveChassis;
 }

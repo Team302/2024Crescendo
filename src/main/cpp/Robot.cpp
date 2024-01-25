@@ -161,11 +161,22 @@ void Robot::TeleopInit()
     {
         m_controller = TeleopControl::GetInstance();
     }
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("after teleopcontrol"), string("arrived"));
 
+    if (m_chassis != nullptr)
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have a swerve chassis"), string("arrived"));
+    }
+    if (m_controller != nullptr)
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have a controller"), string("arrived"));
+    }
     if (m_chassis != nullptr && m_controller != nullptr)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("chassis and controller"), string("arrived"));
         if (m_holonomic != nullptr)
         {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holonomic "), string("arrived"));
             m_holonomic->Init();
         }
 
@@ -173,9 +184,11 @@ void Robot::TeleopInit()
         ChassisMovement resetMoveInfo;
         resetMoveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
         resetMoveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("reset chassis movement"), string("arrived"));
 
         m_chassis->Drive();
         dynamic_cast<VisionDrive *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE))->setInAutonMode(false);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("drive"), string("arrived"));
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 

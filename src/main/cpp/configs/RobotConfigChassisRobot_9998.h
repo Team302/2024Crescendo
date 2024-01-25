@@ -27,6 +27,7 @@ class RobotConfigChassisRobot_9998 : public RobotConfig
 public:
 	RobotConfigChassisRobot_9998() = default;
 	~RobotConfigChassisRobot_9998() = default;
+    SwerveChassis *GetSwerveChassis() const override;
 
 protected:
     void DefineMotorControllers() override;
