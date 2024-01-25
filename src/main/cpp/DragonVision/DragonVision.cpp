@@ -55,19 +55,22 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 {
-	// frc::GetVisionData();
-
 	// logic for selecting which camera
 
 	if (element == VISION_ELEMENT::NOTE)
 	{
 		/*units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
 		units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
+
 		frc::Rotation3d rotation3d = {units::angle::degree_t(0.0), pitch, yaw};
-		EstimateTargetXDistance unit::angle::degree_t roll = m_DragonCameraMap[BACK_INTAKE]->GetTargetRollRobotFrame();
-		EstimateTargetYDistance unit::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
-		EstimateTargetZDistance unit::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
-		frc::Translation3d translation3d = {units::meter_t(0.0), rotation3d};
+
+		unit::length::meter_t xDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetXDistance();
+		unit::length::meter_t yDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetYDistance();
+		unit::length::meter_t zDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetZDistance();
+
+		//need to verify that the translation given these values correctly gets the right yaw,pitch,roll
+		//may need to use translation constructor with rotation 3d instead of x,y,z
+		frc::Translation3d translation3d = {xDistance, yDistance, zDistance};
 		VisionData translation = {translation3d};
 		return translation;*/
 	}
@@ -78,6 +81,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 		/* switch(tagId){ red case 11, 12, 13
 						 blue case 14, 15, 16}
 		*/
+
 		// frc::Pose3d robotPose = m_dragonCamera->GetFieldPosition();
 		// frc::Pose3d targetElementPose = fieldConstants.Get(ELEMENT);
 		// VisionData transform = robotPose - targetElementPose;
