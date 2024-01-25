@@ -55,27 +55,34 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 {
+	// frc::GetVisionData();
+
+	// logic for selecting which camera
 
 	if (element == VISION_ELEMENT::NOTE)
 	{
 		/*units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
 		units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
-		frc::Rotation3d rotation3d = {roll, pitch, units::angle::degree_t(0.0)};
+		frc::Rotation3d rotation3d = {units::angle::degree_t(0.0), pitch, yaw};
+		EstimateTargetXDistance unit::angle::degree_t roll = m_DragonCameraMap[BACK_INTAKE]->GetTargetRollRobotFrame();
+		EstimateTargetYDistance unit::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
+		EstimateTargetZDistance unit::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
 		frc::Translation3d translation3d = {units::meter_t(0.0), rotation3d};
 		VisionData translation = {translation3d};
 		return translation;*/
 	}
 	else
 	{
-		if (element)
-
-		{
-			// frc::Pose3d robotPose = m_dragonCamera->GetFieldPosition();
-			// frc::Pose3d targetElementPose = fieldConstants.Get(ELEMENT);
-			// VisionData transform = robotPose - targetElementPose;
-			// VisionData translation = transform.translation;
-			// return translation;
-		}
+		// only for stage
+		// get camera data from both cameras
+		/* switch(tagId){ red case 11, 12, 13
+						 blue case 14, 15, 16}
+		*/
+		// frc::Pose3d robotPose = m_dragonCamera->GetFieldPosition();
+		// frc::Pose3d targetElementPose = fieldConstants.Get(ELEMENT);
+		// VisionData transform = robotPose - targetElementPose;
+		// VisionData translation = transform.translation;
+		// return translation;
 	}
 
 	// if we don't see any vision targets, return null optional
