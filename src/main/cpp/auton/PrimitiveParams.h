@@ -44,8 +44,6 @@ public:
         float distance,
         ChassisOptionEnums::HeadingOption headingOption,
         float heading,
-        float startDriveSpeed,
-        float endDriveSpeed,
         std::string pathName,
         DragonCamera::PIPELINE pipelineMode);
 
@@ -58,8 +56,6 @@ public:
     float GetDistance() const { return m_distance; };
     ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
     float GetHeading() const { return m_heading; };
-    float GetDriveSpeed() const { return m_startDriveSpeed; };
-    float GetEndDriveSpeed() const { return m_endDriveSpeed; };
     std::string GetPathName() const { return m_pathName; };
     DragonCamera::PIPELINE GetPipelineMode() const { return m_pipelineMode; }
 

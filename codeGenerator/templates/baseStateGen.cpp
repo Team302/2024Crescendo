@@ -24,28 +24,28 @@ using namespace std;
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
 $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::$$_MECHANISM_INSTANCE_NAME_$$BaseStateGen(string stateName,
                                                                                      int stateId,
-                                                                                     $$_MECHANISM_INSTANCE_NAME_$$_gen &mech) : State(stateName, stateId),
+                                                                                     $$_MECHANISM_INSTANCE_NAME_$$_gen *mech) : State(stateName, stateId),
                                                                                                                                 m_$$_MECHANISM_INSTANCE_NAME_$$(mech),
                                                                                                                                 m_motorMap(),
                                                                                                                                 m_solenoidMap(),
                                                                                                                                 m_servoMap()
 {
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetMotorUsages();
+    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)
     {
-        auto motormech = m_$$_MECHANISM_INSTANCE_NAME_$$.GetMotorMech(usage);
+        auto motormech = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorMech(usage);
         m_motorMap[usage] = new BaseMechMotorState(stateName, stateId, *motormech);
     }
-    auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetSolenoidUsages();
+    auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetSolenoidUsages();
     for (auto usage : solUsages)
     {
-        auto solmech = m_$$_MECHANISM_INSTANCE_NAME_$$.GetSolenoidMech(usage);
+        auto solmech = m_$$_MECHANISM_INSTANCE_NAME_$$->GetSolenoidMech(usage);
         m_solenoidMap[usage] = new BaseMechSolenoidState(stateName, stateId, *solmech);
     }
-    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetServoUsages();
+    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetServoUsages();
     for (auto usage : servoUsages)
     {
-        auto servoMech = m_$$_MECHANISM_INSTANCE_NAME_$$.GetServoMech(usage);
+        auto servoMech = m_$$_MECHANISM_INSTANCE_NAME_$$->GetServoMech(usage);
         m_servoMap[usage] = new BaseMechServoState(stateName, stateId, *servoMech);
     }
 }
@@ -143,7 +143,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::Init()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::InitMotorStates()
 {
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetMotorUsages();
+    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)
     {
         auto state = GetMotorMechState(usage);
@@ -155,7 +155,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::InitMotorStates()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::InitSolenoidStates()
 {
-    auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetSolenoidUsages();
+    auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetSolenoidUsages();
     for (auto usage : solUsages)
     {
         auto state = GetSolenoidMechState(usage);
@@ -167,7 +167,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::InitSolenoidStates()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::InitServoStates()
 {
-    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetServoUsages();
+    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetServoUsages();
     for (auto usage : servoUsages)
     {
         auto state = GetServoMechState(usage);
@@ -186,7 +186,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::Run()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::RunMotorStates()
 {
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetMotorUsages();
+    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)
     {
         auto state = GetMotorMechState(usage);
@@ -198,7 +198,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::RunMotorStates()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::RunSolenoidStates()
 {
-    auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetSolenoidUsages();
+    auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetSolenoidUsages();
     for (auto usage : solUsages)
     {
         auto state = GetSolenoidMechState(usage);
@@ -210,7 +210,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::RunSolenoidStates()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::RunServoStates()
 {
-    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetServoUsages();
+    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetServoUsages();
     for (auto usage : servoUsages)
     {
         auto state = GetServoMechState(usage);
@@ -229,7 +229,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::Exit()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::ExitMotorStates()
 {
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetMotorUsages();
+    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)
     {
         auto state = GetMotorMechState(usage);
@@ -241,7 +241,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::ExitMotorStates()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::ExitSolenoidStates()
 {
-    auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetSolenoidUsages();
+    auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetSolenoidUsages();
     for (auto usage : solUsages)
     {
         auto state = GetSolenoidMechState(usage);
@@ -253,7 +253,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::ExitSolenoidStates()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::ExitServoStates()
 {
-    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetServoUsages();
+    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetServoUsages();
     for (auto usage : servoUsages)
     {
         auto state = GetServoMechState(usage);
@@ -280,7 +280,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTarget()
 bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetMotorStates() const
 {
     auto attarget = true;
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetMotorUsages();
+    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)
     {
         auto state = GetMotorMechState(usage);
@@ -298,7 +298,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetMotorStates() const
 bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetSolenoidStates() const
 {
     auto attarget = true;
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetMotorUsages();
+    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)
     {
         auto state = GetMotorMechState(usage);
@@ -316,7 +316,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetSolenoidStates() const
 bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetServoStates() const
 {
     auto attarget = true;
-    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$.GetServoUsages();
+    auto servoUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetServoUsages();
     for (auto usage : servoUsages)
     {
         auto state = GetServoMechState(usage);
