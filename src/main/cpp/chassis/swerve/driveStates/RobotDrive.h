@@ -38,10 +38,13 @@ public:
     void Init(ChassisMovement &chassisMovement) override;
 
 protected:
+    SwerveChassis *chassis;
+
     frc::SwerveModuleState m_flState;
     frc::SwerveModuleState m_frState;
     frc::SwerveModuleState m_blState;
     frc::SwerveModuleState m_brState;
+    frc::Translation2d m_centerOfRotation = frc::Translation2d(units::meter_t(0.0), units::meter_t(0.0));
 
     units::length::inch_t m_wheelbase;
     units::length::inch_t m_wheeltrack;

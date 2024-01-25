@@ -171,7 +171,8 @@ namespace applicationConfiguration
                         int index = 0;
                         foreach (object o in listObject)
                         {
-                            initializeData(listObject, o, string.Format("{0}[{1}]", pi.Name, index), null);
+                            List<Attribute> attrs = o.GetType().GetCustomAttributes().ToList();
+                            initializeData(listObject, o, string.Format("{0}[{1}]", pi.Name, index), attrs);
                         }
                     }
                     else
@@ -376,16 +377,19 @@ namespace applicationConfiguration
                             {
                                 if (pi.Name != "parent")
                                 {
-                                    object theStructureObj = pi.GetValue(structureSource);
-                                    object theParametersObj = pi.GetValue(parametersSource);
+                                    if (pi.GetCustomAttribute<ConstantInMechInstanceAttribute>() == null)
+                                    {
+                                        object theStructureObj = pi.GetValue(structureSource);
+                                        object theParametersObj = pi.GetValue(parametersSource);
 
-                                    if (isABasicSystemType(theStructureObj))
-                                    {
-                                        pi.SetValue(structureSource, pi.GetValue(parametersSource));
-                                    }
-                                    else if ((theStructureObj != null) && (theParametersObj != null))
-                                    {
-                                        MergeMechanismParametersIntoStructure(theStructureObj, theParametersObj);
+                                        if (isABasicSystemType(theStructureObj))
+                                        {
+                                            pi.SetValue(structureSource, pi.GetValue(parametersSource));
+                                        }
+                                        else if ((theStructureObj != null) && (theParametersObj != null))
+                                        {
+                                            MergeMechanismParametersIntoStructure(theStructureObj, theParametersObj);
+                                        }
                                     }
                                 }
                             }
