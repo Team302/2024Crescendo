@@ -42,7 +42,6 @@ PrimitiveFactory::PrimitiveFactory() : m_DriveStop(nullptr),
 									   m_DriveHoldPosition(nullptr),
 									   m_resetPosition(nullptr),
 									   m_resetPositionPathPlanner(nullptr),
-									   m_autoBalance(nullptr),
 									   m_drivePath(nullptr),
 									   m_drivePathPlanner(nullptr)
 {
@@ -106,7 +105,7 @@ IPrimitive *PrimitiveFactory::GetIPrimitive(PrimitiveParams *primitivePasser)
 		primitive = m_drivePath;
 		break;
 
-		case VISION_ALIGN:
+	case VISION_ALIGN:
 		if (m_visionAlign == nullptr)
 		{
 			m_visionAlign = new VisionDrivePrimitive();
