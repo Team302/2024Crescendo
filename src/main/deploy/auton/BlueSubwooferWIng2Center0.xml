@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id = "RESET_POSITION_PATH_PLANNER"
+pathname = "BlueSubwooferWing2Center0"/>
+
+<snippet file = "ShootWhenStop.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+time = "1.50"/>
+
+<!--Intake On-->
+<primitive id = "DRIVE_PATH_PLANNER"
+time = ".7"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+time = "1.15"/>
