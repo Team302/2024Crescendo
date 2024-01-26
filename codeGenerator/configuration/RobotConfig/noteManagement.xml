@@ -5906,7 +5906,7 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
-          <controlDataName>positionInch</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>Feeder</name>
@@ -5950,7 +5950,7 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
-          <controlDataName>posDegreeAbs</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>
@@ -6019,7 +6019,7 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
-          <controlDataName>positionInch</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>Feeder</name>
@@ -6063,7 +6063,7 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
-          <controlDataName>posDegreeAbs</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>
