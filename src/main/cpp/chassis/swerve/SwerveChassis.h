@@ -19,32 +19,24 @@
 #include <memory>
 #include <string>
 
-#include "frc/BuiltInAccelerometer.h"
 #include "frc/estimator/SwerveDrivePoseEstimator.h"
 #include "frc/geometry/Pose2d.h"
-#include "frc/geometry/Rotation2d.h"
 #include "frc/geometry/Translation2d.h"
 #include "frc/kinematics/ChassisSpeeds.h"
 #include "frc/kinematics/SwerveDriveKinematics.h"
-#include "frc/kinematics/SwerveDriveOdometry.h"
 #include "frc/kinematics/SwerveModuleState.h"
 
-#include "units/acceleration.h"
 #include "units/angle.h"
-#include "units/angular_acceleration.h"
 #include "units/angular_velocity.h"
 #include "units/length.h"
 #include "units/velocity.h"
 
 #include "chassis/ChassisOptionEnums.h"
-#include "chassis/DragonTargetFinder.h"
 #include "chassis/swerve/driveStates/ISwerveDriveState.h"
 #include "chassis/swerve/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/IChassis.h"
-#include "chassis/PoseEstimatorEnum.h"
 #include "chassis/swerve/SwerveModule.h"
 #include "chassis/ChassisMovement.h"
-#include "DragonVision/DragonVision.h"
 #include "hw/interfaces/IDragonPigeon.h"
 #include "utils/logging/LoggableItem.h"
 
@@ -136,10 +128,6 @@ public:
 private:
     ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
 
-    frc::ChassisSpeeds GetFieldRelativeSpeeds(units::meters_per_second_t xSpeed,
-                                              units::meters_per_second_t ySpeed,
-                                              units::radians_per_second_t rot);
-
     SwerveModule *m_frontLeft;
     SwerveModule *m_frontRight;
     SwerveModule *m_backLeft;
@@ -158,9 +146,6 @@ private:
     units::length::inch_t m_track;
 
     IDragonPigeon *m_pigeon;
-    frc::BuiltInAccelerometer m_accel;
-    frc::Pose2d m_pose;
-    units::angle::degree_t m_offsetPoseAngle;
     units::velocity::meters_per_second_t m_drive;
     units::velocity::meters_per_second_t m_steer;
     units::angular_velocity::radians_per_second_t m_rotate;
@@ -178,16 +163,12 @@ private:
     frc::SwerveDrivePoseEstimator<4> m_poseEstimator;
 
     units::angle::degree_t m_storedYaw;
-    units::angular_velocity::degrees_per_second_t m_yawCorrection;
 
-    DragonTargetFinder m_targetFinder;
     units::angle::degree_t m_targetHeading;
-    DragonVision *m_vision;
 
     ISwerveDriveState *m_currentDriveState;
     ISwerveDriveOrientation *m_currentOrientationState;
 
     bool m_initialized = false;
-    bool m_hasResetToVisionTarget = false;
     std::string m_networkTableName;
 };

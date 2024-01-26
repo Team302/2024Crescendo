@@ -20,7 +20,6 @@
 #include <string>
 
 // FRC Includes
-#include "frc/Encoder.h"
 #include "frc/geometry/Pose2d.h"
 #include "frc/geometry/Rotation2d.h"
 #include "frc/geometry/Translation2d.h"

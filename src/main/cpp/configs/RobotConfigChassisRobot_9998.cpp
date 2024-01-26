@@ -17,18 +17,20 @@
 
 #include <string>
 
-#include "PeriodicLooper.h"
-#include "utils/logging/Logger.h"
-#include "configs/RobotConfigMgr.h"
-#include "configs/RobotConfigChassisRobot_9998.h"
 #include "chassis/swerve/SwerveModule.h"
 #include "chassis/swerve/SwerveModuleAttributes.h"
 #include "chassis/swerve/SwerveModuleConstants.h"
+#include "configs/RobotConfigChassisRobot_9998.h"
+#include "configs/RobotConfigMgr.h"
+#include "PeriodicLooper.h"
+#include "utils/logging/Logger.h"
 
 using std::string;
 
 void RobotConfigChassisRobot_9998::DefineMotorControllers()
 {
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineMotorControllers"), string("arrived"));
+
     DistanceAngleCalcStruc calcStruc;
     m_frontLeftDrive = new DragonTalonFX(string("LF_SWERVE"),
                                          RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_DRIVE,
@@ -157,6 +159,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
     m_backRightTurn->ConfigMotorSettings(ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive,
                                          ctre::phoenix6::signals::NeutralModeValue::Brake,
                                          0.01, -1, 1);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineMotorControllers"), string("end"));
 }
 void RobotConfigChassisRobot_9998::DefineCANSensors()
 {
@@ -197,27 +200,33 @@ void RobotConfigChassisRobot_9998::DefineCANSensors()
 }
 void RobotConfigChassisRobot_9998::DefineChassis()
 {
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("arrived"));
     m_frontLeftSM = new SwerveModule(SwerveModuleConstants::ModuleID::LEFT_FRONT,
                                      SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
                                      m_frontLeftDrive,
                                      m_frontLeftTurn,
                                      m_frontLeftCC);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("module 1"));
     m_frontRightSM = new SwerveModule(SwerveModuleConstants::ModuleID::RIGHT_FRONT,
                                       SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
                                       m_frontRightDrive,
                                       m_frontRightTurn,
                                       m_frontRightCC);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("module 2"));
     m_backLeftSM = new SwerveModule(SwerveModuleConstants::ModuleID::LEFT_BACK,
                                     SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
                                     m_backLeftDrive,
                                     m_backLeftTurn,
                                     m_backLeftCC);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("module 3"));
     m_backRightSM = new SwerveModule(SwerveModuleConstants::ModuleID::RIGHT_BACK,
                                      SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
                                      m_backRightDrive,
                                      m_backRightTurn,
                                      m_backRightCC);
 
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("module 4"));
     m_swerveChassis = new SwerveChassis(m_frontLeftSM,
                                         m_frontRightSM,
                                         m_backLeftSM,
@@ -226,6 +235,7 @@ void RobotConfigChassisRobot_9998::DefineChassis()
                                         units::length::inch_t(22.75),
                                         units::length::inch_t(22.75),
                                         string("SwerveChassis"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("end"));
 }
 
 SwerveChassis *RobotConfigChassisRobot_9998::GetSwerveChassis() const

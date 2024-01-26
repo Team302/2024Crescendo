@@ -94,6 +94,7 @@ void Robot::RobotInit()
  */
 void Robot::RobotPeriodic()
 {
+    /**
     LoggableItemMgr::GetInstance()->LogData();
     Logger::GetLogger()->PeriodicLog();
 
@@ -119,6 +120,7 @@ void Robot::RobotPeriodic()
     {
         feedback->UpdateFeedback();
     }
+    **/
 }
 
 /**
@@ -157,6 +159,7 @@ void Robot::TeleopInit()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("arrived"));
 
+    /**
     if (m_controller == nullptr)
     {
         m_controller = TeleopControl::GetInstance();
@@ -197,6 +200,7 @@ void Robot::TeleopInit()
     {
         m_field->ResetField(); // ToDo:  Move to DriveTeamFeedback
     }
+    **/
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
@@ -204,6 +208,7 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("arrived"));
+    /**
     if (m_chassis != nullptr && m_controller != nullptr)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicRun"), string("arrived"));
@@ -213,7 +218,7 @@ void Robot::TeleopPeriodic()
         }
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-
+    **/
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 

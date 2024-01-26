@@ -37,7 +37,6 @@
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
-#include "chassis/PoseEstimatorEnum.h"
 #include "chassis/swerve/SwerveChassis.h"
 
 #include "chassis/swerve/driveStates/AutoBalanceDrive.h"
@@ -61,9 +60,6 @@
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotElementNames.h"
-
-#include "DragonVision/DragonVision.h"
-// #include "DragonVision/LimelightFactory.h"
 #include "utils/FMSData.h"
 #include "utils/AngleUtils.h"
 #include "utils/ConversionUtils.h"
@@ -80,7 +76,6 @@ using std::map;
 using std::shared_ptr;
 using std::string;
 
-using frc::BuiltInAccelerometer;
 using frc::ChassisSpeeds;
 using frc::Pose2d;
 using frc::Rotation2d;
@@ -93,53 +88,47 @@ using frc::Transform2d;
 /// @param [in] SwerveModule*           backright:          back right swerve module
 /// @param [in] units::length::inch_t                   wheelBase:          distance between the front and rear wheels
 /// @param [in] units::length::inch_t                   track:              distance between the left and right wheels
-SwerveChassis::SwerveChassis(
-    SwerveModule *frontLeft,
-    SwerveModule *frontRight,
-    SwerveModule *backLeft,
-    SwerveModule *backRight,
-    IDragonPigeon *pigeon,
-    units::length::inch_t wheelBase,
-    units::length::inch_t track,
-    string networkTableName) : m_frontLeft(frontLeft),
-                               m_frontRight(frontRight),
-                               m_backLeft(backLeft),
-                               m_backRight(backRight),
-                               m_robotDrive(nullptr),
-                               m_flState(),
-                               m_frState(),
-                               m_blState(),
-                               m_brState(),
-                               m_wheelBase(wheelBase),
-                               m_track(track),
-                               m_pigeon(pigeon),
-                               m_accel(BuiltInAccelerometer()),
-                               m_pose(),
-                               m_offsetPoseAngle(0_deg), // not used at the moment
-                               m_drive(units::velocity::meters_per_second_t(0.0)),
-                               m_steer(units::velocity::meters_per_second_t(0.0)),
-                               m_rotate(units::angular_velocity::radians_per_second_t(0.0)),
-                               m_frontLeftLocation(wheelBase / 2.0, track / 2.0),
-                               m_frontRightLocation(wheelBase / 2.0, -1.0 * track / 2.0),
-                               m_backLeftLocation(-1.0 * wheelBase / 2.0, track / 2.0),
-                               m_backRightLocation(-1.0 * wheelBase / 2.0, -1.0 * track / 2.0),
-                               m_kinematics(m_frontLeftLocation,
-                                            m_frontRightLocation,
-                                            m_backLeftLocation,
-                                            m_backRightLocation),
-                               m_poseEstimator(m_kinematics,
-                                               frc::Rotation2d{},
-                                               {m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()},
-                                               frc::Pose2d(),
-                                               {0.1, 0.1, 0.1},
-                                               {0.1, 0.1, 0.1}),
-                               m_storedYaw(m_pigeon->GetYaw()),
-                               m_yawCorrection(units::angular_velocity::degrees_per_second_t(0.0)),
-                               m_targetHeading(units::angle::degree_t(0)),
-                               m_vision(DragonVision::GetDragonVision()),
-                               m_networkTableName(networkTableName)
+SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
+                             SwerveModule *frontRight,
+                             SwerveModule *backLeft,
+                             SwerveModule *backRight,
+                             IDragonPigeon *pigeon,
+                             units::length::inch_t wheelBase,
+                             units::length::inch_t track,
+                             string networkTableName) : m_frontLeft(frontLeft),
+                                                        m_frontRight(frontRight),
+                                                        m_backLeft(backLeft),
+                                                        m_backRight(backRight),
+                                                        m_robotDrive(nullptr),
+                                                        m_flState(),
+                                                        m_frState(),
+                                                        m_blState(),
+                                                        m_brState(),
+                                                        m_wheelBase(wheelBase),
+                                                        m_track(track),
+                                                        m_pigeon(pigeon),
+                                                        m_drive(units::velocity::meters_per_second_t(0.0)),
+                                                        m_steer(units::velocity::meters_per_second_t(0.0)),
+                                                        m_rotate(units::angular_velocity::radians_per_second_t(0.0)),
+                                                        m_frontLeftLocation(wheelBase / 2.0, track / 2.0),
+                                                        m_frontRightLocation(wheelBase / 2.0, -1.0 * track / 2.0),
+                                                        m_backLeftLocation(-1.0 * wheelBase / 2.0, track / 2.0),
+                                                        m_backRightLocation(-1.0 * wheelBase / 2.0, -1.0 * track / 2.0),
+                                                        m_kinematics(m_frontLeftLocation,
+                                                                     m_frontRightLocation,
+                                                                     m_backLeftLocation,
+                                                                     m_backRightLocation),
+                                                        m_poseEstimator(m_kinematics,
+                                                                        frc::Rotation2d{},
+                                                                        {m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()},
+                                                                        frc::Pose2d(),
+                                                                        {0.1, 0.1, 0.1},
+                                                                        {0.1, 0.1, 0.1}),
+                                                        m_storedYaw(m_pigeon->GetYaw()),
+                                                        m_targetHeading(units::angle::degree_t(0)),
+                                                        m_networkTableName(networkTableName)
 {
-    ZeroAlignSwerveModules();
+    // ZeroAlignSwerveModules();
 }
 
 void SwerveChassis::InitStates()
@@ -316,7 +305,6 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_frontRight->GetPosition(),
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
-    m_hasResetToVisionTarget = false;
 }
 /// @brief set all of the encoders to zero
 void SwerveChassis::SetEncodersToZero()
@@ -368,19 +356,6 @@ void SwerveChassis::ResetYaw()
     }
 
     ZeroAlignSwerveModules();
-}
-
-ChassisSpeeds SwerveChassis::GetFieldRelativeSpeeds(units::meters_per_second_t xSpeed,
-                                                    units::meters_per_second_t ySpeed,
-                                                    units::radians_per_second_t rot)
-{
-    units::angle::radian_t yaw(m_pigeon->GetYaw());
-    auto temp = xSpeed * cos(yaw.to<double>()) + ySpeed * sin(yaw.to<double>());
-    auto strafe = -1.0 * xSpeed * sin(yaw.to<double>()) + ySpeed * cos(yaw.to<double>());
-    auto forward = temp;
-
-    ChassisSpeeds output{forward, strafe, rot};
-    return output;
 }
 
 void SwerveChassis::SetStoredHeading(units::angle::degree_t heading)

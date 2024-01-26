@@ -20,9 +20,6 @@
 #include <string>
 
 // FRC includes
-#include "frc/controller/PIDController.h"
-#include "frc/geometry/Rotation2d.h"
-#include "frc/trajectory/TrapezoidProfile.h"
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
@@ -31,13 +28,11 @@
 #include "units/velocity.h"
 
 // Team 302 includes
-#include "chassis/PoseEstimatorEnum.h"
 #include "chassis/swerve/SwerveChassis.h"
 #include "chassis/swerve/SwerveModule.h"
 #include "chassis/swerve/SwerveModuleConstants.h"
 #include "hw/DragonCanCoder.h"
 #include "mechanisms/controllers/ControlData.h"
-#include "mechanisms/controllers/ControlModes.h"
 #include "utils/AngleUtils.h"
 #include "utils/logging/Logger.h"
 
@@ -85,14 +80,21 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
     auto driveTalon = dynamic_cast<DragonTalonFX *>(m_driveMotor);
     if (driveTalon != nullptr)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive P"), attrs.driveControl.GetP());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive I"), attrs.driveControl.GetI());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive D"), attrs.driveControl.GetD());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive F"), attrs.driveControl.GetF());
         driveTalon->SetControlConstants(0, attrs.driveControl);
     }
 
     m_turnSensor->SetRange(AbsoluteSensorRangeValue::Signed_PlusMinusHalf);
-
     auto turnTalon = dynamic_cast<DragonTalonFX *>(m_turnMotor);
     if (turnTalon != nullptr)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("turn P"), attrs.angleControl.GetP());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("turn I"), attrs.angleControl.GetI());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("turn D"), attrs.angleControl.GetD());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("turn F"), attrs.angleControl.GetF());
         turnTalon->FuseCancoder(*canCoder, attrs.sensorToMechanismRatio, attrs.rotorToSensorRatio);
         turnTalon->SetControlConstants(0, attrs.angleControl);
     }
