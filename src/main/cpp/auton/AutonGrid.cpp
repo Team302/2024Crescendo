@@ -21,6 +21,7 @@
 #include "auton/AutonGrid.h"
 
 // Thirdparty includes
+
 AutonGrid *AutonGrid::m_instance = nullptr;
 
 AutonGrid *AutonGrid::GetInstance()
@@ -29,15 +30,9 @@ AutonGrid *AutonGrid::GetInstance()
     {
         AutonGrid::m_instance = new AutonGrid();
     }
+    return AutonGrid::m_instance;
 }
 
-bool AutonGrid::IsPoseInGrid(XGRID xgrid, YGRID ygrid, frc::Pose2d robotPose)
-{
-    auto x = static_cast<double>((xgrid));
-    auto y = static_cast<double>((ygrid));
-
-    return ((robotPose.X()) <= m_gridRes * (x) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y) && (robotPose.Y()) >= m_gridRes * (y - 1));
-}
 bool AutonGrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygrid2, frc::Pose2d robotPose)
 {
     auto x = static_cast<double>((xgrid1));

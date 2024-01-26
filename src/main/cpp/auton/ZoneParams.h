@@ -24,7 +24,7 @@
 #include "units/time.h"
 
 // Team 302 includes
-#include "auton/AutonGrid.h"
+// #include "auton/AutonGrid.h"
 // @ADDMECH include for your mechanism
 
 // Third Party Includes

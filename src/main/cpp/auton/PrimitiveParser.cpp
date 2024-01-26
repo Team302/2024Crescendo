@@ -221,12 +221,10 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     }
                     for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
                     {
-                        for (xml_attribute attr = primitiveNode.first_attribute(); attr; attr = attr.next_attribute())
+                        if (strcmp(child.name(), "zone") == 0)
                         {
-                            if (strcmp(child.name(), "zone") == 0)
-                            {
-                                zones.emplace_back(ZoneParser::ParseXML(child));
-                            }
+                            auto zone = ZoneParser::ParseXML(child); // create a zone params object
+                            zones.emplace_back(zone);                // adding to the vector
                         }
                     }
 
@@ -241,7 +239,8 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      endDriveSpeed,
                                                                      pathName,
                                                                      pipelineMode,
-                                                                     zones
+                                                                     zones // vector of all zones included as part of the path
+                                                                     // can have multiple zones as part of a complex path
                                                                      // @ADDMECH add parameter for your mechanism state
                                                                      // armstate,
                                                                      // extenderstate,

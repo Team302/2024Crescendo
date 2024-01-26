@@ -37,15 +37,17 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
     AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
     AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
 
+    // looping through the zone xml attributes to define the location of a given zone (based on 2 sets grid coordinates)
+
     for (xml_attribute attr = zonenode.first_attribute(); attr; attr = attr.next_attribute())
     {
 
         if (strcmp(attr.name(), "xgrid1") == 0)
         {
             auto val = attr.as_int();
-            if (val > AutonGrid::XGRID::NO_VALUE && val < AutonGrid::XGRID::EXCEEDING_VALUE)
+            if (val > AutonGrid::XGRID::NO_VALUE && val < AutonGrid::XGRID::EXCEEDING_VALUE) // determine if grid coordinates are in range of the enum
             {
-                xgrid1 = static_cast<AutonGrid::XGRID>(val);
+                xgrid1 = static_cast<AutonGrid::XGRID>(val); // casting that val to one of the enum values
             }
         }
         if (strcmp(attr.name(), "ygrid1") == 0)
@@ -74,7 +76,7 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         }
     }
 
-    if (!hasError)
+    if (!hasError) // if no error returns the zone parameters
     {
         return (new ZoneParams(xgrid1,
                                ygrid1,
@@ -84,5 +86,5 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("ZoneParser"), string("ParseXML"), string("Has Error"));
 
-    return nullptr;
+    return nullptr; // if error, return nullptr
 }

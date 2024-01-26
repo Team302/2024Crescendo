@@ -29,5 +29,5 @@
 class ZoneParser
 {
 public:
-    static ZoneParams *ParseXML(pugi::xml_node zonenode);
+    static ZoneParams *ParseXML(pugi::xml_node zonenode); // declare a new xml_node called zonenode
 };

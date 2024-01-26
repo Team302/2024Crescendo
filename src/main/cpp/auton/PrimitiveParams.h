@@ -48,7 +48,7 @@ public:
         float endDriveSpeed,
         std::string pathName,
         DragonCamera::PIPELINE pipelineMode,
-        ZoneParamsVector zones);
+        ZoneParamsVector zones); // create zones parameter of type ZonesParamsVector
 
     PrimitiveParams() = delete;
     virtual ~PrimitiveParams() = default; // Destructor
@@ -63,7 +63,7 @@ public:
     float GetEndDriveSpeed() const { return m_endDriveSpeed; };
     std::string GetPathName() const { return m_pathName; };
     DragonCamera::PIPELINE GetPipelineMode() const { return m_pipelineMode; }
-    ZoneParamsVector GetZones() const { return m_zones; }
+    ZoneParamsVector GetZones() const { return m_zones; } // create a GetZones() method to return the instance of zones m_zones
 
     // @ADDMECH Add methods to get the state mgr for mechanism
 
