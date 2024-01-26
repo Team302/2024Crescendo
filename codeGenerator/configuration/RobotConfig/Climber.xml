@@ -605,16 +605,23 @@
           <name>stringParameterConstInMechInstance_1</name>
           <__units__ />
           <type>String</type>
-          <value>value</value>
+          <value>Off</value>
+        </stringParameterConstInMechInstance>
+        <stringParameterConstInMechInstance>
+          <unitsFamily>none</unitsFamily>
+          <name>stringParameterConstInMechInstance_2</name>
+          <__units__ />
+          <type>String</type>
+          <value>Manual</value>
         </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>
         <motorTarget>
           <name>leftClimber</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>length</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>in</__units__>
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
@@ -623,9 +630,9 @@
         <motorTarget>
           <name>rightClimber</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>length</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>in</__units__>
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
@@ -641,16 +648,23 @@
           <name>stringParameterConstInMechInstance_1</name>
           <__units__ />
           <type>String</type>
-          <value>value</value>
+          <value>Off</value>
+        </stringParameterConstInMechInstance>
+        <stringParameterConstInMechInstance>
+          <unitsFamily>none</unitsFamily>
+          <name>stringParameterConstInMechInstance_2</name>
+          <__units__ />
+          <type>String</type>
+          <value>autoClimb</value>
         </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>
         <motorTarget>
           <name>leftClimber</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>length</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>in</__units__>
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
@@ -659,9 +673,9 @@
         <motorTarget>
           <name>rightClimber</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>length</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>in</__units__>
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
@@ -677,16 +691,23 @@
           <name>stringParameterConstInMechInstance_1</name>
           <__units__ />
           <type>String</type>
-          <value>value</value>
+          <value>Off</value>
+        </stringParameterConstInMechInstance>
+        <stringParameterConstInMechInstance>
+          <unitsFamily>none</unitsFamily>
+          <name>stringParameterConstInMechInstance_2</name>
+          <__units__ />
+          <type>String</type>
+          <value>Manual</value>
         </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>
         <motorTarget>
           <name>leftClimber</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>length</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>in</__units__>
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
@@ -695,9 +716,9 @@
         <motorTarget>
           <name>rightClimber</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>length</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>in</__units__>
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
