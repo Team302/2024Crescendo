@@ -1590,6 +1590,10 @@ namespace FRCrobotCodeGen302
                     bool addedItems = false;
                     foreach (state s in states)
                     {
+                        if(s.name== "backupManualPlace")
+                        {
+
+                        }
                         foreach (MotorController mc in m.MotorControllers)
                         {
                             motorTarget mTarget = s.motorTargets.Find(mt => mt.motorName == mc.name);
@@ -1617,6 +1621,20 @@ namespace FRCrobotCodeGen302
                                 else if (mcd.controlType == motorControlData.CONTROL_TYPE.CURRENT) { mTarget.target.unitsFamily = Family.none; }
                                 else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { mTarget.target.unitsFamily = Family.length; }
                                 else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { mTarget.target.unitsFamily = Family.angle; }
+
+                                if (mTarget.target.unitsFamily == Family.none)
+                                {
+                                    mTarget.target.physicalUnits = "";
+                                }
+                                else
+                                {
+                                    physicalUnit phyUnit = generatorConfig.physicalUnits.Find(pu => (pu.family == mTarget.target.unitsFamily) && (pu.shortName == mTarget.target.physicalUnits));
+                                    if (phyUnit == null)
+                                    {
+                                        phyUnit = generatorConfig.physicalUnits.Find(pu => pu.family == mTarget.target.unitsFamily);
+                                        mTarget.target.physicalUnits = phyUnit.shortName;
+                                    }
+                                }
 
                                 addedItems = true;
                             }
