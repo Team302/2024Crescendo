@@ -19,6 +19,7 @@
 // FRC Includes
 #include "frc/apriltag/AprilTagFieldLayout.h"
 #include "frc/Timer.h"
+#include "frc/geometry/Translation3d.h"
 
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
@@ -366,13 +367,14 @@ bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
 VisionData DragonPhotonCam::GetPoseRelativeToApriltag()
 {
     // get latest detections from co-processor
+    frc::Transform3d camToTargetTransform;
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
     if (result.HasTargets())
     {
         // get the most accurate according to configured contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
+        camToTargetTransform = target.GetBestCameraToTarget();
     }
     return VisionData{camToTargetTransform.Translation()};
 }
