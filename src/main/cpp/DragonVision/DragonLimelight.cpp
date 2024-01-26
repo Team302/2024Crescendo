@@ -124,7 +124,7 @@ VisionPose DragonLimelight::GetBlueFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
-        auto topic = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        auto topic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpiblue");
         std::vector<double> position = topic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
 
         units::time::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
@@ -143,7 +143,7 @@ VisionPose DragonLimelight::GetOriginFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
-        auto redTopic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpired");
+        auto redTopic = m_networktable.get()->GetDoubleArrayTopic("botpose");
 
         std::vector<double> position = redTopic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
 
@@ -380,10 +380,6 @@ void DragonLimelight::PrintValues()
 
 units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 {
-    //  Needs to be redone:
-    //  If apriltag, use Pose3d and get x value
-    //  If else, for now jsut return -1.0 until we can get an accurate measurement
-
     units::angle::degree_t totalAngleFromHorizontal; ///< the vertical angle from a horizontal datum to the target
     units::angle::degree_t limelightAngleFromHorizontal;
     units::angle::degree_t limelightRoll = GetCameraRoll();
@@ -391,7 +387,7 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
     if (GetAprilTagID() == -1)
     {
         // need to do testing to get an accurate measurement
-        estimatedTargetDistance = units::length::inch_t(-1.0);
+        // estimatedTargetDistance = units::length::inch_t(-1.0);
         return estimatedTargetDistance;
     }
 
