@@ -8,15 +8,18 @@ pathname="BluePodiumWing1Center0.path"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname="BluePodiumWing1Center0.path"
-time= "1.2"/>
-<!--Drive forward-->
+time= "1.35"/>
+<!--Drive forward and adjust angle to shoot-->
 
 <snippet file= "ShootWhenStop.xml"/>
 <!--We're stopping and shooting-->
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname="BluePodiumWing1Center0.path"
-time= "4.2"/>
-<!--Go forward as the path says and assume we pick up note, then cross line-->
+time= "1.4"/>
+<!--Go forward as the path says and assume we pick up note-->
+
+<snippet file = "ShootWhenStop.xml"/>
+<!--We're stopping and shooting, and we are done since we have already crossed the line-->
 
 </auton>
