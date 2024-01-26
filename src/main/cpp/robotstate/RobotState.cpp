@@ -77,40 +77,6 @@ void RobotState::Run()
     {
         m_chassis->UpdateOdometry();
     }
-    PublishCompressorInfo();
-}
-
-void RobotState::PublishCompressorInfo()
-{
-    if (DriverStation::IsTeleopEnabled())
-    {
-        auto controller = TeleopControl::GetInstance();
-        if (controller != nullptr)
-        {
-            if (controller->IsButtonPressed(TeleopControlFunctions::TOGGLE_COMPRESSER))
-            {
-                if (m_wasCompressorButtonReleased)
-                {
-                    CompressorFactory::GetFactory()->ToggleEnableCompressor();
-                }
-            }
-            m_wasCompressorButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::TOGGLE_COMPRESSER);
-            CheckGamePieceMode(controller);
-        }
-    }
-}
-
-void RobotState::CheckGamePieceMode(TeleopControl *controller)
-{
-    if (controller->IsButtonPressed(TeleopControlFunctions::CYCLE_CYCLE_GAMEPIECE))
-    {
-        if (m_wasGamePieceButtonReleased)
-        {
-            m_gamePiece = (m_gamePiece == RobotStateChanges::Cube) ? RobotStateChanges::Cone : RobotStateChanges::Cube;
-            PublishStateChange(RobotStateChanges::DesiredGamePiece, m_gamePiece);
-        }
-    }
-    m_wasGamePieceButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::CYCLE_CYCLE_GAMEPIECE);
 }
 
 void RobotState::RegisterForStateChanges(IRobotStateChangeSubscriber *subscriber, RobotStateChanges::StateChange change)
