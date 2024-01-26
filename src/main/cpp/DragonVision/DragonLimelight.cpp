@@ -537,3 +537,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
     else
         return units::length::inch_t(-1.0);
 }
+
+VisionData GetPoseRelativeToApriltag()
+{
+}

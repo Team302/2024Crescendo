@@ -35,13 +35,14 @@ DragonVision *DragonVision::GetDragonVision()
 	return DragonVision::m_dragonVision;
 }
 
+frc::AprilTagFieldLayout DragonVision::m_aprilTagLayout = frc::AprilTagFieldLayout();
 frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
 {
-	if (m_aprilTagLayout != frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
+	if (DragonVision::m_aprilTagLayout != frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
 	{
-		m_aprilTagLayout = frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo);
+		DragonVision::m_aprilTagLayout = frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo);
 	}
-	return m_aprilTagLayout;
+	return DragonVision::m_aprilTagLayout;
 }
 
 DragonVision::DragonVision()
@@ -51,6 +52,41 @@ DragonVision::DragonVision()
 void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 {
 	m_DragonCameraMap[position] = camera;
+}
+
+std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
+{
+
+	if (element == VISION_ELEMENT::NOTE)
+	{
+		/*units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
+		units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
+		frc::Rotation3d rotation3d = {roll, pitch, units::angle::degree_t(0.0)};
+		frc::Translation3d translation3d = {units::meter_t(0.0), rotation3d};
+		VisionData translation = {translation3d};
+		return translation;*/
+	}
+	else
+	{
+		if (element)
+
+		{
+			// frc::Pose3d robotPose = m_dragonCamera->GetFieldPosition();
+			// frc::Pose3d targetElementPose = fieldConstants.Get(ELEMENT);
+			// VisionData transform = robotPose - targetElementPose;
+			// VisionData translation = transform.translation;
+			// return translation;
+		}
+	}
+
+	// if we don't see any vision targets, return null optional
+	return std::nullopt;
+}
+
+std::optional<VisionPose> DragonVision::GetRobotPosition()
+{
+	// if we aren't able to calculate our pose from vision, return a null optional
+	return std::nullopt;
 }
 
 // bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, CAMERA_POSITION position)

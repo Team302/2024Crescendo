@@ -56,6 +56,9 @@ bool $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::AtTarget()
 
 bool $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::IsTransitionCondition(bool considerGamepadTransitions) const
 {
+    // To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
+    // where MECHANISM is the name of the generated mechanism object
+
     // auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
     // return transition;
     return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXAMPLE_MECH_FORWARD));

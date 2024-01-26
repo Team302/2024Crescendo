@@ -18,7 +18,7 @@ class $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen : public $$_MECHANIS
 public:
     $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen(std::string stateName,
                                                           int stateId,
-                                                          $$_MECHANISM_INSTANCE_NAME_$$_gen &mech);
+                                                          $$_MECHANISM_INSTANCE_NAME_$$_gen *mech);
     $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen() = delete;
     ~$$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen() = default;
 
