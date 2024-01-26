@@ -20,7 +20,7 @@
 #include <vector>
 
 #include "units/angle.h"
-#include <configs/usages/ServoUsage.h>
+#include <configs/RobotElementNames.h>
 
 #include <frc/Servo.h>
 
@@ -34,10 +34,10 @@ public:
 	// Description:	Create Servos for use in robot mechanisms
 	//------------------------------------------------------------------------------
 	DragonServo(
-		ServoUsage::SERVO_USAGE deviceUsage, // <I> - Usage of the servo
-		int deviceID,						 // <I> - PWM ID
-		units::angle::degree_t minAngle,	 // <I> - Minimun desired angle
-		units::angle::degree_t maxAngle		 // <I> - Maximum desired angle
+		RobotElementNames::SERVO_USAGE deviceUsage, // <I> - Usage of the servo
+		int deviceID,								// <I> - PWM ID
+		units::angle::degree_t minAngle,			// <I> - Minimun desired angle
+		units::angle::degree_t maxAngle				// <I> - Maximum desired angle
 	);
 
 	virtual ~DragonServo() = default;
@@ -48,12 +48,12 @@ public:
 	void SetAngle(units::angle::degree_t angle);
 	units::angle::degree_t GetAngle() const;
 
-	ServoUsage::SERVO_USAGE GetUsage() const;
+	RobotElementNames::SERVO_USAGE GetUsage() const;
 	void MoveToMaxAngle();
 	void MoveToMinAngle();
 
 private:
-	ServoUsage::SERVO_USAGE m_usage;
+	RobotElementNames::SERVO_USAGE m_usage;
 	frc::Servo *m_servo;
 	units::angle::degree_t m_minAngle;
 	units::angle::degree_t m_maxAngle;

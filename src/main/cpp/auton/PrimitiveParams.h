@@ -26,30 +26,25 @@
 // Team 302 includes
 #include "auton/PrimitiveEnums.h"
 #include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonLimelight.h"
+#include "DragonVision/DragonVision.h"
 #include "chassis/swerve/driveStates/VisionDrive.h"
 #include "chassis/IChassis.h"
 // @ADDMECH include for your mechanism
-
 
 // Third Party Includes
 
 class PrimitiveParams
 {
 public:
-        // @ADDMECH add parameter for your mechanism state
-    PrimitiveParams
-    (
+    // @ADDMECH add parameter for your mechanism state
+    PrimitiveParams(
         PRIMITIVE_IDENTIFIER id,
         units::time::second_t time,
         float distance,
         ChassisOptionEnums::HeadingOption headingOption,
         float heading,
-        float startDriveSpeed,
-        float endDriveSpeed,
         std::string pathName,
-        DragonLimelight::PIPELINE_MODE pipelineMode
-    ); 
+        DragonCamera::PIPELINE pipelineMode);
 
     PrimitiveParams() = delete;
     virtual ~PrimitiveParams() = default; // Destructor
@@ -60,10 +55,8 @@ public:
     float GetDistance() const { return m_distance; };
     ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
     float GetHeading() const { return m_heading; };
-    float GetDriveSpeed() const { return m_startDriveSpeed; };
-    float GetEndDriveSpeed() const { return m_endDriveSpeed; };
     std::string GetPathName() const { return m_pathName; };
-    DragonLimelight::PIPELINE_MODE GetPipelineMode() const { return m_pipelineMode; }
+    DragonCamera::PIPELINE GetPipelineMode() const { return m_pipelineMode; }
 
     // @ADDMECH Add methods to get the state mgr for mechanism
 
@@ -86,7 +79,7 @@ private:
     float m_endDriveSpeed;
     std::string m_pathName;
     // @ADDMECH add attribute for your mechanism state
-    DragonLimelight::PIPELINE_MODE m_pipelineMode;
+    DragonCamera::PIPELINE m_pipelineMode;
 };
 
 typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;

@@ -18,11 +18,10 @@
 
 // Team302 Includes
 #include <chassis/swerve/headingStates/FaceAprilTag.h>
-#include <DragonVision/LimelightFactory.h>
 
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
-#include "configs/usages/CanSensorUsage.h"
+#include "configs/RobotElementNames.h"
 #include "hw/interfaces/IDragonPigeon.h"
 
 #include <utils/FMSData.h>
@@ -31,9 +30,9 @@
 /// debugging
 #include "utils/logging/Logger.h"
 
-FaceAprilTag::FaceAprilTag() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG),
-                               m_pipelineMode(DragonLimelight::APRIL_TAG),
-                               m_vision(DragonVision::GetDragonVision())
+FaceAprilTag::FaceAprilTag() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG)
+// m_pipelineMode(DragonLimelight::APRIL_TAG),
+//     m_vision(DragonVision::GetDragonVision())
 {
 }
 
@@ -44,33 +43,34 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angle::radian_t angleError = units::angle::radian_t(0.0);
 
     // get targetdata from the vision system
-    if (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) != DragonLimelight::PIPELINE_MODE::APRIL_TAG)
+    // visionapi - update this for new dragon vision
+    /*  if (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) != DragonLimelight::PIPELINE_MODE::APRIL_TAG)
+      {
+          m_vision->setPipeline(DragonLimelight::PIPELINE_MODE::APRIL_TAG);
+      }
+
+      auto targetData = m_vision->getTargetInfo();
+
+      if ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
     {
-        m_vision->setPipeline(DragonLimelight::PIPELINE_MODE::APRIL_TAG);
-    }
-
-    auto targetData = m_vision->getTargetInfo();
-
-    if ((targetData != nullptr) && (m_vision->getPipeline(DragonVision::LIMELIGHT_POSITION::FRONT) == targetData->getTargetType()))
+        if (!AtTargetAngle(targetData, &angleError)) */
     {
-        if (!AtTargetAngle(targetData, &angleError))
-        {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
 
-            omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
+        // omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
 
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega Before Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega Before Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
 
-            omega = limitAngularVelocityToBetweenMinAndMax(omega);
+        omega = limitAngularVelocityToBetweenMinAndMax(omega);
 
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega After Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega After Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
 
-            chassisMovement.chassisSpeeds.omega = omega;
-        }
+        chassisMovement.chassisSpeeds.omega = omega;
     }
 }
+//}
 
-bool FaceAprilTag::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error)
+/*bool FaceAprilTag::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error)
 {
     if (targetData != nullptr)
     {
@@ -88,7 +88,7 @@ bool FaceAprilTag::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData,
             // This is calculated by taking arc/inverse tangent of our field oriented yError, divided by our field oriented xError
             // and the offset to the back of the cube node
 
-            auto pigeon = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(CanSensorUsage::CANSENSOR_USAGE::PIGEON_ROBOT_CENTER);
+            auto pigeon = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER);
             units::angle::degree_t robotYaw = units::angle::degree_t(pigeon->GetYaw());
 
             auto angleToTag = units::angle::radian_t(std::atan2(yError.to<double>(), xError.to<double>()));
@@ -116,17 +116,17 @@ bool FaceAprilTag::AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData,
         }
     }
     return false;
-}
+}*/
 
 units::angular_velocity::radians_per_second_t FaceAprilTag::limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularVelocity)
 {
     double sign = angularVelocity.to<double>() < 0 ? -1 : 1;
+    /*
+        if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
+            angularVelocity = units::angular_velocity::radians_per_second_t(m_minimumOmega_radps * sign);
 
-    if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
-        angularVelocity = units::angular_velocity::radians_per_second_t(m_minimumOmega_radps * sign);
+        if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
+            angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
 
-    if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
-        angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
-
-    return angularVelocity;
+        return angularVelocity;*/
 }

@@ -50,7 +50,6 @@ private:
     SwerveChassis *m_swerve;
     DragonTrajectoryGenerator *m_trajectoryGenerator;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
-    frc::Trajectory m_generatedTrajectory;
     DragonField *m_field;
     const double m_slowModeMultiplier = 0.5;
     const double m_autoAlignAngleTolerance = 5.0;

@@ -49,27 +49,7 @@ public:
         MECANUM,
         SWERVE
     };
-    /**
-        enum CHASSIS_DRIVE_MODE
-        {
-            ROBOT_ORIENTED,
-            FIELD_ORIENTED,
-            POLAR_DRIVE
-        };
 
-        enum HEADING_OPTION
-        {
-            DEFAULT,
-            MAINTAIN,
-            POLAR_HEADING,
-            TOWARD_GOAL,
-            TOWARD_GOAL_DRIVE,
-            TOWARD_GOAL_LAUNCHPAD,
-            SPECIFIED_ANGLE,
-            LEFT_INTAKE_TOWARD_BALL,
-            RIGHT_INTAKE_TOWARD_BALL
-        };
-**/
     /// @brief      return the chassis type
     /// @returns    CHASSIS_TYPE
     virtual CHASSIS_TYPE GetType() const = 0;

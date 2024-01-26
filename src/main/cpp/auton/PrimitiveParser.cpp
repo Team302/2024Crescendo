@@ -24,9 +24,7 @@
 #include <auton/PrimitiveParser.h>
 #include <auton/drivePrimitives/IPrimitive.h>
 #include "utils/logging/Logger.h"
-
 #include <pugixml/pugixml.hpp>
-
 using namespace std;
 using namespace pugi;
 
@@ -49,7 +47,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     primStringToEnumMap["DRIVE_PATH_PLANNER"] = DRIVE_PATH_PLANNER;
     primStringToEnumMap["RESET_POSITION"] = RESET_POSITION;
     primStringToEnumMap["RESET_POSITION_PATH_PLANNER"] = RESET_POSITION_PATH_PLANNER;
-    primStringToEnumMap["AUTO_BALANCE"] = AUTO_BALANCE;
     primStringToEnumMap["VISION_ALIGN"] = VISION_ALIGN;
 
     map<string, ChassisOptionEnums::HeadingOption> headingOptionMap;
@@ -120,13 +117,11 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto distance = 0.0;
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
-                    auto startDriveSpeed = 0.0;
-                    auto endDriveSpeed = 0.0;
                     std::string pathName;
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
                     // auto extenderstate = ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND;
                     // auto intakestate = IntakeStateMgr::INTAKE_STATE::HOLD;
-                    auto pipelineMode = DragonLimelight::PIPELINE_MODE::UNKNOWN;
+                    auto pipelineMode = DragonCamera::PIPELINE::UNKNOWN;
 
                     // @ADDMECH Initialize your mechanism state
                     for (xml_attribute attr = primitiveNode.first_attribute(); attr; attr = attr.next_attribute())
@@ -169,14 +164,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             heading = attr.as_float();
                         }
-                        else if (strcmp(attr.name(), "drivespeed") == 0)
-                        {
-                            startDriveSpeed = attr.as_float();
-                        }
-                        else if (strcmp(attr.name(), "enddrivespeed") == 0)
-                        {
-                            endDriveSpeed = attr.as_float();
-                        }
                         else if (strcmp(attr.name(), "pathname") == 0)
                         {
                             pathName = attr.value();
@@ -185,24 +172,25 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             if (strcmp(attr.value(), "UNKNOWN") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::UNKNOWN;
+                                pipelineMode = DragonCamera::PIPELINE::UNKNOWN;
                             }
                             else if (strcmp(attr.value(), "OFF") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::OFF;
+                                pipelineMode = DragonCamera::PIPELINE::OFF;
                             }
                             else if (strcmp(attr.value(), "APRIL_TAG") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::APRIL_TAG;
+                                pipelineMode = DragonCamera::PIPELINE::APRIL_TAG;
                             }
-                            else if (strcmp(attr.value(), "CONE") == 0)
+                            else if (strcmp(attr.value(), "MACHINE_LEARNING") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::CONE;
+                                pipelineMode = DragonCamera::PIPELINE::MACHINE_LEARNING;
                             }
-                            else if (strcmp(attr.value(), "CUBE") == 0)
+                            else if (strcmp(attr.value(), "COLOR_THRESHOLD") == 0)
                             {
-                                pipelineMode = DragonLimelight::PIPELINE_MODE::CUBE;
+                                pipelineMode = DragonCamera::PIPELINE::COLOR_THRESHOLD;
                             }
+
                             else
                             {
                                 Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("PrimitiveParser::ParseXML invalid pipeline mode"), attr.value());
@@ -224,8 +212,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      distance,
                                                                      headingOption,
                                                                      heading,
-                                                                     startDriveSpeed,
-                                                                     endDriveSpeed,
                                                                      pathName,
                                                                      pipelineMode
                                                                      // @ADDMECH add parameter for your mechanism state
@@ -274,8 +260,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Distance"), param->GetDistance());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
-        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Drive Speed"), param->GetDriveSpeed());
-        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("End Drive Speed"), param->GetEndDriveSpeed());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
         // @ADDMECH Log state data
         // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("armstate"), param->GetArmState());

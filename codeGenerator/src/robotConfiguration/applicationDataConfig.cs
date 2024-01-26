@@ -171,7 +171,8 @@ namespace applicationConfiguration
                         int index = 0;
                         foreach (object o in listObject)
                         {
-                            initializeData(listObject, o, string.Format("{0}[{1}]", pi.Name, index), null);
+                            List<Attribute> attrs = o.GetType().GetCustomAttributes().ToList();
+                            initializeData(listObject, o, string.Format("{0}[{1}]", pi.Name, index), attrs);
                         }
                     }
                     else
@@ -367,16 +368,39 @@ namespace applicationConfiguration
                     //        pi.SetValue(structureSource, pi.GetValue(parametersSource));
                     //    }
                     //}
-                    //else if (isAParameterType(objType.FullName))
-                    //{
+                    if (structureSource is parameter)
+                    {
+                        parameter p = (parameter)structureSource;
+                        if (!p.isConstantInMechInstance)
+                        {
+                            foreach (PropertyInfo pi in propertyInfos)
+                            {
+                                if (pi.Name != "parent")
+                                {
+                                    if (pi.GetCustomAttribute<ConstantInMechInstanceAttribute>() == null)
+                                    {
+                                        object theStructureObj = pi.GetValue(structureSource);
+                                        object theParametersObj = pi.GetValue(parametersSource);
+
+                                        if (isABasicSystemType(theStructureObj))
+                                        {
+                                            pi.SetValue(structureSource, pi.GetValue(parametersSource));
+                                        }
+                                        else if ((theStructureObj != null) && (theParametersObj != null))
+                                        {
+                                            MergeMechanismParametersIntoStructure(theStructureObj, theParametersObj);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     //    PropertyInfo pi = propertyInfos.ToList().Find(p => p.Name == "value");
                     //    if (pi != null)
                     //    {
                     //        pi.SetValue(structureSource, pi.GetValue(parametersSource));
                     //    }
-                    //}
-                    //else
-                    if ((objType.FullName == "System.String") || (objType.FullName == "System.DateTime"))
+                    }
+                    else if ((objType.FullName == "System.String") || (objType.FullName == "System.DateTime"))
                     {
 
                     }

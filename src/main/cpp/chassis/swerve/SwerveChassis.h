@@ -19,37 +19,38 @@
 #include <memory>
 #include <string>
 
-#include <frc/BuiltInAccelerometer.h>
-#include <frc/estimator/SwerveDrivePoseEstimator.h>
-#include <frc/geometry/Pose2d.h>
-#include <frc/geometry/Rotation2d.h>
-#include <frc/geometry/Translation2d.h>
-#include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/kinematics/SwerveDriveKinematics.h>
-#include <frc/kinematics/SwerveDriveOdometry.h>
-#include <frc/kinematics/SwerveModuleState.h>
+#include "frc/BuiltInAccelerometer.h"
+#include "frc/estimator/SwerveDrivePoseEstimator.h"
+#include "frc/geometry/Pose2d.h"
+#include "frc/geometry/Rotation2d.h"
+#include "frc/geometry/Translation2d.h"
+#include "frc/kinematics/ChassisSpeeds.h"
+#include "frc/kinematics/SwerveDriveKinematics.h"
+#include "frc/kinematics/SwerveDriveOdometry.h"
+#include "frc/kinematics/SwerveModuleState.h"
 
 #include "units/acceleration.h"
 #include "units/angle.h"
-#include <units/angular_acceleration.h>
+#include "units/angular_acceleration.h"
 #include "units/angular_velocity.h"
 #include "units/length.h"
 #include "units/velocity.h"
 
-#include <chassis/ChassisOptionEnums.h>
-#include <chassis/DragonTargetFinder.h>
-#include <chassis/swerve/driveStates/ISwerveDriveState.h>
-#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <chassis/IChassis.h>
+#include "chassis/ChassisOptionEnums.h"
+#include "chassis/DragonTargetFinder.h"
+#include "chassis/swerve/driveStates/ISwerveDriveState.h"
+#include "chassis/swerve/headingStates/ISwerveDriveOrientation.h"
+#include "chassis/IChassis.h"
 #include "chassis/PoseEstimatorEnum.h"
-#include <chassis/swerve/SwerveModule.h>
-#include <chassis/ChassisMovement.h>
-#include <DragonVision/DragonVision.h>
+#include "chassis/swerve/SwerveModule.h"
+#include "chassis/ChassisMovement.h"
+#include "DragonVision/DragonVision.h"
 #include "hw/interfaces/IDragonPigeon.h"
+#include "utils/logging/LoggableItem.h"
 
 class RobotDrive;
 
-class SwerveChassis : public IChassis
+class SwerveChassis : public IChassis, public LoggableItem
 {
 public:
     /// @brief Construct a swerve chassis
@@ -60,21 +61,14 @@ public:
     /// @param [in] units::length::inch_t                   wheelDiameter:      Diameter of the wheel
     /// @param [in] units::length::inch_t                   wheelBase:          distance between the front and rear wheels
     /// @param [in] units::length::inch_t                   track:              distance between the left and right wheels
-    /// @param [in] units::velocity::meters_per_second_t    maxSpeed:           maximum linear speed of the chassis
-    /// @param [in] units::radians_per_second_t             maxAngularSpeed:    maximum rotation speed of the chassis
-    /// @param [in] double                                  maxAcceleration:    maximum acceleration in meters_per_second_squared
-    SwerveChassis(
-        SwerveModule *frontLeft,
-        SwerveModule *frontRight,
-        SwerveModule *backLeft,
-        SwerveModule *backRight,
-        units::length::inch_t wheelBase,
-        units::length::inch_t track,
-        units::velocity::meters_per_second_t maxSpeed,
-        units::radians_per_second_t maxAngularSpeed,
-        units::acceleration::meters_per_second_squared_t maxAcceleration,
-        units::angular_acceleration::radians_per_second_squared_t maxAngularAcceleration,
-        std::string networkTableName);
+    SwerveChassis(SwerveModule *frontLeft,
+                  SwerveModule *frontRight,
+                  SwerveModule *backLeft,
+                  SwerveModule *backRight,
+                  IDragonPigeon *pigeon,
+                  units::length::inch_t wheelBase,
+                  units::length::inch_t track,
+                  std::string networkTableName);
 
     ~SwerveChassis() noexcept override = default;
 
@@ -107,16 +101,9 @@ public:
     /// @brief Reset yaw to 0 or 180 degrees depending on alliance
     void ResetYaw();
 
-    // static constexpr auto MaxSpeed = 3.0_mps;
-    // static constexpr units::angular_velocity::radians_per_second_t MaxAngularSpeed{std::numbers::pi};
-
     units::length::inch_t GetWheelDiameter() const override;
     units::length::inch_t GetWheelBase() const { return m_wheelBase; }
     units::length::inch_t GetTrack() const { return m_track; }
-    units::velocity::meters_per_second_t GetMaxSpeed() const { return m_maxSpeed; }
-    units::radians_per_second_t GetMaxAngularSpeed() const { return m_maxAngularSpeed; }
-    units::acceleration::meters_per_second_squared_t GetMaxAcceleration() const { return m_maxAcceleration; }
-    units::angular_acceleration::radians_per_second_squared_t GetMaxAngularAcceleration() const { return m_maxAngularAcceleration; }
     SwerveModule *GetFrontLeft() const { return m_frontLeft; }
     SwerveModule *GetFrontRight() const { return m_frontRight; }
     SwerveModule *GetBackLeft() const { return m_backLeft; }
@@ -141,6 +128,7 @@ public:
     ISwerveDriveState *GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption);
 
     ISwerveDriveOrientation *GetHeadingState(ChassisMovement moveInfo);
+    void LogInformation() override;
 
 private:
     ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
@@ -170,15 +158,9 @@ private:
 
     units::length::inch_t m_wheelBase;
     units::length::inch_t m_track;
-    units::velocity::meters_per_second_t m_maxSpeed;
-    units::radians_per_second_t m_maxAngularSpeed;
-    units::acceleration::meters_per_second_squared_t m_maxAcceleration;
-    units::angular_acceleration::radians_per_second_squared_t m_maxAngularAcceleration;
 
     IDragonPigeon *m_pigeon;
     frc::BuiltInAccelerometer m_accel;
-    bool m_runWPI;
-    PoseEstimatorEnum m_poseOpt;
     frc::Pose2d m_pose;
     units::angle::degree_t m_offsetPoseAngle;
     units::velocity::meters_per_second_t m_drive;

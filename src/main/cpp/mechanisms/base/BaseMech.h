@@ -56,9 +56,6 @@ public:
     /// @brief log data to the network table if it is activated and time period has past
     void LogInformation() override;
 
-    virtual StateMgr *GetStateMgr() const;
-    virtual void AddStateMgr(StateMgr *mgr);
-
     virtual ~BaseMech() = default;
 
     void SetNetworkFileName(std::string ntName) { m_ntName = ntName; }
@@ -70,5 +67,4 @@ private:
     MechanismTypes::MECHANISM_TYPE m_type;
     std::string m_controlFile;
     std::string m_ntName;
-    StateMgr *m_stateMgr;
 };

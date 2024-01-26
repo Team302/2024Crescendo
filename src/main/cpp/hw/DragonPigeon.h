@@ -20,7 +20,7 @@
 #include <ctre/phoenix/sensors/WPI_Pigeon2.h>
 #include <ctre/Phoenix.h>
 
-#include "configs/usages/CanSensorUsage.h"
+#include "configs/RobotElementNames.h"
 #include "hw/interfaces/IDragonPigeon.h"
 
 class DragonPigeon : public IDragonPigeon
@@ -28,7 +28,7 @@ class DragonPigeon : public IDragonPigeon
 public:
     DragonPigeon(int canID,
                  std::string canBusName,
-                 CanSensorUsage::CANSENSOR_USAGE usage,
+                 RobotElementNames::PIGEON_USAGE usage,
                  double rotation);
     DragonPigeon() = delete;
     virtual ~DragonPigeon() = default;
@@ -40,7 +40,7 @@ public:
 
 private:
     ctre::phoenix::sensors::WPI_PigeonIMU m_pigeon;
-    CanSensorUsage::CANSENSOR_USAGE m_usage;
+    RobotElementNames::PIGEON_USAGE m_usage;
 
     double m_initialYaw;
     double m_initialPitch;

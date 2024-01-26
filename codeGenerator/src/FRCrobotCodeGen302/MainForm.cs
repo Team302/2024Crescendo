@@ -297,8 +297,7 @@ namespace FRCrobotCodeGen302
 
                         tn.Tag = lnt;
 
-                        if (!string.IsNullOrWhiteSpace(description))
-                            tn.ToolTipText = description;
+                        SetTooltipFromObjectDescription(tn, pInfo);
 
                         tn.Text = getDisplayName(treatAsLeafNode ? obj : nodeTag.getObject(parent.Tag), nodeName);
                     }
@@ -598,7 +597,17 @@ namespace FRCrobotCodeGen302
                 Type elementType = obj.GetType().GetGenericArguments().Single();
                 List<Type> subTypes = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == elementType).ToList();
                 foreach (Type type in subTypes)
-                    addRobotElementType(type, types);
+                {
+                    if (!addRobotElementType(type, types))
+                    {
+                        //todo handle more than one level of inheritance
+                        List<Type> subTypesExt = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == type).ToList();
+                        foreach (Type type_ in subTypesExt)
+                        {
+                            addRobotElementType(type_, types);
+                        }
+                    }
+                }
             }
             else
             {
@@ -614,14 +623,24 @@ namespace FRCrobotCodeGen302
                             Type elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
                             List<Type> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
                             foreach (Type type in subTypes)
-                                addRobotElementType(type, types);
+                            {
+							    //todo handle more than one level of inheritance
+                                if(!addRobotElementType(type, types))
+                                {
+                                    List<Type> subTypesExt = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == type).ToList();
+                                    foreach (Type type_ in subTypesExt)
+                                    {
+                                        addRobotElementType(type_, types);
+                                    }
+                                }
+                            }
                         }
                     }
                     //else if (theRobotConfiguration.isASubClassedCollection(obj.GetType()))
                     //{
-                    //    //Type elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
-                    //    //List<Type> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
-                    //    //foreach (Type type in subTypes)
+                    //    //Type_ elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
+                    //    //List<Type_> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
+                    //    //foreach (Type_ type in subTypes)
                     //    //    types.Add(new robotElementType(type));
                     //}
                     else if (DataConfiguration.baseDataConfiguration.isACollection(propertyInfo.PropertyType))
@@ -648,9 +667,9 @@ namespace FRCrobotCodeGen302
             return types;
         }
 
-        void addRobotElementType(Type theType, string name, List<robotElementType> types)
+        bool addRobotElementType(Type theType, string name, List<robotElementType> types)
         {
-            NotUserAddableAttribute nuaa = theType.GetCustomAttribute<NotUserAddableAttribute>();
+            NotUserAddableAttribute nuaa = theType.GetCustomAttribute<NotUserAddableAttribute>(false);
             if (nuaa == null)
             {
                 if (name == null)
@@ -658,12 +677,14 @@ namespace FRCrobotCodeGen302
                 else
                     types.Add(new robotElementType(theType, name));
 
+                return true;
             }
+            return false;
         }
 
-        void addRobotElementType(Type theType, List<robotElementType> types)
+        bool addRobotElementType(Type theType, List<robotElementType> types)
         {
-            addRobotElementType(theType, null, types);
+            return addRobotElementType(theType, null, types);
         }
 
         void hideAllValueEntryBoxes()
@@ -817,7 +838,7 @@ namespace FRCrobotCodeGen302
                     if (nt.obj is baseElement)
                     {
                         baseElement beObj = ((baseElement)nt.obj);
-                        if (!beObj.isConstant)
+                        if (!(beObj.isConstant || (beObj.isConstantInMechInstance && isInaMechanismInstance)))
                         {
                             if (beObj.showExpanded)
                             {
@@ -1437,68 +1458,57 @@ namespace FRCrobotCodeGen302
                     {
                         foreach (MotorController mc in m.MotorControllers)
                         {
-                            doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.doubleTargets.Find(t => t.name == mc.name);
-                            if (target == null)
+                            motorTarget mTarget = s.motorTargets.Find(mt => mt.motorName == mc.name);
+                            if (mTarget == null)
                             {
-                                target = new doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst();
-                                target.name = mc.name;
-                                s.doubleTargets.Add(target);
+                                mTarget = new motorTarget();
+                                mTarget.name = mc.name;
+                                mTarget.motorName = mc.name;
+                                s.motorTargets.Add(mTarget);
                                 addedItems = true;
                             }
 
-                            motorControlDataLink mcdl = s.motorControlDataLinks.Find(cd => cd.name == mc.name);
-                            if (mcdl == null)
+                            motorControlData mcd = m.stateMotorControlData.Find(mCtrl => mCtrl.name == mTarget.controlDataName);
+                            if (mcd != null)
                             {
-                                mcdl = new motorControlDataLink();
-                                mcdl.name = mc.name;
-                                mcdl.motorControlDataName = "fillThis";
-                                s.motorControlDataLinks.Add(mcdl);
-                                addedItems = true;
-                            }
-                            else
-                            {
-                                motorControlData mcd = m.stateMotorControlData.Find(smcd => smcd.name == mcdl.motorControlDataName);
-                                if (mcd != null)
-                                {
-                                    if (mcd.controlType == motorControlData.CONTROL_TYPE.PERCENT_OUTPUT) { target.unitsFamily = Family.none; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_INCH) { target.unitsFamily = Family.length; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_ABS_TICKS) { target.unitsFamily = Family.none; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES) { target.unitsFamily = Family.angle; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES_ABSOLUTE) { target.unitsFamily = Family.angle; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_INCH) { target.unitsFamily = Family.velocity; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_DEGREES) { target.unitsFamily = Family.angularVelocity; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_RPS) { target.unitsFamily = Family.angularVelocity; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VOLTAGE) { target.unitsFamily = Family.angularVelocity; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.CURRENT) { target.unitsFamily = Family.none; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { target.unitsFamily = Family.length; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { target.unitsFamily = Family.angle; }
+                                if (mcd.controlType == motorControlData.CONTROL_TYPE.PERCENT_OUTPUT) { mTarget.target.unitsFamily = Family.none; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_INCH) { mTarget.target.unitsFamily = Family.length; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_ABS_TICKS) { mTarget.target.unitsFamily = Family.none; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES) { mTarget.target.unitsFamily = Family.angle; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES_ABSOLUTE) { mTarget.target.unitsFamily = Family.angle; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_INCH) { mTarget.target.unitsFamily = Family.velocity; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_DEGREES) { mTarget.target.unitsFamily = Family.angularVelocity; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_RPS) { mTarget.target.unitsFamily = Family.angularVelocity; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.VOLTAGE) { mTarget.target.unitsFamily = Family.angularVelocity; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.CURRENT) { mTarget.target.unitsFamily = Family.none; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { mTarget.target.unitsFamily = Family.length; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { mTarget.target.unitsFamily = Family.angle; }
 
-                                    addedItems = true;
-                                }
-                            }
-                        }
-                        foreach (solenoid sol in m.solenoid)
-                        {
-                            boolParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.booleanTargets.Find(t => t.name == sol.name);
-                            if (target == null)
-                            {
-                                boolParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new boolParameterUserDefinedTunableOnlyValueChangeableInMechInst();
-                                newTarget.name = sol.name;
-                                s.booleanTargets.Add(newTarget);
                                 addedItems = true;
                             }
                         }
-                        foreach (servo ser in m.servo)
-                        {
-                            doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.doubleTargets.Find(t => t.name == ser.name);
-                            if (target == null)
-                            {
-                                doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst();
-                                newTarget.name = ser.name;
-                                s.doubleTargets.Add(newTarget);
-                                addedItems = true;
-                            }
-                        }
+                        //foreach (solenoid sol in m.solenoid)
+                        //{
+                        //    boolParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.booleanTargets.Find(t => t.name == sol.name);
+                        //    if (target == null)
+                        //    {
+                        //        boolParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new boolParameterUserDefinedTunableOnlyValueChangeableInMechInst();
+                        //        newTarget.name = sol.name;
+                        //        s.booleanTargets.Add(newTarget);
+                        //        addedItems = true;
+                        //    }
+                        //}
+                        //foreach (servo ser in m.servo)
+                        //{
+                        //    doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.doubleTargets.Find(t => t.name == ser.name);
+                        //    if (target == null)
+                        //    {
+                        //        doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst();
+                        //        newTarget.name = ser.name;
+                        //        s.doubleTargets.Add(newTarget);
+                        //        addedItems = true;
+                        //    }
+                        //}
                     }
 
                     if (addedItems)
@@ -1536,6 +1546,8 @@ namespace FRCrobotCodeGen302
                         obj = Activator.CreateInstance(((robotElementType)robotElementObj).t);
 
                         Type baseType = ((robotElementType)robotElementObj).t.BaseType;
+                        if (baseType.GetCustomAttribute<NotUserAddableAttribute>(false) != null)
+                            baseType = baseType.BaseType; //todo handle more than 1 level of inhertance
                         name = baseType.Name;
 
                         Type t = nodeTag.getType(lastSelectedValueNode.Tag);
@@ -1738,7 +1750,8 @@ namespace FRCrobotCodeGen302
                         }
                         catch { }
 
-                        theAppDataConfiguration.initializeData(nodeTag.getObject(lastSelectedArrayNode.Tag), obj, nameStr, null);
+                        List<Attribute> attributes = obj.GetType().GetCustomAttributes().ToList();
+                        theAppDataConfiguration.initializeData(nodeTag.getObject(lastSelectedArrayNode.Tag), obj, nameStr, attributes);
                         AddNode(lastSelectedArrayNode, obj, elementType.Name + (count - 1), null);
                     }
                 }

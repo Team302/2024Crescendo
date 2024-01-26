@@ -24,7 +24,7 @@
 
 // Team 302 includes
 #include "hw/interfaces/IDragonMotorController.h"
-#include "configs/usages/MotorControllerUsage.h"
+#include "configs/RobotElementNames.h"
 #include "mechanisms/base/BaseMechMotorWithMinLimit.h"
 #include "mechanisms/controllers/ControlData.h"
 #include "utils/logging/Logger.h"

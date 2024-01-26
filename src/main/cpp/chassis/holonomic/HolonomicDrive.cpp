@@ -49,15 +49,12 @@ HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
                                    IRobotStateChangeSubscriber(),
                                    m_chassis(nullptr),
                                    m_swerve(nullptr),
-                                   m_trajectoryGenerator(nullptr),
                                    m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
-                                   m_generatedTrajectory(frc::Trajectory()),
                                    m_desiredGamePiece(RobotStateChanges::GamePiece::None)
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     m_swerve = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    m_trajectoryGenerator = m_swerve != nullptr ? new DragonTrajectoryGenerator(m_swerve->GetMaxSpeed(), m_swerve->GetMaxAcceleration()) : nullptr;
     RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredGamePiece);
 }
 
@@ -119,11 +116,12 @@ void HolonomicDrive::Run()
             {
                 // set pipeline to discover retroreflective
                 if (m_desiredGamePiece == RobotStateChanges::GamePiece::Cube)
-                    DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CUBE : DragonLimelight::PIPELINE_MODE::CUBE_SUBSTATION);
-                else
-                    DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CONE : DragonLimelight::PIPELINE_MODE::CONE_SUBSTATION);
+                    // visionapi - revisit this with me dragonvision
+                    //   DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CUBE : DragonLimelight::PIPELINE_MODE::CUBE_SUBSTATION);
+                    //   else
+                    //    DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CONE : DragonLimelight::PIPELINE_MODE::CONE_SUBSTATION);
 
-                moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+                    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
                 if (alignFloorPiece)
                     moveInfo.driveOption = ChassisOptionEnums::DriveStateType::VISION_DRIVE;
 
@@ -133,7 +131,7 @@ void HolonomicDrive::Run()
             if (controller->IsButtonPressed(TeleopControlFunctions::ALIGN_APRIL_TAG))
             {
                 // set pipeline to discover april tags
-                DragonVision::GetDragonVision()->setPipeline(DragonLimelight::PIPELINE_MODE::APRIL_TAG);
+                //  DragonVision::GetDragonVision()->setPipeline(DragonLimelight::PIPELINE_MODE::APRIL_TAG);
                 moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
                 moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
             }

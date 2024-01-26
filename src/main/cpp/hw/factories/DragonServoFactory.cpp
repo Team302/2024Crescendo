@@ -20,7 +20,7 @@
 
 #include "hw/factories/DragonServoFactory.h"
 #include "hw/DragonServo.h"
-#include "configs/usages/ServoUsage.h"
+#include "configs/RobotElementNames.h"
 
 #include "utils/logging/Logger.h"
 
@@ -53,13 +53,13 @@ DragonServoFactory *DragonServoFactory::GetInstance()
 //=======================================================================================
 DragonServo *DragonServoFactory::CreateDragonServo(
     string networkTableName,
-    ServoUsage::SERVO_USAGE deviceUsage,
+    RobotElementNames::SERVO_USAGE deviceUsage,
     int deviceID,
     units::angle::degree_t minAngle,
     units::angle::degree_t maxAngle)
 {
-    if (deviceUsage > ServoUsage::SERVO_USAGE::UNKNOWN_SERVO_USAGE &&
-        deviceUsage < ServoUsage::SERVO_USAGE::MAX_SERVO_USAGES)
+    if (deviceUsage > RobotElementNames::SERVO_USAGE::UNKNOWN_SERVO &&
+        deviceUsage < RobotElementNames::SERVO_USAGE::MAX_SERVO)
     {
         m_servos[deviceUsage] = new DragonServo(deviceUsage, deviceID, minAngle, maxAngle);
         return m_servos[deviceUsage];
@@ -77,7 +77,7 @@ DragonServo *DragonServoFactory::CreateDragonServo(
 /// @return std::shared_ptr<DragonServo>    - could be nullptr if invalid inputs are supplied
 //=======================================================================================
 DragonServo *DragonServoFactory::GetDragonServo(
-    ServoUsage::SERVO_USAGE deviceUsage)
+    RobotElementNames::SERVO_USAGE deviceUsage)
 {
     return m_servos.find(deviceUsage)->second;
 }

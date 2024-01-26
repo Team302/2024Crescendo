@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "hw/builtinaccel/DragonBuiltinAccelerometer.h"
+#include "hw/builtinaccel/DragonBuiltInAccelerometer.h"
 
 class DragonRoboRioAccelXForwardYRight : public DragonBuiltinAccelerometer
 {

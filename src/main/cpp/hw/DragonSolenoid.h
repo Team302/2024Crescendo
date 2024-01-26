@@ -21,7 +21,7 @@
 #include <frc/DoubleSolenoid.h>
 #include <frc/Solenoid.h>
 
-#include <configs/usages/SolenoidUsage.h>
+#include <configs/RobotElementNames.h>
 
 class DragonSolenoid
 {
@@ -30,14 +30,14 @@ public:
 
     DragonSolenoid(
         std::string networkTableName,
-        SolenoidUsage::SOLENOID_USAGE usage,
+        RobotElementNames::SOLENOID_USAGE usage,
         int pcmID,
         frc::PneumaticsModuleType pcmType,
         int channel,
         bool reversed);
     DragonSolenoid(
         std::string networkTableName,
-        SolenoidUsage::SOLENOID_USAGE usage,
+        RobotElementNames::SOLENOID_USAGE usage,
         int pcmID,
         frc::PneumaticsModuleType pcmType,
         int forwardChannel,
@@ -53,19 +53,19 @@ public:
     frc::DoubleSolenoid::Value GetDouble() const;
     bool IsDisabled() const;
 
-    SolenoidUsage::SOLENOID_USAGE GetType() const;
+    RobotElementNames::SOLENOID_USAGE GetType() const;
 
 private:
     void InitSingle(
         std::string networkTableName,
-        SolenoidUsage::SOLENOID_USAGE usage,
+        RobotElementNames::SOLENOID_USAGE usage,
         int pcmID,
         frc::PneumaticsModuleType pcmType,
         int channel,
         bool reversed);
     void InitDouble(
         std::string networkTableName,
-        SolenoidUsage::SOLENOID_USAGE usage,
+        RobotElementNames::SOLENOID_USAGE usage,
         int pcmID,
         frc::PneumaticsModuleType pcmType,
         int forwardChannel,
@@ -73,7 +73,7 @@ private:
         bool reversed);
 
     std::string m_networkTableName;
-    SolenoidUsage::SOLENOID_USAGE m_usage;
+    RobotElementNames::SOLENOID_USAGE m_usage;
     frc::Solenoid *m_solenoid;
     frc::DoubleSolenoid *m_doubleSolenoid;
     bool m_reversed;
