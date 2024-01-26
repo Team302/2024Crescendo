@@ -494,6 +494,10 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
         return units::length::inch_t(-1.0);
 }
 
-VisionData GetPoseRelativeToApriltag()
+VisionData DragonLimelight::GetPoseRelativeToApriltag()
 {
+    std::vector<double> vector;
+    // targetpose_cameraspace
+    // vector to translation
+    return VisionData{};
 }
