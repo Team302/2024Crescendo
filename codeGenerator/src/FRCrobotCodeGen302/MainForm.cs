@@ -1590,10 +1590,6 @@ namespace FRCrobotCodeGen302
                     bool addedItems = false;
                     foreach (state s in states)
                     {
-                        if(s.name== "backupManualPlace")
-                        {
-
-                        }
                         foreach (MotorController mc in m.MotorControllers)
                         {
                             motorTarget mTarget = s.motorTargets.Find(mt => mt.motorName == mc.name);
