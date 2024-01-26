@@ -86,12 +86,17 @@ int DragonLimelight::GetAprilTagID() const
 
 VisionPose DragonLimelight::GetFieldPosition() const
 {
-    return VisionPose{};
+    return GetBlueFieldPosition();
 }
 
 VisionPose DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance alliance) const
 {
-    return VisionPose{};
+    if (alliance == frc::DriverStation::Alliance::kRed)
+        return GetRedFieldPosition();
+    else
+    {
+        return GetBlueFieldPosition();
+    }
 }
 
 VisionPose DragonLimelight::GetRedFieldPosition() const
@@ -374,58 +379,71 @@ void DragonLimelight::PrintValues()
 }
 
 units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
-{ /*
-     Needs to be redone:
-     If apriltag, use Pose3d and get x value
-     If else, for now jsut return -1.0 until we can get an accurate measurement
+{
+    //  Needs to be redone:
+    //  If apriltag, use Pose3d and get x value
+    //  If else, for now jsut return -1.0 until we can get an accurate measurement
 
+    units::angle::degree_t totalAngleFromHorizontal; ///< the vertical angle from a horizontal datum to the target
+    units::angle::degree_t limelightAngleFromHorizontal;
+    units::angle::degree_t limelightRoll = GetCameraRoll();
+    units::length::inch_t estimatedTargetDistance;
+    if (GetAprilTagID() == -1)
+    {
+        // need to do testing to get an accurate measurement
+        estimatedTargetDistance = units::length::inch_t(-1.0);
+        return estimatedTargetDistance;
+    }
 
+    else
+    {
+        auto botpose = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
+        return units::length::inch_t(xdistance[0]);
+    };
 
-     units::angle::degree_t totalAngleFromHorizontal; ///< the vertical angle from a horizontal datum to the target
-     units::angle::degree_t limelightAngleFromHorizontal;
-     units::angle::degree_t limelightRoll = GetCameraRoll();
+    // First determin the limelightAngleFromHorizontal depending on the mounting orientation
+    //  if (abs(limelightRoll.to<double>()) < 1.0)
+    //  {
+    //      limelightAngleFromHorizontal = GetCameraPitch();
+    //  }
+    //  else if (abs(limelightRoll.to<double>() - 90.0) < 1.0)
+    //  {
+    //      limelightAngleFromHorizontal = -1.0 * GetCameraYaw();
+    //  }
+    //  else if (abs(limelightRoll.to<double>() - 180.0) < 1.0)
+    //  {
+    //      limelightAngleFromHorizontal = -1.0 * GetCameraPitch();
+    //  }
+    //  else if (abs(limelightRoll.to<double>() - 270.0) < 1.0)
+    //  {
+    //      limelightAngleFromHorizontal = GetCameraYaw();
+    //  }
+    //  else
+    //  {
+    //      // not handled. The only allowed Roll values are 0, 90, 180, 270
+    //  }
 
-     // First determin the limelightAngleFromHorizontal depending on the mounting orientation
-     if (abs(limelightRoll.to<double>()) < 1.0)
-     {
-         limelightAngleFromHorizontal = GetCameraPitch();
-     }
-     else if (abs(limelightRoll.to<double>() - 90.0) < 1.0)
-     {
-         limelightAngleFromHorizontal = -1.0 * GetCameraYaw();
-     }
-     else if (abs(limelightRoll.to<double>() - 180.0) < 1.0)
-     {
-         limelightAngleFromHorizontal = -1.0 * GetCameraPitch();
-     }
-     else if (abs(limelightRoll.to<double>() - 270.0) < 1.0)
-     {
-         limelightAngleFromHorizontal = GetCameraYaw();
-     }
-     else
-     {
-         // not handled. The only allowed Roll values are 0, 90, 180, 270
-     }
+    //  totalAngleFromHorizontal = (limelightAngleFromHorizontal + GetTargetVerticalOffset());
 
-     totalAngleFromHorizontal = (limelightAngleFromHorizontal + GetTargetVerticalOffset());
+    //  units::angle::radian_t angleRad = totalAngleFromHorizontal; // angle in radians
+    //  double tanOfAngle = tan(angleRad.to<double>());
 
-     units::angle::radian_t angleRad = totalAngleFromHorizontal; // angle in radians
-     double tanOfAngle = tan(angleRad.to<double>());
+    //  if (theTargetHeight.has_value())
+    //  {
+    //      auto deltaHeight = theTargetHeight.value() - GetLimelightMountingHeight();
+    //      units::length::inch_t x_distanceToTarget = units::length::inch_t(deltaHeight / tanOfAngle);
 
-     if (theTargetHeight.has_value())
-     {
-         auto deltaHeight = theTargetHeight.value() - GetLimelightMountingHeight();
-         units::length::inch_t x_distanceToTarget = units::length::inch_t(deltaHeight / tanOfAngle);
+    //      return x_distanceToTarget;
+    //  }
 
-         return x_distanceToTarget;
-     }
- */
-    return units::length::inch_t(-1.0);
+    // return units::length::inch_t(-1.0);
 }
 
 units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 {
+
     /*
      Needs to be redone:
      If apriltag, use Pose3d and get y value
@@ -443,8 +461,21 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 
     return targetYoffset;
     */
+    units::length::inch_t estimatedTargetDistance;
+    if (GetAprilTagID() == -1)
+    {
+        // need to do testing to get an accurate measurement
+        estimatedTargetDistance = units::length::inch_t(-1.0);
+        return estimatedTargetDistance;
+    }
 
-    return units::length::inch_t(-1.0);
+    else
+    {
+        auto botpose = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
+
+        return units::length::inch_t(xdistance[1]);
+    };
 }
 
 units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
@@ -454,8 +485,21 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
      If apriltag, use Pose3d and get z value
      If else, for now jsut return -1.0 until we can get an accurate measurement
     */
+    units::length::inch_t estimatedTargetDistance;
+    if (GetAprilTagID() == -1)
+    {
+        // need to do testing to get an accurate measurement
+        estimatedTargetDistance = units::length::inch_t(-1.0);
+        return estimatedTargetDistance;
+    }
 
-    return units::length::inch_t(-1.0);
+    else
+    {
+        auto botpose = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
+
+        return units::length::inch_t(xdistance[2]);
+    };
 }
 
 units::length::inch_t DragonLimelight::EstimateTargetXDistance_RelToRobotCoords() const
