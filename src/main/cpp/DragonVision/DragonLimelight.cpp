@@ -496,8 +496,17 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
 
 VisionData DragonLimelight::GetPoseRelativeToApriltag()
 {
-    std::vector<double> vector;
-    // targetpose_cameraspace
-    // vector to translation
-    return VisionData{};
+    auto tagetpoes = m_networktable.get()->GetDoubleArrayTopic("targetpose_cameraspace");
+
+    std::vector<double> vector = tagetpoes.GetEntry(std::array<double, 6>{}).Get();
+    // targetpose_cameraspace returns distance and angle
+    // assign variables based on the vector, then construct a translation 3d
+    units::length::meter_t Xdist{vector[0]};
+    units::length::meter_t Ydist{vector[1]};
+    units::length::meter_t Zdist{vector[2]};
+    units::angle::degree_t Xangle{vector[3]};
+    units::angle::degree_t Yangle{vector[4]};
+    units::angle::degree_t Zangle{vector[5]};
+    auto translation = frc::Translation3d(Xdist, Ydist, Zdist);
+    return VisionData{translation};
 }
