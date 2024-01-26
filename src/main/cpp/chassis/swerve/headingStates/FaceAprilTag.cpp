@@ -39,7 +39,8 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angular_velocity::radians_per_second_t omega = units::angular_velocity::radians_per_second_t(0.0);
 
     units::angle::radian_t angleError = units::angle::radian_t(0.0);
-
+    std::optional<VisionData> optionalvisionData = m_vision->GetVisionData();
+    VisionData visionData = optionalvisionData.value();
     // get targetdata from the vision system
     // visionapi - update this for new dragon vision
     if (m_vision->GetPipeline(DragonVision::CAMERA_POSITION::FRONT) != DragonCamera::PIPELINE::APRIL_TAG)
@@ -49,7 +50,7 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
     if (visionDataOptional.has_value())
     {
-        if (!AtTargetAngle(&angleError))
+        if (!AtTargetAngle(visionData, &angleError))
         {
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
 
@@ -66,52 +67,35 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     }
 }
 
-bool FaceAprilTag::AtTargetAngle(units::angle::radian_t *error)
+bool FaceAprilTag::AtTargetAngle(VisionData visionData, units::angle::radian_t *angleError)
 {
     if (visionDataOptional.has_value())
     {
-        VisionData visionData = visionDataOptional.value();
-        units::length::meter_t yError = visionData.deltaToTarget.Y();
-        units::length::meter_t xError = visionData.deltaToTarget.X();
+
+        /// Math
+        // First get the pigeon angle to later get field, this is considered
+        // Next, get the angle to the tag, this is considered alpha
+        // Calculate alpha by taking the arc/inverse tangent of our yError and xError (robot oriented) to the tag
+        // Calculate field oriented error by taking the cosine and sine of alpha + theta
+        // From there, we can get the angle to the back of the node (considered beta)
+        // This is calculated by taking arc/inverse tangent of our field oriented yError, divided by our field oriented xError
+        // and the offset to the back of the cube node
+
+        units::length::inch_t yError = visionData.deltaToTarget.Y();
+        units::length::inch_t xError = visionData.deltaToTarget.X();
 
         if (std::abs(xError.to<double>()) > 0.01)
         {
-            /// Math
-            // First get the pigeon angle to later get field, this is considered
-            // Next, get the angle to the tag, this is considered alpha
-            // Calculate alpha by taking the arc/inverse tangent of our yError and xError (robot oriented) to the tag
-            // Calculate field oriented error by taking the cosine and sine of alpha + theta
-            // From there, we can get the angle to the back of the node (considered beta)
-            // This is calculated by taking arc/inverse tangent of our field oriented yError, divided by our field oriented xError
-            // and the offset to the back of the cube node
+            *angleError = visionData.deltaToTarget.Rotation().Z();
 
-            auto pigeon = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER);
-            units::angle::degree_t robotYaw = units::angle::degree_t(pigeon->GetYaw());
-
-            auto angleToTag = units::angle::radian_t(std::atan2(yError.to<double>(), xError.to<double>()));
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Robot Yaw Before (Deg)", robotYaw.to<double>());
-
-            if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
-            {
-                robotYaw = units::angle::degree_t((180.0 - units::math::abs(robotYaw).to<double>()) * (robotYaw.to<double>() < 0.0 ? 1.0 : -1.0));
-            }
-
-            units::length::inch_t xErrorFieldOriented = xError * units::math::cos(angleToTag + robotYaw);
-            units::length::inch_t yErrorFieldOriented = xError * units::math::sin(angleToTag + robotYaw);
-
-            auto angleToBackOfNode = units::math::atan2(yErrorFieldOriented, xErrorFieldOriented + m_cubeNodeLength);
-
-            *error = -1.0 * (robotYaw - angleToBackOfNode); // negate to turn correctly
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Robot Yaw After (Deg)", robotYaw.to<double>());
-
-            if (std::abs((*error).to<double>()) < m_AngularTolerance_rad)
+            if (std::abs((*angleError).to<double>()) < m_AngularTolerance_rad)
             {
                 return true;
             }
         }
+        return false;
     }
+
     return false;
 }
 

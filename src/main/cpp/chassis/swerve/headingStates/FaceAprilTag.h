@@ -32,7 +32,7 @@ public:
 private:
     units::angular_velocity::radians_per_second_t limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularSpeed);
 
-    bool AtTargetAngle(units::angle::radian_t *error);
+    bool AtTargetAngle(VisionData visionData, units::angle::radian_t *angleError);
 
     DragonCamera::PIPELINE m_pipelineMode;
     DragonVision *m_vision;

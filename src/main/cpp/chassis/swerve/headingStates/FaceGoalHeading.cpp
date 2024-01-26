@@ -28,25 +28,16 @@ void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angular_velocity::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
     if (m_vision != nullptr)
     {
-        std::optional<VisionData> optionalData = m_vision->GetVisionData();
+        std::optional optionalData = m_vision->GetVisionData();
         if (optionalData.has_value())
         {
             VisionData validVisionData = optionalData.value();
-            // double rotCorrection = abs(validVisionData->GetVisionData().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
-            // rot += (m_vision->GetVisionData());
-            // rot / 1_s * rotCorrection;
+            double rotCorrection = abs(validVisionData.deltaToTarget.Rotation().Z().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
+            rot += (validVisionData.deltaToTarget.Rotation().Z().to<double>()) / 1_s * rotCorrection;
         }
         else
         {
             // Hold position
         }
-    }
-
-    // this else is probably not needed because m_vision should never be a null pointer
-    else
-    {
-        // auto targetAngle = units::angle::degree_t(m_targetFinder.GetTargetAngleD(SwerveOdometry::GetInstance()->GetPose()));
-        // auto targetAngle = units::angle::degree_t(0.0);
-        // rot -= CalcHeadingCorrection(targetAngle, m_kPGoalHeadingControl);
     }
 }

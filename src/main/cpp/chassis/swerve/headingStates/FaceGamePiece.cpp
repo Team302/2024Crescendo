@@ -20,9 +20,8 @@
 /// debugging
 #include "utils/logging/Logger.h"
 
-FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE)
+FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE), m_vision(DragonVision::GetDragonVision())
 {
-    m_vision = DragonVision::GetDragonVision();
 }
 
 void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
@@ -39,7 +38,7 @@ bool FaceGamePiece::AtTargetAngle(VisionData visionData, units::angle::radian_t 
 
     if (std::abs(xError.to<double>()) > 0.01)
     {
-        *angleError = units::angle::radian_t(std::atan2(yError.to<double>(), xError.to<double>()));
+        *angleError = visionData.deltaToTarget.Rotation().Z();
 
         if (std::abs((*angleError).to<double>()) < m_AngularTolerance_rad)
         {
