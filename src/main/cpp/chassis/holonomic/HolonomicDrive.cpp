@@ -106,13 +106,12 @@ void HolonomicDrive::Run()
 
         bool alignFloorPiece = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE);
         bool alignAprilTag = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_APRIL_TAG);
-        bool alignSubstation = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_SUBSTATION_GAME_PIECE);
 
-        if (alignFloorPiece || alignSubstation || alignAprilTag)
+        if (alignFloorPiece || alignAprilTag)
         {
             m_inVisionDrive = true;
 
-            if (alignFloorPiece || alignSubstation)
+            if (alignFloorPiece)
             {
                 // set pipeline to discover retroreflective
                 if (m_desiredGamePiece == RobotStateChanges::GamePiece::Cube)
@@ -265,9 +264,6 @@ bool HolonomicDrive::IsAutoAligning()
     auto controller = TeleopControl::GetInstance();
 
     // Check if we are trying to align to any of the grids
-    isAutoAligning = controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_LEFT_GRID) ||
-                     controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_CENTER_GRID) ||
-                     controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_RIGHT_GRID);
 
     return isAutoAligning;
 }
@@ -279,34 +275,6 @@ std::pair<ChassisOptionEnums::RELATIVE_POSITION, ChassisOptionEnums::RELATIVE_PO
                                                                                                            ChassisOptionEnums::RELATIVE_POSITION::CENTER};
 
     auto controller = TeleopControl::GetInstance();
-
-    // check for desired grid first
-    if (controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_LEFT_GRID))
-    {
-        destination.first = ChassisOptionEnums::RELATIVE_POSITION::LEFT;
-    }
-    else if (controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_CENTER_GRID))
-    {
-        destination.first = ChassisOptionEnums::RELATIVE_POSITION::CENTER;
-    }
-    else if (controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_RIGHT_GRID))
-    {
-        destination.first = ChassisOptionEnums::RELATIVE_POSITION::RIGHT;
-    }
-
-    // next, check for desired column/node
-    if (controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_LEFT_NODE))
-    {
-        destination.second = ChassisOptionEnums::RELATIVE_POSITION::LEFT;
-    }
-    else if (controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_RIGHT_NODE))
-    {
-        destination.second = ChassisOptionEnums::RELATIVE_POSITION::RIGHT;
-    }
-    else
-    {
-        destination.second = ChassisOptionEnums::RELATIVE_POSITION::CENTER;
-    }
 
     // finally, return desired destination
     return destination;

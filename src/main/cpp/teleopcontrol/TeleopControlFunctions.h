@@ -54,7 +54,27 @@ public:
         EXAMPLE_MECH_REVERSE,
         // Cresendo Modes
         CLIMB_MODE,
+        MANUAL_MODE,
         SCORING_MODE,
 
+        READY,
+        INTAKE,
+        EXPEL,
+        AUTO_LAUNCH,
+        MANUAL_LAUNCH,
+        PASS,
+        PREP_PLACE,
+        PLACE,
+        AUTO_SPEAKER,
+        AUTO_AMP,
+        AUTO_STAGE,
+        CLIMB_UP,
+        CLIMB_DOWN,
+        BACKUP_FRONT_INTAKE,
+        BACKUP_BACK_INTAKE,
+        MANUAL_PLACE,
+        MANUAL_FEED,
+        LAUNCH_ANGLE,
+        ELEVATOR,
     };
 };

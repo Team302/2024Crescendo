@@ -171,6 +171,21 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
 
     {TeleopControlFunctions::CLIMB_MODE, driverSelectButton},
     {TeleopControlFunctions::SCORING_MODE, copilotSelectButton},
+
+    {TeleopControlFunctions::READY, copilotStartButton},
+    {TeleopControlFunctions::MANUAL_MODE, copilotLStickPressed},
+    {TeleopControlFunctions::INTAKE, driverRBumper},
+    {TeleopControlFunctions::EXPEL, driverLBumper},
+    {TeleopControlFunctions::AUTO_LAUNCH, copilotXButton},
+    {TeleopControlFunctions::MANUAL_LAUNCH, copilotAButton},
+    {TeleopControlFunctions::PASS, copilotBButton},
+    {TeleopControlFunctions::PREP_PLACE, copilotXButton},
+    {TeleopControlFunctions::PLACE, copilotRBumper},
+    {TeleopControlFunctions::AUTO_SPEAKER, driverXButton},
+    {TeleopControlFunctions::AUTO_AMP, driverAButton},
+    {TeleopControlFunctions::AUTO_STAGE, driverBButton},
+    {TeleopControlFunctions::BACKUP_FRONT_INTAKE, copilotRBumper},
+    {TeleopControlFunctions::BACKUP_BACK_INTAKE, copilotLBumper},
 };
 
 const TeleopControlAxis driverLJoystickX = {TeleopControlMappingEnums::DRIVER, TeleopControlMappingEnums::LEFT_JOYSTICK_X, TeleopControlMappingEnums::APPLY_STANDARD_DEADBAND, TeleopControlMappingEnums::CUBED, TeleopControlMappingEnums::REVERSED, 1.0};
@@ -219,4 +234,10 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlA
     {TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD, driverLJoystickY},
     {TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE, driverLJoystickX},
     {TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE, driverRJoystickX},
+    {TeleopControlFunctions::CLIMB_UP, driverRTrigger},
+    {TeleopControlFunctions::CLIMB_DOWN, driverLTrigger},
+    {TeleopControlFunctions::MANUAL_PLACE, copilotLTrigger},
+    {TeleopControlFunctions::MANUAL_FEED, copilotRTrigger},
+    {TeleopControlFunctions::LAUNCH_ANGLE, copilotRJoystickY},
+    {TeleopControlFunctions::ELEVATOR, copilotLJoystickY},
 };
