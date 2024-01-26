@@ -7,17 +7,15 @@ pathname= "BlueWideWing1Center0.path"/>
 
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueWideWing1Center0.path"
-time= "1.2"
+pathname= "BlueWideWing1Center0.path"time= "1.2"
 />
-<!--Drives-->
+<!--Drives a bit closer to the speaker while adjusting position-->
 
 <snippet file = "ShootWhenStop.xml"/>
 <!--Stops and shoots-->
 
 <primitive id = "DRIVE_PATH_PLANNER"
-pathname= "BlueWideWing1Center0.path"
-time= "1.4"/>
+pathname= "BlueWideWing1Center0.path"time= "1.4"/>
 <!--Assumed to intake and drives across the line-->
 
 <snippet file = "StopWhenShoot.xml"/>
