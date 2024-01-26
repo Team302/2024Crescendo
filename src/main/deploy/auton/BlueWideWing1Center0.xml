@@ -7,8 +7,7 @@ pathname= "BlueWideWing1Center0.path"/>
 
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueWideWing1Center0.path"
-time= "0.8"
+pathname= "BlueWideWing1Center0.path"time= "1.2"
 />
 <!--Drives a bit closer to the speaker while adjusting position-->
 
@@ -16,11 +15,10 @@ time= "0.8"
 <!--Stops and shoots-->
 
 <primitive id = "DRIVE_PATH_PLANNER"
-pathname= "BlueWideWing1Center0.path"
-time= "2.5"/>
-<!--Assumed to intake the ring at 1.5 in this duration, -->
+pathname= "BlueWideWing1Center0.path"time= "1.4"/>
+<!--Assumed to intake and drives across the line-->
 
-<snippet file= "ShootWhenStop.xml"/>
-<!--We shoot and have crossed line so we are finished-->
+<snippet file = "StopWhenShoot.xml"/>
+<!--Stops and shoots with the new wing note-->
 
 </auton>
