@@ -18,44 +18,21 @@
 
 #include <string>
 
+#include "PeriodicLooper.h"
 #include "utils/logging/Logger.h"
 #include "configs/RobotConfigMgr.h"
-#include "configs/RobotConfig.h"
 #include "configs/RobotConfigpracticeBot_9999.h"
 
-using namespace std;
+using std::string;
 
-RobotConfigMgr *RobotConfigMgr::m_instance = nullptr;
-RobotConfigMgr *RobotConfigMgr::GetInstance()
+void RobotConfigpracticeBot_9999::DefineMechanisms()
 {
-	if ( RobotConfigMgr::m_instance == nullptr )
-	{
-		RobotConfigMgr::m_instance = new RobotConfigMgr();
-	}
-	return RobotConfigMgr::m_instance;
-}
+	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing mechanism" ), string ( "noteManager" ), "" );
+	noteManager_gen* noteManager_genmech = new noteManager_gen();
+	m_thenoteManager = new noteManager ( noteManager_genmech );
+	m_thenoteManager->Create();
+	m_thenoteManager->Initialize ( RobotConfigMgr::RobotIdentifier::practiceBot_9999 );
+	m_thenoteManager->Init ( m_thenoteManager );
+	PeriodicLooper::GetInstance()->RegisterAll ( m_thenoteManager );
 
-RobotConfigMgr::RobotConfigMgr() : m_config ( nullptr )
-{
-}
-
-void RobotConfigMgr::InitRobot ( RobotIdentifier id )
-{
-	switch ( id )
-	{
-	case RobotIdentifier::practiceBot_9999:
-		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing robot " ), string ( "practiceBot_9999" ), string ( "" ) );
-		m_config = new RobotConfigpracticeBot_9999();
-		break;
-
-	default:
-		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Skipping robot initialization because of unknown robot id " ), string ( "" ), id );
-		break;
-	}
-
-	if ( m_config != nullptr )
-	{
-		m_config->BuildRobot();
-		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initialization completed for robot " ), string ( "" ), id );
-	}
 }

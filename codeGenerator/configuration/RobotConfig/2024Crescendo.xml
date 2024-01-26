@@ -2747,7 +2747,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -2769,7 +2769,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -2780,7 +2780,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -2791,7 +2791,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -2881,7 +2881,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -2903,7 +2903,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -2914,7 +2914,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -2925,7 +2925,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3008,7 +3008,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3030,7 +3030,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3041,7 +3041,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3052,7 +3052,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3135,7 +3135,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3157,7 +3157,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3168,7 +3168,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3179,7 +3179,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3262,7 +3262,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3284,7 +3284,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3295,7 +3295,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3306,7 +3306,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3338,7 +3338,7 @@
                     <name>stringParameterConstInMechInstance_3</name>
                     <__units__ />
                     <type>String</type>
-                    <value>launchertoPlacerBack</value>
+                    <value>launcherToPlacerBack</value>
                   </stringParameterConstInMechInstance>
                 </transitionsTo>
                 <motorTargets>
@@ -3389,7 +3389,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3411,7 +3411,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3422,7 +3422,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3433,7 +3433,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3509,7 +3509,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3531,7 +3531,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3542,7 +3542,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3553,7 +3553,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3629,7 +3629,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3651,7 +3651,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3662,7 +3662,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3673,7 +3673,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3749,7 +3749,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3771,7 +3771,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3782,7 +3782,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3793,7 +3793,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3883,7 +3883,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3905,7 +3905,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3916,7 +3916,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -3927,7 +3927,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4010,7 +4010,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4032,7 +4032,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4043,7 +4043,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4054,7 +4054,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4130,7 +4130,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4152,7 +4152,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4163,7 +4163,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4174,7 +4174,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4243,7 +4243,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4265,7 +4265,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4276,7 +4276,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4287,7 +4287,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4356,7 +4356,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4378,7 +4378,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4389,7 +4389,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4400,7 +4400,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4469,7 +4469,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4491,7 +4491,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4502,7 +4502,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4513,7 +4513,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4596,7 +4596,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4618,7 +4618,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4629,7 +4629,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4640,7 +4640,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4709,7 +4709,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4731,7 +4731,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4742,7 +4742,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4753,7 +4753,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4836,7 +4836,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4858,7 +4858,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4869,7 +4869,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4880,7 +4880,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4963,7 +4963,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4985,7 +4985,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -4996,7 +4996,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5007,7 +5007,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5090,7 +5090,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5112,7 +5112,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5123,7 +5123,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5134,7 +5134,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5217,7 +5217,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5239,7 +5239,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5250,7 +5250,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5261,7 +5261,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5344,7 +5344,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5366,7 +5366,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5377,7 +5377,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5388,7 +5388,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5457,7 +5457,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5479,7 +5479,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5490,7 +5490,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5501,7 +5501,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5570,7 +5570,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5592,7 +5592,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5603,7 +5603,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5614,7 +5614,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5690,7 +5690,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5712,7 +5712,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5723,7 +5723,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5734,7 +5734,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5810,7 +5810,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5832,7 +5832,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5843,7 +5843,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5854,7 +5854,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5923,13 +5923,13 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
                     </target>
                     <motorName>Elevator</motorName>
-                    <controlDataName>percentOutput</controlDataName>
+                    <controlDataName>positionInch</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>Feeder</name>
@@ -5945,7 +5945,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5956,7 +5956,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -5967,13 +5967,13 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>percentOutput</controlDataName>
+                    <controlDataName>posDegreeAbs</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -6036,13 +6036,13 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
                     </target>
                     <motorName>Elevator</motorName>
-                    <controlDataName>percentOutput</controlDataName>
+                    <controlDataName>positionInch</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>Feeder</name>
@@ -6058,7 +6058,7 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -6069,7 +6069,7 @@
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angularVelocity</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
@@ -6080,13 +6080,13 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>none</unitsFamily>
+                      <unitsFamily>angle</unitsFamily>
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>percentOutput</controlDataName>
+                    <controlDataName>posDegreeAbs</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
