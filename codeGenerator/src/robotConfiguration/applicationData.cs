@@ -168,10 +168,10 @@ namespace ApplicationData
 
         [DataDescription("One power distribution panel can be configured for a robot")]
         public pdp PowerDistributionPanel { get; set; }
-        
+
         [DataDescription("A robot can contain multiple pneumatic control modules")]
         public List<pcm> PneumaticControlModules { get; set; }
-      
+
         [DataDescription("A robot can contain multiple limelights")]
         public List<limelight> Limelights { get; set; }
 
@@ -324,6 +324,10 @@ namespace ApplicationData
                     if (theObject != null)
                     {
                         Type elementType = theObject.GetType().GetGenericArguments().Single();
+
+                        if ((generateFunctionName == "generateIndexedObjectCreation") && (elementType == typeof(state)))
+                            continue;
+
                         ICollection ic = theObject as ICollection;
                         int index = 0;
                         foreach (var v in ic)
@@ -891,9 +895,9 @@ namespace ApplicationData
         {
             List<string> sb = new List<string>();
 
-            foreach(pigeon p in Pigeons)
+            foreach (pigeon p in Pigeons)
             {
-                sb.Add(string.Format("{1}::{0}",ToUnderscoreCase(p.name), ToUnderscoreCase(p.GetType().Name)));
+                sb.Add(string.Format("{1}::{0}", ToUnderscoreCase(p.name), ToUnderscoreCase(p.GetType().Name)));
             }
 
             return sb;
@@ -1693,7 +1697,7 @@ namespace ApplicationData
 
         [ConstantInMechInstance]
         [DataDescription("The name of the motor that this target applies to")]
-        public string motorName { get;set; }
+        public string motorName { get; set; }
 
         [ConstantInMechInstance]
         [DataDescription("The name of the control data to use in order to reach this target")]
@@ -1738,7 +1742,7 @@ namespace ApplicationData
         {
             if (generatorContext.theMechanismInstance != null)
             {
-                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this))",
+                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this), this)",
                 name,
                 generatorContext.theMechanismInstance.name,
                 index);
