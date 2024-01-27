@@ -63,7 +63,8 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	}
 	else if (element == VISION_ELEMENT::NEAREST_APRILTAG) // nearest april tag
 	{
-		}
+		return GetVisionDataToNearestTag();
+	}
 	else // looking for april tag elements
 	{
 		return GetVisionDataFromElement(element);
@@ -71,6 +72,34 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 
 	// if we don't see any vision targets, return null optional
 	return std::nullopt;
+}
+
+std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
+{
+	DragonCamera *selectedCam = nullptr;
+
+	int frontTagId = m_DragonCameraMap[FRONT]->GetAprilTagID();
+	int backTagId = m_DragonCameraMap[BACK]->GetAprilTagID();
+
+	if ((frontTagId == -1) && (backTagId == -1)) // if we see no april tags
+	{
+		return std::nullopt;
+	}
+	else if ((frontTagId != -1) && (backTagId != -1)) // if we see april tags in both cameras
+	{
+		// distance logic
+		units::length::inch_t frontDistance = m_DragonCameraMap[FRONT]->GetEstimatedTargetXDistance_RelToRobotCoords();
+		double backDistance = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[BACK])->GetPoseAmbiguity();
+
+		selectedCam = frontAmbiguity <= backAmbiguity ? m_DragonCameraMap[FRONT] : m_DragonCameraMap[BACK]; // if front is less ambiguous, select it, and vice versa
+	}
+	else // one camera sees an april tag
+	{
+		if (frontTagId != -1)
+			selectedCam = m_DragonCameraMap[FRONT];
+		else
+			selectedCam = m_DragonCameraMap[BACK];
+	}
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT element)
