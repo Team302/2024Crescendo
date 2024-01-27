@@ -484,7 +484,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
      If apriltag, use Pose3d and get z value
      If else, for now jsut return -1.0 until we can get an accurate measurement
     */
-    units::length::inch_t estimatedTargetDistance;
+    units::length::inch_t(estimatedTargetDistance);
     if (GetAprilTagID() == -1)
     {
         // need to do testing to get an accurate measurement

@@ -95,12 +95,10 @@ public:
         units::length::inch_t mountingZOffset,
         units::angle::degree_t pitch,
         units::angle::degree_t yaw,
-        units::angle::degree_t roll); /// TODO: implement
-    virtual bool UpdatePipeline() = 0;
-
-protected:
+        units::angle::degree_t roll);  /// TODO: implement
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
 
+protected:
     frc::Pose3d m_cameraPose;
     frc::Transform3d m_robotCenterToCam;
     PIPELINE m_pipeline;
