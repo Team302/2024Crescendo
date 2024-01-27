@@ -115,7 +115,7 @@ namespace CoreCodeGenerator
                             mechanismInstance mis = mechInstances.Find(m => m.name == mi.name);
                             if (mis != null)
                             {
-                                initCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == robotFullName)", ToUnderscoreDigit(r.getFullRobotName())));
+                                initCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == robotFullName)", ToUnderscoreDigit(ToUnderscoreCase(r.getFullRobotName())).ToUpper()));
                                 initCode.Add("{");
                                 initCode.AddRange(generateMethod(mis, "generateInitialization"));
                                 initCode.Add("}");

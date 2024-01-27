@@ -67,7 +67,7 @@ namespace CoreCodeGenerator
                   $$_MECHANISM_INSTANCE_NAME_$$_gen* $$_MECHANISM_INSTANCE_NAME_$$_genmech = new $$_MECHANISM_INSTANCE_NAME_$$_gen();
                   m_the$$_MECHANISM_INSTANCE_NAME_$$ = new $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$_genmech);
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->Create();
-                  m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize(RobotConfigMgr::RobotIdentifier::$$_ROBOT_NAME_$$);
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize(RobotConfigMgr::RobotIdentifier::$$_ROBOT_ENUM_NAME_$$);
                   ";
 
             string mechInstDefState =
@@ -92,6 +92,7 @@ namespace CoreCodeGenerator
 
                 resultString = template.Replace("$$_MECHANISMS_INITIALIZATION_$$", sb.ToString());
                 resultString = resultString.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
+                resultString = resultString.Replace("$$_ROBOT_ENUM_NAME_$$", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper());
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }
