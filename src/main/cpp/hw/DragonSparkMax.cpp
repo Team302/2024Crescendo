@@ -19,6 +19,7 @@
 #include "mechanisms/controllers/ControlData.h"
 
 #include "frc/smartdashboard/SmartDashboard.h"
+
 using rev::CANSparkMax;
 
 DragonSparkMax::DragonSparkMax(int id,
@@ -94,31 +95,14 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     }
 }
 
+void DragonSparkMax::ConfigHWLimitSW(rev::SparkMaxLimitSwitch::Type forwardType, rev::SparkMaxLimitSwitch::Type reverseType)
+{
+    m_forwardType = forwardType;
+    m_reverseType = reverseType;
+}
+
 void DragonSparkMax::Set(double value)
 {
-    // TODO: need to fix
-    /**
-    switch (m_controlMode)
-    {
-        case DRAGON_CONTROL_MODE::PERCENT_OUTPUT:
-            m_spark->Set(value);
-            break;
-
-        case DRAGON_CONTROL_MODE::ROTATIONS:
-            // (rot * gear ratio) - m_outputRotationOffset
-            m_spark->GetPIDController().SetReference((value + m_outputRotationOffset) / m_gearRatio, rev::ControlType::kPosition, 0); // position is slot 0
-            break;
-
-        case DRAGON_CONTROL_MODE::RPS: //inches per second
-            m_spark->GetPIDController().SetReference((value / 60.0) / m_gearRatio, rev::ControlType::kVelocity, 1);
-            break;
-
-        default:
-            // bad news if we are in the default branch... stop the motor
-            m_spark->Set(0);
-            break;
-    }
-    **/
     m_spark->Set(value);
 }
 
@@ -140,8 +124,6 @@ void DragonSparkMax::SetVoltageRamping(double ramping, double rampingClosedLoop)
 
 void DragonSparkMax::EnableCurrentLimiting(bool enabled)
 {
-    // TODO:
-    // m_spark->SetSmart
 }
 
 void DragonSparkMax::EnableBrakeMode(bool enabled)
@@ -162,8 +144,7 @@ double DragonSparkMax::GetRotationsWithGearNoOffset() const
 
 void DragonSparkMax::InvertEncoder(bool inverted)
 {
-    // m_spark->SetInverted()
-    // m_spark->GetEncoder().SetInverted(inverted);
+    m_encoder.SetInverted(inverted);
 }
 
 CANSparkMax *DragonSparkMax::GetSparkMax()
@@ -179,7 +160,7 @@ void DragonSparkMax::SetSmartCurrentLimiting(int limit)
 // Dummy methods below
 double DragonSparkMax::GetCurrent()
 {
-    return 0.0;
+    return m_spark->GetOutputCurrent();
 }
 IDragonMotorController::MOTOR_TYPE DragonSparkMax::GetMotorType() const
 {
@@ -200,25 +181,27 @@ void DragonSparkMax::SetVoltage(units::volt_t output)
 
 bool DragonSparkMax::IsMotorInverted() const
 {
+    return m_spark->GetInverted();
 }
 
 bool DragonSparkMax::IsForwardLimitSwitchClosed()
 {
-    return false;
+    return m_spark->GetForwardLimitSwitch(m_forwardType).Get();
 }
 
 bool DragonSparkMax::IsReverseLimitSwitchClosed()
 {
-    return false;
+    return m_spark->GetReverseLimitSwitch(m_reverseType).Get();
 }
 
-void DragonSparkMax::EnableDisableLimitSwitches(
-    bool enable)
+void DragonSparkMax::EnableDisableLimitSwitches(bool enable)
 {
+    m_sparkLimitSwitch->EnableLimitSwitch(enable);
 }
 
 void DragonSparkMax::EnableVoltageCompensation(double fullvoltage)
 {
+    m_spark->EnableVoltageCompensation(fullvoltage);
 }
 
 void DragonSparkMax::SetSelectedSensorPosition(

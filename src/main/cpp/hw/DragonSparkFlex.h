@@ -22,6 +22,7 @@
 
 #include "ctre/phoenix/motorcontrol/RemoteSensorSource.h" // need to remove dependency on ctre
 #include "rev/CANSparkFlex.h"
+#include "rev/SparkLimitSwitch.h"
 
 // namespaces
 using namespace rev;
@@ -48,6 +49,9 @@ public:
     // Setters
     void SetControlConstants(int slot, const ControlData &controlInfo) override;
 
+    void ConfigHWLimitSW(
+        rev::SparkLimitSwitch::Type forwardType,
+        rev::SparkLimitSwitch::Type reverseType);
     void Set(double value) override;
     void SetRotationOffset(double rotations) override;
     void SetVoltageRamping(double ramping, double rampingClosedLoop = -1) override; // seconds 0 to full, set to 0 to disable
@@ -84,6 +88,9 @@ private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
     rev::CANSparkFlex *m_spark;
+    rev::SparkLimitSwitch *m_sparkLimitSwitch;
+    rev::SparkLimitSwitch::Type m_forwardType;
+    rev::SparkLimitSwitch::Type m_reverseType;
     double m_outputRotationOffset;
     double m_gearRatio;
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;

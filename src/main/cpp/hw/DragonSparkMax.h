@@ -23,6 +23,7 @@
 
 #include "ctre/phoenix/motorcontrol/RemoteSensorSource.h" // need to remove dependency on ctre
 #include "rev/CANSparkMax.h"
+#include "rev/SparkLimitSwitch.h"
 
 // namespaces
 using namespace rev;
@@ -50,6 +51,9 @@ public:
     // Setters
     void SetControlConstants(int slot, const ControlData &controlInfo) override;
 
+    void ConfigHWLimitSW(
+        rev::SparkMaxLimitSwitch::Type forwardType,
+        rev::SparkMaxLimitSwitch::Type reverseType);
     void Set(double value) override;
     void SetRotationOffset(double rotations) override;
     void SetVoltageRamping(double ramping, double rampingClosedLoop = -1) override; // seconds 0 to full, set to 0 to disable
@@ -79,13 +83,22 @@ public:
     double GetCountsPerInch() const override;
     double GetCountsPerDegree() const override;
     void EnableDisableLimitSwitches(bool enable) override;
-    double GetCountsPerRev() const override { return 1.0; }
-    double GetGearRatio() const override { return 1.0; } //Should this return m_gearRatio?
+    double GetCountsPerRev() const override
+    {
+        return 1.0;
+    }
+    double GetGearRatio() const override
+    {
+        return 1.0;
+    } // Should this return m_gearRatio?
 
 private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
     rev::CANSparkMax *m_spark;
+    rev::SparkLimitSwitch *m_sparkLimitSwitch;
+    rev::SparkMaxLimitSwitch::Type m_forwardType;
+    rev::SparkMaxLimitSwitch::Type m_reverseType;
     // DRAGON_CONTROL_MODE m_controlMode;
     double m_outputRotationOffset;
     double m_gearRatio;
@@ -94,5 +107,6 @@ private:
     rev::SparkRelativeEncoder m_encoder;
     rev::SparkPIDController m_pidController;
 
-    rev::CANSparkMax *GetSparkMax();
+    rev::CANSparkMax *
+    GetSparkMax();
 };
