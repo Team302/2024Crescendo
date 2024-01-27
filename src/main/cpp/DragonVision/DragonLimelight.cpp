@@ -534,7 +534,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
         return units::length::inch_t(-1.0);
 }
 
-VisionData DragonLimelight::GetPoseRelativeToApriltag()
+VisionData DragonLimelight::GetDataToNearestApriltag()
 {
     auto tagetpoes = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
 

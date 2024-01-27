@@ -72,6 +72,8 @@ public:
     virtual units::length::inch_t GetEstimatedTargetYDistance_RelToRobotCoords() const = 0;
     virtual units::length::inch_t GetEstimatedTargetZDistance_RelToRobotCoords() const = 0;
 
+    virtual VisionData GetDataToNearestApriltag() const = 0;
+
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }
     units::angle::degree_t GetCameraPitch() const { return m_robotCenterToCam.Rotation().Y(); }
@@ -82,7 +84,10 @@ public:
     units::length::inch_t GetMountingZOffset() const { return m_robotCenterToCam.Z(); }
 
     // Setters
-    void SetPipeline(PIPELINE pipeline) { m_pipeline = pipeline; }
+    void SetPipeline(PIPELINE pipeline)
+    {
+        m_pipeline = pipeline;
+    }
 
     void SetCameraPosition(
         units::length::inch_t mountingXOffset,
