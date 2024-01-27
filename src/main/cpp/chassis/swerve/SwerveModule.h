@@ -42,7 +42,9 @@
 #include "hw/interfaces/IDragonMotorController.h"
 #include "mechanisms/controllers/ControlData.h"
 
-// Third Party Includes
+// Third Party
+#include "ctre/phoenix6/TalonFX.hpp"
+#include "ctre/phoenix6/CANcoder.hpp"
 
 class SwerveModule
 {
@@ -57,6 +59,14 @@ public:
                  IDragonMotorController *driveMotor,
                  IDragonMotorController *turningMotor,
                  DragonCanCoder *canCoder);
+    SwerveModule(SwerveModuleConstants::ModuleID id,
+                 SwerveModuleConstants::ModuleType type,
+                 int driveMotorID,
+                 bool driveInverted,
+                 int turnMotorID,
+                 bool turnInverted,
+                 int canCoderID,
+                 double angleOffset);
 
     /// @brief Turn all of the wheel to zero degrees yaw according to the pigeon
     /// @returns void
@@ -110,6 +120,10 @@ private:
     IDragonMotorController *m_driveMotor;
     IDragonMotorController *m_turnMotor;
     DragonCanCoder *m_turnSensor;
+
+    ctre::phoenix6::hardware::TalonFX *m_driveTalon;
+    ctre::phoenix6::hardware::TalonFX *m_turnTalon;
+    ctre::phoenix6::hardware::CANcoder *m_turnCancoder;
 
     units::length::inch_t m_wheelDiameter;
     units::velocity::feet_per_second_t m_maxSpeed;

@@ -26,7 +26,7 @@
 // Team 302 Includes
 #include <chassis/ChassisMovement.h>
 #include <chassis/ChassisOptionEnums.h>
-#include <chassis/holonomic/HolonomicDrive.h>
+#include "chassis/HolonomicDrive.h"
 #include <chassis/IChassis.h>
 #include <gamepad/IDragonGamepad.h>
 #include "teleopcontrol/TeleopControl.h"

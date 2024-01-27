@@ -38,15 +38,6 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                          calcStruc,
                                          IDragonMotorController::MOTOR_TYPE::FALCON500,
                                          string("Canivore"));
-    m_frontLeftDrive->SetCurrentLimits(true,
-                                       units::current::ampere_t(25.0),
-                                       true,
-                                       units::current::ampere_t(25.0),
-                                       units::current::ampere_t(30.0),
-                                       units::time::second_t(0.02));
-    m_frontLeftDrive->ConfigMotorSettings(ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive,
-                                          ctre::phoenix6::signals::NeutralModeValue::Brake,
-                                          0.01, -1, 1);
 
     m_frontLeftTurn = new DragonTalonFX(string("LF_SWERVE"),
                                         RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_TURN,
@@ -54,7 +45,61 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                         calcStruc,
                                         IDragonMotorController::MOTOR_TYPE::FALCON500,
                                         string("Canivore"));
-    m_frontLeftTurn->SetCurrentLimits(true,
+
+    m_frontRightDrive = new DragonTalonFX(string("RF_SWERVE"),
+                                          RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_DRIVE,
+                                          0,
+                                          calcStruc,
+                                          IDragonMotorController::MOTOR_TYPE::FALCON500,
+                                          string("Canivore"));
+
+    m_frontRightTurn = new DragonTalonFX(string("RF_SWERVE"),
+                                         RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_TURN,
+                                         2,
+                                         calcStruc,
+                                         IDragonMotorController::MOTOR_TYPE::FALCON500,
+                                         string("Canivore"));
+
+    m_backLeftDrive = new DragonTalonFX(string("LB_SWERVE"),
+                                        RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_DRIVE,
+                                        18,
+                                        calcStruc,
+                                        IDragonMotorController::MOTOR_TYPE::FALCON500,
+                                        string("Canivore"));
+
+    m_backLeftTurn = new DragonTalonFX(string("LB_SWERVE"),
+                                       RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_TURN,
+                                       16,
+                                       calcStruc,
+                                       IDragonMotorController::MOTOR_TYPE::FALCON500,
+                                       string("Canivore"));
+
+    m_backRightDrive = new DragonTalonFX(string("RB_SWERVE"),
+                                         RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_DRIVE,
+                                         17,
+                                         calcStruc,
+                                         IDragonMotorController::MOTOR_TYPE::FALCON500,
+                                         string("Canivore"));
+
+    m_backRightTurn = new DragonTalonFX(string("RB_SWERVE"),
+                                        RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_TURN,
+                                        19,
+                                        calcStruc,
+                                        IDragonMotorController::MOTOR_TYPE::FALCON500,
+                                        string("Canivore"));
+
+    /**
+    m_frontLeftDrive->SetCurrentLimits(true,
+       units::current::ampere_t(25.0),
+       true,
+       units::current::ampere_t(25.0),
+       units::current::ampere_t(30.0),
+       units::time::second_t(0.02));
+    m_frontLeftDrive->ConfigMotorSettings(ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive,
+          ctre::phoenix6::signals::NeutralModeValue::Brake,
+          0.01, -1, 1);
+
+              m_frontLeftTurn->SetCurrentLimits(true,
                                       units::current::ampere_t(25.0),
                                       true,
                                       units::current::ampere_t(25.0),
@@ -64,13 +109,7 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                          ctre::phoenix6::signals::NeutralModeValue::Brake,
                                          0.01, -1, 1);
 
-    m_frontRightDrive = new DragonTalonFX(string("RF_SWERVE"),
-                                          RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_DRIVE,
-                                          0,
-                                          calcStruc,
-                                          IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                          string("Canivore"));
-    m_frontRightDrive->SetCurrentLimits(true,
+                                             m_frontRightDrive->SetCurrentLimits(true,
                                         units::current::ampere_t(25.0),
                                         true,
                                         units::current::ampere_t(25.0),
@@ -79,13 +118,6 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
     m_frontRightDrive->ConfigMotorSettings(ctre::phoenix6::signals::InvertedValue::Clockwise_Positive,
                                            ctre::phoenix6::signals::NeutralModeValue::Brake,
                                            0.01, -1, 1);
-
-    m_frontRightTurn = new DragonTalonFX(string("RF_SWERVE"),
-                                         RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_TURN,
-                                         2,
-                                         calcStruc,
-                                         IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                         string("Canivore"));
     m_frontRightTurn->SetCurrentLimits(true,
                                        units::current::ampere_t(25.0),
                                        true,
@@ -96,12 +128,6 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
                                           ctre::phoenix6::signals::NeutralModeValue::Brake,
                                           0.01, -1, 1);
 
-    m_backLeftDrive = new DragonTalonFX(string("LB_SWERVE"),
-                                        RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_DRIVE,
-                                        18,
-                                        calcStruc,
-                                        IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                        string("Canivore"));
     m_backLeftDrive->SetCurrentLimits(true,
                                       units::current::ampere_t(25.0),
                                       true,
@@ -111,13 +137,6 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
     m_backLeftDrive->ConfigMotorSettings(ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive,
                                          ctre::phoenix6::signals::NeutralModeValue::Brake,
                                          0.01, -1, 1);
-
-    m_backLeftTurn = new DragonTalonFX(string("LB_SWERVE"),
-                                       RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_TURN,
-                                       16,
-                                       calcStruc,
-                                       IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                       string("Canivore"));
     m_backLeftTurn->SetCurrentLimits(true,
                                      units::current::ampere_t(25.0),
                                      true,
@@ -127,13 +146,6 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
     m_backLeftTurn->ConfigMotorSettings(ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive,
                                         ctre::phoenix6::signals::NeutralModeValue::Brake,
                                         0.01, -1, 1);
-
-    m_backRightDrive = new DragonTalonFX(string("RB_SWERVE"),
-                                         RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_DRIVE,
-                                         17,
-                                         calcStruc,
-                                         IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                         string("Canivore"));
     m_backRightDrive->SetCurrentLimits(true,
                                        units::current::ampere_t(25.0),
                                        true,
@@ -143,13 +155,6 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
     m_backRightDrive->ConfigMotorSettings(ctre::phoenix6::signals::InvertedValue::Clockwise_Positive,
                                           ctre::phoenix6::signals::NeutralModeValue::Brake,
                                           0.01, -1, 1);
-
-    m_backRightTurn = new DragonTalonFX(string("RB_SWERVE"),
-                                        RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_TURN,
-                                        19,
-                                        calcStruc,
-                                        IDragonMotorController::MOTOR_TYPE::FALCON500,
-                                        string("Canivore"));
     m_backRightTurn->SetCurrentLimits(true,
                                       units::current::ampere_t(25.0),
                                       true,
@@ -159,6 +164,9 @@ void RobotConfigChassisRobot_9998::DefineMotorControllers()
     m_backRightTurn->ConfigMotorSettings(ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive,
                                          ctre::phoenix6::signals::NeutralModeValue::Brake,
                                          0.01, -1, 1);
+
+    **/
+
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineMotorControllers"), string("end"));
 }
 void RobotConfigChassisRobot_9998::DefineCANSensors()
@@ -170,6 +178,7 @@ void RobotConfigChassisRobot_9998::DefineCANSensors()
                                  units::angle::degree_t(0.0),
                                  units::angle::degree_t(0.0));
 
+    /**
     m_frontLeftCC = new DragonCanCoder(string("RB_SWERVE"),
                                        RobotElementNames::CANCODER_USAGE::BACK_RIGHT_SWERVE,
                                        19,
@@ -197,11 +206,33 @@ void RobotConfigChassisRobot_9998::DefineCANSensors()
                                        string("Canivore"),
                                        -105.3812,
                                        false);
+                                       **/
 }
 void RobotConfigChassisRobot_9998::DefineChassis()
 {
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("arrived"));
+    m_frontLeftSM = new SwerveModule(SwerveModuleConstants::ModuleID::LEFT_FRONT,
+                                     SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
+                                     1, false,
+                                     3, false,
+                                     3, -105.3812);
+    m_backLeftSM = new SwerveModule(SwerveModuleConstants::ModuleID::LEFT_BACK,
+                                    SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
+                                    18, false,
+                                    16, false,
+                                    16, 43.945);
+    m_frontRightSM = new SwerveModule(SwerveModuleConstants::ModuleID::RIGHT_FRONT,
+                                      SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
+                                      0, true,
+                                      2, false,
+                                      2, -51.5923);
+    m_backRightSM = new SwerveModule(SwerveModuleConstants::ModuleID::RIGHT_BACK,
+                                     SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
+                                     17, true,
+                                     19, false,
+                                     19, 156.7092);
+    /**
     m_frontLeftSM = new SwerveModule(SwerveModuleConstants::ModuleID::LEFT_FRONT,
                                      SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
                                      m_frontLeftDrive,
@@ -225,8 +256,9 @@ void RobotConfigChassisRobot_9998::DefineChassis()
                                      m_backRightDrive,
                                      m_backRightTurn,
                                      m_backRightCC);
-
+                                        **/
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("module 4"));
+    /**/
     m_swerveChassis = new SwerveChassis(m_frontLeftSM,
                                         m_frontRightSM,
                                         m_backLeftSM,
@@ -235,6 +267,7 @@ void RobotConfigChassisRobot_9998::DefineChassis()
                                         units::length::inch_t(22.75),
                                         units::length::inch_t(22.75),
                                         string("SwerveChassis"));
+    /**/
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotConfigChassisRobot_9998::DefineChassis"), string("end"));
 }
 

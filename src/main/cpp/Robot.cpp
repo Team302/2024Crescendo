@@ -11,7 +11,7 @@
 
 #include <auton/AutonPreviewer.h>
 #include <auton/CyclePrimitives.h>
-#include <chassis/holonomic/HolonomicDrive.h>
+#include "chassis/HolonomicDrive.h"
 #include "chassis/swerve/SwerveChassis.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
@@ -159,7 +159,7 @@ void Robot::TeleopInit()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("arrived"));
 
-    /**
+    /**/
     if (m_controller == nullptr)
     {
         m_controller = TeleopControl::GetInstance();
@@ -174,6 +174,7 @@ void Robot::TeleopInit()
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have a controller"), string("arrived"));
     }
+    /**/
     if (m_chassis != nullptr && m_controller != nullptr)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("chassis and controller"), string("arrived"));
@@ -183,6 +184,7 @@ void Robot::TeleopInit()
             m_holonomic->Init();
         }
 
+        /**
         // Create chassismovement to flush out any drive options from auton
         ChassisMovement resetMoveInfo;
         resetMoveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
@@ -192,9 +194,11 @@ void Robot::TeleopInit()
         m_chassis->Drive();
         dynamic_cast<VisionDrive *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE))->setInAutonMode(false);
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("drive"), string("arrived"));
+        **/
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
+    /**
     // now in teleop, clear field of trajectories
     if (m_field != nullptr)
     {
@@ -208,7 +212,7 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("arrived"));
-    /**
+    /**/
     if (m_chassis != nullptr && m_controller != nullptr)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicRun"), string("arrived"));
@@ -218,7 +222,7 @@ void Robot::TeleopPeriodic()
         }
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-    **/
+    /**/
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 

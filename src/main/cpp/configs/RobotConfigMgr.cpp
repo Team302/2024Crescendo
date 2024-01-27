@@ -23,6 +23,7 @@
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMinimalRobot_302.h"
 #include "configs/RobotConfigChassisRobot_9998.h"
+#include "configs/RobotConfigpracticeBot_9999.h"
 
 using namespace std;
 

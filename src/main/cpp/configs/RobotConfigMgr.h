@@ -27,7 +27,7 @@ public:
 	{
 		MinimalRobot_302 = 302,
 		CHASSISBOT_9998 = 9998,
-		practiceBot_9999 = 9999
+		practiceBot_9999 = 9999,
 		MAX_ROBOT_IDENTIFIERS
 	};
 
