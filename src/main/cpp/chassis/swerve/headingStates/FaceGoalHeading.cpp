@@ -33,7 +33,7 @@ void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         {
             VisionData validVisionData = optionalData.value();
             double rotCorrection = abs(validVisionData.deltaToTarget.Rotation().Z().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
-            rot += (validVisionData.deltaToTarget.Rotation().Z().to<double>()) / 1_s * rotCorrection;
+            rot += (validVisionData.deltaToTarget.Rotation().Z()) / 1_s * rotCorrection;
         }
         else
         {

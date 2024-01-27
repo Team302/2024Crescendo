@@ -26,7 +26,6 @@
 #include <DragonVision/DragonVision.h>
 #include <robotstate/IRobotStateChangeSubscriber.h>
 #include "chassis/swerve/driveStates/VisionDrive.h"
-class FaceGamePiece;
 
 class VisionDrive : public RobotDrive, public IRobotStateChangeSubscriber
 {

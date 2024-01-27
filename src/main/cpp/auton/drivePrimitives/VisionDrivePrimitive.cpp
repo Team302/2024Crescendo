@@ -68,6 +68,7 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
             case DragonCamera::PIPELINE::APRIL_TAG:
                 m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
                 break;
+            case DragonCamera::PIPELINE::MACHINE_LEARNING:
                 m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
                 break;
             default:
