@@ -99,6 +99,8 @@ protected:
     frc::Pose3d m_cameraPose;
     frc::Transform3d m_robotCenterToCam;
     PIPELINE m_pipeline;
+
+    const units::length::inch_t m_noteVerticalOffset = units::length::inch_t(0.0); // This represents the note being at the same level as center of robot
 };
 
 /*
