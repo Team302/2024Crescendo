@@ -150,7 +150,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	// return that translation3d
 	if (selectedCam != nullptr)
 	{
-		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->GetEstimatedTargetXDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetYDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetZDistance_RelToRobotCoords(), units::angle::degree_t(0.0), selectedCam->GetTargetYawRobotFrame(), selectedCam->GetTargetPitchRobotFrame());
+		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->GetEstimatedTargetXDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetYDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetZDistance_RelToRobotCoords());
 		return std::optional<VisionData>{};
 	}
 }
