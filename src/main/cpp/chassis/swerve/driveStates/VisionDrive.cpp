@@ -52,7 +52,7 @@ VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(),
 
 std::array<frc::SwerveModuleState, 4> VisionDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
-    std::optional<VisionData> optionalVisionData = m_vision->GetVisionData();
+    std::optional<VisionData> optionalVisionData = m_vision->GetVisionData(DragonVision::AMP);
     if (!optionalVisionData.has_value())
     {
         m_lostGamePieceTimer->Start();
@@ -214,10 +214,10 @@ bool VisionDrive::isAligned(DragonCamera::PIPELINE pipelineMode)
 {
     if (pipelineMode == DragonCamera::PIPELINE::APRIL_TAG)
     {
-        std::optional<VisionData> optionalisionData = m_vision->GetVisionData();
-        if (optionalisionData.has_value())
+        std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::AMP); // add arguments
+        if (optionalvisionData.has_value())
         {
-            VisionData visionData = optionalisionData.value();
+            VisionData visionData = optionalvisionData.value();
             units::angle::radian_t angleError = units::angle::radian_t(0.0);
             return AtTargetAngle(visionData, &angleError);
         }

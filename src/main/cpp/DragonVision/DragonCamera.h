@@ -52,8 +52,8 @@ public:
 
     // Getters
     virtual units::angle::degree_t GetTargetYaw() const = 0;
-    virtual units::angle::degree_t GetTargetYawRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetPitchRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
+    virtual units::angle::degree_t GetTargetYawRobotFrame() const = 0;
+    virtual units::angle::degree_t GetTargetPitchRobotFrame() const = 0;
     virtual units::angle::degree_t GetTargetPitchAngle() const = 0;
     virtual units::time::millisecond_t GetPipelineLatency() const = 0;
     virtual units::angle::degree_t GetTargetSkew() const = 0;
@@ -95,12 +95,10 @@ public:
         units::length::inch_t mountingZOffset,
         units::angle::degree_t pitch,
         units::angle::degree_t yaw,
-        units::angle::degree_t roll); /// TODO: implement
-    virtual bool UpdatePipeline() = 0;
-
-protected:
+        units::angle::degree_t roll);  /// TODO: implement
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
 
+protected:
     frc::Pose3d m_cameraPose;
     frc::Transform3d m_robotCenterToCam;
     PIPELINE m_pipeline;

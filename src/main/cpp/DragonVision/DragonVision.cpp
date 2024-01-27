@@ -63,6 +63,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	}
 	else if (element == VISION_ELEMENT::NEAREST_APRILTAG) // nearest april tag
 	{
+		return GetVisionDataToNearestTag();
 	}
 	else // looking for april tag elements
 	{
@@ -71,6 +72,36 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 
 	// if we don't see any vision targets, return null optional
 	return std::nullopt;
+}
+
+std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
+{
+	DragonCamera *selectedCam = nullptr;
+
+	int frontTagId = m_DragonCameraMap[FRONT]->GetAprilTagID();
+	int backTagId = m_DragonCameraMap[BACK]->GetAprilTagID();
+
+	if ((frontTagId == -1) && (backTagId == -1)) // if we see no april tags
+	{
+		return std::nullopt;
+	}
+	else if ((frontTagId != -1) && (backTagId != -1)) // if we see april tags in both cameras
+	{
+		// distance logic
+		units::length::inch_t frontDistance = m_DragonCameraMap[FRONT]->GetEstimatedTargetXDistance_RelToRobotCoords();
+		units::length::inch_t backDistance = m_DragonCameraMap[BACK]->GetEstimatedTargetXDistance_RelToRobotCoords();
+
+		selectedCam = frontDistance <= backDistance ? m_DragonCameraMap[FRONT] : m_DragonCameraMap[BACK]; // if front is less ambiguous, select it, and vice versa
+	}
+	else // one camera sees an april tag
+	{
+		if (frontTagId != -1)
+			selectedCam = m_DragonCameraMap[FRONT];
+		else
+			selectedCam = m_DragonCameraMap[BACK];
+	}
+
+	return selectedCam->GetDataToNearestApriltag();
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT element)
@@ -112,19 +143,16 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		break;
 	}
 
-	/*
-		// now we have selected camera
-		// to get robot relative measurements, use following functions:
-		unit::length::meter_t xDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetXDistance_RelToRobotCoords();
-		unit::length::meter_t yDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetYDistance_RelToRobotCoords();
-		unit::length::meter_t zDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetZDistance_RelToRobotCoords();
-		units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
-		units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
+	// now we have selected camera
+	// to get robot relative measurements, use following functions:
 
-//create translation 3d, create std::optional visiondata with that translation3d
-//return that translation3d
-
-*/
+	// create translation 3d, create std::optional visiondata with that translation3d
+	// return that translation3d
+	if (selectedCam != nullptr)
+	{
+		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->GetEstimatedTargetXDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetYDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetZDistance_RelToRobotCoords());
+		return std::optional<VisionData>{};
+	}
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT element)
