@@ -143,19 +143,16 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		break;
 	}
 
-	/*
-		// now we have selected camera
-		// to get robot relative measurements, use following functions:
-		unit::length::meter_t xDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetXDistance_RelToRobotCoords();
-		unit::length::meter_t yDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetYDistance_RelToRobotCoords();
-		unit::length::meter_t zDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetZDistance_RelToRobotCoords();
-		units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
-		units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
+	// now we have selected camera
+	// to get robot relative measurements, use following functions:
 
-//create translation 3d, create std::optional visiondata with that translation3d
-//return that translation3d
-
-*/
+	// create translation 3d, create std::optional visiondata with that translation3d
+	// return that translation3d
+	if (selectedCam != nullptr)
+	{
+		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->GetEstimatedTargetXDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetYDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetZDistance_RelToRobotCoords(), units::angle::degree_t(0.0), selectedCam->GetTargetYawRobotFrame(), selectedCam->GetTargetPitchRobotFrame());
+		return std::optional<VisionData>{};
+	}
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT element)
