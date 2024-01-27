@@ -89,9 +89,9 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 	{
 		// distance logic
 		units::length::inch_t frontDistance = m_DragonCameraMap[FRONT]->GetEstimatedTargetXDistance_RelToRobotCoords();
-		double backDistance = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[BACK])->GetPoseAmbiguity();
+		units::length::inch_t backDistance = m_DragonCameraMap[BACK]->GetEstimatedTargetXDistance_RelToRobotCoords();
 
-		selectedCam = frontAmbiguity <= backAmbiguity ? m_DragonCameraMap[FRONT] : m_DragonCameraMap[BACK]; // if front is less ambiguous, select it, and vice versa
+		selectedCam = frontDistance <= backDistance ? m_DragonCameraMap[FRONT] : m_DragonCameraMap[BACK]; // if front is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
@@ -100,6 +100,8 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 		else
 			selectedCam = m_DragonCameraMap[BACK];
 	}
+
+	return selectedCam->GetDataToNearestApriltag();
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT element)
