@@ -442,29 +442,16 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 
 units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 {
+    units::length::meter_t mountingHeight = m_cameraPose.Z();
 
-    /*
-     Needs to be redone:
-     If apriltag, use Pose3d and get y value
-     If else, for now jsut return -1.0 until we can get an accurate measurement
-
-    // Get the horizontal angle to the target and convert to radians
-    units::angle::degree_t limelightFrameHorizAngle = GetTargetHorizontalOffset();
-    units::angle::radian_t limelightFrameHorizAngleRad = limelightFrameHorizAngle;
-
-    units::length::inch_t targetXdistance = EstimateTargetXdistance();
-
-    units::length::inch_t targetYoffset = targetXdistance * tan(limelightFrameHorizAngleRad.to<double>()); // * -1 beacuse if the angle is positve, the distance is in the neg y direction
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonLimelight"), string("targetYoffset_LL_inch "), targetYoffset.to<double>());
-
-    return targetYoffset;
-    */
     units::length::inch_t estimatedTargetDistance;
+    units::length::inch_t estimatedXDistance;
+    units::angle::degree_t mountingAngle = m_cameraPose.Z();
+
     if (GetAprilTagID() == -1)
     {
-        // need to do testing to get an accurate measurement
-        estimatedTargetDistance = units::length::inch_t(-1.0);
+        estimatedXDistance = EstimateTargetXDistance();
+        estimatedTargetDistance = estimatedXDistance * units::math::tan(m_cameraPose.Rotation().Z() + GetTargetYaw());
         return estimatedTargetDistance;
     }
 
@@ -479,6 +466,22 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 
 units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
 {
+    units::length::inch_t estimatedTargetDistance;
+    units::length::inch_t estimatedTargetZDistance;
+    if (GetAprilTagID() == -1)
+    {
+        m_cameraPose.Z();
+        estimatedTargetZDistance = m_cameraPose.Z() - EstimateTargetXDistance();
+        return estimatedTargetDistance;
+    }
+
+    else
+    {
+        auto botpose = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
+
+        return units::length::inch_t(xdistance[1]);
+    };
     /*
      Needs to be redone:
      If apriltag, use Pose3d and get z value
