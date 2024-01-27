@@ -11,6 +11,8 @@ $$_GEN_NOTICE_$$
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/decoratormods/$$_MECHANISM_INSTANCE_NAME_$$.h"
 
+$$_STATE_CLASSES_INCLUDES_$$
+
 using std::string;
 
 /// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -23,7 +25,9 @@ using std::string;
 $$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$_gen *base) : $$_MECHANISM_INSTANCE_NAME_$$_gen(),
                                                                                                         m_$$_MECHANISM_INSTANCE_NAME_$$(base)
 {
-    // PeriodicLooper::GetInstance()->RegisterAll(*this);
+    $$_OBJECT_CREATION_$$
+
+    $$_STATE_TRANSITION_REGISTRATION_$$
 }
 
 // todo not sure what to do with this
