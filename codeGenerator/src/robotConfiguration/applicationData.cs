@@ -223,7 +223,7 @@ namespace ApplicationData
 
         public string getFullRobotName()
         {
-            return string.Format("{0}_{1}", name, robotID.value);
+            return string.Format("{0}{1}", name, robotID.value);
         }
 
         public List<string> generate(string generateFunctionName)

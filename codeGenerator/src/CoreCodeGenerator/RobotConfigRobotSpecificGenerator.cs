@@ -40,7 +40,7 @@ namespace CoreCodeGenerator
             foreach (applicationData robot in theRobotConfiguration.theRobotVariants.Robots)
             {
                 generatorContext.theRobot = robot;
-                resultString = template.Replace("$$_ROBOT_NAME_$$", robot.getFullRobotName());
+                resultString = template.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
 
                 StringBuilder includes = new StringBuilder();
                 sb.Clear();
@@ -53,7 +53,7 @@ namespace CoreCodeGenerator
                 resultString = resultString.Replace("$$_MECHANISM_PTR_DECLARATIONS_$$", sb.ToString());
                 resultString = resultString.Replace("$$_MECHANISM_INCLUDE_FILES_$$", includes.ToString());
 
-                copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", robot.getFullRobotName()), resultString);
+                copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }
 
             #endregion
@@ -91,9 +91,9 @@ namespace CoreCodeGenerator
                 }
 
                 resultString = template.Replace("$$_MECHANISMS_INITIALIZATION_$$", sb.ToString());
-                resultString = resultString.Replace("$$_ROBOT_NAME_$$", robot.getFullRobotName());
+                resultString = resultString.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
 
-                copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", robot.getFullRobotName()), resultString);
+                copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }
             #endregion
         }
