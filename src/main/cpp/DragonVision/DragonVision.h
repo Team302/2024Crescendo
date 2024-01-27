@@ -49,12 +49,8 @@ public:
         BLUE_SUBWOOFER,
         RED_AMP,
         BLUE_AMP,
-        RED_CENTER_STAGE,
-        RED_LEFT_STAGE,
-        RED_RIGHT_STAGE,
-        BLUE_CENTER_STAGE,
-        BLUE_LEFT_STAGE,
-        BLUE_RIGHT_STAGE
+        RED_STAGE,
+        BLUE_STAGE,
     };
 
     // bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);
@@ -64,8 +60,9 @@ public:
     // std::shared_ptr<DragonVisionTarget> getTargetInfo(LIMELIGHT_POSITION position) const;
     // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
 
-    std::optional<VisionPose> GetRobotPosition() const;
-    std::optional<VisionData> GetVisionData(VISION_ELEMENT element) const;
+    std::optional<VisionPose> GetRobotPosition();
+    std::optional<VisionData> GetVisionData(VISION_ELEMENT element);
+    std::optional<VisionData> GetDataToNearestAprilTag(CAMERA_POSITION position);
 
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
 
@@ -79,6 +76,8 @@ private:
     static DragonVision *m_dragonVision;
 
     static frc::AprilTagFieldLayout m_aprilTagLayout;
+
+    DragonCamera *m_dragonCamera;
 
     std::map<CAMERA_POSITION, DragonCamera *> m_DragonCameraMap;
 };

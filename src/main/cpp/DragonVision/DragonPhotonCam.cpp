@@ -58,7 +58,7 @@ VisionPose DragonPhotonCam::GetFieldPosition()
 
         if (potentialPose.has_value())
         {
-            frc::Pose3d fieldRelativeTagPose = potentialPose.value();
+            frc::Pose3d fieldRelativeTagPose = *potentialPose;
 
             // Initial pose = Tag (field relative)
             // Transform target -> cam (reason for inverse is we get cam -> target, direction matters)

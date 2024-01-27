@@ -53,9 +53,56 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 	m_DragonCameraMap[position] = camera;
 }
 
-std::optional<VisionPose> DragonVision::GetRobotPosition() const
+std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 {
-	return VisionPose{};
+	// logic for selecting which camera
+	DragonCamera *selectedcam = nullptr;
+	if (m_DragonCameraMap[FRONT]->GetAprilTagID() != -1)
+		selectedcam = m_DragonCameraMap[FRONT];
+
+	else if (m_DragonCameraMap[BACK]->GetAprilTagID() != -1)
+		selectedcam = m_DragonCameraMap[BACK];
+
+	if (element == VISION_ELEMENT::NOTE)
+	{
+		/*units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
+		units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
+
+		frc::Rotation3d rotation3d = {units::angle::degree_t(0.0), pitch, yaw};
+
+		unit::length::meter_t xDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetXDistance_RelToRobotCoords();
+		unit::length::meter_t yDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetYDistance_RelToRobotCoords();
+		unit::length::meter_t zDistance = m_DragonCameraMap[BACK_INTAKE]->EstimateTargetZDistance_RelToRobotCoords();
+
+		//need to verify that the translation given these values correctly gets the right yaw,pitch,roll
+		//may need to use translation constructor with rotation 3d instead of x,y,z
+		frc::Translation3d translation3d = {xDistance, yDistance, zDistance};
+		VisionData translation = {translation3d};
+		return translation;*/
+	}
+	else
+	{
+		// only for stage
+		// get camera data from both cameras
+		/* switch(tagId){ red case 11, 12, 13
+						 blue case 14, 15, 16}
+		*/
+
+		// frc::Pose3d robotPose = m_dragonCamera->GetFieldPosition();
+		// frc::Pose3d targetElementPose = fieldConstants.Get(ELEMENT);
+		// VisionData transform = robotPose - targetElementPose;
+		// VisionData translation = transform.translation;
+		// return translation;
+	}
+
+	// if we don't see any vision targets, return null optional
+	return std::nullopt;
+}
+
+std::optional<VisionPose> DragonVision::GetRobotPosition()
+{
+	// if we aren't able to calculate our pose from vision, return a null optional
+	return std::nullopt;
 }
 
 std::optional<VisionData> DragonVision::GetVisionData() const
