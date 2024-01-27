@@ -463,7 +463,7 @@ bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
     return false;
 }
 
-VisionData DragonPhotonCam::GetPoseRelativeToApriltag()
+VisionData DragonPhotonCam::GetDataToNearestAprilTag()
 {
     // get latest detections from co-processor
     frc::Transform3d camToTargetTransform;
