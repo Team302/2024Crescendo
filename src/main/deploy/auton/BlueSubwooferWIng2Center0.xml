@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE auton SYSTEM "auton.dtd">
+
 <auton>
 
 <primitive id = "RESET_POSITION_PATH_PLANNER"
@@ -15,12 +16,12 @@ time = "1.50"/>
 time = ".7"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-time = "1.15"/>
+time = "1.25"/>
 
 <snippet file = "ShootWhenStop.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-time = ".50"/>
+time = ".40"/>
 
 <!--Intake On-->
 <primitive id = "DRIVE_PATH_PLANNER"
@@ -32,6 +33,6 @@ time = ".40"/>
 <snippet file = "ShootWhenStop.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-time = "2.55"/>
+time = "2.6"/>
 
 </auton>
