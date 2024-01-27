@@ -22,23 +22,27 @@
 
 // Thirdparty includes
 
-AutonGrid *AutonGrid::m_instance = nullptr;
+AutonGrid *AutonGrid::m_instance = nullptr; // initialize m_instance as a nullptr
 
 AutonGrid *AutonGrid::GetInstance()
 {
+    // if m_instance is nullptr then a new instance of AutonGrid is created and returned therefore only leaving one instance of the class
     if (AutonGrid::m_instance == nullptr)
     {
         AutonGrid::m_instance = new AutonGrid();
     }
     return AutonGrid::m_instance;
-}
+} // to make the class a singlton
 
 bool AutonGrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygrid2, frc::Pose2d robotPose)
+// defining IsPoseInZone bool method and pulling in the arguements
 {
+    // cast the enums xgrid1, etc to doubles
     auto x = static_cast<double>((xgrid1));
     auto y = static_cast<double>((ygrid1));
     auto x2 = static_cast<double>((xgrid2));
     auto y2 = static_cast<double>((ygrid2));
 
+    // then it is determined wether or not the robotPose is in the zone defined by the 2 grids.
     return ((robotPose.X()) <= m_gridRes * (x2) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y2) && (robotPose.Y()) >= m_gridRes * (y - 1));
 }
