@@ -82,6 +82,7 @@ namespace CoreCodeGenerator
                         resultString = resultString.Replace("$$_MECHANISM_TYPE_NAME_$$", ToUnderscoreCase(mi.name).ToUpper());
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                        resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$", ToUnderscoreCase(mi.name).ToUpper());
                         resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(generateMethod(mi, "generateIndexedObjectCreation"), ";"));
 
                         List<string> theUsings = generateMethod(mi, "generateUsings").Distinct().ToList();
@@ -127,6 +128,7 @@ namespace CoreCodeGenerator
 
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                        resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$", ToUnderscoreCase(mi.name).ToUpper());
 
                         List<string> enumList = new List<string>();
                         foreach (state s in mi.mechanism.states)
@@ -251,7 +253,7 @@ namespace CoreCodeGenerator
                                         }
                                         else
                                         {
-                                            string motorEnumName =String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(),"").Trim().Replace("::","_USAGE::").ToUpper());
+                                            string motorEnumName = String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(), "").Trim().Replace("::", "_USAGE::").ToUpper());
                                             if (targetUnitsType == "")
                                                 motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
                                             else

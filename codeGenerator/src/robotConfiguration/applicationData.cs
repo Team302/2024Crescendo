@@ -1773,6 +1773,20 @@ namespace ApplicationData
 
             return new List<string> { creation };
         }
+
+        override public List<string> generateElementNames()
+        {
+            Type baseType = GetType();
+            while ((baseType.BaseType != typeof(object)) && (baseType.BaseType != typeof(baseRobotElementClass)))
+                baseType = baseType.BaseType;
+
+            if (generatorContext.theMechanismInstance != null)
+            {
+                return new List<string> { string.Format("{2}_{0}::{0}_{1}", ToUnderscoreCase(generatorContext.theMechanismInstance.name), ToUnderscoreCase(name), ToUnderscoreCase(baseType.Name)) };
+            }
+            else
+                return new List<string> { "generateElementNames got to the else statement...should not be here" };
+        }
     }
     /*
  * ====================================================
