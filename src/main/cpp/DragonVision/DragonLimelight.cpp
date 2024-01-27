@@ -380,14 +380,14 @@ void DragonLimelight::PrintValues()
 
 units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 {
-    units::angle::degree_t totalAngleFromHorizontal; ///< the vertical angle from a horizontal datum to the target
-    units::angle::degree_t limelightAngleFromHorizontal;
-    units::angle::degree_t limelightRoll = GetCameraRoll();
+
     units::length::inch_t estimatedTargetDistance;
     if (GetAprilTagID() == -1)
     {
-        // need to do testing to get an accurate measurement
-        // estimatedTargetDistance = units::length::inch_t(-1.0);
+        estimatedTargetDistance = (TargetHeight - CameraHeight) / tan(CameraAngle + ShooterAngle);
+        // d=(h2-h1)/tan(a1+a2)
+        //  need to do testing to get an accurate measurement
+        //  estimatedTargetDistance = units::length::inch_t(-1.0);
         return estimatedTargetDistance;
     }
 
