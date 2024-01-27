@@ -18,6 +18,7 @@
 // Team 302 includes
 
 #include "DragonVision/DragonVision.h"
+#include "DragonVision/DragonPhotonCam.h"
 #include "utils/FMSData.h"
 
 #include <string>
@@ -57,15 +58,37 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 {
 	// logic for selecting which camera
-	DragonCamera *selectedcam = nullptr;
-	if (m_DragonCameraMap[FRONT]->GetAprilTagID() != -1)
-		selectedcam = m_DragonCameraMap[FRONT];
+	DragonCamera *selectedCam = nullptr;
 
-	else if (m_DragonCameraMap[BACK]->GetAprilTagID() != -1)
-		selectedcam = m_DragonCameraMap[BACK];
-
-	if (element == VISION_ELEMENT::NOTE)
+	switch (element)
 	{
+	case VISION_ELEMENT::PLACER_NOTE:
+		selectedCam = m_DragonCameraMap[BACK];
+		break;
+	case VISION_ELEMENT::LAUNCHER_NOTE:
+		selectedCam = m_DragonCameraMap[FRONT];
+		break;
+	case VISION_ELEMENT::NOTE:
+		bool frontHasDetection = m_DragonCameraMap[FRONT_INTAKE]->HasTarget();
+		bool backHasDetection = m_DragonCameraMap[BACK_INTAKE]->HasTarget();
+		if (!frontHasDetection && !backHasDetection)
+		{
+			return std::nullopt;
+		}
+		else if (frontHasDetection && backHasDetection)
+		{
+			frc::Translation2d translationfront = frc::Translation2d(m_DragonCameraMap[FRONT_INTAKE]->GetEstimatedTargetXDistance(), m_DragonCameraMap[FRONT_INTAKE]->GetEstimatedTargetYDistance());
+			frc::Translation2d translationback = frc::Translation2d(m_DragonCameraMap[BACK_INTAKE]->GetEstimatedTargetXDistance(), m_DragonCameraMap[BACK_INTAKE]->GetEstimatedTargetYDistance());
+		}
+		break;
+	default:
+
+		break;
+	}
+
+	if (element == VISION_ELEMENT::NOTE) // need to add LAUNCHER_NOTE AND PLACER_NOTE
+	{
+
 		/*units::angle::degree_t yaw = m_DragonCameraMap[BACK_INTAKE]->GetTargetYawRobotFrame();
 		units::angle::degree_t pitch = m_DragonCameraMap[BACK_INTAKE]->GetTargetPitchRobotFrame();
 
@@ -81,8 +104,34 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 		VisionData translation = {translation3d};
 		return translation;*/
 	}
-	else
+	else // looking for april tag elements
 	{
+
+		bool bothCamerasSeeTag = (m_DragonCameraMap[FRONT]->GetAprilTagID() != -1) && (m_DragonCameraMap[BACK]->GetAprilTagID() != -1);
+
+		int frontTagId = m_DragonCameraMap[FRONT]->GetAprilTagID();
+		int backTagId = m_DragonCameraMap[BACK]->GetAprilTagID();
+
+		if ((frontTagId == -1) && (backTagId == -1)) // if we see no april tags
+		{
+			return std::nullopt;
+		}
+		else if ((frontTagId != -1) && (backTagId != -1)) // if we see april tags in both cameras
+		{
+			// confidence logic
+			double frontAmbiguity = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[FRONT])->GetPoseAmbiguity();
+			double backAmbiguity = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[BACK])->GetPoseAmbiguity();
+
+			selectedCam = frontAmbiguity <= backAmbiguity ? m_DragonCameraMap[FRONT] : m_DragonCameraMap[BACK]; // if front is less ambiguous, select it, and vice versa
+		}
+		else // one camera sees an april tag
+		{
+			if (frontTagId != -1)
+				selectedCam = m_DragonCameraMap[FRONT];
+			else
+				selectedCam = m_DragonCameraMap[BACK];
+		}
+
 		// only for stage
 		// get camera data from both cameras
 		/* switch(tagId){ red case 11, 12, 13

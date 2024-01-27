@@ -29,8 +29,12 @@ public:
                     units::angle::degree_t yaw,             /// <I> - Yaw of limelight
                     units::angle::degree_t roll);           /// <I> - Roll of limelight
 
+    bool HasTarget() const;
+
     units::angle::degree_t GetTargetYaw() const;
     units::angle::degree_t GetTargetYawRobotFrame() const;
+
+    double GetPoseAmbiguity() const;
 
     units::angle::degree_t GetTargetPitchRobotFrame() const;
     units::angle::degree_t GetTargetPitch() const;

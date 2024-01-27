@@ -37,20 +37,20 @@ public:
     {
         FRONT,
         BACK,
-        BACK_INTAKE
+        BACK_INTAKE,
+        FRONT_INTAKE
     };
 
     enum VISION_ELEMENT
     {
+        LAUNCHER_NOTE,
+        PLACER_NOTE,
         NOTE,
-        RED_SPEAKER,
-        BLUE_SPEAKER,
-        RED_SUBWOOFER,
-        BLUE_SUBWOOFER,
-        RED_AMP,
-        BLUE_AMP,
-        RED_STAGE,
-        BLUE_STAGE,
+        SPEAKER,
+        SUBWOOFER,
+        AMP,
+        STAGE,
+        NEAREST_APRILTAG
     };
 
     // bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);

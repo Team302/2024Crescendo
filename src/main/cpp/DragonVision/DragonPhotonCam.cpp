@@ -38,6 +38,11 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 {
 }
 
+bool DragonPhotonCam::HasTarget() const
+{
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+    return result.HasTargets();
+}
 VisionPose DragonPhotonCam::GetFieldPosition()
 {
     // get latest detections from co-processor
@@ -90,6 +95,21 @@ VisionPose DragonPhotonCam::GetFieldPosition()
 VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
 {
     return GetFieldPosition();
+}
+
+double DragonPhotonCam::GetPoseAmbiguity() const
+{
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    // check if we have detections
+    if (result.HasTargets())
+    {
+        // get the most accurate according to configured contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        return target.GetPoseAmbiguity();
+    }
 }
 
 /// @brief  get Yaw of possible target.

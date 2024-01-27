@@ -39,8 +39,7 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angular_velocity::radians_per_second_t omega = units::angular_velocity::radians_per_second_t(0.0);
 
     units::angle::radian_t angleError = units::angle::radian_t(0.0);
-    std::optional<VisionData> optionalvisionData = m_vision->GetVisionData();
-    VisionData visionData = optionalvisionData.value();
+    std::optional<VisionData> optionalVisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
     // get targetdata from the vision system
     // visionapi - update this for new dragon vision
     if (m_vision->GetPipeline(DragonVision::CAMERA_POSITION::FRONT) != DragonCamera::PIPELINE::APRIL_TAG)
@@ -48,7 +47,7 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         m_vision->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::FRONT);
     }
 
-    if (visionDataOptional.has_value())
+    if (optionalVisionData.has_value())
     {
         if (!AtTargetAngle(visionData, &angleError))
         {
