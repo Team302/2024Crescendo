@@ -63,7 +63,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	}
 	else if (element == VISION_ELEMENT::NEAREST_APRILTAG) // nearest april tag
 	{
-		}
+	}
 	else // looking for april tag elements
 	{
 		return GetVisionDataFromElement(element);
@@ -152,9 +152,31 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	{
 		if (frontTagId != -1)
 			selectedCam = m_DragonCameraMap[FRONT];
+
 		else
 			selectedCam = m_DragonCameraMap[BACK];
 	}
+
+	// if (FMSData::GetInstance()->GetAllianceColor()
+	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
+
+	frc::Pose3d fieldElementPose = frc::Pose3d{};
+
+	switch (element)
+	{
+	case VISION_ELEMENT::SPEAKER:
+		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red speaker*/ : frc::Pose3d{}; /*load blue speaker*/
+		break;
+	case VISION_ELEMENT::AMP:
+		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red amp*/ : frc::Pose3d{}; /*load blue amp*/
+		break;
+		// case VISION_ELEMENT::STAGE:     //STAGE WILL BE DIFFERENT
+		// fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red speaker*/ : frc::Pose3d{}; /*load blue speaker*/
+		// break;
+	}
+
+	// make 2 pose 3ds and implement in transform3d.
+	// https: // github.wpilib.org/allwpilib/docs/release/cpp/classfrc_1_1_transform3d.html#a31810c15a05d3a2a8981462c88d965e4
 
 	// determine color of field element based on alliance color
 	// get the field pose of the specified element, will use FieldConstants file that isn't created
