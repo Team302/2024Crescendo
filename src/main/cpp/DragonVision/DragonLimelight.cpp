@@ -380,11 +380,14 @@ void DragonLimelight::PrintValues()
 
 units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 {
+    units::length::meter_t mountingHeight = m_cameraPose.Z();
 
     units::length::inch_t estimatedTargetDistance;
+    units::angle::degree_t mountingAngle = m_cameraPose.Z();
+
     if (GetAprilTagID() == -1)
     {
-        estimatedTargetDistance = (TargetHeight - CameraHeight) / tan(CameraAngle + ShooterAngle);
+        estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + GetTargetPitch());
         // d=(h2-h1)/tan(a1+a2)
         //  need to do testing to get an accurate measurement
         //  estimatedTargetDistance = units::length::inch_t(-1.0);
