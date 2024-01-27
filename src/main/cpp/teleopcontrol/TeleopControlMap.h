@@ -155,55 +155,37 @@ const TeleopControlButton extra4DPad270 = {TeleopControlMappingEnums::EXTRA4, Te
 const TeleopControlButton extra4DPad315 = {TeleopControlMappingEnums::EXTRA4, TeleopControlMappingEnums::POV_315, TeleopControlMappingEnums::STANDARD};
 
 robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlButton> teleopControlMapButtonMap{
-    /*{TeleopControlFunctions::DRIVE_TO_LEFT_GRID, driverXButton},
-    {TeleopControlFunctions::DRIVE_TO_CENTER_GRID, driverYButton},
-    {TeleopControlFunctions::DRIVE_TO_RIGHT_GRID, driverBButton},
-    {TeleopControlFunctions::DRIVE_TO_LEFT_NODE, driverSelectButton},
-    {TeleopControlFunctions::DRIVE_TO_RIGHT_NODE, driverStartButton},*/
     {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverXButton},
     {TeleopControlFunctions::ALIGN_APRIL_TAG, driverYButton},
-    {TeleopControlFunctions::ALIGN_SUBSTATION_GAME_PIECE, driverBButton},
 
     {TeleopControlFunctions::RESET_POSITION, driverAButton},
     {TeleopControlFunctions::HOLD_POSITION, driverLBumper},
     {TeleopControlFunctions::SLOW_MODE, driverRBumper},
 
     {TeleopControlFunctions::AUTO_TURN_FORWARD, driverLStickPressed},
-    //{TeleopControlFunctions::AUTO_TURN_BACKWARD, driverRStickPressed},
+    {TeleopControlFunctions::AUTO_TURN_BACKWARD, driverRStickPressed},
 
     {TeleopControlFunctions::DEBUG_INC_P, driverDPad0},
     {TeleopControlFunctions::DEBUG_DEC_P, driverDPad180},
     {TeleopControlFunctions::TIPCORRECTION_TOGGLE, driverRStickPressed},
 
-    {TeleopControlFunctions::STARTING_POSITION, copilotStartButton},
-    {TeleopControlFunctions::CYCLE_CYCLE_GAMEPIECE, copilotSelectButton},
-    {TeleopControlFunctions::HUMAN_PLAYER_STATION, copilotBButton},
-    {TeleopControlFunctions::FLOOR_POSITION, copilotAButton},
-    {TeleopControlFunctions::MIDROW, copilotXButton},
-    {TeleopControlFunctions::BACKROW, copilotYButton},
-    {TeleopControlFunctions::INTAKE, copilotLBumper},
-    {TeleopControlFunctions::RELEASE, copilotRBumper},
-    {TeleopControlFunctions::HOLD, copilotLTriggerPressed},
-    {TeleopControlFunctions::EXPEL, copilotRTriggerPressed},
-    {TeleopControlFunctions::EXPEL_LOW, copilotDPad0},
+    {TeleopControlFunctions::CLIMB_MODE, driverSelectButton},
+    {TeleopControlFunctions::SCORING_MODE, copilotSelectButton},
 
-    {TeleopControlFunctions::HOLD_POSITION_ROTATE, extra1AButton},
-    {TeleopControlFunctions::CUBE_BACKROW_ROTATE, extra1XButton},
-    {TeleopControlFunctions::CUBE_MIDROW_ROTATE, extra1BButton},
-    {TeleopControlFunctions::CONE_BACKROW_ROTATE, extra1YButton},
-    {TeleopControlFunctions::CONE_MIDROW_ROTATE, extra1DPad0},
-    {TeleopControlFunctions::HUMAN_PLAYER_STATION_ROTATE, extra1DPad90},
-    {TeleopControlFunctions::FLOOR_POSITION_ROTATE, extra1DPad270},
-    {TeleopControlFunctions::STARTING_POSITION_ROTATE, extra1DPad180},
-
-    {TeleopControlFunctions::HOLD_POSITION_EXTEND, extra2AButton},
-    {TeleopControlFunctions::CUBE_BACKROW_EXTEND, extra2XButton},
-    {TeleopControlFunctions::CUBE_MIDROW_EXTEND, extra2BButton},
-    {TeleopControlFunctions::CONE_BACKROW_EXTEND, extra2YButton},
-    {TeleopControlFunctions::CONE_MIDROW_EXTEND, extra2DPad0},
-    {TeleopControlFunctions::HUMAN_PLAYER_STATION_EXTEND, extra2DPad90},
-    {TeleopControlFunctions::FLOOR_EXTEND, extra2DPad270}
-
+    {TeleopControlFunctions::READY, copilotStartButton},
+    {TeleopControlFunctions::MANUAL_MODE, copilotLStickPressed},
+    {TeleopControlFunctions::INTAKE, driverRBumper},
+    {TeleopControlFunctions::EXPEL, driverLBumper},
+    {TeleopControlFunctions::AUTO_LAUNCH, copilotXButton},
+    {TeleopControlFunctions::MANUAL_LAUNCH, copilotAButton},
+    {TeleopControlFunctions::PASS, copilotBButton},
+    {TeleopControlFunctions::PREP_PLACE, copilotXButton},
+    {TeleopControlFunctions::PLACE, copilotRBumper},
+    {TeleopControlFunctions::AUTO_SPEAKER, driverXButton},
+    {TeleopControlFunctions::AUTO_AMP, driverAButton},
+    {TeleopControlFunctions::AUTO_STAGE, driverBButton},
+    {TeleopControlFunctions::BACKUP_FRONT_INTAKE, copilotRBumper},
+    {TeleopControlFunctions::BACKUP_BACK_INTAKE, copilotLBumper},
 };
 
 const TeleopControlAxis driverLJoystickX = {TeleopControlMappingEnums::DRIVER, TeleopControlMappingEnums::LEFT_JOYSTICK_X, TeleopControlMappingEnums::APPLY_STANDARD_DEADBAND, TeleopControlMappingEnums::CUBED, TeleopControlMappingEnums::REVERSED, 1.0};
@@ -252,6 +234,10 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlA
     {TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD, driverLJoystickY},
     {TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE, driverLJoystickX},
     {TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE, driverRJoystickX},
-
-    {TeleopControlFunctions::MANUAL_ROTATE, copilotLJoystickY},
-    {TeleopControlFunctions::MANUAL_EXTEND_RETRACT, copilotRJoystickY}};
+    {TeleopControlFunctions::CLIMB_UP, driverRTrigger},
+    {TeleopControlFunctions::CLIMB_DOWN, driverLTrigger},
+    {TeleopControlFunctions::MANUAL_PLACE, copilotLTrigger},
+    {TeleopControlFunctions::MANUAL_FEED, copilotRTrigger},
+    {TeleopControlFunctions::LAUNCH_ANGLE, copilotRJoystickY},
+    {TeleopControlFunctions::ELEVATOR, copilotLJoystickY},
+};

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id = "RESET_POSITION_PATH_PLANNER"
+pathname = "BlueAmpSideWing1Center0"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+time = "1.55"/>
+
+<primitive id = "DO_NOTHING"/>
+
+<snippet file = "ShootWhenStop.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+time = "1.45"/>
+
+<!--Intake On-->
+<primitive id = "DRIVE_PATH_PLANNER" 
+time = "1.40"/>
+
+<primitive id = "DO_NOTHING"/>
+
+<snippet file = "ShootWhenStop.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+time = "3.81"/>
+
+</auton>
