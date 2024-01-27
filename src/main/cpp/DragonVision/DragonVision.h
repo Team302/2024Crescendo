@@ -72,6 +72,9 @@ private:
     DragonVision();
     ~DragonVision() = default;
 
+    std::optional<VisionData> GetVisionDataFromNote(VISION_ELEMENT element);
+    std::optional<VisionData> GetVisionDataFromElement(VISION_ELEMENT element);
+
     // may not be needed, if so can be changed to inline and return from map
     //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
 
