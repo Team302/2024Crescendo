@@ -51,11 +51,11 @@ public:
     virtual bool HasTarget() const = 0;
 
     // Getters
-    virtual units::angle::degree_t GetTargetYAngle() const = 0;
-    virtual units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetZAngle() const = 0;
-    virtual units::time::microsecond_t GetPipelineLatency() const = 0;
+    virtual units::angle::degree_t GetTargetYaw() const = 0;
+    virtual units::angle::degree_t GetTargetYawRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
+    virtual units::angle::degree_t GetTargetPitchRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
+    virtual units::angle::degree_t GetTargetPitchAngle() const = 0;
+    virtual units::time::millisecond_t GetPipelineLatency() const = 0;
     virtual units::angle::degree_t GetTargetSkew() const = 0;
     virtual double GetTargetArea() const = 0;
     virtual int GetAprilTagID() const = 0;
@@ -74,12 +74,12 @@ public:
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }
-    units::angle::degree_t GetCameraPitch() const { return m_pitch; }
-    units::angle::degree_t GetCameraYaw() const { return m_yaw; }
-    units::angle::degree_t GetCameraRoll() const { return m_roll; }
-    units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
-    units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
-    units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
+    units::angle::degree_t GetCameraPitch() const { return m_robotCenterToCam.Rotation().Y(); }
+    units::angle::degree_t GetCameraYaw() const { return m_robotCenterToCam.Rotation().Z(); }
+    units::angle::degree_t GetCameraRoll() const { return m_robotCenterToCam.Rotation().X(); } // rotates around x-axis
+    units::length::inch_t GetMountingXOffset() const { return m_robotCenterToCam.X(); }
+    units::length::inch_t GetMountingYOffset() const { return m_robotCenterToCam.Y(); }
+    units::length::inch_t GetMountingZOffset() const { return m_robotCenterToCam.Z(); }
 
     // Setters
     void SetPipeline(PIPELINE pipeline) { m_pipeline = pipeline; }
@@ -95,12 +95,8 @@ public:
 protected:
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
 
-    units::length::inch_t m_mountingXOffset;
-    units::length::inch_t m_mountingYOffset;
-    units::length::inch_t m_mountingZOffset;
-    units::angle::degree_t m_yaw;
-    units::angle::degree_t m_pitch;
-    units::angle::degree_t m_roll;
+    frc::Pose3d m_cameraPose;
+    frc::Transform3d m_robotCenterToCam;
     PIPELINE m_pipeline;
 };
 
