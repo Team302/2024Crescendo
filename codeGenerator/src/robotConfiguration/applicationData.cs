@@ -923,6 +923,11 @@ namespace ApplicationData
         {
         }
 
+        public override List<string> generateIndexedObjectCreation(int index)
+        {
+            return new List<string>();
+        }
+
         override public List<string> generateObjectCreation()
         {
             string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}))",

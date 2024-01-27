@@ -104,13 +104,13 @@ IPrimitive *PrimitiveFactory::GetIPrimitive(PrimitiveParams *primitivePasser)
         primitive = m_autoBalance;
         break;
 
-    case VISION_ALIGN:
-        if (m_visionAlign == nullptr)
-        {
-            m_visionAlign = new VisionDrivePrimitive();
-        }
-        primitive = m_visionAlign;
-        break;
+	case VISION_ALIGN:
+		if (m_visionAlign == nullptr)
+		{
+			m_visionAlign = new VisionDrivePrimitive();
+		}
+		primitive = m_visionAlign;
+		break;
 
     default:
         break;

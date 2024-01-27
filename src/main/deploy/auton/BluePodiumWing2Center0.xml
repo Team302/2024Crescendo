@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER"
+pathname = "BluePodiumWing2Center0.path"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing2Center0.path"
+time= "0.5"/>
+<!--Go forward a bit while adjusting angle-->
+
+<snippet file= "ShootWhenStop.xml"/>
+<!--Stops and shoots-->
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing2Center0.path"
+time= "1.0"/>
+<!--We go to pick up ring 1 and are assumed to intake at this time-->
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing2Center0.path"
+time= "1.5"/>
+<!--We go up to speaker so we can shoot and get closer to ring 2-->
+
+<snippet file = "ShootWhenStop.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing2Center0.path"
+time= "1.0"/>
+<!--We go forward and are assumed to intake the last ring at this time-->
+
+<snippet file = "ShootWhenStop.xml"/>
+<!--We shoot our second ring and are done as we are already across the line-->
+
+</auton>
