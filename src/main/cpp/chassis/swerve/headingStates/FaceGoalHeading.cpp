@@ -15,9 +15,10 @@
 
 // Team302 Includes
 #include <chassis/swerve/headingStates/FaceGoalHeading.h>
+#include <utils/logging/Logger.h>
 
 FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
-                                     m_vision()
+                                     m_vision(DragonVision::GetDragonVision())
 // visionapi Review how LimelightFactory should be fixed here
 {
 }
@@ -25,20 +26,18 @@ FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums:
 void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     units::angular_velocity::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
-
-    if (m_vision != nullptr && abs(m_vision->GetTargetYaw().to<double>()) < 1.0 && m_vision->HasTarget())
+    if (m_vision != nullptr)
     {
-        // Hold position
-    }
-    else if (m_vision != nullptr && m_vision->HasTarget())
-    {
-        double rotCorrection = abs(m_vision->GetTargetYaw().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
-        rot += (m_vision->GetTargetYaw()) / 1_s * rotCorrection;
-    }
-    else
-    {
-        //        auto targetAngle = units::angle::degree_t(m_targetFinder.GetTargetAngleD(SwerveOdometry::GetInstance()->GetPose()));
-        auto targetAngle = units::angle::degree_t(0.0);
-        rot -= CalcHeadingCorrection(targetAngle, m_kPGoalHeadingControl);
+        std::optional optionalData = m_vision->GetVisionData();
+        if (optionalData.has_value())
+        {
+            VisionData validVisionData = optionalData.value();
+            double rotCorrection = abs(validVisionData.deltaToTarget.Rotation().Z().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
+            rot += (validVisionData.deltaToTarget.Rotation().Z()) / 1_s * rotCorrection;
+        }
+        else
+        {
+            // Hold position
+        }
     }
 }

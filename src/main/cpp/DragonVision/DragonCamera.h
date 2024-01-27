@@ -91,6 +91,7 @@ public:
         units::angle::degree_t pitch,
         units::angle::degree_t yaw,
         units::angle::degree_t roll); /// TODO: implement
+    virtual bool UpdatePipeline() = 0;
 
 protected:
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
@@ -108,10 +109,8 @@ TODO:
 
       one comment block, one comment line in FaceGamePiece.cpp
 
-      four commented lines in HolonomicDrive.cpp
+       VisionDrivePrimitive.cpp(removed commented lines, still need code)
 
-      one commented line in VisionDrivePrimitive.cpp
-
-      commneted lines in FaceGoalHeading.h/cpp
+       FaceGoalHeading.cpp (33-34 change to add actual code)
 TODO:
 */

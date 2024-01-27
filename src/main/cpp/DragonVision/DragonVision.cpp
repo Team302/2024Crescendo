@@ -53,35 +53,26 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 	m_DragonCameraMap[position] = camera;
 }
 
-std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element) const {}
+std::optional<VisionPose> DragonVision::GetRobotPosition() const
+{
+	return VisionPose{};
+}
 
-// bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode, CAMERA_POSITION position)
-// {
-// 	DragonLimelight *dll = getLimelight(position);
+std::optional<VisionData> DragonVision::GetVisionData() const
+{
+	return VisionData{};
+}
+bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position)
+{
+	m_DragonCameraMap[position]->SetPipeline(mode);
+	m_DragonCameraMap[position]->UpdatePipeline();
+	return false;
+}
 
-// 	if (dll != nullptr)
-// 	{
-// 		return dll->SetPipeline(mode);
-// 	}
-// 	return false;
-// }
-
-// bool DragonVision::setPipeline(DragonLimelight::PIPELINE_MODE mode)
-// {
-// 	return setPipeline(mode, CAMERA_POSITION::FRONT);
-// }
-
-// DragonLimelight::PIPELINE_MODE DragonVision::getPipeline(CAMERA_POSITION position)
-// {
-// 	DragonLimelight *dll = getLimelight(position);
-
-// 	if (dll != nullptr)
-// 	{
-// 		return dll->getPipeline();
-// 	}
-
-// 	return DragonLimelight::PIPELINE_MODE::UNKNOWN;
-// }
+DragonCamera::PIPELINE DragonVision::GetPipeline(CAMERA_POSITION position)
+{
+	return m_DragonCameraMap[position]->GetPipeline();
+}
 
 /// @brief Use this function to get the currently detected target information
 /// @param position From which limelight to get the info

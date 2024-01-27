@@ -30,6 +30,5 @@ public:
 
 private:
     DragonTargetFinder m_targetFinder;
-
-    DragonCamera *m_vision;
+    DragonVision *m_vision;
 };
