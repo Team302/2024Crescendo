@@ -20,6 +20,7 @@
 // FRC Includes
 #include "frc/apriltag/AprilTagFieldLayout.h"
 #include "frc/Timer.h"
+#include "frc/geometry/Translation3d.h"
 
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
@@ -460,4 +461,19 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
 bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
 {
     return false;
+}
+
+VisionData DragonPhotonCam::GetPoseRelativeToApriltag()
+{
+    // get latest detections from co-processor
+    frc::Transform3d camToTargetTransform;
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+    if (result.HasTargets())
+    {
+        // get the most accurate according to configured contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        camToTargetTransform = target.GetBestCameraToTarget();
+    }
+    return VisionData{camToTargetTransform.Translation()};
 }

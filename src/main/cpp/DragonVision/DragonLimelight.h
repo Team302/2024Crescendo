@@ -107,6 +107,8 @@ public:
     VisionPose GetBlueFieldPosition() const;
     VisionPose GetOriginFieldPosition() const;
 
+    VisionData GetPoseRelativeToApriltag();
+
     units::length::inch_t EstimateTargetXDistance() const;
     units::length::inch_t EstimateTargetYDistance() const;
     units::length::inch_t EstimateTargetZDistance() const;

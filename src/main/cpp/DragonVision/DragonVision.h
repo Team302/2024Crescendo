@@ -66,6 +66,8 @@ public:
 
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
 
+    static frc::AprilTagFieldLayout m_aprilTagLayout;
+
 private:
     DragonVision();
     ~DragonVision() = default;
@@ -74,8 +76,6 @@ private:
     //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
 
     static DragonVision *m_dragonVision;
-
-    static frc::AprilTagFieldLayout m_aprilTagLayout;
 
     DragonCamera *m_dragonCamera;
 

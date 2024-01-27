@@ -51,6 +51,8 @@ public:
     units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
     bool SetPipeline(PIPELINE pipeline);
 
+    VisionData GetPoseRelativeToApriltag();
+
 private:
     photon::PhotonCamera *m_camera; // photoncamera instance
 };
