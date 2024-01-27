@@ -302,7 +302,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords(
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
         // Get transformation from camera to target
-        frc::Transform3d transform = target.GetBestCameraToTarget();
+        // not needed
+        // frc::Transform3d transform = target.GetBestCameraToTarget();
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
     }
@@ -326,7 +327,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords(
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
         // Get transformation from camera to target
-        frc::Transform3d transform = target.GetBestCameraToTarget();
+        // not needed
+        // frc::Transform3d transform = target.GetBestCameraToTarget();
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
     }
@@ -351,7 +353,8 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
         // Get transformation from camera to target
-        frc::Transform3d transform = target.GetBestCameraToTarget();
+        // not needed
+        // frc::Transform3d transform = target.GetBestCameraToTarget();
 
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
@@ -376,5 +379,5 @@ VisionData DragonPhotonCam::GetDataToNearestAprilTag()
 
         camToTargetTransform = target.GetBestCameraToTarget();
     }
-    return VisionData{camToTargetTransform.Translation()};
+    return VisionData{camToTargetTransform.Translation(), GetAprilTagID()};
 }
