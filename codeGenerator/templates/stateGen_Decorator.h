@@ -6,7 +6,7 @@ $$_GEN_NOTICE_$$
 
 #include "State.h"
 #include "mechanisms/controllers/MechanismTargetData.h"
-
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/decoratormods/$$_MECHANISM_INSTANCE_NAME_$$.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_$$_STATE_NAME_$$_StateGen.h"
 
 using namespace std;
@@ -16,7 +16,8 @@ public:
     $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State() = delete;
     $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State(std::string stateName,
                                                        int stateId,
-                                                       $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *generatedState);
+                                                       $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *generatedState,
+                                                       $$_MECHANISM_INSTANCE_NAME_$$ *mech);
     ~$$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State() = default;
     void Init() override;
     void Run() override;
@@ -26,4 +27,5 @@ public:
 
 private:
     $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *m_genState;
+    $$_MECHANISM_INSTANCE_NAME_$$ *m_mechanism;
 };
