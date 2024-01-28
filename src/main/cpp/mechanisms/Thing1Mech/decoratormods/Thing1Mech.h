@@ -18,27 +18,40 @@
 
 #pragma once
 
-#include "configs/RobotConfig.h"
+// C++ Includes
 
-class RobotConfigMgr
+// FRC Includes
+
+// Team 302 includes
+#include "mechanisms/Thing1Mech/generated/Thing1Mech_gen.h"
+#include "mechanisms/base/StateMgr.h"
+
+// forward declares
+
+class Thing1Mech : public Thing1Mech_gen
 {
 public:
-	enum RobotIdentifier
-	{
-		PRACTICE_BOT_9999 = 9999,
-		THING_1 = 1,
+	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
+	/// @param controlFileName The control file with the PID constants and Targets for each state
+	/// @param networkTableName Location for logging information
+	/// @param motor  Motor in the mechanims - code generator should probably use the usage for the variable name
+	/// @param otherMotor Same as previous
+	/// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
+	/// Additional actuators and sensors are also in this list.
+	Thing1Mech ( Thing1Mech_gen *generatedMech );
+	Thing1Mech() = delete;
+	~Thing1Mech() = default;
 
-		MAX_ROBOT_IDENTIFIERS
-	};
+	void createAndRegisterStates();
 
-	static RobotConfigMgr* GetInstance();
-	RobotConfig* GetCurrentConfig() const { return m_config; }
-	void InitRobot ( RobotIdentifier );
+	// todo not sure what to do with these
+	/*
+	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
+	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
+	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
+	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
+	*/
 
 private:
-	RobotConfigMgr();
-	~RobotConfigMgr() = default;
-
-	static RobotConfigMgr* m_instance;
-	RobotConfig* m_config;
+	Thing1Mech_gen *m_Thing1Mech;
 };

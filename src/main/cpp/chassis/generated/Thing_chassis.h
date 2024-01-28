@@ -18,27 +18,17 @@
 
 #pragma once
 
-#include "configs/RobotConfig.h"
+#include <string>
+#include <memory>
 
-class RobotConfigMgr
+// FRC Includes
+#include <networktables/NetworkTable.h>
+
+#include "configs/RobotElementNames.h"
+// #include "mechanisms/$$_MECHANISM_NAME_$$/generated/$$_MECHANISM_NAME_$$.h"
+
+class Thing_chassis
 {
 public:
-	enum RobotIdentifier
-	{
-		PRACTICE_BOT_9999 = 9999,
-		THING_1 = 1,
-
-		MAX_ROBOT_IDENTIFIERS
-	};
-
-	static RobotConfigMgr* GetInstance();
-	RobotConfig* GetCurrentConfig() const { return m_config; }
-	void InitRobot ( RobotIdentifier );
-
 private:
-	RobotConfigMgr();
-	~RobotConfigMgr() = default;
-
-	static RobotConfigMgr* m_instance;
-	RobotConfig* m_config;
 };

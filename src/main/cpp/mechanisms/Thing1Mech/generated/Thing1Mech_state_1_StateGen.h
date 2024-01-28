@@ -17,28 +17,31 @@
 // Generated on Sunday, January 28, 2024 11:23:11 AM
 
 #pragma once
+#include <string>
 
-#include "configs/RobotConfig.h"
+#include "State.h"
+#include "mechanisms/base/BaseMechMotorState.h"
+#include "mechanisms/base/BaseMechServoState.h"
+#include "mechanisms/base/BaseMechSolenoidState.h"
+#include "mechanisms/Thing1Mech/generated/Thing1Mech_Base_StateGen.h"
+#include "mechanisms/controllers/MechanismTargetData.h"
+#include "mechanisms/controllers/ControlData.h"
+#include "mechanisms/Thing1Mech/generated/Thing1Mech_gen.h"
 
-class RobotConfigMgr
+class Thing1Mechstate_1StateGen : public Thing1MechBaseStateGen
 {
 public:
-	enum RobotIdentifier
-	{
-		PRACTICE_BOT_9999 = 9999,
-		THING_1 = 1,
+	Thing1Mechstate_1StateGen ( std::string stateName,
+	                            int stateId,
+	                            Thing1Mech_gen *mech );
+	Thing1Mechstate_1StateGen() = delete;
+	~Thing1Mechstate_1StateGen() = default;
 
-		MAX_ROBOT_IDENTIFIERS
-	};
-
-	static RobotConfigMgr* GetInstance();
-	RobotConfig* GetCurrentConfig() const { return m_config; }
-	void InitRobot ( RobotIdentifier );
+	void Init() override;
+	void Run() override;
+	void Exit() override;
+	bool AtTarget() override;
 
 private:
-	RobotConfigMgr();
-	~RobotConfigMgr() = default;
 
-	static RobotConfigMgr* m_instance;
-	RobotConfig* m_config;
 };

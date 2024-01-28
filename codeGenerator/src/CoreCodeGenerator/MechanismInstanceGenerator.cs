@@ -95,7 +95,7 @@ namespace CoreCodeGenerator
 
                         foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
                         {
-                            mechanismInstance mis = mechInstances.Find(m => m.name == mi.name);
+                            mechanismInstance mis = r.mechanismInstances.Find(m => m.name == mi.name);
                             if (mis != null)
                             {
                                 initCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == robotFullName)", ToUnderscoreDigit(ToUnderscoreCase(r.getFullRobotName())).ToUpper()));

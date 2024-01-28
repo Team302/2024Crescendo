@@ -17,28 +17,30 @@
 // Generated on Sunday, January 28, 2024 11:23:11 AM
 
 #pragma once
+#include <string>
 
-#include "configs/RobotConfig.h"
+#include "State.h"
+#include "mechanisms/controllers/MechanismTargetData.h"
+#include "mechanisms/Thing1Mech/decoratormods/Thing1Mech.h"
+#include "mechanisms/Thing1Mech/generated/Thing1Mech_state_1_StateGen.h"
 
-class RobotConfigMgr
+using namespace std;
+class Thing1Mechstate_1State : public State
 {
 public:
-	enum RobotIdentifier
-	{
-		PRACTICE_BOT_9999 = 9999,
-		THING_1 = 1,
-
-		MAX_ROBOT_IDENTIFIERS
-	};
-
-	static RobotConfigMgr* GetInstance();
-	RobotConfig* GetCurrentConfig() const { return m_config; }
-	void InitRobot ( RobotIdentifier );
+	Thing1Mechstate_1State() = delete;
+	Thing1Mechstate_1State ( std::string stateName,
+	                         int stateId,
+	                         Thing1Mechstate_1StateGen *generatedState,
+	                         Thing1Mech *mech );
+	~Thing1Mechstate_1State() = default;
+	void Init() override;
+	void Run() override;
+	void Exit() override;
+	bool AtTarget() override;
+	bool IsTransitionCondition ( bool considerGamepadTransitions ) const override;
 
 private:
-	RobotConfigMgr();
-	~RobotConfigMgr() = default;
-
-	static RobotConfigMgr* m_instance;
-	RobotConfig* m_config;
+	Thing1Mechstate_1StateGen *m_genState;
+	Thing1Mech *m_mechanism;
 };
