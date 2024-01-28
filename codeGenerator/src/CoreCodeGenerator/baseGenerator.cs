@@ -197,6 +197,13 @@ namespace CoreCodeGenerator
             return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) && char.IsLower(str[i - 1]) ? "_" + x.ToString() : x.ToString())).ToLower();
         }
 
+        internal string ToUnderscoreDigit(string str)
+        {
+            str = string.Concat(str.Select((x, i) => i > 0 && char.IsDigit(x) && char.IsLetter(str[i - 1]) ? "_" + x.ToString() : x.ToString()));
+
+            return string.Concat(str.Select((x, i) => i > 0 && x=='_' && str[i - 1]=='_' ? "" : x.ToString()));
+        }
+
         internal string Remove(string original, string firstTag, string secondTag)
         {
             string pattern = firstTag + "(.*?)" + secondTag;

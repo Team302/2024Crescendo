@@ -26,7 +26,8 @@ using namespace std;
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
 $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::$$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State(std::string stateName,
                                                                                                        int stateId,
-                                                                                                       $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *generatedState) : State(stateName, stateId), m_genState(generatedState)
+                                                                                                       $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *generatedState,
+                                                                                                       $$_MECHANISM_INSTANCE_NAME_$$ *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
