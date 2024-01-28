@@ -72,10 +72,13 @@ bool noteManagerholdPlacerFrontState::AtTarget()
 
 bool noteManagerholdPlacerFrontState::IsTransitionCondition ( bool considerGamepadTransitions ) const
 {
+	bool placersensor = m_genState->GetnoteManager()->placerInSensor->Get();
+	bool frontintakesensor = m_genState->GetnoteManager()->frontIntakeSensor->Get();
+
 	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
 	// where MECHANISM is the name of the generated mechanism object
 
 	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
 	// return transition;
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return ( placersensor && frontintakesensor );
 }
