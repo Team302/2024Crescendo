@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mechanism xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <GUID>45858aa2-2754-4d54-b663-f0b847bd8c36</GUID>
+  <name>Thing1Equipment</name>
+  <MotorControllers>
+    <MotorController
+      xsi:type="TalonSRX">
+      <name>TalonSRX_1</name>
+      <theDistanceAngleCalcInfo>
+        <countsPerRev>
+          <unitsFamily>none</unitsFamily>
+          <name>intParameter</name>
+          <__units__ />
+          <type>Int32</type>
+          <value>0</value>
+        </countsPerRev>
+        <gearRatio>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>1</value>
+        </gearRatio>
+        <diameter>
+          <unitsFamily>length</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>m</__units__>
+          <type>Double</type>
+          <value>1</value>
+        </diameter>
+        <countsPerInch>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </countsPerInch>
+        <countsPerDegree>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </countsPerDegree>
+      </theDistanceAngleCalcInfo>
+      <voltageRamping>
+        <openLoopRampTime>
+          <unitsFamily>time</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>s</__units__>
+          <type>Double</type>
+          <value>0</value>
+        </openLoopRampTime>
+        <closedLoopRampTime>
+          <unitsFamily>time</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__>s</__units__>
+          <type>Double</type>
+          <value>0</value>
+        </closedLoopRampTime>
+        <enableClosedLoop>
+          <unitsFamily>none</unitsFamily>
+          <name>boolParameter</name>
+          <__units__ />
+          <type>Boolean</type>
+          <value>false</value>
+        </enableClosedLoop>
+      </voltageRamping>
+      <motorType>FALCON500</motorType>
+      <canID>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>0</value>
+      </canID>
+      <pdpID>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>0</value>
+      </pdpID>
+      <followID>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>0</value>
+      </followID>
+      <enableFollowID>
+        <unitsFamily>none</unitsFamily>
+        <name>boolParameter</name>
+        <__units__ />
+        <type>Boolean</type>
+        <value>false</value>
+      </enableFollowID>
+      <remoteSensor>
+        <CanID>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>0</value>
+        </CanID>
+      </remoteSensor>
+      <fusedCANcoder>
+        <enable>
+          <unitsFamily>none</unitsFamily>
+          <name>boolParameter</name>
+          <__units__ />
+          <type>Boolean</type>
+          <value>false</value>
+        </enable>
+        <fusedCANcoder>
+          <name>CANcoderInstance</name>
+        </fusedCANcoder>
+        <sensorToMechanismRatio>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </sensorToMechanismRatio>
+        <rotorToSensorRatio>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </rotorToSensorRatio>
+      </fusedCANcoder>
+      <sensorIsInverted>
+        <unitsFamily>none</unitsFamily>
+        <name>boolParameter</name>
+        <__units__ />
+        <type>Boolean</type>
+        <value>false</value>
+      </sensorIsInverted>
+      <limitSwitches>
+        <LimitSwitchesEnabled>
+          <unitsFamily>none</unitsFamily>
+          <name>boolParameter</name>
+          <__units__ />
+          <type>Boolean</type>
+          <value>false</value>
+        </LimitSwitchesEnabled>
+      </limitSwitches>
+      <currentLimits>
+        <EnableCurrentLimits>
+          <unitsFamily>none</unitsFamily>
+          <name>boolParameter</name>
+          <__units__ />
+          <type>Boolean</type>
+          <value>false</value>
+        </EnableCurrentLimits>
+        <PeakCurrentLimit>
+          <unitsFamily>current</unitsFamily>
+          <name>intParameter</name>
+          <__units__>A</__units__>
+          <type>Int32</type>
+          <value>0</value>
+        </PeakCurrentLimit>
+        <PeakCurrentLimitTimeout>
+          <unitsFamily>time</unitsFamily>
+          <name>intParameter</name>
+          <__units__>s</__units__>
+          <type>Int32</type>
+          <value>0</value>
+        </PeakCurrentLimitTimeout>
+        <PeakCurrentDuration>
+          <unitsFamily>time</unitsFamily>
+          <name>intParameter</name>
+          <__units__>s</__units__>
+          <type>Int32</type>
+          <value>0</value>
+        </PeakCurrentDuration>
+        <PeakCurrentDurationTimeout>
+          <unitsFamily>time</unitsFamily>
+          <name>intParameter</name>
+          <__units__>s</__units__>
+          <type>Int32</type>
+          <value>0</value>
+        </PeakCurrentDurationTimeout>
+        <ContinuousCurrentLimit>
+          <unitsFamily>current</unitsFamily>
+          <name>intParameter</name>
+          <__units__>A</__units__>
+          <type>Int32</type>
+          <value>0</value>
+        </ContinuousCurrentLimit>
+        <ContinuousCurrentLimitTimeout>
+          <unitsFamily>time</unitsFamily>
+          <name>intParameter</name>
+          <__units__>s</__units__>
+          <type>Int32</type>
+          <value>0</value>
+        </ContinuousCurrentLimitTimeout>
+      </currentLimits>
+      <theConfigMotorSettings />
+      <feedbackSensorConfig />
+      <remoteFeedbackSensorConfig />
+    </MotorController>
+  </MotorControllers>
+  <closedLoopControlParameters />
+  <solenoid />
+  <servo />
+  <analogInput />
+  <digitalInput />
+  <cancoder />
+  <stateMotorControlData>
+    <motorControlData>
+      <name>percentControlData</name>
+      <PID>
+        <name>PIDFZ</name>
+        <pGain>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </pGain>
+        <iGain>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </iGain>
+        <dGain>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </dGain>
+        <fGain>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </fGain>
+        <iZone>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </iZone>
+      </PID>
+      <peakValue>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </peakValue>
+      <nominalValue>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </nominalValue>
+      <maxAcceleration>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </maxAcceleration>
+      <cruiseVelocity>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </cruiseVelocity>
+      <enableFOC>
+        <unitsFamily>none</unitsFamily>
+        <name>boolParameter</name>
+        <__units__ />
+        <type>Boolean</type>
+        <value>false</value>
+      </enableFOC>
+    </motorControlData>
+  </stateMotorControlData>
+  <states>
+    <state>
+      <name>state_1</name>
+      <transitionsTo />
+      <motorTargets>
+        <motorTarget>
+          <name>motorTarget_1</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+            <value>0.5</value>
+          </target>
+          <motorName>TalonSRX_1</motorName>
+          <controlDataName>percentControlData</controlDataName>
+        </motorTarget>
+      </motorTargets>
+    </state>
+  </states>
+</mechanism>

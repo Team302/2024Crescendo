@@ -4,7 +4,6 @@
   <robotConfiguration>..\RobotConfig\2024Crescendo.xml</robotConfiguration>
   <appDataConfigurations>
     <string>../Minimal/minimalRobot.xml</string>
-    <string>../targetTest/targetTest.xml</string>
     <string>../RobotConfig/2024Crescendo.xml</string>
   </appDataConfigurations>
   <collectionBaseTypes>
