@@ -12,7 +12,7 @@
 #include <auton/AutonPreviewer.h>
 #include <auton/CyclePrimitives.h>
 #include "chassis/HolonomicDrive.h"
-#include "chassis/swerve/SwerveChassis.h"
+#include "chassis/SwerveChassis.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
 #include <driveteamfeedback/DriverFeedback.h>
@@ -76,10 +76,14 @@ void Robot::RobotInit()
     {
         m_holonomic = new HolonomicDrive();
     }
+    if (m_holonomic != nullptr)
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have holonomic"), string("arrived"));
+    }
 
-    m_cyclePrims = new CyclePrimitives();
-    m_previewer = new AutonPreviewer(m_cyclePrims); // TODO:: Move to DriveTeamFeedback
-    m_field = DragonField::GetInstance();           // TODO: move to drive team feedback
+    // m_cyclePrims = new CyclePrimitives();
+    // m_previewer = new AutonPreviewer(m_cyclePrims); // TODO:: Move to DriveTeamFeedback
+    // m_field = DragonField::GetInstance();           // TODO: move to drive team feedback
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("end"));
 }
@@ -173,6 +177,10 @@ void Robot::TeleopInit()
     if (m_controller != nullptr)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have a controller"), string("arrived"));
+    }
+    if (m_holonomic != nullptr)
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have holonomic"), string("arrived"));
     }
     /**/
     if (m_chassis != nullptr && m_controller != nullptr)

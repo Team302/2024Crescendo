@@ -12,51 +12,34 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-#pragma once
-
-// C++ Includes
-#include <memory>
 
 // Team302 Includes
-#include "auton/PrimitiveParams.h"
-#include "auton/drivePrimitives/IPrimitive.h"
+#include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
-#include "chassis/SwerveChassis.h"
-#include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonVision.h"
+#include "utils/AngleUtils.h"
 
-// FRC,WPI Includes
-#include "frc/controller/HolonomicDriveController.h"
-#include "frc/controller/RamseteController.h"
-#include "frc/Filesystem.h"
-#include "frc/geometry/Pose2d.h"
-#include "frc/trajectory/TrajectoryConfig.h"
-#include "frc/trajectory/TrajectoryUtil.h"
-#include "wpi/SmallString.h"
-#include "frc/Timer.h"
-#include "units/time.h"
-
-class VisionDrivePrimitive : public IPrimitive
+ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption) : m_headingOption(headingOption)
 {
-public:
-    VisionDrivePrimitive();
+}
 
-    virtual ~VisionDrivePrimitive() = default;
+units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
+{
+    units::angle::degree_t currentAngle = units::angle::degree_t(0.0);
+    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    if (chassis != nullptr)
+    {
+        currentAngle = chassis->GetPose().Rotation().Degrees();
+    }
+    auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(currentAngle, targetAngle));
 
-    void Init(PrimitiveParams *params) override;
-    void Run() override;
-    bool IsDone() override;
+    auto correction = units::angular_velocity::degrees_per_second_t(errorAngle.to<double>() * kP);
 
-private:
-    SwerveChassis *m_chassis;
-    VisionDrive *m_visionDrive;
-    ChassisOptionEnums::HeadingOption m_headingOption;
-    std::string m_ntName;
-    DragonCamera::PIPELINE m_pipelineMode;
+    return correction;
+}
 
-    frc::Timer *m_timer;
-    units::time::second_t m_timeout;
-
-    DragonVision *m_dragonVision;
-};
+void ISwerveDriveOrientation::SetStoredHeading(units::angle::degree_t heading)
+{
+    m_storedYaw = heading;
+}

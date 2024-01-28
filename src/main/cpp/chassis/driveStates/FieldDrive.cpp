@@ -12,51 +12,41 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-#pragma once
 
-// C++ Includes
-#include <memory>
+#include <frc/geometry/Rotation2d.h>
+#include <frc/geometry/Pose2d.h>
+#include <math.h>
 
 // Team302 Includes
-#include "auton/PrimitiveParams.h"
-#include "auton/drivePrimitives/IPrimitive.h"
+#include "chassis/driveStates/FieldDrive.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
-#include "chassis/SwerveChassis.h"
-#include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonVision.h"
 
-// FRC,WPI Includes
-#include "frc/controller/HolonomicDriveController.h"
-#include "frc/controller/RamseteController.h"
-#include "frc/Filesystem.h"
-#include "frc/geometry/Pose2d.h"
-#include "frc/trajectory/TrajectoryConfig.h"
-#include "frc/trajectory/TrajectoryUtil.h"
-#include "wpi/SmallString.h"
-#include "frc/Timer.h"
-#include "units/time.h"
+/// DEBUGGING
+#include "utils/logging/Logger.h"
 
-class VisionDrivePrimitive : public IPrimitive
+FieldDrive::FieldDrive(RobotDrive *robotDrive) : RobotDrive(), m_robotDrive(robotDrive)
 {
-public:
-    VisionDrivePrimitive();
+}
 
-    virtual ~VisionDrivePrimitive() = default;
+std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
+{
 
-    void Init(PrimitiveParams *params) override;
-    void Run() override;
-    bool IsDone() override;
+    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    if (chassis != nullptr)
+    {
+        frc::ChassisSpeeds fieldRelativeSpeeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(chassisMovement.chassisSpeeds.vx,
+                                                                                             chassisMovement.chassisSpeeds.vy,
+                                                                                             chassisMovement.chassisSpeeds.omega,
+                                                                                             chassis->GetPose().Rotation());
 
-private:
-    SwerveChassis *m_chassis;
-    VisionDrive *m_visionDrive;
-    ChassisOptionEnums::HeadingOption m_headingOption;
-    std::string m_ntName;
-    DragonCamera::PIPELINE m_pipelineMode;
+        chassisMovement.chassisSpeeds = fieldRelativeSpeeds;
+    }
 
-    frc::Timer *m_timer;
-    units::time::second_t m_timeout;
+    return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
+}
 
-    DragonVision *m_dragonVision;
-};
+void FieldDrive::Init(ChassisMovement &chassisMovement)
+{
+}

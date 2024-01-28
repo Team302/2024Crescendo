@@ -12,51 +12,33 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-#pragma once
-
-// C++ Includes
-#include <memory>
 
 // Team302 Includes
-#include "auton/PrimitiveParams.h"
-#include "auton/drivePrimitives/IPrimitive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-#include "chassis/SwerveChassis.h"
-#include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonVision.h"
+#include "chassis/headingStates/FaceGoalHeading.h"
 
-// FRC,WPI Includes
-#include "frc/controller/HolonomicDriveController.h"
-#include "frc/controller/RamseteController.h"
-#include "frc/Filesystem.h"
-#include "frc/geometry/Pose2d.h"
-#include "frc/trajectory/TrajectoryConfig.h"
-#include "frc/trajectory/TrajectoryUtil.h"
-#include "wpi/SmallString.h"
-#include "frc/Timer.h"
-#include "units/time.h"
-
-class VisionDrivePrimitive : public IPrimitive
+FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
+                                     m_vision()
+// visionapi Review how LimelightFactory should be fixed here
 {
-public:
-    VisionDrivePrimitive();
+}
 
-    virtual ~VisionDrivePrimitive() = default;
+void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+{
+    units::angular_velocity::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
 
-    void Init(PrimitiveParams *params) override;
-    void Run() override;
-    bool IsDone() override;
-
-private:
-    SwerveChassis *m_chassis;
-    VisionDrive *m_visionDrive;
-    ChassisOptionEnums::HeadingOption m_headingOption;
-    std::string m_ntName;
-    DragonCamera::PIPELINE m_pipelineMode;
-
-    frc::Timer *m_timer;
-    units::time::second_t m_timeout;
-
-    DragonVision *m_dragonVision;
-};
+    if (m_vision != nullptr && abs(m_vision->GetTargetYAngle().to<double>()) < 1.0 && m_vision->HasTarget())
+    {
+        // Hold position
+    }
+    else if (m_vision != nullptr && m_vision->HasTarget())
+    {
+        double rotCorrection = abs(m_vision->GetTargetYAngle().to<double>()) > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
+        rot += (m_vision->GetTargetYAngle()) / 1_s * rotCorrection;
+    }
+    else
+    {
+        //        auto targetAngle = units::angle::degree_t(m_targetFinder.GetTargetAngleD(SwerveOdometry::GetInstance()->GetPose()));
+        auto targetAngle = units::angle::degree_t(0.0);
+        rot -= CalcHeadingCorrection(targetAngle, m_kPGoalHeadingControl);
+    }
+}

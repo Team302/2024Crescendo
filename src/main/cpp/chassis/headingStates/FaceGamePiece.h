@@ -12,51 +12,32 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+
 #pragma once
 
-// C++ Includes
-#include <memory>
-
 // Team302 Includes
-#include "auton/PrimitiveParams.h"
-#include "auton/drivePrimitives/IPrimitive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-#include "chassis/SwerveChassis.h"
-#include "chassis/ChassisOptionEnums.h"
+#include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "DragonVision/DragonVision.h"
 
-// FRC,WPI Includes
-#include "frc/controller/HolonomicDriveController.h"
-#include "frc/controller/RamseteController.h"
-#include "frc/Filesystem.h"
-#include "frc/geometry/Pose2d.h"
-#include "frc/trajectory/TrajectoryConfig.h"
-#include "frc/trajectory/TrajectoryUtil.h"
-#include "wpi/SmallString.h"
-#include "frc/Timer.h"
-#include "units/time.h"
-
-class VisionDrivePrimitive : public IPrimitive
+class FaceGamePiece : public ISwerveDriveOrientation
 {
 public:
-    VisionDrivePrimitive();
+    FaceGamePiece();
+    ~FaceGamePiece();
 
-    virtual ~VisionDrivePrimitive() = default;
-
-    void Init(PrimitiveParams *params) override;
-    void Run() override;
-    bool IsDone() override;
+    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 private:
-    SwerveChassis *m_chassis;
-    VisionDrive *m_visionDrive;
-    ChassisOptionEnums::HeadingOption m_headingOption;
-    std::string m_ntName;
-    DragonCamera::PIPELINE m_pipelineMode;
+    units::angular_velocity::radians_per_second_t limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularSpeed);
+    /*
+    bool AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error);
 
-    frc::Timer *m_timer;
-    units::time::second_t m_timeout;
+    DragonLimelight::PIPELINE_MODE m_pipelineMode;
+    DragonVision *m_vision;
 
-    DragonVision *m_dragonVision;
+    // Angular movement settings
+    const double m_minimumOmega_radps = 0.7;
+    const double m_maximumOmega_radps = 1.5;
+    const double m_AngularTolerance_rad = std::numbers::pi * 2.0 / 180.0;
+    double m_visionKP_Angle = 6.0;*/
 };

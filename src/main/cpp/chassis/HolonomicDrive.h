@@ -18,17 +18,12 @@
 // C++ Libraries
 
 // Team 302 includes
-#include "teleopcontrol/TeleopControl.h"
+#include "chassis/ChassisMovement.h"
 #include "State.h"
-#include <chassis/swerve/driveStates/DragonTrajectoryGenerator.h>
-#include <utils/DragonField.h>
-#include <chassis/swerve/driveStates/VisionDrive.h>
-#include <robotstate/IRobotStateChangeSubscriber.h>
 
-class IChassis;
 class SwerveChassis;
 
-class HolonomicDrive : public State, public IRobotStateChangeSubscriber
+class HolonomicDrive : public State
 {
 public:
     HolonomicDrive();
@@ -39,25 +34,21 @@ public:
     void Exit() override;
     bool AtTarget() override;
 
-    void Update(RobotStateChanges::StateChange change, int state) override;
-
 private:
-    std::pair<ChassisOptionEnums::RELATIVE_POSITION, ChassisOptionEnums::RELATIVE_POSITION> GetAutoAlignDestination();
+    ChassisMovement InitChassisMovement(double forwardScale, double strafeScale, double rotateScale);
+    void ResetPose();
+    void AlignGamePiece(ChassisMovement &moveInfo);
+    void HoldPosition(ChassisMovement &moveInfo);
+    void TurnForward(ChassisMovement &moveInfo);
+    void TurnBackward(ChassisMovement &moveInfo);
+    void SlowMode(ChassisMovement &moveInfo);
+    void NonVisionDrive(ChassisMovement &moveInfo);
+    void CheckTipping(bool tippingSelected, ChassisMovement &moveInfo);
 
-    bool IsAutoAligning();
-
-    IChassis *m_chassis;
     SwerveChassis *m_swerve;
-    DragonTrajectoryGenerator *m_trajectoryGenerator;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
-    DragonField *m_field;
     const double m_slowModeMultiplier = 0.5;
-    const double m_autoAlignAngleTolerance = 5.0;
-    bool m_hasResetPosition = false;
     bool m_inVisionDrive = false;
     bool m_CheckTipping = false;
-    bool m_latch = false;
-    bool m_findingFloorGamePiece = false;
-
-    RobotStateChanges::GamePiece m_desiredGamePiece;
+    bool m_checkTippingLatch = false;
 };

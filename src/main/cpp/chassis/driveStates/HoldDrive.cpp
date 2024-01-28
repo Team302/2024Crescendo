@@ -12,51 +12,27 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-#pragma once
 
-// C++ Includes
-#include <memory>
+// FRC Includes
+#include "frc/geometry/Rotation2d.h"
 
 // Team302 Includes
-#include "auton/PrimitiveParams.h"
-#include "auton/drivePrimitives/IPrimitive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-#include "chassis/SwerveChassis.h"
-#include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonVision.h"
+#include "chassis/driveStates/HoldDrive.h"
 
-// FRC,WPI Includes
-#include "frc/controller/HolonomicDriveController.h"
-#include "frc/controller/RamseteController.h"
-#include "frc/Filesystem.h"
-#include "frc/geometry/Pose2d.h"
-#include "frc/trajectory/TrajectoryConfig.h"
-#include "frc/trajectory/TrajectoryUtil.h"
-#include "wpi/SmallString.h"
-#include "frc/Timer.h"
-#include "units/time.h"
-
-class VisionDrivePrimitive : public IPrimitive
+HoldDrive::HoldDrive()
 {
-public:
-    VisionDrivePrimitive();
+    m_flState->angle = {units::angle::degree_t(45)};
+    m_frState->angle = {units::angle::degree_t(-45)};
+    m_blState->angle = {units::angle::degree_t(135)};
+    m_brState->angle = {units::angle::degree_t(-135)};
+}
+std::array<frc::SwerveModuleState, 4> HoldDrive::UpdateSwerveModuleStates(
+    ChassisMovement &chassisMovement)
+{
+    return {*m_flState, *m_frState, *m_blState, *m_brState};
+}
 
-    virtual ~VisionDrivePrimitive() = default;
-
-    void Init(PrimitiveParams *params) override;
-    void Run() override;
-    bool IsDone() override;
-
-private:
-    SwerveChassis *m_chassis;
-    VisionDrive *m_visionDrive;
-    ChassisOptionEnums::HeadingOption m_headingOption;
-    std::string m_ntName;
-    DragonCamera::PIPELINE m_pipelineMode;
-
-    frc::Timer *m_timer;
-    units::time::second_t m_timeout;
-
-    DragonVision *m_dragonVision;
-};
+void HoldDrive::Init(
+    ChassisMovement &chassisMovement)
+{
+}

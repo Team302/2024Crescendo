@@ -12,51 +12,49 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+
 #pragma once
 
 // C++ Includes
-#include <memory>
 
-// Team302 Includes
-#include "auton/PrimitiveParams.h"
-#include "auton/drivePrimitives/IPrimitive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-#include "chassis/SwerveChassis.h"
-#include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonVision.h"
+// FRC Includes
 
-// FRC,WPI Includes
-#include "frc/controller/HolonomicDriveController.h"
-#include "frc/controller/RamseteController.h"
-#include "frc/Filesystem.h"
-#include "frc/geometry/Pose2d.h"
-#include "frc/trajectory/TrajectoryConfig.h"
-#include "frc/trajectory/TrajectoryUtil.h"
-#include "wpi/SmallString.h"
-#include "frc/Timer.h"
-#include "units/time.h"
+// Team 302 Includes
+#include "chassis/SwerveModuleAttributes.h"
 
-class VisionDrivePrimitive : public IPrimitive
+// Third Party Includes
+
+class SwerveModuleConstants
 {
 public:
-    VisionDrivePrimitive();
+    enum ModuleID
+    {
+        LEFT_FRONT,
+        RIGHT_FRONT,
+        LEFT_BACK,
+        RIGHT_BACK
+    };
 
-    virtual ~VisionDrivePrimitive() = default;
+    enum ModuleType
+    {
+        SDS_MK4_L1,
+        SDS_MK4_L2,
+        SDS_MK4_L3,
+        SDS_MK4_L4,
+        SDS_MK4_L1_COLSON,
+        SDS_MK4_L2_COLSON,
+        SDS_MK4_L3_COLSON,
+        SDS_MK4_L4_COLSON,
+        SDS_MK4I_L1,
+        SDS_MK4I_L2,
+        SDS_MK4I_L3,
+        SDS_MK4I_L1_COLSON,
+        SDS_MK4I_L2_COLSON,
+        SDS_MK4I_L3_COLSON
+    };
 
-    void Init(PrimitiveParams *params) override;
-    void Run() override;
-    bool IsDone() override;
+    SwerveModuleConstants() = delete;
+    ~SwerveModuleConstants() = delete;
 
-private:
-    SwerveChassis *m_chassis;
-    VisionDrive *m_visionDrive;
-    ChassisOptionEnums::HeadingOption m_headingOption;
-    std::string m_ntName;
-    DragonCamera::PIPELINE m_pipelineMode;
-
-    frc::Timer *m_timer;
-    units::time::second_t m_timeout;
-
-    DragonVision *m_dragonVision;
+    static SwerveModuleAttributes GetSwerveModuleAttrs(ModuleType type);
 };

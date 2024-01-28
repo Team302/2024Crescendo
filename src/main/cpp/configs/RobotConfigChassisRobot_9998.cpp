@@ -17,9 +17,9 @@
 
 #include <string>
 
-#include "chassis/swerve/SwerveModule.h"
-#include "chassis/swerve/SwerveModuleAttributes.h"
-#include "chassis/swerve/SwerveModuleConstants.h"
+#include "chassis/SwerveModule.h"
+#include "chassis/SwerveModuleAttributes.h"
+#include "chassis/SwerveModuleConstants.h"
 #include "configs/RobotConfigChassisRobot_9998.h"
 #include "configs/RobotConfigMgr.h"
 #include "PeriodicLooper.h"

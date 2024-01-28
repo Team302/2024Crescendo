@@ -34,7 +34,7 @@
 #include "configs/RobotConfigMgr.h"
 #include "chassis/IChassis.h"
 #include "utils/logging/Logger.h"
-#include "chassis/swerve/driveStates/TrajectoryDrive.h"
+#include "chassis/driveStates/TrajectoryDrive.h"
 
 using namespace std;
 using namespace frc;

@@ -17,8 +17,8 @@
 // Generated on Tuesday, January 16, 2024 5:37:08 PM
 
 #pragma once
-#include "chassis/swerve/SwerveChassis.h"
-#include "chassis/swerve/SwerveModule.h"
+#include "chassis/SwerveChassis.h"
+#include "chassis/SwerveModule.h"
 #include "configs/RobotConfig.h"
 #include "hw/DragonCanCoder.h"
 #include "hw/DragonPigeon2.h"

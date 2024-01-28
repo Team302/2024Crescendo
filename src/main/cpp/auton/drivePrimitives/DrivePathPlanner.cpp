@@ -31,7 +31,7 @@
 #include "configs/RobotConfig.h"
 #include <chassis/IChassis.h>
 #include "utils/logging/Logger.h"
-#include "chassis/swerve/driveStates/TrajectoryDrivePathPlanner.h"
+#include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
