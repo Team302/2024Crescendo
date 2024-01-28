@@ -70,7 +70,7 @@ bool Thing1MechsparkyOnState::AtTarget()
 	return attarget;
 }
 
-bool Thing1MechsparkyOnState::IsTransitionCondition ( bool considerGamepadTransitions ) const
+bool Thing1Mechstate_1State::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
 	// where MECHANISM is the name of the generated mechanism object
