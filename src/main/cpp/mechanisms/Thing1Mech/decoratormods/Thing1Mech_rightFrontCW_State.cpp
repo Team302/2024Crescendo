@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2023 Lake Orion Robotics FIRST Team 302
 //
@@ -39,16 +38,16 @@ using namespace std;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-Thing1MechrightFrontCWState::Thing1MechrightFrontCWState ( std::string stateName,
-        int stateId,
-        Thing1MechrightFrontCWStateGen *generatedState,
-        Thing1Mech *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+Thing1MechrightFrontCWState::Thing1MechrightFrontCWState(std::string stateName,
+														 int stateId,
+														 Thing1MechrightFrontCWStateGen *generatedState,
+														 Thing1Mech *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void Thing1MechrightFrontCWState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "Thing1MechrightFrontCWState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("Thing1MechrightFrontCWState"), string("init"));
 
 	m_genState->Init();
 }
@@ -70,12 +69,12 @@ bool Thing1MechrightFrontCWState::AtTarget()
 	return attarget;
 }
 
-bool Thing1MechrightFrontCWState::IsTransitionCondition ( bool considerGamepadTransitions ) const
+bool Thing1MechrightFrontCWState::IsTransitionCondition(bool considerGamepadTransitions) const
 {
 	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
 	// where MECHANISM is the name of the generated mechanism object
 
 	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
 	// return transition;
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE));
 }

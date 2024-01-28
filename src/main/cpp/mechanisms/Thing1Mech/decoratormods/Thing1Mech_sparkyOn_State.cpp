@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2023 Lake Orion Robotics FIRST Team 302
 //
@@ -39,16 +38,16 @@ using namespace std;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-Thing1MechsparkyOnState::Thing1MechsparkyOnState ( std::string stateName,
-        int stateId,
-        Thing1MechsparkyOnStateGen *generatedState,
-        Thing1Mech *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+Thing1MechsparkyOnState::Thing1MechsparkyOnState(std::string stateName,
+												 int stateId,
+												 Thing1MechsparkyOnStateGen *generatedState,
+												 Thing1Mech *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void Thing1MechsparkyOnState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "Thing1MechsparkyOnState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("Thing1MechsparkyOnState"), string("init"));
 
 	m_genState->Init();
 }
@@ -70,12 +69,12 @@ bool Thing1MechsparkyOnState::AtTarget()
 	return attarget;
 }
 
-bool Thing1Mechstate_1State::IsTransitionCondition ( bool considerGamepadTransitions )
+bool Thing1Mechstate_1State::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
 	// where MECHANISM is the name of the generated mechanism object
 
 	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
 	// return transition;
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL));
 }
