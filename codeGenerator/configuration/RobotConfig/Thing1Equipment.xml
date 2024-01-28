@@ -5,7 +5,7 @@
   <MotorControllers>
     <MotorController
       xsi:type="TalonSRX">
-      <name>TalonSRX_1</name>
+      <name>BackLeftMotor</name>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -292,7 +292,7 @@
       <transitionsTo />
       <motorTargets>
         <motorTarget>
-          <name>motorTarget_1</name>
+          <name>BackLeftMotor</name>
           <target>
             <unitsFamily>none</unitsFamily>
             <name>Target</name>
@@ -300,7 +300,7 @@
             <type>Double</type>
             <value>0.5</value>
           </target>
-          <motorName>TalonSRX_1</motorName>
+          <motorName>BackLeftMotor</motorName>
           <controlDataName>percentControlData</controlDataName>
         </motorTarget>
       </motorTargets>
