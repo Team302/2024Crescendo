@@ -68,6 +68,7 @@ namespace CoreCodeGenerator
                   m_the$$_MECHANISM_INSTANCE_NAME_$$ = new $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$_genmech);
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->Create();
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize(RobotConfigMgr::RobotIdentifier::$$_ROBOT_ENUM_NAME_$$);
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$->createAndRegisterStates();
                   ";
 
             string mechInstDefState =

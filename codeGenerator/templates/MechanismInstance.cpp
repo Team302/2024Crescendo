@@ -25,6 +25,10 @@ using std::string;
 $$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$_gen *base) : $$_MECHANISM_INSTANCE_NAME_$$_gen(),
                                                                                                         m_$$_MECHANISM_INSTANCE_NAME_$$(base)
 {
+}
+
+void $$_MECHANISM_INSTANCE_NAME_$$::createAndRegisterStates()
+{
     $$_OBJECT_CREATION_$$
 
     $$_STATE_TRANSITION_REGISTRATION_$$
