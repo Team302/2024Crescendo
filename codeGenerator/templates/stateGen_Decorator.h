@@ -23,7 +23,7 @@ public:
     void Run() override;
     void Exit() override;
     bool AtTarget() override;
-    bool IsTransitionCondition(bool considerGamepadTransitions) const override;
+    bool IsTransitionCondition(bool considerGamepadTransitions) override;
 
 private:
     $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *m_genState;

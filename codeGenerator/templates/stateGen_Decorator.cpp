@@ -55,7 +55,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::AtTarget()
     return attarget;
 }
 
-bool $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::IsTransitionCondition(bool considerGamepadTransitions) const
+bool $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::IsTransitionCondition(bool considerGamepadTransitions)
 {
     // To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
     // where MECHANISM is the name of the generated mechanism object
