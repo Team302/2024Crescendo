@@ -7132,7 +7132,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>1</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
@@ -7330,7 +7330,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>2</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
@@ -7528,7 +7528,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>3</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
@@ -7998,7 +7998,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>4</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
@@ -8194,7 +8194,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>5</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
