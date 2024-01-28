@@ -7160,6 +7160,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>0.5</value>
                     </target>
                     <motorName>BackLeftMotor</motorName>
                     <controlDataName>percentControlData</controlDataName>
