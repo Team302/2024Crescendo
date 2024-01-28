@@ -77,5 +77,5 @@ bool noteManagerintakeToPlacerState::IsTransitionCondition ( bool considerGamepa
 
 	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
 	// return transition;
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::PLACE));
 }
