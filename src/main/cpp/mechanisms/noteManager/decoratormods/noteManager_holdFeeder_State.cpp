@@ -72,10 +72,20 @@ bool noteManagerholdFeederState::AtTarget()
 
 bool noteManagerholdFeederState::IsTransitionCondition ( bool considerGamepadTransitions ) const
 {
+	bool transition = false;
 	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
 	// where MECHANISM is the name of the generated mechanism object
+	bool feederSensor = m_genState->GetnoteManager()->feederSensor->Get();
+	bool launcherSensor = m_genState->GetnoteManager()->launcherSensor->Get();
+	auto currentstate = m_genState->GetnoteManager()->GetCurrentState();
+	bool visionTargetAcquired = false; //to be set later with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	if((feederSensor && launcherSensor) || (currentstate == m_genState->GetnoteManager()->STATE_READY_AUTO_LAUNCH && visionTargetAcquired == false))
+	{
+		transition = true;
+	}
+	
 
 	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
 	// return transition;
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (transition);
 }
