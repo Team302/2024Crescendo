@@ -69,13 +69,14 @@ bool Thing1MechrightBackCWState::AtTarget()
 	return attarget;
 }
 
-bool Thing1MechrightBackCWState::IsTransitionCondition(bool considerGamepadTransitions) const
+bool Thing1MechrightBackCWState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
 	// where MECHANISM is the name of the generated mechanism object
 	bool transition = false;
 
-	if (considerGamepadTransitions && (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_AMP) && m_mechanism->GetCurrentState() == Thing1Mech::STATE_RIGHT_FRONT_CW) || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->GetCurrentState() == Thing1Mech::STATE_SPARKY_ON))
+	if (considerGamepadTransitions && ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_AMP) && (m_mechanism->GetCurrentState() == Thing1Mech::STATE_RIGHT_FRONT_CW)) ||
+									   (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && (m_mechanism->GetCurrentState() == Thing1Mech::STATE_THING1TALON))))
 		transition = true;
 	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
 	// return transition;

@@ -69,7 +69,7 @@ bool Thing1MechrightFrontCWState::AtTarget()
 	return attarget;
 }
 
-bool Thing1MechrightFrontCWState::IsTransitionCondition(bool considerGamepadTransitions) const
+bool Thing1MechrightFrontCWState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
 	// where MECHANISM is the name of the generated mechanism object

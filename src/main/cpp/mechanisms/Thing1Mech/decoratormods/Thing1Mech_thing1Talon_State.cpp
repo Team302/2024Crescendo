@@ -69,7 +69,7 @@ bool Thing1Mechthing1TalonState::AtTarget()
 	return attarget;
 }
 
-bool Thing1Mechthing1TalonState::IsTransitionCondition(bool considerGamepadTransitions) const
+bool Thing1Mechthing1TalonState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
 	// where MECHANISM is the name of the generated mechanism object
