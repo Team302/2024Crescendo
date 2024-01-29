@@ -16,8 +16,8 @@
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/IgnoreHeading.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 
 // Standish Quick Fix
 #include <frc/DriverStation.h>
@@ -29,7 +29,7 @@ IgnoreHeading::IgnoreHeading() : ISwerveDriveOrientation(ChassisOptionEnums::Hea
 void IgnoreHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     // update stored heading for transition to teleop from auton
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {

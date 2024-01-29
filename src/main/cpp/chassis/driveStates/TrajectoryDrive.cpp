@@ -20,8 +20,8 @@
 // Team302 Includes
 #include "chassis/driveStates/TrajectoryDrive.h"
 #include "chassis/ChassisMovement.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "utils/logging/Logger.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
 
@@ -43,7 +43,7 @@ TrajectoryDrive::TrajectoryDrive(RobotDrive *robotDrive) : RobotDrive(),
                                                            m_whyDone("Trajectory isn't finished/Error")
 
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (m_chassis != nullptr)
     {

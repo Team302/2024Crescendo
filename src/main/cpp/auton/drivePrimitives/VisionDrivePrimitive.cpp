@@ -22,8 +22,8 @@
 #include <auton/drivePrimitives/VisionDrivePrimitive.h>
 #include <chassis/ChassisMovement.h>
 #include <chassis/ChassisOptionEnums.h>
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
@@ -35,7 +35,7 @@ VisionDrivePrimitive::VisionDrivePrimitive() : m_chassis(nullptr),
                                                m_timer(new frc::Timer()),
                                                m_timeout(0.0)
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 

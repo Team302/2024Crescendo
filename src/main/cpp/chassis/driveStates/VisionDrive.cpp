@@ -20,8 +20,8 @@
 
 // Team302 Includes
 #include "chassis/driveStates/VisionDrive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "utils/FMSData.h"
 #include "robotstate/RobotState.h"
 #include "utils/FMSData.h"
@@ -44,7 +44,7 @@ VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(),
                                                    m_haveGamePiece(false),
                                                    m_moveInXDir(false)
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 
     RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::HoldingGamePiece);

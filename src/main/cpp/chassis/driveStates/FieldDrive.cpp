@@ -19,8 +19,8 @@
 
 // Team302 Includes
 #include "chassis/driveStates/FieldDrive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
@@ -32,7 +32,7 @@ FieldDrive::FieldDrive(RobotDrive *robotDrive) : RobotDrive(), m_robotDrive(robo
 std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
 
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {

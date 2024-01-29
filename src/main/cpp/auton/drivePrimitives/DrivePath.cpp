@@ -30,8 +30,8 @@
 #include "auton/drivePrimitives/DragonTrajectoryUtils.h"
 #include "chassis/ChassisMovement.h"
 #include "chassis/ChassisOptionEnums.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "chassis/IChassis.h"
 #include "utils/logging/Logger.h"
 #include "chassis/driveStates/TrajectoryDrive.h"
@@ -48,11 +48,11 @@ DrivePath::DrivePath() : m_chassis(nullptr),
                          // max velocity of 1 rotation per second and a max acceleration of 180 degrees per second squared.
                          m_headingOption(ChassisOptionEnums::HeadingOption::MAINTAIN),
                          m_heading(0.0),
-                         m_maxTime( units::time::second_t(-1.0)),
+                         m_maxTime(units::time::second_t(-1.0)),
                          m_ntName("DrivePath")
 
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 void DrivePath::Init(PrimitiveParams *params)

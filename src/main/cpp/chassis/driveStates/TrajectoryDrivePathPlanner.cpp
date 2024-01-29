@@ -20,8 +20,8 @@
 // Team302 Includes
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/ChassisMovement.h"
-#include "configs/RobotConfigMgr.h"
-#include "configs/RobotConfig.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/ChassisConfig.h"
 #include "configs/RobotElementNames.h"
 #include "utils/logging/Logger.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
@@ -45,7 +45,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_whyDone("Trajectory isn't finished/Error")
 
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (m_chassis != nullptr)
     {
@@ -99,7 +99,7 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "HolonomicRotation (Degs)", m_desiredState.targetHolonomicRotation.Degrees().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Omega (Rads Per Sec)", refChassisSpeeds.omega.to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Odometry (Degs)", m_chassis->GetPose().Rotation().Degrees().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Pigeon (Degs)", RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon(RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER)->GetYaw().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Pigeon (Degs)", ChassisConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon()->GetYaw().to<double>());
 
         // Set chassisMovement speeds that will be used by RobotDrive
         return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);

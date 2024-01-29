@@ -44,12 +44,12 @@ void ChassisConfigMgr::InitChassis( RobotConfigMgr::RobotIdentifier id )
 	switch ( id )
 	{
 	case RobotConfigMgr::RobotIdentifier::CHASSISBOT_9998:
-		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing robot " ), string ( "CHASSISBOT_9998" ), string ( "Yes" ) );
+		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing chassis " ), string ( "CHASSISBOT_9998" ), string ( "Yes" ) );
 		m_config = new ChassisConfigChassis_9998();
 		break;
 
 	default:
-		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Skipping robot initialization because of unknown robot id " ), string ( "" ), id );
+		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Skipping chassis initialization because of unknown robot id " ), string ( "" ), id );
 		break;
 	}
 

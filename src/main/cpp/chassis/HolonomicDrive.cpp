@@ -27,8 +27,8 @@
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/HolonomicDrive.h"
 #include "chassis/driveStates/VisionDrive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "State.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
@@ -40,7 +40,7 @@ using namespace frc;
 
 /// @brief initialize the object and validate the necessary items are not nullptrs
 HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
-                                   m_swerve(RobotConfigMgr::GetInstance()->GetCurrentConfig() != nullptr ? RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetSwerveChassis() : nullptr),
+                                   m_swerve(ChassisConfigMgr::GetInstance()->GetCurrentConfig() != nullptr ? ChassisConfigMgr::GetInstance()->GetCurrentConfig()->GetSwerveChassis() : nullptr),
                                    m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
                                    m_checkTippingLatch(false)
 {
@@ -121,6 +121,8 @@ void HolonomicDrive::Run()
         }
 
         CheckTipping(checkTipping, moveInfo);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("Run"), string("nullptr"));
+
         m_swerve->Drive(moveInfo);
     }
     else

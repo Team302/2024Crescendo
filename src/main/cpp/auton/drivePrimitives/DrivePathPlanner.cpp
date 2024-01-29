@@ -27,8 +27,8 @@
 #include <auton/drivePrimitives/DragonTrajectoryUtils.h>
 #include <chassis/ChassisMovement.h>
 #include <chassis/ChassisOptionEnums.h>
-#include "configs/RobotConfigMgr.h"
-#include "configs/RobotConfig.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/ChassisConfig.h"
 #include <chassis/IChassis.h>
 #include "utils/logging/Logger.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
@@ -53,7 +53,7 @@ DrivePathPlanner::DrivePathPlanner() : m_chassis(nullptr),
                                        m_ntName("DrivePathPlanner")
 
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 void DrivePathPlanner::Init(PrimitiveParams *params)
@@ -63,7 +63,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_maxTime = params->GetTime();
 
     // TODO:  things have been obsoleted in 2024, so we need to re-work this
-    //m_trajectory = PathPlannerPath::loadPath(m_pathname, PathConstraints(4.5_mps, 2.75_mps_sq));
+    // m_trajectory = PathPlannerPath::loadPath(m_pathname, PathConstraints(4.5_mps, 2.75_mps_sq));
 
     // Start timeout timer for path
     m_timer.get()->Reset();

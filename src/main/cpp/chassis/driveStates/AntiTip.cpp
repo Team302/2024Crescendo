@@ -20,13 +20,13 @@
 // Team302 Includes
 #include "chassis/ChassisMovement.h"
 #include "chassis/driveStates/AntiTip.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "utils/FMSData.h"
 
 void AntiTip::CorrectForTipping(ChassisMovement &chassisMovement, units::velocity::feet_per_second_t m_maxspeed)
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {

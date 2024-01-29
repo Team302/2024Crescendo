@@ -25,8 +25,8 @@
 #include "chassis/ChassisMovement.h"
 #include "chassis/driveStates/AntiTip.h"
 #include "chassis/driveStates/RobotDrive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
 
@@ -41,7 +41,7 @@ RobotDrive::RobotDrive() : ISwerveDriveState::ISwerveDriveState(),
                            m_wheeltrack(units::length::inch_t(20.0)),
                            m_maxspeed(units::velocity::feet_per_second_t(1.0))
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (m_chassis != nullptr)
     {

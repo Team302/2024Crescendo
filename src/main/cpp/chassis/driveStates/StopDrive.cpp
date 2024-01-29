@@ -18,14 +18,14 @@
 #include "chassis/driveStates/AntiTip.h"
 #include "chassis/driveStates/RobotDrive.h"
 #include "chassis/driveStates/StopDrive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 
 StopDrive::StopDrive(RobotDrive *robotDrive) : RobotDrive(),
                                                m_robotDrive(robotDrive),
                                                m_chassis(nullptr)
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 

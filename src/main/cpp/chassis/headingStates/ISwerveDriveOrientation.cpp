@@ -15,8 +15,8 @@
 
 // Team302 Includes
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "utils/AngleUtils.h"
 
 ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption) : m_headingOption(headingOption)
@@ -26,7 +26,7 @@ ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOpti
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
 {
     units::angle::degree_t currentAngle = units::angle::degree_t(0.0);
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {

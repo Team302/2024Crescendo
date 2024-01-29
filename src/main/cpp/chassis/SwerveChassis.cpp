@@ -141,6 +141,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                         m_targetHeading(units::angle::degree_t(0.0)),
                                                         m_networkTableName(networkTableName)
 {
+    InitStates();
     // ZeroAlignSwerveModules();
 }
 
@@ -156,13 +157,29 @@ void SwerveChassis::InitStates()
     m_driveStateMap[ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER] = new TrajectoryDrivePathPlanner(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::VISION_DRIVE] = new VisionDrive(m_robotDrive);
 
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("field state"), m_driveStateMap[ChassisOptionEnums::FIELD_DRIVE] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("hold state"), m_driveStateMap[ChassisOptionEnums::HOLD_DRIVE] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("robot state"), m_driveStateMap[ChassisOptionEnums::ROBOT_DRIVE] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("stop state"), m_driveStateMap[ChassisOptionEnums::STOP_DRIVE] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("trajectory state"), m_driveStateMap[ChassisOptionEnums::TRAJECTORY_DRIVE] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("trajectory PP state"), m_driveStateMap[ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("vision state"), m_driveStateMap[ChassisOptionEnums::VISION_DRIVE] != nullptr ? string("ptr") : string("nullptr"));
+
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] = new SpecifiedHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE] = new FaceGamePiece();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG] = new FaceAprilTag();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::TOWARD_GOAL] = new FaceGoalHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::IGNORE] = new IgnoreHeading();
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("maintain"), m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("spec angle"), m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("game piece"), m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("april tag"), m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("toward goal"), m_headingStateMap[ChassisOptionEnums::HeadingOption::TOWARD_GOAL] != nullptr ? string("ptr") : string("nullptr"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("ignore"), m_headingStateMap[ChassisOptionEnums::HeadingOption::IGNORE] != nullptr ? string("ptr") : string("nullptr"));
 }
+
 /// @brief Align all of the swerve modules to point forward
 void SwerveChassis::ZeroAlignSwerveModules()
 {
@@ -182,12 +199,16 @@ void SwerveChassis::Drive(ChassisMovement moveInfo)
     LogInformation();
 
     m_currentOrientationState = GetHeadingState(moveInfo);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("heading state"), m_currentOrientationState != nullptr ? string("ptr") : string("nullptr"));
+
     if (m_currentOrientationState != nullptr)
     {
         m_currentOrientationState->UpdateChassisSpeeds(moveInfo);
     }
 
     m_currentDriveState = GetDriveState(moveInfo);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive state"), m_currentDriveState != nullptr ? string("ptr") : string("nullptr"));
+
     if (m_currentDriveState != nullptr)
     {
         auto states = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
@@ -196,15 +217,12 @@ void SwerveChassis::Drive(ChassisMovement moveInfo)
         m_backLeft->SetDesiredState(states[LEFT_BACK]);
         m_backRight->SetDesiredState(states[RIGHT_BACK]);
     }
-    auto table = nt::NetworkTableInstance::GetDefault().GetTable("Anti-Tip");
-    table->PutBoolean(std::string(" "), (moveInfo.checkTipping));
 }
 
 void SwerveChassis::Drive()
 {
     // No-op for now
 }
-
 ISwerveDriveState *SwerveChassis::GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption)
 {
     auto itr = m_driveStateMap.find(driveOption);
@@ -236,14 +254,13 @@ ISwerveDriveOrientation *SwerveChassis::GetHeadingState(ChassisMovement moveInfo
 }
 ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
 {
-    ISwerveDriveState *state = nullptr;
+    auto state = GetSpecifiedDriveState(moveInfo.driveOption);
 
     auto isVisionDrive = moveInfo.driveOption == ChassisOptionEnums::VISION_DRIVE;
-    auto isAutoBlance = moveInfo.driveOption == ChassisOptionEnums::AUTO_BALANCE;
     auto isHoldDrive = moveInfo.driveOption == ChassisOptionEnums::HOLD_DRIVE;
     auto hasTrajectory = moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE || moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER;
 
-    if (!hasTrajectory && !isVisionDrive && !isAutoBlance && !isHoldDrive &&
+    if (!hasTrajectory && !isVisionDrive && !isHoldDrive &&
         (units::math::abs(moveInfo.chassisSpeeds.vx) < m_velocityDeadband) &&
         (units::math::abs(moveInfo.chassisSpeeds.vy) < m_velocityDeadband) &&
         (units::math::abs(moveInfo.chassisSpeeds.omega) < m_angularDeadband))
@@ -259,6 +276,7 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
     }
     else
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("state"), static_cast<double>(moveInfo.driveOption));
         auto itr = m_driveStateMap.find(moveInfo.driveOption);
         if (itr == m_driveStateMap.end())
         {
@@ -277,11 +295,15 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
         m_initialized = false;
     }
 
-    if (!m_initialized)
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("state before init"), state != nullptr ? string("ptr") : string("nullptr"));
+
+    if (!m_initialized && state != nullptr)
     {
         state->Init(moveInfo);
         m_initialized = true;
     }
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive state"), state != nullptr ? string("ptr") : string("nullptr"));
 
     return state;
 }

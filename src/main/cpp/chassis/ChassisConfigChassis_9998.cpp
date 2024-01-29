@@ -31,6 +31,7 @@ void ChassisConfigChassis_9998::DefineMotorControllers()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ChassisConfigChassis_9998::DefineMotorControllers"), string("arrived"));
 
+    /**
     DistanceAngleCalcStruc calcStruc;
     m_leftFrontDrive = new DragonTalonFX(string("LF_SWERVE"),
                                          RobotElementNames::MOTOR_CONTROLLER_USAGE::SWERVE_DRIVE,
@@ -87,7 +88,7 @@ void ChassisConfigChassis_9998::DefineMotorControllers()
                                         calcStruc,
                                         IDragonMotorController::MOTOR_TYPE::FALCON500,
                                         string("Canivore"));
-
+**/
     /**
     m_leftFrontDrive->SetCurrentLimits(true,
        units::current::ampere_t(25.0),
@@ -171,13 +172,14 @@ void ChassisConfigChassis_9998::DefineMotorControllers()
 }
 void ChassisConfigChassis_9998::DefineCANSensors()
 {
+    /**
     m_pigeon = new DragonPigeon2(0,
                                  string("Canivore"),
                                  RobotElementNames::PIGEON_USAGE::PIGEON_ROBOT_CENTER,
                                  units::angle::degree_t(0.0),
                                  units::angle::degree_t(0.0),
                                  units::angle::degree_t(0.0));
-
+**/
     /**
     m_leftFrontCoder = new DragonCanCoder(string("RB_SWERVE"),
                                        RobotElementNames::CANCODER_USAGE::BACK_RIGHT_SWERVE,
