@@ -41,6 +41,9 @@
 #include "mechanisms/Thing1Mech/decoratormods/Thing1Mech_sparkyOn_State.h"
 #include "mechanisms/Thing1Mech/decoratormods/Thing1Mech_thing1Talon_State.h"
 
+#include "robotstate/RobotState.h"
+
+
 using std::string;
 
 /// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -50,9 +53,10 @@ using std::string;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-Thing1Mech::Thing1Mech ( Thing1Mech_gen *base ) : Thing1Mech_gen(),
+Thing1Mech::Thing1Mech ( Thing1Mech_gen *base ) : Thing1Mech_gen(),IRobotStateChangeSubscriber(),
 	m_Thing1Mech ( base )
 {
+	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 }
 
 void Thing1Mech::createAndRegisterStates()

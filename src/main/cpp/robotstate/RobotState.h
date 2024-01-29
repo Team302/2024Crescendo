@@ -37,6 +37,9 @@ public:
 
 private:
     void PublishGameStateChanges();
+    void PublishScoringMode(TeleopControl *controller);
+    void PublishClimbMode(TeleopControl *controller);
+
     RobotState();
     ~RobotState();
 
@@ -46,7 +49,7 @@ private:
     RobotStateChanges::ClimbMode m_climbMode;
     RobotStateChanges::GamePeriod m_gamePhase;
 
-    bool m_scoringModeButtonReleased = false;
-    bool m_climbModeButtonReleased = false;
+    bool m_scoringModeButtonReleased;
+    bool m_climbModeButtonReleased;
     static RobotState *m_instance;
 };

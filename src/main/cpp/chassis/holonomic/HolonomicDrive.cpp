@@ -46,24 +46,13 @@ using namespace frc;
 
 /// @brief initialize the object and validate the necessary items are not nullptrs
 HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
-                                   IRobotStateChangeSubscriber(),
                                    m_chassis(nullptr),
                                    m_swerve(nullptr),
-                                   m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
-                                   m_desiredGamePiece(RobotStateChanges::GamePiece::None)
+                                   m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE)
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     m_swerve = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredGamePiece);
-}
-
-void HolonomicDrive::Update(RobotStateChanges::StateChange change, int value)
-{
-    if (change == RobotStateChanges::StateChange::DesiredGamePiece)
-    {
-        m_desiredGamePiece = static_cast<RobotStateChanges::GamePiece>(value);
-    }
 }
 
 /// @brief initialize the profiles for the various gamepad inputs
@@ -113,14 +102,7 @@ void HolonomicDrive::Run()
 
             if (alignFloorPiece)
             {
-                // set pipeline to discover retroreflective
-                if (m_desiredGamePiece == RobotStateChanges::GamePiece::Cube)
-                    // visionapi - revisit this with me dragonvision
-                    //   DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CUBE : DragonLimelight::PIPELINE_MODE::CUBE_SUBSTATION);
-                    //   else
-                    //    DragonVision::GetDragonVision()->setPipeline(alignFloorPiece ? DragonLimelight::PIPELINE_MODE::CONE : DragonLimelight::PIPELINE_MODE::CONE_SUBSTATION);
-
-                    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+                moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
                 if (alignFloorPiece)
                     moveInfo.driveOption = ChassisOptionEnums::DriveStateType::VISION_DRIVE;
 
@@ -144,8 +126,7 @@ void HolonomicDrive::Run()
             visionDrive->ResetVisionDrive();
         }
 
-        // update leds based on finding cube with vision
-        RobotState::GetInstance()->PublishStateChange(RobotStateChanges::StateChange::FindingCube, m_findingFloorGamePiece ? 1 : 0);
+        // update leds based on finding cube with vis
 
         if (controller->IsButtonPressed(TeleopControlFunctions::HOLD_POSITION))
         {

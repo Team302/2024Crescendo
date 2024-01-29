@@ -26,10 +26,11 @@
 #include "mechanisms/Thing1Mech/generated/Thing1Mech_gen.h"
 #include "mechanisms/base/StateMgr.h"
 #include "robotstate/IRobotStateChangeSubscriber.h"
+#include "robotstate/RobotStateChanges.h"
 
 // forward declares
 
-class Thing1Mech : public Thing1Mech_gen
+class Thing1Mech : public Thing1Mech_gen, public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -48,7 +49,6 @@ public:
 	RobotStateChanges::ScoringMode m_scoringMode;
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
-
 
 	// todo not sure what to do with these
 	/*
