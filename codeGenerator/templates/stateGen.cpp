@@ -10,11 +10,7 @@ $$_GEN_NOTICE_$$
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_$$_STATE_NAME_$$_StateGen.h"
 #include "mechanisms/base/BaseMech.h"
-
-#include <utils/logging/LoggableItemMgr.h>
 #include "utils/logging/Logger.h"
-#include <utils/logging/LoggerData.h>
-#include <utils/logging/LoggerEnums.h>
 
 // Third Party Includes
 
