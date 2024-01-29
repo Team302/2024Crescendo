@@ -31,6 +31,7 @@
 #include "utils/logging/Logger.h"
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
+#include <robotstate/RobotStateChanges.h>
 
 // Third Party Includes
 
@@ -55,6 +56,15 @@ void Thing1MechleftBackCWState::Init()
 void Thing1MechleftBackCWState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("Thing1MechleftBackCWState"), string("run"));
+	if (m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+	{
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Thing1MechleftBackCWState"), string("Robot Scoring Mode"), "Launcher");
+	}
+	else
+	{
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Thing1MechleftBackCWState"), string("Robot Scoring Mode"), "Placer");
+	}
+
 	m_genState->Run();
 }
 
@@ -72,12 +82,11 @@ bool Thing1MechleftBackCWState::AtTarget()
 bool Thing1MechleftBackCWState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-	
+
 	bool transition = false;
 
 	if (considerGamepadTransitions && (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE) && m_mechanism->GetCurrentState() == Thing1Mech::STATE_RIGHT_BACK_CW) || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::DEBUG_INC_P) && m_mechanism->GetCurrentState() == Thing1Mech::STATE_RIGHT_FRONT_CW) || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->GetCurrentState() == Thing1Mech::STATE_SPARKY_ON))
 		transition = true;
-	
-	
+
 	return transition;
 }
