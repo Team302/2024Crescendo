@@ -78,8 +78,8 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 {
 	DragonCamera *selectedCam = nullptr;
 
-	int frontTagId = m_DragonCameraMap[FRONT]->GetAprilTagID();
-	int backTagId = m_DragonCameraMap[BACK]->GetAprilTagID();
+	int frontTagId = m_DragonCameraMap[LAUNCHER]->GetAprilTagID();
+	int backTagId = m_DragonCameraMap[PLACER]->GetAprilTagID();
 
 	if ((frontTagId == -1) && (backTagId == -1)) // if we see no april tags
 	{
@@ -88,17 +88,17 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 	else if ((frontTagId != -1) && (backTagId != -1)) // if we see april tags in both cameras
 	{
 		// distance logic
-		units::length::inch_t frontDistance = m_DragonCameraMap[FRONT]->GetEstimatedTargetXDistance_RelToRobotCoords();
-		units::length::inch_t backDistance = m_DragonCameraMap[BACK]->GetEstimatedTargetXDistance_RelToRobotCoords();
+		units::length::inch_t frontDistance = m_DragonCameraMap[LAUNCHER]->GetEstimatedTargetXDistance_RelToRobotCoords();
+		units::length::inch_t backDistance = m_DragonCameraMap[PLACER]->GetEstimatedTargetXDistance_RelToRobotCoords();
 
-		selectedCam = frontDistance <= backDistance ? m_DragonCameraMap[FRONT] : m_DragonCameraMap[BACK]; // if front is less ambiguous, select it, and vice versa
+		selectedCam = frontDistance <= backDistance ? m_DragonCameraMap[LAUNCHER] : m_DragonCameraMap[PLACER]; // if front is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
 		if (frontTagId != -1)
-			selectedCam = m_DragonCameraMap[FRONT];
+			selectedCam = m_DragonCameraMap[LAUNCHER];
 		else
-			selectedCam = m_DragonCameraMap[BACK];
+			selectedCam = m_DragonCameraMap[PLACER];
 	}
 
 	return selectedCam->GetDataToNearestApriltag();
@@ -111,10 +111,10 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	switch (element)
 	{
 	case VISION_ELEMENT::PLACER_NOTE:
-		selectedCam = m_DragonCameraMap[BACK];
+		selectedCam = m_DragonCameraMap[PLACER];
 		break;
 	case VISION_ELEMENT::LAUNCHER_NOTE:
-		selectedCam = m_DragonCameraMap[FRONT];
+		selectedCam = m_DragonCameraMap[LAUNCHER];
 		break;
 	case VISION_ELEMENT::NOTE:
 		bool frontHasDetection = m_DragonCameraMap[FRONT_INTAKE]->HasTarget();
@@ -159,10 +159,10 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 {
 	DragonCamera *selectedCam = nullptr;
 
-	bool bothCamerasSeeTag = (m_DragonCameraMap[FRONT]->GetAprilTagID() != -1) && (m_DragonCameraMap[BACK]->GetAprilTagID() != -1);
+	bool bothCamerasSeeTag = (m_DragonCameraMap[LAUNCHER]->GetAprilTagID() != -1) && (m_DragonCameraMap[PLACER]->GetAprilTagID() != -1);
 
-	int frontTagId = m_DragonCameraMap[FRONT]->GetAprilTagID();
-	int backTagId = m_DragonCameraMap[BACK]->GetAprilTagID();
+	int frontTagId = m_DragonCameraMap[LAUNCHER]->GetAprilTagID();
+	int backTagId = m_DragonCameraMap[PLACER]->GetAprilTagID();
 
 	if ((frontTagId == -1) && (backTagId == -1)) // if we see no april tags
 	{
@@ -171,18 +171,18 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	else if ((frontTagId != -1) && (backTagId != -1)) // if we see april tags in both cameras
 	{
 		// confidence logic
-		double frontAmbiguity = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[FRONT])->GetPoseAmbiguity();
-		double backAmbiguity = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[BACK])->GetPoseAmbiguity();
+		double frontAmbiguity = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[LAUNCHER])->GetPoseAmbiguity();
+		double backAmbiguity = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[PLACER])->GetPoseAmbiguity();
 
-		selectedCam = frontAmbiguity <= backAmbiguity ? m_DragonCameraMap[FRONT] : m_DragonCameraMap[BACK]; // if front is less ambiguous, select it, and vice versa
+		selectedCam = frontAmbiguity <= backAmbiguity ? m_DragonCameraMap[LAUNCHER] : m_DragonCameraMap[PLACER]; // if front is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
 		if (frontTagId != -1)
-			selectedCam = m_DragonCameraMap[FRONT];
+			selectedCam = m_DragonCameraMap[LAUNCHER];
 
 		else
-			selectedCam = m_DragonCameraMap[BACK];
+			selectedCam = m_DragonCameraMap[PLACER];
 	}
 
 	// if (FMSData::GetInstance()->GetAllianceColor()

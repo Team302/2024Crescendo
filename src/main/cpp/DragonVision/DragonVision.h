@@ -35,8 +35,8 @@ public:
 
     enum CAMERA_POSITION
     {
-        FRONT,
-        BACK,
+        LAUNCHER,
+        PLACER,
         BACK_INTAKE,
         FRONT_INTAKE
     };

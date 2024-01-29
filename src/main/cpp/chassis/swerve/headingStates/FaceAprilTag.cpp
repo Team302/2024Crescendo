@@ -42,9 +42,9 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     std::optional<VisionData> optionalVisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
     // get targetdata from the vision system
     // visionapi - update this for new dragon vision
-    if (m_vision->GetPipeline(DragonVision::CAMERA_POSITION::FRONT) != DragonCamera::PIPELINE::APRIL_TAG)
+    if (m_vision->GetPipeline(DragonVision::CAMERA_POSITION::LAUNCHER) != DragonCamera::PIPELINE::APRIL_TAG)
     {
-        m_vision->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::FRONT);
+        m_vision->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::LAUNCHER);
     }
 
     if (optionalVisionData.has_value())

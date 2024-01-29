@@ -129,8 +129,8 @@ void HolonomicDrive::Run()
             {
                 // set pipeline to discover april tags
 
-                DragonVision::GetDragonVision()->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::FRONT);
-                DragonVision::GetDragonVision()->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::BACK);
+                DragonVision::GetDragonVision()->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::LAUNCHER);
+                DragonVision::GetDragonVision()->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::PLACER);
                 moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
                 moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
             }
