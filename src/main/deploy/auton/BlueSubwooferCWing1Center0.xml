@@ -11,10 +11,11 @@ pathname="BlueSubwooferCWing1Center0.path"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname="BlueSubwooferCWing1Center0.path"
-time= "1.45"/>
-<!--Go forward as the path says and assume we pick up note-->
+time= "1.2"/>
+<!--Go forward as the path says-->
 
 <snippet file= "ShootWhenStop.xml"/>
 <!--Shoot the ring into the speaker-->
+
 
 </auton>
