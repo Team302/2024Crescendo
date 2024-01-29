@@ -37,7 +37,7 @@ public:
     virtual bool AtTarget() = 0;
 
     virtual void RegisterTransitionState(State *state);
-    virtual bool IsTransitionCondition(bool considerGamepadTransitions) const;
+    virtual bool IsTransitionCondition(bool considerGamepadTransitions);
     std::vector<State *> GetPossibleStateTransitions() const { return m_transitionStates; }
 
     void LogInformation() override;

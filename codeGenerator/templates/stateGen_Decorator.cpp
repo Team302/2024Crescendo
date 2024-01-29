@@ -26,7 +26,8 @@ using namespace std;
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
 $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::$$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State(std::string stateName,
                                                                                                        int stateId,
-                                                                                                       $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *generatedState) : State(stateName, stateId), m_genState(generatedState)
+                                                                                                       $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *generatedState,
+                                                                                                       $$_MECHANISM_INSTANCE_NAME_$$ *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
@@ -54,12 +55,9 @@ bool $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::AtTarget()
     return attarget;
 }
 
-bool $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::IsTransitionCondition(bool considerGamepadTransitions) const
+bool $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State::IsTransitionCondition(bool considerGamepadTransitions)
 {
-    // To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
-    // where MECHANISM is the name of the generated mechanism object
+    // To get the current state use m_mechanism->GetCurrentState()
 
-    // auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
-    // return transition;
     return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXAMPLE_MECH_FORWARD));
 }
