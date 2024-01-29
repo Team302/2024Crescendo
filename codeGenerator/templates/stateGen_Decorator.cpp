@@ -7,16 +7,11 @@ $$_GEN_NOTICE_$$
 // FRC includes
 
 // Team 302 includes
-#include "State.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_$$_STATE_NAME_$$_StateGen.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/decoratormods/$$_MECHANISM_INSTANCE_NAME_$$_$$_STATE_NAME_$$_State.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
-
-#include <utils/logging/LoggableItemMgr.h>
 #include "utils/logging/Logger.h"
-#include <utils/logging/LoggerData.h>
-#include <utils/logging/LoggerEnums.h>
 
 // Third Party Includes
 
