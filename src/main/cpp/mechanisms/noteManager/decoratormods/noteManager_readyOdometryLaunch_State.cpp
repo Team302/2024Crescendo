@@ -72,10 +72,10 @@ bool noteManagerreadyOdometryLaunchState::AtTarget()
 
 bool noteManagerreadyOdometryLaunchState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
-	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
-	// where MECHANISM is the name of the generated mechanism object
+	// To get the current state use m_mechanism->GetCurrentState()
+	
 
-	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
-	// return transition;
+	
+	
 	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
 }

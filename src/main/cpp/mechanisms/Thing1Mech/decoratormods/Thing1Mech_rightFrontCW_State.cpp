@@ -71,10 +71,10 @@ bool Thing1MechrightFrontCWState::AtTarget()
 
 bool Thing1MechrightFrontCWState::IsTransitionCondition(bool considerGamepadTransitions)
 {
-	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
-	// where MECHANISM is the name of the generated mechanism object
+	// To get the current state use m_mechanism->GetCurrentState()
+	
 
-	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
-	// return transition;
+	
+	
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE));
 }

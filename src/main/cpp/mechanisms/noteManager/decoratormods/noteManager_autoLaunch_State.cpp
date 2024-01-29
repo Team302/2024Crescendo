@@ -72,9 +72,9 @@ bool noteManagerautoLaunchState::AtTarget()
 
 bool noteManagerautoLaunchState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
-	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
-	// where MECHANISM is the name of the generated mechanism object
-	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
-	// return transition;
+	// To get the current state use m_mechanism->GetCurrentState()
+	
+	
+	
 	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::AUTO_LAUNCH) && AtTarget());
 }

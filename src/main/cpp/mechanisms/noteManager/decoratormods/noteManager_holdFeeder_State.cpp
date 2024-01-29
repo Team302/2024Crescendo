@@ -73,8 +73,8 @@ bool noteManagerholdFeederState::AtTarget()
 bool noteManagerholdFeederState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	bool transition = false;
-	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
-	// where MECHANISM is the name of the generated mechanism object
+	// To get the current state use m_mechanism->GetCurrentState()
+	
 	bool feederSensor = m_genState->GetnoteManager()->feederSensor->Get();
 	bool launcherSensor = m_genState->GetnoteManager()->launcherSensor->Get();
 	auto currentstate = m_genState->GetnoteManager()->GetCurrentState();
@@ -84,7 +84,7 @@ bool noteManagerholdFeederState::IsTransitionCondition ( bool considerGamepadTra
 		transition = true;
 	}
 
-	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
-	// return transition;
+	
+	
 	return (transition);
 }

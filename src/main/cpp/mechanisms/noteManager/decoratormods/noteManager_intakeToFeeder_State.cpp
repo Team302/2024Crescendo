@@ -72,11 +72,11 @@ bool noteManagerintakeToFeederState::AtTarget()
 
 bool noteManagerintakeToFeederState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
-	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
-	// where MECHANISM is the name of the generated mechanism object
+	// To get the current state use m_mechanism->GetCurrentState()
+	
 
-	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
-	// return transition;
+	
+	
 	return (considerGamepadTransitions &&
 			(TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH) || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH)) || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS))));
 }
