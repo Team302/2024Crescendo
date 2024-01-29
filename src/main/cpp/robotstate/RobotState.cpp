@@ -77,6 +77,8 @@ void RobotState::Run()
     {
         m_chassis->UpdateOdometry();
     }
+    PublishScoringMode();
+    PublishClimbMode();
 }
 
 void RobotState::RegisterForStateChanges(IRobotStateChangeSubscriber *subscriber, RobotStateChanges::StateChange change)
@@ -120,5 +122,31 @@ void RobotState::PublishGameStateChanges()
     {
         m_gamePhase = gameState;
         PublishStateChange(RobotStateChanges::GameState, gameState);
+    }
+
+    void RobotState::PublishScoringMode(TeleopControl * controller)
+    {
+        if (controller->IsButtonPressed(TeleopControlFunctions::SCORING_MODE))
+        {
+            if (m_scoringModeButtonReleased)
+            {
+                m_scoringMode = (m_scoringMode == RobotStateChanges::Launcher) ? RobotStateChanges::Placer : RobotStateChanges::Launcher;
+                PublishStateChange(RobotStateChanges::DesiredScoringMode, m_scoringMode);
+            }
+        }
+        m_scoringModeButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::SCORING_MODE);
+    }
+
+    void RobotState::PublishClimbMode(TeleopControl * controller)
+    {
+        if (controller->IsButtonPressed(TeleopControlFunctions::CLIMB_MODE))
+        {
+            if (m_climbModeButtonReleased)
+            {
+                m_climbMode = (m_climbMode == RobotStateChanges::ClimbModeOff) ? RobotStateChanges::ClimbModeOn : RobotStateChanges::ClimbModeOff;
+                PublishStateChange(RobotStateChanges::ClimbModeStatus, m_climbMode);
+            }
+        }
+        m_climbModeButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::CLIMB_MODE);
     }
 }

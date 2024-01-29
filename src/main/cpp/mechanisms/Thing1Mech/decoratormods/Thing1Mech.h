@@ -25,6 +25,7 @@
 // Team 302 includes
 #include "mechanisms/Thing1Mech/generated/Thing1Mech_gen.h"
 #include "mechanisms/base/StateMgr.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
 
 // forward declares
 
@@ -43,6 +44,11 @@ public:
 	~Thing1Mech() = default;
 
 	void createAndRegisterStates();
+
+	RobotStateChanges::ScoringMode m_scoringMode;
+
+	void Update(RobotStateChanges::StateChange change, int value) override;
+
 
 	// todo not sure what to do with these
 	/*

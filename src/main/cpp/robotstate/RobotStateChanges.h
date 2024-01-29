@@ -21,51 +21,25 @@ class RobotStateChanges
 public:
     enum StateChange
     {
-        DesiredGamePiece,
-        HoldingGamePiece,
-        ArmExtenderState,
-        ArmRotateState,
-        ArmRotateAngle,
-        ArmRotateAngleTarget,
-        CYCLE_GAMEPIECEState,
-        IntakeState,
-        DesiredPlacementLocation,
-        DesiredPlacementDepth,
+        DesiredScoringMode,
+        ClimbModeStatus,
         ChassisTipStatus,
         DriveAssistMode,
         GameState,
         CompressorChange,
-        FindingCube,
         LoopCounter
     };
 
-    enum GamePiece
+    enum ScoringMode
     {
-        Cone,
-        Cube,
-        None
+        Launcher,
+        Placer
     };
 
-    enum PlacementLocation
+    enum ClimbMode
     {
-        HPGridLeftPole,
-        HPGridRightPole,
-        CoopGridLeftPole,
-        CoopGridRightPole,
-        WallGridLeftPole,
-        WallGridRightPole,
-        PoleShelfTransition,
-        HPGridCenterShelf,
-        CoopGridCenterShelf,
-        WallGridCenterShelf,
-        MaxLocations
-    };
-
-    enum PlacementDepth
-    {
-        Floor,
-        MiddleRow,
-        BackRow
+        ClimbModeOff,
+        ClimbModeOn
     };
 
     enum ChassisTilt
@@ -85,11 +59,5 @@ public:
         Auton,
         Teleop,
         Disabled
-    };
-
-    enum CompressorState
-    {
-        CompressorOff,
-        CompressorOn
     };
 };

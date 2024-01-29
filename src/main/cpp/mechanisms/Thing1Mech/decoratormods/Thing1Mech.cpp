@@ -87,6 +87,12 @@ void Thing1Mech::createAndRegisterStates()
 
 }
 
+void Thing1Mech::Update(RobotStateChanges::StateChange change, int value)
+{
+	if (change == RobotStateChanges::DesiredScoringMode)
+		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
+}
+
 // todo not sure what to do with this
 /*
 bool Thing1Mech::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const

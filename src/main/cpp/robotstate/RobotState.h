@@ -42,11 +42,11 @@ private:
 
     IChassis *m_chassis;
     std::vector<RobotStateChangeBroker *> m_brokers;
-    RobotStateChanges::GamePiece m_gamePiece;
+    RobotStateChanges::ScoringMode m_scoringMode;
+    RobotStateChanges::ClimbMode m_climbMode;
     RobotStateChanges::GamePeriod m_gamePhase;
-    RobotStateChanges::CompressorState m_compressorCurrent;
 
-    bool m_wasGamePieceButtonReleased;
-    bool m_wasCompressorButtonReleased;
+    bool m_scoringModeButtonReleased = false;
+    bool m_climbModeButtonReleased = false;
     static RobotState *m_instance;
 };
