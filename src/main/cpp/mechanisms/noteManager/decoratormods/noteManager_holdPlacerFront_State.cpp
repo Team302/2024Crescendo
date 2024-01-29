@@ -74,10 +74,10 @@ bool noteManagerholdPlacerFrontState::IsTransitionCondition ( bool considerGamep
 {
 	bool placersensor = m_genState->GetnoteManager()->placerInSensor->Get();
 	bool frontintakesensor = m_genState->GetnoteManager()->frontIntakeSensor->Get();
-	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
-	// where MECHANISM is the name of the generated mechanism object
+	// To get the current state use m_mechanism->GetCurrentState()
+	
 
-	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
-	// return transition;
+	
+	
 	return ( placersensor && frontintakesensor );
 }

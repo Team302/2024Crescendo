@@ -72,11 +72,11 @@ bool noteManagerholdPlacerBackState::AtTarget()
 
 bool noteManagerholdPlacerBackState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
-	// To get the current state use m_genState->GetMECHANISM()->GetCurrentState()
-	// where MECHANISM is the name of the generated mechanism object
+	// To get the current state use m_mechanism->GetCurrentState()
+	
 	bool placerInSensor = m_genState->GetnoteManager()->placerInSensor->Get();
 	bool backIntakeSensor = m_genState->GetnoteManager()->backIntakeSensor->Get();
-	// auto transition = m_genState->IsTransitionCondition(considerGamepadTransitions);
-	// return transition;
+	
+	
 	return (placerInSensor && backIntakeSensor);
 }
