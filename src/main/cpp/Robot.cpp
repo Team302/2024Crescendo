@@ -7,10 +7,10 @@
 
 #include <string>
 
-#include <cameraserver/CameraServer.h>
-
-#include <auton/AutonPreviewer.h>
-#include <auton/CyclePrimitives.h>
+#include "auton/AutonPreviewer.h"
+#include "auton/CyclePrimitives.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "chassis/HolonomicDrive.h"
 #include "chassis/SwerveChassis.h"
 #include "configs/RobotConfig.h"
@@ -33,10 +33,6 @@
 #include <AdjustableItemMgr.h>
 /// DEBUGGING
 
-#include "configs/RobotConfigMgr.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotElementNames.h"
-
 /* How to check robot variant
 #if ROBOT_VARIANT == 2024
 #warning COMP BOT
@@ -57,7 +53,9 @@ void Robot::RobotInit()
     int32_t teamNumber = frc::RobotController::GetTeamNumber();
     // Build the robot
     RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+
+    ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
+    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 
     auto waypointParser = WaypointXmlParser::GetInstance();
     waypointParser->ParseWaypoints();
@@ -69,7 +67,7 @@ void Robot::RobotInit()
     m_robotState = RobotState::GetInstance();
     m_robotState->Init();
 
-    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
 
     m_holonomic = nullptr;
     if (m_chassis != nullptr)
