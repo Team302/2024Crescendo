@@ -201,6 +201,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	case VISION_ELEMENT::AMP:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red amp*/ : frc::Pose3d{}; /*load blue amp*/
 		break;
+	default:
+		break;
 	}
 
 	// make 2 pose 3ds and implement in transform3d.
