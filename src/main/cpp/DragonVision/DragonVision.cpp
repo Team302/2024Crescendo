@@ -117,8 +117,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		selectedCam = m_DragonCameraMap[LAUNCHER];
 		break;
 	case VISION_ELEMENT::NOTE:
-		bool frontHasDetection = m_DragonCameraMap[FRONT_INTAKE]->HasTarget();
-		bool backHasDetection = m_DragonCameraMap[BACK_INTAKE]->HasTarget();
+		bool frontHasDetection = m_DragonCameraMap[LAUNCHER_INTAKE]->HasTarget();
+		bool backHasDetection = m_DragonCameraMap[PLACER_INTAKE]->HasTarget();
 		if (!frontHasDetection && !backHasDetection)
 		{
 			return std::nullopt;
@@ -126,17 +126,17 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		else if (frontHasDetection && backHasDetection)
 		{
 
-			frc::Translation2d translationfront = frc::Translation2d(m_DragonCameraMap[FRONT_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_DragonCameraMap[FRONT_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
-			frc::Translation2d translationback = frc::Translation2d(m_DragonCameraMap[BACK_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_DragonCameraMap[BACK_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
+			frc::Translation2d translationfront = frc::Translation2d(m_DragonCameraMap[LAUNCHER_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_DragonCameraMap[LAUNCHER_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
+			frc::Translation2d translationback = frc::Translation2d(m_DragonCameraMap[PLACER_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_DragonCameraMap[PLACER_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
 
-			selectedCam = units::math::abs(translationfront.Norm()) < units::math::abs(translationback.Norm()) ? m_DragonCameraMap[FRONT_INTAKE] : m_DragonCameraMap[BACK_INTAKE];
+			selectedCam = units::math::abs(translationfront.Norm()) < units::math::abs(translationback.Norm()) ? m_DragonCameraMap[LAUNCHER_INTAKE] : m_DragonCameraMap[PLACER_INTAKE];
 		}
 		else
 		{
 			if (frontHasDetection)
-				selectedCam = m_DragonCameraMap[FRONT_INTAKE];
+				selectedCam = m_DragonCameraMap[LAUNCHER_INTAKE];
 			else
-				selectedCam = m_DragonCameraMap[BACK_INTAKE];
+				selectedCam = m_DragonCameraMap[PLACER_INTAKE];
 		}
 		break;
 	default:
