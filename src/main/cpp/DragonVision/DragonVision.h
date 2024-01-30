@@ -37,8 +37,8 @@ public:
     {
         LAUNCHER,
         PLACER,
-        BACK_INTAKE,
-        FRONT_INTAKE
+        PLACER_INTAKE,
+        LAUNCHER_INTAKE
     };
 
     enum VISION_ELEMENT

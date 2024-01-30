@@ -498,5 +498,5 @@ VisionData DragonPhotonCam::GetDataToNearestAprilTag()
 
         camToTargetTransform = target.GetBestCameraToTarget();
     }
-    return VisionData{camToTargetTransform.Translation(), GetAprilTagID()};
+    return VisionData{camToTargetTransform, GetAprilTagID()};
 }

@@ -117,7 +117,7 @@ void HolonomicDrive::Run()
                 // set pipeline to discover retroreflective
                 if (m_desiredGamePiece == RobotStateChanges::GamePiece::Cube)
                     // visionapi - revisit this with me dragonvision
-                    DragonVision::GetDragonVision()->SetPipeline(DragonCamera::PIPELINE::MACHINE_LEARNING, DragonVision::CAMERA_POSITION::BACK_INTAKE);
+                    DragonVision::GetDragonVision()->SetPipeline(DragonCamera::PIPELINE::MACHINE_LEARNING, DragonVision::CAMERA_POSITION::PLACER_INTAKE);
                 moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
                 if (alignFloorPiece)
                     moveInfo.driveOption = ChassisOptionEnums::DriveStateType::VISION_DRIVE;
