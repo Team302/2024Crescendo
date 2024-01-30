@@ -65,6 +65,10 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	{
 		return GetVisionDataToNearestTag();
 	}
+	else if (element == VISION_ELEMENT::STAGE)
+	{
+		return GetVisionDataToNearestStageTag();
+	}
 	else // looking for april tag elements
 	{
 		return GetVisionDataFromElement(element);
@@ -78,12 +82,29 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag()
 	int frontTagId = m_DragonCameraMap[LAUNCHER]->GetAprilTagID();
 	int backTagId = m_DragonCameraMap[PLACER]->GetAprilTagID();
 
-	if (frontTagId <= 16 && frontTagId >= 11)
-	{
+	std::optional<frc::DriverStation::Alliance> allianceColor = frc::DriverStation::GetAlliance();
 
+	std::vector<int> tagIdsToCheck = {};
+
+	if (allianceColor)
+	{
+		if (allianceColor == frc::DriverStation::Alliance::kBlue)
+		{
+			// blue alliance stage tag ids are 14, 15, 16
+			tagIdsToCheck.emplace_back(14, 15, 16);
+		}
+		else
+		{
+			// red alliance stage tag ids are 11, 12, 13
+			tagIdsToCheck.emplace_back(11, 12, 13);
+		}
+	}
+
+	if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), frontTagId) != tagIdsToCheck.end())
+	{
 		return m_DragonCameraMap[LAUNCHER]->GetDataToNearestApriltag(); // frontagId is for stage id
 	}
-	else if (backTagId <= 16 && backTagId >= 11)
+	else if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), backTagId) != tagIdsToCheck.end())
 	{
 		return m_DragonCameraMap[PLACER]->GetDataToNearestApriltag(); // frontagId is for stage id
 	}
