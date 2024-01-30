@@ -25,7 +25,6 @@
 #include "mechanisms/base/BaseMechMotor.h"
 #include "mechanisms/base/BaseMechMotorState.h"
 #include "mechanisms/controllers/ControlData.h"
-#include "mechanisms/controllers/MechanismTargetData.h"
 #include "mechanisms/base/BaseMech.h"
 #include "utils/logging/Logger.h"
 
