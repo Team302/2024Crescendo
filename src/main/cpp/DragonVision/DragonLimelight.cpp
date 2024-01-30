@@ -398,43 +398,6 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 
         return units::length::inch_t(xdistance[0]);
     }
-
-    // First determin the limelightAngleFromHorizontal depending on the mounting orientation
-    //  if (abs(limelightRoll.to<double>()) < 1.0)
-    //  {
-    //      limelightAngleFromHorizontal = GetCameraPitch();
-    //  }
-    //  else if (abs(limelightRoll.to<double>() - 90.0) < 1.0)
-    //  {
-    //      limelightAngleFromHorizontal = -1.0 * GetCameraYaw();
-    //  }
-    //  else if (abs(limelightRoll.to<double>() - 180.0) < 1.0)
-    //  {
-    //      limelightAngleFromHorizontal = -1.0 * GetCameraPitch();
-    //  }
-    //  else if (abs(limelightRoll.to<double>() - 270.0) < 1.0)
-    //  {
-    //      limelightAngleFromHorizontal = GetCameraYaw();
-    //  }
-    //  else
-    //  {
-    //      // not handled. The only allowed Roll values are 0, 90, 180, 270
-    //  }
-
-    //  totalAngleFromHorizontal = (limelightAngleFromHorizontal + GetTargetVerticalOffset());
-
-    //  units::angle::radian_t angleRad = totalAngleFromHorizontal; // angle in radians
-    //  double tanOfAngle = tan(angleRad.to<double>());
-
-    //  if (theTargetHeight.has_value())
-    //  {
-    //      auto deltaHeight = theTargetHeight.value() - GetLimelightMountingHeight();
-    //      units::length::inch_t x_distanceToTarget = units::length::inch_t(deltaHeight / tanOfAngle);
-
-    //      return x_distanceToTarget;
-    //  }
-
-    // return units::length::inch_t(-1.0);
 }
 
 units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
