@@ -89,6 +89,8 @@ using std::string;
 noteManager::noteManager(noteManager_gen *base) : noteManager_gen(), IRobotStateChangeSubscriber(),
 												  m_noteManager(base)
 {
+	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
+	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 }

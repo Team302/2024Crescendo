@@ -47,6 +47,7 @@ using std::string;
 ClimberManager::ClimberManager(ClimberManager_gen *base) : ClimberManager_gen(), IRobotStateChangeSubscriber(),
 														   m_ClimberManager(base)
 {
+	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 }
 

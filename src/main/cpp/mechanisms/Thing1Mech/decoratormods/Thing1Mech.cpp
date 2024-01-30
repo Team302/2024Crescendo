@@ -56,6 +56,7 @@ using std::string;
 Thing1Mech::Thing1Mech ( Thing1Mech_gen *base ) : Thing1Mech_gen(),IRobotStateChangeSubscriber(),
 	m_Thing1Mech ( base )
 {
+	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
 	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 }
 
