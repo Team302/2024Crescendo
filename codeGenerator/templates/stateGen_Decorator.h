@@ -5,7 +5,6 @@ $$_GEN_NOTICE_$$
 #include <string>
 
 #include "State.h"
-#include "mechanisms/controllers/MechanismTargetData.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/decoratormods/$$_MECHANISM_INSTANCE_NAME_$$.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_$$_STATE_NAME_$$_StateGen.h"
 
