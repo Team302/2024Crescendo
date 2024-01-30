@@ -393,7 +393,7 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 
     else
     {
-        auto botpose = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[0]);
@@ -417,7 +417,7 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 
     else
     {
-        auto botpose = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[1]);
@@ -437,7 +437,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
 
     else
     {
-        auto botpose = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[1]);
@@ -456,7 +456,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
 
     else
     {
-        auto botpose = m_networktable.get()->GetDoubleArrayTopic("botpose");
+        auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[2]);
