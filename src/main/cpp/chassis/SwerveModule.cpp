@@ -209,6 +209,9 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     Rotation2d currAngle = Rotation2d(angle);
     auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
 
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("module"), string("angle"), optimizedState.angle.Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("module"), string("speed"), optimizedState.speed.to<double>());
+
     // Set Turn Target
     SetTurnAngle(optimizedState.angle.Degrees());
 

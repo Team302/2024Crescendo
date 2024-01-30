@@ -22,6 +22,7 @@
 // FRC Includes
 #include <networktables/NetworkTableInstance.h>
 #include "hw/interfaces/IDragonMotorController.h"
+#include "hw/DistanceAngleCalcStruc.h"
 
 #include "ClimberManager_gen.h"
 
