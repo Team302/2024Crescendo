@@ -28,8 +28,6 @@
 #include "State.h"
 #include "mechanisms/base/BaseMech.h"
 #include "mechanisms/base/StateMgr.h"
-#include "mechanisms/controllers/MechanismTargetData.h"
-#include <mechanisms/controllers/StateDataXmlParser.h>
 #include <mechanisms/StateMgrHelper.h>
 #include <mechanisms/StateStruc.h>
 #include "utils/logging/Logger.h"
