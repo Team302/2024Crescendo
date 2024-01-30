@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -25,10 +24,12 @@
 // Team 302 includes
 #include "mechanisms/Thing1Mech/generated/Thing1Mech_gen.h"
 #include "mechanisms/base/StateMgr.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
+#include "robotstate/RobotStateChanges.h"
 
 // forward declares
 
-class Thing1Mech : public Thing1Mech_gen
+class Thing1Mech : public Thing1Mech_gen, public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -38,11 +39,15 @@ public:
 	/// @param otherMotor Same as previous
 	/// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 	/// Additional actuators and sensors are also in this list.
-	Thing1Mech ( Thing1Mech_gen *generatedMech );
+	Thing1Mech(Thing1Mech_gen *generatedMech);
 	Thing1Mech() = delete;
 	~Thing1Mech() = default;
 
 	void createAndRegisterStates();
+
+	RobotStateChanges::ScoringMode m_scoringMode;
+
+	void Update(RobotStateChanges::StateChange change, int value) override;
 
 	// todo not sure what to do with these
 	/*
