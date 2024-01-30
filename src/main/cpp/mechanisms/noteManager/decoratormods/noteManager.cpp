@@ -76,6 +76,8 @@
 #include "mechanisms/noteManager/decoratormods/noteManager_backupManualLaunch_State.h"
 #include "mechanisms/noteManager/decoratormods/noteManager_backupManualPlace_State.h"
 
+#include "robotstate/RobotState.h"
+
 using std::string;
 
 /// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -85,7 +87,7 @@ using std::string;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-noteManager::noteManager ( noteManager_gen *base ) : noteManager_gen(),
+noteManager::noteManager ( noteManager_gen *base ) : noteManager_gen(),IRobotStateChangeSubscriber(),
 	m_noteManager ( base )
 {
 }
@@ -247,6 +249,14 @@ void noteManager::createAndRegisterStates()
 	backupManualLaunchState->RegisterTransitionState ( ReadyState );
 	backupManualPlaceState->RegisterTransitionState ( ReadyState );
 
+}
+void noteManager::Update(RobotStateChanges::StateChange change, int value)
+{
+	if (change == RobotStateChanges::DesiredScoringMode)
+		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
+
+	if (change == RobotStateChanges::ClimbModeStatus)
+		m_climbMode = static_cast<RobotStateChanges::ScoringMode>(value);
 }
 
 // todo not sure what to do with this
