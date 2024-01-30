@@ -117,6 +117,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		selectedCam = m_DragonCameraMap[LAUNCHER];
 		break;
 	case VISION_ELEMENT::NOTE:
+	{
 		bool frontHasDetection = m_DragonCameraMap[LAUNCHER_INTAKE]->HasTarget();
 		bool backHasDetection = m_DragonCameraMap[PLACER_INTAKE]->HasTarget();
 		if (!frontHasDetection && !backHasDetection)
@@ -138,7 +139,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 			else
 				selectedCam = m_DragonCameraMap[PLACER_INTAKE];
 		}
-		break;
+	}
+	break;
 	default:
 		break;
 	}

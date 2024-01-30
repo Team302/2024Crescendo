@@ -41,7 +41,6 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angle::radian_t angleError = units::angle::radian_t(0.0);
     std::optional<VisionData> optionalVisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
     // get targetdata from the vision system
-    // visionapi - update this for new dragon vision
     if (m_vision->GetPipeline(DragonVision::CAMERA_POSITION::LAUNCHER) != DragonCamera::PIPELINE::APRIL_TAG)
     {
         m_vision->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, DragonVision::CAMERA_POSITION::LAUNCHER);
@@ -49,17 +48,11 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
     if (optionalVisionData.has_value())
     {
-        if (!AtTargetAngle(visionData, &angleError))
+        if (!AtTargetAngle(*optionalVisionData, &angleError))
         {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Angle Error (Deg)", units::angle::degree_t(angleError).to<double>());
-
-            // omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega Before Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
+            omega = units::angle::radian_t(angleError * m_visionKP_Angle) / 1_s;
 
             omega = limitAngularVelocityToBetweenMinAndMax(omega);
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "ANickDebugging", "Omega After Limiting (Deg Per Sec)", units::angular_velocity::degrees_per_second_t(omega).to<double>());
 
             chassisMovement.chassisSpeeds.omega = omega;
         }
@@ -81,9 +74,9 @@ bool FaceAprilTag::AtTargetAngle(VisionData visionData, units::angle::radian_t *
     units::length::inch_t yError = visionData.deltaToTarget.Y();
     units::length::inch_t xError = visionData.deltaToTarget.X();
 
-    if (std::abs(xError.to<double>()) > 0.01)
+    if (std::abs(visionData.deltaToTarget.Rotation().Z().to<double>()) > 0.1)
     {
-        *angleError = xError * yError;
+        *angleError = visionData.deltaToTarget.Rotation().Z();
 
         if (std::abs((*angleError).to<double>()) < m_AngularTolerance_rad)
         {

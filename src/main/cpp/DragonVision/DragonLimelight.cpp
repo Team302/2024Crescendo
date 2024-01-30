@@ -380,7 +380,7 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
     units::length::meter_t mountingHeight = m_cameraPose.Z();
 
     units::length::inch_t estimatedTargetDistance;
-    units::angle::degree_t mountingAngle = m_cameraPose.Z();
+    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
 
     if (GetAprilTagID() == -1)
     {
@@ -397,7 +397,7 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[0]);
-    };
+    }
 
     // First determin the limelightAngleFromHorizontal depending on the mounting orientation
     //  if (abs(limelightRoll.to<double>()) < 1.0)
@@ -443,7 +443,7 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 
     units::length::inch_t estimatedTargetDistance;
     units::length::inch_t estimatedXDistance;
-    units::angle::degree_t mountingAngle = m_cameraPose.Z();
+    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
 
     if (GetAprilTagID() == -1)
     {
@@ -458,7 +458,7 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[1]);
-    };
+    }
 }
 
 units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
@@ -478,7 +478,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[1]);
-    };
+    }
     /*
      Needs to be redone:
      If apriltag, use Pose3d and get z value
@@ -497,7 +497,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[2]);
-    };
+    }
 }
 
 units::length::inch_t DragonLimelight::EstimateTargetXDistance_RelToRobotCoords() const
