@@ -53,11 +53,11 @@ void Thing1MechleftBackCWState::Run()
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("Thing1MechleftBackCWState"), string("run"));
 	if (m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Thing1MechleftBackCWState"), string("Robot Scoring Mode"), "Launcher");
+		// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Thing1MechleftBackCWState"), string("Robot Scoring Mode"), "Launcher");
 	}
 	else
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Thing1MechleftBackCWState"), string("Robot Scoring Mode"), "Placer");
+		// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Thing1MechleftBackCWState"), string("Robot Scoring Mode"), "Placer");
 	}
 
 	m_genState->Run();
