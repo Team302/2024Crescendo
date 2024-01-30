@@ -77,5 +77,5 @@ bool noteManagerintakeToPlacerState::IsTransitionCondition ( bool considerGamepa
 
 	
 	
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::PLACE));
+	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::PREP_PLACE));
 }
