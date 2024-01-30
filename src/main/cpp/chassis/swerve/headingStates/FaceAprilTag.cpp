@@ -68,33 +68,28 @@ void FaceAprilTag::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
 bool FaceAprilTag::AtTargetAngle(VisionData visionData, units::angle::radian_t *angleError)
 {
-    if (visionDataOptional.has_value())
+
+    /// Math
+    // First get the pigeon angle to later get field, this is considered
+    // Next, get the angle to the tag, this is considered alpha
+    // Calculate alpha by taking the arc/inverse tangent of our yError and xError (robot oriented) to the tag
+    // Calculate field oriented error by taking the cosine and sine of alpha + theta
+    // From there, we can get the angle to the back of the node (considered beta)
+    // This is calculated by taking arc/inverse tangent of our field oriented yError, divided by our field oriented xError
+    // and the offset to the back of the cube node
+
+    units::length::inch_t yError = visionData.deltaToTarget.Y();
+    units::length::inch_t xError = visionData.deltaToTarget.X();
+
+    if (std::abs(xError.to<double>()) > 0.01)
     {
+        *angleError = xError * yError;
 
-        /// Math
-        // First get the pigeon angle to later get field, this is considered
-        // Next, get the angle to the tag, this is considered alpha
-        // Calculate alpha by taking the arc/inverse tangent of our yError and xError (robot oriented) to the tag
-        // Calculate field oriented error by taking the cosine and sine of alpha + theta
-        // From there, we can get the angle to the back of the node (considered beta)
-        // This is calculated by taking arc/inverse tangent of our field oriented yError, divided by our field oriented xError
-        // and the offset to the back of the cube node
-
-        units::length::inch_t yError = visionData.deltaToTarget.Y();
-        units::length::inch_t xError = visionData.deltaToTarget.X();
-
-        if (std::abs(xError.to<double>()) > 0.01)
+        if (std::abs((*angleError).to<double>()) < m_AngularTolerance_rad)
         {
-            *angleError = visionData.deltaToTarget.Rotation().Z();
-
-            if (std::abs((*angleError).to<double>()) < m_AngularTolerance_rad)
-            {
-                return true;
-            }
+            return true;
         }
-        return false;
     }
-
     return false;
 }
 
