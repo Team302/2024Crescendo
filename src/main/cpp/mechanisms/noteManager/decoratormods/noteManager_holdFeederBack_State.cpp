@@ -68,6 +68,7 @@ bool noteManagerholdFeederBackState::AtTarget()
 bool noteManagerholdFeederBackState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	bool feederSensor = m_mechanism->feederSensor->Get();
+	bool backIntakeSensor = m_mechanism->backIntakeSensor->Get();
+	return (feederSensor && backIntakeSensor);
 }
