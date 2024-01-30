@@ -484,7 +484,6 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
      If apriltag, use Pose3d and get z value
      If else, for now jsut return -1.0 until we can get an accurate measurement
     */
-    units::length::inch_t(estimatedTargetDistance);
     if (GetAprilTagID() == -1)
     {
         // need to do testing to get an accurate measurement
@@ -550,6 +549,7 @@ VisionData DragonLimelight::GetDataToNearestApriltag()
     units::angle::degree_t Xangle{vector[3]};
     units::angle::degree_t Yangle{vector[4]};
     units::angle::degree_t Zangle{vector[5]};
-    auto translation = frc::Translation3d(Xdist, Ydist, Zdist);
-    return VisionData{translation, GetAprilTagID()};
+    frc::Rotation3d rotation = frc::Rotation3d(Xangle, Yangle, Zangle);
+    auto transform = frc::Transform3d(Xdist, Ydist, Zdist, rotation);
+    return VisionData{transform, GetAprilTagID()};
 }
