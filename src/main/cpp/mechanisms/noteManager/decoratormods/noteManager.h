@@ -26,9 +26,10 @@
 #include "mechanisms/base/StateMgr.h"
 #include "robotstate/IRobotStateChangeSubscriber.h"
 #include "robotstate/RobotStateChanges.h"
+
 // forward declares
 
-class noteManager : public noteManager_gen
+class noteManager : public noteManager_gen, public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -45,7 +46,7 @@ public:
 	void createAndRegisterStates();
 
 	RobotStateChanges::ScoringMode m_scoringMode;
-	RobotStateChanges::ScoringMode m_climbMode;
+	RobotStateChanges::ClimbMode m_climbMode;
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
 

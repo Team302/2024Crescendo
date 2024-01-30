@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2023 Lake Orion Robotics FIRST Team 302
 //
@@ -40,7 +39,7 @@ public:
 	/// @param otherMotor Same as previous
 	/// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 	/// Additional actuators and sensors are also in this list.
-	Thing1Mech ( Thing1Mech_gen *generatedMech );
+	Thing1Mech(Thing1Mech_gen *generatedMech);
 	Thing1Mech() = delete;
 	~Thing1Mech() = default;
 
