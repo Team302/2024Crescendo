@@ -75,6 +75,7 @@ private:
     std::optional<VisionData> GetVisionDataFromNote(VISION_ELEMENT element);
     std::optional<VisionData> GetVisionDataFromElement(VISION_ELEMENT element);
     std::optional<VisionData> GetVisionDataToNearestTag();
+    std::optional<VisionData> GetVisionDataToNearestStageTag();
 
     // may not be needed, if so can be changed to inline and return from map
     //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;

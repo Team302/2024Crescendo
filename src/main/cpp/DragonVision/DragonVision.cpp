@@ -73,6 +73,25 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	// if we don't see any vision targets, return null optional
 	return std::nullopt;
 }
+std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag()
+{
+	int frontTagId = m_DragonCameraMap[LAUNCHER]->GetAprilTagID();
+	int backTagId = m_DragonCameraMap[PLACER]->GetAprilTagID();
+
+	if (frontTagId <= 16 && frontTagId >= 11)
+	{
+
+		return m_DragonCameraMap[LAUNCHER]->GetDataToNearestApriltag(); // frontagId is for stage id
+	}
+	else if (backTagId <= 16 && backTagId >= 11)
+	{
+		return m_DragonCameraMap[PLACER]->GetDataToNearestApriltag(); // frontagId is for stage id
+	}
+	else // tag doesnt matter or no tag
+	{
+		return std::nullopt;
+	}
+}
 
 std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 {
