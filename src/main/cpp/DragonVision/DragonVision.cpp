@@ -201,9 +201,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	case VISION_ELEMENT::AMP:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red amp*/ : frc::Pose3d{}; /*load blue amp*/
 		break;
-		// case VISION_ELEMENT::STAGE:     //STAGE WILL BE DIFFERENT
-		// fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red speaker*/ : frc::Pose3d{}; /*load blue speaker*/
-		// break;
 	}
 
 	// make 2 pose 3ds and implement in transform3d.
