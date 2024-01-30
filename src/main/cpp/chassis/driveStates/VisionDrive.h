@@ -128,8 +128,6 @@ private:
     units::length::inch_t m_yTargetPos = units::length::inch_t(0.0);
     units::length::inch_t m_xTargetPos = units::length::inch_t(0.0);
 
-    SwerveChassis *m_chassis;
-
     DragonVision *m_vision;
 
     frc::Timer *m_lostGamePieceTimer;

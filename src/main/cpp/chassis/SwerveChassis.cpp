@@ -65,6 +65,7 @@
 #include "utils/logging/Logger.h"
 
 // Third Party Includes
+#include "ctre/phoenix6/Pigeon2.hpp"
 
 constexpr int LEFT_FRONT = 0;
 constexpr int RIGHT_FRONT = 1;
@@ -81,6 +82,8 @@ using frc::Rotation2d;
 using frc::SwerveModulePosition;
 using frc::Transform2d;
 
+using ctre::phoenix6::hardware::Pigeon2;
+
 /// @brief Construct a swerve chassis
 /// @param [in] SwerveModule*           frontleft:          front left swerve module
 /// @param [in] SwerveModule*           frontright:         front right swerve module
@@ -92,7 +95,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                              SwerveModule *frontRight,
                              SwerveModule *backLeft,
                              SwerveModule *backRight,
-                             IDragonPigeon *pigeon,
+                             Pigeon2 *pigeon,
                              units::length::inch_t wheelBase,
                              units::length::inch_t track,
                              string networkTableName) : IChassis(),
@@ -136,8 +139,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                         //                 frc::Pose2d(),
                                                         //                 {0.1, 0.1, 0.1},
                                                         //                 {0.1, 0.1, 0.1}),
-                                                        m_storedYaw(0.0),
-                                                        // m_storedYaw(m_pigeon->GetYaw()),
+                                                        m_storedYaw(m_pigeon->GetYaw().GetValueAsDouble()),
                                                         m_targetHeading(units::angle::degree_t(0.0)),
                                                         m_networkTableName(networkTableName)
 {
@@ -147,7 +149,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
 
 void SwerveChassis::InitStates()
 {
-    m_robotDrive = new RobotDrive();
+    m_robotDrive = new RobotDrive(this);
 
     m_driveStateMap[ChassisOptionEnums::FIELD_DRIVE] = new FieldDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::HOLD_DRIVE] = new HoldDrive();
@@ -315,25 +317,23 @@ Pose2d SwerveChassis::GetPose() const
 
 units::angle::degree_t SwerveChassis::GetYaw() const
 {
-    return m_pigeon->GetYaw();
+    return m_pigeon->GetYaw().GetValue();
 }
 
 units::angle::degree_t SwerveChassis::GetPitch() const
 {
-    units::degree_t pitch{m_pigeon->GetPitch()};
-    return pitch;
+    return m_pigeon->GetPitch().GetValue();
 }
 
 units::angle::degree_t SwerveChassis::GetRoll() const
 {
-    units::degree_t roll{m_pigeon->GetRoll()};
-    return roll;
+    return m_pigeon->GetRoll().GetValue();
 }
 
 /// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
 void SwerveChassis::UpdateOdometry()
 {
-    Rotation2d rot2d{m_pigeon->GetYaw()};
+    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
 
     m_poseEstimator.Update(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(),
                                                                            m_frontRight->GetPosition(),
@@ -365,7 +365,7 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
 
 void SwerveChassis::ResetPose(const Pose2d &pose)
 {
-    Rotation2d rot2d{m_pigeon->GetYaw()};
+    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
 
     SetEncodersToZero();
 
@@ -376,19 +376,12 @@ void SwerveChassis::ResetPose(const Pose2d &pose)
 
 void SwerveChassis::ResetYaw()
 {
-    Rotation2d rot2d{m_pigeon->GetYaw()};
+    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
 
     frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
 
-    if (alliance == frc::DriverStation::Alliance::kBlue)
-    {
-        m_pigeon->ReZeroPigeon(units::angle::degree_t(0.0), 0.0);
-    }
-    else
-    {
-        m_pigeon->ReZeroPigeon(units::angle::degree_t(180.0), 0.0);
-    }
-
+    auto angle = alliance == frc::DriverStation::Alliance::kBlue ? units::angle::degree_t(0.0) : units::angle::degree_t(180.0);
+    m_pigeon->SetYaw(angle);
     ZeroAlignSwerveModules();
 }
 

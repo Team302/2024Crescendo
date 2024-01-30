@@ -19,9 +19,6 @@
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 
-// Standish Quick Fix
-#include <frc/DriverStation.h>
-
 SpecifiedHeading::SpecifiedHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE),
                                        m_targetAngle(units::angle::degree_t(0.0))
 {
@@ -30,14 +27,7 @@ SpecifiedHeading::SpecifiedHeading() : ISwerveDriveOrientation(ChassisOptionEnum
 void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     m_targetAngle = chassisMovement.yawAngle;
-    if (frc::DriverStation::IsAutonomous())
-    {
-        chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(m_targetAngle, m_kPGoalHeadingControl);
-    }
-    else
-    {
-        chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(m_targetAngle, m_kPGoalHeadingControl_STANDISH);
-    }
+    chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(m_targetAngle, m_kPGoalHeadingControl);
 
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;

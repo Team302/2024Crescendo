@@ -18,10 +18,7 @@
 
 #include "chassis/SwerveChassis.h"
 #include "chassis/SwerveModule.h"
-
-#include "hw/DragonCanCoder.h"
-#include "hw/DragonPigeon2.h"
-#include "hw/DragonTalonFX.h"
+#include "ctre/phoenix6/Pigeon2.hpp"
 
 class ChassisConfig
 {
@@ -34,12 +31,6 @@ public:
         RIGHT_BACK
     };
 
-    enum MOTOR_TYPE
-    {
-        TURN,
-        DRIVE
-    };
-
     ChassisConfig();
     ~ChassisConfig();
 
@@ -48,37 +39,13 @@ public:
     SwerveChassis *GetSwerveChassis() const { return m_chassis; }
     SwerveModule *GetSwerveModule(SWERVE_MODULE module) const;
 
-    DragonTalonFX *GetMotorController(SWERVE_MODULE module,
-                                      MOTOR_TYPE type);
-
-    DragonCanCoder *GetCanCoder(SWERVE_MODULE module);
-    DragonPigeon2 *GetPigeon() const { return m_pigeon; }
+    ctre::phoenix6::hardware::Pigeon2 *GetPigeon() const { return m_pigeon2; }
 
 protected:
-    // actuators
-    virtual void DefineMotorControllers();
-
-    // sensors
-    virtual void DefineCANSensors();
-
-    // mechanisms
+    virtual void DefinePigeon();
     virtual void DefineChassis();
 
-    DragonCanCoder *m_leftFrontCoder;
-    DragonCanCoder *m_leftBackCoder;
-    DragonCanCoder *m_rightFrontCoder;
-    DragonCanCoder *m_rightBackCoder;
-
-    DragonTalonFX *m_leftBackDrive;
-    DragonTalonFX *m_leftBackTurn;
-    DragonTalonFX *m_leftFrontDrive;
-    DragonTalonFX *m_leftFrontTurn;
-    DragonTalonFX *m_rightBackDrive;
-    DragonTalonFX *m_rightBackTurn;
-    DragonTalonFX *m_rightFrontDrive;
-    DragonTalonFX *m_rightFrontTurn;
-
-    DragonPigeon2 *m_pigeon;
+    ctre::phoenix6::hardware::Pigeon2 *m_pigeon2 = nullptr;
 
     SwerveModule *m_leftBackModule;
     SwerveModule *m_leftFrontModule;

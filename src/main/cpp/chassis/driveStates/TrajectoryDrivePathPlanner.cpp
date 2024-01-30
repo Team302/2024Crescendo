@@ -28,7 +28,7 @@
 
 using frc::Pose2d;
 
-TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) : RobotDrive(),
+TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  m_holonomicController(pathplanner::PIDConstants(0.75, 0.0, 0.0),
@@ -41,12 +41,9 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_prevPose(),
                                                                                  m_wasMoving(false),
                                                                                  m_timer(std::make_unique<frc::Timer>()),
-                                                                                 m_chassis(nullptr),
                                                                                  m_whyDone("Trajectory isn't finished/Error")
 
 {
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (m_chassis != nullptr)
     {
         m_prevPose = m_chassis->GetPose();
@@ -99,7 +96,7 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "HolonomicRotation (Degs)", m_desiredState.targetHolonomicRotation.Degrees().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Omega (Rads Per Sec)", refChassisSpeeds.omega.to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Odometry (Degs)", m_chassis->GetPose().Rotation().Degrees().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Pigeon (Degs)", ChassisConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon()->GetYaw().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Pigeon (Degs)", ChassisConfigMgr::GetInstance()->GetCurrentConfig()->GetPigeon()->GetYaw().GetValueAsDouble());
 
         // Set chassisMovement speeds that will be used by RobotDrive
         return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);

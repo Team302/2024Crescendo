@@ -68,19 +68,13 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
                            bool turnInverted,
                            int canCoderID,
                            double angleOffset) : m_moduleID(id),
-                                                 m_driveMotor(nullptr),
-                                                 m_turnMotor(nullptr),
-                                                 m_turnSensor(nullptr),
                                                  m_driveTalon(new TalonFX(driveMotorID, "Canivore")),
                                                  m_turnTalon(new TalonFX(turnMotorID, "Canivore")),
                                                  m_turnCancoder(new CANcoder(canCoderID, "Canivore")),
                                                  m_wheelDiameter(units::length::inch_t(0.0)),
                                                  m_maxSpeed(units::velocity::feet_per_second_t(0.0)),
                                                  m_maxAngSpeed(units::angular_velocity::degrees_per_second_t(0.0)),
-                                                 m_activeState(),
-                                                 m_currentPose(),
-                                                 m_currentSpeed(0.0_rpm),
-                                                 m_currentRotations(0.0)
+                                                 m_activeState()
 {
     Rotation2d ang{units::angle::degree_t(0.0)};
     m_activeState.angle = ang;
@@ -147,62 +141,6 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
     DisplayTuningParms();
 }
 
-/// @brief Constructs a Swerve Module.  This is assuming 2 TalonFX (Falcons) with a CanCoder for the turn angle
-/// @param [in] SwerveModuleConstants.ModuleID                                                type:           Which Swerve Module is it
-/// @param [in] shared_ptr<IDragonMotorController>                      driveMotor:     Motor that makes the robot move
-/// @param [in] shared_ptr<IDragonMotorController>                      turnMotor:      Motor that turns the swerve module
-/// @param [in] DragonCanCoder*                                 		canCoder:       Sensor for detecting the angle of the wheel
-/// @param [in] units::length::inch_t                                   wheelDiameter   Diameter of the wheel
-SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
-                           SwerveModuleConstants::ModuleType type,
-                           IDragonMotorController *driveMotor,
-                           IDragonMotorController *turnMotor,
-                           DragonCanCoder *canCoder) : m_moduleID(id),
-                                                       m_driveMotor(driveMotor),
-                                                       m_turnMotor(turnMotor),
-                                                       m_turnSensor(canCoder),
-                                                       m_wheelDiameter(units::length::inch_t(0.0)),
-                                                       m_maxSpeed(units::velocity::feet_per_second_t(0.0)),
-                                                       m_maxAngSpeed(units::angular_velocity::degrees_per_second_t(0.0)),
-                                                       m_activeState(),
-                                                       m_currentPose(),
-                                                       m_currentSpeed(0.0_rpm),
-                                                       m_currentRotations(0.0)
-{
-    Rotation2d ang{units::angle::degree_t(0.0)};
-    m_activeState.angle = ang;
-    m_activeState.speed = 0_mps;
-
-    auto attrs = SwerveModuleConstants::GetSwerveModuleAttrs(type);
-    m_wheelDiameter = attrs.wheelDiameter;
-    m_maxSpeed = attrs.maxSpeed;
-    m_maxAngSpeed = attrs.maxAngSpeed;
-
-    auto driveTalon = dynamic_cast<DragonTalonFX *>(m_driveMotor);
-    if (driveTalon != nullptr)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive P"), attrs.driveControl.GetP());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive I"), attrs.driveControl.GetI());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive D"), attrs.driveControl.GetD());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("drive F"), attrs.driveControl.GetF());
-        driveTalon->SetControlConstants(0, attrs.driveControl);
-    }
-
-    m_turnSensor->SetRange(AbsoluteSensorRangeValue::Signed_PlusMinusHalf);
-    auto turnTalon = dynamic_cast<DragonTalonFX *>(m_turnMotor);
-    if (turnTalon != nullptr)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("turn P"), attrs.angleControl.GetP());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("turn I"), attrs.angleControl.GetI());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("turn D"), attrs.angleControl.GetD());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("turn F"), attrs.angleControl.GetF());
-        turnTalon->FuseCancoder(*canCoder, attrs.sensorToMechanismRatio, attrs.rotorToSensorRatio);
-        turnTalon->SetControlConstants(0, attrs.angleControl);
-    }
-    InitTuningParms(attrs);
-    DisplayTuningParms();
-}
-
 /// @brief Set all motor encoders to zero
 /// @brief void
 void SwerveModule::SetEncodersToZero()
@@ -214,15 +152,7 @@ void SwerveModule::SetEncodersToZero()
 /// @returns double - the integrated sensor position
 double SwerveModule::GetEncoderValues()
 {
-    if (m_driveMotor != nullptr)
-    {
-        return m_driveMotor->GetCounts();
-    }
-    else if (m_driveTalon != nullptr)
-    {
-        return m_driveTalon->GetPosition().GetValueAsDouble() * 2048;
-    }
-    return 0.0;
+    return m_driveTalon->GetPosition().GetValueAsDouble() * 2048;
 }
 
 /// @brief Turn all of the wheel to zero degrees yaw according to the pigeon
@@ -240,16 +170,11 @@ SwerveModuleState SwerveModule::GetState() const
     // Get the Module Drive Motor Speed
     auto mpr = units::length::meter_t(GetWheelDiameter() * numbers::pi);
     units::velocity::meters_per_second_t mps = units::velocity::meters_per_second_t(0.0);
-    if (m_driveMotor != nullptr)
-    {
-        mps = units::velocity::meters_per_second_t(mpr.to<double>() * m_driveMotor->GetRPS());
-    }
-    else if (m_driveTalon != nullptr)
-    {
-        mps = units::velocity::meters_per_second_t(mpr.to<double>() * m_driveTalon->GetVelocity().GetValueAsDouble());
-    }
+    mps = units::velocity::meters_per_second_t(mpr.to<double>() * m_driveTalon->GetVelocity().GetValueAsDouble());
+
     // Get the Module Current Rotation Angle
-    Rotation2d angle{m_turnSensor->GetAbsolutePosition()};
+    units::angle::degree_t ang = m_turnCancoder->GetAbsolutePosition().GetValue();
+    Rotation2d angle = Rotation2d(ang);
 
     // Create the state and return it
     SwerveModuleState state{mps, angle};
@@ -261,16 +186,12 @@ SwerveModuleState SwerveModule::GetState() const
 frc::SwerveModulePosition SwerveModule::GetPosition() const
 {
     double rotations = 0.0;
-    if (m_driveMotor != nullptr)
-    {
-        rotations = m_driveMotor->GetRotations();
-    }
-    else if (m_driveTalon != nullptr)
-    {
-        rotations = m_driveTalon->GetPosition().GetValueAsDouble();
-    }
-    return {rotations * m_wheelDiameter * numbers::pi,        // distance travled by drive motor
-            Rotation2d(m_turnSensor->GetAbsolutePosition())}; // angle of the swerve module from sensor
+    rotations = m_driveTalon->GetPosition().GetValueAsDouble();
+    units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
+    Rotation2d currAngle = Rotation2d(angle);
+
+    return {rotations * m_wheelDiameter * numbers::pi, // distance travled by drive motor
+            currAngle};                                // angle of the swerve module from sensor
 }
 
 /// @brief Set the current state of the module (speed of the wheel and angle of the wheel)
@@ -284,8 +205,9 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     // If the desired angle is less than 90 degrees from the target angle (e.g., -90 to 90 is the amount of turn), just use the angle and speed values
     // if it is more than 90 degrees (90 to 270), the can turn the opposite direction -- increase the angle by 180 degrees -- and negate the wheel speed
     // finally, get the value between -90 and 90
-    Rotation2d currAngle = Rotation2d(m_turnSensor->GetAbsolutePosition());
-    auto optimizedState = Optimize(targetState, currAngle);
+    units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
+    Rotation2d currAngle = Rotation2d(angle);
+    auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
 
     // Set Turn Target
     SetTurnAngle(optimizedState.angle.Degrees());
@@ -294,57 +216,11 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     SetDriveSpeed(optimizedState.speed);
 }
 
-/// @brief Given a desired swerve module state and the current angle of the swerve module, determine
-///        if the changing the desired swerve module angle by 180 degrees is a smaller turn or not.
-///        If it is, return a state that has that angle and the reversed speed.  Otherwise, return the
-///        original desired state.
-/// Note:  the following was taken from the WPI code and tweaked because we were seeing some weird
-///        reversals that we believe was due to not using a tolerance
-/// @param [in] const SwerveModuleState& desired state of the swerve module
-/// @param [in] const Rotation2d& current angle of the swerve module
-/// @returns SwerveModuleState optimized swerve module state
-SwerveModuleState SwerveModule::Optimize(const SwerveModuleState &desiredState,
-                                         const Rotation2d &currentAngle)
-{
-    SwerveModuleState optimizedState;
-    optimizedState.angle = desiredState.angle;
-    optimizedState.speed = desiredState.speed;
-
-    auto delta = AngleUtils::GetDeltaAngle(currentAngle.Degrees(), optimizedState.angle.Degrees());
-
-    // deal with roll over issues (e.g. want to go from -180 degrees to 180 degrees or vice versa)
-    // keep the current angle
-    if ((units::math::abs(delta) > 359_deg))
-    {
-        optimizedState.angle = currentAngle.Degrees();
-    }
-    // if delta is > 90 degrees or < -90 degrees, we can turn the wheel the otherway and
-    // reverse the wheel direction (negate speed)
-    // if the delta is > 90 degrees, rotate the module the opposite direction and negate the speed
-    else if ((units::math::abs(delta)) > 90_deg)
-    {
-        optimizedState.speed *= -1.0;
-        optimizedState.angle = optimizedState.angle + Rotation2d{180_deg};
-    }
-
-    // if the delta is > 90 degrees, rotate the opposite way and reverse the wheel
-    if ((units::math::abs(delta) - 90_deg) > 0.1_deg)
-    {
-        return {-desiredState.speed, desiredState.angle + Rotation2d{180_deg}};
-    }
-    else
-    {
-        return {desiredState.speed, desiredState.angle};
-    }
-}
-
 /// @brief Run the swerve module at the same speed and angle
 /// @returns void
 void SwerveModule::RunCurrentState()
 {
     SetDriveSpeed(m_activeState.speed);
-
-    // TODO: add method to stop motor and apply to turn motor
 }
 
 /// @brief run the drive motor at a specified speed
@@ -352,38 +228,13 @@ void SwerveModule::RunCurrentState()
 /// @returns void
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
-    m_activeState.speed = (abs(speed.to<double>() / m_maxVelocity.to<double>()) < 0.05) ? 0_mps : speed;
-    if (m_runClosedLoopDrive)
-    {
-        // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
-        auto driveTarget = m_activeState.speed.to<double>() / (units::length::meter_t(m_wheelDiameter).to<double>() * numbers::pi);
+    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
+    // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
+    auto driveTarget = m_activeState.speed.to<double>() / (units::length::meter_t(m_wheelDiameter).to<double>() * numbers::pi);
 
-        if (m_driveMotor != nullptr)
-        {
-            driveTarget /= m_driveMotor->GetGearRatio();
-            m_driveMotor->Set(driveTarget);
-        }
-        else if (m_driveTalon != nullptr)
-        {
-            VelocityTorqueCurrentFOC out{units::angular_velocity::turns_per_second_t(driveTarget)};
-            out.Slot = 0;
-            m_driveTalon->SetControl(out);
-        }
-    }
-    else
-    {
-        double percent = m_activeState.speed / m_maxVelocity;
-        if (m_driveMotor != nullptr)
-        {
-            m_driveMotor->Set(percent);
-        }
-        else if (m_driveTalon != nullptr)
-        {
-            DutyCycleOut out{percent};
-            out.WithEnableFOC(true);
-            m_driveTalon->SetControl(out);
-        }
-    }
+    VelocityTorqueCurrentFOC out{units::angular_velocity::turns_per_second_t(driveTarget)};
+    out.Slot = 0;
+    m_driveTalon->SetControl(out);
 }
 
 /// @brief Turn the swerve module to a specified angle
@@ -392,7 +243,7 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
     m_activeState.angle = targetAngle;
-    m_turnMotor->Set(targetAngle.to<double>());
+    m_turnTalon->SetControl(m_torquePosition.WithPosition(targetAngle));
 }
 
 /// @brief stop the drive and turn motors
@@ -517,50 +368,17 @@ void SwerveModule::UpdateTuningParms()
 
     if (needToUpdate)
     {
-        if (m_turnMotor != nullptr && m_driveMotor != nullptr)
-        {
-            ControlData turncd;
-            turncd.SetMode(m_turnControl);
-            turncd.SetP(m_turnKp);
-            turncd.SetI(m_turnKi);
-            turncd.SetD(m_turnKd);
-            turncd.SetF(m_turnKf);
-            turncd.SetMaxAcceleration(m_turnMaxAcc);
-            turncd.SetCruiseVelocity(m_turnCruiseVel);
-            auto turnTalon = dynamic_cast<DragonTalonFX *>(m_turnMotor);
-            if (turnTalon != nullptr)
-            {
-                turnTalon->SetControlConstants(0, turncd);
-            }
+        Slot0Configs config{};
+        config.kV = m_driveKf;
+        config.kP = m_driveKp;
+        config.kI = m_driveKi;
+        config.kD = m_driveKd;
+        m_driveTalon->GetConfigurator().Apply(config, 50_ms);
 
-            ControlData drivecd;
-            drivecd.SetMode(m_driveControl);
-            drivecd.SetP(m_driveKp);
-            drivecd.SetI(m_driveKi);
-            drivecd.SetD(m_driveKd);
-            drivecd.SetF(m_driveKf);
-
-            // TODO::: !!!!
-            auto driveTalon = dynamic_cast<DragonTalonFX *>(m_driveMotor);
-            if (driveTalon != nullptr)
-            {
-                driveTalon->SetControlConstants(0, drivecd);
-            }
-        }
-        else if (m_driveTalon != nullptr && m_turnTalon != nullptr)
-        {
-            Slot0Configs config{};
-            config.kV = m_driveKf;
-            config.kP = m_driveKp;
-            config.kI = m_driveKi;
-            config.kD = m_driveKd;
-            m_driveTalon->GetConfigurator().Apply(config, 50_ms);
-
-            config.kV = m_turnKf;
-            config.kP = m_turnKp;
-            config.kI = m_turnKi;
-            config.kD = m_turnKd;
-            m_turnTalon->GetConfigurator().Apply(config, 50_ms);
-        }
+        config.kV = m_turnKf;
+        config.kP = m_turnKp;
+        config.kI = m_turnKi;
+        config.kD = m_turnKd;
+        m_turnTalon->GetConfigurator().Apply(config, 50_ms);
     }
 }

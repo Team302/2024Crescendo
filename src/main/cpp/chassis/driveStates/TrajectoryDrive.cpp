@@ -27,7 +27,7 @@
 
 using frc::Pose2d;
 
-TrajectoryDrive::TrajectoryDrive(RobotDrive *robotDrive) : RobotDrive(),
+TrajectoryDrive::TrajectoryDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                            m_trajectory(),
                                                            m_robotDrive(robotDrive),
                                                            m_holonomicController(frc::PIDController{1.1, 0.00035, 0},
@@ -39,7 +39,6 @@ TrajectoryDrive::TrajectoryDrive(RobotDrive *robotDrive) : RobotDrive(),
                                                            m_prevPose(),
                                                            m_wasMoving(false),
                                                            m_timer(std::make_unique<frc::Timer>()),
-                                                           m_chassis(nullptr),
                                                            m_whyDone("Trajectory isn't finished/Error")
 
 {

@@ -19,27 +19,25 @@
 
 // Team302 Includes
 #include "chassis/driveStates/FieldDrive.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
 
-FieldDrive::FieldDrive(RobotDrive *robotDrive) : RobotDrive(), m_robotDrive(robotDrive)
+using frc::ChassisSpeeds;
+
+FieldDrive::FieldDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
+                                                 m_robotDrive(robotDrive)
 {
 }
 
 std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
-
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    if (chassis != nullptr)
+    if (m_chassis != nullptr)
     {
-        frc::ChassisSpeeds fieldRelativeSpeeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(chassisMovement.chassisSpeeds.vx,
-                                                                                             chassisMovement.chassisSpeeds.vy,
-                                                                                             chassisMovement.chassisSpeeds.omega,
-                                                                                             chassis->GetPose().Rotation());
+        auto fieldRelativeSpeeds = ChassisSpeeds::FromFieldRelativeSpeeds(chassisMovement.chassisSpeeds.vx,
+                                                                          chassisMovement.chassisSpeeds.vy,
+                                                                          chassisMovement.chassisSpeeds.omega,
+                                                                          m_chassis->GetPose().Rotation());
 
         chassisMovement.chassisSpeeds = fieldRelativeSpeeds;
     }

@@ -21,12 +21,9 @@
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 
-StopDrive::StopDrive(RobotDrive *robotDrive) : RobotDrive(),
-                                               m_robotDrive(robotDrive),
-                                               m_chassis(nullptr)
+StopDrive::StopDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
+                                               m_robotDrive(robotDrive)
 {
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 
 std::array<frc::SwerveModuleState, 4> StopDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)

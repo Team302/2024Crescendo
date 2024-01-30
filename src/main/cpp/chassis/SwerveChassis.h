@@ -37,8 +37,9 @@
 #include "chassis/IChassis.h"
 #include "chassis/SwerveModule.h"
 #include "chassis/ChassisMovement.h"
-#include "hw/interfaces/IDragonPigeon.h"
 #include "utils/logging/LoggableItem.h"
+
+#include "ctre/phoenix6/Pigeon2.hpp"
 
 class RobotDrive;
 
@@ -57,7 +58,7 @@ public:
                   SwerveModule *frontRight,
                   SwerveModule *backLeft,
                   SwerveModule *backRight,
-                  IDragonPigeon *pigeon,
+                  ctre::phoenix6::hardware::Pigeon2 *pigeon,
                   units::length::inch_t wheelBase,
                   units::length::inch_t track,
                   std::string networkTableName);
@@ -145,7 +146,7 @@ private:
     units::length::inch_t m_wheelBase;
     units::length::inch_t m_track;
 
-    IDragonPigeon *m_pigeon;
+    ctre::phoenix6::hardware::Pigeon2 *m_pigeon;
     units::velocity::meters_per_second_t m_drive;
     units::velocity::meters_per_second_t m_steer;
     units::angular_velocity::radians_per_second_t m_rotate;

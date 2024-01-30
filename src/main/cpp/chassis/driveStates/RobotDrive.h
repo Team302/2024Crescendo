@@ -29,13 +29,14 @@
 class RobotDrive : public ISwerveDriveState
 {
 public:
-    RobotDrive();
+    RobotDrive() = delete;
+    RobotDrive(SwerveChassis *chassis);
     ~RobotDrive() = default;
 
-    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
-        ChassisMovement &chassisMovement) override;
+    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 
     void Init(ChassisMovement &chassisMovement) override;
+    SwerveChassis *GetChassis() const { return m_chassis; }
 
 protected:
     SwerveChassis *m_chassis;

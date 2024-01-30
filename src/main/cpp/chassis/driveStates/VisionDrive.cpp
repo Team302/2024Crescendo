@@ -30,7 +30,7 @@
 /// DEBUGGING
 #include "utils/logging/Logger.h"
 
-VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(),
+VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                    IRobotStateChangeSubscriber(),
                                                    // m_visionVYPID(1.0, 0.05, 0.0), // kP, kI, kD
                                                    // m_visionVXPID(1.0, 0.05, 0.0), // kP, kI, kD
@@ -38,7 +38,6 @@ VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(),
                                                    m_pipelineMode(DragonCamera::APRIL_TAG),
                                                    m_inAutonMode(false),
                                                    m_robotDrive(robotDrive),
-                                                   m_chassis(nullptr),
                                                    m_vision(DragonVision::GetDragonVision()),
                                                    m_lostGamePieceTimer(new frc::Timer()),
                                                    m_haveGamePiece(false),

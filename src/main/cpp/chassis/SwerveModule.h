@@ -22,25 +22,15 @@
 // FRC Includes
 #include "frc/geometry/Pose2d.h"
 #include "frc/geometry/Rotation2d.h"
-#include "frc/geometry/Translation2d.h"
 #include "frc/kinematics/SwerveModulePosition.h"
 #include "frc/kinematics/SwerveModuleState.h"
 #include "networktables/DoubleTopic.h"
 #include "networktables/NetworkTable.h"
-#include "units/acceleration.h"
-#include "units/angular_acceleration.h"
 #include "units/angular_velocity.h"
-#include "units/time.h"
 #include "units/velocity.h"
-#include "units/voltage.h"
 
 // Team 302 Includes
-#include "chassis/PoseEstimatorEnum.h"
 #include "chassis/SwerveModuleConstants.h"
-#include "hw/DragonCanCoder.h"
-#include "hw/DragonTalonFX.h"
-#include "hw/interfaces/IDragonMotorController.h"
-#include "mechanisms/controllers/ControlData.h"
 
 // Third Party
 #include "ctre/phoenix6/TalonFX.hpp"
@@ -50,15 +40,6 @@ class SwerveModule
 {
 public:
     /// @brief Constructs a Swerve Module.  This is assuming 2 TalonFX (Falcons) with a CanCoder for the turn angle
-    /// @param [in] SwerveModuleConstants.ModuleID                                                type:           Which Swerve Module is it
-    /// @param [in] shared_ptr<IDragonMotorController>                      driveMotor:     Motor that makes the robot move
-    /// @param [in] shared_ptr<IDragonMotorController>                      turnMotor:      Motor that turns the swerve module
-    /// @param [in] DragonCanCoder*       		                            canCoder:       Sensor for detecting the angle of the wheel
-    SwerveModule(SwerveModuleConstants::ModuleID id,
-                 SwerveModuleConstants::ModuleType type,
-                 IDragonMotorController *driveMotor,
-                 IDragonMotorController *turningMotor,
-                 DragonCanCoder *canCoder);
     SwerveModule(SwerveModuleConstants::ModuleID id,
                  SwerveModuleConstants::ModuleType type,
                  int driveMotorID,
@@ -107,20 +88,10 @@ private:
     void DisplayTuningParms();
     void UpdateTuningParms();
 
-    // Note:  the following was taken from the WPI code and tweaked because we were seeing some weird
-    //        reversals that we believe was due to not using a tolerance
-    frc::SwerveModuleState Optimize(const frc::SwerveModuleState &desiredState,
-                                    const frc::Rotation2d &currentAngle);
-
     void SetDriveSpeed(units::velocity::meters_per_second_t speed);
     void SetTurnAngle(units::angle::degree_t angle);
 
     SwerveModuleConstants::ModuleID m_moduleID;
-
-    IDragonMotorController *m_driveMotor;
-    IDragonMotorController *m_turnMotor;
-    DragonCanCoder *m_turnSensor;
-
     ctre::phoenix6::hardware::TalonFX *m_driveTalon;
     ctre::phoenix6::hardware::TalonFX *m_turnTalon;
     ctre::phoenix6::hardware::CANcoder *m_turnCancoder;
@@ -130,13 +101,8 @@ private:
     units::angular_velocity::degrees_per_second_t m_maxAngSpeed;
 
     frc::SwerveModuleState m_activeState;
-    frc::Pose2d m_currentPose;
-    units::angular_velocity::revolutions_per_minute_t m_currentSpeed;
-    double m_currentRotations;
 
-    units::velocity::meters_per_second_t m_maxVelocity;
-    bool m_runClosedLoopDrive = true;
-    double m_countsOnTurnEncoderPerDegreesOnAngleSensor;
+    ctre::phoenix6::controls::PositionTorqueCurrentFOC m_torquePosition{0_tr, 0_tps, 0_A, 1, false};
 
     ControlModes::CONTROL_TYPE m_turnControl = ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE;
     double m_turnKp = 0.0;

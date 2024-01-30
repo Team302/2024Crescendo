@@ -45,5 +45,4 @@ private:
     frc::SwerveModuleState *m_blState = new frc::SwerveModuleState();
     frc::SwerveModuleState *m_brState = new frc::SwerveModuleState();
     RobotDrive *m_robotDrive;
-    SwerveChassis *m_chassis;
 };

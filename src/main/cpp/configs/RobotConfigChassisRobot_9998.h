@@ -17,52 +17,11 @@
 // Generated on Tuesday, January 16, 2024 5:37:08 PM
 
 #pragma once
-#include "chassis/SwerveChassis.h"
-#include "chassis/SwerveModule.h"
 #include "configs/RobotConfig.h"
-#include "hw/DragonCanCoder.h"
-#include "hw/DragonPigeon2.h"
-#include "hw/DragonTalonFX.h"
-#include "hw/interfaces/IDragonMotorController.h"
 
 class RobotConfigChassisRobot_9998 : public RobotConfig
 {
 public:
 	RobotConfigChassisRobot_9998() = default;
 	~RobotConfigChassisRobot_9998() = default;
-    SwerveChassis *GetSwerveChassis() const override;
-    IChassis *GetIChassis() const override;
-
-protected:
-    void DefineMotorControllers() override;
-	void DefineCANSensors() override;
-    void DefineChassis() override;
-
-
-private:
-    DragonTalonFX *m_frontLeftDrive = nullptr;
-    DragonTalonFX *m_frontLeftTurn = nullptr;
-    DragonCanCoder *m_frontLeftCC = nullptr;
-
-    DragonTalonFX *m_frontRightDrive = nullptr;
-    DragonTalonFX *m_frontRightTurn = nullptr;
-    DragonCanCoder *m_frontRightCC = nullptr;
-
-    DragonTalonFX *m_backLeftDrive = nullptr;
-    DragonTalonFX *m_backLeftTurn = nullptr;
-    DragonCanCoder *m_backLeftCC = nullptr;
-
-    DragonTalonFX *m_backRightDrive = nullptr;
-    DragonTalonFX *m_backRightTurn = nullptr;
-    DragonCanCoder *m_backRightCC = nullptr;
-
-    DragonPigeon2* m_pigeon = nullptr;
-
-	SwerveChassis* m_swerveChassis = nullptr;
-	SwerveModule* m_frontLeftSM = nullptr;
-	SwerveModule* m_frontRightSM = nullptr;
-	SwerveModule* m_backLeftSM = nullptr;
-	SwerveModule* m_backRightSM = nullptr;
-	
-
 };

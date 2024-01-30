@@ -19,9 +19,6 @@
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 
-// Standish Quick Fix
-#include <frc/DriverStation.h>
-
 IgnoreHeading::IgnoreHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::IGNORE)
 {
 }

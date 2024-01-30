@@ -32,17 +32,16 @@
 
 using std::string;
 
-RobotDrive::RobotDrive() : ISwerveDriveState::ISwerveDriveState(),
-                           m_flState(),
-                           m_frState(),
-                           m_blState(),
-                           m_brState(),
-                           m_wheelbase(units::length::inch_t(20.0)),
-                           m_wheeltrack(units::length::inch_t(20.0)),
-                           m_maxspeed(units::velocity::feet_per_second_t(1.0))
+RobotDrive::RobotDrive(SwerveChassis *chassis) : ISwerveDriveState::ISwerveDriveState(),
+                                                 m_chassis(chassis),
+                                                 m_flState(),
+                                                 m_frState(),
+                                                 m_blState(),
+                                                 m_brState(),
+                                                 m_wheelbase(units::length::inch_t(20.0)),
+                                                 m_wheeltrack(units::length::inch_t(20.0)),
+                                                 m_maxspeed(units::velocity::feet_per_second_t(1.0))
 {
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (m_chassis != nullptr)
     {
         m_wheelbase = m_chassis->GetWheelBase();

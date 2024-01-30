@@ -23,9 +23,7 @@ ChassisConfig::ChassisConfig()
 
 void ChassisConfig::BuildChassis()
 {
-    DefineCANSensors();
-    DefineMotorControllers();
-
+    DefinePigeon();
     DefineChassis();
 }
 
@@ -33,63 +31,12 @@ ChassisConfig::~ChassisConfig()
 {
 }
 
-void ChassisConfig::DefineMotorControllers()
-{
-}
-
-void ChassisConfig::DefineCANSensors()
+void ChassisConfig::DefinePigeon()
 {
 }
 
 void ChassisConfig::DefineChassis()
 {
-}
-
-DragonTalonFX *ChassisConfig::GetMotorController(SWERVE_MODULE module,
-                                                 MOTOR_TYPE type)
-{
-    if (module == SWERVE_MODULE::LEFT_BACK)
-    {
-        if (type == MOTOR_TYPE::DRIVE)
-            return m_leftBackDrive;
-
-        return m_leftBackTurn;
-    }
-
-    if (module == SWERVE_MODULE::LEFT_FRONT)
-    {
-        if (type == MOTOR_TYPE::DRIVE)
-            return m_leftFrontDrive;
-
-        return m_leftFrontTurn;
-    }
-
-    if (module == SWERVE_MODULE::RIGHT_BACK)
-    {
-        if (type == MOTOR_TYPE::DRIVE)
-            return m_rightBackDrive;
-
-        return m_rightBackTurn;
-    }
-
-    if (type == MOTOR_TYPE::DRIVE)
-        return m_rightFrontDrive;
-
-    return m_rightFrontTurn;
-}
-
-DragonCanCoder *ChassisConfig::GetCanCoder(SWERVE_MODULE module)
-{
-    if (module == SWERVE_MODULE::LEFT_BACK)
-        return m_leftBackCoder;
-
-    if (module == SWERVE_MODULE::LEFT_FRONT)
-        return m_leftFrontCoder;
-
-    if (module == SWERVE_MODULE::RIGHT_BACK)
-        return m_rightBackCoder;
-
-    return m_rightFrontCoder;
 }
 
 SwerveModule *ChassisConfig::GetSwerveModule(ChassisConfig::SWERVE_MODULE module) const
