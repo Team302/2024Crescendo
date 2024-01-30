@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2023 Lake Orion Robotics FIRST Team 302
 //
@@ -34,6 +33,8 @@
 #include "mechanisms/ClimberManager/decoratormods/ClimberManager_Manual_State.h"
 #include "mechanisms/ClimberManager/decoratormods/ClimberManager_autoClimb_State.h"
 
+#include "robotstate/RobotState.h"
+
 using std::string;
 
 /// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -43,51 +44,57 @@ using std::string;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-ClimberManager::ClimberManager ( ClimberManager_gen *base ) : ClimberManager_gen(),
-	m_ClimberManager ( base )
+ClimberManager::ClimberManager(ClimberManager_gen *base) : ClimberManager_gen(), IRobotStateChangeSubscriber(),
+														   m_ClimberManager(base)
 {
+	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 }
 
 void ClimberManager::createAndRegisterStates()
 {
-	ClimberManagerOffState* OffState = new ClimberManagerOffState ( string ( "Off" ), 0, new ClimberManagerOffStateGen ( string ( "Off" ), 0, this ), this );
-	AddToStateVector ( OffState );
+	ClimberManagerOffState *OffState = new ClimberManagerOffState(string("Off"), 0, new ClimberManagerOffStateGen(string("Off"), 0, this), this);
+	AddToStateVector(OffState);
 
-	ClimberManagerInitializeState* InitializeState = new ClimberManagerInitializeState ( string ( "Initialize" ), 1, new ClimberManagerInitializeStateGen ( string ( "Initialize" ), 1, this ), this );
-	AddToStateVector ( InitializeState );
+	ClimberManagerInitializeState *InitializeState = new ClimberManagerInitializeState(string("Initialize"), 1, new ClimberManagerInitializeStateGen(string("Initialize"), 1, this), this);
+	AddToStateVector(InitializeState);
 
-	ClimberManagerManualState* ManualState = new ClimberManagerManualState ( string ( "Manual" ), 2, new ClimberManagerManualStateGen ( string ( "Manual" ), 2, this ), this );
-	AddToStateVector ( ManualState );
+	ClimberManagerManualState *ManualState = new ClimberManagerManualState(string("Manual"), 2, new ClimberManagerManualStateGen(string("Manual"), 2, this), this);
+	AddToStateVector(ManualState);
 
-	ClimberManagerautoClimbState* autoClimbState = new ClimberManagerautoClimbState ( string ( "autoClimb" ), 3, new ClimberManagerautoClimbStateGen ( string ( "autoClimb" ), 3, this ), this );
-	AddToStateVector ( autoClimbState );
+	ClimberManagerautoClimbState *autoClimbState = new ClimberManagerautoClimbState(string("autoClimb"), 3, new ClimberManagerautoClimbStateGen(string("autoClimb"), 3, this), this);
+	AddToStateVector(autoClimbState);
 
-	OffState->RegisterTransitionState ( InitializeState );
-	InitializeState->RegisterTransitionState ( OffState );
-	InitializeState->RegisterTransitionState ( ManualState );
-	ManualState->RegisterTransitionState ( OffState );
-	ManualState->RegisterTransitionState ( autoClimbState );
-	autoClimbState->RegisterTransitionState ( OffState );
-	autoClimbState->RegisterTransitionState ( ManualState );
+	OffState->RegisterTransitionState(InitializeState);
+	InitializeState->RegisterTransitionState(OffState);
+	InitializeState->RegisterTransitionState(ManualState);
+	ManualState->RegisterTransitionState(OffState);
+	ManualState->RegisterTransitionState(autoClimbState);
+	autoClimbState->RegisterTransitionState(OffState);
+	autoClimbState->RegisterTransitionState(ManualState);
+}
 
+void ClimberManager::Update(RobotStateChanges::StateChange change, int value)
+{
+	if (change == RobotStateChanges::ClimbModeStatus)
+		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
 }
 
 // todo not sure what to do with this
 /*
 bool ClimberManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
 {
-    return m_ClimberManager->IsAtMinPosition(identifier);
+	return m_ClimberManager->IsAtMinPosition(identifier);
 }
 bool ClimberManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
 {
-    return m_ClimberManager->IsAtMinPosition(identifier);
+	return m_ClimberManager->IsAtMinPosition(identifier);
 }
 bool ClimberManager::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
 {
-    return m_ClimberManager->IsAtMaxPosition(identifier);
+	return m_ClimberManager->IsAtMaxPosition(identifier);
 }
 bool ClimberManager::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
 {
-    return m_ClimberManager->IsAtMaxPosition(identifier);
+	return m_ClimberManager->IsAtMaxPosition(identifier);
 }
 */
