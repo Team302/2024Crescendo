@@ -68,6 +68,5 @@ bool noteManagerlauncherToPlacerFrontState::AtTarget()
 bool noteManagerlauncherToPlacerFrontState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-
-	return (m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Launcher);
+	return (m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Placer);
 }
