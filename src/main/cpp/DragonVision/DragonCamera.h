@@ -60,8 +60,8 @@ public:
     virtual double GetTargetArea() const = 0;
     virtual int GetAprilTagID() const = 0;
 
-    virtual VisionPose GetFieldPosition() const = 0;
-    virtual VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
+    virtual std::optional<VisionPose> GetFieldPosition() const = 0;
+    virtual std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
 
     //  Estimating distance
     virtual units::length::inch_t GetEstimatedTargetXDistance() const = 0;
