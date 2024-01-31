@@ -14,35 +14,16 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
+#include "auton/AutonGrid.h"
+#include "auton/ZoneParams.h"
 
-// C++ Includes
+// @ADDMECH include for your mechanism state mgr
 
-// FRC includes
-
-// Team 302 includes
-
-// Third Party Includes
-
-#include <auton/PrimitiveEnums.h>
-
-class IPrimitive;
-class PrimitiveParams;
-
-class PrimitiveFactory
+// @ADDMECH mechanism state for mech as parameter
+ZoneParams::ZoneParams(int xgrid1,
+					   int ygrid1,
+					   int xgrid2,
+					   int ygrid2)
+// @ADDMECH initilize state mgr attribute
 {
-public:
-    static PrimitiveFactory *GetInstance();
-    IPrimitive *GetIPrimitive(PrimitiveParams *primitivePasser);
-
-private:
-    PrimitiveFactory();
-    virtual ~PrimitiveFactory();
-
-    static PrimitiveFactory *m_instance;
-    IPrimitive *m_DriveStop;
-    IPrimitive *m_DriveHoldPosition;
-    IPrimitive *m_resetPositionPathPlanner;
-    IPrimitive *m_visionAlign;
-    IPrimitive *m_drivePathPlanner;
-};
+}

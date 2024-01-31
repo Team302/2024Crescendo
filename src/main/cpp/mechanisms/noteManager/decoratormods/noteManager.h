@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -25,10 +24,12 @@
 // Team 302 includes
 #include "mechanisms/noteManager/generated/noteManager_gen.h"
 #include "mechanisms/base/StateMgr.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
+#include "robotstate/RobotStateChanges.h"
 
 // forward declares
 
-class noteManager : public noteManager_gen
+class noteManager : public noteManager_gen, public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -38,11 +39,16 @@ public:
 	/// @param otherMotor Same as previous
 	/// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 	/// Additional actuators and sensors are also in this list.
-	noteManager ( noteManager_gen *generatedMech );
+	noteManager(noteManager_gen *generatedMech);
 	noteManager() = delete;
 	~noteManager() = default;
 
 	void createAndRegisterStates();
+
+	RobotStateChanges::ScoringMode m_scoringMode;
+	RobotStateChanges::ClimbMode m_climbMode;
+
+	void Update(RobotStateChanges::StateChange change, int value) override;
 
 	// todo not sure what to do with these
 	/*

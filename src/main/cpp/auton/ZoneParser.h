@@ -21,28 +21,13 @@
 // FRC includes
 
 // Team 302 includes
+#include <auton/PrimitiveParams.h>
 
 // Third Party Includes
+#include <pugixml/pugixml.hpp>
 
-#include <auton/PrimitiveEnums.h>
-
-class IPrimitive;
-class PrimitiveParams;
-
-class PrimitiveFactory
+class ZoneParser
 {
 public:
-    static PrimitiveFactory *GetInstance();
-    IPrimitive *GetIPrimitive(PrimitiveParams *primitivePasser);
-
-private:
-    PrimitiveFactory();
-    virtual ~PrimitiveFactory();
-
-    static PrimitiveFactory *m_instance;
-    IPrimitive *m_DriveStop;
-    IPrimitive *m_DriveHoldPosition;
-    IPrimitive *m_resetPositionPathPlanner;
-    IPrimitive *m_visionAlign;
-    IPrimitive *m_drivePathPlanner;
+    static ZoneParams *ParseXML(pugi::xml_node zonenode); // declare a new xml_node called zonenode for the zone element
 };

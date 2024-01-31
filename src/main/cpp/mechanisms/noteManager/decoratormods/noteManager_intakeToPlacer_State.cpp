@@ -69,5 +69,5 @@ bool noteManagerintakeToPlacerState::IsTransitionCondition ( bool considerGamepa
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::PLACE));
+	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::PREP_PLACE));
 }

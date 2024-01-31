@@ -32,8 +32,6 @@
 
 VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                    IRobotStateChangeSubscriber(),
-                                                   // m_visionVYPID(1.0, 0.05, 0.0), // kP, kI, kD
-                                                   // m_visionVXPID(1.0, 0.05, 0.0), // kP, kI, kD
                                                    m_alignmentMethod(ALIGNMENT_METHOD::ROTATE),
                                                    m_pipelineMode(DragonCamera::APRIL_TAG),
                                                    m_inAutonMode(false),
@@ -45,8 +43,6 @@ VisionDrive::VisionDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetCha
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-
-    RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::HoldingGamePiece);
 }
 
 std::array<frc::SwerveModuleState, 4> VisionDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
@@ -252,12 +248,4 @@ void VisionDrive::ResetVisionDrive()
     m_moveInXDir = false;
     m_lostGamePieceTimer->Stop();
     m_lostGamePieceTimer->Reset();
-}
-
-void VisionDrive::Update(RobotStateChanges::StateChange change, int value)
-{
-    if (change == RobotStateChanges::StateChange::HoldingGamePiece)
-    {
-        m_haveGamePiece = static_cast<RobotStateChanges::GamePiece>(value) != RobotStateChanges::None;
-    }
 }

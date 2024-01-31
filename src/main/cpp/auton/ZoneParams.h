@@ -17,32 +17,34 @@
 #pragma once
 
 // C++ Includes
+#include <string>
+#include <vector>
 
 // FRC includes
+#include "units/time.h"
 
 // Team 302 includes
+// #include "auton/AutonGrid.h"
+// @ADDMECH include for your mechanism
 
 // Third Party Includes
 
-#include <auton/PrimitiveEnums.h>
-
-class IPrimitive;
-class PrimitiveParams;
-
-class PrimitiveFactory
+class ZoneParams
 {
 public:
-    static PrimitiveFactory *GetInstance();
-    IPrimitive *GetIPrimitive(PrimitiveParams *primitivePasser);
+    ZoneParams(
+        int xgrid1,
+        int ygrid1,
+        int xgrid2,
+        int ygrid2); // declare ZoneParams public constructor with parameters xgrid1, etc.
 
+    ZoneParams() = delete;
+    ~ZoneParams() = default; // Destructor
 private:
-    PrimitiveFactory();
-    virtual ~PrimitiveFactory();
-
-    static PrimitiveFactory *m_instance;
-    IPrimitive *m_DriveStop;
-    IPrimitive *m_DriveHoldPosition;
-    IPrimitive *m_resetPositionPathPlanner;
-    IPrimitive *m_visionAlign;
-    IPrimitive *m_drivePathPlanner;
+    int m_xgrid1;
+    int m_ygrid1;
+    int m_xgrid2;
+    int m_ygrid2; // instances of said parameters
 };
+
+typedef std::vector<ZoneParams *> ZoneParamsVector; // create typedef ZoneParamsVector
