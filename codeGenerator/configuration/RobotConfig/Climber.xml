@@ -66,6 +66,7 @@
           <value>false</value>
         </enableClosedLoop>
       </voltageRamping>
+      <motorType>NEOMOTOR</motorType>
       <canID>
         <unitsFamily>none</unitsFamily>
         <name>uintParameter</name>
@@ -195,7 +196,7 @@
         <name>doubleParameter</name>
         <__units__ />
         <type>Double</type>
-        <value>1</value>
+        <value>0</value>
       </RotationOffset>
       <motorBrushType>kBrushless</motorBrushType>
       <sensorType>kHallSensor</sensorType>
@@ -393,7 +394,7 @@
         <name>doubleParameter</name>
         <__units__ />
         <type>Double</type>
-        <value>1</value>
+        <value>0</value>
       </RotationOffset>
       <motorBrushType>kBrushless</motorBrushType>
       <sensorType>kHallSensor</sensorType>

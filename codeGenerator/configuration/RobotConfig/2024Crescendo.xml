@@ -95,14 +95,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>13</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>13</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -293,14 +293,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>17</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>17</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -491,14 +491,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>14</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>14</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -689,14 +689,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>19</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>19</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -1160,14 +1160,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>2</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>2</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -1358,14 +1358,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>11</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>11</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -1631,14 +1631,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>10</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>10</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -1836,7 +1836,7 @@
                 </diameter>
               </MotorController>
               <MotorController
-                xsi:type="TalonSRX">
+                xsi:type="SparkMax">
                 <name>launcherAngle</name>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
@@ -1898,20 +1898,20 @@
                     <value>false</value>
                   </enableClosedLoop>
                 </voltageRamping>
-                <motorType>ANDYMARK9015</motorType>
+                <motorType>NEOMOTOR</motorType>
                 <canID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>1</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>1</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -1928,7 +1928,6 @@
                   <value>false</value>
                 </enableFollowID>
                 <remoteSensor>
-                  <Source>CANCoder</Source>
                   <CanID>
                     <unitsFamily>none</unitsFamily>
                     <name>uintParameter</name>
@@ -1970,15 +1969,6 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <limitSwitches>
-                  <LimitSwitchesEnabled>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>true</value>
-                  </LimitSwitchesEnabled>
-                </limitSwitches>
                 <currentLimits>
                   <EnableCurrentLimits>
                     <unitsFamily>none</unitsFamily>
@@ -2033,8 +2023,15 @@
                 <theConfigMotorSettings>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
-                <feedbackSensorConfig />
-                <remoteFeedbackSensorConfig />
+                <RotationOffset>
+                  <unitsFamily>none</unitsFamily>
+                  <name>doubleParameter</name>
+                  <__units__ />
+                  <type>Double</type>
+                  <value>0</value>
+                </RotationOffset>
+                <motorBrushType>kBrushed</motorBrushType>
+                <sensorType>kNoSensor</sensorType>
               </MotorController>
             </MotorControllers>
             <closedLoopControlParameters />
@@ -6162,19 +6159,20 @@
                     <value>false</value>
                   </enableClosedLoop>
                 </voltageRamping>
+                <motorType>NEOMOTOR</motorType>
                 <canID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>16</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>16</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -6291,7 +6289,7 @@
                   <name>doubleParameter</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0</value>
                 </RotationOffset>
                 <motorBrushType>kBrushless</motorBrushType>
                 <sensorType>kHallSensor</sensorType>
@@ -6365,14 +6363,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>15</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>15</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -6489,7 +6487,7 @@
                   <name>doubleParameter</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0</value>
                 </RotationOffset>
                 <motorBrushType>kBrushless</motorBrushType>
                 <sensorType>kHallSensor</sensorType>
