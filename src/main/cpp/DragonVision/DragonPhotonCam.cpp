@@ -44,7 +44,7 @@ bool DragonPhotonCam::HasTarget() const
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
     return result.HasTargets();
 }
-VisionPose DragonPhotonCam::GetFieldPosition()
+std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -93,7 +93,7 @@ VisionPose DragonPhotonCam::GetFieldPosition()
     return VisionPose{};
 }
 
-VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
+std::optional<VisionPose> DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
 {
     return GetFieldPosition();
 }
@@ -474,7 +474,7 @@ bool DragonPhotonCam::UpdatePipeline(DragonCamera::PIPELINE pipeline)
     return false;
 }
 
-VisionData DragonPhotonCam::GetDataToNearestAprilTag()
+std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 {
     // get latest detections from co-processor
     frc::Transform3d camToTargetTransform;
