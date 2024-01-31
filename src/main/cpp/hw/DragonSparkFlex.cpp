@@ -187,6 +187,8 @@ bool DragonSparkFlex::IsForwardLimitSwitchClosed()
 
 bool DragonSparkFlex::IsReverseLimitSwitchClosed()
 {
+    if (m_spark->GetReverseLimitSwitch(m_reverseType).Get())
+        m_encoder.SetPosition(0);
     return m_spark->GetReverseLimitSwitch(m_reverseType).Get();
 }
 
