@@ -38,6 +38,8 @@ public:
                    RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                    rev::CANSparkMax::MotorType motorType,
                    rev::SparkRelativeEncoder::Type feedbackType,
+                   rev::SparkLimitSwitch::Type forwardType,
+                   rev::SparkLimitSwitch::Type reverseType,
                    double gearRatio);
 
     virtual ~DragonSparkMax() = default;
@@ -52,8 +54,8 @@ public:
     void SetControlConstants(int slot, const ControlData &controlInfo) override;
 
     void ConfigHWLimitSW(
-        rev::SparkMaxLimitSwitch::Type forwardType,
-        rev::SparkMaxLimitSwitch::Type reverseType);
+        rev::SparkLimitSwitch::Type forwardType,
+        rev::SparkLimitSwitch::Type reverseType);
     void Set(double value) override;
     void SetRotationOffset(double rotations) override;
     void SetVoltageRamping(double ramping, double rampingClosedLoop = -1) override; // seconds 0 to full, set to 0 to disable
@@ -96,9 +98,10 @@ private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
     rev::CANSparkMax *m_spark;
-    rev::SparkLimitSwitch *m_sparkLimitSwitch;
-    rev::SparkMaxLimitSwitch::Type m_forwardType;
-    rev::SparkMaxLimitSwitch::Type m_reverseType;
+    rev::SparkLimitSwitch m_forwardLimitSwitch;
+    rev::SparkLimitSwitch m_reverseLimitSwitch;
+    rev::SparkLimitSwitch::Type m_forwardType = rev::SparkLimitSwitch::Type::kNormallyOpen;
+    rev::SparkLimitSwitch::Type m_reverseType = rev::SparkLimitSwitch::Type::kNormallyOpen;
     // DRAGON_CONTROL_MODE m_controlMode;
     double m_outputRotationOffset;
     double m_gearRatio;

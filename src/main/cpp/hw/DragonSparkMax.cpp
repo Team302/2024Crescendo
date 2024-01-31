@@ -26,6 +26,8 @@ DragonSparkMax::DragonSparkMax(int id,
                                RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                                CANSparkMax::MotorType motorType,
                                rev::SparkRelativeEncoder::Type feedbackType,
+                               rev::SparkLimitSwitch::Type forwardType,
+                               rev::SparkLimitSwitch::Type reverseType,
                                double gearRatio) : IDragonMotorController(),
                                                    m_id(id),
                                                    m_spark(new CANSparkMax(id, motorType)),
@@ -34,17 +36,22 @@ DragonSparkMax::DragonSparkMax(int id,
                                                    m_gearRatio(gearRatio),
                                                    m_deviceType(deviceType),
                                                    m_feedbackType(feedbackType),
+                                                   m_forwardType(forwardType),
+                                                   m_reverseType(reverseType),
                                                    m_encoder(m_spark->GetEncoder(m_feedbackType)),
-                                                   m_pidController(m_spark->GetPIDController())
+                                                   m_pidController(m_spark->GetPIDController()),
+                                                   m_forwardLimitSwitch(m_spark->GetForwardLimitSwitch(m_forwardType)),
+                                                   m_reverseLimitSwitch(m_spark->GetReverseLimitSwitch(m_reverseType))
 {
     m_spark->RestoreFactoryDefaults(true);
-
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09); // 0.2 0.25
     m_spark->SetClosedLoopRampRate(0.02);
     m_encoder.SetPosition(0);
     SetRotationOffset(0);
+    m_forwardLimitSwitch.EnableLimitSwitch(false);
+    m_reverseLimitSwitch.EnableLimitSwitch(false);
 }
 
 double DragonSparkMax::GetRotations()
@@ -95,7 +102,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     }
 }
 
-void DragonSparkMax::ConfigHWLimitSW(rev::SparkMaxLimitSwitch::Type forwardType, rev::SparkMaxLimitSwitch::Type reverseType)
+void DragonSparkMax::ConfigHWLimitSW(rev::SparkLimitSwitch::Type forwardType, rev::SparkLimitSwitch::Type reverseType)
 {
     m_forwardType = forwardType;
     m_reverseType = reverseType;
@@ -196,7 +203,8 @@ bool DragonSparkMax::IsReverseLimitSwitchClosed()
 
 void DragonSparkMax::EnableDisableLimitSwitches(bool enable)
 {
-    m_sparkLimitSwitch->EnableLimitSwitch(enable);
+    m_forwardLimitSwitch.EnableLimitSwitch(enable);
+    m_reverseLimitSwitch.EnableLimitSwitch(enable);
 }
 
 void DragonSparkMax::EnableVoltageCompensation(double fullvoltage)

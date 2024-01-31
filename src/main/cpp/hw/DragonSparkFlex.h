@@ -88,7 +88,6 @@ private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
     rev::CANSparkFlex *m_spark;
-    rev::SparkLimitSwitch *m_sparkLimitSwitch;
     rev::SparkLimitSwitch::Type m_forwardType;
     rev::SparkLimitSwitch::Type m_reverseType;
     double m_outputRotationOffset;

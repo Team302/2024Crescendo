@@ -49,7 +49,7 @@ void Thing1MechleftFrontCWState::Init()
 
 void Thing1MechleftFrontCWState::Run()
 {
-	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("Thing1MechleftFrontCWState"), string("run"));
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("Thing1MechleftFrontCWState"), string("run"));
 	m_genState->Run();
 }
 

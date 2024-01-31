@@ -192,7 +192,8 @@ bool DragonSparkFlex::IsReverseLimitSwitchClosed()
 
 void DragonSparkFlex::EnableDisableLimitSwitches(bool enable)
 {
-    m_sparkLimitSwitch->EnableLimitSwitch(enable);
+    SparkLimitSwitch limitSwitch = m_spark->GetForwardLimitSwitch(m_forwardType);
+    limitSwitch.EnableLimitSwitch(enable);
 }
 
 void DragonSparkFlex::EnableVoltageCompensation(double fullvoltage)
