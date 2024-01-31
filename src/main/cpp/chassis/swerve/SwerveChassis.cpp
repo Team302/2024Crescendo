@@ -49,9 +49,7 @@
 #include "chassis/swerve/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/swerve/driveStates/VisionDrive.h"
 
-#include "chassis/swerve/headingStates/FaceGoalHeading.h"
 #include "chassis/swerve/headingStates/FaceGamePiece.h"
-#include "chassis/swerve/headingStates/FaceAprilTag.h"
 #include "chassis/swerve/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/swerve/headingStates/MaintainHeading.h"
 #include "chassis/swerve/headingStates/SpecifiedHeading.h"
@@ -156,8 +154,6 @@ void SwerveChassis::InitStates()
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] = new SpecifiedHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE] = new FaceGamePiece();
-    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG] = new FaceAprilTag();
-    m_headingStateMap[ChassisOptionEnums::HeadingOption::TOWARD_GOAL] = new FaceGoalHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::IGNORE] = new IgnoreHeading();
 }
 /// @brief Align all of the swerve modules to point forward
