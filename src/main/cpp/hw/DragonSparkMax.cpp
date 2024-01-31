@@ -90,11 +90,14 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     case ControlModes::PERCENT_OUTPUT:
         m_spark->Set(0); // init to zero just to be safe
         break;
-
     case ControlModes::POSITION_INCH:
         m_pidController.SetReference(0, CANSparkMax::ControlType::kPosition, slot);
+        m_encoder.SetPositionConversionFactor(m_countsPerInch);
         break;
-
+    case ControlModes::POSITION_DEGREES:
+        m_pidController.SetReference(0, CANSparkMax::ControlType::kPosition, slot);
+        m_encoder.SetPositionConversionFactor(m_countsPerDegree);
+        break;
     case ControlModes::VELOCITY_RPS:
         m_pidController.SetReference(0, CANSparkMax::ControlType::kVelocity, slot);
         break;
@@ -220,18 +223,8 @@ void DragonSparkMax::EnableVoltageCompensation(double fullvoltage)
 void DragonSparkMax::SetSelectedSensorPosition(
     double initialPosition)
 {
-    switch ()
-    {
-    case ControlModes::POSITION_INCH:
-        m_encoder.SetPosition(initialPosition * GetCountsPerInch());
-        break;
-    case ControlModes::POSITION_DEGREES:
-        m_encoder.SetPosition(initialPosition * GetCountsPerDegree());
-        break;
-    default:
-        m_encoder.SetPosition(initialPosition); // Just set it to raw counts
-        break;
-    }
+
+    m_encoder.SetPosition(initialPosition);
 }
 
 double DragonSparkMax::GetCountsPerInch() const

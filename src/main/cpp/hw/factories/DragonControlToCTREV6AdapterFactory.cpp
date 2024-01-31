@@ -50,90 +50,90 @@ DragonControlToCTREV6AdapterFactory *DragonControlToCTREV6AdapterFactory::GetFac
 }
 
 DragonControlToCTREV6Adapter *DragonControlToCTREV6AdapterFactory::CreateAdapter(std::string networkTableName,
-                                                                                   int controllerSlot,
-                                                                                   const ControlData &controlInfo,
-                                                                                   const DistanceAngleCalcStruc &calcStruc,
-                                                                                   ctre::phoenix6::hardware::TalonFX &controller)
+                                                                                 int controllerSlot,
+                                                                                 const ControlData &controlInfo,
+                                                                                 const DistanceAngleCalcStruc &calcStruc,
+                                                                                 ctre::phoenix6::hardware::TalonFX &controller)
 {
     switch (controlInfo.GetMode())
     {
     case ControlModes::CONTROL_TYPE::PERCENT_OUTPUT:
         return new DragonPercentOutputToCTREV6Adapter(networkTableName,
+                                                      controllerSlot,
+                                                      controlInfo,
+                                                      calcStruc,
+                                                      controller);
+        break;
+    case ControlModes::CONTROL_TYPE::POSITION_ABS_TICKS:
+        return new DragonTicksToCTREV6Adapter(networkTableName,
+                                              controllerSlot,
+                                              controlInfo,
+                                              calcStruc,
+                                              controller);
+        break;
+
+    case ControlModes::CONTROL_TYPE::POSITION_DEGREES:
+        return new DragonPositionDegreeToCTREV6Adapter(networkTableName,
                                                        controllerSlot,
                                                        controlInfo,
                                                        calcStruc,
                                                        controller);
         break;
-    case ControlModes::CONTROL_TYPE::POSITION_ABS_TICKS:
-        return new DragonTicksToCTREV6Adapter(networkTableName,
-                                               controllerSlot,
-                                               controlInfo,
-                                               calcStruc,
-                                               controller);
-        break;
-
-    case ControlModes::CONTROL_TYPE::POSITION_DEGREES:
-        return new DragonPositionDegreeToCTREV6Adapter(networkTableName,
-                                                        controllerSlot,
-                                                        controlInfo,
-                                                        calcStruc,
-                                                        controller);
-        break;
 
     case ControlModes::CONTROL_TYPE::POSITION_INCH:
         return new DragonPositionInchToCTREV6Adapter(networkTableName,
-                                                      controllerSlot,
-                                                      controlInfo,
-                                                      calcStruc,
-                                                      controller);
-        break;
-
-    case ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE:
-        return new DragonPositionDegreeToCTREV6Adapter(networkTableName,
-                                                        controllerSlot,
-                                                        controlInfo,
-                                                        calcStruc,
-                                                        controller);
-        break;
-
-    case ControlModes::CONTROL_TYPE::TRAPEZOID:
-        return new DragonTrapezoidToCTREV6Adapter(networkTableName,
-                                                   controllerSlot,
-                                                   controlInfo,
-                                                   calcStruc,
-                                                   controller);
-        break;
-
-    case ControlModes::CONTROL_TYPE::VELOCITY_DEGREES:
-        return new DragonVelocityDegreeToCTREV6Adapter(networkTableName,
-                                                        controllerSlot,
-                                                        controlInfo,
-                                                        calcStruc,
-                                                        controller);
-        break;
-
-    case ControlModes::CONTROL_TYPE::VELOCITY_INCH:
-        return new DragonVelocityInchToCTREV6Adapter(networkTableName,
-                                                      controllerSlot,
-                                                      controlInfo,
-                                                      calcStruc,
-                                                      controller);
-        break;
-
-    case ControlModes::CONTROL_TYPE::VELOCITY_RPS:
-        return new DragonVelocityRPSToCTREV6Adapter(networkTableName,
                                                      controllerSlot,
                                                      controlInfo,
                                                      calcStruc,
                                                      controller);
         break;
 
+    case ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE:
+        return new DragonPositionDegreeToCTREV6Adapter(networkTableName,
+                                                       controllerSlot,
+                                                       controlInfo,
+                                                       calcStruc,
+                                                       controller);
+        break;
+
+    case ControlModes::CONTROL_TYPE::TRAPEZOID:
+        return new DragonTrapezoidToCTREV6Adapter(networkTableName,
+                                                  controllerSlot,
+                                                  controlInfo,
+                                                  calcStruc,
+                                                  controller);
+        break;
+
+    case ControlModes::CONTROL_TYPE::VELOCITY_DEGREES:
+        return new DragonVelocityDegreeToCTREV6Adapter(networkTableName,
+                                                       controllerSlot,
+                                                       controlInfo,
+                                                       calcStruc,
+                                                       controller);
+        break;
+
+    case ControlModes::CONTROL_TYPE::VELOCITY_INCH:
+        return new DragonVelocityInchToCTREV6Adapter(networkTableName,
+                                                     controllerSlot,
+                                                     controlInfo,
+                                                     calcStruc,
+                                                     controller);
+        break;
+
+    case ControlModes::CONTROL_TYPE::VELOCITY_RPS:
+        return new DragonVelocityRPSToCTREV6Adapter(networkTableName,
+                                                    controllerSlot,
+                                                    controlInfo,
+                                                    calcStruc,
+                                                    controller);
+        break;
+
     case ControlModes::CONTROL_TYPE::VOLTAGE:
         return new DragonVoltageToCTREV6Adapter(networkTableName,
-                                                 controllerSlot,
-                                                 controlInfo,
-                                                 calcStruc,
-                                                 controller);
+                                                controllerSlot,
+                                                controlInfo,
+                                                calcStruc,
+                                                controller);
         break;
 
     default:
@@ -141,10 +141,10 @@ DragonControlToCTREV6Adapter *DragonControlToCTREV6AdapterFactory::CreateAdapter
         msg += to_string(controller.GetDeviceID());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("DragonControlToCTREV6AdapterFactory"), string("CreateAdapter"), msg);
         return new DragonPercentOutputToCTREV6Adapter(networkTableName,
-                                                       controllerSlot,
-                                                       controlInfo,
-                                                       calcStruc,
-                                                       controller);
+                                                      controllerSlot,
+                                                      controlInfo,
+                                                      calcStruc,
+                                                      controller);
         break;
     }
     return nullptr;
