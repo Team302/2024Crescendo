@@ -21,13 +21,13 @@
 
 struct VisionPose
 {
-    frc::Pose3d estimatedPose = frc::Pose3d{};
-    units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0);
-    wpi::array<double, 3> visionMeasurementStdDevs = {0.1, 0.1, 0.1};
+    frc::Pose3d estimatedPose = frc::Pose3d{};                               // empty pose3d if we don't give one out
+    units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0); // negative timestamp for no timestamp
+    wpi::array<double, 3> visionMeasurementStdDevs = {0.1, 0.1, 0.1};        // default std devs from WPI docs
 };
 
 struct VisionData
 {
     frc::Transform3d deltaToTarget = frc::Transform3d{}; // from robot center
-    int tagId = -1;
+    int tagId = -1; //if we don't have april tag data, use null id
 };

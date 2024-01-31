@@ -36,6 +36,7 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
                                  units::angle::degree_t roll) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
                                                                 m_camera(new photon::PhotonCamera(name))
 {
+    SetPipeline(initialPipeline);
 }
 
 bool DragonPhotonCam::HasTarget() const
@@ -110,11 +111,13 @@ double DragonPhotonCam::GetPoseAmbiguity() const
 
         return target.GetPoseAmbiguity();
     }
+
+    return 9999.0; // if we don't have targets, return very large ambiguity 999999 - may want to make this optional
 }
 
 /// @brief  get Yaw of possible target.
-/// @return units::angle::degree_t - Counter Clockwize/left for positive.
-units::angle::degree_t DragonPhotonCam::GetTargetYaw() const // originally Yaw was y-angle
+/// @return units::angle::degree_t - Counter Clockwise/left for positive.
+units::angle::degree_t DragonPhotonCam::GetTargetYaw() const
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -134,7 +137,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetYaw() const // originally Yaw w
 }
 
 /// @brief get TargetSkew of possible target.
-/// @return Skew casted as units::angle::degree_t. Counter Clockwize/left for positive.
+/// @return Skew casted as units::angle::degree_t. Counter Clockwise/left for positive.
 units::angle::degree_t DragonPhotonCam::GetTargetSkew() const
 {
     // get latest detections from co-processor
@@ -189,9 +192,6 @@ units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame() const
         }
         else // we see an april tag
         {
-            // pitch of detection
-            units::angle::radian_t cameraPitch = units::degree_t(target.GetPitch());
-
             // transform to get from cam to target
             frc::Transform3d camToTarget = target.GetBestCameraToTarget();
 
@@ -199,9 +199,9 @@ units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame() const
             frc::Translation3d camToTargetTranslation = camToTarget.Translation();
 
             // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t pitchRobotRelative = units::math::atan2(m_cameraPose.Z() + camToTargetTranslation.Z(), m_cameraPose.X() + camToTargetTranslation.X());
+            units::angle::radian_t yawRobotRelative = units::math::atan2(m_cameraPose.Y() + camToTargetTranslation.Y(), m_cameraPose.X() + camToTargetTranslation.X());
 
-            return pitchRobotRelative;
+            return yawRobotRelative;
         }
     }
 
@@ -274,7 +274,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitch() const
     }
 
     // if it isn't found
-    return (units::angle::degree_t)0;
+    return units::angle::degree_t(0.0);
 }
 
 units::time::millisecond_t DragonPhotonCam::GetPipelineLatency() const
@@ -317,7 +317,6 @@ double DragonPhotonCam::GetTargetArea() const
     // check for detections
     if (result.HasTargets())
     {
-
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
@@ -341,7 +340,6 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance() const
     // check for detections
     if (result.HasTargets())
     {
-
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
@@ -366,7 +364,6 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance() const
     // check for detections
     if (result.HasTargets())
     {
-
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
@@ -420,9 +417,6 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords(
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        // Get transformation from camera to target
-        // not needed
-        // frc::Transform3d transform = target.GetBestCameraToTarget();
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
     }
@@ -445,9 +439,6 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords(
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        // Get transformation from camera to target
-        // not needed
-        // frc::Transform3d transform = target.GetBestCameraToTarget();
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
     }
@@ -471,18 +462,15 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
         // get the most accurate data according to contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        // Get transformation from camera to target
-        // not needed
-        // frc::Transform3d transform = target.GetBestCameraToTarget();
-
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
     }
 
     return units::length::inch_t(-1.0);
 }
-bool DragonPhotonCam::SetPipeline(DragonCamera::PIPELINE pipeline)
+bool DragonPhotonCam::UpdatePipeline(DragonCamera::PIPELINE pipeline)
 {
+    m_camera->SetPipelineIndex(static_cast<int>(m_pipeline));
     return false;
 }
 

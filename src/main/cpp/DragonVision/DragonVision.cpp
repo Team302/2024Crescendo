@@ -52,12 +52,12 @@ DragonVision::DragonVision()
 
 void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 {
-	m_DragonCameraMap[position] = camera;
+	m_dragonCameraMap[position] = camera;
 }
 
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 {
-	if (element == VISION_ELEMENT::NOTE || element == VISION_ELEMENT::LAUNCHER_NOTE || element == VISION_ELEMENT::PLACER_NOTE) // need to add LAUNCHER_NOTE AND PLACER_NOTE
+	if (element == VISION_ELEMENT::NOTE || element == VISION_ELEMENT::LAUNCHER_NOTE || element == VISION_ELEMENT::PLACER_NOTE) // if we want to detect a note
 	{
 		return GetVisionDataFromNote(element);
 	}
@@ -79,34 +79,37 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 }
 std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag()
 {
-	int frontTagId = m_DragonCameraMap[LAUNCHER]->GetAprilTagID();
-	int backTagId = m_DragonCameraMap[PLACER]->GetAprilTagID();
+	int launcherTagId = m_dragonCameraMap[LAUNCHER]->GetAprilTagID();
+	int placerTagId = m_dragonCameraMap[PLACER]->GetAprilTagID();
 
-	std::optional<frc::DriverStation::Alliance> allianceColor = frc::DriverStation::GetAlliance();
+	// get alliance color from FMSData
+	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 
+	// initialize tags to check to null pointer
 	std::vector<int> tagIdsToCheck = {};
 
-	if (allianceColor)
+	if (allianceColor == frc::DriverStation::Alliance::kBlue)
 	{
-		if (allianceColor == frc::DriverStation::Alliance::kBlue)
-		{
-			// blue alliance stage tag ids are 14, 15, 16
-			tagIdsToCheck.emplace_back(14, 15, 16);
-		}
-		else
-		{
-			// red alliance stage tag ids are 11, 12, 13
-			tagIdsToCheck.emplace_back(11, 12, 13);
-		}
+		// blue alliance stage tag ids are 14, 15, 16
+		tagIdsToCheck.emplace_back(14);
+		tagIdsToCheck.emplace_back(15);
+		tagIdsToCheck.emplace_back(16);
+	}
+	else
+	{
+		// red alliance stage tag ids are 11, 12, 13
+		tagIdsToCheck.emplace_back(11);
+		tagIdsToCheck.emplace_back(12);
+		tagIdsToCheck.emplace_back(13);
 	}
 
-	if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), frontTagId) != tagIdsToCheck.end())
+	if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherTagId) != tagIdsToCheck.end())
 	{
-		return m_DragonCameraMap[LAUNCHER]->GetDataToNearestApriltag(); // frontagId is for stage id
+		return m_dragonCameraMap[LAUNCHER]->GetDataToNearestApriltag(); // launcherTagId is for stage id
 	}
-	else if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), backTagId) != tagIdsToCheck.end())
+	else if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerTagId) != tagIdsToCheck.end())
 	{
-		return m_DragonCameraMap[PLACER]->GetDataToNearestApriltag(); // frontagId is for stage id
+		return m_dragonCameraMap[PLACER]->GetDataToNearestApriltag(); // placerTagId is for stage id
 	}
 	else // tag doesnt matter or no tag
 	{
@@ -118,27 +121,27 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 {
 	DragonCamera *selectedCam = nullptr;
 
-	int frontTagId = m_DragonCameraMap[LAUNCHER]->GetAprilTagID();
-	int backTagId = m_DragonCameraMap[PLACER]->GetAprilTagID();
+	int launcherTagId = m_dragonCameraMap[LAUNCHER]->GetAprilTagID();
+	int placerTagId = m_dragonCameraMap[PLACER]->GetAprilTagID();
 
-	if ((frontTagId == -1) && (backTagId == -1)) // if we see no april tags
+	if ((launcherTagId == -1) && (placerTagId == -1)) // if we see no april tags
 	{
 		return std::nullopt;
 	}
-	else if ((frontTagId != -1) && (backTagId != -1)) // if we see april tags in both cameras
+	else if ((launcherTagId != -1) && (placerTagId != -1)) // if we see april tags in both cameras
 	{
 		// distance logic
-		units::length::inch_t frontDistance = m_DragonCameraMap[LAUNCHER]->GetEstimatedTargetXDistance_RelToRobotCoords();
-		units::length::inch_t backDistance = m_DragonCameraMap[PLACER]->GetEstimatedTargetXDistance_RelToRobotCoords();
+		units::length::inch_t launcherDistance = m_dragonCameraMap[LAUNCHER]->GetEstimatedTargetXDistance_RelToRobotCoords();
+		units::length::inch_t placerDistance = m_dragonCameraMap[PLACER]->GetEstimatedTargetXDistance_RelToRobotCoords();
 
-		selectedCam = frontDistance <= backDistance ? m_DragonCameraMap[LAUNCHER] : m_DragonCameraMap[PLACER]; // if front is less ambiguous, select it, and vice versa
+		selectedCam = units::math::abs(launcherDistance) <= units::math::abs(placerDistance) ? m_dragonCameraMap[LAUNCHER] : m_dragonCameraMap[PLACER]; // if front is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
-		if (frontTagId != -1)
-			selectedCam = m_DragonCameraMap[LAUNCHER];
+		if (launcherTagId != -1)
+			selectedCam = m_dragonCameraMap[LAUNCHER];
 		else
-			selectedCam = m_DragonCameraMap[PLACER];
+			selectedCam = m_dragonCameraMap[PLACER];
 	}
 
 	return selectedCam->GetDataToNearestApriltag();
@@ -151,49 +154,51 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	switch (element)
 	{
 	case VISION_ELEMENT::PLACER_NOTE:
-		selectedCam = m_DragonCameraMap[PLACER];
+		selectedCam = m_dragonCameraMap[PLACER];
 		break;
 	case VISION_ELEMENT::LAUNCHER_NOTE:
-		selectedCam = m_DragonCameraMap[LAUNCHER];
+		selectedCam = m_dragonCameraMap[LAUNCHER];
 		break;
 	case VISION_ELEMENT::NOTE:
 	{
-		bool frontHasDetection = m_DragonCameraMap[LAUNCHER_INTAKE]->HasTarget();
-		bool backHasDetection = m_DragonCameraMap[PLACER_INTAKE]->HasTarget();
+		bool frontHasDetection = m_dragonCameraMap[LAUNCHER_INTAKE]->HasTarget();
+		bool backHasDetection = m_dragonCameraMap[PLACER_INTAKE]->HasTarget();
 		if (!frontHasDetection && !backHasDetection)
 		{
 			return std::nullopt;
 		}
 		else if (frontHasDetection && backHasDetection)
 		{
+			// check which note is closest to robot
+			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[LAUNCHER_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_dragonCameraMap[LAUNCHER_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
+			frc::Translation2d translationPlacer = frc::Translation2d(m_dragonCameraMap[PLACER_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_dragonCameraMap[PLACER_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
 
-			frc::Translation2d translationfront = frc::Translation2d(m_DragonCameraMap[LAUNCHER_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_DragonCameraMap[LAUNCHER_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
-			frc::Translation2d translationback = frc::Translation2d(m_DragonCameraMap[PLACER_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_DragonCameraMap[PLACER_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
-
-			selectedCam = units::math::abs(translationfront.Norm()) < units::math::abs(translationback.Norm()) ? m_DragonCameraMap[LAUNCHER_INTAKE] : m_DragonCameraMap[PLACER_INTAKE];
+			selectedCam = units::math::abs(translationLauncher.Norm()) < units::math::abs(translationPlacer.Norm()) ? m_dragonCameraMap[LAUNCHER_INTAKE] : m_dragonCameraMap[PLACER_INTAKE];
 		}
 		else
 		{
 			if (frontHasDetection)
-				selectedCam = m_DragonCameraMap[LAUNCHER_INTAKE];
+				selectedCam = m_dragonCameraMap[LAUNCHER_INTAKE];
 			else
-				selectedCam = m_DragonCameraMap[PLACER_INTAKE];
+				selectedCam = m_dragonCameraMap[PLACER_INTAKE];
 		}
 	}
 	break;
 	default:
+		// no-op
 		break;
 	}
 
-	// now we have selected camera
-	// to get robot relative measurements, use following functions:
-
-	// create translation 3d, create std::optional visiondata with that translation3d
-	// return that translation3d
+	// double check selectedCam is not nullptr
 	if (selectedCam != nullptr)
 	{
+		// create translation using 3 estimated distances
 		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->GetEstimatedTargetXDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetYDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetZDistance_RelToRobotCoords());
+
+		// create rotation3d with pitch and yaw (don't have access to roll)
 		frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame(), selectedCam->GetTargetYawRobotFrame());
+
+		// return VisionData with new translation and rotation
 		return std::optional<VisionData>{frc::Transform3d(translationToNote, rotationToNote)};
 	}
 }
@@ -202,35 +207,33 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 {
 	DragonCamera *selectedCam = nullptr;
 
-	bool bothCamerasSeeTag = (m_DragonCameraMap[LAUNCHER]->GetAprilTagID() != -1) && (m_DragonCameraMap[PLACER]->GetAprilTagID() != -1);
+	int launcherTagId = m_dragonCameraMap[LAUNCHER]->GetAprilTagID();
+	int placerTagId = m_dragonCameraMap[PLACER]->GetAprilTagID();
 
-	int frontTagId = m_DragonCameraMap[LAUNCHER]->GetAprilTagID();
-	int backTagId = m_DragonCameraMap[PLACER]->GetAprilTagID();
-
-	if ((frontTagId == -1) && (backTagId == -1)) // if we see no april tags
+	if ((launcherTagId == -1) && (placerTagId == -1)) // if we see no april tags
 	{
 		return std::nullopt;
 	}
-	else if ((frontTagId != -1) && (backTagId != -1)) // if we see april tags in both cameras
+	else if ((launcherTagId != -1) && (placerTagId != -1)) // if we see april tags in both cameras
 	{
 		// confidence logic
-		double frontAmbiguity = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[LAUNCHER])->GetPoseAmbiguity();
-		double backAmbiguity = dynamic_cast<DragonPhotonCam *>(m_DragonCameraMap[PLACER])->GetPoseAmbiguity();
+		double launcherAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[LAUNCHER])->GetPoseAmbiguity();
+		double placerAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[PLACER])->GetPoseAmbiguity();
 
-		selectedCam = frontAmbiguity <= backAmbiguity ? m_DragonCameraMap[LAUNCHER] : m_DragonCameraMap[PLACER]; // if front is less ambiguous, select it, and vice versa
+		selectedCam = launcherAmbiguity <= placerAmbiguity ? m_dragonCameraMap[LAUNCHER] : m_dragonCameraMap[PLACER]; // if launcher is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
-		if (frontTagId != -1)
-			selectedCam = m_DragonCameraMap[LAUNCHER];
+		if (launcherTagId != -1)
+			selectedCam = m_dragonCameraMap[LAUNCHER];
 
 		else
-			selectedCam = m_DragonCameraMap[PLACER];
+			selectedCam = m_dragonCameraMap[PLACER];
 	}
 
-	// if (FMSData::GetInstance()->GetAllianceColor()
 	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 
+	// initialize selected field element to empty Pose3d
 	frc::Pose3d fieldElementPose = frc::Pose3d{};
 
 	switch (element)
@@ -240,6 +243,9 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		break;
 	case VISION_ELEMENT::AMP:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red amp*/ : frc::Pose3d{}; /*load blue amp*/
+		break;
+	case VISION_ELEMENT::SOURCE:
+		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red source*/ : frc::Pose3d{}; /*load blue source*/
 		break;
 	default:
 		break;
@@ -264,94 +270,12 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 
 bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position)
 {
-	m_DragonCameraMap[position]->SetPipeline(mode);
-	m_DragonCameraMap[position]->UpdatePipeline();
+	m_dragonCameraMap[position]->SetPipeline(mode);
+	m_dragonCameraMap[position]->UpdatePipeline();
 	return false;
 }
 
 DragonCamera::PIPELINE DragonVision::GetPipeline(CAMERA_POSITION position)
 {
-	return m_DragonCameraMap[position]->GetPipeline();
+	return m_dragonCameraMap[position]->GetPipeline();
 }
-
-/// @brief Use this function to get the currently detected target information
-/// @param position From which limelight to get the info
-/// @return If a target has not been acquired, returns null, otherwise a pointer to an object containing all the information
-// std::shared_ptr<DragonVisionTarget> DragonVision::getTargetInfo(CAMERA_POSITION position) const
-// {
-// 	DragonLimelight *dll = getLimelight(position);
-
-// 	if ((dll != nullptr) && (dll->HasTarget()))
-// 	{
-// 		std::shared_ptr<DragonVisionTarget>
-// 			dvt = make_shared<DragonVisionTarget>(
-// 				dll->getPipeline(),
-// 				dll->EstimateTargetXdistance(),
-// 				dll->GetTargetHorizontalOffset(),
-// 				dll->GetTargetVerticalOffset(),
-// 				dll->EstimateTargetXdistance_RelToRobotCoords(),
-// 				dll->EstimateTargetYdistance_RelToRobotCoords(),
-// 				dll->getAprilTagID(),
-// 				dll->GetPipelineLatency());
-// 		return dvt;
-// 	}
-
-// 	return nullptr;
-// }
-
-// std::shared_ptr<DragonVisionTarget> DragonVision::getTargetInfo() const
-// {
-// 	return getTargetInfo(CAMERA_POSITION::FRONT);
-// }
-
-// frc::Pose2d DragonVision::GetRobotPosition() const
-// {
-// 	// frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
-// 	DragonLimelight *dllFront = getLimelight(CAMERA_POSITION::FRONT);
-// 	DragonLimelight *dllBack = getLimelight(CAMERA_POSITION::BACK);
-
-// 	// get alliance, if red, still get blue x,y,z, but use red rotation x,y,z
-
-// 	if ((dllFront != nullptr) && (dllFront->HasTarget()))
-// 	{
-// 		return dllFront->GetBlueFieldPosition();
-// 	}
-// 	else if ((dllBack != nullptr) && (dllBack->HasTarget()))
-// 	{
-// 		return dllBack->GetBlueFieldPosition();
-// 	}
-// 	else
-// 	{
-// 		return frc::Pose2d{};
-// 	}
-// }
-
-// frc::Pose2d DragonVision::GetRobotPosition(CAMERA_POSITION position) const
-// {
-// 	DragonLimelight *limelight = getLimelight(position);
-// 	// frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
-
-// 	if ((limelight != nullptr) && (limelight->HasTarget()))
-// 	{
-// 		return limelight->GetBlueFieldPosition();
-// 	}
-// 	else
-// 	{
-// 		return frc::Pose2d{};
-// 	}
-// }
-
-// /// @brief Gets a pointer to the limelight at the specified position
-// /// @param position The physical location of the limelight
-// /// @return A pointer to the lilelight object
-// DragonLimelight *DragonVision::getLimelight(CAMERA_POSITION position) const
-// {
-// 	auto theLimeLightInfo = m_DragonLimelightMap.find(position);
-
-// 	if (theLimeLightInfo != m_DragonLimelightMap.end())
-// 	{
-// 		return theLimeLightInfo->second;
-// 	}
-
-// 	return nullptr;
-//}

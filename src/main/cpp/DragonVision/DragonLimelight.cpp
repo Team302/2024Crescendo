@@ -64,7 +64,7 @@ DragonLimelight::DragonLimelight(
     SNAPSHOT_MODE snapMode) : DragonCamera(networkTableName, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
                               m_networktable(NetworkTableInstance::GetDefault().GetTable(networkTableName.c_str()))
 {
-    SetPipeline(PIPELINE::OFF);
+    SetPipeline(initialPipeline);
     SetLEDMode(ledMode);
     SetCamMode(camMode);
     SetStreamMode(streamMode);
@@ -232,9 +232,7 @@ units::angle::degree_t DragonLimelight::GetTargetYawRobotFrame() const
     units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + GetMountingYOffset(); // the offset is positive if the limelight is to the left of the center of the robot
     units::length::inch_t targetDistanceRobotFrame = targetXdistance + GetMountingXOffset();      // the offset is negative if the limelight is behind the center of the robot
 
-    // units::angle::radian_t angleOffset = units::angle::radian_t(atan((targetHorizOffsetRobotFrame / targetDistanceRobotFrame).to<float>()));
-    units::angle::radian_t angleOffset = units::angle::radian_t(0);
-
+    units::angle::radian_t angleOffset = units::angle::radian_t(atan((targetHorizOffsetRobotFrame / targetDistanceRobotFrame).to<double>()));
     return angleOffset;
 }
 
@@ -277,7 +275,6 @@ double DragonLimelight::GetTargetArea() const
 
 units::angle::degree_t DragonLimelight::GetTargetSkew() const
 {
-    //   auto nt = m_networktable.get();
     if (m_networktable != nullptr)
     {
         return units::angle::degree_t(m_networktable->GetNumber("ts", 0.0));
@@ -384,10 +381,9 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 
     if (GetAprilTagID() == -1)
     {
-        estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + GetTargetPitch());
         // d=(h2-h1)/tan(a1+a2)
-        //  need to do testing to get an accurate measurement
-        //  estimatedTargetDistance = units::length::inch_t(-1.0);
+        estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + GetTargetPitch());
+
         return estimatedTargetDistance;
     }
 
@@ -430,27 +426,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
     units::length::inch_t estimatedTargetZDistance;
     if (GetAprilTagID() == -1)
     {
-        m_cameraPose.Z();
-        estimatedTargetZDistance = m_cameraPose.Z() - EstimateTargetXDistance();
-        return estimatedTargetDistance;
-    }
-
-    else
-    {
-        auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
-        std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
-
-        return units::length::inch_t(xdistance[1]);
-    }
-    /*
-     Needs to be redone:
-     If apriltag, use Pose3d and get z value
-     If else, for now jsut return -1.0 until we can get an accurate measurement
-    */
-    if (GetAprilTagID() == -1)
-    {
-        // need to do testing to get an accurate measurement
-        estimatedTargetDistance = units::length::inch_t(-1.0);
+        estimatedTargetZDistance = m_cameraPose.Z() - m_noteVerticalOffset;
         return estimatedTargetDistance;
     }
 
@@ -504,15 +480,8 @@ VisionData DragonLimelight::GetDataToNearestApriltag()
     auto tagetpoes = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
 
     std::vector<double> vector = tagetpoes.GetEntry(std::array<double, 6>{}).Get();
-    // targetpose_cameraspace returns distance and angle
-    // assign variables based on the vector, then construct a translation 3d
-    units::length::meter_t Xdist{vector[0]};
-    units::length::meter_t Ydist{vector[1]};
-    units::length::meter_t Zdist{vector[2]};
-    units::angle::degree_t Xangle{vector[3]};
-    units::angle::degree_t Yangle{vector[4]};
-    units::angle::degree_t Zangle{vector[5]};
-    frc::Rotation3d rotation = frc::Rotation3d(Xangle, Yangle, Zangle);
-    auto transform = frc::Transform3d(Xdist, Ydist, Zdist, rotation);
+
+    frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
+    auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
     return VisionData{transform, GetAprilTagID()};
 }

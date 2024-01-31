@@ -22,7 +22,7 @@
 #include <vector>
 #include "frc/geometry/Pose3d.h"
 #include "frc/DriverStation.h"
-#include "DragonVision/DragonVisonStructs.h"
+#include "DragonVision/DragonVisionStructs.h"
 
 class DragonCamera
 {
@@ -105,17 +105,3 @@ protected:
 
     const units::length::inch_t m_noteVerticalOffset = units::length::inch_t(0.0); // This represents the note being at the same level as center of robot
 };
-
-/*
-TODO:
-      one large comment block in FaceAprilTage.cpp
-
-      one large comment block in VisionDrive.cpp
-
-      one comment block, one comment line in FaceGamePiece.cpp
-
-       VisionDrivePrimitive.cpp(removed commented lines, still need code)
-
-       FaceGoalHeading.cpp (33-34 change to add actual code)
-TODO:
-*/

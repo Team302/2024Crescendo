@@ -29,6 +29,8 @@ public:
                     units::angle::degree_t yaw,             /// <I> - Yaw of limelight
                     units::angle::degree_t roll);           /// <I> - Roll of limelight
 
+    DragonPhotonCam() = delete;
+
     bool HasTarget() const;
 
     units::angle::degree_t GetTargetYaw() const;
@@ -53,7 +55,7 @@ public:
     units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const;
     units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const;
     units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
-    bool SetPipeline(PIPELINE pipeline);
+    bool UpdatePipeline(PIPELINE pipeline);
 
     VisionData GetDataToNearestAprilTag();
 
