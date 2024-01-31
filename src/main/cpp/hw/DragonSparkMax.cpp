@@ -55,8 +55,6 @@ DragonSparkMax::DragonSparkMax(int id,
     SetRotationOffset(0);
     m_forwardLimitSwitch.EnableLimitSwitch(false);
     m_reverseLimitSwitch.EnableLimitSwitch(false);
-    m_forwardType = rev::SparkLimitSwitch::Type::kNormallyOpen;
-    m_reverseType = rev::SparkLimitSwitch::Type::kNormallyOpen;
 }
 
 double DragonSparkMax::GetRotations()
@@ -200,14 +198,14 @@ bool DragonSparkMax::IsMotorInverted() const
 
 bool DragonSparkMax::IsForwardLimitSwitchClosed()
 {
-    return m_spark->GetForwardLimitSwitch(m_forwardType).Get();
+    return m_forwardLimitSwitch.Get();
 }
 
 bool DragonSparkMax::IsReverseLimitSwitchClosed()
 {
-    if (m_spark->GetReverseLimitSwitch(m_reverseType).Get())
+    if (m_reverseLimitSwitch.Get())
         m_encoder.SetPosition(0);
-    return m_spark->GetReverseLimitSwitch(m_reverseType).Get();
+    return m_reverseLimitSwitch.Get();
 }
 
 void DragonSparkMax::EnableDisableLimitSwitches(bool enable)
