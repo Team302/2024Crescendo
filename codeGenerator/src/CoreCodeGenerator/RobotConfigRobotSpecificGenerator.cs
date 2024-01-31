@@ -40,7 +40,7 @@ namespace CoreCodeGenerator
             foreach (applicationData robot in theRobotConfiguration.theRobotVariants.Robots)
             {
                 generatorContext.theRobot = robot;
-                resultString = template.Replace("$$_ROBOT_NAME_$$", robot.getFullRobotName());
+                resultString = template.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
 
                 StringBuilder includes = new StringBuilder();
                 sb.Clear();
@@ -53,7 +53,7 @@ namespace CoreCodeGenerator
                 resultString = resultString.Replace("$$_MECHANISM_PTR_DECLARATIONS_$$", sb.ToString());
                 resultString = resultString.Replace("$$_MECHANISM_INCLUDE_FILES_$$", includes.ToString());
 
-                copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", robot.getFullRobotName()), resultString);
+                copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }
 
             #endregion
@@ -67,7 +67,8 @@ namespace CoreCodeGenerator
                   $$_MECHANISM_INSTANCE_NAME_$$_gen* $$_MECHANISM_INSTANCE_NAME_$$_genmech = new $$_MECHANISM_INSTANCE_NAME_$$_gen();
                   m_the$$_MECHANISM_INSTANCE_NAME_$$ = new $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$_genmech);
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->Create();
-                  m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize(RobotConfigMgr::RobotIdentifier::$$_ROBOT_NAME_$$);
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize(RobotConfigMgr::RobotIdentifier::$$_ROBOT_ENUM_NAME_$$);
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$->createAndRegisterStates();
                   ";
 
             string mechInstDefState =
@@ -91,9 +92,10 @@ namespace CoreCodeGenerator
                 }
 
                 resultString = template.Replace("$$_MECHANISMS_INITIALIZATION_$$", sb.ToString());
-                resultString = resultString.Replace("$$_ROBOT_NAME_$$", robot.getFullRobotName());
+                resultString = resultString.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
+                resultString = resultString.Replace("$$_ROBOT_ENUM_NAME_$$", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper());
 
-                copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", robot.getFullRobotName()), resultString);
+                copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }
             #endregion
         }

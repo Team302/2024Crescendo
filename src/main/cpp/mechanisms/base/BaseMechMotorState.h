@@ -22,7 +22,6 @@
 #include "units/velocity.h"
 
 #include "State.h"
-#include "mechanisms/controllers/MechanismTargetData.h"
 #include "mechanisms/controllers/ControlData.h"
 #include "mechanisms/base/BaseMechMotor.h"
 

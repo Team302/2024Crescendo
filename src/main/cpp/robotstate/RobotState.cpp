@@ -41,13 +41,14 @@ RobotState *RobotState::GetInstance()
 
 RobotState::RobotState() : m_chassis(nullptr),
                            m_brokers(),
-                           m_gamePiece(RobotStateChanges::GamePiece::Cone),
+                           m_scoringMode(RobotStateChanges::ScoringMode::Launcher),
+                           m_climbMode(RobotStateChanges::ClimbMode::ClimbModeOff),
                            m_gamePhase(RobotStateChanges::Disabled),
-                           m_wasGamePieceButtonReleased(true),
-                           m_wasCompressorButtonReleased(true)
+                           m_scoringModeButtonReleased(true),
+                           m_climbModeButtonReleased(true)
 {
     m_brokers.reserve(RobotStateChanges::LoopCounter);
-    auto start = static_cast<int>(RobotStateChanges::DesiredGamePiece);
+    auto start = static_cast<int>(RobotStateChanges::DesiredScoringMode);
     auto end = static_cast<int>(RobotStateChanges::LoopCounter);
     for (auto i = start; i < end; ++i)
     {
@@ -77,40 +78,16 @@ void RobotState::Run()
     {
         m_chassis->UpdateOdometry();
     }
-    PublishCompressorInfo();
-}
 
-void RobotState::PublishCompressorInfo()
-{
     if (DriverStation::IsTeleopEnabled())
     {
         auto controller = TeleopControl::GetInstance();
         if (controller != nullptr)
         {
-            if (controller->IsButtonPressed(TeleopControlFunctions::TOGGLE_COMPRESSER))
-            {
-                if (m_wasCompressorButtonReleased)
-                {
-                    CompressorFactory::GetFactory()->ToggleEnableCompressor();
-                }
-            }
-            m_wasCompressorButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::TOGGLE_COMPRESSER);
-            CheckGamePieceMode(controller);
+            PublishScoringMode(controller);
+            PublishClimbMode(controller);
         }
     }
-}
-
-void RobotState::CheckGamePieceMode(TeleopControl *controller)
-{
-    if (controller->IsButtonPressed(TeleopControlFunctions::CYCLE_CYCLE_GAMEPIECE))
-    {
-        if (m_wasGamePieceButtonReleased)
-        {
-            m_gamePiece = (m_gamePiece == RobotStateChanges::Cube) ? RobotStateChanges::Cone : RobotStateChanges::Cube;
-            PublishStateChange(RobotStateChanges::DesiredGamePiece, m_gamePiece);
-        }
-    }
-    m_wasGamePieceButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::CYCLE_CYCLE_GAMEPIECE);
 }
 
 void RobotState::RegisterForStateChanges(IRobotStateChangeSubscriber *subscriber, RobotStateChanges::StateChange change)
@@ -155,4 +132,29 @@ void RobotState::PublishGameStateChanges()
         m_gamePhase = gameState;
         PublishStateChange(RobotStateChanges::GameState, gameState);
     }
+}
+void RobotState::PublishScoringMode(TeleopControl *controller)
+{
+    if (controller->IsButtonPressed(TeleopControlFunctions::SCORING_MODE))
+    {
+        if (m_scoringModeButtonReleased)
+        {
+            m_scoringMode = (m_scoringMode == RobotStateChanges::Launcher) ? RobotStateChanges::Placer : RobotStateChanges::Launcher;
+            PublishStateChange(RobotStateChanges::DesiredScoringMode, m_scoringMode);
+        }
+    }
+    m_scoringModeButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::SCORING_MODE);
+}
+
+void RobotState::PublishClimbMode(TeleopControl *controller)
+{
+    if (controller->IsButtonPressed(TeleopControlFunctions::CLIMB_MODE))
+    {
+        if (m_climbModeButtonReleased)
+        {
+            m_climbMode = (m_climbMode == RobotStateChanges::ClimbModeOff) ? RobotStateChanges::ClimbModeOn : RobotStateChanges::ClimbModeOff;
+            PublishStateChange(RobotStateChanges::ClimbModeStatus, m_climbMode);
+        }
+    }
+    m_climbModeButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::CLIMB_MODE);
 }

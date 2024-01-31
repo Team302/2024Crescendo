@@ -62,23 +62,61 @@ namespace CoreCodeGenerator
             List<Type> theTypeList = Assembly.GetAssembly(typeof(baseRobotElementClass)).GetTypes()
                   .Where(t => (t.BaseType == typeof(baseRobotElementClass))).ToList();
 
+            //todo remove once chassis is auto generated
+            names.Add("pigeon::PIGEON_ROBOT_CENTER");
+
             StringBuilder sb = new StringBuilder();
             foreach (Type type in theTypeList)
             {
                 string enumName = ToUnderscoreCase(type.Name);
 
-                sb.AppendLine(string.Format("enum {0}_USAGE", enumName.ToUpper()));
-                sb.AppendLine("{");
-                sb.AppendLine(string.Format("UNKNOWN_{0} = -1,", enumName.ToUpper()));
+                if (type != typeof(state))
+                {
+                    sb.AppendLine(string.Format("enum {0}_USAGE", enumName.ToUpper()));
+                    sb.AppendLine("{");
+                    sb.AppendLine(string.Format("UNKNOWN_{0} = -1,", enumName.ToUpper()));
 
-                string startingChars = enumName + "::";
-                foreach (string s in names.Where(t => t.StartsWith(startingChars)))
-                { 
-                    sb.AppendLine(string.Format("{0},", s.Substring(startingChars.Length).ToUpper())); 
+                    string startingChars = enumName + "::";
+                    foreach (string s in names.Where(t => t.StartsWith(startingChars)))
+                    {
+                        sb.AppendLine(string.Format("{0},", s.Substring(startingChars.Length).ToUpper()));
+                    }
+                    sb.AppendLine(string.Format("MAX_{0}", enumName.ToUpper()));
+                    sb.AppendLine("};");
+                    sb.AppendLine();
                 }
-                sb.AppendLine(string.Format("MAX_{0}", enumName.ToUpper()));
-                sb.AppendLine("};");
-                sb.AppendLine();
+                else
+                {
+                    string startingChars = enumName + "_";
+                    List<string> thestates = names.Where(t => t.StartsWith(startingChars)).ToList();
+                    for (int i = 0; i < thestates.Count; i++)
+                    {
+                        int index = thestates[i].IndexOf("::");
+                        if (index > 0)
+                        {
+                            thestates[i] = thestates[i].Substring(0,index);
+                        }
+                    }
+
+                    List<string> mechStateEnumNames = thestates.Distinct().ToList();
+                    foreach(string stateEnumName in mechStateEnumNames)
+                    {
+                        sb.AppendLine(string.Format("enum {0}_USAGE", stateEnumName.ToUpper()));
+                        sb.AppendLine("{");
+                        sb.AppendLine(string.Format("UNKNOWN_{0} = -1,", stateEnumName.ToUpper()));
+
+                        startingChars = stateEnumName + "::";
+                        foreach (string s in names.Where(t => t.StartsWith(startingChars)))
+                        {
+                            sb.AppendLine(string.Format("{0},", s.Substring(startingChars.Length).ToUpper()));
+                        }
+
+                        sb.AppendLine(string.Format("MAX_{0}", stateEnumName.ToUpper()));
+                        sb.AppendLine("};");
+                        sb.AppendLine();
+                    }
+                }
+
             }
 
             template = template.Replace("$$_ROBOT_ELEMENT_NAMES_ENUMS_$$", sb.ToString() + Environment.NewLine);

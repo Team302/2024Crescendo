@@ -71,6 +71,7 @@ public:
     void SetVoltage(units::volt_t output) override;
     double GetCounts() override;
     void SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType) override;
+    bool IsMotorInverted() const override;
     bool IsForwardLimitSwitchClosed() override;
     bool IsReverseLimitSwitchClosed() override;
     void EnableVoltageCompensation(double fullvoltage) override;
@@ -79,7 +80,7 @@ public:
     double GetCountsPerDegree() const override;
     void EnableDisableLimitSwitches(bool enable) override;
     double GetCountsPerRev() const override { return 1.0; }
-    double GetGearRatio() const override { return 1.0; }
+    double GetGearRatio() const override { return 1.0; } //Should this return m_gearRatio?
 
 private:
     double GetRotationsWithGearNoOffset() const;
@@ -90,6 +91,8 @@ private:
     double m_gearRatio;
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
+    rev::SparkRelativeEncoder m_encoder;
+    rev::SparkPIDController m_pidController;
 
     rev::CANSparkMax *GetSparkMax();
 };

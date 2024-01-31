@@ -33,6 +33,8 @@ namespace FRCrobotCodeGen302
         readonly string configurationCacheFile = Path.GetTempPath() + "DragonsCodeGeneratorCache.txt";
         bool automationEnabled = false;
 
+        List<stateVisualization> stateGridVisualization = new List<stateVisualization>();
+
         const int treeIconIndex_lockedPadlock = 0;
         const int treeIconIndex_unlockedPadlock = 1;
         const int treeIconIndex_gear = 2;
@@ -71,15 +73,88 @@ namespace FRCrobotCodeGen302
             clearNeedsSaving();
 
             splitContainer1.SplitterDistance = splitContainer1.Width - 180;
+            rightSideSplitContainer.Width = splitContainer1.Panel2.Width - 0;
+            rightSideSplitContainer.Height = splitContainer1.Panel2.Height - 0;
+            panel1.Width = rightSideSplitContainer.Width - 0;
+            panel1.Height = rightSideSplitContainer.Panel2.Height - 0;
 
-            valueNumericUpDown.Width -= physicalUnitsComboBox.Width;
-            valueComboBox.Width = valueNumericUpDown.Width;
-            valueTextBox.Width = valueNumericUpDown.Width;
+            buttonAndInputTableLayoutPanel.Left = 2;
+            buttonAndInputTableLayoutPanel.Width = panel1.Width - 4;
+            buttonAndInputTableLayoutPanel.Top = panel1.Height - buttonAndInputTableLayoutPanel.Height - 4;
 
+            robotElementCheckedListBox.Width = panel1.Width - 4;
+            robotElementCheckedListBox.Top = addRobotElementLabel.Bottom;
+            robotElementCheckedListBox.Height = panel1.Height - addRobotElementLabel.Height - buttonAndInputTableLayoutPanel.Top - 10;
+            /*
+            // arrange the buttons in a vertical direction
+            List<Button> leftColumnButtons = new List<Button>()
+            {
+                configureStatesButton,
+                addTreeElementButton,
+                deleteTreeElementButton,
+                tuningButton
+            };
+
+            List<Button> secondColumnButtons = new List<Button>()
+            {
+                null,
+                null,
+                null,
+                saveConfigBbutton
+            };
+
+            int numberOfButtonRows = leftColumnButtons.Count;
+            int buttonHorizMargin = 2;
+            int buttonVertMargin = 2;
+            int bottomMargin = 5;
+            int buttonSpaceHeight = addTreeElementButton.Height + 2*buttonVertMargin;
+            int buttonSpaceWidth = addTreeElementButton.Width + 2*buttonHorizMargin;
+
+            int topCoordOfButtonSetSpace = panel1.Height - (numberOfButtonRows * buttonSpaceHeight) - bottomMargin;
+            for (int r = 0; r < numberOfButtonRows; r++)
+            {
+                int topCoord = topCoordOfButtonSetSpace +  r * buttonSpaceHeight;
+                int buttonHeight = buttonSpaceHeight - 2 * buttonVertMargin; ;
+                if (leftColumnButtons[r] != null)
+                {
+                    leftColumnButtons[r].Top = topCoord;
+                    leftColumnButtons[r].Left = panel1.Width - buttonSpaceWidth - buttonHorizMargin;
+                    leftColumnButtons[r].Height = buttonHeight;
+                    leftColumnButtons[r].Width = secondColumnButtons[r] == null ? buttonSpaceWidth - 2 * buttonHorizMargin : buttonSpaceWidth / 2 - 2 * buttonHorizMargin;
+                }
+                if (secondColumnButtons[r] != null)
+                {
+                    secondColumnButtons[r].Top = topCoord;
+                    secondColumnButtons[r].Left = panel1.Width - (buttonSpaceWidth / 2) - buttonHorizMargin;
+                    secondColumnButtons[r].Height = buttonHeight;
+                    secondColumnButtons[r].Width = buttonSpaceWidth / 2 - 2 * buttonHorizMargin;
+                }
+            }
+            
+            valueNumericUpDown.Top = topCoordOfButtonSetSpace - valueNumericUpDown.Height - buttonVertMargin;
+            valueNumericUpDown.Left = configureStatesButton.Left;
             valueComboBox.Location = valueNumericUpDown.Location;
             valueTextBox.Location = valueNumericUpDown.Location;
             valueDatePicker.Location = valueNumericUpDown.Location;
             physicalUnitsComboBox.Location = new Point(valueNumericUpDown.Location.X + valueNumericUpDown.Width + 3, valueNumericUpDown.Location.Y);
+            */
+
+            buttonAndInputTableLayoutPanel.Controls.Add(valueComboBox, 0, 0);
+            buttonAndInputTableLayoutPanel.SetColumnSpan(valueComboBox, 2);
+            valueComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            buttonAndInputTableLayoutPanel.Controls.Add(valueTextBox, 0, 0);
+            buttonAndInputTableLayoutPanel.SetColumnSpan(valueTextBox, 2);
+            valueTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            buttonAndInputTableLayoutPanel.Controls.Add(valueDatePicker, 0, 0);
+            buttonAndInputTableLayoutPanel.SetColumnSpan(valueDatePicker, 2);
+            valueDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            buttonAndInputTableLayoutPanel.Controls.Add(physicalUnitsComboBox, 1, 0);
+            physicalUnitsComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            rightSideSplitContainer.Panel1Collapsed = true;
 
             this.Text += " Version " + ProductVersion;
 
@@ -297,8 +372,7 @@ namespace FRCrobotCodeGen302
 
                         tn.Tag = lnt;
 
-                        if (!string.IsNullOrWhiteSpace(description))
-                            tn.ToolTipText = description;
+                        SetTooltipFromObjectDescription(tn, pInfo);
 
                         tn.Text = getDisplayName(treatAsLeafNode ? obj : nodeTag.getObject(parent.Tag), nodeName);
                     }
@@ -598,7 +672,17 @@ namespace FRCrobotCodeGen302
                 Type elementType = obj.GetType().GetGenericArguments().Single();
                 List<Type> subTypes = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == elementType).ToList();
                 foreach (Type type in subTypes)
-                    addRobotElementType(type, types);
+                {
+                    if (!addRobotElementType(type, types))
+                    {
+                        //todo handle more than one level of inheritance
+                        List<Type> subTypesExt = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == type).ToList();
+                        foreach (Type type_ in subTypesExt)
+                        {
+                            addRobotElementType(type_, types);
+                        }
+                    }
+                }
             }
             else
             {
@@ -614,14 +698,24 @@ namespace FRCrobotCodeGen302
                             Type elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
                             List<Type> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
                             foreach (Type type in subTypes)
-                                addRobotElementType(type, types);
+                            {
+                                //todo handle more than one level of inheritance
+                                if (!addRobotElementType(type, types))
+                                {
+                                    List<Type> subTypesExt = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == type).ToList();
+                                    foreach (Type type_ in subTypesExt)
+                                    {
+                                        addRobotElementType(type_, types);
+                                    }
+                                }
+                            }
                         }
                     }
                     //else if (theRobotConfiguration.isASubClassedCollection(obj.GetType()))
                     //{
-                    //    //Type elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
-                    //    //List<Type> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
-                    //    //foreach (Type type in subTypes)
+                    //    //Type_ elementType = propertyInfo.PropertyType.GetGenericArguments().Single();
+                    //    //List<Type_> subTypes = Assembly.GetAssembly(obj.GetType()).GetTypes().Where(t => t.BaseType == elementType).ToList();
+                    //    //foreach (Type_ type in subTypes)
                     //    //    types.Add(new robotElementType(type));
                     //}
                     else if (DataConfiguration.baseDataConfiguration.isACollection(propertyInfo.PropertyType))
@@ -648,9 +742,9 @@ namespace FRCrobotCodeGen302
             return types;
         }
 
-        void addRobotElementType(Type theType, string name, List<robotElementType> types)
+        bool addRobotElementType(Type theType, string name, List<robotElementType> types)
         {
-            NotUserAddableAttribute nuaa = theType.GetCustomAttribute<NotUserAddableAttribute>();
+            NotUserAddableAttribute nuaa = theType.GetCustomAttribute<NotUserAddableAttribute>(false);
             if (nuaa == null)
             {
                 if (name == null)
@@ -658,12 +752,14 @@ namespace FRCrobotCodeGen302
                 else
                     types.Add(new robotElementType(theType, name));
 
+                return true;
             }
+            return false;
         }
 
-        void addRobotElementType(Type theType, List<robotElementType> types)
+        bool addRobotElementType(Type theType, List<robotElementType> types)
         {
-            addRobotElementType(theType, null, types);
+            return addRobotElementType(theType, null, types);
         }
 
         void hideAllValueEntryBoxes()
@@ -683,6 +779,7 @@ namespace FRCrobotCodeGen302
             physicalUnitsComboBox.Visible = unitsFamily != physicalUnit.Family.none;
             if (physicalUnitsComboBox.Visible)
             {
+                buttonAndInputTableLayoutPanel.SetColumnSpan(valueNumericUpDown, 1);
                 List<physicalUnit> unitsList = generatorConfig.physicalUnits.FindAll(p => p.family == unitsFamily);
                 foreach (physicalUnit unit in unitsList)
                 {
@@ -697,6 +794,10 @@ namespace FRCrobotCodeGen302
                     physicalUnitsComboBox.SelectedIndex = 0;
                     updatedUnits = unitsList[0].shortName;
                 }
+            }
+            else
+            {
+                buttonAndInputTableLayoutPanel.SetColumnSpan(valueNumericUpDown, 2);
             }
 
             return updatedUnits;
@@ -789,6 +890,18 @@ namespace FRCrobotCodeGen302
 
                 nodeTag nt = (nodeTag)e.Node.Tag;
 
+                if ((nt.obj.GetType() == typeof(state)) || (nt.obj.GetType() == typeof(List<state>)) )
+                {
+                    rightSideSplitContainer.Panel1Collapsed = false;
+
+                    ShowStateTable(nt);
+                }
+                else
+                {
+                    stateDataGridView.DataSource = null;
+                    rightSideSplitContainer.Panel1Collapsed = true;
+                }
+
                 enableCallback = false;
                 // first take care of nodes that are a collection (such as List<>)
                 if (baseDataConfiguration.isACollection(nt.obj))
@@ -817,7 +930,7 @@ namespace FRCrobotCodeGen302
                     if (nt.obj is baseElement)
                     {
                         baseElement beObj = ((baseElement)nt.obj);
-                        if (!( beObj.isConstant || (beObj.isConstantInMechInstance && isInaMechanismInstance)))
+                        if (!(beObj.isConstant || (beObj.isConstantInMechInstance && isInaMechanismInstance)))
                         {
                             if (beObj.showExpanded)
                             {
@@ -1016,6 +1129,48 @@ namespace FRCrobotCodeGen302
                     enableCallback = true;
                 }
             }
+        }
+
+        private void ShowStateTable(nodeTag nt)
+        {
+            
+            stateGridVisualization.Clear();
+
+            List<state> theStates = new List<state>();
+            if (nt.obj.GetType() == typeof(state))
+                theStates.Add((state)nt.obj);
+            else if (nt.obj.GetType() == typeof(List<state>))
+                theStates = (List<state>)nt.obj;
+
+            foreach (state s in theStates)
+            {
+                string transitions = "";
+                foreach (stringParameterConstInMechInstance transition in s.transitionsTo)
+                    transitions += transition.value + Environment.NewLine;
+                transitions = transitions.Trim();
+
+                bool first = true;
+                foreach (motorTarget mt in s.motorTargets)
+                {
+                    stateVisualization sv = new stateVisualization();
+                    stateGridVisualization.Add(sv);
+
+                    sv.transitionTo = first ? transitions : "";
+                    sv.Target = string.Format("{0} {1}", mt.target.value, mt.target.physicalUnits);
+                    sv.ControlData = mt.controlDataName;
+                    sv.StateName = first ? s.name : "";
+                    sv.ActuatorName = mt.motorName;
+
+                    first = false;
+                }
+            }
+            stateDataGridView.DataSource = null;
+            stateDataGridView.DataSource = stateGridVisualization;
+            stateDataGridView.RowHeadersVisible = false;
+            stateDataGridView.Columns["transitionTo"].HeaderText = "Transitions to";
+            stateDataGridView.Columns["StateName"].HeaderText = "State";
+            stateDataGridView.Columns["ControlData"].HeaderText = "Control data";
+            stateDataGridView.Columns["ActuatorName"].HeaderText = "Actuator";
         }
 
         bool isABasicSystemType(object obj)
@@ -1437,68 +1592,71 @@ namespace FRCrobotCodeGen302
                     {
                         foreach (MotorController mc in m.MotorControllers)
                         {
-                            doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.doubleTargets.Find(t => t.name == mc.name);
-                            if (target == null)
+                            motorTarget mTarget = s.motorTargets.Find(mt => mt.motorName == mc.name);
+                            if (mTarget == null)
                             {
-                                target = new doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst();
-                                target.name = mc.name;
-                                s.doubleTargets.Add(target);
+                                mTarget = new motorTarget();
+                                mTarget.name = mc.name;
+                                mTarget.motorName = mc.name;
+                                s.motorTargets.Add(mTarget);
                                 addedItems = true;
                             }
 
-                            motorControlDataLink mcdl = s.motorControlDataLinks.Find(cd => cd.name == mc.name);
-                            if (mcdl == null)
+                            motorControlData mcd = m.stateMotorControlData.Find(mCtrl => mCtrl.name == mTarget.controlDataName);
+                            if (mcd != null)
                             {
-                                mcdl = new motorControlDataLink();
-                                mcdl.name = mc.name;
-                                mcdl.motorControlDataName = "fillThis";
-                                s.motorControlDataLinks.Add(mcdl);
-                                addedItems = true;
-                            }
-                            else
-                            {
-                                motorControlData mcd = m.stateMotorControlData.Find(smcd => smcd.name == mcdl.motorControlDataName);
-                                if (mcd != null)
+                                if (mcd.controlType == motorControlData.CONTROL_TYPE.PERCENT_OUTPUT) { mTarget.target.unitsFamily = Family.none; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_INCH) { mTarget.target.unitsFamily = Family.length; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_ABS_TICKS) { mTarget.target.unitsFamily = Family.none; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES) { mTarget.target.unitsFamily = Family.angle; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES_ABSOLUTE) { mTarget.target.unitsFamily = Family.angle; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_INCH) { mTarget.target.unitsFamily = Family.velocity; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_DEGREES) { mTarget.target.unitsFamily = Family.angularVelocity; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_RPS) { mTarget.target.unitsFamily = Family.angularVelocity; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.VOLTAGE) { mTarget.target.unitsFamily = Family.angularVelocity; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.CURRENT) { mTarget.target.unitsFamily = Family.none; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { mTarget.target.unitsFamily = Family.length; }
+                                else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { mTarget.target.unitsFamily = Family.angle; }
+
+                                if (mTarget.target.unitsFamily == Family.none)
                                 {
-                                    if (mcd.controlType == motorControlData.CONTROL_TYPE.PERCENT_OUTPUT) { target.unitsFamily = Family.none; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_INCH) { target.unitsFamily = Family.length; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_ABS_TICKS) { target.unitsFamily = Family.none; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES) { target.unitsFamily = Family.angle; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES_ABSOLUTE) { target.unitsFamily = Family.angle; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_INCH) { target.unitsFamily = Family.velocity; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_DEGREES) { target.unitsFamily = Family.angularVelocity; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_RPS) { target.unitsFamily = Family.angularVelocity; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VOLTAGE) { target.unitsFamily = Family.angularVelocity; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.CURRENT) { target.unitsFamily = Family.none; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { target.unitsFamily = Family.length; }
-                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { target.unitsFamily = Family.angle; }
-
-                                    addedItems = true;
+                                    mTarget.target.physicalUnits = "";
                                 }
-                            }
-                        }
-                        foreach (solenoid sol in m.solenoid)
-                        {
-                            boolParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.booleanTargets.Find(t => t.name == sol.name);
-                            if (target == null)
-                            {
-                                boolParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new boolParameterUserDefinedTunableOnlyValueChangeableInMechInst();
-                                newTarget.name = sol.name;
-                                s.booleanTargets.Add(newTarget);
+                                else
+                                {
+                                    physicalUnit phyUnit = generatorConfig.physicalUnits.Find(pu => (pu.family == mTarget.target.unitsFamily) && (pu.shortName == mTarget.target.physicalUnits));
+                                    if (phyUnit == null)
+                                    {
+                                        phyUnit = generatorConfig.physicalUnits.Find(pu => pu.family == mTarget.target.unitsFamily);
+                                        mTarget.target.physicalUnits = phyUnit.shortName;
+                                    }
+                                }
+
                                 addedItems = true;
                             }
                         }
-                        foreach (servo ser in m.servo)
-                        {
-                            doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.doubleTargets.Find(t => t.name == ser.name);
-                            if (target == null)
-                            {
-                                doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst();
-                                newTarget.name = ser.name;
-                                s.doubleTargets.Add(newTarget);
-                                addedItems = true;
-                            }
-                        }
+                        //foreach (solenoid sol in m.solenoid)
+                        //{
+                        //    boolParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.booleanTargets.Find(t => t.name == sol.name);
+                        //    if (target == null)
+                        //    {
+                        //        boolParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new boolParameterUserDefinedTunableOnlyValueChangeableInMechInst();
+                        //        newTarget.name = sol.name;
+                        //        s.booleanTargets.Add(newTarget);
+                        //        addedItems = true;
+                        //    }
+                        //}
+                        //foreach (servo ser in m.servo)
+                        //{
+                        //    doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst target = s.doubleTargets.Find(t => t.name == ser.name);
+                        //    if (target == null)
+                        //    {
+                        //        doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst newTarget = new doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst();
+                        //        newTarget.name = ser.name;
+                        //        s.doubleTargets.Add(newTarget);
+                        //        addedItems = true;
+                        //    }
+                        //}
                     }
 
                     if (addedItems)
@@ -1536,6 +1694,8 @@ namespace FRCrobotCodeGen302
                         obj = Activator.CreateInstance(((robotElementType)robotElementObj).t);
 
                         Type baseType = ((robotElementType)robotElementObj).t.BaseType;
+                        if (baseType.GetCustomAttribute<NotUserAddableAttribute>(false) != null)
+                            baseType = baseType.BaseType; //todo handle more than 1 level of inhertance
                         name = baseType.Name;
 
                         Type t = nodeTag.getType(lastSelectedValueNode.Tag);
@@ -1738,7 +1898,8 @@ namespace FRCrobotCodeGen302
                         }
                         catch { }
 
-                        theAppDataConfiguration.initializeData(nodeTag.getObject(lastSelectedArrayNode.Tag), obj, nameStr, null);
+                        List<Attribute> attributes = obj.GetType().GetCustomAttributes().ToList();
+                        theAppDataConfiguration.initializeData(nodeTag.getObject(lastSelectedArrayNode.Tag), obj, nameStr, attributes);
                         AddNode(lastSelectedArrayNode, obj, elementType.Name + (count - 1), null);
                     }
                 }
@@ -2156,5 +2317,14 @@ namespace FRCrobotCodeGen302
         {
             return name;
         }
+    }
+
+    public class stateVisualization
+    {
+        public string StateName { get; set; }
+        public string ActuatorName { get; set; }
+        public string Target { get; set; }
+        public string ControlData { get; set; }
+        public string transitionTo { get; set; }
     }
 }

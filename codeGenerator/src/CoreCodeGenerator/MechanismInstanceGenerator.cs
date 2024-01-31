@@ -82,25 +82,8 @@ namespace CoreCodeGenerator
                         resultString = resultString.Replace("$$_MECHANISM_TYPE_NAME_$$", ToUnderscoreCase(mi.name).ToUpper());
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                        resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$", ToUnderscoreCase(mi.name).ToUpper());
                         resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(generateMethod(mi, "generateIndexedObjectCreation"), ";"));
-                        resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(generateMethod(mi, "generateIncludes"), ""));
-
-                        List<string> stateTransitions = new List<string>();
-                        foreach (state s in mi.mechanism.states)
-                        {
-                            if (s.transitionsTo.Count > 0)
-                            {
-                                foreach (stringParameterConstInMechInstance transition in s.transitionsTo)
-                                {
-                                    stateTransitions.Add(String.Format("{0}State->RegisterTransitionState({1}State)", s.name, transition.value));
-                                }
-                            }
-                            else
-                            {
-                                stateTransitions.Add(String.Format("{0}State->RegisterTransitionState({0}State)", s.name));
-                            }
-                        }
-                        resultString = resultString.Replace("$$_STATE_TRANSITION_REGISTRATION_$$", ListToString(stateTransitions, ";"));
 
                         List<string> theUsings = generateMethod(mi, "generateUsings").Distinct().ToList();
                         resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";"));
@@ -112,10 +95,10 @@ namespace CoreCodeGenerator
 
                         foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
                         {
-                            mechanismInstance mis = mechInstances.Find(m => m.name == mi.name);
+                            mechanismInstance mis = r.mechanismInstances.Find(m => m.name == mi.name);
                             if (mis != null)
                             {
-                                initCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == robotFullName)", r.getFullRobotName()));
+                                initCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == robotFullName)", ToUnderscoreDigit(ToUnderscoreCase(r.getFullRobotName())).ToUpper()));
                                 initCode.Add("{");
                                 initCode.AddRange(generateMethod(mis, "generateInitialization"));
                                 initCode.Add("}");
@@ -145,6 +128,7 @@ namespace CoreCodeGenerator
 
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                        resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$", ToUnderscoreCase(mi.name).ToUpper());
 
                         List<string> enumList = new List<string>();
                         foreach (state s in mi.mechanism.states)
@@ -198,20 +182,21 @@ namespace CoreCodeGenerator
                                 resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
                                 resultString = resultString.Replace("$$_STATE_NAME_$$", s.name);
 
-                                List<string> targetDecl = new List<string>();
-                                foreach (doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst d in s.doubleTargets)
-                                {
-                                    string varType = "double";
-                                    if (d.unitsFamily != physicalUnit.Family.none)
-                                        varType = generatorContext.theGeneratorConfig.getWPIphysicalUnitType(d.__units__);
+                                //List<string> targetDecl = new List<string>();
+                                //foreach (doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst d in s.doubleTargets)
+                                //{
+                                //    string varType = "double";
+                                //    if (d.unitsFamily != physicalUnit.Family.none)
+                                //        varType = generatorContext.theGeneratorConfig.getWPIphysicalUnitType(d.__units__);
 
-                                    targetDecl.Add(string.Format("{0} {1} = {0}({2})", varType, d.name, d.value));
-                                }
-                                foreach (boolParameterUserDefinedTunableOnlyValueChangeableInMechInst d in s.booleanTargets)
-                                {
-                                    targetDecl.Add(string.Format("bool {0} = {1}", d.name, d.value.ToString().ToLower()));
-                                }
-                                resultString = resultString.Replace("$$_TARGET_DECLARATIONS_$$", ListToString(targetDecl, ";"));
+                                //    targetDecl.Add(string.Format("{0} {1} = {0}({2})", varType, d.name, d.value));
+                                //}
+                                //foreach (boolParameterUserDefinedTunableOnlyValueChangeableInMechInst d in s.booleanTargets)
+                                //{
+                                //    targetDecl.Add(string.Format("bool {0} = {1}", d.name, d.value.ToString().ToLower()));
+                                //}
+                                //resultString = resultString.Replace("$$_TARGET_DECLARATIONS_$$", ListToString(targetDecl, ";"));
+                                resultString = resultString.Replace("$$_TARGET_DECLARATIONS_$$", "");
 
                                 filePathName = getMechanismFullFilePathName(mechanismName,
                                                                             cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName).Replace("STATE_NAME", s.name)
@@ -232,75 +217,58 @@ namespace CoreCodeGenerator
                                 resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
                                 resultString = resultString.Replace("$$_STATE_NAME_$$", s.name);
 
-                                List<string> doubleTargets = new List<string>();
-                                foreach (doubleParameterUserDefinedTunableOnlyValueChangeableInMechInst p in s.doubleTargets)
+                                List<string> motorTargets = new List<string>();
+                                foreach (motorTarget mT in s.motorTargets)
                                 {
-                                    // is the target for a servo or for a motor?
-                                    MotorController mc = mi.mechanism.MotorControllers.Find(m => m.name == p.name);
-                                    servo ser = mi.mechanism.servo.Find(m => m.name == p.name);
-                                    if (mc != null)
-                                    {
-                                        // find the corresponding motor control Data link
-                                        motorControlDataLink mcdl = s.motorControlDataLinks.Find(cd => cd.name == mc.name);
-                                        if (mcdl == null)
-                                            doubleTargets.Add(String.Format("SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE::{0}_{1}, {2})", mi.mechanism.name.ToUpper(), p.name.ToUpper(), p.value));
-                                        else
-                                        {
-                                            motorControlData mcd = mi.mechanism.stateMotorControlData.Find(smcd => smcd.name == mcdl.motorControlDataName);
-                                            if (mcd == null)
-                                            {
-                                                addProgress("Cannot find Motor control data called " + mcdl.motorControlDataName);
-                                            }
-                                            else
-                                            {
-                                                //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, double percentOutput);
-                                                //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angle::degree_t angle );
-                                                //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angular_velocity::revolutions_per_minute_t angVel );
-                                                //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::length::inch_t position );
-                                                //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::velocity::feet_per_second_t velocity );
-
-
-                                                string targetUnitsType = "";
-                                                if (mcd.controlType == CONTROL_TYPE.PERCENT_OUTPUT) { }
-                                                else if (mcd.controlType == CONTROL_TYPE.POSITION_INCH) { targetUnitsType = "units::length::inch_t"; }
-                                                else if (mcd.controlType == CONTROL_TYPE.POSITION_ABS_TICKS) { addProgress("How should we handle POSITION_ABS_TICKS"); }
-                                                else if (mcd.controlType == CONTROL_TYPE.POSITION_DEGREES) { targetUnitsType = "units::angle::degree_t"; }
-                                                else if (mcd.controlType == CONTROL_TYPE.POSITION_DEGREES_ABSOLUTE) { targetUnitsType = "units::angle::degree_t"; }
-                                                else if (mcd.controlType == CONTROL_TYPE.VELOCITY_INCH) { targetUnitsType = "units::velocity::feet_per_second_t"; }
-                                                else if (mcd.controlType == CONTROL_TYPE.VELOCITY_DEGREES) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
-                                                else if (mcd.controlType == CONTROL_TYPE.VELOCITY_RPS) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
-                                                else if (mcd.controlType == CONTROL_TYPE.VOLTAGE) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
-                                                else if (mcd.controlType == CONTROL_TYPE.CURRENT) { addProgress("How should we handle CURRENT"); }
-                                                else if (mcd.controlType == CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { targetUnitsType = "units::length::inch_t"; }
-                                                else if (mcd.controlType == CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { targetUnitsType = "units::angle::degree_t"; }
-
-                                                if (targetUnitsType == "")
-                                                    doubleTargets.Add(String.Format("SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE::{0}_{1}, {2})",
-                                                        mi.mechanism.name.ToUpper(),
-                                                        p.name.ToUpper(),
-                                                        p.value));
-                                                else
-                                                    doubleTargets.Add(String.Format("SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE::{0}_{1}, *Get{2}().{3}, {6}({4}({5})))",
-                                                        mi.mechanism.name.ToUpper(),
-                                                        p.name.ToUpper(),
-                                                        mi.name,
-                                                        mcd.name,
-                                                        generatorContext.theGeneratorConfig.getWPIphysicalUnitType(p.__units__),
-                                                        p.value,
-                                                        targetUnitsType));
-                                            }
-                                        }
-                                    }
-                                    else if (ser != null)
-                                    {
-
-                                    }
+                                    // find the corresponding motor control Data link
+                                    motorControlData mcd = mi.mechanism.stateMotorControlData.Find(cd => cd.name == mT.controlDataName);
+                                    if (mcd == null)
+                                        addProgress(string.Format("In mechanism {0}, cannot find a Motor control data called {1}, referenced in state {2}", mi.name, mT.controlDataName, s.name));
                                     else
                                     {
-                                        addProgress("A motor controller or a servo is not associated with target " + p.name);
+                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, double percentOutput);
+                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angle::degree_t angle );
+                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angular_velocity::revolutions_per_minute_t angVel );
+                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::length::inch_t position );
+                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::velocity::feet_per_second_t velocity );
+
+                                        string targetUnitsType = "";
+                                        if (mcd.controlType == CONTROL_TYPE.PERCENT_OUTPUT) { }
+                                        else if (mcd.controlType == CONTROL_TYPE.POSITION_INCH) { targetUnitsType = "units::length::inch_t"; }
+                                        else if (mcd.controlType == CONTROL_TYPE.POSITION_ABS_TICKS) { addProgress("How should we handle POSITION_ABS_TICKS"); }
+                                        else if (mcd.controlType == CONTROL_TYPE.POSITION_DEGREES) { targetUnitsType = "units::angle::degree_t"; }
+                                        else if (mcd.controlType == CONTROL_TYPE.POSITION_DEGREES_ABSOLUTE) { targetUnitsType = "units::angle::degree_t"; }
+                                        else if (mcd.controlType == CONTROL_TYPE.VELOCITY_INCH) { targetUnitsType = "units::velocity::feet_per_second_t"; }
+                                        else if (mcd.controlType == CONTROL_TYPE.VELOCITY_DEGREES) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
+                                        else if (mcd.controlType == CONTROL_TYPE.VELOCITY_RPS) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
+                                        else if (mcd.controlType == CONTROL_TYPE.VOLTAGE) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
+                                        else if (mcd.controlType == CONTROL_TYPE.CURRENT) { addProgress("How should we handle CURRENT"); }
+                                        else if (mcd.controlType == CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { targetUnitsType = "units::length::inch_t"; }
+                                        else if (mcd.controlType == CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { targetUnitsType = "units::angle::degree_t"; }
+
+                                        MotorController mc = mi.mechanism.MotorControllers.Find(m => m.name == mT.motorName);
+                                        if (mc == null)
+                                        {
+                                            addProgress(string.Format("In mechanism {0}, cannot find a Motor controller called {1}, referenced in state {2}, target {3}", mi.name, mT.motorName, s.name, mT.name));
+                                        }
+                                        else
+                                        {
+                                            string motorEnumName = String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(), "").Trim().Replace("::", "_USAGE::").ToUpper());
+                                            if (targetUnitsType == "")
+                                                motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
+                                            else
+                                                motorTargets.Add(String.Format("SetTargetControl({0}, *(Get{1}()->{2}), {5}({3}({4})))",
+                                                    motorEnumName,
+                                                    mi.name,
+                                                    mcd.name,
+                                                    generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mT.target.physicalUnits),
+                                                    mT.target.value,
+                                                    targetUnitsType));
+                                        }
                                     }
                                 }
-                                resultString = resultString.Replace("$$_SET_TARGET_CONTROL_$$", ListToString(doubleTargets, ";"));
+
+                                resultString = resultString.Replace("$$_SET_TARGET_CONTROL_$$", ListToString(motorTargets, ";"));
 
                                 filePathName = getMechanismFullFilePathName(mechanismName,
                                                                             cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName).Replace("STATE_NAME", s.name)
@@ -321,6 +289,31 @@ namespace CoreCodeGenerator
                             resultString = template;
 
                             resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+
+                            List<string> stateTransitions = new List<string>();
+                            List<string> statesCreation = new List<string>();
+                            int stateIndex = 0;
+                            foreach (state s in mi.mechanism.states)
+                            {
+                                statesCreation.AddRange(s.generateIndexedObjectCreation(stateIndex));
+                                stateIndex++;
+
+                                if (s.transitionsTo.Count > 0)
+                                {
+                                    foreach (stringParameterConstInMechInstance transition in s.transitionsTo)
+                                    {
+                                        stateTransitions.Add(String.Format("{0}State->RegisterTransitionState({1}State)", s.name, transition.value));
+                                    }
+                                }
+                                else
+                                {
+                                    stateTransitions.Add(String.Format("{0}State->RegisterTransitionState({0}State)", s.name));
+                                }
+                            }
+                            resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(statesCreation, ";"));
+                            resultString = resultString.Replace("$$_STATE_TRANSITION_REGISTRATION_$$", ListToString(stateTransitions, ";"));
+
+                            resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(generateMethod(mi, "generateIncludes"), ""));
 
                             filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), false);
                             copyrightAndGenNoticeAndSave(filePathName, resultString, true);
