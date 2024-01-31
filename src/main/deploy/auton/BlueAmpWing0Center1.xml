@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER"
+pathname= "BlueAmpWing0Center1.path"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing0Center1.path"
+time= "1.3"/>
+<!--Go closer and angle ourselves to the speaker to prepare to shoot-->
+
+<snippet file= "ShootWhenStop.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing0Center1.path"
+time= "5.3"/>
+<!--Intake at 2.7 in time duration, goes to intake and comes back to prepare to shoot-->
+
+<snippet file= "ShootWhenStop.xml"/>
+<!--Shoot the taken ring, we're already across the line so we're all done-->
+
+
+</auton>

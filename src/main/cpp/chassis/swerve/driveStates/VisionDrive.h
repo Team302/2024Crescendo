@@ -27,7 +27,7 @@
 #include <robotstate/IRobotStateChangeSubscriber.h>
 #include "chassis/swerve/driveStates/VisionDrive.h"
 
-class VisionDrive : public RobotDrive, public IRobotStateChangeSubscriber
+class VisionDrive : public RobotDrive
 {
 public:
     enum ALIGNMENT_METHOD
@@ -45,9 +45,6 @@ public:
         ChassisMovement &chassisMovement) override;
 
     void ResetVisionDrive();
-
-    // robot state change subscriber override
-    void Update(RobotStateChanges::StateChange change, int state) override;
 
     bool isAligned(DragonCamera::PIPELINE pipelineMode);
 

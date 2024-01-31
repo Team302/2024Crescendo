@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <toolConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <rootOutputFolder>..\..\..\src\main\cpp</rootOutputFolder>
-  <robotConfiguration>..\targetTest\targetTest.xml</robotConfiguration>
+  <robotConfiguration>..\RobotConfig\2024Crescendo.xml</robotConfiguration>
   <appDataConfigurations>
     <string>../Minimal/minimalRobot.xml</string>
+    <string>../RobotConfig/2024Crescendo.xml</string>
   </appDataConfigurations>
   <collectionBaseTypes>
     <string>ApplicationData.MotorController</string>
@@ -236,7 +237,7 @@
   </codeTemplateFiles>
   <CopyrightNotice>
 //====================================================================================================================================================
-// Copyright 2023 Lake Orion Robotics FIRST Team 302
+// Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,

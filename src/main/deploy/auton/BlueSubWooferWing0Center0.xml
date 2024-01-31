@@ -4,7 +4,7 @@
 <primitive id = "RESET_POSITION_PATH_PLANNER"
 pathname = "BlueSubWooferWing0Center0"/>
 
-<primitive id = "ShootWhenStop.xml"/>
+<snippet file = "ShootWhenStop.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
 time = "3.0"/>

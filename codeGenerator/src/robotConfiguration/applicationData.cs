@@ -168,10 +168,10 @@ namespace ApplicationData
 
         [DataDescription("One power distribution panel can be configured for a robot")]
         public pdp PowerDistributionPanel { get; set; }
-        
+
         [DataDescription("A robot can contain multiple pneumatic control modules")]
         public List<pcm> PneumaticControlModules { get; set; }
-      
+
         [DataDescription("A robot can contain multiple limelights")]
         public List<limelight> Limelights { get; set; }
 
@@ -223,7 +223,7 @@ namespace ApplicationData
 
         public string getFullRobotName()
         {
-            return string.Format("{0}_{1}", name, robotID.value);
+            return string.Format("{0}{1}", name, robotID.value);
         }
 
         public List<string> generate(string generateFunctionName)
@@ -324,6 +324,10 @@ namespace ApplicationData
                     if (theObject != null)
                     {
                         Type elementType = theObject.GetType().GetGenericArguments().Single();
+
+                        if ((generateFunctionName == "generateIndexedObjectCreation") && (elementType == typeof(state)))
+                            continue;
+
                         ICollection ic = theObject as ICollection;
                         int index = 0;
                         foreach (var v in ic)
@@ -891,9 +895,9 @@ namespace ApplicationData
         {
             List<string> sb = new List<string>();
 
-            foreach(pigeon p in Pigeons)
+            foreach (pigeon p in Pigeons)
             {
-                sb.Add(string.Format("{1}::{0}",ToUnderscoreCase(p.name), ToUnderscoreCase(p.GetType().Name)));
+                sb.Add(string.Format("{1}::{0}", ToUnderscoreCase(p.name), ToUnderscoreCase(p.GetType().Name)));
             }
 
             return sb;
@@ -921,6 +925,11 @@ namespace ApplicationData
 
         public digitalInput()
         {
+        }
+
+        public override List<string> generateIndexedObjectCreation(int index)
+        {
+            return new List<string>();
         }
 
         override public List<string> generateObjectCreation()
@@ -1688,7 +1697,7 @@ namespace ApplicationData
 
         [ConstantInMechInstance]
         [DataDescription("The name of the motor that this target applies to")]
-        public string motorName { get;set; }
+        public string motorName { get; set; }
 
         [ConstantInMechInstance]
         [DataDescription("The name of the control data to use in order to reach this target")]
@@ -1733,7 +1742,7 @@ namespace ApplicationData
         {
             if (generatorContext.theMechanismInstance != null)
             {
-                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this))",
+                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this), this)",
                 name,
                 generatorContext.theMechanismInstance.name,
                 index);
@@ -1763,6 +1772,20 @@ namespace ApplicationData
             string creation = string.Format("AddToStateVector({0}State)", name);
 
             return new List<string> { creation };
+        }
+
+        override public List<string> generateElementNames()
+        {
+            Type baseType = GetType();
+            while ((baseType.BaseType != typeof(object)) && (baseType.BaseType != typeof(baseRobotElementClass)))
+                baseType = baseType.BaseType;
+
+            if (generatorContext.theMechanismInstance != null)
+            {
+                return new List<string> { string.Format("{2}_{0}::{0}_{1}", ToUnderscoreCase(generatorContext.theMechanismInstance.name), ToUnderscoreCase(name), ToUnderscoreCase(baseType.Name)) };
+            }
+            else
+                return new List<string> { "generateElementNames got to the else statement...should not be here" };
         }
     }
     /*

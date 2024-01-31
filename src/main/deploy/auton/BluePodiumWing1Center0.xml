@@ -2,21 +2,28 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname="BluePodiumWing1Center0.path"/>
-<!--Reseting our position-->
+<primitive id = "RESET_POSITION_PATH_PLANNER"
+pathname = "BluePodiumWing1Center0.path"
+/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname="BluePodiumWing1Center0.path"
-time= "1.2"/>
-<!--Drive forward-->
+pathname = "BluePodiumWing1Center0.path"
+time = "0.5"/>
+<!--Drive forward .5 seconds + adjusts angle-->
 
-<snippet file= "ShootWhenStop.xml"/>
-<!--We're stopping and shooting-->
+<snippet file = "ShootWhenStop.xml"/>
+<!--Stops and shoots-->
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname="BluePodiumWing1Center0.path"
-time= "4.2"/>
-<!--Go forward as the path says and assume we pick up note, then cross line-->
+pathname= "BluePodiumWing1Center0.path"
+time= "2.0"/>
+<!--Drives and intakes the ring then goes to the speaker (Intake at 0.6 seconds after shooting the preload)-->
+
+<snippet file= "StopWhenShoot.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing1Center0"
+time= "2.0"/>
+<!--crosses line-->
 
 </auton>

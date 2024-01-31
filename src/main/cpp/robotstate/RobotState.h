@@ -37,19 +37,19 @@ public:
 
 private:
     void PublishGameStateChanges();
-    void PublishCompressorInfo();
-    void CheckGamePieceMode(TeleopControl *controller);
+    void PublishScoringMode(TeleopControl *controller);
+    void PublishClimbMode(TeleopControl *controller);
 
     RobotState();
     ~RobotState();
 
     IChassis *m_chassis;
     std::vector<RobotStateChangeBroker *> m_brokers;
-    RobotStateChanges::GamePiece m_gamePiece;
+    RobotStateChanges::ScoringMode m_scoringMode;
+    RobotStateChanges::ClimbMode m_climbMode;
     RobotStateChanges::GamePeriod m_gamePhase;
-    RobotStateChanges::CompressorState m_compressorCurrent;
 
-    bool m_wasGamePieceButtonReleased;
-    bool m_wasCompressorButtonReleased;
+    bool m_scoringModeButtonReleased;
+    bool m_climbModeButtonReleased;
     static RobotState *m_instance;
 };
