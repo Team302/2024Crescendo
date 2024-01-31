@@ -22,8 +22,8 @@
 #include "State.h"
 #include <chassis/swerve/driveStates/DragonTrajectoryGenerator.h>
 #include <utils/DragonField.h>
-#include <chassis/swerve/driveStates/VisionDrive.h>
 #include <robotstate/IRobotStateChangeSubscriber.h>
+#include "chassis/ChassisOptionEnums.h"
 
 class IChassis;
 class SwerveChassis;

@@ -223,50 +223,9 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
 {
     ISwerveDriveState *state = nullptr;
 
-    auto isVisionDrive = moveInfo.driveOption == ChassisOptionEnums::VISION_DRIVE;
     auto isAutoBlance = moveInfo.driveOption == ChassisOptionEnums::AUTO_BALANCE;
     auto isHoldDrive = moveInfo.driveOption == ChassisOptionEnums::HOLD_DRIVE;
     auto hasTrajectory = moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE || moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER;
-
-    if (!hasTrajectory && !isVisionDrive && !isAutoBlance && !isHoldDrive &&
-        (units::math::abs(moveInfo.chassisSpeeds.vx) < m_velocityDeadband) &&
-        (units::math::abs(moveInfo.chassisSpeeds.vy) < m_velocityDeadband) &&
-        (units::math::abs(moveInfo.chassisSpeeds.omega) < m_angularDeadband))
-    {
-        if (moveInfo.noMovementOption == ChassisOptionEnums::NoMovementOption::HOLD_POSITION)
-        {
-            state = m_driveStateMap[ChassisOptionEnums::HOLD_DRIVE];
-        }
-        else
-        {
-            state = m_driveStateMap[ChassisOptionEnums::STOP_DRIVE];
-        }
-    }
-    else
-    {
-        auto itr = m_driveStateMap.find(moveInfo.driveOption);
-        if (itr == m_driveStateMap.end())
-        {
-            return m_robotDrive;
-        }
-        state = itr->second;
-
-        if (m_currentDriveState == nullptr)
-        {
-            m_currentDriveState = m_robotDrive;
-        }
-    }
-
-    if (state != m_currentDriveState)
-    {
-        m_initialized = false;
-    }
-
-    if (!m_initialized)
-    {
-        state->Init(moveInfo);
-        m_initialized = true;
-    }
 
     return state;
 }

@@ -79,7 +79,7 @@ void VisionDrivePrimitive::Run()
     if (m_chassis != nullptr)
     {
         ChassisMovement moveInfo;
-        moveInfo.driveOption = ChassisOptionEnums::DriveStateType::VISION_DRIVE;
+
         moveInfo.headingOption = m_headingOption;
 
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "driveOption", moveInfo.driveOption);
