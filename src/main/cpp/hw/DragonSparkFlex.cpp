@@ -130,7 +130,6 @@ void DragonSparkFlex::EnableBrakeMode(bool enabled)
 void DragonSparkFlex::Invert(bool inverted)
 {
     m_spark->SetInverted(inverted);
-    // m_spark->GetEncoder().SetPositionConversionFactor(inverted ? -1.0 : 1.0);
 }
 
 double DragonSparkFlex::GetRotationsWithGearNoOffset() const
@@ -206,15 +205,16 @@ void DragonSparkFlex::EnableVoltageCompensation(double fullvoltage)
 void DragonSparkFlex::SetSelectedSensorPosition(
     double initialPosition)
 {
+    m_encoder.SetPosition(initialPosition);
 }
 
 double DragonSparkFlex::GetCountsPerInch() const
 {
-    return 1.0;
+    return m_countsPerInch;
 }
 double DragonSparkFlex::GetCountsPerDegree() const
 {
-    return 1.0;
+    return m_countsPerDegree;
 }
 
 double DragonSparkFlex::GetCounts()

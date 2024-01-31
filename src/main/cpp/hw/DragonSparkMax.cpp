@@ -223,7 +223,6 @@ void DragonSparkMax::EnableVoltageCompensation(double fullvoltage)
 void DragonSparkMax::SetSelectedSensorPosition(
     double initialPosition)
 {
-
     m_encoder.SetPosition(initialPosition);
 }
 
