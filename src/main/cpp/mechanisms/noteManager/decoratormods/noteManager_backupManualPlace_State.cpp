@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -34,16 +33,16 @@ using namespace std;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-noteManagerbackupManualPlaceState::noteManagerbackupManualPlaceState ( std::string stateName,
-        int stateId,
-        noteManagerbackupManualPlaceStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+noteManagerbackupManualPlaceState::noteManagerbackupManualPlaceState(std::string stateName,
+																	 int stateId,
+																	 noteManagerbackupManualPlaceStateGen *generatedState,
+																	 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void noteManagerbackupManualPlaceState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "noteManagerbackupManualPlaceState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("noteManagerbackupManualPlaceState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +64,8 @@ bool noteManagerbackupManualPlaceState::AtTarget()
 	return attarget;
 }
 
-bool noteManagerbackupManualPlaceState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool noteManagerbackupManualPlaceState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) && m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Placer);
 }
