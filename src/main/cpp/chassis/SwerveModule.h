@@ -83,11 +83,6 @@ public:
     void StopMotors();
 
 private:
-    std::shared_ptr<nt::NetworkTable> GetNetworkTable();
-    void InitTuningParms(const SwerveModuleAttributes &attrs);
-    void DisplayTuningParms();
-    void UpdateTuningParms();
-
     void SetDriveSpeed(units::velocity::meters_per_second_t speed);
     void SetTurnAngle(units::angle::degree_t angle);
 
@@ -96,36 +91,18 @@ private:
     ctre::phoenix6::hardware::TalonFX *m_turnTalon;
     ctre::phoenix6::hardware::CANcoder *m_turnCancoder;
 
-    units::length::inch_t m_wheelDiameter;
-    units::velocity::feet_per_second_t m_maxSpeed;
-    units::angular_velocity::degrees_per_second_t m_maxAngSpeed;
-
     frc::SwerveModuleState m_activeState;
 
     ctre::phoenix6::controls::PositionTorqueCurrentFOC m_torquePosition{0_tr, 0_tps, 0_A, 1, false};
+    ctre::phoenix6::controls::PositionVoltage m_voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
 
-    ControlModes::CONTROL_TYPE m_turnControl = ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE;
-    double m_turnKp = 0.0;
+    double m_turnKp = 10.0;
     double m_turnKi = 0.0;
-    double m_turnKd = 0.0;
+    double m_turnKd = 0.5;
     double m_turnKf = 0.0;
     double m_turnCruiseVel = 0.0;
     double m_turnMaxAcc = 0.0;
-
-    ControlModes::CONTROL_TYPE m_driveControl = ControlModes::CONTROL_TYPE::VELOCITY_RPS;
-    double m_driveKp = 0.0;
-    double m_driveKi = 0.0;
-    double m_driveKd = 0.0;
-    double m_driveKf = 0.0;
-
-    nt::DoubleSubscriber m_tkp;
-    nt::DoubleSubscriber m_tki;
-    nt::DoubleSubscriber m_tkd;
-    nt::DoubleSubscriber m_tkf;
-    nt::DoubleSubscriber m_tmvel;
-    nt::DoubleSubscriber m_tmacc;
-    nt::DoubleSubscriber m_dkp;
-    nt::DoubleSubscriber m_dki;
-    nt::DoubleSubscriber m_dkd;
-    nt::DoubleSubscriber m_dkf;
+    units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
+    units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(16.0);
+    units::angular_velocity::degrees_per_second_t m_maxAngSpeed = units::angular_velocity::turns_per_second_t(1.0);
 };

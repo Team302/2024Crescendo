@@ -44,34 +44,24 @@ HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
                                    m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
                                    m_checkTippingLatch(false)
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicDrive::HolonomicDrive"), string("arrived"));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicDrive::HolonomicDrive"), string("end"));
 }
 
 /// @brief initialize the profiles for the various gamepad inputs
 /// @return void
 void HolonomicDrive::Init()
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicDrive::Init"), string("arrived"));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicDrive::Init"), string("end"));
 }
 
 /// @brief calculate the output for the wheels on the chassis from the throttle and steer components
 /// @return void
 void HolonomicDrive::Run()
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicDrive::Run"), string("arrived"));
     auto controller = TeleopControl::GetInstance();
     if (controller != nullptr && m_swerve != nullptr)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("controller "), controller != nullptr ? string("not nullptr ") : string("nullptr"));
-
         auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
         auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
         auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("forward"), forward);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("strafe"), strafe);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("rotate"), rotate);
         ChassisMovement moveInfo = InitChassisMovement(forward, strafe, rotate);
 
         // teleop buttons to check for mode changes
@@ -124,19 +114,12 @@ void HolonomicDrive::Run()
         }
 
         CheckTipping(checkTipping, moveInfo);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("Run"), string("nullptr"));
-
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("vx"), moveInfo.chassisSpeeds.vx.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("vy"), moveInfo.chassisSpeeds.vy.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("omega"), moveInfo.chassisSpeeds.omega.to<double>());
-
         m_swerve->Drive(moveInfo);
     }
     else
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("Run"), string("nullptr"));
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicDrive::Run"), string("end"));
 }
 
 ChassisMovement HolonomicDrive::InitChassisMovement(double forwardScale,

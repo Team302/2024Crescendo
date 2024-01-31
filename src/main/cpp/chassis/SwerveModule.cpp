@@ -71,9 +71,6 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
                                                  m_driveTalon(new TalonFX(driveMotorID, "Canivore")),
                                                  m_turnTalon(new TalonFX(turnMotorID, "Canivore")),
                                                  m_turnCancoder(new CANcoder(canCoderID, "Canivore")),
-                                                 m_wheelDiameter(units::length::inch_t(0.0)),
-                                                 m_maxSpeed(units::velocity::feet_per_second_t(0.0)),
-                                                 m_maxAngSpeed(units::angular_velocity::degrees_per_second_t(0.0)),
                                                  m_activeState()
 {
     Rotation2d ang{units::angle::degree_t(0.0)};
@@ -137,8 +134,6 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
         configs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
         m_turnTalon->GetConfigurator().Apply(configs);
     }
-    InitTuningParms(attrs);
-    DisplayTuningParms();
 }
 
 /// @brief Set all motor encoders to zero
@@ -199,8 +194,6 @@ frc::SwerveModulePosition SwerveModule::GetPosition() const
 /// @returns void
 void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
 {
-    UpdateTuningParms();
-
     // Update targets so the angle turned is less than 90 degrees
     // If the desired angle is less than 90 degrees from the target angle (e.g., -90 to 90 is the amount of turn), just use the angle and speed values
     // if it is more than 90 degrees (90 to 270), the can turn the opposite direction -- increase the angle by 180 degrees -- and negate the wheel speed
@@ -231,13 +224,16 @@ void SwerveModule::RunCurrentState()
 /// @returns void
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
+    // Run Open Loop
     m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
     // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
     auto driveTarget = m_activeState.speed.to<double>() / (units::length::meter_t(m_wheelDiameter).to<double>() * numbers::pi);
-
-    VelocityTorqueCurrentFOC out{units::angular_velocity::turns_per_second_t(driveTarget)};
-    out.Slot = 0;
+    auto percent = driveTarget / m_maxSpeed.to<double>();
+    DutyCycleOut out{percent};
     m_driveTalon->SetControl(out);
+    // VelocityTorqueCurrentFOC out{units::angular_velocity::turns_per_second_t(driveTarget)};
+    // out.Slot = 0;
+    // m_driveTalon->SetControl(out);
 }
 
 /// @brief Turn the swerve module to a specified angle
@@ -246,7 +242,8 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
     m_activeState.angle = targetAngle;
-    m_turnTalon->SetControl(m_torquePosition.WithPosition(targetAngle));
+    m_turnTalon->SetControl(m_voltagePosition.WithPosition(targetAngle));
+    // m_turnTalon->SetControl(m_torquePosition.WithPosition(targetAngle));
 }
 
 /// @brief stop the drive and turn motors
@@ -254,134 +251,4 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 void SwerveModule::StopMotors()
 {
     // TODO: add method to stop motor and do it for both turn and drive motors
-}
-
-std::shared_ptr<nt::NetworkTable> SwerveModule::GetNetworkTable()
-{
-    auto ntinstance = nt::NetworkTableInstance::GetDefault();
-    return ntinstance.GetTable("SwerveModuleAttrs");
-}
-
-void SwerveModule::InitTuningParms(const SwerveModuleAttributes &attrs)
-{
-    m_turnControl = attrs.angleControl.GetMode();
-    m_turnKp = attrs.angleControl.GetP();
-    m_turnKi = attrs.angleControl.GetI();
-    m_turnKd = attrs.angleControl.GetD();
-    m_turnKf = attrs.angleControl.GetF();
-    m_turnCruiseVel = attrs.angleControl.GetCruiseVelocity();
-    m_turnMaxAcc = attrs.angleControl.GetMaxAcceleration();
-
-    m_driveControl = attrs.driveControl.GetMode();
-    m_driveKp = attrs.driveControl.GetP();
-    m_driveKi = attrs.driveControl.GetI();
-    m_driveKd = attrs.driveControl.GetD();
-    m_driveKf = attrs.driveControl.GetF();
-}
-void SwerveModule::DisplayTuningParms()
-{
-    auto ntentry = GetNetworkTable();
-    m_tkp = ntentry->GetDoubleTopic("turn P").Subscribe(m_turnKp);
-    m_tki = ntentry->GetDoubleTopic("turn I").Subscribe(m_turnKi);
-    m_tkd = ntentry->GetDoubleTopic("turn D").Subscribe(m_turnKd);
-    m_tkf = ntentry->GetDoubleTopic("turn F").Subscribe(m_turnKf);
-    m_tmvel = ntentry->GetDoubleTopic("turn Cruise Vel").Subscribe(m_turnKf);
-    m_tmacc = ntentry->GetDoubleTopic("turn Max Accel").Subscribe(m_turnKf);
-
-    m_dkp = ntentry->GetDoubleTopic("drive P").Subscribe(m_driveKp);
-    m_dki = ntentry->GetDoubleTopic("drive I").Subscribe(m_driveKi);
-    m_dkd = ntentry->GetDoubleTopic("drive D").Subscribe(m_driveKd);
-    m_dkf = ntentry->GetDoubleTopic("drive F").Subscribe(m_driveKf);
-}
-
-void SwerveModule::UpdateTuningParms()
-{
-    bool needToUpdate = false;
-    auto ntentry = GetNetworkTable();
-
-    auto value = m_tkp.Get();
-    if (value != m_turnKp)
-    {
-        needToUpdate = true;
-        m_turnKp = value;
-    }
-
-    value = m_tki.Get();
-    if (value != m_turnKi)
-    {
-        needToUpdate = true;
-        m_turnKi = value;
-    }
-
-    value = m_tkd.Get();
-    if (value != m_turnKd)
-    {
-        needToUpdate = true;
-        m_turnKd = value;
-    }
-
-    value = m_tkf.Get();
-    if (value != m_turnKf)
-    {
-        needToUpdate = true;
-        m_turnKf = value;
-    }
-
-    value = m_tmacc.Get();
-    if (value != m_turnMaxAcc)
-    {
-        needToUpdate = true;
-        m_turnMaxAcc = value;
-    }
-
-    value = m_tmvel.Get();
-    if (value != m_turnCruiseVel)
-    {
-        needToUpdate = true;
-        m_turnCruiseVel = value;
-    }
-
-    value = m_dkp.Get();
-    if (value != m_driveKp)
-    {
-        needToUpdate = true;
-        m_driveKp = value;
-    }
-
-    value = m_dki.Get();
-    if (value != m_driveKi)
-    {
-        needToUpdate = true;
-        m_driveKi = value;
-    }
-
-    value = m_dkd.Get();
-    if (value != m_driveKd)
-    {
-        needToUpdate = true;
-        m_driveKd = value;
-    }
-
-    value = m_dkf.Get();
-    if (value != m_driveKf)
-    {
-        needToUpdate = true;
-        m_driveKf = value;
-    }
-
-    if (needToUpdate)
-    {
-        Slot0Configs config{};
-        config.kV = m_driveKf;
-        config.kP = m_driveKp;
-        config.kI = m_driveKi;
-        config.kD = m_driveKd;
-        m_driveTalon->GetConfigurator().Apply(config, 50_ms);
-
-        config.kV = m_turnKf;
-        config.kP = m_turnKp;
-        config.kI = m_turnKi;
-        config.kD = m_turnKd;
-        m_turnTalon->GetConfigurator().Apply(config, 50_ms);
-    }
 }
