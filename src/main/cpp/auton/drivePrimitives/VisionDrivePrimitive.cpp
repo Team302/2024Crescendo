@@ -57,12 +57,6 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 
         if (m_chassis != nullptr)
         {
-            m_visionDrive = dynamic_cast<VisionDrive *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE));
-
-            m_visionDrive->ResetVisionDrive();
-            m_visionDrive->setVisionPipeline(m_pipelineMode);
-            m_visionDrive->setInAutonMode(true);
-
             switch (m_pipelineMode)
             { /*
              case DragonLimelight::PIPELINE_MODE::APRIL_TAG:

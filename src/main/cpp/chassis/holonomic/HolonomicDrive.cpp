@@ -38,7 +38,6 @@
 #include <chassis/swerve/driveStates/DragonTrajectoryGenerator.h>
 #include <utils/DragonField.h>
 #include <DragonVision/DragonVision.h>
-#include <chassis/swerve/driveStates/VisionDrive.h>
 #include <robotstate/RobotState.h>
 
 using namespace std;
@@ -121,9 +120,6 @@ void HolonomicDrive::Run()
         {
             // no longer in vision drive, set boolean and reset offsets in VisionDrive
             m_inVisionDrive = false;
-            auto visionDrive = dynamic_cast<VisionDrive *>(m_swerve->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE));
-
-            visionDrive->ResetVisionDrive();
         }
 
         // update leds based on finding cube with vis
