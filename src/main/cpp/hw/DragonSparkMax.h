@@ -102,9 +102,8 @@ private:
     rev::CANSparkMax *m_spark;
     rev::SparkLimitSwitch m_forwardLimitSwitch;
     rev::SparkLimitSwitch m_reverseLimitSwitch;
-    rev::SparkLimitSwitch::Type m_forwardType = rev::SparkLimitSwitch::Type::kNormallyOpen;
-    rev::SparkLimitSwitch::Type m_reverseType = rev::SparkLimitSwitch::Type::kNormallyOpen;
-    // DRAGON_CONTROL_MODE m_controlMode;
+    rev::SparkLimitSwitch::Type m_forwardType;
+    rev::SparkLimitSwitch::Type m_reverseType; // DRAGON_CONTROL_MODE m_controlMode;
     double m_outputRotationOffset;
     double m_gearRatio;
     double m_countsPerDegree;

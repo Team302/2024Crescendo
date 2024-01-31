@@ -33,7 +33,6 @@ DragonSparkMax::DragonSparkMax(int id,
                                double countsPerInch) : IDragonMotorController(),
                                                        m_id(id),
                                                        m_spark(new CANSparkMax(id, motorType)),
-                                                       // m_controlMode(DRAGON_CONTROL_MODE::PERCENT_OUTPUT),
                                                        m_outputRotationOffset(0.0),
                                                        m_gearRatio(gearRatio),
                                                        m_deviceType(deviceType),
@@ -56,6 +55,9 @@ DragonSparkMax::DragonSparkMax(int id,
     SetRotationOffset(0);
     m_forwardLimitSwitch.EnableLimitSwitch(false);
     m_reverseLimitSwitch.EnableLimitSwitch(false);
+    m_forwardType = rev::SparkLimitSwitch::Type::kNormallyOpen;
+    m_reverseType = rev::SparkLimitSwitch::Type::kNormallyOpen;
+}
 }
 
 double DragonSparkMax::GetRotations()

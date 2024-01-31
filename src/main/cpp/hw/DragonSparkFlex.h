@@ -37,7 +37,11 @@ public:
                     RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                     rev::CANSparkFlex::MotorType motorType,
                     rev::SparkRelativeEncoder::Type feedbackType,
-                    double gearRatio);
+                    rev::SparkLimitSwitch::Type forwardType,
+                    rev::SparkLimitSwitch::Type reverseType,
+                    double gearRatio,
+                    double countsPerDegree,
+                    double countsPerInch);
     virtual ~DragonSparkFlex() = default;
 
     // Getters
@@ -88,10 +92,14 @@ private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
     rev::CANSparkFlex *m_spark;
+    rev::SparkLimitSwitch m_forwardLimitSwitch;
+    rev::SparkLimitSwitch m_reverseLimitSwitch;
     rev::SparkLimitSwitch::Type m_forwardType;
     rev::SparkLimitSwitch::Type m_reverseType;
     double m_outputRotationOffset;
     double m_gearRatio;
+    double m_countsPerDegree;
+    double m_countsPerInch;
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
     rev::SparkRelativeEncoder m_encoder;

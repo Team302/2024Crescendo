@@ -24,15 +24,25 @@ DragonSparkFlex::DragonSparkFlex(int id,
                                  RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                                  CANSparkFlex::MotorType motorType,
                                  rev::SparkRelativeEncoder::Type feedbackType,
-                                 double gearRatio) : IDragonMotorController(),
-                                                     m_id(id),
-                                                     m_spark(new CANSparkFlex(id, motorType)),
-                                                     m_outputRotationOffset(0.0),
-                                                     m_gearRatio(gearRatio),
-                                                     m_deviceType(deviceType),
-                                                     m_feedbackType(feedbackType),
-                                                     m_encoder(m_spark->GetEncoder(m_feedbackType)),
-                                                     m_pidController(m_spark->GetPIDController())
+                                 rev::SparkLimitSwitch::Type forwardType,
+                                 rev::SparkLimitSwitch::Type reverseType,
+                                 double gearRatio,
+                                 double countsPerDegree,
+                                 double countsPerInch) : IDragonMotorController(),
+                                                         m_id(id),
+                                                         m_spark(new CANSparkFlex(id, motorType)),
+                                                         m_outputRotationOffset(0.0),
+                                                         m_gearRatio(gearRatio),
+                                                         m_deviceType(deviceType),
+                                                         m_feedbackType(feedbackType),
+                                                         m_forwardType(forwardType),
+                                                         m_reverseType(reverseType),
+                                                         m_encoder(m_spark->GetEncoder(m_feedbackType)),
+                                                         m_pidController(m_spark->GetPIDController()),
+                                                         m_forwardLimitSwitch(m_spark->GetForwardLimitSwitch(m_forwardType)),
+                                                         m_reverseLimitSwitch(m_spark->GetReverseLimitSwitch(m_reverseType)),
+                                                         m_countsPerDegree(countsPerDegree),
+                                                         m_countsPerInch(countsPerInch)
 {
     m_spark->RestoreFactoryDefaults(true);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
@@ -41,6 +51,10 @@ DragonSparkFlex::DragonSparkFlex(int id,
     m_spark->SetClosedLoopRampRate(0.02);
     m_encoder.SetPosition(0);
     SetRotationOffset(0);
+    m_forwardLimitSwitch.EnableLimitSwitch(false);
+    m_reverseLimitSwitch.EnableLimitSwitch(false);
+    m_forwardType = rev::SparkLimitSwitch::Type::kNormallyOpen;
+    m_reverseType = rev::SparkLimitSwitch::Type::kNormallyOpen;
 }
 
 double DragonSparkFlex::GetRotations()
@@ -75,13 +89,16 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     case ControlModes::PERCENT_OUTPUT:
         m_spark->Set(0); // init to zero just to be safe
         break;
-
     case ControlModes::POSITION_INCH:
-        m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
+        m_pidController.SetReference(0, CANSparkMax::ControlType::kPosition, slot);
+        m_encoder.SetPositionConversionFactor(m_countsPerInch);
         break;
-
+    case ControlModes::POSITION_DEGREES:
+        m_pidController.SetReference(0, CANSparkMax::ControlType::kPosition, slot);
+        m_encoder.SetPositionConversionFactor(m_countsPerDegree);
+        break;
     case ControlModes::VELOCITY_RPS:
-        m_pidController.SetReference(0, CANSparkFlex::ControlType::kVelocity, slot);
+        m_pidController.SetReference(0, CANSparkMax::ControlType::kVelocity, slot);
         break;
 
     default:
