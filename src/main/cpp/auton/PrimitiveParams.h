@@ -30,6 +30,7 @@
 #include "DragonVision/DragonCamera.h"
 #include "chassis/swerve/driveStates/VisionDrive.h"
 #include "chassis/IChassis.h"
+#include "auton/ZoneParams.h"
 // @ADDMECH include for your mechanism
 
 // Third Party Includes
@@ -45,7 +46,8 @@ public:
         ChassisOptionEnums::HeadingOption headingOption,
         float heading,
         std::string pathName,
-        DragonCamera::PIPELINE pipelineMode);
+        DragonCamera::PIPELINE pipelineMode,
+        ZoneParamsVector zones); // create zones parameter of type ZonesParamsVector
 
     PrimitiveParams() = delete;
     virtual ~PrimitiveParams() = default; // Destructor
@@ -58,6 +60,7 @@ public:
     float GetHeading() const { return m_heading; };
     std::string GetPathName() const { return m_pathName; };
     DragonCamera::PIPELINE GetPipelineMode() const { return m_pipelineMode; }
+    ZoneParamsVector GetZones() const { return m_zones; } // create a GetZones() method to return the instance of zones m_zones
 
     // @ADDMECH Add methods to get the state mgr for mechanism
 
@@ -81,6 +84,7 @@ private:
     std::string m_pathName;
     // @ADDMECH add attribute for your mechanism state
     DragonCamera::PIPELINE m_pipelineMode;
+    ZoneParamsVector m_zones;
 };
 
 typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;

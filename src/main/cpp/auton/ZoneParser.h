@@ -14,29 +14,20 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include "auton/PrimitiveEnums.h"
-#include "auton/PrimitiveParams.h"
-#include "chassis/IChassis.h"
-#include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonCamera.h"
+#pragma once
 
-// @ADDMECH include for your mechanism state mgr
+// C++ Includes
 
-// @ADDMECH mechanism state for mech as parameter
-PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
-								 units::time::second_t time,
-								 float distance,
-								 ChassisOptionEnums::HeadingOption headingOpt,
-								 float heading,
-								 std::string pathName,
-								 DragonCamera::PIPELINE pipelineMode,
-								 ZoneParamsVector zones) : m_id(id), // Primitive ID
-														   m_time(time),
-														   m_distance(distance),
-														   m_headingOption(headingOpt),
-														   m_heading(heading),
-														   m_pathName(pathName),
-														   m_pipelineMode(pipelineMode)
-// @ADDMECH initilize state mgr attribute
+// FRC includes
+
+// Team 302 includes
+#include <auton/PrimitiveParams.h>
+
+// Third Party Includes
+#include <pugixml/pugixml.hpp>
+
+class ZoneParser
 {
-}
+public:
+    static ZoneParams *ParseXML(pugi::xml_node zonenode); // declare a new xml_node called zonenode for the zone element
+};

@@ -14,29 +14,37 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include "auton/PrimitiveEnums.h"
-#include "auton/PrimitiveParams.h"
-#include "chassis/IChassis.h"
-#include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonCamera.h"
+#pragma once
 
-// @ADDMECH include for your mechanism state mgr
+// C++ Includes
+#include <string>
+#include <vector>
 
-// @ADDMECH mechanism state for mech as parameter
-PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
-								 units::time::second_t time,
-								 float distance,
-								 ChassisOptionEnums::HeadingOption headingOpt,
-								 float heading,
-								 std::string pathName,
-								 DragonCamera::PIPELINE pipelineMode,
-								 ZoneParamsVector zones) : m_id(id), // Primitive ID
-														   m_time(time),
-														   m_distance(distance),
-														   m_headingOption(headingOpt),
-														   m_heading(heading),
-														   m_pathName(pathName),
-														   m_pipelineMode(pipelineMode)
-// @ADDMECH initilize state mgr attribute
+// FRC includes
+#include "units/time.h"
+
+// Team 302 includes
+// #include "auton/AutonGrid.h"
+// @ADDMECH include for your mechanism
+
+// Third Party Includes
+
+class ZoneParams
 {
-}
+public:
+    ZoneParams(
+        int xgrid1,
+        int ygrid1,
+        int xgrid2,
+        int ygrid2); // declare ZoneParams public constructor with parameters xgrid1, etc.
+
+    ZoneParams() = delete;
+    ~ZoneParams() = default; // Destructor
+private:
+    int m_xgrid1;
+    int m_ygrid1;
+    int m_xgrid2;
+    int m_ygrid2; // instances of said parameters
+};
+
+typedef std::vector<ZoneParams *> ZoneParamsVector; // create typedef ZoneParamsVector
