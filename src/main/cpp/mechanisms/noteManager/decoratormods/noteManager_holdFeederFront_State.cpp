@@ -1,6 +1,6 @@
 // clang-format off
 //====================================================================================================================================================
-// Copyright 2023 Lake Orion Robotics FIRST Team 302
+// Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -68,6 +68,7 @@ bool noteManagerholdFeederFrontState::AtTarget()
 bool noteManagerholdFeederFrontState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	bool feederSensor = m_mechanism->feederSensor->Get();
+	bool frontIntakeSensor = m_mechanism->frontIntakeSensor->Get();
+	return (feederSensor && frontIntakeSensor);
 }

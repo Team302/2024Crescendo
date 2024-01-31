@@ -1,6 +1,6 @@
 // clang-format off
 //====================================================================================================================================================
-// Copyright 2023 Lake Orion Robotics FIRST Team 302
+// Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -41,6 +41,9 @@
 #include "mechanisms/Thing1Mech/decoratormods/Thing1Mech_sparkyOn_State.h"
 #include "mechanisms/Thing1Mech/decoratormods/Thing1Mech_thing1Talon_State.h"
 
+#include "robotstate/RobotState.h"
+
+
 using std::string;
 
 /// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -50,9 +53,11 @@ using std::string;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-Thing1Mech::Thing1Mech ( Thing1Mech_gen *base ) : Thing1Mech_gen(),
+Thing1Mech::Thing1Mech ( Thing1Mech_gen *base ) : Thing1Mech_gen(),IRobotStateChangeSubscriber(),
 	m_Thing1Mech ( base )
 {
+	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
+	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 }
 
 void Thing1Mech::createAndRegisterStates()
@@ -85,6 +90,12 @@ void Thing1Mech::createAndRegisterStates()
 	sparkyOnState->RegisterTransitionState ( leftBackCWState );
 	thing1TalonState->RegisterTransitionState ( rightBackCWState );
 
+}
+
+void Thing1Mech::Update(RobotStateChanges::StateChange change, int value)
+{
+	if (change == RobotStateChanges::DesiredScoringMode)
+		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
 }
 
 // todo not sure what to do with this
