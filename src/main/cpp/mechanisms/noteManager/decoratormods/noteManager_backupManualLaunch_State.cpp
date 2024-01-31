@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -34,24 +33,32 @@ using namespace std;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-noteManagerbackupManualLaunchState::noteManagerbackupManualLaunchState ( std::string stateName,
-        int stateId,
-        noteManagerbackupManualLaunchStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+noteManagerbackupManualLaunchState::noteManagerbackupManualLaunchState(std::string stateName,
+																	   int stateId,
+																	   noteManagerbackupManualLaunchStateGen *generatedState,
+																	   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void noteManagerbackupManualLaunchState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "noteManagerbackupManualLaunchState" ), string ( "init" ) );
-
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("noteManagerbackupManualLaunchState"), string("init"));
 	m_genState->Init();
+
+	m_mechanism->Elevator->SetControlConstants(0, *m_mechanism->percentOutput);
+	m_mechanism->launcherAngle->SetControlConstants(0, *m_mechanism->percentOutput);
 }
 
 void noteManagerbackupManualLaunchState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("noteManagerbackupManualLaunchState"), string("run"));
 	m_genState->Run();
+	m_mechanism->frontIntake->Set(TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_FRONT_INTAKE));
+	m_mechanism->backIntake->Set(TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_BACK_INTAKE));
+	m_mechanism->Placer->Set(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE));
+	m_mechanism->Elevator->Set(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR) * 0.5);
+	m_mechanism->Feeder->Set(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED));
+	m_mechanism->launcherAngle->Set(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE) * 0.5);
 }
 
 void noteManagerbackupManualLaunchState::Exit()
@@ -65,9 +72,9 @@ bool noteManagerbackupManualLaunchState::AtTarget()
 	return attarget;
 }
 
-bool noteManagerbackupManualLaunchState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool noteManagerbackupManualLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXAMPLE_MECH_FORWARD));
 }
