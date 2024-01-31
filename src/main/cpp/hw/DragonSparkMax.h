@@ -40,7 +40,9 @@ public:
                    rev::SparkRelativeEncoder::Type feedbackType,
                    rev::SparkLimitSwitch::Type forwardType,
                    rev::SparkLimitSwitch::Type reverseType,
-                   double gearRatio);
+                   double gearRatio,
+                   double countsPerDegree,
+                   double countsPerInch);
 
     virtual ~DragonSparkMax() = default;
 
@@ -105,6 +107,8 @@ private:
     // DRAGON_CONTROL_MODE m_controlMode;
     double m_outputRotationOffset;
     double m_gearRatio;
+    double m_countsPerDegree;
+    double m_countsPerInch;
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
     rev::SparkRelativeEncoder m_encoder;

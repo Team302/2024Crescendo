@@ -50,7 +50,7 @@ void noteManager_gen::Create()
 	frontIntakeCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	frontIntakeCalcStruct.countsPerInch = 0 ;
 	frontIntakeCalcStruct.countsPerDegree = 0 ;;
-	frontIntake = new DragonSparkMax ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1 );
+	frontIntake = new DragonSparkMax ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1 );
 	m_motorMap[frontIntake->GetType()] = new BaseMechMotor ( m_ntName,
 	    *frontIntake,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -64,7 +64,7 @@ void noteManager_gen::Create()
 	backIntakeCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	backIntakeCalcStruct.countsPerInch = 0 ;
 	backIntakeCalcStruct.countsPerDegree = 0 ;;
-	backIntake = new DragonSparkMax ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen, 1 );
+	backIntake = new DragonSparkMax ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen, 1,1,1 );
 	m_motorMap[backIntake->GetType()] = new BaseMechMotor ( m_ntName,
 	    *backIntake,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -78,7 +78,7 @@ void noteManager_gen::Create()
 	TransferCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	TransferCalcStruct.countsPerInch = 0 ;
 	TransferCalcStruct.countsPerDegree = 0 ;;
-	Transfer = new DragonSparkMax ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1 );
+	Transfer = new DragonSparkMax ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1 );
 	m_motorMap[Transfer->GetType()] = new BaseMechMotor ( m_ntName,
 	    *Transfer,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,

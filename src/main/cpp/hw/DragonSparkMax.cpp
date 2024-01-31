@@ -28,20 +28,24 @@ DragonSparkMax::DragonSparkMax(int id,
                                rev::SparkRelativeEncoder::Type feedbackType,
                                rev::SparkLimitSwitch::Type forwardType,
                                rev::SparkLimitSwitch::Type reverseType,
-                               double gearRatio) : IDragonMotorController(),
-                                                   m_id(id),
-                                                   m_spark(new CANSparkMax(id, motorType)),
-                                                   // m_controlMode(DRAGON_CONTROL_MODE::PERCENT_OUTPUT),
-                                                   m_outputRotationOffset(0.0),
-                                                   m_gearRatio(gearRatio),
-                                                   m_deviceType(deviceType),
-                                                   m_feedbackType(feedbackType),
-                                                   m_forwardType(forwardType),
-                                                   m_reverseType(reverseType),
-                                                   m_encoder(m_spark->GetEncoder(m_feedbackType)),
-                                                   m_pidController(m_spark->GetPIDController()),
-                                                   m_forwardLimitSwitch(m_spark->GetForwardLimitSwitch(m_forwardType)),
-                                                   m_reverseLimitSwitch(m_spark->GetReverseLimitSwitch(m_reverseType))
+                               double gearRatio,
+                               double countsPerDegree,
+                               double countsPerInch) : IDragonMotorController(),
+                                                       m_id(id),
+                                                       m_spark(new CANSparkMax(id, motorType)),
+                                                       // m_controlMode(DRAGON_CONTROL_MODE::PERCENT_OUTPUT),
+                                                       m_outputRotationOffset(0.0),
+                                                       m_gearRatio(gearRatio),
+                                                       m_deviceType(deviceType),
+                                                       m_feedbackType(feedbackType),
+                                                       m_forwardType(forwardType),
+                                                       m_reverseType(reverseType),
+                                                       m_encoder(m_spark->GetEncoder(m_feedbackType)),
+                                                       m_pidController(m_spark->GetPIDController()),
+                                                       m_forwardLimitSwitch(m_spark->GetForwardLimitSwitch(m_forwardType)),
+                                                       m_reverseLimitSwitch(m_spark->GetReverseLimitSwitch(m_reverseType)),
+                                                       m_countsPerDegree(countsPerDegree),
+                                                       m_countsPerInch(countsPerInch)
 {
     m_spark->RestoreFactoryDefaults(true);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
@@ -141,7 +145,6 @@ void DragonSparkMax::EnableBrakeMode(bool enabled)
 void DragonSparkMax::Invert(bool inverted)
 {
     m_spark->SetInverted(inverted);
-    // m_spark->GetEncoder().SetPositionConversionFactor(inverted ? -1.0 : 1.0);
 }
 
 double DragonSparkMax::GetRotationsWithGearNoOffset() const
@@ -217,15 +220,27 @@ void DragonSparkMax::EnableVoltageCompensation(double fullvoltage)
 void DragonSparkMax::SetSelectedSensorPosition(
     double initialPosition)
 {
+    switch (m_spark->GetMode())
+    {
+    case ControlModes::POSITION_INCH:
+        m_encoder->SetPosition(initialPosition * m_spark->GetCountsPerInch());
+        break;
+    case ControlModes::POSITION_DEGREES:
+        m_encoder->SetPosition(initialPosition * m_spark->GetCountsPerDegree());
+        break;
+    default:
+        m_encoder->SetPosition(initialPosition); // Just set it to raw counts
+        break;
+    }
 }
 
 double DragonSparkMax::GetCountsPerInch() const
 {
-    return 1.0;
+    return m_countsPerInch;
 }
 double DragonSparkMax::GetCountsPerDegree() const
 {
-    return 1.0;
+    return m_countsPerDegree;
 }
 
 double DragonSparkMax::GetCounts()
