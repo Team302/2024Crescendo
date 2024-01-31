@@ -106,7 +106,7 @@ void noteManager_gen::Create()
 	ElevatorCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	ElevatorCalcStruct.countsPerInch = 0 ;
 	ElevatorCalcStruct.countsPerDegree = 0 ;;
-	Elevator = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,1,1,1 );
+	Elevator = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1 );
 	m_motorMap[Elevator->GetType()] = new BaseMechMotor ( m_ntName,
 	    *Elevator,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -120,7 +120,7 @@ void noteManager_gen::Create()
 	FeederCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	FeederCalcStruct.countsPerInch = 0 ;
 	FeederCalcStruct.countsPerDegree = 0 ;;
-	Feeder = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,1,1,1 );
+	Feeder = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1 );
 	m_motorMap[Feeder->GetType()] = new BaseMechMotor ( m_ntName,
 	    *Feeder,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,

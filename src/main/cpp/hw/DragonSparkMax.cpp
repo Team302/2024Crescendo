@@ -58,7 +58,6 @@ DragonSparkMax::DragonSparkMax(int id,
     m_forwardType = rev::SparkLimitSwitch::Type::kNormallyOpen;
     m_reverseType = rev::SparkLimitSwitch::Type::kNormallyOpen;
 }
-}
 
 double DragonSparkMax::GetRotations()
 {
