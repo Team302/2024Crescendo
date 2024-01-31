@@ -1,3 +1,4 @@
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -13,36 +14,37 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-// FRC Includes
-#include <frc/geometry/Pose2d.h>
-#include <math.h>
+#pragma once
 
-// Team302 Includes
-#include "auton/AutonGrid.h"
+// C++ Includes
+#include <string>
+#include <vector>
 
-// Thirdparty includes
+// FRC includes
+#include "units/time.h"
 
-AutonGrid *AutonGrid::m_instance = nullptr; // initialize m_instance as a nullptr
+// Team 302 includes
+// #include "auton/AutonGrid.h"
+// @ADDMECH include for your mechanism
 
-AutonGrid *AutonGrid::GetInstance()
+// Third Party Includes
+
+class ZoneParams
 {
-    // if m_instance is nullptr then a new instance of AutonGrid is created and returned therefore only leaving one instance of the class
-    if (AutonGrid::m_instance == nullptr)
-    {
-        AutonGrid::m_instance = new AutonGrid();
-    }
-    return AutonGrid::m_instance;
-} // to make the class a singlton
+public:
+    ZoneParams(
+        int xgrid1,
+        int ygrid1,
+        int xgrid2,
+        int ygrid2); // declare ZoneParams public constructor with parameters xgrid1, etc.
 
-bool AutonGrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygrid2, frc::Pose2d robotPose)
-// defining IsPoseInZone bool method and pulling in the arguements
-{
-    // cast the enums xgrid1, etc to doubles
-    auto x = static_cast<double>((xgrid1));
-    auto y = static_cast<double>((ygrid1));
-    auto x2 = static_cast<double>((xgrid2));
-    auto y2 = static_cast<double>((ygrid2));
+    ZoneParams() = delete;
+    ~ZoneParams() = default; // Destructor
+private:
+    int m_xgrid1;
+    int m_ygrid1;
+    int m_xgrid2;
+    int m_ygrid2; // instances of said parameters
+};
 
-    // then it is determined wether or not the robotPose is in the zone defined by the 2 grids.
-    return ((robotPose.X()) <= m_gridRes * (x2) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y2) && (robotPose.Y()) >= m_gridRes * (y - 1));
-}
+typedef std::vector<ZoneParams *> ZoneParamsVector; // create typedef ZoneParamsVector
