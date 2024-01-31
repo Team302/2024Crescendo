@@ -2208,32 +2208,7 @@
                 </debouncetime>
               </digitalInput>
             </digitalInput>
-            <cancoder>
-              <CANcoder>
-                <name>launcherAngleSensor</name>
-                <canID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>uintParameter</name>
-                  <__units__ />
-                  <type>UInt32</type>
-                  <value>0</value>
-                </canID>
-                <offset>
-                  <unitsFamily>none</unitsFamily>
-                  <name>doubleParameter</name>
-                  <__units__ />
-                  <type>Double</type>
-                  <value>0</value>
-                </offset>
-                <reverse>
-                  <unitsFamily>none</unitsFamily>
-                  <name>boolParameter</name>
-                  <__units__ />
-                  <type>Boolean</type>
-                  <value>false</value>
-                </reverse>
-              </CANcoder>
-            </cancoder>
+            <cancoder />
             <stateMotorControlData>
               <motorControlData>
                 <name>percentOutput</name>
@@ -6696,17 +6671,10 @@
                 <transitionsTo>
                   <stringParameterConstInMechInstance>
                     <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Off</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
                     <name>stringParameterConstInMechInstance_2</name>
                     <__units__ />
                     <type>String</type>
-                    <value>Manual</value>
+                    <value>Hold</value>
                   </stringParameterConstInMechInstance>
                 </transitionsTo>
                 <motorTargets>
@@ -6742,7 +6710,7 @@
                     <name>stringParameterConstInMechInstance_1</name>
                     <__units__ />
                     <type>String</type>
-                    <value>Off</value>
+                    <value>Hold</value>
                   </stringParameterConstInMechInstance>
                   <stringParameterConstInMechInstance>
                     <unitsFamily>none</unitsFamily>
@@ -6787,7 +6755,7 @@
                     <name>stringParameterConstInMechInstance_1</name>
                     <__units__ />
                     <type>String</type>
-                    <value>Off</value>
+                    <value>Hold</value>
                   </stringParameterConstInMechInstance>
                   <stringParameterConstInMechInstance>
                     <unitsFamily>none</unitsFamily>
@@ -6815,6 +6783,42 @@
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
                       <__units__>m</__units__>
+                      <type>Double</type>
+                    </target>
+                    <motorName>rightClimber</motorName>
+                    <controlDataName>climberPosInch</controlDataName>
+                  </motorTarget>
+                </motorTargets>
+              </state>
+              <state>
+                <name>Hold</name>
+                <transitionsTo>
+                  <stringParameterConstInMechInstance>
+                    <unitsFamily>none</unitsFamily>
+                    <name>stringParameterConstInMechInstance_1</name>
+                    <__units__ />
+                    <type>String</type>
+                    <value>Manual</value>
+                  </stringParameterConstInMechInstance>
+                </transitionsTo>
+                <motorTargets>
+                  <motorTarget>
+                    <name>leftClimber</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                    </target>
+                    <motorName>leftClimber</motorName>
+                    <controlDataName>climberPosInch</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>rightClimber</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
                       <type>Double</type>
                     </target>
                     <motorName>rightClimber</motorName>

@@ -603,17 +603,10 @@
       <transitionsTo>
         <stringParameterConstInMechInstance>
           <unitsFamily>none</unitsFamily>
-          <name>stringParameterConstInMechInstance_1</name>
-          <__units__ />
-          <type>String</type>
-          <value>Off</value>
-        </stringParameterConstInMechInstance>
-        <stringParameterConstInMechInstance>
-          <unitsFamily>none</unitsFamily>
           <name>stringParameterConstInMechInstance_2</name>
           <__units__ />
           <type>String</type>
-          <value>Manual</value>
+          <value>Hold</value>
         </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>
@@ -649,7 +642,7 @@
           <name>stringParameterConstInMechInstance_1</name>
           <__units__ />
           <type>String</type>
-          <value>Off</value>
+          <value>Hold</value>
         </stringParameterConstInMechInstance>
         <stringParameterConstInMechInstance>
           <unitsFamily>none</unitsFamily>
@@ -692,7 +685,7 @@
           <name>stringParameterConstInMechInstance_1</name>
           <__units__ />
           <type>String</type>
-          <value>Off</value>
+          <value>Hold</value>
         </stringParameterConstInMechInstance>
         <stringParameterConstInMechInstance>
           <unitsFamily>none</unitsFamily>
@@ -720,6 +713,42 @@
             <unitsFamily>length</unitsFamily>
             <name>Target</name>
             <__units__>in</__units__>
+            <type>Double</type>
+          </target>
+          <motorName>rightClimber</motorName>
+          <controlDataName>climberPosInch</controlDataName>
+        </motorTarget>
+      </motorTargets>
+    </state>
+    <state>
+      <name>Hold</name>
+      <transitionsTo>
+        <stringParameterConstInMechInstance>
+          <unitsFamily>none</unitsFamily>
+          <name>stringParameterConstInMechInstance_1</name>
+          <__units__ />
+          <type>String</type>
+          <value>Manual</value>
+        </stringParameterConstInMechInstance>
+      </transitionsTo>
+      <motorTargets>
+        <motorTarget>
+          <name>leftClimber</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>leftClimber</motorName>
+          <controlDataName>climberPosInch</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>rightClimber</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
