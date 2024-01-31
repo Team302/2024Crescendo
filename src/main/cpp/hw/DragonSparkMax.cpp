@@ -220,16 +220,16 @@ void DragonSparkMax::EnableVoltageCompensation(double fullvoltage)
 void DragonSparkMax::SetSelectedSensorPosition(
     double initialPosition)
 {
-    switch (m_spark->GetMode())
+    switch ()
     {
     case ControlModes::POSITION_INCH:
-        m_encoder->SetPosition(initialPosition * m_spark->GetCountsPerInch());
+        m_encoder.SetPosition(initialPosition * GetCountsPerInch());
         break;
     case ControlModes::POSITION_DEGREES:
-        m_encoder->SetPosition(initialPosition * m_spark->GetCountsPerDegree());
+        m_encoder.SetPosition(initialPosition * GetCountsPerDegree());
         break;
     default:
-        m_encoder->SetPosition(initialPosition); // Just set it to raw counts
+        m_encoder.SetPosition(initialPosition); // Just set it to raw counts
         break;
     }
 }
