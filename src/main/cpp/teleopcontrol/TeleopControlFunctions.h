@@ -76,5 +76,6 @@ public:
         MANUAL_FEED,
         LAUNCH_ANGLE,
         ELEVATOR,
+        AUTO_CLIMB,
     };
 };
