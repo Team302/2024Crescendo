@@ -9,7 +9,6 @@ $$_GEN_NOTICE_$$
 #include "mechanisms/base/BaseMechServoState.h"
 #include "mechanisms/base/BaseMechSolenoidState.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_Base_StateGen.h"
-#include "mechanisms/controllers/MechanismTargetData.h"
 #include "mechanisms/controllers/ControlData.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
 

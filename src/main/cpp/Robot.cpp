@@ -27,8 +27,6 @@
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
 #include <utils/WaypointXmlParser.h>
-#include <utils/BuildDetailsReader.h>
-#include <RobotDefinitions.h>
 
 #include <AdjustableItemMgr.h>
 /// DEBUGGING
