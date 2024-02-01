@@ -408,10 +408,6 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 
 units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 {
-    units::length::meter_t mountingHeight = m_cameraPose.Z();
-
-    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
-
     if (GetAprilTagID() == -1)
     {
         units::length::inch_t estimatedTargetDistance = EstimateTargetXDistance() * units::math::tan(m_cameraPose.Rotation().Z() + GetTargetYaw());
