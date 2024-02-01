@@ -64,8 +64,8 @@ namespace CoreCodeGenerator
 
             string mechInstDef =
                 @"Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( ""Initializing mechanism"" ), string ( ""$$_MECHANISM_INSTANCE_NAME_$$"" ), """" );
-                  $$_MECHANISM_INSTANCE_NAME_$$_gen* $$_MECHANISM_INSTANCE_NAME_$$_genmech = new $$_MECHANISM_INSTANCE_NAME_$$_gen();
-                  m_the$$_MECHANISM_INSTANCE_NAME_$$ = new $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$_genmech);
+                  $$_MECHANISM_INSTANCE_NAME_$$Gen* $$_MECHANISM_INSTANCE_NAME_$$GenMech = new $$_MECHANISM_INSTANCE_NAME_$$Gen();
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$ = new $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$GenMech);
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->Create();
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize(RobotConfigMgr::RobotIdentifier::$$_ROBOT_ENUM_NAME_$$);
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->createAndRegisterStates();

@@ -16,6 +16,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using static ApplicationData.generatorContext;
 using static ApplicationData.motorControlData;
 using static ApplicationData.TalonFX;
 using static ApplicationData.TalonSRX;
@@ -1407,6 +1408,12 @@ namespace ApplicationData
         {
             return new List<string> { string.Format("{0}* {1};", getImplementationName(), name) };
         }
+
+        virtual public List<string> generateDefinitionGetter()
+        {
+            return new List<string> { string.Format("{0}* get{1}() const {{return {1};}}", getImplementationName(), name) };
+        }
+
         virtual public List<string> generateInitialization()
         {
             return new List<string> { "baseRobotElementClass.generateInitialization needs to be overridden" };
@@ -1488,6 +1495,10 @@ namespace ApplicationData
 
     public static class generatorContext
     {
+        public enum GenerationStage { Unknown, MechInstanceGen, MechInstanceDecorator}
+
+        public static GenerationStage generationStage { get; set; }
+
         public const bool singleStateGenFile = true;
         public static mechanism theMechanism { get; set; }
         public static mechanismInstance theMechanismInstance { get; set; }
@@ -1497,6 +1508,7 @@ namespace ApplicationData
 
         public static void clear()
         {
+            generationStage = GenerationStage.Unknown;
             theMechanism = null;
             theMechanismInstance = null;
             theRobot = null;
@@ -1730,9 +1742,9 @@ namespace ApplicationData
         public override List<string> generateIncludes()
         {
             List<string> sb = new List<string>();
-            if (generatorContext.theMechanismInstance != null)
+            if ( (generatorContext.theMechanismInstance != null) && (generatorContext.GenerationStage.MechInstanceDecorator == generatorContext.generationStage) )
             {
-                sb.Add(string.Format("#include \"mechanisms/{1}/decoratormods/{1}_{0}_State.h\"",
+                sb.Add(string.Format("#include \"mechanisms/{1}/decoratormods/{0}State.h\"",
                     name,
                     generatorContext.theMechanismInstance.name));
             }
@@ -1747,14 +1759,14 @@ namespace ApplicationData
 
                 if (generatorContext.singleStateGenFile)
                 {
-                    creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}AllStatesStateGen(string(\"{0}\"), {2}, this), this)",
+                    creation = string.Format("{0}State* {0}StateInst = new {0}State(string(\"{0}\"), {2}, new {1}AllStatesStateGen(string(\"{0}\"), {2}, this), this)",
                     name,
                     generatorContext.theMechanismInstance.name,
                     index);
                 }
                 else
                 {
-                    creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this), this)",
+                    creation = string.Format("{0}State* {0}StateInst = new {0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this), this)",
                     name,
                     generatorContext.theMechanismInstance.name,
                     index);
@@ -1782,7 +1794,7 @@ namespace ApplicationData
         }
         override public List<string> generateObjectAddToMaps()
         {
-            string creation = string.Format("AddToStateVector({0}State)", name);
+            string creation = string.Format("AddToStateVector({0}StateInst)", name);
 
             return new List<string> { creation };
         }
