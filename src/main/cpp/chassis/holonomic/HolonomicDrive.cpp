@@ -38,7 +38,6 @@
 #include <chassis/swerve/driveStates/DragonTrajectoryGenerator.h>
 #include <utils/DragonField.h>
 #include <DragonVision/DragonVision.h>
-#include <chassis/swerve/driveStates/VisionDrive.h>
 #include <robotstate/RobotState.h>
 
 using namespace std;
@@ -98,15 +97,13 @@ void HolonomicDrive::Run()
 
         if (alignFloorPiece || alignAprilTag)
         {
-            m_inVisionDrive = true;
 
             if (alignFloorPiece)
             {
                 moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
                 if (alignFloorPiece)
-                    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::VISION_DRIVE;
 
-                m_findingFloorGamePiece = true;
+                    m_findingFloorGamePiece = true;
             }
 
             if (controller->IsButtonPressed(TeleopControlFunctions::ALIGN_APRIL_TAG))
@@ -119,10 +116,6 @@ void HolonomicDrive::Run()
         else
         {
             // no longer in vision drive, set boolean and reset offsets in VisionDrive
-            m_inVisionDrive = false;
-            auto visionDrive = dynamic_cast<VisionDrive *>(m_swerve->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE));
-
-            visionDrive->ResetVisionDrive();
         }
 
         // update leds based on finding cube with vis
@@ -175,7 +168,7 @@ void HolonomicDrive::Run()
             rotate *= m_slowModeMultiplier;
         }
 
-        if ((abs(forward) > 0.05 || abs(strafe) > 0.05 || abs(rotate) > 0.05) && !m_inVisionDrive)
+        if ((abs(forward) > 0.05 || abs(strafe) > 0.05 || abs(rotate) > 0.05))
         {
             moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
             m_previousDriveState = moveInfo.driveOption;

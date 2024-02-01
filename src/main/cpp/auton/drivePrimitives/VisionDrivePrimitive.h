@@ -50,7 +50,6 @@ public:
 
 private:
     SwerveChassis *m_chassis;
-    VisionDrive *m_visionDrive;
     ChassisOptionEnums::HeadingOption m_headingOption;
     std::string m_ntName;
     DragonCamera::PIPELINE m_pipelineMode;

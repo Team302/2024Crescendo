@@ -1,3 +1,4 @@
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -15,45 +16,35 @@
 
 #pragma once
 
-// C++ Libraries
+// C++ Includes
+#include <string>
+#include <vector>
+
+// FRC includes
+#include "units/time.h"
 
 // Team 302 includes
-#include "teleopcontrol/TeleopControl.h"
-#include "State.h"
-#include <chassis/swerve/driveStates/DragonTrajectoryGenerator.h>
-#include <utils/DragonField.h>
-#include <robotstate/IRobotStateChangeSubscriber.h>
-#include "chassis/ChassisOptionEnums.h"
+// #include "auton/AutonGrid.h"
+// @ADDMECH include for your mechanism
 
-class IChassis;
-class SwerveChassis;
+// Third Party Includes
 
-class HolonomicDrive : public State
+class ZoneParams
 {
 public:
-    HolonomicDrive();
-    ~HolonomicDrive() = default;
+    ZoneParams(
+        int xgrid1,
+        int ygrid1,
+        int xgrid2,
+        int ygrid2); // declare ZoneParams public constructor with parameters xgrid1, etc.
 
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
-
+    ZoneParams() = delete;
+    ~ZoneParams() = default; // Destructor
 private:
-    std::pair<ChassisOptionEnums::RELATIVE_POSITION, ChassisOptionEnums::RELATIVE_POSITION> GetAutoAlignDestination();
-
-    bool IsAutoAligning();
-
-    IChassis *m_chassis;
-    SwerveChassis *m_swerve;
-    DragonTrajectoryGenerator *m_trajectoryGenerator;
-    ChassisOptionEnums::DriveStateType m_previousDriveState;
-    DragonField *m_field;
-    const double m_slowModeMultiplier = 0.5;
-    const double m_autoAlignAngleTolerance = 5.0;
-    bool m_hasResetPosition = false;
-    bool m_inVisionDrive = false;
-    bool m_CheckTipping = false;
-    bool m_latch = false;
-    bool m_findingFloorGamePiece = false;
+    int m_xgrid1;
+    int m_ygrid1;
+    int m_xgrid2;
+    int m_ygrid2; // instances of said parameters
 };
+
+typedef std::vector<ZoneParams *> ZoneParamsVector; // create typedef ZoneParamsVector
