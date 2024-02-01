@@ -48,6 +48,7 @@ public:
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
 	bool isClimbMode();
+	bool isLauncherMode();
 
 	// todo not sure what to do with these
 	/*
@@ -60,4 +61,5 @@ public:
 private:
 	ClimberManager_gen *m_ClimberManager;
 	RobotStateChanges::ClimbMode m_climbMode;
+	RobotStateChanges::GamePeriod m_gamePeriod;
 };

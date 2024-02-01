@@ -91,8 +91,10 @@ noteManager::noteManager(noteManager_gen *base) : noteManager_gen(), IRobotState
 {
 	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
+	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
 	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void noteManager::createAndRegisterStates()
@@ -256,9 +258,10 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 {
 	if (change == RobotStateChanges::DesiredScoringMode)
 		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
-
 	if (change == RobotStateChanges::ClimbModeStatus)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
+	if (change == RobotStateChanges::GameState)
+		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
 bool noteManager::isLauncherMode()
@@ -272,6 +275,10 @@ bool noteManager::isPlacerMode()
 bool noteManager::isClimbMode()
 {
 	return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn;
+}
+bool noteManager::IsEnabled()
+{
+	return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled;
 }
 // todo not sure what to do with this
 /*

@@ -48,7 +48,7 @@ public:
 	bool isClimbMode();
 	bool isPlacerMode();
 	bool isLauncherMode();
-
+	bool noteManager::IsEnabled();
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
 	// todo not sure what to do with these
@@ -63,4 +63,5 @@ private:
 	noteManager_gen *m_noteManager;
 	RobotStateChanges::ScoringMode m_scoringMode;
 	RobotStateChanges::ClimbMode m_climbMode;
+	RobotStateChanges::GamePeriod m_gamePeriod;
 };
