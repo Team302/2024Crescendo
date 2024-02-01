@@ -48,7 +48,7 @@ public:
 	bool isClimbMode();
 	bool isPlacerMode();
 	bool isLauncherMode();
-	bool noteManager::IsEnabled();
+	bool IsEnabled();
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
 	// todo not sure what to do with these
