@@ -13,55 +13,19 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
+// Team302 Includes
+#include <chassis/ChassisOptionEnums.h>
+#include <chassis/swerve/headingStates/FaceCenterStage.h>
+#include "configs/RobotConfig.h"
+#include "configs/RobotConfigMgr.h"
 
-class ChassisOptionEnums
+// Standish Quick Fix
+#include <frc/DriverStation.h>
+
+FaceCenterStage::FaceCenterStage() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE)
 {
-public:
-    enum HeadingOption
-    {
-        MAINTAIN,
-        SPECIFIED_ANGLE,
-        FACE_GAME_PIECE,
-        FACE_SPEAKER,
-        FACE_AMP,
-        FACE_LEFT_STAGE,
-        FACE_RIGHT_STAGE,
-        FACE_CENTER_STAGE,
-        IGNORE
-    };
+}
 
-    enum DriveStateType
-    {
-        ROBOT_DRIVE,
-        FIELD_DRIVE,
-        TRAJECTORY_DRIVE,
-        TRAJECTORY_DRIVE_PLANNER,
-        POLAR_DRIVE,
-        HOLD_DRIVE,
-        STOP_DRIVE,
-        AUTO_BALANCE
-    };
-
-    enum RELATIVE_POSITION
-    {
-        LEFT = 1,
-        CENTER = 2,
-        RIGHT = 3
-    };
-
-    enum NoMovementOption
-    {
-        STOP,
-        HOLD_POSITION
-    };
-
-    enum AutonControllerType
-    {
-        RAMSETE,
-        HOLONOMIC
-    };
-
-    ChassisOptionEnums() = delete;
-    ~ChassisOptionEnums() = delete;
-};
+void FaceCenterStage::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+{
+}

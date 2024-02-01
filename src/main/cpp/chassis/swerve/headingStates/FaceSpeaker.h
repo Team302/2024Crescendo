@@ -15,53 +15,16 @@
 
 #pragma once
 
-class ChassisOptionEnums
+#include "units/angle.h"
+
+// Team302 Includes
+#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
+#include <chassis/ChassisOptionEnums.h>
+
+class FaceSpeaker : public ISwerveDriveOrientation
 {
 public:
-    enum HeadingOption
-    {
-        MAINTAIN,
-        SPECIFIED_ANGLE,
-        FACE_GAME_PIECE,
-        FACE_SPEAKER,
-        FACE_AMP,
-        FACE_LEFT_STAGE,
-        FACE_RIGHT_STAGE,
-        FACE_CENTER_STAGE,
-        IGNORE
-    };
-
-    enum DriveStateType
-    {
-        ROBOT_DRIVE,
-        FIELD_DRIVE,
-        TRAJECTORY_DRIVE,
-        TRAJECTORY_DRIVE_PLANNER,
-        POLAR_DRIVE,
-        HOLD_DRIVE,
-        STOP_DRIVE,
-        AUTO_BALANCE
-    };
-
-    enum RELATIVE_POSITION
-    {
-        LEFT = 1,
-        CENTER = 2,
-        RIGHT = 3
-    };
-
-    enum NoMovementOption
-    {
-        STOP,
-        HOLD_POSITION
-    };
-
-    enum AutonControllerType
-    {
-        RAMSETE,
-        HOLONOMIC
-    };
-
-    ChassisOptionEnums() = delete;
-    ~ChassisOptionEnums() = delete;
+    FaceSpeaker();
+    ~FaceSpeaker();
+    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 };

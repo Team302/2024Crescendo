@@ -13,23 +13,19 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-
 // Team302 Includes
-#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <chassis/DragonTargetFinder.h>
-#include <DragonVision/DragonVision.h>
+#include <chassis/ChassisOptionEnums.h>
+#include <chassis/swerve/headingStates/FaceLeftStage.h>
+#include "configs/RobotConfig.h"
+#include "configs/RobotConfigMgr.h"
 
-class FaceGoalHeading : public ISwerveDriveOrientation
+// Standish Quick Fix
+#include <frc/DriverStation.h>
+
+FaceLeftStage::FaceLeftStage() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE)
 {
-public:
-    FaceGoalHeading();
-    ~FaceGoalHeading();
+}
 
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
-
-private:
-    DragonTargetFinder m_targetFinder;
-
-    DragonCamera *m_vision;
-};
+void FaceLeftStage::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+{
+}
