@@ -22,6 +22,8 @@
 #include <auton/PrimitiveEnums.h>
 #include <auton/PrimitiveParams.h>
 #include <auton/PrimitiveParser.h>
+#include <auton/ZoneParams.h>
+#include <auton/ZoneParser.h>
 #include <auton/drivePrimitives/IPrimitive.h>
 #include "utils/logging/Logger.h"
 #include <pugixml/pugixml.hpp>
@@ -116,6 +118,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
                     std::string pathName;
+                    ZoneParamsVector zones;
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
                     // auto extenderstate = ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND;
                     // auto intakestate = IntakeStateMgr::INTAKE_STATE::HOLD;
@@ -203,6 +206,15 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                             hasError = true;
                         }
                     }
+                    for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
+                    {
+                        if (strcmp(child.name(), "zone") == 0)
+                        {
+                            auto zone = ZoneParser::ParseXML(child); // create a zone params object
+                            zones.emplace_back(zone);                // adding to the vector
+                        }
+                    }
+
                     if (!hasError)
                     {
                         paramVector.emplace_back(new PrimitiveParams(primitiveType,
@@ -211,7 +223,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      headingOption,
                                                                      heading,
                                                                      pathName,
-                                                                     pipelineMode
+                                                                     pipelineMode,
+                                                                     zones // vector of all zones included as part of the path
+                                                                     // can have multiple zones as part of a complex path
                                                                      // @ADDMECH add parameter for your mechanism state
                                                                      // armstate,
                                                                      // extenderstate,
