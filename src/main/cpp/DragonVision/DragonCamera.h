@@ -60,8 +60,8 @@ public:
     virtual double GetTargetArea() const = 0;
     virtual int GetAprilTagID() const = 0;
 
-    virtual VisionPose GetFieldPosition() const = 0;
-    virtual VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
+    virtual std::optional<VisionPose> GetFieldPosition() const = 0;
+    virtual std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
 
     //  Estimating distance
     virtual units::length::inch_t GetEstimatedTargetXDistance() const = 0;
@@ -72,7 +72,7 @@ public:
     virtual units::length::inch_t GetEstimatedTargetYDistance_RelToRobotCoords() const = 0;
     virtual units::length::inch_t GetEstimatedTargetZDistance_RelToRobotCoords() const = 0;
 
-    virtual VisionData GetDataToNearestApriltag() const = 0;
+    virtual std::optional<VisionData> GetDataToNearestApriltag() const = 0;
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }

@@ -84,12 +84,12 @@ int DragonLimelight::GetAprilTagID() const
     return -1;
 }
 
-VisionPose DragonLimelight::GetFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetFieldPosition() const
 {
     return GetBlueFieldPosition();
 }
 
-VisionPose DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance alliance) const
+std::optional<VisionPose> DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance alliance) const
 {
     if (alliance == frc::DriverStation::Alliance::kRed)
         return GetRedFieldPosition();
@@ -99,7 +99,7 @@ VisionPose DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance allian
     }
 }
 
-VisionPose DragonLimelight::GetRedFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetRedFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
@@ -120,7 +120,7 @@ VisionPose DragonLimelight::GetRedFieldPosition() const
     }
 }
 
-VisionPose DragonLimelight::GetBlueFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
@@ -139,7 +139,7 @@ VisionPose DragonLimelight::GetBlueFieldPosition() const
     }
 }
 
-VisionPose DragonLimelight::GetOriginFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetOriginFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
@@ -485,7 +485,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
         return units::length::inch_t(-1.0);
 }
 
-VisionData DragonLimelight::GetDataToNearestApriltag()
+std::optional<VisionData> DragonLimelight::GetDataToNearestApriltag()
 {
     auto tagetpoes = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
 
