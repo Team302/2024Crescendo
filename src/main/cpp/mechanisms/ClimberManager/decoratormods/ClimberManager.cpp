@@ -80,6 +80,10 @@ void ClimberManager::Update(RobotStateChanges::StateChange change, int value)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
 }
 
+bool ClimberManager::isClimbMode()
+{
+	return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn;
+}
 // todo not sure what to do with this
 /*
 bool ClimberManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const

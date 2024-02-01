@@ -45,9 +45,9 @@ public:
 
 	void createAndRegisterStates();
 
-	RobotStateChanges::ClimbMode m_climbMode;
-
 	void Update(RobotStateChanges::StateChange change, int value) override;
+
+	bool isClimbMode();
 
 	// todo not sure what to do with these
 	/*
@@ -59,4 +59,5 @@ public:
 
 private:
 	ClimberManager_gen *m_ClimberManager;
+	RobotStateChanges::ClimbMode m_climbMode;
 };

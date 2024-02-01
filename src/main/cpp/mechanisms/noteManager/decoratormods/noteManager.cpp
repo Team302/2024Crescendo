@@ -261,6 +261,18 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
 }
 
+bool noteManager::isLauncherMode()
+{
+	return m_scoringMode == RobotStateChanges::ScoringMode::Launcher;
+}
+bool noteManager::isPlacerMode()
+{
+	return m_scoringMode == RobotStateChanges::ScoringMode::Placer;
+}
+bool noteManager::isClimbMode()
+{
+	return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn;
+}
 // todo not sure what to do with this
 /*
 bool noteManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const

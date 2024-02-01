@@ -45,8 +45,9 @@ public:
 
 	void createAndRegisterStates();
 
-	RobotStateChanges::ScoringMode m_scoringMode;
-	RobotStateChanges::ClimbMode m_climbMode;
+	bool isClimbMode();
+	bool isPlacerMode();
+	bool isLauncherMode();
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
@@ -60,4 +61,6 @@ public:
 
 private:
 	noteManager_gen *m_noteManager;
+	RobotStateChanges::ScoringMode m_scoringMode;
+	RobotStateChanges::ClimbMode m_climbMode;
 };
