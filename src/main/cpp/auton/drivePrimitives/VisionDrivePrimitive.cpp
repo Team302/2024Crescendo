@@ -60,7 +60,6 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
             switch (m_pipelineMode)
             {
             case DragonCamera::PIPELINE::APRIL_TAG:
-                m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
                 break;
             case DragonCamera::PIPELINE::MACHINE_LEARNING:
                 m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
@@ -92,8 +91,8 @@ bool VisionDrivePrimitive::IsDone()
 {
     bool done = false;
 
-    if (m_visionDrive != nullptr)
-        done = m_visionDrive->isAligned(m_pipelineMode);
+    /*if (m_visionDrive != nullptr)
+        done = m_visionDrive->isAligned(m_pipelineMode);*/
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "ArrivedAtDone", done);
 
