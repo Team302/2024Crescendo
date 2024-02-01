@@ -100,8 +100,8 @@ public:
     std::vector<double> Get3DSolve() const;
     int GetAprilTagID() const;
 
-    VisionPose GetFieldPosition() const;
-    VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const;
+    std::optional<VisionPose> GetFieldPosition() const;
+    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const;
 
     VisionPose GetRedFieldPosition() const;
     VisionPose GetBlueFieldPosition() const;

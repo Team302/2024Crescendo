@@ -84,12 +84,12 @@ int DragonLimelight::GetAprilTagID() const
     return -1;
 }
 
-VisionPose DragonLimelight::GetFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetFieldPosition() const
 {
     return GetBlueFieldPosition();
 }
 
-VisionPose DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance alliance) const
+std::optional<VisionPose> DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance alliance) const
 {
     if (alliance == frc::DriverStation::Alliance::kRed)
         return GetRedFieldPosition();
