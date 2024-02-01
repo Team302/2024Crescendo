@@ -1488,6 +1488,7 @@ namespace ApplicationData
 
     public static class generatorContext
     {
+        public const bool singleStateGenFile = true;
         public static mechanism theMechanism { get; set; }
         public static mechanismInstance theMechanismInstance { get; set; }
         public static int stateIndex { get; set; }
@@ -1742,10 +1743,22 @@ namespace ApplicationData
         {
             if (generatorContext.theMechanismInstance != null)
             {
-                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this), this)",
-                name,
-                generatorContext.theMechanismInstance.name,
-                index);
+                string creation = "";
+
+                if (generatorContext.singleStateGenFile)
+                {
+                    creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}AllStatesStateGen(string(\"{0}\"), {2}, this), this)",
+                    name,
+                    generatorContext.theMechanismInstance.name,
+                    index);
+                }
+                else
+                {
+                    creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this), this)",
+                    name,
+                    generatorContext.theMechanismInstance.name,
+                    index);
+                }
 
                 List<string> code = new List<string>() { creation };
 
