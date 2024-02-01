@@ -29,15 +29,6 @@
 #include <utils/WaypointXmlParser.h>
 
 #include <AdjustableItemMgr.h>
-/// DEBUGGING
-
-/* How to check robot variant
-#if ROBOT_VARIANT == 2024
-#warning COMP BOT
-#else
-#warning UNKNOWN
-#endif
-*/
 
 using namespace std;
 
@@ -77,9 +68,9 @@ void Robot::RobotInit()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have holonomic"), string("arrived"));
     }
 
-    // m_cyclePrims = new CyclePrimitives();
-    // m_previewer = new AutonPreviewer(m_cyclePrims); // TODO:: Move to DriveTeamFeedback
-    // m_field = DragonField::GetInstance();           // TODO: move to drive team feedback
+    m_cyclePrims = new CyclePrimitives();
+    m_previewer = new AutonPreviewer(m_cyclePrims); // TODO:: Move to DriveTeamFeedback
+    m_field = DragonField::GetInstance();           // TODO: move to drive team feedback
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("end"));
 }
@@ -94,7 +85,6 @@ void Robot::RobotInit()
  */
 void Robot::RobotPeriodic()
 {
-    /**
     LoggableItemMgr::GetInstance()->LogData();
     Logger::GetLogger()->PeriodicLog();
 
@@ -120,7 +110,6 @@ void Robot::RobotPeriodic()
     {
         feedback->UpdateFeedback();
     }
-    **/
 }
 
 /**
@@ -159,45 +148,24 @@ void Robot::TeleopInit()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("arrived"));
 
-    /**/
     if (m_controller == nullptr)
     {
         m_controller = TeleopControl::GetInstance();
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("after teleopcontrol"), string("arrived"));
 
-    if (m_chassis != nullptr)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have a swerve chassis"), string("arrived"));
-    }
-    if (m_controller != nullptr)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have a controller"), string("arrived"));
-    }
-    if (m_holonomic != nullptr)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have holonomic"), string("arrived"));
-    }
-    /**/
     if (m_chassis != nullptr && m_controller != nullptr)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("chassis and controller"), string("arrived"));
         if (m_holonomic != nullptr)
         {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holonomic "), string("arrived"));
             m_holonomic->Init();
         }
 
-        /**
         // Create chassismovement to flush out any drive options from auton
         ChassisMovement resetMoveInfo;
         resetMoveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
         resetMoveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("reset chassis movement"), string("arrived"));
 
         m_chassis->Drive();
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("drive"), string("arrived"));
-        **/
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
@@ -215,7 +183,6 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("arrived"));
-    /**/
     if (m_chassis != nullptr && m_controller != nullptr)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicRun"), string("arrived"));
@@ -225,7 +192,6 @@ void Robot::TeleopPeriodic()
         }
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-    /**/
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
