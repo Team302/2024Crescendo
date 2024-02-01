@@ -86,11 +86,11 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
             visionStdMeasurements[1] += ambiguity;
             visionStdMeasurements[2] += ambiguity;
 
-            return VisionPose(fieldRelPose, timestamp, visionStdMeasurements);
+            return std::make_optional(VisionPose(fieldRelPose, timestamp, visionStdMeasurements));
         }
     }
 
-    return VisionPose{};
+    return std::nullopt;
 }
 
 std::optional<VisionPose> DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
@@ -477,14 +477,16 @@ bool DragonPhotonCam::UpdatePipeline(DragonCamera::PIPELINE pipeline)
 std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 {
     // get latest detections from co-processor
-    frc::Transform3d camToTargetTransform;
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
     if (result.HasTargets())
     {
         // get the most accurate according to configured contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        camToTargetTransform = target.GetBestCameraToTarget();
+        frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
+
+        return std::make_optional(VisionData{camToTargetTransform, GetAprilTagID()});
     }
-    return VisionData{camToTargetTransform, GetAprilTagID()};
+    return std::nullopt;
 }
