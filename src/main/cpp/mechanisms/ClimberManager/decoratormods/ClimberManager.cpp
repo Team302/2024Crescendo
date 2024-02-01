@@ -80,15 +80,15 @@ void ClimberManager::Update(RobotStateChanges::StateChange change, int value)
 {
 	if (change == RobotStateChanges::ClimbModeStatus)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
-	if (change == RobotStateChanges::GameState)
+	else if (change == RobotStateChanges::GameState)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
-bool ClimberManager::isClimbMode()
+bool ClimberManager::isClimbMode() const
 {
 	return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn;
 }
-bool ClimberManager::IsEnabled()
+bool ClimberManager::IsEnabled() const
 {
 	return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled;
 }

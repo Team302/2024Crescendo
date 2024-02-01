@@ -258,28 +258,29 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 {
 	if (change == RobotStateChanges::DesiredScoringMode)
 		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
-	if (change == RobotStateChanges::ClimbModeStatus)
+	else if (change == RobotStateChanges::ClimbModeStatus)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
-	if (change == RobotStateChanges::GameState)
+	else if (change == RobotStateChanges::GameState)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
-bool noteManager::isLauncherMode()
+bool noteManager::isLauncherMode() const
 {
 	return m_scoringMode == RobotStateChanges::ScoringMode::Launcher;
 }
-bool noteManager::isPlacerMode()
+bool noteManager::isPlacerMode() const
 {
 	return m_scoringMode == RobotStateChanges::ScoringMode::Placer;
 }
-bool noteManager::isClimbMode()
+bool noteManager::isClimbMode() const
 {
 	return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn;
 }
-bool noteManager::IsEnabled()
+bool noteManager::IsEnabled() const
 {
 	return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled;
 }
+
 // todo not sure what to do with this
 /*
 bool noteManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const

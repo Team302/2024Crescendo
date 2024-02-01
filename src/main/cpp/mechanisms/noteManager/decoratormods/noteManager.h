@@ -45,10 +45,10 @@ public:
 
 	void createAndRegisterStates();
 
-	bool isClimbMode();
-	bool isPlacerMode();
-	bool isLauncherMode();
-	bool IsEnabled();
+	bool isClimbMode() const;
+	bool isPlacerMode() const;
+	bool isLauncherMode() const;
+	bool IsEnabled() const;
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
 	// todo not sure what to do with these

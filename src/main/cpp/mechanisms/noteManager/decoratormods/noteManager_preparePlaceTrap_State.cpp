@@ -73,12 +73,7 @@ bool noteManagerpreparePlaceTrapState::IsTransitionCondition ( bool considerGame
 	bool placerMidSensor = m_genState->GetnoteManager()->placerMidSensor->Get();
 
 	auto currentstate = m_genState->GetnoteManager()->GetCurrentState();
-
-	if((placerInSensor && placerMidSensor && m_mechanism->isClimbMode()) || (currentstate == m_genState->GetnoteManager()->STATE_PREPARE_PLACE_AMP && m_mechanism->isClimbMode()))
-	{
-		transition = true;
-	}
 	
-	return (transition);
+	return ((placerInSensor && placerMidSensor && m_mechanism->isClimbMode()) || (currentstate == m_genState->GetnoteManager()->STATE_PREPARE_PLACE_AMP && m_mechanism->isClimbMode()));
 	
 }
