@@ -15,20 +15,16 @@
 
 #pragma once
 
+#include "units/angle.h"
+
 // Team302 Includes
 #include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <chassis/DragonTargetFinder.h>
-#include <DragonVision/DragonVision.h>
+#include <chassis/ChassisOptionEnums.h>
 
-class FaceGoalHeading : public ISwerveDriveOrientation
+class FaceCenterStage : public ISwerveDriveOrientation
 {
 public:
-    FaceGoalHeading();
-    ~FaceGoalHeading();
-
+    FaceCenterStage();
+    ~FaceCenterStage();
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
-
-private:
-    DragonTargetFinder m_targetFinder;
-    DragonVision *m_vision;
 };

@@ -48,13 +48,16 @@
 #include "chassis/swerve/driveStates/TrajectoryDrive.h"
 #include "chassis/swerve/driveStates/TrajectoryDrivePathPlanner.h"
 
-#include "chassis/swerve/headingStates/FaceGoalHeading.h"
 #include "chassis/swerve/headingStates/FaceGamePiece.h"
-#include "chassis/swerve/headingStates/FaceAprilTag.h"
 #include "chassis/swerve/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/swerve/headingStates/MaintainHeading.h"
 #include "chassis/swerve/headingStates/SpecifiedHeading.h"
 #include "chassis/swerve/headingStates/IgnoreHeading.h"
+#include "chassis/swerve/headingStates/FaceCenterStage.h"
+#include "chassis/swerve/headingStates/FaceRightStage.h"
+#include "chassis/swerve/headingStates/FaceLeftStage.h"
+#include "chassis/swerve/headingStates/FaceSpeaker.h"
+#include "chassis/swerve/headingStates/FaceAmp.h"
 
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
@@ -154,9 +157,12 @@ void SwerveChassis::InitStates()
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] = new SpecifiedHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE] = new FaceGamePiece();
-    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG] = new FaceAprilTag();
-    m_headingStateMap[ChassisOptionEnums::HeadingOption::TOWARD_GOAL] = new FaceGoalHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::IGNORE] = new IgnoreHeading();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_AMP] = new FaceAmp();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_SPEAKER] = new FaceSpeaker();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE] = new FaceCenterStage();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE] = new FaceLeftStage();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE] = new FaceRightStage();
 }
 /// @brief Align all of the swerve modules to point forward
 void SwerveChassis::ZeroAlignSwerveModules()
