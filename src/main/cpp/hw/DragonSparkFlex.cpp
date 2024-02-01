@@ -219,15 +219,6 @@ void DragonSparkFlex::SetSelectedSensorPosition(
     m_encoder.SetPosition(initialPosition);
 }
 
-double DragonSparkFlex::GetCountsPerInch() const
-{
-    return m_calcStruc.countsPerInch;
-}
-double DragonSparkFlex::GetCountsPerDegree() const
-{
-    return m_calcStruc.countsPerDegree;
-}
-
 double DragonSparkFlex::GetCounts()
 {
     return m_spark->GetAbsoluteEncoder(rev::SparkAbsoluteEncoder::Type::kDutyCycle).GetPosition();

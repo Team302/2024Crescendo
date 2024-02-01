@@ -66,8 +66,6 @@ public:
     void SetSmartCurrentLimiting(int limit);
     void SetSecondaryCurrentLimiting(int limit, int duration);
 
-    double GetGearRatio() const override { return 1.0; }
-
     // dummy methods below
     // std::shared_ptr<frc::MotorController> GetSpeedController() override;
     double GetCurrent() override;
@@ -85,7 +83,10 @@ public:
     double GetCountsPerInch() const override;
     double GetCountsPerDegree() const override;
     void EnableDisableLimitSwitches(bool enable) override;
-    double GetCountsPerRev() const override { return 1.0; }
+    double GetCountsPerRev() const override { return m_calcStruc.gearRatio; }
+    double GetGearRatio() const override { return m_calcStruc.gearRatio; }
+    double GetCountsPerInch() const override { return m_calcStruc.countsPerInch; }
+    double GetCountsPerDegree() const override { return m_calcStruc.countsPerDegree; }
 
 private:
     double GetRotationsWithGearNoOffset() const;

@@ -221,15 +221,6 @@ void DragonSparkMax::SetSelectedSensorPosition(
     m_encoder.SetPosition(initialPosition);
 }
 
-double DragonSparkMax::GetCountsPerInch() const
-{
-    return m_calcStruc.countsPerInch;
-}
-double DragonSparkMax::GetCountsPerDegree() const
-{
-    return m_calcStruc.countsPerDegree;
-}
-
 double DragonSparkMax::GetCounts()
 {
     return m_spark->GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle).GetPosition();
