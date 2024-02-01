@@ -260,7 +260,17 @@ units::angle::degree_t DragonLimelight::GetTargetPitch() const
 
 units::angle::degree_t DragonLimelight::GetTargetPitchRobotFrame() const
 {
-    return units::angle::degree_t(-1.0);
+    units::length::inch_t targetXDistance = EstimateTargetXDistance_RelToRobotCoords();
+
+    if (targetXDistance != units::length::inch_t(0.0))
+    {
+
+        units::length::inch_t targetZDistance = EstimateTargetZDistance_RelToRobotCoords();
+
+        units::angle::degree_t targetPitchToRobot = units::angle::degree_t(atan2(targetZDistance.to<double>(), targetXDistance.to<double>()));
+        return targetPitchToRobot;
+    }
+    // tan-1(target height/ target X distance)
 }
 
 double DragonLimelight::GetTargetArea() const
