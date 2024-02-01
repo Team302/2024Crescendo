@@ -211,11 +211,11 @@ namespace ApplicationData
         public CAN_BUS canBusName { get; set; }
 
         [DefaultValue(0u)]
-        [Range(typeof(uint), "0", "15")]
+        [Range(typeof(uint), "0", "19")]// REV is 0-19, CTRE 0-15, cannot handle 2 ranges for now
         public uintParameter pdpID { get; set; }
 
         [DefaultValue(0u)]
-        [Range(typeof(uint), "0", "19")] // REV is 0-19, CTRE 0-15, cannot handle 2 ranges for now
+        [Range(typeof(uint), "0", "62")] 
         [ConstantInMechInstance]
         public uintParameter followID { get; set; }
 

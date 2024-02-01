@@ -1,5 +1,5 @@
 //====================================================================================================================================================
-// Copyright 2023 Lake Orion Robotics FIRST Team 302
+// Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -26,6 +26,7 @@
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
 #include "utils/logging/Logger.h"
+#include "robotstate/RobotStateChanges.h"
 
 // Third Party Includes
 
@@ -50,6 +51,15 @@ void Thing1MechleftBackCWState::Init()
 void Thing1MechleftBackCWState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("Thing1MechleftBackCWState"), string("run"));
+	if (m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+	{
+		// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Thing1MechleftBackCWState"), string("Robot Scoring Mode"), "Launcher");
+	}
+	else
+	{
+		// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Thing1MechleftBackCWState"), string("Robot Scoring Mode"), "Placer");
+	}
+
 	m_genState->Run();
 }
 

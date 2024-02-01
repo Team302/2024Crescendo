@@ -1,6 +1,6 @@
 // clang-format off
 //====================================================================================================================================================
-// Copyright 2023 Lake Orion Robotics FIRST Team 302
+// Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -67,7 +67,18 @@ bool noteManagerpreparePlaceTrapState::AtTarget()
 
 bool noteManagerpreparePlaceTrapState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
+	bool transition = false;
 	// To get the current state use m_mechanism->GetCurrentState()
+	bool placerInSensor = m_genState->GetnoteManager()->placerInSensor->Get();
+	bool placerMidSensor = m_genState->GetnoteManager()->placerMidSensor->Get();
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	auto currentstate = m_genState->GetnoteManager()->GetCurrentState();
+
+	if((placerInSensor && placerMidSensor && m_mechanism->m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn) || (currentstate == m_genState->GetnoteManager()->STATE_PREPARE_PLACE_AMP && m_mechanism->m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn))
+	{
+		transition = true;
+	}
+	
+	return (transition);
+	
 }

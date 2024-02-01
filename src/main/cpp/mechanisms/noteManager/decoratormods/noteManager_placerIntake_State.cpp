@@ -1,6 +1,6 @@
 // clang-format off
 //====================================================================================================================================================
-// Copyright 2023 Lake Orion Robotics FIRST Team 302
+// Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -68,6 +68,13 @@ bool noteManagerplacerIntakeState::AtTarget()
 bool noteManagerplacerIntakeState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
+	bool transition = false;
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	auto currentState = m_mechanism->GetCurrentState();
+	bool noSensorsDetected = m_mechanism->feederSensor->Get() == false && m_mechanism->launcherSensor->Get() == false && m_mechanism->placerInSensor->Get() == false && m_mechanism->placerMidSensor->Get() == false && m_mechanism->placerOutSensor->Get() == false && m_mechanism->backIntakeSensor->Get() == false && m_mechanism->frontIntakeSensor->Get() == false;
+	if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Placer) || (noSensorsDetected && currentState == m_mechanism->STATE_LAUNCHER_TO_PLACER_FRONT))
+	{
+		transition = true;
+	}
+	return (transition);
 }
