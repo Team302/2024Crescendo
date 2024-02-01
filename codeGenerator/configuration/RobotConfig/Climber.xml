@@ -735,9 +735,9 @@
         <motorTarget>
           <name>leftClimber</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>length</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>m</__units__>
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
@@ -746,9 +746,9 @@
         <motorTarget>
           <name>rightClimber</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>length</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>m</__units__>
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
