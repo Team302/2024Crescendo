@@ -235,7 +235,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 	// initialize selected field element to empty Pose3d
 	frc::Pose3d fieldElementPose = frc::Pose3d{};
-
 	switch (element)
 	{
 	case VISION_ELEMENT::SPEAKER:
@@ -249,6 +248,11 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		break;
 	default:
 		break;
+		std::optional<frc::Pose3d> optionalAprilTagPose = DragonVision::GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID());
+		frc::Pose3d aprilTagPose = optionalAprilTagPose.value();
+		frc::Transform3d transformToElement = frc::Transform3d(aprilTagPose, fieldElementPose);
+		std::optional<VisionData> visionData = VisionData(transformToElement, selectedCam->GetAprilTagID());
+		return visionData;
 	}
 
 	// make 2 pose 3ds and implement in transform3d.
