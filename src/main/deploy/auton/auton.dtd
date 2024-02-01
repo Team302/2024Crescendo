@@ -44,7 +44,24 @@
                               		  K | L | M | N | O | P | Q | R | S | T | 
                               		  U | V | W | X | Y | Z | AA ) "0"
     
+    chassisOption           ( visiondrivenote | visiondrivespeaker | none )
+
+    noteOption              ( UNKNOWN_STATE_NOTE_MANAGER | NOTE_MANAGER_OFF | NOTE_MANAGER_READY |
+                                NOTE_MANAGER_FEEDER_INTAKE | NOTE_MANAGER_EXPEL | NOTE_MANAGER_PLACER_INTAKE | 
+                                NOTE_MANAGER_HOLD_FEEDER_FRONT | NOTE_MANAGER_HOLD_FEEDER_BACK | 
+                                NOTE_MANAGER_INTAKE_TO_FEEDER | NOTE_MANAGER_LAUNCHER_TO_PLACER_FRONT | 
+                                NOTE_MANAGER_LAUNCHER_TO_PLACER_BACK | NOTE_MANAGER_HOLD_FEEDER | 
+                                NOTE_MANAGER_READY_AUTO_LAUNCH | NOTE_MANAGER_READY_MANUAL_LAUNCH | 
+                                NOTE_MANAGER_PASS | NOTE_MANAGER_AUTO_LAUNCH | NOTE_MANAGER_MANUAL_LAUNCH | 
+                                NOTE_MANAGER_READY_ODOMETRY_LAUNCH | NOTE_MANAGER_AUTO_LAUNCH_ODOMETRY | 
+                                NOTE_MANAGER_HOLD_PLACER_FRONT | NOTE_MANAGER_HOLD_PLACER_BACK | 
+                                NOTE_MANAGER_INTAKE_TO_PLACER | NOTE_MANAGER_PREPARE_PLACE_AMP | 
+                                NOTE_MANAGER_PREPARE_PLACE_TRAP | NOTE_MANAGER_PLACE_AMP | 
+                                NOTE_MANAGER_PLACE_TRAP | NOTE_MANAGER_PLACER_TO_LAUNCHER_FRONT | 
+                                NOTE_MANAGER_PLACER_TO_LAUNCHER_BACK | NOTE_MANAGER_BACKUP_MANUAL_LAUNCH | 
+                                NOTE_MANAGER_BACKUP_MANUAL_PLACE | MAX_STATE_NOTE_MANAGER | none )
    
+    avoidOption             ( podium | robotcollision | none )
     
 >
 

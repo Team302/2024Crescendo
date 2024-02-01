@@ -116,10 +116,48 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {"Y_53", AutonGrid::YGRID::Y_53},
         {"Y_54", AutonGrid::YGRID::Y_54}};
 
+    static std::map<std::string, RobotElementNames::STATE_NOTE_MANAGER_USAGE> xmlStringToSTATE_NOTE_MANAGER_USAGEEnumMap{
+        {"UNKNOWN_STATE_NOTE_MANAGER", RobotElementNames::STATE_NOTE_MANAGER_USAGE::UNKNOWN_STATE_NOTE_MANAGER},
+        {"NOTE_MANAGER_OFF", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_OFF},
+        {"NOTE_MANAGER_READY", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_READY},
+        {"NOTE_MANAGER_FEEDER_INTAKE", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_FEEDER_INTAKE},
+        {"NOTE_MANAGER_EXPEL", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_EXPEL},
+        {"NOTE_MANAGER_PLACER_INTAKE", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_PLACER_INTAKE},
+        {"NOTE_MANAGER_HOLD_FEEDER_FRONT", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_HOLD_FEEDER_FRONT},
+        {"NOTE_MANAGER_HOLD_FEEDER_BACK", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_HOLD_FEEDER_BACK},
+        {"NOTE_MANAGER_INTAKE_TO_FEEDER", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_INTAKE_TO_FEEDER},
+        {"NOTE_MANAGER_LAUNCHER_TO_PLACER_FRONT", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_LAUNCHER_TO_PLACER_FRONT},
+        {"NOTE_MANAGER_LAUNCHER_TO_PLACER_BACK", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_LAUNCHER_TO_PLACER_BACK},
+        {"NOTE_MANAGER_HOLD_FEEDER", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_HOLD_FEEDER},
+        {"NOTE_MANAGER_READY_AUTO_LAUNCH", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_READY_AUTO_LAUNCH},
+        {"NOTE_MANAGER_READY_MANUAL_LAUNCH", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_READY_MANUAL_LAUNCH},
+        {"NOTE_MANAGER_PASS", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_PASS},
+        {"NOTE_MANAGER_AUTO_LAUNCH", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_AUTO_LAUNCH},
+        {"NOTE_MANAGER_MANUAL_LAUNCH", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_MANUAL_LAUNCH},
+        {"NOTE_MANAGER_READY_ODOMETRY_LAUNCH", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_READY_ODOMETRY_LAUNCH},
+        {"NOTE_MANAGER_AUTO_LAUNCH_ODOMETRY", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_AUTO_LAUNCH_ODOMETRY},
+        {"NOTE_MANAGER_HOLD_PLACER_FRONT", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_HOLD_PLACER_FRONT},
+        {"NOTE_MANAGER_HOLD_PLACER_BACK", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_HOLD_PLACER_BACK},
+        {"NOTE_MANAGER_INTAKE_TO_PLACER", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_INTAKE_TO_PLACER},
+        {"NOTE_MANAGER_PREPARE_PLACE_AMP", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_PREPARE_PLACE_AMP},
+        {"NOTE_MANAGER_PREPARE_PLACE_TRAP", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_PREPARE_PLACE_TRAP},
+        {"NOTE_MANAGER_PLACE_AMP", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_PLACE_AMP},
+        {"NOTE_MANAGER_PLACE_TRAP", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_PLACE_TRAP},
+        {"NOTE_MANAGER_PLACER_TO_LAUNCHER_FRONT", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_PLACER_TO_LAUNCHER_FRONT},
+        {"NOTE_MANAGER_PLACER_TO_LAUNCHER_BACK", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_PLACER_TO_LAUNCHER_BACK},
+        {"NOTE_MANAGER_BACKUP_MANUAL_LAUNCH", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_BACKUP_MANUAL_LAUNCH},
+        {"NOTE_MANAGER_BACKUP_MANUAL_PLACE", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_BACKUP_MANUAL_PLACE},
+        {"MAX_STATE_NOTE_MANAGER", RobotElementNames::STATE_NOTE_MANAGER_USAGE::MAX_STATE_NOTE_MANAGER}};
+
+    static std::map<std::string, RobotElementNames::STATE_NOTE_MANAGER_USAGE> xmlStringToChassisOptionEnumMap{
+
+    };
+
     AutonGrid::XGRID xgrid1 = AutonGrid::XGRID::NO_VALUE;
     AutonGrid::YGRID ygrid1 = AutonGrid::YGRID::NONE;
     AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
     AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
+    RobotElementNames::STATE_NOTE_MANAGER_USAGE noteChosenOption = RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_OFF;
 
     // looping through the zone xml attributes to define the location of a given zone (based on 2 sets grid coordinates)
 
@@ -138,7 +176,7 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
                 hasError = true;
             }
         }
-        if (strcmp(attr.name(), "ygrid1") == 0)
+        else if (strcmp(attr.name(), "ygrid1") == 0)
         {
             auto itr = Y_xmlStringToGridEnumMap.find(attr.value());
             if (itr != Y_xmlStringToGridEnumMap.end())
@@ -150,7 +188,7 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
                 hasError = true;
             }
         }
-        if (strcmp(attr.name(), "xgrid2") == 0)
+        else if (strcmp(attr.name(), "xgrid2") == 0)
         {
             auto itr = X_xmlStringToGridEnumMap.find(attr.value());
             if (itr != X_xmlStringToGridEnumMap.end())
@@ -162,7 +200,7 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
                 hasError = true;
             }
         }
-        if (strcmp(attr.name(), "ygrid2") == 0)
+        else if (strcmp(attr.name(), "ygrid2") == 0)
         {
             auto itr = Y_xmlStringToGridEnumMap.find(attr.value());
             if (itr != Y_xmlStringToGridEnumMap.end())
@@ -172,6 +210,42 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
             else
             {
                 hasError = true;
+            }
+        }
+        else if (strcmp(attr.name(), "chassisOption") == 0)
+        {
+            if (strcmp(attr.value(), "visiondrivenote") == 0)
+            {
+            }
+            else if (strcmp(attr.value(), "visiondrivespeaker") == 0)
+            {
+            }
+            else if (strcmp(attr.value(), "none") == 0)
+            {
+            }
+        }
+        else if (strcmp(attr.name(), "noteOption") == 0)
+        {
+            auto itr = xmlStringToSTATE_NOTE_MANAGER_USAGEEnumMap.find(attr.value());
+            if (itr != xmlStringToSTATE_NOTE_MANAGER_USAGEEnumMap.end())
+            {
+                noteChosenOption = itr->second;
+            }
+            else
+            {
+                hasError = true;
+            }
+        }
+        else if (strcmp(attr.name(), "avoidOption") == 0)
+        {
+            if (strcmp(attr.value(), "podium") == 0)
+            {
+            }
+            else if (strcmp(attr.value(), "robotcollision") == 0)
+            {
+            }
+            else if (strcmp(attr.value(), "none") == 0)
+            {
             }
         }
     }
