@@ -37,29 +37,29 @@
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
-#include "chassis/SwerveChassis.h"
-
 #include "chassis/driveStates/FieldDrive.h"
 #include "chassis/driveStates/HoldDrive.h"
 #include "chassis/driveStates/RobotDrive.h"
 #include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/TrajectoryDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
-
-#include "chassis/headingStates/FaceGoalHeading.h"
+#include "chassis/headingStates/FaceAmp.h"
+#include "chassis/headingStates/FaceCenterStage.h"
 #include "chassis/headingStates/FaceGamePiece.h"
-#include "chassis/headingStates/FaceAprilTag.h"
+#include "chassis/headingStates/FaceLeftStage.h"
+#include "chassis/headingStates/FaceRightStage.h"
+#include "chassis/headingStates/FaceSpeaker.h"
+#include "chassis/headingStates/IgnoreHeading.h"
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/headingStates/MaintainHeading.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
-#include "chassis/headingStates/IgnoreHeading.h"
-
-#include "configs/RobotConfigMgr.h"
+#include "chassis/SwerveChassis.h"
 #include "configs/RobotConfig.h"
+#include "configs/RobotConfigMgr.h"
 #include "configs/RobotElementNames.h"
-#include "utils/FMSData.h"
 #include "utils/AngleUtils.h"
 #include "utils/ConversionUtils.h"
+#include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
 
 // Third Party Includes
@@ -153,9 +153,12 @@ void SwerveChassis::InitStates()
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] = new SpecifiedHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE] = new FaceGamePiece();
-    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG] = new FaceAprilTag();
-    m_headingStateMap[ChassisOptionEnums::HeadingOption::TOWARD_GOAL] = new FaceGoalHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::IGNORE] = new IgnoreHeading();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_AMP] = new FaceAmp();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_SPEAKER] = new FaceSpeaker();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE] = new FaceCenterStage();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE] = new FaceLeftStage();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE] = new FaceRightStage();
 }
 
 /// @brief Align all of the swerve modules to point forward
