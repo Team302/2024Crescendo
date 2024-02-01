@@ -80,8 +80,6 @@ public:
     bool IsReverseLimitSwitchClosed() override;
     void EnableVoltageCompensation(double fullvoltage) override;
     void SetSelectedSensorPosition(double initialPosition) override;
-    double GetCountsPerInch() const override;
-    double GetCountsPerDegree() const override;
     void EnableDisableLimitSwitches(bool enable) override;
     double GetCountsPerRev() const override { return m_calcStruc.gearRatio; }
     double GetGearRatio() const override { return m_calcStruc.gearRatio; }
