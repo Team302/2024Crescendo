@@ -22,8 +22,8 @@
 #include <auton/drivePrimitives/VisionDrivePrimitive.h>
 #include <chassis/ChassisMovement.h>
 #include <chassis/ChassisOptionEnums.h>
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
@@ -35,7 +35,7 @@ VisionDrivePrimitive::VisionDrivePrimitive() : m_chassis(nullptr),
                                                m_timer(new frc::Timer()),
                                                m_timeout(0.0)
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 
@@ -57,18 +57,20 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 
         if (m_chassis != nullptr)
         {
+            /*
             switch (m_pipelineMode)
-            { /*
-             case DragonLimelight::PIPELINE_MODE::APRIL_TAG:
-                 m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
-                 break;
-             case DragonLimelight::PIPELINE_MODE::CONE:
-             case DragonCamera::PIPELINE::CUBE:
-                 m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-                 break;
-             default:
-                 break;*/
+            {
+                case DragonLimelight::PIPELINE_MODE::APRIL_TAG:
+                    m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
+                    break;
+                case DragonLimelight::PIPELINE_MODE::CONE:
+                case DragonCamera::PIPELINE::CUBE:
+                    m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+                    break;
+                default:
+                    break;
             }
+            */
         }
 }
 
@@ -99,4 +101,5 @@ bool VisionDrivePrimitive::IsDone()
      Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "ArrivedAtDone", done);
 
      return done || m_timer->HasElapsed(units::time::second_t(m_timeout));*/
+    return false;
 }

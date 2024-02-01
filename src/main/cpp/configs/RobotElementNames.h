@@ -83,7 +83,7 @@ public:
 		UNKNOWN_PCM = -1,
 		MAX_PCM
 	};
-
+	
 	enum ANALOG_INPUT_USAGE
 	{
 		UNKNOWN_ANALOG_INPUT = -1,
@@ -99,6 +99,7 @@ public:
 	enum CHASSIS_USAGE
 	{
 		UNKNOWN_CHASSIS = -1,
+		SWERVE_CHASSIS,
 		MAX_CHASSIS
 	};
 
@@ -118,6 +119,10 @@ public:
 	enum SWERVE_MODULE_USAGE
 	{
 		UNKNOWN_SWERVE_MODULE = -1,
+		FRONT_LEFT,
+		FRONT_RIGHT,
+		BACK_LEFT,
+		BACK_RIGHT,
 		MAX_SWERVE_MODULE
 	};
 
