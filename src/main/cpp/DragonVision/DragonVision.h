@@ -22,6 +22,9 @@
 #include "frc/apriltag/AprilTagFieldLayout.h"
 #include "frc/apriltag/AprilTagFields.h"
 
+// PhotonVision Includes
+#include "photon/PhotonPoseEstimator.h"
+
 #include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonCamera.h"
 
@@ -99,4 +102,6 @@ private:
     DragonCamera *m_dragonCamera;
 
     std::map<CAMERA_POSITION, DragonCamera *> m_dragonCameraMap;
+
+    photon::PhotonPoseEstimator *m_poseEstimator;
 };

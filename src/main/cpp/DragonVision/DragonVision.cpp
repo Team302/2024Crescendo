@@ -46,13 +46,23 @@ frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
 	return DragonVision::m_aprilTagLayout;
 }
 
-DragonVision::DragonVision()
+DragonVision::DragonVision() : m_poseEstimator(nullptr)
 {
 }
 
 void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 {
 	m_dragonCameraMap[position] = camera;
+
+	// check if we should add camera to photon pose estimator
+	if ((position == CAMERA_POSITION::LAUNCHER) || (position == CAMERA_POSITION::PLACER))
+	{
+		// check if we need to construct the pose estimator or just add a camera
+		if (m_poseEstimator == nullptr)
+		{
+			m_poseEstimator = new photon::PhotonPoseEstimator(GetAprilTagLayout(), photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR, dynamic_cast<photon::PhotonCamera *>(camera), camera->GetTransformFromRobotCenter())
+		}
+	}
 }
 
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
@@ -264,6 +274,9 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 std::optional<VisionPose> DragonVision::GetRobotPosition()
 {
+	if (m_poseEstimator != nullptr)
+	{
+	}
 	// if we aren't able to calculate our pose from vision, return a null optional
 	return std::nullopt;
 }
