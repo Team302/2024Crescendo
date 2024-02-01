@@ -19,6 +19,7 @@
 
 #include "configs/RobotElementNames.h"
 #include "hw/interfaces/IDragonMotorController.h"
+#include "hw/DistanceAngleCalcStruc.h"
 
 #include "ctre/phoenix/motorcontrol/RemoteSensorSource.h" // need to remove dependency on ctre
 #include "rev/CANSparkFlex.h"
@@ -39,9 +40,7 @@ public:
                     rev::SparkRelativeEncoder::Type feedbackType,
                     rev::SparkLimitSwitch::Type forwardType,
                     rev::SparkLimitSwitch::Type reverseType,
-                    double gearRatio,
-                    double countsPerDegree,
-                    double countsPerInch);
+                    const DistanceAngleCalcStruc &calcStruc);
     virtual ~DragonSparkFlex() = default;
 
     // Getters
@@ -67,7 +66,7 @@ public:
     void SetSmartCurrentLimiting(int limit);
     void SetSecondaryCurrentLimiting(int limit, int duration);
 
-    double GetGearRatio() const override { return m_gearRatio; }
+    double GetGearRatio() const override { return 1.0; }
 
     // dummy methods below
     // std::shared_ptr<frc::MotorController> GetSpeedController() override;
@@ -97,13 +96,11 @@ private:
     rev::SparkLimitSwitch::Type m_forwardType;
     rev::SparkLimitSwitch::Type m_reverseType;
     double m_outputRotationOffset;
-    double m_gearRatio;
-    double m_countsPerDegree;
-    double m_countsPerInch;
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
     rev::SparkRelativeEncoder m_encoder;
     rev::SparkPIDController m_pidController;
+    DistanceAngleCalcStruc m_calcStruc;
 
     rev::CANSparkFlex *GetSparkFlex();
 };

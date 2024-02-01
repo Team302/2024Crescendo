@@ -42,7 +42,7 @@ void ClimberManager_gen::Create()
 	leftClimberCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	leftClimberCalcStruct.countsPerInch = 0 ;
 	leftClimberCalcStruct.countsPerDegree = 0 ;;
-	leftClimber = new DragonSparkMax ( 16,RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1);
+	leftClimber = new DragonSparkMax ( 16,RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,leftClimberCalcStruct);
 	m_motorMap[leftClimber->GetType()] = new BaseMechMotor ( m_ntName,
 	    *leftClimber,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -56,7 +56,7 @@ void ClimberManager_gen::Create()
 	rightClimberCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	rightClimberCalcStruct.countsPerInch = 0 ;
 	rightClimberCalcStruct.countsPerDegree = 0 ;;
-	rightClimber = new DragonSparkMax ( 15,RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1 );
+	rightClimber = new DragonSparkMax ( 15,RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,rightClimberCalcStruct);
 	m_motorMap[rightClimber->GetType()] = new BaseMechMotor ( m_ntName,
 	    *rightClimber,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,

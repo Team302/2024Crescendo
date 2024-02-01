@@ -140,7 +140,7 @@ void Thing1Mech_gen::Create()
 	Neo550CalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	Neo550CalcStruct.countsPerInch = 0 ;
 	Neo550CalcStruct.countsPerDegree = 0 ;;
-	Neo550 = new DragonSparkMax ( 4,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_NEO550,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1 );
+	Neo550 = new DragonSparkMax ( 4,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_NEO550,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,Neo550CalcStruct );
 	m_motorMap[Neo550->GetType()] = new BaseMechMotor ( m_ntName,
 	    *Neo550,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -154,7 +154,7 @@ void Thing1Mech_gen::Create()
 	VortexCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	VortexCalcStruct.countsPerInch = 0 ;
 	VortexCalcStruct.countsPerDegree = 0 ;;
-	Vortex = new DragonSparkFlex ( 5,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1 );
+	Vortex = new DragonSparkFlex ( 5,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,VortexCalcStruct);
 	m_motorMap[Vortex->GetType()] = new BaseMechMotor ( m_ntName,
 	    *Vortex,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,

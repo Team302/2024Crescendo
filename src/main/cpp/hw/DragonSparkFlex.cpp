@@ -26,23 +26,19 @@ DragonSparkFlex::DragonSparkFlex(int id,
                                  rev::SparkRelativeEncoder::Type feedbackType,
                                  rev::SparkLimitSwitch::Type forwardType,
                                  rev::SparkLimitSwitch::Type reverseType,
-                                 double gearRatio,
-                                 double countsPerDegree,
-                                 double countsPerInch) : IDragonMotorController(),
-                                                         m_id(id),
-                                                         m_spark(new CANSparkFlex(id, motorType)),
-                                                         m_outputRotationOffset(0.0),
-                                                         m_gearRatio(gearRatio),
-                                                         m_deviceType(deviceType),
-                                                         m_feedbackType(feedbackType),
-                                                         m_forwardType(forwardType),
-                                                         m_reverseType(reverseType),
-                                                         m_encoder(m_spark->GetEncoder(m_feedbackType)),
-                                                         m_pidController(m_spark->GetPIDController()),
-                                                         m_forwardLimitSwitch(m_spark->GetForwardLimitSwitch(m_forwardType)),
-                                                         m_reverseLimitSwitch(m_spark->GetReverseLimitSwitch(m_reverseType)),
-                                                         m_countsPerDegree(countsPerDegree),
-                                                         m_countsPerInch(countsPerInch)
+                                 const DistanceAngleCalcStruc &calcStruc) : IDragonMotorController(),
+                                                                            m_id(id),
+                                                                            m_spark(new CANSparkFlex(id, motorType)),
+                                                                            m_outputRotationOffset(0.0),
+                                                                            m_deviceType(deviceType),
+                                                                            m_feedbackType(feedbackType),
+                                                                            m_forwardType(forwardType),
+                                                                            m_reverseType(reverseType),
+                                                                            m_encoder(m_spark->GetEncoder(m_feedbackType)),
+                                                                            m_pidController(m_spark->GetPIDController()),
+                                                                            m_forwardLimitSwitch(m_spark->GetForwardLimitSwitch(m_forwardType)),
+                                                                            m_reverseLimitSwitch(m_spark->GetReverseLimitSwitch(m_reverseType)),
+                                                                            m_calcStruc(calcStruc)
 {
     m_spark->RestoreFactoryDefaults(true);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
@@ -89,14 +85,16 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
         break;
     case ControlModes::POSITION_INCH:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
-        m_encoder.SetPositionConversionFactor(m_countsPerInch);
+        m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerInch);
         break;
     case ControlModes::POSITION_DEGREES:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
-        m_encoder.SetPositionConversionFactor(m_countsPerDegree);
+        m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerDegree);
         break;
     case ControlModes::VELOCITY_RPS:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kVelocity, slot);
+        m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerRev);
+
         break;
 
     default:
@@ -149,7 +147,7 @@ void DragonSparkFlex::Invert(bool inverted)
 
 double DragonSparkFlex::GetRotationsWithGearNoOffset() const
 {
-    return m_encoder.GetPosition() * m_gearRatio;
+    return m_encoder.GetPosition() * m_calcStruc.gearRatio;
 }
 
 void DragonSparkFlex::InvertEncoder(bool inverted)
@@ -223,11 +221,11 @@ void DragonSparkFlex::SetSelectedSensorPosition(
 
 double DragonSparkFlex::GetCountsPerInch() const
 {
-    return m_countsPerInch;
+    return m_calcStruc.countsPerInch;
 }
 double DragonSparkFlex::GetCountsPerDegree() const
 {
-    return m_countsPerDegree;
+    return m_calcStruc.countsPerDegree;
 }
 
 double DragonSparkFlex::GetCounts()
