@@ -162,7 +162,7 @@ void noteManager_gen::Create()
 	launcherAngleCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	launcherAngleCalcStruct.countsPerInch = 0 ;
 	launcherAngleCalcStruct.countsPerDegree = 0 ;;
-	launcherAngle = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushed,rev::SparkRelativeEncoder::Type::kNoSensor,1 );
+	launcherAngle = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushed,rev::SparkRelativeEncoder::Type::kNoSensor, rev::SparkLimitSwitch::Type::kNormallyOpen, rev::SparkLimitSwitch::Type::kNormallyOpen,1,1,1 );
 	m_motorMap[launcherAngle->GetType()] = new BaseMechMotor ( m_ntName,
 	    *launcherAngle,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
