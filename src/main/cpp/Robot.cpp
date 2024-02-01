@@ -196,7 +196,6 @@ void Robot::TeleopInit()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("reset chassis movement"), string("arrived"));
 
         m_chassis->Drive();
-        dynamic_cast<VisionDrive *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE))->setInAutonMode(false);
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("drive"), string("arrived"));
         **/
     }

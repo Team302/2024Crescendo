@@ -36,7 +36,7 @@ public:
         TRAJECTORY_DRIVE_PLANNER,
         HOLD_DRIVE,
         STOP_DRIVE,
-        VISION_DRIVE
+        AUTO_BALANCE
     };
 
     enum RELATIVE_POSITION
