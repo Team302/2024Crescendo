@@ -149,7 +149,15 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {"NOTE_MANAGER_BACKUP_MANUAL_PLACE", RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_BACKUP_MANUAL_PLACE},
         {"MAX_STATE_NOTE_MANAGER", RobotElementNames::STATE_NOTE_MANAGER_USAGE::MAX_STATE_NOTE_MANAGER}};
 
-    static std::map<std::string, RobotElementNames::STATE_NOTE_MANAGER_USAGE> xmlStringToChassisOptionEnumMap{
+    static std::map<std::string, ChassisOptionEnums::AutonChassisOptions> xmlStringToChassisOptionEnumMap{
+        {"VISIONDRIVENOTE", ChassisOptionEnums::AutonChassisOptions::VISIONDRIVENOTE},
+        {"VISIONDRIVESPEAKER", ChassisOptionEnums::AutonChassisOptions::VISIONDRIVESPEAKER},
+        {"NONE", ChassisOptionEnums::AutonChassisOptions::NONE},
+    };
+    static std::map<std::string, ChassisOptionEnums::AutonAvoidOptions> xmlStringToAvoidOptionEnumMap{
+        {"PODIUM", ChassisOptionEnums::AutonAvoidOptions::PODIUM},
+        {"ROBOTCOLLISION", ChassisOptionEnums::AutonAvoidOptions::ROBOTCOLLISION},
+        {"NONE", ChassisOptionEnums::AutonAvoidOptions::NONE},
 
     };
 
