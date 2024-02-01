@@ -48,7 +48,7 @@ public:
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
 	bool isClimbMode();
-	bool isLauncherMode();
+	bool IsEnabled();
 
 	// todo not sure what to do with these
 	/*

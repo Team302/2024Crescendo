@@ -88,7 +88,7 @@ bool ClimberManager::isClimbMode()
 {
 	return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn;
 }
-bool noteManager::IsEnabled()
+bool ClimberManager::IsEnabled()
 {
 	return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled;
 }
