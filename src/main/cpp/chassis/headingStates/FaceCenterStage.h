@@ -14,25 +14,13 @@
 //====================================================================================================================================================
 
 #pragma once
-#include <numbers>
-
-#include "units/angle.h"
-
-// Team302 Includes
-<<<<<<<< HEAD:src/main/cpp/chassis/headingStates/FaceAprilTag.h
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
-#include "DragonVision/DragonVision.h"
-
-class FaceAprilTag : public ISwerveDriveOrientation
-========
-#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <chassis/ChassisOptionEnums.h>
+#include "chassis/ChassisMovement.h"
 
 class FaceCenterStage : public ISwerveDriveOrientation
->>>>>>>> main:src/main/cpp/chassis/headingStates/FaceCenterStage.h
 {
 public:
     FaceCenterStage();
-    ~FaceCenterStage();
+    ~FaceCenterStage() = default;
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 };

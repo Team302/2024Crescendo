@@ -15,22 +15,13 @@
 
 #pragma once
 
-#include "units/angle.h"
-
 // Team302 Includes
-<<<<<<<< HEAD:src/main/cpp/chassis/headingStates/FaceGoalHeading.h
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
-#include "chassis/DragonTargetFinder.h"
-#include "DragonVision/DragonVision.h"
-========
-#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <chassis/ChassisOptionEnums.h>
->>>>>>>> main:src/main/cpp/chassis/headingStates/FaceAmp.h
 
 class FaceAmp : public ISwerveDriveOrientation
 {
 public:
     FaceAmp();
-    ~FaceAmp();
+    ~FaceAmp() = default;
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 };

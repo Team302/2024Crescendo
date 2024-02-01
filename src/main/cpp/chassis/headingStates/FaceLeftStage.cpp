@@ -14,13 +14,8 @@
 //====================================================================================================================================================
 
 // Team302 Includes
-#include <chassis/ChassisOptionEnums.h>
-#include <chassis/swerve/headingStates/FaceLeftStage.h>
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-
-// Standish Quick Fix
-#include <frc/DriverStation.h>
+#include "chassis/ChassisOptionEnums.h"
+#include "chassis/headingStates/FaceLeftStage.h"
 
 FaceLeftStage::FaceLeftStage() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE)
 {

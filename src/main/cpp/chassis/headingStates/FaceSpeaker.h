@@ -15,16 +15,14 @@
 
 #pragma once
 
-#include "units/angle.h"
-
 // Team302 Includes
-#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <chassis/ChassisOptionEnums.h>
+#include "chassis/headingStates/ISwerveDriveOrientation.h"
+#include "chassis/ChassisMovement.h"
 
 class FaceSpeaker : public ISwerveDriveOrientation
 {
 public:
     FaceSpeaker();
-    ~FaceSpeaker();
+    ~FaceSpeaker() = delete;
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 };

@@ -14,17 +14,8 @@
 //====================================================================================================================================================
 
 // Team302 Includes
-<<<<<<<< HEAD:src/main/cpp/chassis/headingStates/FaceGoalHeading.cpp
-#include "chassis/headingStates/FaceGoalHeading.h"
-========
-#include <chassis/ChassisOptionEnums.h>
-#include <chassis/swerve/headingStates/FaceCenterStage.h>
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
->>>>>>>> main:src/main/cpp/chassis/headingStates/FaceCenterStage.cpp
-
-// Standish Quick Fix
-#include <frc/DriverStation.h>
+#include "chassis/ChassisOptionEnums.h"
+#include "chassis/headingStates/FaceCenterStage.h"
 
 FaceCenterStage::FaceCenterStage() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE)
 {

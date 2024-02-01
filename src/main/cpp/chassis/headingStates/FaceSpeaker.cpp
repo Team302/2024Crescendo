@@ -14,13 +14,8 @@
 //====================================================================================================================================================
 
 // Team302 Includes
-#include <chassis/ChassisOptionEnums.h>
-#include <chassis/swerve/headingStates/FaceSpeaker.h>
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-
-// Standish Quick Fix
-#include <frc/DriverStation.h>
+#include "chassis/ChassisMovement.h"
+#include "chassis/headingStates/FaceSpeaker.h"
 
 FaceSpeaker::FaceSpeaker() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_SPEAKER)
 {
