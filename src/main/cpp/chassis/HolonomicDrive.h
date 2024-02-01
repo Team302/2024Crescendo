@@ -42,13 +42,11 @@ private:
     void TurnForward(ChassisMovement &moveInfo);
     void TurnBackward(ChassisMovement &moveInfo);
     void SlowMode(ChassisMovement &moveInfo);
-    void NonVisionDrive(ChassisMovement &moveInfo);
     void CheckTipping(bool tippingSelected, ChassisMovement &moveInfo);
 
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
     const double m_slowModeMultiplier = 0.5;
-    bool m_inVisionDrive = false;
     bool m_CheckTipping = false;
     bool m_checkTippingLatch = false;
 };

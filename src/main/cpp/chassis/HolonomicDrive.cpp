@@ -26,7 +26,6 @@
 #include "chassis/ChassisMovement.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/HolonomicDrive.h"
-#include "chassis/driveStates/VisionDrive.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 #include "State.h"
@@ -100,7 +99,7 @@ void HolonomicDrive::Run()
             }
             else
             {
-                if ((abs(forward) > 0.05 || abs(strafe) > 0.05 || abs(rotate) > 0.05) && !m_inVisionDrive)
+                if ((abs(forward) > 0.05 || abs(strafe) > 0.05 || abs(rotate) > 0.05))
                 {
                     moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
                     m_previousDriveState = moveInfo.driveOption;
@@ -146,19 +145,15 @@ void HolonomicDrive::ResetPose()
 }
 void HolonomicDrive::AlignGamePiece(ChassisMovement &moveInfo)
 {
-    m_inVisionDrive = true;
     moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::VISION_DRIVE;
 }
 void HolonomicDrive::HoldPosition(ChassisMovement &moveInfo)
 {
-    NonVisionDrive(moveInfo);
     moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
     m_previousDriveState = moveInfo.driveOption;
 }
 void HolonomicDrive::TurnForward(ChassisMovement &moveInfo)
 {
-    NonVisionDrive(moveInfo);
     moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
     {
@@ -171,7 +166,6 @@ void HolonomicDrive::TurnForward(ChassisMovement &moveInfo)
 }
 void HolonomicDrive::TurnBackward(ChassisMovement &moveInfo)
 {
-    NonVisionDrive(moveInfo);
     moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
 
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
@@ -185,18 +179,9 @@ void HolonomicDrive::TurnBackward(ChassisMovement &moveInfo)
 }
 void HolonomicDrive::SlowMode(ChassisMovement &moveInfo)
 {
-    NonVisionDrive(moveInfo);
     moveInfo.chassisSpeeds.vx *= m_slowModeMultiplier;
     moveInfo.chassisSpeeds.vy *= m_slowModeMultiplier;
     moveInfo.chassisSpeeds.omega *= m_slowModeMultiplier;
-}
-
-void HolonomicDrive::NonVisionDrive(ChassisMovement &moveInfo)
-{
-    // no longer in vision drive, set boolean and reset offsets in VisionDrive
-    m_inVisionDrive = false;
-    auto visionDrive = dynamic_cast<VisionDrive *>(m_swerve->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE));
-    visionDrive->ResetVisionDrive();
 }
 
 void HolonomicDrive::CheckTipping(bool isSelected, ChassisMovement &moveInfo)

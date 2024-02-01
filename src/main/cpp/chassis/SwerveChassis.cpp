@@ -45,7 +45,6 @@
 #include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/TrajectoryDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
-#include "chassis/driveStates/VisionDrive.h"
 
 #include "chassis/headingStates/FaceGoalHeading.h"
 #include "chassis/headingStates/FaceGamePiece.h"
@@ -231,7 +230,6 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
 {
     auto state = GetSpecifiedDriveState(moveInfo.driveOption);
 
-    auto isVisionDrive = moveInfo.driveOption == ChassisOptionEnums::VISION_DRIVE;
     auto isHoldDrive = moveInfo.driveOption == ChassisOptionEnums::HOLD_DRIVE;
     auto hasTrajectory = moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE || moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER;
 
