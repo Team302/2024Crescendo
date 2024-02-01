@@ -27,7 +27,6 @@
 #include "auton/PrimitiveEnums.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "DragonVision/DragonVision.h"
-#include "DragonVision/DragonCamera.h"
 #include "chassis/IChassis.h"
 #include "auton/ZoneParams.h"
 // @ADDMECH include for your mechanism
