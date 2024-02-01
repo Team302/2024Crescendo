@@ -10,14 +10,14 @@ $$_GEN_NOTICE_$$
 #include "mechanisms/base/BaseMechSolenoidState.h"
 #include "mechanisms/controllers/ControlData.h"
 #include "configs/RobotElementNames.h"
-#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$Gen.h"
 
 class $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen : public State
 {
 public:
     $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen(std::string stateName,
                                               int stateId,
-                                              $$_MECHANISM_INSTANCE_NAME_$$_gen *mechanism);
+                                              $$_MECHANISM_INSTANCE_NAME_$$Gen *mechanism);
     $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen() = delete;
     ~$$_MECHANISM_INSTANCE_NAME_$$BaseStateGen() = default;
 
@@ -80,7 +80,7 @@ public:
     virtual bool AtTargetSolenoidStates() const;
     virtual bool AtTargetServoStates() const;
 
-    $$_MECHANISM_INSTANCE_NAME_$$_gen *Get$$_MECHANISM_INSTANCE_NAME_$$() { return m_$$_MECHANISM_INSTANCE_NAME_$$; }
+    $$_MECHANISM_INSTANCE_NAME_$$Gen *Get$$_MECHANISM_INSTANCE_NAME_$$() { return m_$$_MECHANISM_INSTANCE_NAME_$$; }
 
 protected:
     BaseMechMotorState *GetMotorMechState(RobotElementNames::MOTOR_CONTROLLER_USAGE usage) const;
@@ -88,7 +88,7 @@ protected:
     BaseMechServoState *GetServoMechState(RobotElementNames::SERVO_USAGE usage) const;
 
 private:
-    $$_MECHANISM_INSTANCE_NAME_$$_gen *m_$$_MECHANISM_INSTANCE_NAME_$$;
+    $$_MECHANISM_INSTANCE_NAME_$$Gen *m_$$_MECHANISM_INSTANCE_NAME_$$;
     std::unordered_map<RobotElementNames::MOTOR_CONTROLLER_USAGE, BaseMechMotorState *> m_motorMap;
     std::unordered_map<RobotElementNames::SOLENOID_USAGE, BaseMechSolenoidState *> m_solenoidMap;
     std::unordered_map<RobotElementNames::SERVO_USAGE, BaseMechServoState *> m_servoMap;

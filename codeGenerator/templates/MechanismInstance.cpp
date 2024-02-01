@@ -8,7 +8,7 @@ $$_GEN_NOTICE_$$
 
 // Team 302 includes
 #include "PeriodicLooper.h"
-#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$Gen.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/decoratormods/$$_MECHANISM_INSTANCE_NAME_$$.h"
 
 $$_STATE_CLASSES_INCLUDES_$$
@@ -22,8 +22,8 @@ using std::string;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-$$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$_gen *base) : $$_MECHANISM_INSTANCE_NAME_$$_gen(),
-                                                                                                        m_$$_MECHANISM_INSTANCE_NAME_$$(base)
+$$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$Gen *base) : $$_MECHANISM_INSTANCE_NAME_$$Gen(),
+                                                                                                       m_$$_MECHANISM_INSTANCE_NAME_$$(base)
 {
 }
 

@@ -8,16 +8,16 @@ $$_GEN_NOTICE_$$
 #include "mechanisms/base/BaseMechMotorState.h"
 #include "mechanisms/base/BaseMechServoState.h"
 #include "mechanisms/base/BaseMechSolenoidState.h"
-#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_Base_StateGen.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$BaseStateGen.h"
 #include "mechanisms/controllers/ControlData.h"
-#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$Gen.h"
 
 class $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen : public $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen
 {
 public:
     $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen(std::string stateName,
                                                    int stateId,
-                                                   $$_MECHANISM_INSTANCE_NAME_$$_gen *mech);
+                                                   $$_MECHANISM_INSTANCE_NAME_$$Gen *mech);
     $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen() = delete;
     ~$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen() = default;
 

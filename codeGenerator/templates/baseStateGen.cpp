@@ -14,7 +14,7 @@ $$_GEN_NOTICE_$$
 #include "mechanisms/base/BaseMech.h"
 #include "utils/logging/Logger.h"
 #include "teleopcontrol/TeleopControl.h"
-#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_Base_StateGen.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$BaseStateGen.h"
 
 // Third Party Includes
 
@@ -24,11 +24,11 @@ using namespace std;
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
 $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::$$_MECHANISM_INSTANCE_NAME_$$BaseStateGen(string stateName,
                                                                                      int stateId,
-                                                                                     $$_MECHANISM_INSTANCE_NAME_$$_gen *mech) : State(stateName, stateId),
-                                                                                                                                m_$$_MECHANISM_INSTANCE_NAME_$$(mech),
-                                                                                                                                m_motorMap(),
-                                                                                                                                m_solenoidMap(),
-                                                                                                                                m_servoMap()
+                                                                                     $$_MECHANISM_INSTANCE_NAME_$$Gen *mech) : State(stateName, stateId),
+                                                                                                                               m_$$_MECHANISM_INSTANCE_NAME_$$(mech),
+                                                                                                                               m_motorMap(),
+                                                                                                                               m_solenoidMap(),
+                                                                                                                               m_servoMap()
 {
     auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)

@@ -7,8 +7,8 @@ $$_GEN_NOTICE_$$
 // FRC includes
 
 // Team 302 includes
-#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
-#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_AllStates_StateGen.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$Gen.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen.h"
 #include "mechanisms/base/BaseMech.h"
 #include "utils/logging/Logger.h"
 
@@ -20,7 +20,7 @@ using std::string;
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
 $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen::$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen(string stateName,
                                                                                                int stateId,
-                                                                                               $$_MECHANISM_INSTANCE_NAME_$$_gen *mech) : $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen(stateName, stateId, mech)
+                                                                                               $$_MECHANISM_INSTANCE_NAME_$$Gen *mech) : $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen(stateName, stateId, mech)
 {
 }
 
