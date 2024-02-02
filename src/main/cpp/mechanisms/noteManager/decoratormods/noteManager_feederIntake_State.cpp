@@ -71,9 +71,9 @@ bool noteManagerfeederIntakeState::IsTransitionCondition ( bool considerGamepadT
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	auto currentstate = m_mechanism->GetCurrentState();
-	bool noSensorsDetected = m_mechanism->launcherSensor->Get() == false && m_mechanism->placerInSensor->Get() == false && m_mechanism->placerMidSensor->Get() == false && m_mechanism->placerOutSensor->Get() == false && m_mechanism->backIntakeSensor->Get() == false && m_mechanism->frontIntakeSensor->Get() == false;
+	bool noSensorsDetected = m_mechanism->launcherSensor->Get() == false && m_mechanism->placerInSensor->Get() == false && m_mechanism->placerMidSensor->Get() == false && m_mechanism->placerOutSensor->Get() == false && m_mechanism->backIntakeSensor->Get() == false && m_mechanism->frontIntakeSensor->Get() == false && m_mechanism->feederSensor->Get() == false;
 
-	if((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Launcher) || (noSensorsDetected && currentstate == m_genState->GetnoteManager()->STATE_PLACER_TO_LAUNCHER_FRONT))
+	if((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->isLauncherMode()) || (noSensorsDetected && currentstate == m_genState->GetnoteManager()->STATE_PLACER_TO_LAUNCHER_FRONT))
 	{
 		transition = true;
 	}
