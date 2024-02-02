@@ -774,7 +774,7 @@
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
+                    <value>true</value>
                   </enableSupplyCurrentLimit>
                   <supplyCurrentLimit>
                     <unitsFamily>current</unitsFamily>
@@ -1443,28 +1443,28 @@
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
+                    <value>true</value>
                   </enableSupplyCurrentLimit>
                   <supplyCurrentLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>A</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>30</value>
                   </supplyCurrentLimit>
                   <supplyCurrentThreshold>
                     <unitsFamily>current</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>A</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>40</value>
                   </supplyCurrentThreshold>
                   <supplyTimeThreshold>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.3</value>
                   </supplyTimeThreshold>
                 </theCurrentLimits>
                 <PIDFs />
@@ -1716,28 +1716,28 @@
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
+                    <value>true</value>
                   </enableSupplyCurrentLimit>
                   <supplyCurrentLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>A</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>30</value>
                   </supplyCurrentLimit>
                   <supplyCurrentThreshold>
                     <unitsFamily>current</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>A</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>40</value>
                   </supplyCurrentThreshold>
                   <supplyTimeThreshold>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.3</value>
                   </supplyTimeThreshold>
                 </theCurrentLimits>
                 <PIDFs />
@@ -6186,7 +6186,7 @@
                     <name>intParameter</name>
                     <__units__ />
                     <type>Int32</type>
-                    <value>0</value>
+                    <value>1</value>
                   </countsPerRev>
                   <gearRatio>
                     <unitsFamily>none</unitsFamily>
@@ -6207,14 +6207,14 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1</value>
                   </countsPerDegree>
                 </theDistanceAngleCalcInfo>
                 <voltageRamping>
@@ -6223,21 +6223,21 @@
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.2</value>
                   </openLoopRampTime>
                   <closedLoopRampTime>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.2</value>
                   </closedLoopRampTime>
                   <enableClosedLoop>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
+                    <value>true</value>
                   </enableClosedLoop>
                 </voltageRamping>
                 <motorType>NEOMOTOR</motorType>
@@ -6791,6 +6791,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6802,6 +6803,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6834,7 +6836,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>15</value>
+                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6846,7 +6848,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>15</value>
+                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6877,8 +6879,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__>m</__units__>
+                      <__units__>in</__units__>
                       <type>Double</type>
+                      <value>28</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6888,8 +6891,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__>m</__units__>
+                      <__units__>in</__units__>
                       <type>Double</type>
+                      <value>28</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6915,6 +6919,7 @@
                       <name>Target</name>
                       <__units__>m</__units__>
                       <type>Double</type>
+                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6926,6 +6931,7 @@
                       <name>Target</name>
                       <__units__>m</__units__>
                       <type>Double</type>
+                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
