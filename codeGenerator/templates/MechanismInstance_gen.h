@@ -16,9 +16,11 @@ $$_GEN_NOTICE_$$
 #include "mechanisms/base/StateMgr.h"
 
 #include "configs/RobotElementNames.h"
-#include "mechanisms/$$_MECHANISM_NAME_$$/generated/$$_MECHANISM_NAME_$$.h"
+#include "configs/RobotConfigMgr.h"
 
-class $$_MECHANISM_INSTANCE_NAME_$$_gen : public $$_MECHANISM_NAME_$$ _STATE_MANAGER_START_, public StateMgr _STATE_MANAGER_END_
+$$_INCLUDE_FILES_$$
+
+class $$_MECHANISM_INSTANCE_NAME_$$Gen : public BaseMech _STATE_MANAGER_START_, public StateMgr _STATE_MANAGER_END_
 {
 public:
     enum STATE_NAMES
@@ -26,12 +28,12 @@ public:
         $$_STATE_NAMES_$$
     };
 
-    $$_MECHANISM_INSTANCE_NAME_$$_gen();
+    $$_MECHANISM_INSTANCE_NAME_$$Gen();
 
     void Create();
     void Initialize(RobotConfigMgr::RobotIdentifier robotFullName);
 
-    void SetTheCurrentState(RobotElementNames::STATE_$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$_USAGE state, bool run);
+    void SetTheCurrentState(STATE_NAMES state, bool run);
 
     _STATE_MANAGER_START_
     /// @brief Set the control constants (e.g. PIDF values).
@@ -88,8 +90,26 @@ public:
     virtual std::vector<RobotElementNames::SERVO_USAGE> GetServoUsages() const;
     virtual BaseMechServo *GetServoMech(RobotElementNames::SERVO_USAGE usage) const;
 
+    void Cyclic();
+
+    $$_MECHANISM_ELEMENTS_GETTERS_$$
+
+protected:
+    std::string m_ntName;
+    std::string m_tuningIsEnabledStr;
+    bool m_tuning = false;
+    std::shared_ptr<nt::NetworkTable> m_table;
+
 private:
     std::unordered_map<RobotElementNames::MOTOR_CONTROLLER_USAGE, BaseMechMotor *> m_motorMap;
     std::unordered_map<RobotElementNames::SOLENOID_USAGE, BaseMechSolenoid *> m_solenoidMap;
     std::unordered_map<RobotElementNames::SERVO_USAGE, BaseMechServo *> m_servoMap;
+
+    $$_MECHANISM_ELEMENTS_$$
+
+    void CheckForTuningEnabled();
+    void ReadTuningParamsFromNT();
+    void PushTuningParamsToNT();
+
+    $$_TUNABLE_PARAMETERS_$$
 };
