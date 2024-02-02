@@ -15,17 +15,19 @@
 #pragma once
 
 #include "frc/geometry/Pose3d.h"
-#include "frc/geometry/Transform3d.h"
+#include "frc/geometry/Translation3d.h"
+#include "wpi/array.h"
 #include "units/time.h"
 
 struct VisionPose
 {
-    frc::Pose3d estimated_Pose = frc::Pose3d{};
-    units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0);
+    frc::Pose3d estimatedPose = frc::Pose3d{};                               // empty pose3d if we don't give one out
+    units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0); // negative timestamp for no timestamp
+    wpi::array<double, 3> visionMeasurementStdDevs = {0.1, 0.1, 0.1};        // default std devs from WPI docs
 };
 
 struct VisionData
 {
-    frc::Transform3d deltaToTarget = frc::Transform3d{};
-    int tagId = -1;
+    frc::Transform3d deltaToTarget = frc::Transform3d{}; // from robot center
+    int tagId = -1; //if we don't have april tag data, use null id
 };
