@@ -15,7 +15,7 @@
 //====================================================================================================================================================
 
 #include "configs/RobotConfig.h"
-#include "chassis/swerve/SwerveChassis.h"
+#include "chassis/SwerveChassis.h"
 
 RobotConfig::RobotConfig()
 {

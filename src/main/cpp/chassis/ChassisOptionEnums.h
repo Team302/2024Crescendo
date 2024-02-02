@@ -37,7 +37,6 @@ public:
         FIELD_DRIVE,
         TRAJECTORY_DRIVE,
         TRAJECTORY_DRIVE_PLANNER,
-        POLAR_DRIVE,
         HOLD_DRIVE,
         STOP_DRIVE,
         AUTO_BALANCE

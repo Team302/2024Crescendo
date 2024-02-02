@@ -24,8 +24,8 @@
 #include <auton/drivePrimitives/ResetPosition.h>
 #include <auton/PrimitiveParams.h>
 #include <auton/drivePrimitives/IPrimitive.h>
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "utils/logging/Logger.h"
 #include <DragonVision/DragonVision.h>
 
@@ -34,7 +34,7 @@ using namespace frc;
 
 ResetPosition::ResetPosition() : m_chassis(nullptr)
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 
