@@ -18,7 +18,6 @@
 #include "auton/PrimitiveParams.h"
 #include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
-#include "DragonVision/DragonCamera.h"
 
 // @ADDMECH include for your mechanism state mgr
 

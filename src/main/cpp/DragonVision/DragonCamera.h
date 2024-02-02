@@ -94,7 +94,7 @@ public:
     virtual units::length::inch_t GetEstimatedTargetYDistance_RelToRobotCoords() const = 0;
     virtual units::length::inch_t GetEstimatedTargetZDistance_RelToRobotCoords() const = 0;
 
-    virtual VisionData GetDataToNearestApriltag() const = 0;
+    virtual std::optional<VisionData> GetDataToNearestApriltag() const = 0;
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }

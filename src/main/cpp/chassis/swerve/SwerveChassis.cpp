@@ -41,21 +41,23 @@
 #include "chassis/swerve/SwerveChassis.h"
 
 #include "chassis/swerve/driveStates/FieldDrive.h"
-#include "chassis/swerve/driveStates/VisionDrive.h"
+
 #include "chassis/swerve/driveStates/HoldDrive.h"
 #include "chassis/swerve/driveStates/RobotDrive.h"
 #include "chassis/swerve/driveStates/StopDrive.h"
 #include "chassis/swerve/driveStates/TrajectoryDrive.h"
 #include "chassis/swerve/driveStates/TrajectoryDrivePathPlanner.h"
-#include "chassis/swerve/driveStates/VisionDrive.h"
 
-#include "chassis/swerve/headingStates/FaceGoalHeading.h"
 #include "chassis/swerve/headingStates/FaceGamePiece.h"
-#include "chassis/swerve/headingStates/FaceAprilTag.h"
 #include "chassis/swerve/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/swerve/headingStates/MaintainHeading.h"
 #include "chassis/swerve/headingStates/SpecifiedHeading.h"
 #include "chassis/swerve/headingStates/IgnoreHeading.h"
+#include "chassis/swerve/headingStates/FaceCenterStage.h"
+#include "chassis/swerve/headingStates/FaceRightStage.h"
+#include "chassis/swerve/headingStates/FaceLeftStage.h"
+#include "chassis/swerve/headingStates/FaceSpeaker.h"
+#include "chassis/swerve/headingStates/FaceAmp.h"
 
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
@@ -151,14 +153,16 @@ void SwerveChassis::InitStates()
     m_driveStateMap[ChassisOptionEnums::STOP_DRIVE] = new StopDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::TRAJECTORY_DRIVE] = new TrajectoryDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER] = new TrajectoryDrivePathPlanner(m_robotDrive);
-    m_driveStateMap[ChassisOptionEnums::VISION_DRIVE] = new VisionDrive(m_robotDrive);
 
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] = new SpecifiedHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE] = new FaceGamePiece();
-    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG] = new FaceAprilTag();
-    m_headingStateMap[ChassisOptionEnums::HeadingOption::TOWARD_GOAL] = new FaceGoalHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::IGNORE] = new IgnoreHeading();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_AMP] = new FaceAmp();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_SPEAKER] = new FaceSpeaker();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE] = new FaceCenterStage();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE] = new FaceLeftStage();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE] = new FaceRightStage();
 }
 /// @brief Align all of the swerve modules to point forward
 void SwerveChassis::ZeroAlignSwerveModules()
@@ -225,50 +229,9 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
 {
     ISwerveDriveState *state = nullptr;
 
-    auto isVisionDrive = moveInfo.driveOption == ChassisOptionEnums::VISION_DRIVE;
     auto isAutoBlance = moveInfo.driveOption == ChassisOptionEnums::AUTO_BALANCE;
     auto isHoldDrive = moveInfo.driveOption == ChassisOptionEnums::HOLD_DRIVE;
     auto hasTrajectory = moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE || moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER;
-
-    if (!hasTrajectory && !isVisionDrive && !isAutoBlance && !isHoldDrive &&
-        (units::math::abs(moveInfo.chassisSpeeds.vx) < m_velocityDeadband) &&
-        (units::math::abs(moveInfo.chassisSpeeds.vy) < m_velocityDeadband) &&
-        (units::math::abs(moveInfo.chassisSpeeds.omega) < m_angularDeadband))
-    {
-        if (moveInfo.noMovementOption == ChassisOptionEnums::NoMovementOption::HOLD_POSITION)
-        {
-            state = m_driveStateMap[ChassisOptionEnums::HOLD_DRIVE];
-        }
-        else
-        {
-            state = m_driveStateMap[ChassisOptionEnums::STOP_DRIVE];
-        }
-    }
-    else
-    {
-        auto itr = m_driveStateMap.find(moveInfo.driveOption);
-        if (itr == m_driveStateMap.end())
-        {
-            return m_robotDrive;
-        }
-        state = itr->second;
-
-        if (m_currentDriveState == nullptr)
-        {
-            m_currentDriveState = m_robotDrive;
-        }
-    }
-
-    if (state != m_currentDriveState)
-    {
-        m_initialized = false;
-    }
-
-    if (!m_initialized)
-    {
-        state->Init(moveInfo);
-        m_initialized = true;
-    }
 
     return state;
 }

@@ -15,45 +15,16 @@
 
 #pragma once
 
-// C++ Libraries
+#include "units/angle.h"
 
-// Team 302 includes
-#include "teleopcontrol/TeleopControl.h"
-#include "State.h"
-#include <chassis/swerve/driveStates/DragonTrajectoryGenerator.h>
-#include <utils/DragonField.h>
-#include <robotstate/IRobotStateChangeSubscriber.h>
-#include "chassis/ChassisOptionEnums.h"
+// Team302 Includes
+#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
+#include <chassis/ChassisOptionEnums.h>
 
-class IChassis;
-class SwerveChassis;
-
-class HolonomicDrive : public State
+class FaceLeftStage : public ISwerveDriveOrientation
 {
 public:
-    HolonomicDrive();
-    ~HolonomicDrive() = default;
-
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
-
-private:
-    std::pair<ChassisOptionEnums::RELATIVE_POSITION, ChassisOptionEnums::RELATIVE_POSITION> GetAutoAlignDestination();
-
-    bool IsAutoAligning();
-
-    IChassis *m_chassis;
-    SwerveChassis *m_swerve;
-    DragonTrajectoryGenerator *m_trajectoryGenerator;
-    ChassisOptionEnums::DriveStateType m_previousDriveState;
-    DragonField *m_field;
-    const double m_slowModeMultiplier = 0.5;
-    const double m_autoAlignAngleTolerance = 5.0;
-    bool m_hasResetPosition = false;
-    bool m_inVisionDrive = false;
-    bool m_CheckTipping = false;
-    bool m_latch = false;
-    bool m_findingFloorGamePiece = false;
+    FaceLeftStage();
+    ~FaceLeftStage();
+    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 };

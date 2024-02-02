@@ -99,7 +99,7 @@ std::optional<VisionPose> DragonLimelight::GetFieldPosition(frc::DriverStation::
     }
 }
 
-VisionPose DragonLimelight::GetRedFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetRedFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
@@ -112,15 +112,15 @@ VisionPose DragonLimelight::GetRedFieldPosition() const
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(redPosition[3]), units::angle::degree_t(redPosition[4]), units::angle::degree_t(redPosition[5])};
 
-        return VisionPose{frc::Pose3d{units::meter_t(redPosition[0]), units::meter_t(redPosition[1]), units::meter_t(redPosition[2]), rotation}, timestamp};
+        return std::make_optional(VisionPose{frc::Pose3d{units::meter_t(redPosition[0]), units::meter_t(redPosition[1]), units::meter_t(redPosition[2]), rotation}, timestamp});
     }
     else
     {
-        return VisionPose{};
+        return std::nullopt;
     }
 }
 
-VisionPose DragonLimelight::GetBlueFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
@@ -131,15 +131,15 @@ VisionPose DragonLimelight::GetBlueFieldPosition() const
         units::time::millisecond_t timestamp = currentTime - units::millisecond_t(position[6] / 1000.0);
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
-        return VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp};
+        return std::make_optional(VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp});
     }
     else
     {
-        return VisionPose{};
+        return std::nullopt;
     }
 }
 
-VisionPose DragonLimelight::GetOriginFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetOriginFieldPosition() const
 {
     if (m_networktable.get() != nullptr)
     {
@@ -152,11 +152,11 @@ VisionPose DragonLimelight::GetOriginFieldPosition() const
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
 
-        return VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp};
+        return std::make_optional(VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp});
     }
     else
     {
-        return VisionPose{};
+        return std::nullopt;
     }
 }
 
@@ -260,7 +260,18 @@ units::angle::degree_t DragonLimelight::GetTargetPitch() const
 
 units::angle::degree_t DragonLimelight::GetTargetPitchRobotFrame() const
 {
-    return units::angle::degree_t(-1.0);
+    units::length::inch_t targetXDistance = EstimateTargetXDistance_RelToRobotCoords();
+
+    if (targetXDistance != units::length::inch_t(0.0))
+    {
+
+        units::length::inch_t targetZDistance = EstimateTargetZDistance_RelToRobotCoords();
+
+        units::angle::degree_t targetPitchToRobot = units::angle::degree_t(atan2(targetZDistance.to<double>(), targetXDistance.to<double>()));
+        return targetPitchToRobot;
+    }
+
+    return units::angle::degree_t(0.0);
 }
 
 double DragonLimelight::GetTargetArea() const
@@ -376,13 +387,12 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 {
     units::length::meter_t mountingHeight = m_cameraPose.Z();
 
-    units::length::inch_t estimatedTargetDistance;
     units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
 
     if (GetAprilTagID() == -1)
     {
         // d=(h2-h1)/tan(a1+a2)
-        estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + GetTargetPitch());
+        units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + GetTargetPitch());
 
         return estimatedTargetDistance;
     }
@@ -398,16 +408,9 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
 
 units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 {
-    units::length::meter_t mountingHeight = m_cameraPose.Z();
-
-    units::length::inch_t estimatedTargetDistance;
-    units::length::inch_t estimatedXDistance;
-    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
-
     if (GetAprilTagID() == -1)
     {
-        estimatedXDistance = EstimateTargetXDistance();
-        estimatedTargetDistance = estimatedXDistance * units::math::tan(m_cameraPose.Rotation().Z() + GetTargetYaw());
+        units::length::inch_t estimatedTargetDistance = EstimateTargetXDistance() * units::math::tan(m_cameraPose.Rotation().Z() + GetTargetYaw());
         return estimatedTargetDistance;
     }
 
@@ -422,12 +425,10 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
 
 units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
 {
-    units::length::inch_t estimatedTargetDistance;
-    units::length::inch_t estimatedTargetZDistance;
     if (GetAprilTagID() == -1)
     {
-        estimatedTargetZDistance = m_cameraPose.Z() - m_noteVerticalOffset;
-        return estimatedTargetDistance;
+        units::length::inch_t estimatedTargetZDistance = m_cameraPose.Z() - m_noteVerticalOffset;
+        return estimatedTargetZDistance;
     }
 
     else
@@ -475,13 +476,18 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
         return units::length::inch_t(-1.0);
 }
 
-VisionData DragonLimelight::GetDataToNearestApriltag()
+std::optional<VisionData> DragonLimelight::GetDataToNearestApriltag()
 {
-    auto tagetpoes = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
+    if (GetAprilTagID() == -1)
+    {
+        return std::nullopt;
+    }
 
-    std::vector<double> vector = tagetpoes.GetEntry(std::array<double, 6>{}).Get();
+    auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
+
+    std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
 
     frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
     auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
-    return VisionData{transform, GetAprilTagID()};
+    return std::make_optional(VisionData{transform, GetAprilTagID()});
 }

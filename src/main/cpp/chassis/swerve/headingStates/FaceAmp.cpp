@@ -13,36 +13,19 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-
 // Team302 Includes
-#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <DragonVision/DragonVision.h>
+#include <chassis/ChassisOptionEnums.h>
+#include <chassis/swerve/headingStates/FaceAmp.h>
+#include "configs/RobotConfig.h"
+#include "configs/RobotConfigMgr.h"
 
-#include <numbers>
+// Standish Quick Fix
+#include <frc/DriverStation.h>
 
-class FaceAprilTag : public ISwerveDriveOrientation
+FaceAmp::FaceAmp() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_AMP)
 {
-public:
-    FaceAprilTag();
-    ~FaceAprilTag() = default;
+}
 
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
-
-private:
-    units::angular_velocity::radians_per_second_t limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularSpeed);
-
-    bool AtTargetAngle(VisionData visionData, units::angle::radian_t *angleError);
-
-    DragonCamera::PIPELINE m_pipelineMode;
-    DragonVision *m_vision;
-
-    // Angular movement settings
-    const double m_minimumOmega_radps = 0.5;
-    const double m_maximumOmega_radps = 1.2;
-    const double m_AngularTolerance_rad = std::numbers::pi * 2.0 / 180.0;
-    const double m_inhibitXspeedAboveAngularError_rad = std::numbers::pi * 5.0 / 180.0;
-    double m_visionKP_Angle = 4.0;
-
-    const units::length::inch_t m_cubeNodeLength = units::length::inch_t(37.0);
-};
+void FaceAmp::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+{
+}

@@ -25,6 +25,7 @@
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
 #include "DragonVision/DragonVision.h"
+#include "DragonVision/DragonAprilTagInfo.h"
 
 DragonPhotonCam::DragonPhotonCam(std::string name,
                                  DragonCamera::PIPELINE initialPipeline,
@@ -44,7 +45,7 @@ bool DragonPhotonCam::HasTarget() const
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
     return result.HasTargets();
 }
-VisionPose DragonPhotonCam::GetFieldPosition()
+std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -61,7 +62,7 @@ VisionPose DragonPhotonCam::GetFieldPosition()
         // get detected tag id
         int tagId = target.GetFiducialId();
 
-        std::optional<frc::Pose3d> potentialPose = DragonVision::GetAprilTagLayout().GetTagPose(tagId);
+        std::optional<frc::Pose3d> potentialPose = DragonAprilTagInfo::GetAprilTagLayout().GetTagPose(tagId);
 
         if (potentialPose.has_value())
         {
@@ -86,14 +87,14 @@ VisionPose DragonPhotonCam::GetFieldPosition()
             visionStdMeasurements[1] += ambiguity;
             visionStdMeasurements[2] += ambiguity;
 
-            return VisionPose(fieldRelPose, timestamp, visionStdMeasurements);
+            return std::make_optional(VisionPose(fieldRelPose, timestamp, visionStdMeasurements));
         }
     }
 
-    return VisionPose{};
+    return std::nullopt;
 }
 
-VisionPose DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
+std::optional<VisionPose> DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
 {
     return GetFieldPosition();
 }
@@ -474,17 +475,19 @@ bool DragonPhotonCam::UpdatePipeline(DragonCamera::PIPELINE pipeline)
     return false;
 }
 
-VisionData DragonPhotonCam::GetDataToNearestAprilTag()
+std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 {
     // get latest detections from co-processor
-    frc::Transform3d camToTargetTransform;
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
     if (result.HasTargets())
     {
         // get the most accurate according to configured contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        camToTargetTransform = target.GetBestCameraToTarget();
+        frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
+
+        return std::make_optional(VisionData{camToTargetTransform, GetAprilTagID()});
     }
-    return VisionData{camToTargetTransform, GetAprilTagID()};
+    return std::nullopt;
 }

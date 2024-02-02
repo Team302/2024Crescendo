@@ -21,10 +21,13 @@ public:
     enum HeadingOption
     {
         MAINTAIN,
-        TOWARD_GOAL,
         SPECIFIED_ANGLE,
         FACE_GAME_PIECE,
-        FACE_APRIL_TAG,
+        FACE_SPEAKER,
+        FACE_AMP,
+        FACE_LEFT_STAGE,
+        FACE_RIGHT_STAGE,
+        FACE_CENTER_STAGE,
         IGNORE
     };
 
@@ -37,8 +40,7 @@ public:
         POLAR_DRIVE,
         HOLD_DRIVE,
         STOP_DRIVE,
-        AUTO_BALANCE,
-        VISION_DRIVE
+        AUTO_BALANCE
     };
 
     enum RELATIVE_POSITION
