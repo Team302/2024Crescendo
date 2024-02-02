@@ -92,9 +92,12 @@ noteManager::noteManager(noteManager_gen *base) : noteManager_gen(), IRobotState
 	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
-	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
-	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
-	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+
+	RobotState *RobotSates = RobotState::GetInstance();
+
+	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
+	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void noteManager::createAndRegisterStates()
@@ -263,40 +266,3 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 	else if (change == RobotStateChanges::GameState)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
-
-bool noteManager::isLauncherMode() const
-{
-	return m_scoringMode == RobotStateChanges::ScoringMode::Launcher;
-}
-bool noteManager::isPlacerMode() const
-{
-	return m_scoringMode == RobotStateChanges::ScoringMode::Placer;
-}
-bool noteManager::isClimbMode() const
-{
-	return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn;
-}
-bool noteManager::IsEnabled() const
-{
-	return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled;
-}
-
-// todo not sure what to do with this
-/*
-bool noteManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-	return m_noteManager->IsAtMinPosition(identifier);
-}
-bool noteManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-	return m_noteManager->IsAtMinPosition(identifier);
-}
-bool noteManager::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-	return m_noteManager->IsAtMaxPosition(identifier);
-}
-bool noteManager::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-	return m_noteManager->IsAtMaxPosition(identifier);
-}
-*/

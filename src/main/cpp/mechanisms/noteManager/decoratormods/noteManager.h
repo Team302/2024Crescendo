@@ -45,10 +45,11 @@ public:
 
 	void createAndRegisterStates();
 
-	bool isClimbMode() const;
-	bool isPlacerMode() const;
-	bool isLauncherMode() const;
-	bool IsEnabled() const;
+	bool isLauncherMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Launcher; }
+	bool isPlacerMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Placer; }
+	bool isClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
+	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
+
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
 	// todo not sure what to do with these

@@ -49,8 +49,11 @@ ClimberManager::ClimberManager(ClimberManager_gen *base) : ClimberManager_gen(),
 {
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
-	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
-	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+
+	RobotState *RobotSates = RobotState::GetInstance();
+
+	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void ClimberManager::createAndRegisterStates()
@@ -84,14 +87,6 @@ void ClimberManager::Update(RobotStateChanges::StateChange change, int value)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
-bool ClimberManager::isClimbMode() const
-{
-	return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn;
-}
-bool ClimberManager::IsEnabled() const
-{
-	return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled;
-}
 // todo not sure what to do with this
 /*
 bool ClimberManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
