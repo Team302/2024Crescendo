@@ -8,18 +8,18 @@ $$_GEN_NOTICE_$$
 #include <networktables/NetworkTableInstance.h>
 #include "hw/interfaces/IDragonMotorController.h"
 
-#include "$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
+#include "$$_MECHANISM_INSTANCE_NAME_$$Gen.h"
 
 $$_USING_DIRECTIVES_$$
 
-$$_MECHANISM_INSTANCE_NAME_$$_gen::$$_MECHANISM_INSTANCE_NAME_$$_gen() : $$_MECHANISM_NAME_$$(MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_TYPE_NAME_$$, std::string("$$_MECHANISM_INSTANCE_NAME_$$")),
+$$_MECHANISM_INSTANCE_NAME_$$Gen::$$_MECHANISM_INSTANCE_NAME_$$Gen() : BaseMech(MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_TYPE_NAME_$$, "", std::string("$$_MECHANISM_INSTANCE_NAME_$$")),
                                                                          m_motorMap(),
                                                                          m_solenoidMap(),
                                                                          m_servoMap()
 {
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::Create()
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::Create()
 {
     m_ntName = "$$_MECHANISM_INSTANCE_NAME_$$";
     $$_OBJECT_CREATION_$$
@@ -29,12 +29,12 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::Create()
     m_table.get()->PutBoolean(m_tuningIsEnabledStr, m_tuning);
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::Initialize(RobotConfigMgr::RobotIdentifier robotFullName)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::Initialize(RobotConfigMgr::RobotIdentifier robotFullName)
 {
     $$_ELEMENT_INITIALIZATION_$$
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::SetTheCurrentState(RobotElementNames::STATE_$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$_USAGE state, bool run)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::SetTheCurrentState(STATE_NAMES state, bool run)
 {
     SetCurrentState( static_cast<int>(state), run);
 }
@@ -43,7 +43,7 @@ _STATE_MANAGER_START_
 /// @brief  Set the control constants (e.g. PIDF values).
 /// @param [in] ControlData*                                   pid:  the control constants
 /// @return void
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::SetControlConstants(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, int slot, ControlData pid)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::SetControlConstants(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, int slot, ControlData pid)
 {
     auto motor = GetMotorMech(identifier);
     if (motor != nullptr)
@@ -54,7 +54,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::SetControlConstants(RobotElementNames::M
 
 /// @brief update the output to the mechanism using the current controller and target value(s)
 /// @return void
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::Update()
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::Update()
 {
     for (auto motor : m_motorMap)
     {
@@ -62,7 +62,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::Update()
     }
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, double percentOutput)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, double percentOutput)
 {
     auto motor = GetMotorMech(identifier);
     if (motor != nullptr)
@@ -71,7 +71,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CO
     }
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, units::angle::degree_t angle)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, units::angle::degree_t angle)
 {
     auto motor = GetMotorMech(identifier);
     if (motor != nullptr)
@@ -80,7 +80,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CO
     }
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, units::angular_velocity::revolutions_per_minute_t angVel)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, units::angular_velocity::revolutions_per_minute_t angVel)
 {
     auto motor = GetMotorMech(identifier);
     if (motor != nullptr)
@@ -88,7 +88,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CO
         motor->UpdateTarget(angVel);
     }
 }
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, units::length::inch_t position)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, units::length::inch_t position)
 {
     auto motor = GetMotorMech(identifier);
     if (motor != nullptr)
@@ -96,7 +96,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CO
         motor->UpdateTarget(position);
     }
 }
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, units::velocity::feet_per_second_t velocity)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, units::velocity::feet_per_second_t velocity)
 {
     auto motor = GetMotorMech(identifier);
     if (motor != nullptr)
@@ -105,7 +105,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::MOTOR_CO
     }
 }
 
-bool $$_MECHANISM_INSTANCE_NAME_$$_gen::IsAtMinPosition(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier) const
+bool $$_MECHANISM_INSTANCE_NAME_$$Gen::IsAtMinPosition(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier) const
 {
     auto motor = GetMotorMech(identifier);
     if (motor != nullptr)
@@ -115,7 +115,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$_gen::IsAtMinPosition(RobotElementNames::MOTOR
     return false;
 }
 
-bool $$_MECHANISM_INSTANCE_NAME_$$_gen::IsAtMaxPosition(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier) const
+bool $$_MECHANISM_INSTANCE_NAME_$$Gen::IsAtMaxPosition(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier) const
 {
     auto motor = GetMotorMech(identifier);
     if (motor != nullptr)
@@ -126,7 +126,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$_gen::IsAtMaxPosition(RobotElementNames::MOTOR
 }
 _STATE_MANAGER_END_
 
-BaseMechMotor *$$_MECHANISM_INSTANCE_NAME_$$_gen::GetMotorMech(RobotElementNames::MOTOR_CONTROLLER_USAGE usage) const
+BaseMechMotor *$$_MECHANISM_INSTANCE_NAME_$$Gen::GetMotorMech(RobotElementNames::MOTOR_CONTROLLER_USAGE usage) const
 {
     auto itr = m_motorMap.find(usage);
     if (itr != m_motorMap.end())
@@ -136,7 +136,7 @@ BaseMechMotor *$$_MECHANISM_INSTANCE_NAME_$$_gen::GetMotorMech(RobotElementNames
     return nullptr;
 }
 
-std::vector<RobotElementNames::MOTOR_CONTROLLER_USAGE> $$_MECHANISM_INSTANCE_NAME_$$_gen::GetMotorUsages() const
+std::vector<RobotElementNames::MOTOR_CONTROLLER_USAGE> $$_MECHANISM_INSTANCE_NAME_$$Gen::GetMotorUsages() const
 {
     std::vector<RobotElementNames::MOTOR_CONTROLLER_USAGE> output;
     for (auto itr = m_motorMap.begin(); itr != m_motorMap.end(); ++itr)
@@ -147,7 +147,7 @@ std::vector<RobotElementNames::MOTOR_CONTROLLER_USAGE> $$_MECHANISM_INSTANCE_NAM
 }
 
 _STATE_MANAGER_START_
-void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::SOLENOID_USAGE identifier, bool extend)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::UpdateTarget(RobotElementNames::SOLENOID_USAGE identifier, bool extend)
 {
     auto sol = GetSolenoidMech(identifier);
     if (sol != nullptr)
@@ -156,7 +156,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::UpdateTarget(RobotElementNames::SOLENOID
     }
 }
 
-bool $$_MECHANISM_INSTANCE_NAME_$$_gen::IsAtMinPosition(RobotElementNames::SOLENOID_USAGE identifier) const
+bool $$_MECHANISM_INSTANCE_NAME_$$Gen::IsAtMinPosition(RobotElementNames::SOLENOID_USAGE identifier) const
 {
     auto sol = GetSolenoidMech(identifier);
     if (sol != nullptr)
@@ -167,7 +167,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$_gen::IsAtMinPosition(RobotElementNames::SOLEN
 }
 
 
-bool $$_MECHANISM_INSTANCE_NAME_$$_gen::IsAtMaxPosition(RobotElementNames::SOLENOID_USAGE identifier) const
+bool $$_MECHANISM_INSTANCE_NAME_$$Gen::IsAtMaxPosition(RobotElementNames::SOLENOID_USAGE identifier) const
 {
     auto sol = GetSolenoidMech(identifier);
     if (sol != nullptr)
@@ -178,7 +178,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$_gen::IsAtMaxPosition(RobotElementNames::SOLEN
 }
 _STATE_MANAGER_END_
 
-BaseMechSolenoid *$$_MECHANISM_INSTANCE_NAME_$$_gen::GetSolenoidMech(RobotElementNames::SOLENOID_USAGE usage) const
+BaseMechSolenoid *$$_MECHANISM_INSTANCE_NAME_$$Gen::GetSolenoidMech(RobotElementNames::SOLENOID_USAGE usage) const
 {
     auto itr = m_solenoidMap.find(usage);
     if (itr != m_solenoidMap.end())
@@ -188,7 +188,7 @@ BaseMechSolenoid *$$_MECHANISM_INSTANCE_NAME_$$_gen::GetSolenoidMech(RobotElemen
     return nullptr;
 }
 
-std::vector<RobotElementNames::SOLENOID_USAGE> $$_MECHANISM_INSTANCE_NAME_$$_gen::GetSolenoidUsages() const
+std::vector<RobotElementNames::SOLENOID_USAGE> $$_MECHANISM_INSTANCE_NAME_$$Gen::GetSolenoidUsages() const
 {
     std::vector<RobotElementNames::SOLENOID_USAGE> output;
     for (auto itr = m_solenoidMap.begin(); itr != m_solenoidMap.end(); ++itr)
@@ -198,7 +198,7 @@ std::vector<RobotElementNames::SOLENOID_USAGE> $$_MECHANISM_INSTANCE_NAME_$$_gen
     return output;
 }
 
-BaseMechServo *$$_MECHANISM_INSTANCE_NAME_$$_gen::GetServoMech(RobotElementNames::SERVO_USAGE usage) const
+BaseMechServo *$$_MECHANISM_INSTANCE_NAME_$$Gen::GetServoMech(RobotElementNames::SERVO_USAGE usage) const
 {
     auto itr = m_servoMap.find(usage);
     if (itr != m_servoMap.end())
@@ -208,7 +208,7 @@ BaseMechServo *$$_MECHANISM_INSTANCE_NAME_$$_gen::GetServoMech(RobotElementNames
     return nullptr;
 }
 
-std::vector<RobotElementNames::SERVO_USAGE> $$_MECHANISM_INSTANCE_NAME_$$_gen::GetServoUsages() const
+std::vector<RobotElementNames::SERVO_USAGE> $$_MECHANISM_INSTANCE_NAME_$$Gen::GetServoUsages() const
 {
     std::vector<RobotElementNames::SERVO_USAGE> output;
     for (auto itr = m_servoMap.begin(); itr != m_servoMap.end(); ++itr)
@@ -216,4 +216,34 @@ std::vector<RobotElementNames::SERVO_USAGE> $$_MECHANISM_INSTANCE_NAME_$$_gen::G
         output.emplace_back(itr->first);
     }
     return output;
+}
+
+
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::Cyclic()
+{
+    CheckForTuningEnabled();
+    if (m_tuning)
+    {
+        ReadTuningParamsFromNT();
+    }
+}
+
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::CheckForTuningEnabled()
+{
+    bool pastTuning = m_tuning;
+    m_tuning = m_table.get()->GetBoolean(m_tuningIsEnabledStr, false);
+    if (pastTuning != m_tuning && m_tuning == true)
+    {
+        PushTuningParamsToNT();
+    }
+}
+
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::ReadTuningParamsFromNT()
+{
+    $$_READ_TUNABLE_PARAMETERS_$$
+}
+
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::PushTuningParamsToNT()
+{
+    $$_PUSH_TUNABLE_PARAMETERS_$$
 }

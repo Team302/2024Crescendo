@@ -85,7 +85,7 @@ namespace CoreCodeGenerator
                     sb.AppendLine("};");
                     sb.AppendLine();
                 }
-                else
+                else if (false) // disable the enum creation for states
                 {
                     string startingChars = enumName + "_";
                     List<string> thestates = names.Where(t => t.StartsWith(startingChars)).ToList();
