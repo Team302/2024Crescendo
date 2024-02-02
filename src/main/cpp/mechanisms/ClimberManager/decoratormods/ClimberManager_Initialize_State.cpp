@@ -69,5 +69,5 @@ bool ClimberManagerInitializeState::IsTransitionCondition ( bool considerGamepad
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (m_mechanism->IsEnabled());
 }
