@@ -48,7 +48,12 @@ ClimberManager::ClimberManager(ClimberManager_gen *base) : ClimberManager_gen(),
 														   m_ClimberManager(base)
 {
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
-	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
+
+	RobotState *RobotStates = RobotState::GetInstance();
+
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void ClimberManager::createAndRegisterStates()
@@ -78,6 +83,8 @@ void ClimberManager::Update(RobotStateChanges::StateChange change, int value)
 {
 	if (change == RobotStateChanges::ClimbModeStatus)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
+	else if (change == RobotStateChanges::GameState)
+		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
 // todo not sure what to do with this
