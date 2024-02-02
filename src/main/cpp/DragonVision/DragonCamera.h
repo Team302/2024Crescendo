@@ -105,6 +105,8 @@ public:
     units::length::inch_t GetMountingYOffset() const { return m_robotCenterToCam.Y(); }
     units::length::inch_t GetMountingZOffset() const { return m_robotCenterToCam.Z(); }
 
+    frc::Transform3d GetTransformFromRobotCenter() const { return m_robotCenterToCam; }
+
     // Setters
     void SetPipeline(PIPELINE pipeline)
     {
