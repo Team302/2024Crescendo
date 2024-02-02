@@ -238,12 +238,23 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		break;
 	default:
 		break;
-		std::optional<frc::Pose3d> optionalAprilTagPose = DragonVision::GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID());
-		frc::Pose3d aprilTagPose = optionalAprilTagPose.value();
+	}
+
+	// optional of the April Tag's 3D pose
+	std::optional<frc::Pose3d> optionalAprilTagPose = DragonVision::GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID());
+
+	// get valid value of optionalAprilTagPose
+	if (optionalAprilTagPose)
+	{
+		frc::Pose3d aprilTagPose = *optionalAprilTagPose;
+
 		frc::Transform3d transformToElement = frc::Transform3d(aprilTagPose, fieldElementPose);
+
 		std::optional<VisionData> visionData = VisionData(transformToElement, selectedCam->GetAprilTagID());
 		return visionData;
 	}
+
+	return std::nullopt;
 
 	// make 2 pose 3ds and implement in transform3d.
 	// https: // github.wpilib.org/allwpilib/docs/release/cpp/classfrc_1_1_transform3d.html#a31810c15a05d3a2a8981462c88d965e4
