@@ -45,18 +45,13 @@ public:
 
 	void createAndRegisterStates();
 
-	RobotStateChanges::ClimbMode m_climbMode;
-
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
-	// todo not sure what to do with these
-	/*
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	*/
+	bool isClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
+	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
 private:
 	ClimberManager_gen *m_ClimberManager;
+	RobotStateChanges::ClimbMode m_climbMode;
+	RobotStateChanges::GamePeriod m_gamePeriod;
 };

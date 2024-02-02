@@ -72,7 +72,7 @@ bool noteManagerplacerIntakeState::IsTransitionCondition ( bool considerGamepadT
 
 	auto currentState = m_mechanism->GetCurrentState();
 	bool noSensorsDetected = m_mechanism->feederSensor->Get() == false && m_mechanism->launcherSensor->Get() == false && m_mechanism->placerInSensor->Get() == false && m_mechanism->placerMidSensor->Get() == false && m_mechanism->placerOutSensor->Get() == false && m_mechanism->backIntakeSensor->Get() == false && m_mechanism->frontIntakeSensor->Get() == false;
-	if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Placer) || (noSensorsDetected && currentState == m_mechanism->STATE_LAUNCHER_TO_PLACER_FRONT))
+	if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->isPlacerMode()) || (noSensorsDetected && currentState == m_mechanism->STATE_LAUNCHER_TO_PLACER_FRONT))
 	{
 		transition = true;
 	}
