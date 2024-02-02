@@ -1813,7 +1813,7 @@
       </diameter>
     </MotorController>
     <MotorController
-      xsi:type="TalonSRX">
+      xsi:type="SparkMax">
       <name>launcherAngle</name>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
@@ -1875,13 +1875,13 @@
           <value>false</value>
         </enableClosedLoop>
       </voltageRamping>
-      <motorType>ANDYMARK9015</motorType>
+      <motorType>NEOMOTOR</motorType>
       <canID>
         <unitsFamily>none</unitsFamily>
         <name>uintParameter</name>
         <__units__ />
         <type>UInt32</type>
-        <value>0</value>
+        <value>1</value>
       </canID>
       <pdpID>
         <unitsFamily>none</unitsFamily>
@@ -1905,7 +1905,6 @@
         <value>false</value>
       </enableFollowID>
       <remoteSensor>
-        <Source>CANCoder</Source>
         <CanID>
           <unitsFamily>none</unitsFamily>
           <name>uintParameter</name>
@@ -1947,15 +1946,6 @@
         <type>Boolean</type>
         <value>false</value>
       </sensorIsInverted>
-      <limitSwitches>
-        <LimitSwitchesEnabled>
-          <unitsFamily>none</unitsFamily>
-          <name>boolParameter</name>
-          <__units__ />
-          <type>Boolean</type>
-          <value>true</value>
-        </LimitSwitchesEnabled>
-      </limitSwitches>
       <currentLimits>
         <EnableCurrentLimits>
           <unitsFamily>none</unitsFamily>
@@ -2010,8 +2000,15 @@
       <theConfigMotorSettings>
         <mode>Brake</mode>
       </theConfigMotorSettings>
-      <feedbackSensorConfig />
-      <remoteFeedbackSensorConfig />
+      <RotationOffset>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </RotationOffset>
+      <motorBrushType>kBrushless</motorBrushType>
+      <sensorType>kHallSensor</sensorType>
     </MotorController>
   </MotorControllers>
   <closedLoopControlParameters />
@@ -2188,32 +2185,7 @@
       </debouncetime>
     </digitalInput>
   </digitalInput>
-  <cancoder>
-    <CANcoder>
-      <name>launcherAngleSensor</name>
-      <canID>
-        <unitsFamily>none</unitsFamily>
-        <name>uintParameter</name>
-        <__units__ />
-        <type>UInt32</type>
-        <value>0</value>
-      </canID>
-      <offset>
-        <unitsFamily>none</unitsFamily>
-        <name>doubleParameter</name>
-        <__units__ />
-        <type>Double</type>
-        <value>0</value>
-      </offset>
-      <reverse>
-        <unitsFamily>none</unitsFamily>
-        <name>boolParameter</name>
-        <__units__ />
-        <type>Boolean</type>
-        <value>false</value>
-      </reverse>
-    </CANcoder>
-  </cancoder>
+  <cancoder />
   <stateMotorControlData>
     <motorControlData>
       <name>percentOutput</name>
