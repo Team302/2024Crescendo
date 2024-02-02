@@ -237,6 +237,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red source*/ : frc::Pose3d{}; /*load blue source*/
 		break;
 	default:
+		// no-op
 		break;
 	}
 
@@ -247,8 +248,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	if (optionalAprilTagPose)
 	{
 		frc::Pose3d AprilTagPose = optionalAprilTagPose.value();
-		VisionData dataToAprilTag = selectedCam->GetDataToNearestApriltag();
-		frc::Transform3d transformToAprilTag = dataToAprilTag.deltaToTarget;
+		std::optional<VisionData> dataToAprilTag = selectedCam->GetDataToNearestApriltag();
+		frc::Transform3d transformToAprilTag = dataToAprilTag.value().deltaToTarget;
 		frc::Pose3d robotPose = AprilTagPose + transformToAprilTag.Inverse();
 		frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);
 		std::optional<VisionData> visionData = VisionData(transformToElement, selectedCam->GetAprilTagID());
