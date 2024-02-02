@@ -36,16 +36,6 @@ DragonVision *DragonVision::GetDragonVision()
 	return DragonVision::m_dragonVision;
 }
 
-frc::AprilTagFieldLayout DragonVision::m_aprilTagLayout = frc::AprilTagFieldLayout();
-frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
-{
-	if (DragonVision::m_aprilTagLayout != frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
-	{
-		DragonVision::m_aprilTagLayout = frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo);
-	}
-	return DragonVision::m_aprilTagLayout;
-}
-
 DragonVision::DragonVision()
 {
 }
