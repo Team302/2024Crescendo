@@ -22,7 +22,7 @@
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
-#include "chassis/swerve/SwerveChassis.h"
+#include "chassis/SwerveChassis.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "DragonVision/DragonVision.h"
 
@@ -50,7 +50,6 @@ public:
 
 private:
     SwerveChassis *m_chassis;
-    VisionDrive *m_visionDrive;
     ChassisOptionEnums::HeadingOption m_headingOption;
     std::string m_ntName;
     DragonCamera::PIPELINE m_pipelineMode;

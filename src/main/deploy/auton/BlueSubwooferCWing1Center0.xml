@@ -7,15 +7,15 @@ pathname="BlueSubwooferCWing1Center0.path"/>
 <!--Reseting our position-->
 
 <snippet file= "ShootWhenStop.xml"/>
-<!--We're stopping and shooting to start-->
+<!--We're stopping and Launching to start-->
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname="BlueSubwooferCWing1Center0.path"
-time= "1.2"/>
+pathname="BlueSubwooferCWing1Center0.path"/>
 <!--Go forward as the path says-->
 
 <snippet file= "ShootWhenStop.xml"/>
-<!--Shoot the ring into the speaker-->
+<!--Launch the ring into the speaker-->
+
 
 
 </auton>

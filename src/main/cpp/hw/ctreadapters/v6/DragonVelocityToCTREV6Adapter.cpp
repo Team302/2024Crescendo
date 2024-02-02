@@ -28,8 +28,6 @@
 #include "utils/ConversionUtils.h"
 
 // Third Party Includes
-#include "ctre/phoenix/motorcontrol/ControlMode.h"
-#include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
 
 using ctre::phoenix6::controls::VelocityDutyCycle;
 using ctre::phoenix6::controls::VelocityTorqueCurrentFOC;

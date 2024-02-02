@@ -68,6 +68,13 @@ bool noteManagerplacerIntakeState::AtTarget()
 bool noteManagerplacerIntakeState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
+	bool transition = false;
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	auto currentState = m_mechanism->GetCurrentState();
+	bool noSensorsDetected = m_mechanism->feederSensor->Get() == false && m_mechanism->launcherSensor->Get() == false && m_mechanism->placerInSensor->Get() == false && m_mechanism->placerMidSensor->Get() == false && m_mechanism->placerOutSensor->Get() == false && m_mechanism->backIntakeSensor->Get() == false && m_mechanism->frontIntakeSensor->Get() == false;
+	if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->isPlacerMode()) || (noSensorsDetected && currentState == m_mechanism->STATE_LAUNCHER_TO_PLACER_FRONT))
+	{
+		transition = true;
+	}
+	return (transition);
 }

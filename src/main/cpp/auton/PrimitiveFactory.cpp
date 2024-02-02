@@ -23,7 +23,6 @@
 #include <auton/drivePrimitives/DrivePathPlanner.h>
 #include <auton/drivePrimitives/DriveHoldPosition.h>
 #include <auton/drivePrimitives/IPrimitive.h>
-#include <auton/drivePrimitives/ResetPosition.h>
 #include <auton/drivePrimitives/ResetPositionPathPlanner.h>
 
 PrimitiveFactory *PrimitiveFactory::m_instance = nullptr;
@@ -39,7 +38,6 @@ PrimitiveFactory *PrimitiveFactory::GetInstance()
 
 PrimitiveFactory::PrimitiveFactory() : m_DriveStop(nullptr),
                                        m_DriveHoldPosition(nullptr),
-                                       m_resetPosition(nullptr),
                                        m_resetPositionPathPlanner(nullptr),
                                        m_drivePathPlanner(nullptr)
 {
@@ -69,14 +67,6 @@ IPrimitive *PrimitiveFactory::GetIPrimitive(PrimitiveParams *primitivePasser)
             m_DriveHoldPosition = new DriveHoldPosition();
         }
         primitive = m_DriveHoldPosition;
-        break;
-
-    case RESET_POSITION:
-        if (m_resetPosition == nullptr)
-        {
-            m_resetPosition = new ResetPosition();
-        }
-        primitive = m_resetPosition;
         break;
 
     case RESET_POSITION_PATH_PLANNER:
