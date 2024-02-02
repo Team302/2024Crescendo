@@ -68,11 +68,6 @@ bool ClimberManagerManualState::AtTarget()
 bool ClimberManagerManualState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-	bool transition = false;
 	auto currentState = m_mechanism->GetCurrentState();
-	if(m_mechanism->m_climbMode == RobotStateChanges::ClimbModeOn || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) && currentState == m_mechanism->STATE_AUTO_CLIMB))
-	{
-		transition = true;
-	}
-	return (transition);
+	return (m_mechanism->isClimbMode() || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) && currentState == m_mechanism->STATE_AUTO_CLIMB));
 }
