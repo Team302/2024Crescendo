@@ -2047,7 +2047,7 @@
         <name>uintParameter</name>
         <__units__ />
         <type>UInt32</type>
-        <value>0</value>
+        <value>1</value>
       </digitalId>
       <reversed>
         <unitsFamily>none</unitsFamily>
@@ -2071,7 +2071,7 @@
         <name>uintParameter</name>
         <__units__ />
         <type>UInt32</type>
-        <value>0</value>
+        <value>2</value>
       </digitalId>
       <reversed>
         <unitsFamily>none</unitsFamily>
@@ -2095,7 +2095,7 @@
         <name>uintParameter</name>
         <__units__ />
         <type>UInt32</type>
-        <value>0</value>
+        <value>3</value>
       </digitalId>
       <reversed>
         <unitsFamily>none</unitsFamily>
@@ -2119,7 +2119,7 @@
         <name>uintParameter</name>
         <__units__ />
         <type>UInt32</type>
-        <value>0</value>
+        <value>4</value>
       </digitalId>
       <reversed>
         <unitsFamily>none</unitsFamily>
@@ -2143,7 +2143,7 @@
         <name>uintParameter</name>
         <__units__ />
         <type>UInt32</type>
-        <value>0</value>
+        <value>5</value>
       </digitalId>
       <reversed>
         <unitsFamily>none</unitsFamily>
@@ -2167,7 +2167,7 @@
         <name>uintParameter</name>
         <__units__ />
         <type>UInt32</type>
-        <value>0</value>
+        <value>6</value>
       </digitalId>
       <reversed>
         <unitsFamily>none</unitsFamily>
