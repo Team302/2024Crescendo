@@ -1,4 +1,4 @@
-<zone xgrid1 = "26"
-      ygrid1 = "W"
-      xgrid2= "28"
-      ygrid2="Z"/>
+<zone ygrid1 = "Y_26"
+      xgrid1 = "X_W"
+      ygrid2= "Y_28"
+      xgrid2="X_Z"/>
