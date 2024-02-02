@@ -4961,6 +4961,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5090,6 +5091,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5101,6 +5103,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5112,6 +5115,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5123,6 +5127,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5263,6 +5268,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>11.5</value>
                     </target>
                     <motorName>Elevator</motorName>
                     <controlDataName>positionInch</controlDataName>
@@ -5392,6 +5398,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>16.5</value>
                     </target>
                     <motorName>Elevator</motorName>
                     <controlDataName>positionInch</controlDataName>
@@ -5496,6 +5503,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5507,6 +5515,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>11.5</value>
                     </target>
                     <motorName>Elevator</motorName>
                     <controlDataName>positionInch</controlDataName>
@@ -5611,6 +5620,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5622,6 +5632,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>16.5</value>
                     </target>
                     <motorName>Elevator</motorName>
                     <controlDataName>positionInch</controlDataName>
@@ -5700,6 +5711,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5711,6 +5723,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5722,6 +5735,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5733,6 +5747,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5755,6 +5770,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5822,6 +5838,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5844,6 +5861,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5855,6 +5873,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5877,6 +5896,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
