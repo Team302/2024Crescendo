@@ -68,6 +68,5 @@ bool ClimberManagerOffState::AtTarget()
 bool ClimberManagerOffState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-
 	return (false);
 }

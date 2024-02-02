@@ -45,8 +45,10 @@ public:
 
 	void createAndRegisterStates();
 
-	RobotStateChanges::ScoringMode m_scoringMode;
-	RobotStateChanges::ClimbMode m_climbMode;
+	bool isLauncherMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Launcher; }
+	bool isPlacerMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Placer; }
+	bool isClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
+	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
 
@@ -60,4 +62,7 @@ public:
 
 private:
 	noteManager_gen *m_noteManager;
+	RobotStateChanges::ScoringMode m_scoringMode;
+	RobotStateChanges::ClimbMode m_climbMode;
+	RobotStateChanges::GamePeriod m_gamePeriod;
 };
