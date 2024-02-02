@@ -22,8 +22,6 @@
 
 // Team 302 includes
 #include "hw/factories/CompressorFactory.h"
-#include "robotstate/RobotState.h"
-#include "robotstate/RobotStateChanges.h"
 
 // Third Party Includes
 
@@ -71,12 +69,10 @@ void CompressorFactory::ToggleEnableCompressor()
         if (m_compressor->IsEnabled())
         {
             DisableCompressor();
-            RobotState::GetInstance()->PublishStateChange(RobotStateChanges::CompressorChange, RobotStateChanges::CompressorOff);
         }
         else
         {
             EnableCompressor();
-            RobotState::GetInstance()->PublishStateChange(RobotStateChanges::CompressorChange, RobotStateChanges::CompressorOn);
         }
     }
 }

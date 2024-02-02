@@ -20,101 +20,81 @@
 #include <auton/PrimitiveParser.h>
 #include <auton/drivePrimitives/VisionDrivePrimitive.h>
 #include <auton/drivePrimitives/DriveStop.h>
-#include <auton/drivePrimitives/DrivePath.h>
 #include <auton/drivePrimitives/DrivePathPlanner.h>
 #include <auton/drivePrimitives/DriveHoldPosition.h>
 #include <auton/drivePrimitives/IPrimitive.h>
-#include <auton/drivePrimitives/ResetPosition.h>
 #include <auton/drivePrimitives/ResetPositionPathPlanner.h>
 
 PrimitiveFactory *PrimitiveFactory::m_instance = nullptr;
 
 PrimitiveFactory *PrimitiveFactory::GetInstance()
 {
-	if (PrimitiveFactory::m_instance == nullptr)
-	{														   // If we do not have an instance
-		PrimitiveFactory::m_instance = new PrimitiveFactory(); // Create a new instance
-	}
-	return PrimitiveFactory::m_instance; // Return said instance
+    if (PrimitiveFactory::m_instance == nullptr)
+    {                                                          // If we do not have an instance
+        PrimitiveFactory::m_instance = new PrimitiveFactory(); // Create a new instance
+    }
+    return PrimitiveFactory::m_instance; // Return said instance
 }
 
 PrimitiveFactory::PrimitiveFactory() : m_DriveStop(nullptr),
-									   m_DriveHoldPosition(nullptr),
-									   m_resetPosition(nullptr),
-									   m_resetPositionPathPlanner(nullptr),
-									   m_drivePath(nullptr),
-									   m_drivePathPlanner(nullptr)
+                                       m_DriveHoldPosition(nullptr),
+                                       m_resetPositionPathPlanner(nullptr),
+                                       m_drivePathPlanner(nullptr)
 {
 }
 
 PrimitiveFactory::~PrimitiveFactory()
 {
-	PrimitiveFactory::m_instance = nullptr; // todo: do we have to delete this pointer?
+    PrimitiveFactory::m_instance = nullptr; // todo: do we have to delete this pointer?
 }
 
 IPrimitive *PrimitiveFactory::GetIPrimitive(PrimitiveParams *primitivePasser)
 {
-	IPrimitive *primitive = nullptr;
-	switch (primitivePasser->GetID()) // Decides which primitive to get or make
-	{
-	case DO_NOTHING:
-		if (m_DriveStop == nullptr)
-		{
-			m_DriveStop = new DriveStop();
-		}
-		primitive = m_DriveStop;
-		break;
+    IPrimitive *primitive = nullptr;
+    switch (primitivePasser->GetID()) // Decides which primitive to get or make
+    {
+    case DO_NOTHING:
+        if (m_DriveStop == nullptr)
+        {
+            m_DriveStop = new DriveStop();
+        }
+        primitive = m_DriveStop;
+        break;
 
-	case HOLD_POSITION:
-		if (m_DriveHoldPosition == nullptr)
-		{
-			m_DriveHoldPosition = new DriveHoldPosition();
-		}
-		primitive = m_DriveHoldPosition;
-		break;
+    case HOLD_POSITION:
+        if (m_DriveHoldPosition == nullptr)
+        {
+            m_DriveHoldPosition = new DriveHoldPosition();
+        }
+        primitive = m_DriveHoldPosition;
+        break;
 
-	case RESET_POSITION:
-		if (m_resetPosition == nullptr)
-		{
-			m_resetPosition = new ResetPosition();
-		}
-		primitive = m_resetPosition;
-		break;
+    case RESET_POSITION_PATH_PLANNER:
+        if (m_resetPositionPathPlanner == nullptr)
+        {
+            m_resetPositionPathPlanner = new ResetPositionPathPlanner();
+        }
+        primitive = m_resetPositionPathPlanner;
+        break;
 
-	case RESET_POSITION_PATH_PLANNER:
-		if (m_resetPositionPathPlanner == nullptr)
-		{
-			m_resetPositionPathPlanner = new ResetPositionPathPlanner();
-		}
-		primitive = m_resetPositionPathPlanner;
-		break;
+    case DRIVE_PATH_PLANNER:
+        if (m_drivePathPlanner == nullptr)
+        {
+            m_drivePathPlanner = new DrivePathPlanner();
+        }
+        primitive = m_drivePathPlanner;
+        break;
 
-	case DRIVE_PATH:
-		if (m_drivePath == nullptr)
-		{
-			m_drivePath = new DrivePath();
-		}
-		primitive = m_drivePath;
-		break;
+    case VISION_ALIGN:
+        if (m_visionAlign == nullptr)
+        {
+            m_visionAlign = new VisionDrivePrimitive();
+        }
+        primitive = m_visionAlign;
+        break;
 
-	case DRIVE_PATH_PLANNER:
-		if (m_drivePath == nullptr)
-		{
-			m_drivePath = new DrivePathPlanner();
-		}
-		primitive = m_drivePath;
-		break;
-
-	case VISION_ALIGN:
-		if (m_visionAlign == nullptr)
-		{
-			m_visionAlign = new VisionDrivePrimitive();
-		}
-		primitive = m_visionAlign;
-		break;
-
-	default:
-		break;
-	}
-	return primitive;
+    default:
+        break;
+    }
+    return primitive;
 }

@@ -82,25 +82,8 @@ namespace CoreCodeGenerator
                         resultString = resultString.Replace("$$_MECHANISM_TYPE_NAME_$$", ToUnderscoreCase(mi.name).ToUpper());
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                        resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$", ToUnderscoreCase(mi.name).ToUpper());
                         resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(generateMethod(mi, "generateIndexedObjectCreation"), ";"));
-                        resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(generateMethod(mi, "generateIncludes"), ""));
-
-                        List<string> stateTransitions = new List<string>();
-                        foreach (state s in mi.mechanism.states)
-                        {
-                            if (s.transitionsTo.Count > 0)
-                            {
-                                foreach (stringParameterConstInMechInstance transition in s.transitionsTo)
-                                {
-                                    stateTransitions.Add(String.Format("{0}State->RegisterTransitionState({1}State)", s.name, transition.value));
-                                }
-                            }
-                            else
-                            {
-                                stateTransitions.Add(String.Format("{0}State->RegisterTransitionState({0}State)", s.name));
-                            }
-                        }
-                        resultString = resultString.Replace("$$_STATE_TRANSITION_REGISTRATION_$$", ListToString(stateTransitions, ";"));
 
                         List<string> theUsings = generateMethod(mi, "generateUsings").Distinct().ToList();
                         resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";"));
@@ -112,10 +95,10 @@ namespace CoreCodeGenerator
 
                         foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
                         {
-                            mechanismInstance mis = mechInstances.Find(m => m.name == mi.name);
+                            mechanismInstance mis = r.mechanismInstances.Find(m => m.name == mi.name);
                             if (mis != null)
                             {
-                                initCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == robotFullName)", r.getFullRobotName()));
+                                initCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == robotFullName)", ToUnderscoreDigit(ToUnderscoreCase(r.getFullRobotName())).ToUpper()));
                                 initCode.Add("{");
                                 initCode.AddRange(generateMethod(mis, "generateInitialization"));
                                 initCode.Add("}");
@@ -145,6 +128,7 @@ namespace CoreCodeGenerator
 
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                        resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$", ToUnderscoreCase(mi.name).ToUpper());
 
                         List<string> enumList = new List<string>();
                         foreach (state s in mi.mechanism.states)
@@ -269,7 +253,7 @@ namespace CoreCodeGenerator
                                         }
                                         else
                                         {
-                                            string motorEnumName =String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(),"").Trim().Replace("::","_USAGE::").ToUpper());
+                                            string motorEnumName = String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(), "").Trim().Replace("::", "_USAGE::").ToUpper());
                                             if (targetUnitsType == "")
                                                 motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
                                             else
@@ -305,6 +289,31 @@ namespace CoreCodeGenerator
                             resultString = template;
 
                             resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+
+                            List<string> stateTransitions = new List<string>();
+                            List<string> statesCreation = new List<string>();
+                            int stateIndex = 0;
+                            foreach (state s in mi.mechanism.states)
+                            {
+                                statesCreation.AddRange(s.generateIndexedObjectCreation(stateIndex));
+                                stateIndex++;
+
+                                if (s.transitionsTo.Count > 0)
+                                {
+                                    foreach (stringParameterConstInMechInstance transition in s.transitionsTo)
+                                    {
+                                        stateTransitions.Add(String.Format("{0}State->RegisterTransitionState({1}State)", s.name, transition.value));
+                                    }
+                                }
+                                else
+                                {
+                                    stateTransitions.Add(String.Format("{0}State->RegisterTransitionState({0}State)", s.name));
+                                }
+                            }
+                            resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(statesCreation, ";"));
+                            resultString = resultString.Replace("$$_STATE_TRANSITION_REGISTRATION_$$", ListToString(stateTransitions, ";"));
+
+                            resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(generateMethod(mi, "generateIncludes"), ""));
 
                             filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), false);
                             copyrightAndGenNoticeAndSave(filePathName, resultString, true);

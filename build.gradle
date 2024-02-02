@@ -1,7 +1,7 @@
 plugins {
     id "cpp"
     id "google-test-test-suite"
-    id "edu.wpi.first.GradleRIO" version "2024.1.1"
+    id "edu.wpi.first.GradleRIO" version "2024.2.1"
 }
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
@@ -42,7 +42,7 @@ def includeDesktopSupport = false
 wpi.cpp.debugSimulation = false
 
 // Default enable simgui
-wpi.sim.addGui().defaultEnabled = true
+wpi.sim.addGui().defaultEnabled = false
 // Enable DS but not by default
 wpi.sim.addDriverstation()
 
