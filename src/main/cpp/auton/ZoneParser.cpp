@@ -166,6 +166,8 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
     AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
     AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
     RobotElementNames::STATE_NOTE_MANAGER_USAGE noteChosenOption = RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_OFF;
+    ChassisOptionEnums::AutonChassisOptions chassisChosenOption = ChassisOptionEnums::AutonChassisOptions::NONE;
+    ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NONE;
 
     // looping through the zone xml attributes to define the location of a given zone (based on 2 sets grid coordinates)
 
@@ -224,9 +226,27 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {
             if (strcmp(attr.value(), "visiondrivenote") == 0)
             {
+                auto itr = xmlStringToChassisOptionEnumMap.find(attr.value());
+                if (itr != xmlStringToChassisOptionEnumMap.end())
+                {
+                    chassisChosenOption = itr->second;
+                }
+                else
+                {
+                    hasError = true;
+                }
             }
             else if (strcmp(attr.value(), "visiondrivespeaker") == 0)
             {
+                auto itr = xmlStringToChassisOptionEnumMap.find(attr.value());
+                if (itr != xmlStringToChassisOptionEnumMap.end())
+                {
+                    chassisChosenOption = itr->second;
+                }
+                else
+                {
+                    hasError = true;
+                }
             }
             else if (strcmp(attr.value(), "none") == 0)
             {
@@ -248,9 +268,27 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {
             if (strcmp(attr.value(), "podium") == 0)
             {
+                auto itr = xmlStringToAvoidOptionEnumMap.find(attr.value());
+                if (itr != xmlStringToAvoidOptionEnumMap.end())
+                {
+                    avoidChosenOption = itr->second;
+                }
+                else
+                {
+                    hasError = true;
+                }
             }
             else if (strcmp(attr.value(), "robotcollision") == 0)
             {
+                auto itr = xmlStringToAvoidOptionEnumMap.find(attr.value());
+                if (itr != xmlStringToAvoidOptionEnumMap.end())
+                {
+                    avoidChosenOption = itr->second;
+                }
+                else
+                {
+                    hasError = true;
+                }
             }
             else if (strcmp(attr.value(), "none") == 0)
             {
@@ -263,7 +301,10 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         return (new ZoneParams(xgrid1,
                                ygrid1,
                                xgrid2,
-                               ygrid2));
+                               ygrid2,
+                               noteChosenOption,
+                               chassisChosenOption,
+                               avoidChosenOption));
     }
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("ZoneParser"), string("ParseXML"), string("Has Error"));

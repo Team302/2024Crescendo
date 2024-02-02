@@ -36,7 +36,10 @@ public:
         int xgrid1,
         int ygrid1,
         int xgrid2,
-        int ygrid2); // declare ZoneParams public constructor with parameters xgrid1, etc.
+        int ygrid2,
+        int noteoption,
+        int chassisoption,
+        int avoidoption); // declare ZoneParams public constructor with parameters xgrid1, etc.
 
     ZoneParams() = delete;
     ~ZoneParams() = default; // Destructor
@@ -44,7 +47,10 @@ private:
     int m_xgrid1;
     int m_ygrid1;
     int m_xgrid2;
-    int m_ygrid2; // instances of said parameters
+    int m_ygrid2;
+    int m_noteoption;
+    int m_chassisoption;
+    int m_avoidoption; // instances of said parameters
 };
 
 typedef std::vector<ZoneParams *> ZoneParamsVector; // create typedef ZoneParamsVector

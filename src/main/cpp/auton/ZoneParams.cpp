@@ -23,7 +23,10 @@
 ZoneParams::ZoneParams(int xgrid1,
 					   int ygrid1,
 					   int xgrid2,
-					   int ygrid2)
+					   int ygrid2,
+					   int noteoption,
+					   int chassisoption,
+					   int avoidoption)
 // @ADDMECH initilize state mgr attribute
 {
 }
