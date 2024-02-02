@@ -20,7 +20,7 @@
 #include "DragonVision/DragonVision.h"
 #include "DragonVision/DragonPhotonCam.h"
 #include "utils/FMSData.h"
-
+#include "DragonVision/DragonAprilTagInfo.h"
 #include <string>
 // Third Party Includes
 
@@ -241,15 +241,16 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	}
 
 	// optional of the April Tag's 3D pose
-	std::optional<frc::Pose3d> optionalAprilTagPose = DragonVision::GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID());
+	std::optional<frc::Pose3d> optionalAprilTagPose = DragonAprilTagInfo::GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID());
 
 	// get valid value of optionalAprilTagPose
 	if (optionalAprilTagPose)
 	{
-		frc::Pose3d aprilTagPose = *optionalAprilTagPose;
-
-		frc::Transform3d transformToElement = frc::Transform3d(aprilTagPose, fieldElementPose);
-
+		frc::Pose3d AprilTagPose = optionalAprilTagPose.value();
+		VisionData dataToAprilTag = selectedCam->GetDataToNearestApriltag();
+		frc::Transform3d transformToAprilTag = dataToAprilTag.deltaToTarget;
+		frc::Pose3d robotPose = AprilTagPose + transformToAprilTag.Inverse();
+		frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);
 		std::optional<VisionData> visionData = VisionData(transformToElement, selectedCam->GetAprilTagID());
 		return visionData;
 	}
