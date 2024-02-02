@@ -106,12 +106,6 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     }
 }
 
-void DragonSparkMax::ConfigHWLimitSW(rev::SparkLimitSwitch::Type forwardType, rev::SparkLimitSwitch::Type reverseType)
-{
-    m_forwardType = forwardType;
-    m_reverseType = reverseType;
-}
-
 void DragonSparkMax::Set(double value)
 {
     m_spark->Set(value);
@@ -167,7 +161,11 @@ void DragonSparkMax::SetSmartCurrentLimiting(int limit)
     m_spark->SetSmartCurrentLimit(limit);
 }
 
-// Dummy methods below
+void DragonSparkMax::SetSecondaryCurrentLimiting(int limit, int duration)
+{
+    m_spark->SetSecondaryCurrentLimit(limit, duration);
+}
+
 double DragonSparkMax::GetCurrent()
 {
     return m_spark->GetOutputCurrent();

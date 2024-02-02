@@ -52,9 +52,6 @@ public:
     // Setters
     void SetControlConstants(int slot, const ControlData &controlInfo) override;
 
-    void ConfigHWLimitSW(
-        rev::SparkLimitSwitch::Type forwardType,
-        rev::SparkLimitSwitch::Type reverseType);
     void Set(double value) override;
     void SetRotationOffset(double rotations) override;
     void SetVoltageRamping(double ramping, double rampingClosedLoop = -1) override; // seconds 0 to full, set to 0 to disable

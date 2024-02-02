@@ -104,12 +104,6 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     }
 }
 
-void DragonSparkFlex::ConfigHWLimitSW(rev::SparkLimitSwitch::Type forwardType, rev::SparkLimitSwitch::Type reverseType)
-{
-    m_forwardType = forwardType;
-    m_reverseType = reverseType;
-}
-
 void DragonSparkFlex::Set(double value)
 {
     m_spark->Set(value);
@@ -165,7 +159,11 @@ void DragonSparkFlex::SetSmartCurrentLimiting(int limit)
     m_spark->SetSmartCurrentLimit(limit);
 }
 
-// Dummy methods below
+void DragonSparkFlex::SetSecondaryCurrentLimiting(int limit, int duration)
+{
+    m_spark->SetSecondaryCurrentLimit(limit, duration);
+}
+
 double DragonSparkFlex::GetCurrent()
 {
     return m_spark->GetOutputCurrent();
@@ -204,8 +202,8 @@ bool DragonSparkFlex::IsReverseLimitSwitchClosed()
 
 void DragonSparkFlex::EnableDisableLimitSwitches(bool enable)
 {
-    SparkLimitSwitch limitSwitch = m_spark->GetForwardLimitSwitch(m_forwardType);
-    limitSwitch.EnableLimitSwitch(enable);
+    m_forwardLimitSwitch.EnableLimitSwitch(enable);
+    m_reverseLimitSwitch.EnableLimitSwitch(enable);
 }
 
 void DragonSparkFlex::EnableVoltageCompensation(double fullvoltage)
