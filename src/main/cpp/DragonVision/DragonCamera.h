@@ -76,10 +76,10 @@ public:
     /// @brief returns the current apriltag id
     /// @return int
     virtual int GetAprilTagID() const = 0;
-    /// @brief
-    /// @return
-
+    /// @brief returns the position of the robot
+    /// @return std::optional<VisionPose>
     virtual std::optional<VisionPose> GetFieldPosition() const = 0;
+
     /// @brief gets the robot position relative to the feild depending on wich alliance is specified
     /// @param frc::DriverStation::Alliance
     /// @return std::optional<visionData
