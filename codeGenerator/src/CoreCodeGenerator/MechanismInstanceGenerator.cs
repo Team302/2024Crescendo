@@ -337,7 +337,7 @@ namespace CoreCodeGenerator
                                         }
                                     }
 
-                                    stateTargets.AppendLine(string.Format("else if( Get{2}()->GetCurrentState() == RobotElementNames::STATE_{0}_USAGE::{0}_{1})", ToUnderscoreCase(generatorContext.theMechanismInstance.name).ToUpper(), ToUnderscoreCase(s.name).ToUpper(), generatorContext.theMechanismInstance.name));
+                                    stateTargets.AppendLine(string.Format("else if( Get{2}()->GetCurrentState() == {2}Gen::STATE_NAMES::STATE_{1})", ToUnderscoreCase(generatorContext.theMechanismInstance.name).ToUpper(), ToUnderscoreCase(s.name).ToUpper(), generatorContext.theMechanismInstance.name));
                                     stateTargets.AppendLine("{");
                                     stateTargets.AppendLine(ListToString(motorTargets, ";"));
                                     stateTargets.AppendLine("}");
@@ -463,7 +463,8 @@ namespace CoreCodeGenerator
                             resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(statesCreation, ";"));
                             resultString = resultString.Replace("$$_STATE_TRANSITION_REGISTRATION_$$", ListToString(stateTransitions, ";"));
 
-                            resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(generateMethod(mi, "generateIncludes"), ""));
+                            List<string> includeList = generateMethod(mi, "generateIncludes").Distinct().ToList();
+                            resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(includeList, ""));
 
                             filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), false);
                             copyrightAndGenNoticeAndSave(filePathName, resultString, true);

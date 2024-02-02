@@ -33,7 +33,7 @@ public:
     void Create();
     void Initialize(RobotConfigMgr::RobotIdentifier robotFullName);
 
-    void SetTheCurrentState(RobotElementNames::STATE_$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$_USAGE state, bool run);
+    void SetTheCurrentState(STATE_NAMES state, bool run);
 
     _STATE_MANAGER_START_
     /// @brief Set the control constants (e.g. PIDF values).

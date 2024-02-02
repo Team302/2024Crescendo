@@ -25,6 +25,7 @@ using std::string;
 $$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$Gen *base) : $$_MECHANISM_INSTANCE_NAME_$$Gen(),
                                                                                                        m_$$_MECHANISM_INSTANCE_NAME_$$(base)
 {
+    PeriodicLooper::GetInstance()->RegisterAll(this);
 }
 
 void $$_MECHANISM_INSTANCE_NAME_$$::createAndRegisterStates()

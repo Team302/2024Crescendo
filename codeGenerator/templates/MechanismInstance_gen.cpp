@@ -34,7 +34,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$Gen::Initialize(RobotConfigMgr::RobotIdentifie
     $$_ELEMENT_INITIALIZATION_$$
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$Gen::SetTheCurrentState(RobotElementNames::STATE_$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$_USAGE state, bool run)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::SetTheCurrentState(STATE_NAMES state, bool run)
 {
     SetCurrentState( static_cast<int>(state), run);
 }
