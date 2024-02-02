@@ -18,60 +18,90 @@
 #include <map>
 #include <string>
 
-#include "State.h"
+// FRC Includes
+#include "frc/apriltag/AprilTagFieldLayout.h"
+#include "frc/apriltag/AprilTagFields.h"
+
+// PhotonVision Includes
+#include "photon/PhotonPoseEstimator.h"
+
+#include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonCamera.h"
 
-using std::map;
-
-class DragonLimelight;
+class DragonCamera;
 class DragonVision
 {
 public:
     static DragonVision *GetDragonVision();
 
+    static frc::AprilTagFieldLayout GetAprilTagLayout();
+
     enum CAMERA_POSITION
     {
-        FRONT,
-        BACK,
-        BACK_INTAKE
+        LAUNCHER,
+        PLACER,
+        PLACER_INTAKE,
+        LAUNCHER_INTAKE
     };
 
     enum VISION_ELEMENT
     {
+        LAUNCHER_NOTE,
+        PLACER_NOTE,
         NOTE,
-        RED_SPEAKER,
-        BLUE_SPEAKER,
-        RED_SUBWOOFER,
-        BLUE_SUBWOOFER,
-        RED_AMP,
-        BLUE_AMP,
-        RED_CENTER_STAGE,
-        RED_LEFT_STAGE,
-        RED_RIGHT_STAGE,
-        BLUE_CENTER_STAGE,
-        BLUE_LEFT_STAGE,
-        BLUE_RIGHT_STAGE
+        SPEAKER,
+        AMP,
+        STAGE,
+        SOURCE,
+        NEAREST_APRILTAG
     };
 
-    // bool setPipeline(DragonLimelight::PIPELINE_MODE mode, LIMELIGHT_POSITION position);
-    // bool setPipeline(DragonLimelight::PIPELINE_MODE mode);
-    // DragonLimelight::PIPELINE_MODE getPipeline(LIMELIGHT_POSITION position);
-    // std::shared_ptr<DragonVisionTarget> getTargetInfo(LIMELIGHT_POSITION position) const;
-    // std::shared_ptr<DragonVisionTarget> getTargetInfo() const;
+    /// @brief sets the pipeline of the camera at the chosen position
+    /// @param mode the pipeline to set the camera to
+    /// @param position the physical position of the camera
+    /// @return if successful or not (not currently implemented)
+    bool SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position);
 
-    std::optional<VisionPose> GetRobotPosition() const;
-    std::optional<VisionData> GetVisionData(VISION_ELEMENT element) const;
+    /// @brief gets the pipeline of the camera at the chosen position
+    /// @param position the physical position of the camera
+    /// @return DragonCamera::PIPELINE - the currently selected pipeline
+    DragonCamera::PIPELINE GetPipeline(CAMERA_POSITION position);
 
+    /// @brief gets the field position of the robot (right blue driverstation origin)
+    /// @return std::optional<VisionPose> - the estimated position, timestamp of estimation, and confidence as array of std devs
+    std::optional<VisionPose> GetRobotPosition();
+
+    /// @brief gets the distances and angles to the specified field element based on AprilTag readings or detections
+    /// @param element the specified game element to get data to
+    /// @return std::optional<VisionData> - a transform containg x, y, z distances and yaw, pitch, roll to target, and AprilTag Id
+    std::optional<VisionData> GetVisionData(VISION_ELEMENT element);
+
+    /// @brief detects and returns transformation to the closest AprilTag using a specified camera
+    /// @param position the physical position of the camera
+    /// @return /// @return std::optional<VisionData> - a transform containg x, y, z distances and yaw, pitch, roll to target, and AprilTag Id
+    std::optional<VisionData> GetDataToNearestAprilTag(CAMERA_POSITION position);
+
+    /// @brief adds a camera at the specified position to DragonVision
+    /// @param camera pointer to the camera object that should be added
+    /// @param position the physical position of the camera
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
+
+    static frc::AprilTagFieldLayout m_aprilTagLayout;
 
 private:
     DragonVision();
     ~DragonVision() = default;
 
-    // may not be needed, if so can be changed to inline and return from map
-    //  DragonLimelight *getLimelight(LIMELIGHT_POSITION position) const;
+    std::optional<VisionData> GetVisionDataFromNote(VISION_ELEMENT element);
+    std::optional<VisionData> GetVisionDataFromElement(VISION_ELEMENT element);
+    std::optional<VisionData> GetVisionDataToNearestTag();
+    std::optional<VisionData> GetVisionDataToNearestStageTag();
 
     static DragonVision *m_dragonVision;
 
-    std::map<CAMERA_POSITION, DragonCamera *> m_DragonCameraMap;
+    DragonCamera *m_dragonCamera;
+
+    std::map<CAMERA_POSITION, DragonCamera *> m_dragonCameraMap;
+
+    std::vector<photon::PhotonPoseEstimator *> m_poseEstimators;
 };
