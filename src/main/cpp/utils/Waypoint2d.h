@@ -18,7 +18,7 @@
 #include <frc/geometry/Pose2d.h>
 
 // Team 302 Includes
-#include <chassis/swerve/driveStates/DragonTrajectoryGenerator.h>
+#include "chassis/driveStates/DragonTrajectoryGenerator.h"
 
 struct Waypoint2d
 {

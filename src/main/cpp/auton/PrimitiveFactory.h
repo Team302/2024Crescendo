@@ -32,16 +32,16 @@ class PrimitiveParams;
 class PrimitiveFactory
 {
 public:
-    PrimitiveFactory();
-    virtual ~PrimitiveFactory();
     static PrimitiveFactory *GetInstance();
     IPrimitive *GetIPrimitive(PrimitiveParams *primitivePasser);
 
 private:
+    PrimitiveFactory();
+    virtual ~PrimitiveFactory();
+
     static PrimitiveFactory *m_instance;
     IPrimitive *m_DriveStop;
     IPrimitive *m_DriveHoldPosition;
-    IPrimitive *m_resetPosition;
     IPrimitive *m_resetPositionPathPlanner;
     IPrimitive *m_visionAlign;
     IPrimitive *m_drivePathPlanner;

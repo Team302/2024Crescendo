@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -25,10 +24,12 @@
 // Team 302 includes
 #include "mechanisms/ClimberManager/generated/ClimberManager_gen.h"
 #include "mechanisms/base/StateMgr.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
+#include "robotstate/RobotStateChanges.h"
 
 // forward declares
 
-class ClimberManager : public ClimberManager_gen
+class ClimberManager : public ClimberManager_gen, public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -38,20 +39,19 @@ public:
 	/// @param otherMotor Same as previous
 	/// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 	/// Additional actuators and sensors are also in this list.
-	ClimberManager ( ClimberManager_gen *generatedMech );
+	ClimberManager(ClimberManager_gen *generatedMech);
 	ClimberManager() = delete;
 	~ClimberManager() = default;
 
 	void createAndRegisterStates();
 
-	// todo not sure what to do with these
-	/*
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	*/
+	void Update(RobotStateChanges::StateChange change, int value) override;
+
+	bool isClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
+	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
 private:
 	ClimberManager_gen *m_ClimberManager;
+	RobotStateChanges::ClimbMode m_climbMode;
+	RobotStateChanges::GamePeriod m_gamePeriod;
 };

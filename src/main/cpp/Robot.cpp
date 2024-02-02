@@ -7,12 +7,12 @@
 
 #include <string>
 
-#include <cameraserver/CameraServer.h>
-
-#include <auton/AutonPreviewer.h>
-#include <auton/CyclePrimitives.h>
-#include <chassis/holonomic/HolonomicDrive.h>
-#include "chassis/swerve/SwerveChassis.h"
+#include "auton/AutonPreviewer.h"
+#include "auton/CyclePrimitives.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/HolonomicDrive.h"
+#include "chassis/SwerveChassis.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
 #include <driveteamfeedback/DriverFeedback.h>
@@ -29,19 +29,6 @@
 #include <utils/WaypointXmlParser.h>
 
 #include <AdjustableItemMgr.h>
-/// DEBUGGING
-
-#include "configs/RobotConfigMgr.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotElementNames.h"
-
-/* How to check robot variant
-#if ROBOT_VARIANT == 2024
-#warning COMP BOT
-#else
-#warning UNKNOWN
-#endif
-*/
 
 using namespace std;
 
@@ -55,7 +42,9 @@ void Robot::RobotInit()
     int32_t teamNumber = frc::RobotController::GetTeamNumber();
     // Build the robot
     RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+
+    ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
+    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 
     auto waypointParser = WaypointXmlParser::GetInstance();
     waypointParser->ParseWaypoints();
@@ -67,12 +56,16 @@ void Robot::RobotInit()
     m_robotState = RobotState::GetInstance();
     m_robotState->Init();
 
-    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
 
     m_holonomic = nullptr;
     if (m_chassis != nullptr)
     {
         m_holonomic = new HolonomicDrive();
+    }
+    if (m_holonomic != nullptr)
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have holonomic"), string("arrived"));
     }
 
     m_cyclePrims = new CyclePrimitives();
@@ -173,15 +166,16 @@ void Robot::TeleopInit()
         resetMoveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
 
         m_chassis->Drive();
-        dynamic_cast<VisionDrive *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE))->setInAutonMode(false);
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
+    /**
     // now in teleop, clear field of trajectories
     if (m_field != nullptr)
     {
         m_field->ResetField(); // ToDo:  Move to DriveTeamFeedback
     }
+    **/
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
@@ -198,7 +192,6 @@ void Robot::TeleopPeriodic()
         }
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
