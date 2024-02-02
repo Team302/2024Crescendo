@@ -91,8 +91,13 @@ noteManager::noteManager(noteManager_gen *base) : noteManager_gen(), IRobotState
 {
 	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
-	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
-	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
+
+	RobotState *RobotStates = RobotState::GetInstance();
+
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void noteManager::createAndRegisterStates()
@@ -256,27 +261,8 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 {
 	if (change == RobotStateChanges::DesiredScoringMode)
 		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
-
-	if (change == RobotStateChanges::ClimbModeStatus)
+	else if (change == RobotStateChanges::ClimbModeStatus)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
+	else if (change == RobotStateChanges::GameState)
+		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
-
-// todo not sure what to do with this
-/*
-bool noteManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-	return m_noteManager->IsAtMinPosition(identifier);
-}
-bool noteManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-	return m_noteManager->IsAtMinPosition(identifier);
-}
-bool noteManager::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-	return m_noteManager->IsAtMaxPosition(identifier);
-}
-bool noteManager::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-	return m_noteManager->IsAtMaxPosition(identifier);
-}
-*/

@@ -21,6 +21,8 @@
 #include "utils/logging/Logger.h"
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig.h"
+#include "configs/RobotConfigMinimalRobot_302.h"
+#include "configs/RobotConfigChassisRobot_9998.h"
 #include "configs/RobotConfigpracticeBot_9999.h"
 #include "configs/RobotConfigThing_1.h"
 
@@ -51,6 +53,11 @@ void RobotConfigMgr::InitRobot ( RobotIdentifier id )
 	case RobotIdentifier::THING_1:
 		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing robot " ), string ( "THING_1" ), string ( "" ) );
 		m_config = new RobotConfigThing_1();
+		break;
+
+	case RobotIdentifier::CHASSISBOT_9998:
+		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing robot " ), string ( "CHASSISBOT_9998" ), string ( "Yes" ) );
+		m_config = new RobotConfigChassisRobot_9998();
 		break;
 
 	default:

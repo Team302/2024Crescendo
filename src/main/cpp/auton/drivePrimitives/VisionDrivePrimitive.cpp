@@ -22,8 +22,8 @@
 #include <auton/drivePrimitives/VisionDrivePrimitive.h>
 #include <chassis/ChassisMovement.h>
 #include <chassis/ChassisOptionEnums.h>
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
@@ -35,7 +35,7 @@ VisionDrivePrimitive::VisionDrivePrimitive() : m_chassis(nullptr),
                                                m_timer(new frc::Timer()),
                                                m_timeout(0.0)
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 
@@ -51,22 +51,26 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "m_pipelineMode", m_pipelineMode);
 
-    m_vision = DragonVision::GetDragonVision();
-    if (m_vision != nullptr)
+    m_dragonVision = DragonVision::GetDragonVision();
+    if (m_dragonVision != nullptr)
         //  m_dragonVision->setPipeline(m_pipelineMode);
 
         if (m_chassis != nullptr)
         {
+            /*
             switch (m_pipelineMode)
             {
-            case DragonCamera::PIPELINE::APRIL_TAG:
-                break;
-            case DragonCamera::PIPELINE::MACHINE_LEARNING:
-                m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-                break;
-            default:
-                break;
+                case DragonLimelight::PIPELINE_MODE::APRIL_TAG:
+                    m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
+                    break;
+                case DragonLimelight::PIPELINE_MODE::CONE:
+                case DragonCamera::PIPELINE::CUBE:
+                    m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+                    break;
+                default:
+                    break;
             }
+            */
         }
 }
 
@@ -89,12 +93,13 @@ void VisionDrivePrimitive::Run()
 
 bool VisionDrivePrimitive::IsDone()
 {
-    bool done = false;
+    /* bool done = false;
 
-    /*if (m_visionDrive != nullptr)
-        done = m_visionDrive->isAligned(m_pipelineMode);*/
+     if (m_visionDrive != nullptr)
+         done = m_visionDrive->isAligned(m_pipelineMode);
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "ArrivedAtDone", done);
+     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "ArrivedAtDone", done);
 
-    return done || m_timer->HasElapsed(units::time::second_t(m_timeout));
+     return done || m_timer->HasElapsed(units::time::second_t(m_timeout));*/
+    return false;
 }

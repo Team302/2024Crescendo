@@ -292,6 +292,11 @@ void DragonTalonFX::SetAsFollowerMotor(int masterCANID // <I> - master motor
 /// @return void
 void DragonTalonFX::SetControlConstants(int slot, const ControlData &controlInfo)
 {
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonTalonFX::SetControlConstants"), string("P"), controlInfo.GetP());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonTalonFX::SetControlConstants"), string("I"), controlInfo.GetI());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonTalonFX::SetControlConstants"), string("D"), controlInfo.GetD());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonTalonFX::SetControlConstants"), string("F"), controlInfo.GetF());
+
 	auto factory = DragonControlToCTREV6AdapterFactory::GetFactory();
 	delete m_controller[slot];
 	m_controller[slot] = factory->CreateAdapter(m_networkTableName, slot, controlInfo, m_calcStruc, m_talon);
