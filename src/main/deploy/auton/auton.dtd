@@ -5,9 +5,10 @@
 
 <!ELEMENT primitive EMPTY >
 <!ATTLIST primitive 
-          id                ( DO_NOTHING | HOLD_POSITION | 
-                              DRIVE_DISTANCE | DRIVE_TIME | 
-                              TURN_ANGLE_ABS | TURN_ANGLE_REL | DRIVE_PATH_PLANNER | RESET_POSITION | RESET_POSITION_PATH_PLANNER | VISION_ALIGN) "DO_NOTHING"
+          id                ( DO_NOTHING | HOLD_POSITION | DRIVE_DISTANCE | DRIVE_TIME | TURN_ANGLE_ABS | TURN_ANGLE_REL |
+                              DRIVE_PATH_PLANNER | RESET_POSITION | RESET_POSITION_PATH_PLANNER | VISION_ALIGN )
+                            "DO_NOTHING"
+       
 		  time				CDATA #IMPLIED
           distance		    CDATA "0.0"
           headingOption     CDATA "MAINTAIN"
@@ -17,6 +18,14 @@
           pathname          CDATA #IMPLIED
           alignmentMethod   ( ROTATE | STRAFE ) "ROTATE"
           pipeline          ( UNKNOWN | OFF | APRIL_TAG | CONE_NODE | CONE | CUBE ) "APRIL_TAG"
+
+          noteManager       ( NOTE_MANAGER_FRONT_INTAKE | NOTE_MANAGER_BACK_INTAKE | NOTE_MANAGER_TRANSFER |
+                              NOTE_MANAGER_PLACER | NOTE_MANAGER_ELEVATOR | NOTE_MANAGER_FEEDER |
+                              NOTE_MANAGER_LAUNCHER_TOP | NOTE_MANAGER_LAUNCHER_BOTTOM | NOTE_MANAGER_LAUNCHER_ANGLE )
+                              "MOTOR_CONTROLLER_USAGE"
+
+
+          )
 >
 
 
