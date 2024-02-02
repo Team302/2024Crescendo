@@ -12,20 +12,23 @@ $$_GEN_NOTICE_$$
 #include "mechanisms/controllers/ControlData.h"
 #include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$Gen.h"
 
-class $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen : public $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen
+namespace $$_MECHANISM_INSTANCE_NAME_$$States
 {
-public:
-    $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen(std::string stateName,
-                                                   int stateId,
-                                                   $$_MECHANISM_INSTANCE_NAME_$$Gen *mech);
-    $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen() = delete;
-    ~$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen() = default;
+    class $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen : public $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen
+    {
+    public:
+        $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen(std::string stateName,
+                                                       int stateId,
+                                                       $$_MECHANISM_INSTANCE_NAME_$$Gen *mech);
+        $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen() = delete;
+        ~$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen() = default;
 
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
+        void Init() override;
+        void Run() override;
+        void Exit() override;
+        bool AtTarget() override;
 
-private:
-    $$_TARGET_DECLARATIONS_$$
-};
+    private:
+        $$_TARGET_DECLARATIONS_$$
+    };
+}

@@ -15,6 +15,7 @@ $$_GEN_NOTICE_$$
 // Third Party Includes
 
 using namespace std;
+using namespace $$_MECHANISM_INSTANCE_NAME_$$States;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state

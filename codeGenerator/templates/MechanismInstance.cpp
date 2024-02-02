@@ -13,6 +13,7 @@ $$_GEN_NOTICE_$$
 $$_STATE_CLASSES_INCLUDES_$$
 
 using std::string;
+using namespace $$_MECHANISM_INSTANCE_NAME_$$States;
 
 /// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
 /// @param controlFileName The control file with the PID constants and Targets for each state

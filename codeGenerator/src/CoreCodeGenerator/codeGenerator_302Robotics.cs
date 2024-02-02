@@ -52,7 +52,7 @@ namespace CoreCodeGenerator
             new MechanismInstanceGenerator(codeGenVersion, theRobotConfig, generatorConfig, cleanMode, cleanDecoratorModFolders, addProgress).generate();
             new RobotConfigManagerGenerator(codeGenVersion, theRobotConfig, generatorConfig, cleanMode, addProgress).generate();
             new RobotConfigRobotSpecificGenerator(codeGenVersion, theRobotConfig, generatorConfig, cleanMode, addProgress).generate();
-            new ChassisGenerator(codeGenVersion, theRobotConfig, generatorConfig, cleanMode, addProgress).generate();
+            //new ChassisGenerator(codeGenVersion, theRobotConfig, generatorConfig, cleanMode, addProgress).generate();
 
         }
     }

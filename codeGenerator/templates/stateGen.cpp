@@ -15,6 +15,7 @@ $$_GEN_NOTICE_$$
 // Third Party Includes
 
 using std::string;
+using namespace $$_MECHANISM_INSTANCE_NAME_$$States;
 
 /// @class $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state

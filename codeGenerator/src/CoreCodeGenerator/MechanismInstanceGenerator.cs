@@ -326,7 +326,7 @@ namespace CoreCodeGenerator
                                                 if (targetUnitsType == "")
                                                     motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
                                                 else
-                                                    motorTargets.Add(String.Format("SetTargetControl({0}, *(Get{1}()->{2}), {5}({3}({4})))",
+                                                    motorTargets.Add(String.Format("SetTargetControl({0}, *(Get{1}()->get{2}()), {5}({3}({4})))",
                                                         motorEnumName,
                                                         mi.name,
                                                         mcd.name,
