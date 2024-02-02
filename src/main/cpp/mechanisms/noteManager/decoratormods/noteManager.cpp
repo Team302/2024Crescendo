@@ -93,11 +93,11 @@ noteManager::noteManager(noteManager_gen *base) : noteManager_gen(), IRobotState
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
 
-	RobotState *RobotSates = RobotState::GetInstance();
+	RobotState *RobotStates = RobotState::GetInstance();
 
-	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
-	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
-	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void noteManager::createAndRegisterStates()

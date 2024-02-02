@@ -50,10 +50,10 @@ ClimberManager::ClimberManager(ClimberManager_gen *base) : ClimberManager_gen(),
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
 
-	RobotState *RobotSates = RobotState::GetInstance();
+	RobotState *RobotStates = RobotState::GetInstance();
 
-	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
-	RobotSates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void ClimberManager::createAndRegisterStates()
