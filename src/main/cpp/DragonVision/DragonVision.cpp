@@ -14,6 +14,10 @@
 //====================================================================================================================================================
 
 // C++ Includes
+#include <string>
+
+// FRC Includes
+#include "frc/Timer.h"
 
 // Team 302 includes
 
@@ -21,7 +25,6 @@
 #include "DragonVision/DragonPhotonCam.h"
 #include "utils/FMSData.h"
 
-#include <string>
 // Third Party Includes
 
 using namespace std;
@@ -46,7 +49,7 @@ frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
 	return DragonVision::m_aprilTagLayout;
 }
 
-DragonVision::DragonVision() : m_poseEstimator(nullptr)
+DragonVision::DragonVision() : m_poseEstimators()
 {
 }
 
@@ -57,11 +60,10 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 	// check if we should add camera to photon pose estimator
 	if ((position == CAMERA_POSITION::LAUNCHER) || (position == CAMERA_POSITION::PLACER))
 	{
-		// check if we need to construct the pose estimator or just add a camera
-		if (m_poseEstimator == nullptr)
-		{
-			m_poseEstimator = new photon::PhotonPoseEstimator(GetAprilTagLayout(), photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR, dynamic_cast<photon::PhotonCamera *>(camera), camera->GetTransformFromRobotCenter())
-		}
+		m_poseEstimators.emplace_back(new photon::PhotonPoseEstimator(GetAprilTagLayout(),
+																	  photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR,
+																	  std::move(*dynamic_cast<photon::PhotonCamera *>(camera)),
+																	  camera->GetTransformFromRobotCenter()));
 	}
 }
 
@@ -87,6 +89,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	// if we don't see any vision targets, return null optional
 	return std::nullopt;
 }
+
 std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag()
 {
 	int launcherTagId = m_dragonCameraMap[LAUNCHER]->GetAprilTagID();
@@ -274,9 +277,51 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 std::optional<VisionPose> DragonVision::GetRobotPosition()
 {
-	if (m_poseEstimator != nullptr)
+	std::vector<VisionPose> estimatedPoses = {};
+
+	for (photon::PhotonPoseEstimator *estimator : m_poseEstimators)
 	{
+		if (estimator != nullptr)
+		{
+			units::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
+			std::optional<photon::EstimatedRobotPose> estimation = estimator->Update();
+
+			if (estimation) // check if we have a result
+			{
+				frc::Pose3d estimatedPose = estimation.value().estimatedPose;
+				units::millisecond_t timestamp = estimation.value().timestamp;
+
+				// returned result
+
+				double ambiguity = 0.0;
+				wpi::array<double, 3> visionStdMeasurements = VisionPose{}.visionMeasurementStdDevs;
+
+				for (auto target : estimation.value().targetsUsed)
+				{
+					ambiguity += target.GetPoseAmbiguity();
+					visionStdMeasurements[0] += ambiguity;
+					visionStdMeasurements[1] += ambiguity;
+					visionStdMeasurements[2] += ambiguity;
+				}
+
+				estimatedPoses.emplace_back(VisionPose{estimatedPose, currentTime - timestamp, visionStdMeasurements});
+			}
+		}
 	}
+
+	if (!estimatedPoses.empty())
+	{
+		if (estimatedPoses.size() == 1)
+			return std::make_optional(estimatedPoses[0]);
+		else
+		{
+			double firstAmbiguity = estimatedPoses[0].visionMeasurementStdDevs[0];
+			double secondAmbiguity = estimatedPoses[1].visionMeasurementStdDevs[0];
+
+			return firstAmbiguity < secondAmbiguity ? std::make_optional(estimatedPoses[0]) : std::make_optional(estimatedPoses[1]);
+		}
+	}
+
 	// if we aren't able to calculate our pose from vision, return a null optional
 	return std::nullopt;
 }
