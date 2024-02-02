@@ -57,5 +57,5 @@ private:
     frc::Timer *m_timer;
     units::time::second_t m_timeout;
 
-    DragonVision *m_dragonVision;
+    DragonVision *m_vision;
 };
