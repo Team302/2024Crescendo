@@ -69,5 +69,5 @@ bool noteManagerbackupManualLaunchState::IsTransitionCondition ( bool considerGa
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::MANUAL_MODE ) && m_mechanism->m_scoringMode == RobotStateChanges::ScoringMode::Launcher);
+	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::MANUAL_MODE ) && m_mechanism->isLauncherMode());
 }
