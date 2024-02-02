@@ -51,17 +51,39 @@ public:
     virtual bool HasTarget() const = 0;
 
     // Getters
-    virtual units::angle::degree_t GetTargetYaw() const = 0;
-    virtual units::angle::degree_t GetTargetYawRobotFrame() const = 0;
-    virtual units::angle::degree_t GetTargetPitchRobotFrame() const = 0;
-    virtual units::angle::degree_t GetTargetPitchAngle() const = 0;
-    virtual units::time::millisecond_t GetPipelineLatency() const = 0;
-    virtual units::angle::degree_t GetTargetSkew() const = 0;
-    virtual double GetTargetArea() const = 0;
-    virtual int GetAprilTagID() const = 0;
 
-    virtual VisionPose GetFieldPosition() const = 0;
-    virtual VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
+    ///@brief Gets the yaw error to the target relative to the camera
+    ///@return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetYaw() const = 0;
+    /// @brief Gets the yaw error to target relative to the robot frame
+    /// @return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetYawRobotFrame() const = 0;
+    /// @brief Gets the pitch error relative to the robot frame
+    /// @return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetPitchRobotFrame() const = 0;
+    /// @brief Gets the pitch of the current target
+    /// @return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetPitchAngle() const = 0;
+    /// @brief returns the curent latancy of the vision pipeline
+    /// @return units::time::millisecond_t
+    virtual units::time::millisecond_t GetPipelineLatency() const = 0;
+    /// @brief rturns the skew of the target
+    /// @return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetSkew() const = 0;
+    /// @brief returns the area of the "detection box"
+    /// @return double
+    virtual double GetTargetArea() const = 0;
+    /// @brief returns the current apriltag id
+    /// @return int
+    virtual int GetAprilTagID() const = 0;
+    /// @brief returns the position of the robot
+    /// @return std::optional<VisionPose>
+    virtual std::optional<VisionPose> GetFieldPosition() const = 0;
+
+    /// @brief gets the robot position relative to the feild depending on wich alliance is specified
+    /// @param frc::DriverStation::Alliance
+    /// @return std::optional<visionData
+    virtual std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
 
     //  Estimating distance
     virtual units::length::inch_t GetEstimatedTargetXDistance() const = 0;
@@ -72,7 +94,7 @@ public:
     virtual units::length::inch_t GetEstimatedTargetYDistance_RelToRobotCoords() const = 0;
     virtual units::length::inch_t GetEstimatedTargetZDistance_RelToRobotCoords() const = 0;
 
-    virtual VisionData GetDataToNearestApriltag() const = 0;
+    virtual std::optional<VisionData> GetDataToNearestApriltag() const = 0;
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }

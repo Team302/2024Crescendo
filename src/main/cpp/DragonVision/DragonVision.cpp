@@ -24,7 +24,9 @@
 #include "DragonVision/DragonVision.h"
 #include "DragonVision/DragonPhotonCam.h"
 #include "utils/FMSData.h"
+#include "DragonVision/DragonAprilTagInfo.h"
 
+#include <string>
 // Third Party Includes
 
 using namespace std;
@@ -38,6 +40,7 @@ DragonVision *DragonVision::GetDragonVision()
 	}
 	return DragonVision::m_dragonVision;
 }
+
 
 frc::AprilTagFieldLayout DragonVision::m_aprilTagLayout = frc::AprilTagFieldLayout();
 frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
@@ -248,7 +251,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 	// initialize selected field element to empty Pose3d
 	frc::Pose3d fieldElementPose = frc::Pose3d{};
-
 	switch (element)
 	{
 	case VISION_ELEMENT::SPEAKER:
@@ -261,8 +263,26 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{} /*load red source*/ : frc::Pose3d{}; /*load blue source*/
 		break;
 	default:
+		// no-op
 		break;
 	}
+
+	// optional of the April Tag's 3D pose
+	std::optional<frc::Pose3d> optionalAprilTagPose = DragonAprilTagInfo::GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID());
+
+	// get valid value of optionalAprilTagPose
+	if (optionalAprilTagPose)
+	{
+		frc::Pose3d AprilTagPose = optionalAprilTagPose.value();
+		std::optional<VisionData> dataToAprilTag = selectedCam->GetDataToNearestApriltag();
+		frc::Transform3d transformToAprilTag = dataToAprilTag.value().deltaToTarget;
+		frc::Pose3d robotPose = AprilTagPose + transformToAprilTag.Inverse();
+		frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);
+		std::optional<VisionData> visionData = VisionData(transformToElement, selectedCam->GetAprilTagID());
+		return visionData;
+	}
+
+	return std::nullopt;
 
 	// make 2 pose 3ds and implement in transform3d.
 	// https: // github.wpilib.org/allwpilib/docs/release/cpp/classfrc_1_1_transform3d.html#a31810c15a05d3a2a8981462c88d965e4

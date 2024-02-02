@@ -13,32 +13,18 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#pragma once
+
+#include "units/angle.h"
+
 // Team302 Includes
-#include <chassis/swerve/headingStates/FaceGoalHeading.h>
-#include <utils/logging/Logger.h>
+#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
+#include <chassis/ChassisOptionEnums.h>
 
-FaceGoalHeading::FaceGoalHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::TOWARD_GOAL),
-                                     m_vision(DragonVision::GetDragonVision())
-// visionapi Review how LimelightFactory should be fixed here
+class FaceCenterStage : public ISwerveDriveOrientation
 {
-}
-
-void FaceGoalHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
-{
-    units::angular_velocity::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
-    if (m_vision != nullptr)
-    {
-        std::optional<VisionData> optionalData = m_vision->GetVisionData(DragonVision::NEAREST_APRILTAG);
-        if (optionalData.has_value())
-        {
-            VisionData validVisionData = optionalData.value();
-            double rotCorrection = validVisionData.deltaToTarget.Rotation().Z().to<double>() > 10.0 ? m_kPGoalHeadingControl : m_kPGoalHeadingControl * 2.0;
-            rot += units::math::atan2(validVisionData.deltaToTarget.Y(), validVisionData.deltaToTarget.X()) / 1_s * rotCorrection;
-            units::math::atan2(validVisionData.deltaToTarget.Y(), validVisionData.deltaToTarget.X());
-        }
-        else
-        {
-            // Hold position
-        }
-    }
-}
+public:
+    FaceCenterStage();
+    ~FaceCenterStage();
+    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+};

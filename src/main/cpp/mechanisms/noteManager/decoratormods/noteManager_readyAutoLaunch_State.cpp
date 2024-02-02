@@ -68,6 +68,6 @@ bool noteManagerreadyAutoLaunchState::AtTarget()
 bool noteManagerreadyAutoLaunchState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	bool visionTargetAcquired = false; //this will be set with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	return (visionTargetAcquired);
 }

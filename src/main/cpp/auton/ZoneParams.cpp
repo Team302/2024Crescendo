@@ -1,3 +1,4 @@
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -13,36 +14,16 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
+#include "auton/AutonGrid.h"
+#include "auton/ZoneParams.h"
 
-// Team302 Includes
-#include <chassis/swerve/headingStates/ISwerveDriveOrientation.h>
-#include <DragonVision/DragonVision.h>
+// @ADDMECH include for your mechanism state mgr
 
-#include <numbers>
-
-class FaceAprilTag : public ISwerveDriveOrientation
+// @ADDMECH mechanism state for mech as parameter
+ZoneParams::ZoneParams(int xgrid1,
+					   int ygrid1,
+					   int xgrid2,
+					   int ygrid2)
+// @ADDMECH initilize state mgr attribute
 {
-public:
-    FaceAprilTag();
-    ~FaceAprilTag() = default;
-
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
-
-private:
-    units::angular_velocity::radians_per_second_t limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularSpeed);
-
-    bool AtTargetAngle(VisionData visionData, units::angle::radian_t *angleError);
-
-    DragonCamera::PIPELINE m_pipelineMode;
-    DragonVision *m_vision;
-
-    // Angular movement settings
-    const double m_minimumOmega_radps = 0.5;
-    const double m_maximumOmega_radps = 1.2;
-    const double m_AngularTolerance_rad = std::numbers::pi * 2.0 / 180.0;
-    const double m_inhibitXspeedAboveAngularError_rad = std::numbers::pi * 5.0 / 180.0;
-    double m_visionKP_Angle = 4.0;
-
-    const units::length::inch_t m_cubeNodeLength = units::length::inch_t(37.0);
-};
+}

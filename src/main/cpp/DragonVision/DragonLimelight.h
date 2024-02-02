@@ -100,14 +100,14 @@ public:
     std::vector<double> Get3DSolve() const;
     int GetAprilTagID() const;
 
-    VisionPose GetFieldPosition() const;
-    VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const;
+    std::optional<VisionPose> GetFieldPosition() const;
+    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const;
 
-    VisionPose GetRedFieldPosition() const;
-    VisionPose GetBlueFieldPosition() const;
-    VisionPose GetOriginFieldPosition() const;
+    std::optional<VisionPose> GetRedFieldPosition() const;
+    std::optional<VisionPose> GetBlueFieldPosition() const;
+    std::optional<VisionPose> GetOriginFieldPosition() const;
 
-    VisionData GetDataToNearestApriltag();
+    std::optional<VisionData> GetDataToNearestApriltag();
 
     units::length::inch_t EstimateTargetXDistance() const;
     units::length::inch_t EstimateTargetYDistance() const;

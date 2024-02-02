@@ -173,7 +173,6 @@ void Robot::TeleopInit()
         resetMoveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
 
         m_chassis->Drive();
-        dynamic_cast<VisionDrive *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::VISION_DRIVE))->setInAutonMode(false);
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
