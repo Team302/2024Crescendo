@@ -67,7 +67,13 @@ bool noteManagerpreparePlaceTrapState::AtTarget()
 
 bool noteManagerpreparePlaceTrapState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
+	bool transition = false;
 	// To get the current state use m_mechanism->GetCurrentState()
+	bool placerInSensor = m_genState->GetnoteManager()->placerInSensor->Get();
+	bool placerMidSensor = m_genState->GetnoteManager()->placerMidSensor->Get();
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	auto currentstate = m_genState->GetnoteManager()->GetCurrentState();
+	
+	return ((placerInSensor && placerMidSensor && m_mechanism->isClimbMode()) || (currentstate == m_genState->GetnoteManager()->STATE_PREPARE_PLACE_AMP && m_mechanism->isClimbMode()));
+	
 }

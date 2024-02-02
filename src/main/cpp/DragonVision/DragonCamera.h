@@ -22,7 +22,7 @@
 #include <vector>
 #include "frc/geometry/Pose3d.h"
 #include "frc/DriverStation.h"
-#include "DragonVision/DragonVisonStructs.h"
+#include "DragonVision/DragonVisionStructs.h"
 
 class DragonCamera
 {
@@ -51,17 +51,39 @@ public:
     virtual bool HasTarget() const = 0;
 
     // Getters
-    virtual units::angle::degree_t GetTargetYAngle() const = 0;
-    virtual units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistAngle_RF, units::length::inch_t *targetDistfromRobot_RF) const = 0;
-    virtual units::angle::degree_t GetTargetZAngle() const = 0;
-    virtual units::time::microsecond_t GetPipelineLatency() const = 0;
-    virtual units::angle::degree_t GetTargetSkew() const = 0;
-    virtual double GetTargetArea() const = 0;
-    virtual int GetAprilTagID() const = 0;
 
-    virtual VisionPose GetFieldPosition() const = 0;
-    virtual VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
+    ///@brief Gets the yaw error to the target relative to the camera
+    ///@return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetYaw() const = 0;
+    /// @brief Gets the yaw error to target relative to the robot frame
+    /// @return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetYawRobotFrame() const = 0;
+    /// @brief Gets the pitch error relative to the robot frame
+    /// @return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetPitchRobotFrame() const = 0;
+    /// @brief Gets the pitch of the current target
+    /// @return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetPitchAngle() const = 0;
+    /// @brief returns the curent latancy of the vision pipeline
+    /// @return units::time::millisecond_t
+    virtual units::time::millisecond_t GetPipelineLatency() const = 0;
+    /// @brief rturns the skew of the target
+    /// @return units::angle::degree_t
+    virtual units::angle::degree_t GetTargetSkew() const = 0;
+    /// @brief returns the area of the "detection box"
+    /// @return double
+    virtual double GetTargetArea() const = 0;
+    /// @brief returns the current apriltag id
+    /// @return int
+    virtual int GetAprilTagID() const = 0;
+    /// @brief returns the position of the robot
+    /// @return std::optional<VisionPose>
+    virtual std::optional<VisionPose> GetFieldPosition() const = 0;
+
+    /// @brief gets the robot position relative to the feild depending on wich alliance is specified
+    /// @param frc::DriverStation::Alliance
+    /// @return std::optional<visionData
+    virtual std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
 
     //  Estimating distance
     virtual units::length::inch_t GetEstimatedTargetXDistance() const = 0;
@@ -72,17 +94,24 @@ public:
     virtual units::length::inch_t GetEstimatedTargetYDistance_RelToRobotCoords() const = 0;
     virtual units::length::inch_t GetEstimatedTargetZDistance_RelToRobotCoords() const = 0;
 
+    virtual std::optional<VisionData> GetDataToNearestApriltag() const = 0;
+
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }
-    units::angle::degree_t GetCameraPitch() const { return m_pitch; }
-    units::angle::degree_t GetCameraYaw() const { return m_yaw; }
-    units::angle::degree_t GetCameraRoll() const { return m_roll; }
-    units::length::inch_t GetMountingXOffset() const { return m_mountingXOffset; }
-    units::length::inch_t GetMountingYOffset() const { return m_mountingYOffset; }
-    units::length::inch_t GetMountingZOffset() const { return m_mountingZOffset; }
+    units::angle::degree_t GetCameraPitch() const { return m_robotCenterToCam.Rotation().Y(); }
+    units::angle::degree_t GetCameraYaw() const { return m_robotCenterToCam.Rotation().Z(); }
+    units::angle::degree_t GetCameraRoll() const { return m_robotCenterToCam.Rotation().X(); } // rotates around x-axis
+    units::length::inch_t GetMountingXOffset() const { return m_robotCenterToCam.X(); }
+    units::length::inch_t GetMountingYOffset() const { return m_robotCenterToCam.Y(); }
+    units::length::inch_t GetMountingZOffset() const { return m_robotCenterToCam.Z(); }
+
+    frc::Transform3d GetTransformFromRobotCenter() const { return m_robotCenterToCam; }
 
     // Setters
-    void SetPipeline(PIPELINE pipeline) { m_pipeline = pipeline; }
+    void SetPipeline(PIPELINE pipeline)
+    {
+        m_pipeline = pipeline;
+    }
 
     void SetCameraPosition(
         units::length::inch_t mountingXOffset,
@@ -90,32 +119,13 @@ public:
         units::length::inch_t mountingZOffset,
         units::angle::degree_t pitch,
         units::angle::degree_t yaw,
-        units::angle::degree_t roll); /// TODO: implement
-
-protected:
+        units::angle::degree_t roll);  /// TODO: implement
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
 
-    units::length::inch_t m_mountingXOffset;
-    units::length::inch_t m_mountingYOffset;
-    units::length::inch_t m_mountingZOffset;
-    units::angle::degree_t m_yaw;
-    units::angle::degree_t m_pitch;
-    units::angle::degree_t m_roll;
+protected:
+    frc::Pose3d m_cameraPose;
+    frc::Transform3d m_robotCenterToCam;
     PIPELINE m_pipeline;
+
+    const units::length::inch_t m_noteVerticalOffset = units::length::inch_t(0.0); // This represents the note being at the same level as center of robot
 };
-
-/*
-TODO:
-      one large comment block in FaceAprilTage.cpp
-
-      one large comment block in VisionDrive.cpp
-
-      one comment block, one comment line in FaceGamePiece.cpp
-
-      four commented lines in HolonomicDrive.cpp
-
-      one commented line in VisionDrivePrimitive.cpp
-
-      commneted lines in FaceGoalHeading.h/cpp
-TODO:
-*/

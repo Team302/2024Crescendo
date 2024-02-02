@@ -69,14 +69,14 @@ public:
     ///-----------------------------------------------------------------------------------
     DragonLimelight() = delete;
     DragonLimelight(
-        std::string name,                        /// <I> - network table name
-        PIPELINE initialPipeline,                /// <I> enum for starting pipeline
+        std::string name,                      /// <I> - network table name
+        PIPELINE initialPipeline,              /// <I> enum for starting pipeline
         units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
         units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
         units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
-        units::angle::degree_t pitch,            /// <I> - Pitch of camera
-        units::angle::degree_t yaw,              /// <I> - Yaw of camera
-        units::angle::degree_t roll,             /// <I> - Roll of camera
+        units::angle::degree_t pitch,          /// <I> - Pitch of camera
+        units::angle::degree_t yaw,            /// <I> - Yaw of camera
+        units::angle::degree_t roll,           /// <I> - Roll of camera
         LED_MODE ledMode,
         CAM_MODE camMode,
         STREAM_MODE streamMode,
@@ -90,22 +90,24 @@ public:
 
     bool HasTarget() const;
 
-    units::angle::degree_t GetTargetYAngle() const;
-    units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
-    units::angle::degree_t GetTargetZAngle() const;
-    units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
+    units::angle::degree_t GetTargetYaw() const;
+    units::angle::degree_t GetTargetYawRobotFrame() const;
+    units::angle::degree_t GetTargetPitch() const;
+    units::angle::degree_t GetTargetPitchRobotFrame() const;
     double GetTargetArea() const;
     units::angle::degree_t GetTargetSkew() const;
-    units::time::microsecond_t GetPipelineLatency() const;
+    units::time::millisecond_t GetPipelineLatency() const;
     std::vector<double> Get3DSolve() const;
     int GetAprilTagID() const;
 
-    VisionPose GetFieldPosition() const;
-    VisionPose GetFieldPosition(frc::DriverStation::Alliance alliance) const;
+    std::optional<VisionPose> GetFieldPosition() const;
+    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const;
 
-    VisionPose GetRedFieldPosition() const;
-    VisionPose GetBlueFieldPosition() const;
-    VisionPose GetOriginFieldPosition() const;
+    std::optional<VisionPose> GetRedFieldPosition() const;
+    std::optional<VisionPose> GetBlueFieldPosition() const;
+    std::optional<VisionPose> GetOriginFieldPosition() const;
+
+    std::optional<VisionData> GetDataToNearestApriltag();
 
     units::length::inch_t EstimateTargetXDistance() const;
     units::length::inch_t EstimateTargetYDistance() const;
