@@ -3,18 +3,15 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname= "BlueSubwooferCWing1Center1.path"/>
-
+pathname= "BluePodiumWing2Center0.path"/>
 
 <snippet file= "ShootWhenStop.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueSubwooferCWing1Center1.path"/>
+pathname = "BluePodiumWing2Center0"/>
 
-<!--In the zone: 
-(to Launch) Q9-S11
-(to Launch) Q9-S11
--->
+<snippet file= "ShootWhenStop.xml"/>
 
+<!--Zone to launch: 7S-9U-->
 
 </auton>

@@ -3,12 +3,12 @@
 <auton>
 
 <primitive id = "RESET_POSITION_PATH_PLANNER"
-pathname= "BlueSubwooferRWing3Center2.path"/>
+pathname= "BlueAmpWing3Center2.path"/>
 
 <snippet file= "ShootWhenStop.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueSubwooferRWing3Center2.path"/>
+pathname= "BlueAmpWing3Center2.path"/>
 
 <snippet file= "ShootWhenStop.xml"/>
 
