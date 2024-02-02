@@ -42,12 +42,6 @@ public:
     /// @return void
     virtual void RunCurrentState();
 
-    /// @brief  set the current state, initialize it and run it
-    /// @param [in]     int - state to set
-    /// @param [in]     run - true means run, false just initialize it
-    /// @return void
-    virtual void SetCurrentState(int state, bool run);
-
     /// @brief  Get the current Parameter parm value for the state of this mechanism
     /// @param PrimitiveParams* currentParams current set of primitive parameters
     /// @returns int state id - -1 indicates that there is not a state to set
@@ -63,7 +57,15 @@ public:
 
     void SetAreGamepadTransitionsChecked(bool checkGamepadTransitions) { m_checkGamePadTransitions = checkGamepadTransitions; }
 
+    void AddToStateVector(State *state);
+
 protected:
+    /// @brief  set the current state, initialize it and run it
+    /// @param [in]     int - state to set
+    /// @param [in]     run - true means run, false just initialize it
+    /// @return void
+    virtual void SetCurrentState(int state, bool run);
+
     virtual void CheckForStateTransition();
     virtual void CheckForSensorTransitions();
     virtual void CheckForGamepadTransitions();
@@ -71,7 +73,6 @@ protected:
     bool m_checkGamePadTransitions;
 
     std::vector<State *> GetStateVector() { return m_stateVector; };
-    void AddToStateVector(State *state);
 
 private:
     BaseMech *m_mech;

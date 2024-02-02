@@ -22,6 +22,8 @@
 #include <auton/PrimitiveEnums.h>
 #include <auton/PrimitiveParams.h>
 #include <auton/PrimitiveParser.h>
+#include <auton/ZoneParams.h>
+#include <auton/ZoneParser.h>
 #include <auton/drivePrimitives/IPrimitive.h>
 #include "utils/logging/Logger.h"
 #include <pugixml/pugixml.hpp>
@@ -43,19 +45,20 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     map<string, PRIMITIVE_IDENTIFIER> primStringToEnumMap;
     primStringToEnumMap["DO_NOTHING"] = DO_NOTHING;
     primStringToEnumMap["HOLD_POSITION"] = HOLD_POSITION;
-    primStringToEnumMap["DRIVE_PATH"] = DRIVE_PATH;
     primStringToEnumMap["DRIVE_PATH_PLANNER"] = DRIVE_PATH_PLANNER;
-    primStringToEnumMap["RESET_POSITION"] = RESET_POSITION;
     primStringToEnumMap["RESET_POSITION_PATH_PLANNER"] = RESET_POSITION_PATH_PLANNER;
     primStringToEnumMap["VISION_ALIGN"] = VISION_ALIGN;
 
     map<string, ChassisOptionEnums::HeadingOption> headingOptionMap;
     headingOptionMap["MAINTAIN"] = ChassisOptionEnums::HeadingOption::MAINTAIN;
-    headingOptionMap["TOWARD_GOAL"] = ChassisOptionEnums::HeadingOption::TOWARD_GOAL;
     headingOptionMap["SPECIFIED_ANGLE"] = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
     headingOptionMap["FACE_GAME_PIECE"] = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-    headingOptionMap["FACE_APRIL_TAG"] = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
     headingOptionMap["IGNORE"] = ChassisOptionEnums::HeadingOption::IGNORE;
+    headingOptionMap["FACE_SPEAKER"] = ChassisOptionEnums::HeadingOption::FACE_SPEAKER;
+    headingOptionMap["FACE_AMP"] = ChassisOptionEnums::HeadingOption::FACE_AMP;
+    headingOptionMap["FACE_LEFT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE;
+    headingOptionMap["FACE_RIGHT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
+    headingOptionMap["FACE_CENTER_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
 
     xml_document doc;
     xml_parse_result result = doc.load_file(fulldirfile.c_str());
@@ -118,6 +121,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
                     std::string pathName;
+                    ZoneParamsVector zones;
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
                     // auto extenderstate = ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND;
                     // auto intakestate = IntakeStateMgr::INTAKE_STATE::HOLD;
@@ -205,6 +209,15 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                             hasError = true;
                         }
                     }
+                    for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
+                    {
+                        if (strcmp(child.name(), "zone") == 0)
+                        {
+                            auto zone = ZoneParser::ParseXML(child); // create a zone params object
+                            zones.emplace_back(zone);                // adding to the vector
+                        }
+                    }
+
                     if (!hasError)
                     {
                         paramVector.emplace_back(new PrimitiveParams(primitiveType,
@@ -213,7 +226,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      headingOption,
                                                                      heading,
                                                                      pathName,
-                                                                     pipelineMode
+                                                                     pipelineMode,
+                                                                     zones // vector of all zones included as part of the path
+                                                                     // can have multiple zones as part of a complex path
                                                                      // @ADDMECH add parameter for your mechanism state
                                                                      // armstate,
                                                                      // extenderstate,
@@ -235,21 +250,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     }
 
     std::string path;
-    for (auto itr = paramVector.rbegin(); itr != paramVector.rend(); ++itr)
-    {
-        auto param = *itr;
-        if (param->GetID() == PRIMITIVE_IDENTIFIER::DRIVE_PATH)
-        {
-            path = param->GetPathName();
-        }
-        else if (param->GetID() == PRIMITIVE_IDENTIFIER::RESET_POSITION)
-        {
-            if (param->GetPathName().empty())
-            {
-                param->SetPathName(path);
-            }
-        }
-    }
     auto slot = 0;
     for (auto param : paramVector)
     {

@@ -10,8 +10,6 @@ $$_GEN_NOTICE_$$
 
 #include "$$_MECHANISM_INSTANCE_NAME_$$_gen.h"
 
-$$_STATE_CLASSES_INCLUDES_$$
-
 $$_USING_DIRECTIVES_$$
 
 $$_MECHANISM_INSTANCE_NAME_$$_gen::$$_MECHANISM_INSTANCE_NAME_$$_gen() : $$_MECHANISM_NAME_$$(MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_TYPE_NAME_$$, std::string("$$_MECHANISM_INSTANCE_NAME_$$")),
@@ -26,8 +24,6 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::Create()
     m_ntName = "$$_MECHANISM_INSTANCE_NAME_$$";
     $$_OBJECT_CREATION_$$
 
-    $$_STATE_TRANSITION_REGISTRATION_$$
-
     m_table = nt::NetworkTableInstance::GetDefault().GetTable(m_ntName);
     m_tuningIsEnabledStr = "Enable Tuning for " + m_ntName; // since this string is used every loop, we do not want to create the string every time
     m_table.get()->PutBoolean(m_tuningIsEnabledStr, m_tuning);
@@ -36,6 +32,11 @@ void $$_MECHANISM_INSTANCE_NAME_$$_gen::Create()
 void $$_MECHANISM_INSTANCE_NAME_$$_gen::Initialize(RobotConfigMgr::RobotIdentifier robotFullName)
 {
     $$_ELEMENT_INITIALIZATION_$$
+}
+
+void $$_MECHANISM_INSTANCE_NAME_$$_gen::SetTheCurrentState(RobotElementNames::STATE_$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$_USAGE state, bool run)
+{
+    SetCurrentState( static_cast<int>(state), run);
 }
 
 _STATE_MANAGER_START_

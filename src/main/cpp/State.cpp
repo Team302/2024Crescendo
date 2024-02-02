@@ -36,7 +36,7 @@ void State::RegisterTransitionState(State *state)
 {
     m_transitionStates.emplace_back(state);
 }
-bool State::IsTransitionCondition(bool considerGamepadTransitions) const
+bool State::IsTransitionCondition(bool considerGamepadTransitions)
 {
     return false;
 }

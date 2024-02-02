@@ -44,32 +44,11 @@ private:
 
     enum DriverFeedbackStates
     {
-        ALIGNED_WITH_CONE_NODE,
-        ALIGNED_WITH_CUBE_NODE,
-        GAME_PIECE_IN_INTAKE,
-        WANT_CUBE,
-        WANT_CONE,
-        GAME_PIECE_READY_TO_PICK_UP,
-        COMPRESSOR_ON,
-        COMPRESSOR_OFF,
         NONE
     };
 
     LEDStates *m_LEDStates = LEDStates::GetInstance();
-    bool m_intakeIntaking = false;
-    bool m_wantCube = false;
-    bool m_wantCone = false;
-    bool m_gamePieceReadyToPickUp = false;
-    bool m_gamePieceInIntake = false;
-    bool m_alignedWithConeNode = false;
-    bool m_alignedWithCubeNode = false;
     int m_controllerCounter = 0;
-    bool m_compressorOn = true;
-    bool m_findingCube = false;
 
     static DriverFeedback *m_instance;
-
-    DriverFeedbackStates m_gamePieceState = DriverFeedbackStates::NONE;
-    DriverFeedbackStates m_compressorState = DriverFeedbackStates::NONE;
-    bool m_intakeStateChanged = true;
 };
