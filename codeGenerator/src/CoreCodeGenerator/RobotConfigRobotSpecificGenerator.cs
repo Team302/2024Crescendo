@@ -73,7 +73,6 @@ namespace CoreCodeGenerator
 
             string mechInstDefState =
                 @"m_the$$_MECHANISM_INSTANCE_NAME_$$->Init(m_the$$_MECHANISM_INSTANCE_NAME_$$);
-                  PeriodicLooper::GetInstance()->RegisterAll ( m_the$$_MECHANISM_INSTANCE_NAME_$$ );
                   ";
 
             generatorContext.clear();
