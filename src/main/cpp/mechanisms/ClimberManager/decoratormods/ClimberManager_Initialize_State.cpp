@@ -69,5 +69,5 @@ bool ClimberManagerInitializeState::IsTransitionCondition ( bool considerGamepad
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && m_mechanism->m_climbMode== RobotStateChanges::ClimbMode::ClimbModeOn );
+	return (m_mechanism->IsEnabled());
 }
