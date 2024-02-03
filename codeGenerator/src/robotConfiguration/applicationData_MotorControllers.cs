@@ -215,7 +215,7 @@ namespace ApplicationData
         public uintParameter pdpID { get; set; }
 
         [DefaultValue(0u)]
-        [Range(typeof(uint), "0", "62")] 
+        [Range(typeof(uint), "0", "62")]
         [ConstantInMechInstance]
         public uintParameter followID { get; set; }
 
@@ -743,7 +743,7 @@ namespace ApplicationData
     [Serializable]
     [ImplementationName("DragonTalonSRX")]
     [UserIncludeFile("hw/DragonTalonSRX.h")]
-    public class    TalonSRX : MotorController
+    public class TalonSRX : MotorController
     {
         [Serializable]
         public class LimitSwitches : baseDataClass
@@ -1114,14 +1114,14 @@ namespace ApplicationData
     {
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},{6})",
+            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,{6})",
                 name,
                 getImplementationName(),
                 canID.value.ToString(),
                 utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
                 motorBrushType,
                 sensorType,
-                theDistanceAngleCalcInfo.gearRatio); //todo: install notepad++ :)
+                theDistanceAngleCalcInfo.getName(name));
 
 
             List<string> code = new List<string>() { "", theDistanceAngleCalcInfo.getDefinition(name), creation };
@@ -1224,14 +1224,14 @@ namespace ApplicationData
     {
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkFlex::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},{6})",
+            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkFlex::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,{6})",
                 name,
                 getImplementationName(),
                 canID.value.ToString(),
                 utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
                 motorBrushType,
                 sensorType,
-                theDistanceAngleCalcInfo.gearRatio); //todo: install notepad++ :)
+                theDistanceAngleCalcInfo.getName(name));
 
 
             List<string> code = new List<string>() { "", theDistanceAngleCalcInfo.getDefinition(name), creation };

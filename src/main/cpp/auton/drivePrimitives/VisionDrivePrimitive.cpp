@@ -51,7 +51,7 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "m_pipelineMode", m_pipelineMode);
 
-    m_dragonVision = DragonVision::GetDragonVision();
+    /*m_dragonVision = DragonVision::GetDragonVision();
     if (m_dragonVision != nullptr)
         //  m_dragonVision->setPipeline(m_pipelineMode);
 
@@ -70,8 +70,8 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
                 default:
                     break;
             }
-            */
         }
+            */
 }
 
 void VisionDrivePrimitive::Run()
