@@ -18,14 +18,15 @@
 #include "chassis/headingStates/FaceAmp.h"
 
 #include "utils/FMSData.h"
-#include <DragonVision/DragonAprilTagInfo.h>
+#include "DragonVision/DragonAprilTagInfo.h"
 
 FaceAmp::FaceAmp() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_AMP)
 {
 }
 
-frc::Pose3d FaceAmp::GetVisionTargetPose()
+std::optional<frc::Pose3d> FaceAmp::GetVisionTargetPose()
 {
+    // change the aprilTag variable to use the AprilTagIDs enum
     int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? 6 : 5);
     DragonAprilTagInfo aprilTagInfo;
     return aprilTagInfo.Get3DPose(aprilTag);
