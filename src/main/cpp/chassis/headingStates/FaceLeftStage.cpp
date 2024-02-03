@@ -18,6 +18,7 @@
 #include "chassis/headingStates/FaceLeftStage.h"
 #include "chassis/headingStates/FaceTarget.h"
 #include "utils/FMSData.h"
+#include "DragonVision/DragonAprilTagInfo.h"
 
 FaceLeftStage::FaceLeftStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE)
 {
@@ -25,7 +26,7 @@ FaceLeftStage::FaceLeftStage() : FaceTarget(ChassisOptionEnums::HeadingOption::F
 
 std::optional<frc::Pose3d> FaceLeftStage::GetVisionTargetPose()
 {
-    int apriltag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 15 : 12;
+    int apriltag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue ? BLUE_STAGE_LEFT : RED_STAGE_LEFT);
     DragonAprilTagInifo aprilTagInfo;
     return aprilTagInfo.Get3DPose(apriltag);
 }
