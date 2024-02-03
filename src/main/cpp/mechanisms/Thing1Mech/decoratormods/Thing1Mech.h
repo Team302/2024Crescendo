@@ -25,10 +25,10 @@
 // Team 302 includes
 #include "mechanisms/Thing1Mech/generated/Thing1MechGen.h"
 #include "mechanisms/base/StateMgr.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
+#include "robotstate/RobotStateChanges.h"
 
-// forward declares
-
-class Thing1Mech : public Thing1MechGen
+class Thing1Mech : public Thing1MechGen, public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -44,13 +44,9 @@ public:
 
 	void createAndRegisterStates();
 
-	// todo not sure what to do with these
-	/*
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	*/
+	RobotStateChanges::ScoringMode m_scoringMode;
+
+	void Update(RobotStateChanges::StateChange change, int value) override;
 
 private:
 	Thing1MechGen *m_Thing1Mech;

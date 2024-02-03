@@ -36,6 +36,8 @@
 #include "mechanisms/Thing1Mech/decoratormods/sparkyOnState.h"
 #include "mechanisms/Thing1Mech/decoratormods/thing1TalonState.h"
 
+#include "robotstate/RobotState.h"
+
 using std::string;
 using namespace Thing1MechStates;
 
@@ -46,10 +48,12 @@ using namespace Thing1MechStates;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-Thing1Mech::Thing1Mech ( Thing1MechGen *base ) : Thing1MechGen(),
+Thing1Mech::Thing1Mech ( Thing1MechGen *base ) : Thing1MechGen(),IRobotStateChangeSubscriber(),
 	m_Thing1Mech ( base )
 {
 	PeriodicLooper::GetInstance()->RegisterAll ( this );
+	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
+	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 }
 
 void Thing1Mech::createAndRegisterStates()
@@ -84,22 +88,8 @@ void Thing1Mech::createAndRegisterStates()
 
 }
 
-// todo not sure what to do with this
-/*
-bool Thing1Mech::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
+void Thing1Mech::Update(RobotStateChanges::StateChange change, int value)
 {
-    return m_Thing1Mech->IsAtMinPosition(identifier);
+	if (change == RobotStateChanges::DesiredScoringMode)
+		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
 }
-bool Thing1Mech::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_Thing1Mech->IsAtMinPosition(identifier);
-}
-bool Thing1Mech::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_Thing1Mech->IsAtMaxPosition(identifier);
-}
-bool Thing1Mech::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_Thing1Mech->IsAtMaxPosition(identifier);
-}
-*/
