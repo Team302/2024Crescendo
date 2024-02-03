@@ -38,7 +38,7 @@ public:
         RED_AMP = 5,
         RED_STAGE_LEFT = 11,
         RED_STAGE_CENTER = 13,
-        BLUE_STAGE_RIGHT = 12,
+        RED_STAGE_RIGHT = 12,
         BLUE_SUBWOOFER = 8,
         BLUE_SPEAKER = 7,
         RED_SUBWOOFER = 3,
