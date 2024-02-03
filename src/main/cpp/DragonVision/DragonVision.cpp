@@ -41,7 +41,6 @@ DragonVision *DragonVision::GetDragonVision()
 	return DragonVision::m_dragonVision;
 }
 
-
 frc::AprilTagFieldLayout DragonVision::m_aprilTagLayout = frc::AprilTagFieldLayout();
 frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
 {
@@ -127,10 +126,9 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag()
 	{
 		return m_dragonCameraMap[PLACER]->GetDataToNearestApriltag(); // placerTagId is for stage id
 	}
-	else // tag doesnt matter or no tag
-	{
-		return std::nullopt;
-	}
+
+	// tag doesnt matter or no tag
+	return std::nullopt;
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
