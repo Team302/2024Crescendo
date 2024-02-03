@@ -17,7 +17,6 @@
 #include <frc/geometry/Rotation3d.h>
 #include "units/angle.h"
 #include "units/base.h"
-using units::length;
 class FeildConsts
 {
 public:
@@ -34,10 +33,11 @@ public:
     };
 
     // private : static std::map<FEILD_ELEMENT, frc::Pose3d>;
-    const frc::Pose3d m_BlueSource = frc::Pose3d(units::meter_t 15.63, units::meter_t, .565, units::meter_t 0, frc::Rotation3d(units::angle::degree_t 0, units::angle::degree_t 0, units::angle::degree_t 120));
-    const frc::Pose3d m_BlueAmp = frc::Pose3d(units::meter_t 1.84, units::meter_t 8.2, units::meter_t 0, frc::Rotation3d(units::angle::degree_t 0, units::angle::degree_t 0, units::angle::degree_t - 90));
-    const frc::Pose3d m_BlueSpeaker = frc::Pose3d(units::length::meter_t - .04 units::meter_t 5.55, units::meter_t 0, frc::Rotation3d(units::angle::degree_t 0, units::angle::degree_t 0, units::angle::degree_t 0));
-    const frc::Pose3d m_BlueCenterStage = frc::Pose3d(units::meter_t 5.32, units::meter_t 4.11, units::meter_t 0.0, frc::Rotation3d(units::angle::degree_t 0.0, units::angle::degree_t 0.0, units::angle::degree_t 0));
-    const frc::Pose3d m_BlueStageRight = frc::Pose3d(units::meter_t 4.64, units::meter_t 3.71, units::meter_t 0, frc::Rotation3d(units::meter_t 0, units::meter_t 0, units::meter_t 120));
-    const frc::Pose3d m_BlueStageLeft = frc::Pose3d(units::meter_t 4.64, units::meter_t 4.5, units::meter_t 0, frc::Rotation3d(units::meter_t 0, units::meter_t 0, units::meter_t 120));
+    frc::Transform3d test = frc::Transform3d(units::length::meter_t(0.0), units::length::meter_t(0.0), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(0.0)));
+    const frc::Pose3d m_BlueSource = frc::Pose3d(units::length::meter_t(15.63), units::length::meter_t(0.565), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(120)));
+    const frc::Pose3d m_BlueAmp = frc::Pose3d(units::length::meter_t(1.84), units::length::meter_t(8.2), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(-90)));
+    const frc::Pose3d m_BlueSpeaker = frc::Pose3d(units::length::meter_t(-.04), units::length::meter_t(5.55), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(0.0)));
+    const frc::Pose3d m_BlueCenterStage = frc::Pose3d(units::length::meter_t(5.32), units::length::meter_t(4.11), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(0.0)));
+    const frc::Pose3d m_BlueStageRight = frc::Pose3d(units::length::meter_t(4.64), units::length::meter_t(3.71), units::length::meter_t(0.0), frc::Rotation3d(units::length::meter_t(0.0), units::length::meter_t(0.0), units::length::meter_t(120)));
+    const frc::Pose3d m_BlueStageLeft = frc::Pose3d(units::length::meter_t(4.64), units::length::meter_t(4.5), units::length::meter_t(0.0), frc::Rotation3d(units::length::meter_t(0.0), units::length::meter_t(0.0), units::length::meter_t(120)));
 };
