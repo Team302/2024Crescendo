@@ -24,6 +24,8 @@
 #include "units/time.h"
 
 // Team 302 includes
+#include "chassis/ChassisOptionEnums.h"
+#include "configs/RobotElementNames.h"
 // #include "auton/AutonGrid.h"
 // @ADDMECH include for your mechanism
 
@@ -37,9 +39,9 @@ public:
         int ygrid1,
         int xgrid2,
         int ygrid2,
-        int noteoption,
-        int chassisoption,
-        int avoidoption); // declare ZoneParams public constructor with parameters xgrid1, etc.
+        RobotElementNames::STATE_NOTE_MANAGER_USAGE,
+        ChassisOptionEnums::AutonChassisOptions,
+        ChassisOptionEnums::AutonAvoidOptions); // declare ZoneParams public constructor with parameters xgrid1, etc.
 
     ZoneParams() = delete;
     ~ZoneParams() = default; // Destructor

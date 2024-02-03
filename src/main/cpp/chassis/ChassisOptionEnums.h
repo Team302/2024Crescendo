@@ -62,15 +62,15 @@ public:
 
     enum AutonChassisOptions
     {
-        VISIONDRIVENOTE,
-        VISIONDRIVESPEAKER,
-        NONE
+        VISION_DRIVE_NOTE,
+        VISION_DRIVE_SPEAKER,
+        NO_VISION
     };
     enum AutonAvoidOptions
     {
         PODIUM,
-        ROBOTCOLLISION,
-        NONE
+        ROBOT_COLLISION,
+        NO_AVOID_OPTION
     };
 
     ChassisOptionEnums() = delete;

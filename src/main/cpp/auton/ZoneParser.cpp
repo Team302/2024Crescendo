@@ -150,14 +150,14 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {"MAX_STATE_NOTE_MANAGER", RobotElementNames::STATE_NOTE_MANAGER_USAGE::MAX_STATE_NOTE_MANAGER}};
 
     static std::map<std::string, ChassisOptionEnums::AutonChassisOptions> xmlStringToChassisOptionEnumMap{
-        {"VISIONDRIVENOTE", ChassisOptionEnums::AutonChassisOptions::VISIONDRIVENOTE},
-        {"VISIONDRIVESPEAKER", ChassisOptionEnums::AutonChassisOptions::VISIONDRIVESPEAKER},
-        {"NONE", ChassisOptionEnums::AutonChassisOptions::NONE},
+        {"VISIONDRIVENOTE", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_NOTE},
+        {"VISIONDRIVESPEAKER", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_SPEAKER},
+        {"NONE", ChassisOptionEnums::AutonChassisOptions::NO_VISION},
     };
     static std::map<std::string, ChassisOptionEnums::AutonAvoidOptions> xmlStringToAvoidOptionEnumMap{
         {"PODIUM", ChassisOptionEnums::AutonAvoidOptions::PODIUM},
-        {"ROBOTCOLLISION", ChassisOptionEnums::AutonAvoidOptions::ROBOTCOLLISION},
-        {"NONE", ChassisOptionEnums::AutonAvoidOptions::NONE},
+        {"ROBOTCOLLISION", ChassisOptionEnums::AutonAvoidOptions::ROBOT_COLLISION},
+        {"NONE", ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION},
 
     };
 
@@ -166,8 +166,8 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
     AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
     AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
     RobotElementNames::STATE_NOTE_MANAGER_USAGE noteChosenOption = RobotElementNames::STATE_NOTE_MANAGER_USAGE::NOTE_MANAGER_OFF;
-    ChassisOptionEnums::AutonChassisOptions chassisChosenOption = ChassisOptionEnums::AutonChassisOptions::NONE;
-    ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NONE;
+    ChassisOptionEnums::AutonChassisOptions chassisChosenOption = ChassisOptionEnums::AutonChassisOptions::NO_VISION;
+    ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION;
 
     // looping through the zone xml attributes to define the location of a given zone (based on 2 sets grid coordinates)
 

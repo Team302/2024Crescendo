@@ -16,6 +16,8 @@
 
 #include "auton/AutonGrid.h"
 #include "auton/ZoneParams.h"
+#include "chassis/ChassisOptionEnums.h"
+#include "configs/RobotElementNames.h"
 
 // @ADDMECH include for your mechanism state mgr
 
@@ -24,9 +26,9 @@ ZoneParams::ZoneParams(int xgrid1,
 					   int ygrid1,
 					   int xgrid2,
 					   int ygrid2,
-					   int noteoption,
-					   int chassisoption,
-					   int avoidoption)
+					   RobotElementNames::STATE_NOTE_MANAGER_USAGE,
+					   ChassisOptionEnums::AutonChassisOptions,
+					   ChassisOptionEnums::AutonAvoidOptions)
 // @ADDMECH initilize state mgr attribute
 {
 }
