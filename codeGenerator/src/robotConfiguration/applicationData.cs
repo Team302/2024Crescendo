@@ -930,22 +930,22 @@ namespace ApplicationData
 
         public override List<string> generateIndexedObjectCreation(int index)
         {
-            return new List<string>();
+            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}))",
+                                            name,
+                                            getImplementationName(),
+                                            utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
+                                            digitalId.value,
+                                            reversed.value.ToString().ToLower(),
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(debouncetime.__units__),
+                                            debouncetime.value
+                                            );
+
+            return new List<string> { creation };
         }
 
         override public List<string> generateObjectCreation()
         {
-            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}))",
-                name,
-                getImplementationName(),
-                utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
-                digitalId.value,
-                reversed.value.ToString().ToLower(),
-                generatorContext.theGeneratorConfig.getWPIphysicalUnitType(debouncetime.__units__),
-                debouncetime.value
-                );
-
-            return new List<string> { creation };
+            return new List<string>();
         }
 
         override public List<string> generateInitialization()
@@ -1495,7 +1495,7 @@ namespace ApplicationData
 
     public static class generatorContext
     {
-        public enum GenerationStage { Unknown, MechInstanceGen, MechInstanceDecorator}
+        public enum GenerationStage { Unknown, MechInstanceGen, MechInstanceDecorator }
 
         public static GenerationStage generationStage { get; set; }
 
@@ -1742,7 +1742,7 @@ namespace ApplicationData
         public override List<string> generateIncludes()
         {
             List<string> sb = new List<string>();
-            if ( (generatorContext.theMechanismInstance != null) && (generatorContext.GenerationStage.MechInstanceDecorator == generatorContext.generationStage) )
+            if ((generatorContext.theMechanismInstance != null) && (generatorContext.GenerationStage.MechInstanceDecorator == generatorContext.generationStage))
             {
                 sb.Add(string.Format("#include \"mechanisms/{1}/decoratormods/{0}State.h\"",
                     name,
