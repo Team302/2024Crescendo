@@ -238,9 +238,6 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame() const
         }
         else // we see an april tag
         {
-            // pitch of detection
-            units::angle::radian_t cameraPitch = units::degree_t(target.GetPitch());
-
             // transform to get from cam to target
             frc::Transform3d camToTarget = target.GetBestCameraToTarget();
 

@@ -158,7 +158,12 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 			selectedCam = m_dragonCameraMap[PLACER];
 	}
 
-	return selectedCam->GetDataToNearestApriltag();
+	if (selectedCam != nullptr)
+	{
+		return selectedCam->GetDataToNearestApriltag();
+	}
+
+	return std::nullopt;
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT element)
@@ -215,6 +220,9 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		// return VisionData with new translation and rotation
 		return std::optional<VisionData>{frc::Transform3d(translationToNote, rotationToNote)};
 	}
+
+	// if we don't have a selected cam
+	return std::nullopt;
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT element)
