@@ -106,6 +106,10 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     }
 }
 
+void DragonSparkMax::EnableCurrentLimiting(bool enabled)
+{
+}
+
 void DragonSparkMax::Set(double value)
 {
     m_spark->Set(value);
@@ -125,10 +129,6 @@ void DragonSparkMax::SetVoltageRamping(double ramping, double rampingClosedLoop)
     {
         m_spark->SetClosedLoopRampRate(rampingClosedLoop);
     }
-}
-
-void DragonSparkMax::EnableCurrentLimiting(bool enabled)
-{
 }
 
 void DragonSparkMax::EnableBrakeMode(bool enabled)
