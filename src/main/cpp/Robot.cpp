@@ -28,6 +28,11 @@
 #include <utils/logging/LoggerEnums.h>
 #include <utils/WaypointXmlParser.h>
 
+/// DEBUG
+#include "DragonVision/DragonPhotonCam.h"
+#include "DragonVision/DragonVision.h"
+#include "DragonVision/DragonVisionStructs.h"
+
 #include <AdjustableItemMgr.h>
 
 using namespace std;
@@ -177,7 +182,18 @@ void Robot::TeleopInit()
     }
     **/
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
+    /// DEBUG
+
+    DragonVision::GetDragonVision()->AddCamera(new DragonPhotonCam("Camera_B", DragonCamera::PIPELINE::OFF, units::length::inch_t(0.0),
+                                                                   units::length::inch_t(0.0),
+                                                                   units::length::inch_t(0.0),
+                                                                   units::angle::degree_t(0.0),
+                                                                   units::angle::degree_t(0.0),
+                                                                   units::angle::degree_t(0.0)),
+                                               DragonVision::CAMERA_POSITION::LAUNCHER);
+
+    Logger::GetLogger()
+        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
 
 void Robot::TeleopPeriodic()
@@ -192,6 +208,19 @@ void Robot::TeleopPeriodic()
         }
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
+
+    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(DragonVision::CAMERA_POSITION::LAUNCHER);
+    if (optionalVisionData)
+    {
+        VisionData visionData = optionalVisionData.value();
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("X dist"), visionData.deltaToTarget.X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("Y dist"), visionData.deltaToTarget.Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("Z dist"), visionData.deltaToTarget.Z().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("roll"), visionData.deltaToTarget.Rotation().X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("pitch"), visionData.deltaToTarget.Rotation().Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("yaw"), visionData.deltaToTarget.Rotation().Z().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("april tag ID"), visionData.tagId);
+    }
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
