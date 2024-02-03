@@ -35,7 +35,6 @@ public:
     {
         ROBOT_DRIVE,
         FIELD_DRIVE,
-        TRAJECTORY_DRIVE,
         TRAJECTORY_DRIVE_PLANNER,
         HOLD_DRIVE,
         STOP_DRIVE,

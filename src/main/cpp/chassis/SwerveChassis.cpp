@@ -41,7 +41,6 @@
 #include "chassis/driveStates/HoldDrive.h"
 #include "chassis/driveStates/RobotDrive.h"
 #include "chassis/driveStates/StopDrive.h"
-#include "chassis/driveStates/TrajectoryDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/headingStates/FaceAmp.h"
 #include "chassis/headingStates/FaceCenterStage.h"
@@ -147,7 +146,6 @@ void SwerveChassis::InitStates()
     m_driveStateMap[ChassisOptionEnums::HOLD_DRIVE] = new HoldDrive();
     m_driveStateMap[ChassisOptionEnums::ROBOT_DRIVE] = m_robotDrive;
     m_driveStateMap[ChassisOptionEnums::STOP_DRIVE] = new StopDrive(m_robotDrive);
-    m_driveStateMap[ChassisOptionEnums::TRAJECTORY_DRIVE] = new TrajectoryDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER] = new TrajectoryDrivePathPlanner(m_robotDrive);
 
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
@@ -234,9 +232,8 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
     auto state = GetSpecifiedDriveState(moveInfo.driveOption);
 
     auto isHoldDrive = moveInfo.driveOption == ChassisOptionEnums::HOLD_DRIVE;
-    auto hasTrajectory = moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE || moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER;
 
-    if (!hasTrajectory && !isHoldDrive &&
+    if (!isHoldDrive &&
         (units::math::abs(moveInfo.chassisSpeeds.vx) < m_velocityDeadband) &&
         (units::math::abs(moveInfo.chassisSpeeds.vy) < m_velocityDeadband) &&
         (units::math::abs(moveInfo.chassisSpeeds.omega) < m_angularDeadband))
