@@ -12,7 +12,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-
+#include <optional>
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceLeftStage.h"
@@ -23,9 +23,9 @@ FaceLeftStage::FaceLeftStage() : FaceTarget(ChassisOptionEnums::HeadingOption::F
 {
 }
 
-frc::Pose3d FaceLeftStage::GetVisionTargetPose()
+std::optional<frc::Pose3d> FaceLeftStage::GetVisionTargetPose()
 {
     int apriltag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 15 : 12;
-    DragonAprilTagInfo aprilTagInfo;
+    DragonAprilTagInifo aprilTagInfo;
     return aprilTagInfo.Get3DPose(apriltag);
 }
