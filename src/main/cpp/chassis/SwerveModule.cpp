@@ -67,7 +67,8 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
                            int turnMotorID,
                            bool turnInverted,
                            int canCoderID,
-                           double angleOffset) : m_moduleID(id),
+                           double angleOffset) : LoggableItem(),
+                                                 m_moduleID(id),
                                                  m_driveTalon(new TalonFX(driveMotorID, "Canivore")),
                                                  m_turnTalon(new TalonFX(turnMotorID, "Canivore")),
                                                  m_turnCancoder(new CANcoder(canCoderID, "Canivore")),
@@ -84,6 +85,8 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
 
     if (m_driveTalon != nullptr)
     {
+        m_driveTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
+
         MotorOutputConfigs motorconfig{};
         motorconfig.Inverted = driveInverted ? InvertedValue::CounterClockwise_Positive : InvertedValue::Clockwise_Positive;
         motorconfig.NeutralMode = NeutralModeValue::Brake;
@@ -101,6 +104,8 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
     }
     if (m_turnTalon != nullptr)
     {
+        m_turnTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
+
         MotorOutputConfigs motorconfig{};
         motorconfig.Inverted = driveInverted ? InvertedValue::CounterClockwise_Positive : InvertedValue::Clockwise_Positive;
         motorconfig.NeutralMode = NeutralModeValue::Brake;
@@ -118,6 +123,8 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
     }
     if (m_turnCancoder != nullptr)
     {
+        m_turnCancoder->GetConfigurator().Apply(CANcoderConfiguration{}); // Apply Factory Defaults
+
         CANcoderConfiguration configs{};
         configs.MagnetSensor.MagnetOffset = angleOffset;
         configs.MagnetSensor.SensorDirection = SensorDirectionValue::CounterClockwise_Positive;
@@ -134,6 +141,7 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
         configs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
         m_turnTalon->GetConfigurator().Apply(configs);
     }
+    LogInformation();
 }
 
 /// @brief Set all motor encoders to zero
@@ -251,4 +259,28 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 void SwerveModule::StopMotors()
 {
     // TODO: add method to stop motor and do it for both turn and drive motors
+}
+
+void SwerveModule::LogInformation()
+{
+    string ntName;
+    if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_BACK)
+    {
+        ntName += string("leftback Angle");
+    }
+    else if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_FRONT)
+    {
+        ntName += string("leftfront Angle");
+    }
+    else if (m_moduleID == SwerveModuleConstants::ModuleID::RIGHT_BACK)
+    {
+        ntName += string("rightback Angle");
+    }
+    else
+    {
+        ntName += string("rightfront Angle");
+    }
+    auto angle = m_turnCancoder->GetAbsolutePosition().GetValue();
+    units::angle::degree_t angleDegree = angle;
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntName, angleDegree.to<double>());
 }

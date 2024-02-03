@@ -34,15 +34,19 @@ private:
 	const int m_leftfrontdriveID = 1;
 	const int m_leftfrontturnID = 3;
 	const double m_leftfrontOffset = -105.3812;
+	// const double m_leftfrontOffset = -106.7;
 	const int m_leftbackdriveID = 18;
 	const int m_leftbackturnID = 16;
 	const double m_leftbackOffset = 43.945;
+	// const double m_leftbackOffset = -315.97;
 	const int m_rightfrontdriveID = 0;
 	const int m_rightfrontturnID = 2;
-	const double m_rightfrontOffset = -51.5923;
+	const double m_rightfrontOffset = -126.83;
+	// const double m_rightfrontOffset = -51.5923;
 	const int m_rightbackdriveID = 17;
 	const int m_rightbackturnID = 19;
 	const double m_rightbackOffset = 156.7092;
+	// const double m_rightbackOffset = -21.0059;
 	const bool m_leftsideInvert = false;
 	const bool m_rightsideInvert = true;
 

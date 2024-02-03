@@ -28,6 +28,7 @@
 #include "networktables/NetworkTable.h"
 #include "units/angular_velocity.h"
 #include "units/velocity.h"
+#include "utils/logging/LoggableItem.h"
 
 // Team 302 Includes
 #include "chassis/SwerveModuleConstants.h"
@@ -36,7 +37,7 @@
 #include "ctre/phoenix6/TalonFX.hpp"
 #include "ctre/phoenix6/CANcoder.hpp"
 
-class SwerveModule
+class SwerveModule : public LoggableItem
 {
 public:
     /// @brief Constructs a Swerve Module.  This is assuming 2 TalonFX (Falcons) with a CanCoder for the turn angle
@@ -81,6 +82,7 @@ public:
     units::angular_velocity::degrees_per_second_t GetMaxAngularSpeed() const { return m_maxAngSpeed; }
 
     void StopMotors();
+    void LogInformation() override;
 
 private:
     void SetDriveSpeed(units::velocity::meters_per_second_t speed);
@@ -96,7 +98,7 @@ private:
     ctre::phoenix6::controls::PositionTorqueCurrentFOC m_torquePosition{0_tr, 0_tps, 0_A, 1, false};
     ctre::phoenix6::controls::PositionVoltage m_voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
 
-    double m_turnKp = 10.0;
+    double m_turnKp = 5.0;
     double m_turnKi = 0.0;
     double m_turnKd = 0.5;
     double m_turnKf = 0.0;
