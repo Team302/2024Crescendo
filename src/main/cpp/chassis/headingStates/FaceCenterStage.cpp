@@ -17,10 +17,13 @@
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceCenterStage.h"
 
-FaceCenterStage::FaceCenterStage() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE)
+FaceCenterStage::FaceCenterStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE)
 {
 }
 
-void FaceCenterStage::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+Pose3d FaceCenterStage::GetVisionTargetPose()
 {
+    int apriltag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 14 : 13;
+    DragonAprilTagInfo aprilTagInfo;
+    return aprilTagInfo.Get3DPose(apriltag);
 }

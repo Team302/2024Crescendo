@@ -14,30 +14,20 @@
 //====================================================================================================================================================
 
 #pragma once
-#include "chassis/headingStates/ISwerveDriveOrientation.h"
-#include "chassis/ChassisMovement.h"
 
-class FaceCenterStage : public ISwerveDriveOrientation
-{
-public:
-    FaceCenterStage();
-    ~FaceCenterStage() = default;
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
-};
-
-#pragma once
+include<optional>
 
 #include "frc/geometry/Pose3d.h"
 
 // Team302 Includes
-#include "chassis/headingStates/FaceVisionTarget.h"
+#include "chassis/headingStates/FaceTarget.h"
 
-class FaceCenterStage : public FaceVisionTarget
+    class FaceCenterStage : public FaceTarget
 {
 public:
     FaceCenterStage();
     ~FaceCenterStage() = default;
 
 protected:
-    frc::Pose3d GetVisionTargetPose() override;
+    std::optional<frc::Pose3d> GetVisionTargetPose() override;
 };
