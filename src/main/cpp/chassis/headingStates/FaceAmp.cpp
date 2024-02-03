@@ -17,8 +17,18 @@
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceAmp.h"
 
-FaceAmp::FaceAmp() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_AMP)
+#include "utils/FMSData.h"
+#include <DragonVision/DragonAprilTagInfo.h>
+
+FaceAmp::FaceAmp() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_AMP)
 {
+}
+
+frc::Pose3d FaceAmp::GetVisionTargetPose()
+{
+    int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? 6 : 5);
+    DragonAprilTagInfo aprilTagInfo;
+    return aprilTagInfo.Get3DPose(aprilTag);
 }
 
 void FaceAmp::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
