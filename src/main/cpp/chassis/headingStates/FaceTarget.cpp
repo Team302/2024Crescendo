@@ -17,7 +17,7 @@
 #include "chassis/headingStates/FaceAmp.h"
 #include <chassis/ChassisConfigMgr.h>
 #include "chassis/headingStates/FaceTarget.h"
-#include "FRC/geometry/Pose3d.h"
+#include "frc/geometry/Pose3d.h"
 
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerveDriveOrientation(headingOption)
 {
