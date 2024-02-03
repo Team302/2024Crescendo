@@ -24,3 +24,20 @@ public:
     ~FaceCenterStage() = default;
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 };
+
+#pragma once
+
+#include "frc/geometry/Pose3d.h"
+
+// Team302 Includes
+#include "chassis/headingStates/FaceVisionTarget.h"
+
+class FaceCenterStage : public FaceVisionTarget
+{
+public:
+    FaceCenterStage();
+    ~FaceCenterStage() = default;
+
+protected:
+    frc::Pose3d GetVisionTargetPose() override;
+};
