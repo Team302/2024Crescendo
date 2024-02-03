@@ -14,6 +14,7 @@
 //====================================================================================================================================================
 
 #pragma once
+#include <optional>
 
 #include "frc/geometry/Pose3d.h"
 
@@ -31,5 +32,5 @@ public:
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 protected:
-    virtual frc::Pose3d GetVisionTargetPose() = 0;
+    virtual std::optional<frc::Pose3d> GetVisionTargetPose() = 0;
 };

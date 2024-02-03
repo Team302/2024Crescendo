@@ -10,19 +10,20 @@ class RobotConfigMgr
 public:
     enum RobotIdentifier
     {
+        CHASSISBOT_9998 = 9998,
         $$_ROBOT_CONFIGURATIONS_NAMES_ENUMS_$$
 
-        MAX_ROBOT_IDENTIFIERS
+            MAX_ROBOT_IDENTIFIERS
     };
 
-    static RobotConfigMgr* GetInstance();
-    RobotConfig* GetCurrentConfig() const { return m_config; }
+    static RobotConfigMgr *GetInstance();
+    RobotConfig *GetCurrentConfig() const { return m_config; }
     void InitRobot(RobotIdentifier);
 
 private:
     RobotConfigMgr();
     ~RobotConfigMgr() = default;
 
-    static RobotConfigMgr* m_instance;
-    RobotConfig* m_config;
+    static RobotConfigMgr *m_instance;
+    RobotConfig *m_config;
 };
