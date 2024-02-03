@@ -55,7 +55,6 @@ public:
     void Set(double value) override;
     void SetRotationOffset(double rotations) override;
     void SetVoltageRamping(double ramping, double rampingClosedLoop = -1) override; // seconds 0 to full, set to 0 to disable
-    void EnableCurrentLimiting(bool enabled) override;
     void EnableBrakeMode(bool enabled) override;
     void Invert(bool inverted) override;
 
