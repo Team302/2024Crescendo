@@ -26,7 +26,10 @@ class FaceTarget : public ISwerveDriveOrientation
 public:
     enum FIELDAPRILTAGS
     {
-
+        BLUE_SOURCE_ONE = 1,
+        BLUE_SOURCE_TWO,
+        RED_SOURCE_ONE = 10,
+        RED_SOURCE_TWO = 9
     };
     FaceTarget() = delete;
 
