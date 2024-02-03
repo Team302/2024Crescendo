@@ -27,6 +27,6 @@ FaceLeftStage::FaceLeftStage() : FaceTarget(ChassisOptionEnums::HeadingOption::F
 std::optional<frc::Pose3d> FaceLeftStage::GetVisionTargetPose()
 {
     int apriltag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue ? BLUE_STAGE_LEFT : RED_STAGE_LEFT);
-    DragonAprilTagInifo aprilTagInfo;
+    DragonAprilTagInfo aprilTagInfo;
     return aprilTagInfo.Get3DPose(apriltag);
 }
