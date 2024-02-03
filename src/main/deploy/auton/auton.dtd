@@ -44,24 +44,19 @@
                               		  X_K | X_L | X_M | X_N | X_O | X_P | X_Q | X_R | X_S | X_T | 
                               		  X_U | X_V | X_W | X_X | X_Y | X_Z | X_AA ) "0"
     
-    chassisOption           ( visiondrivenote | visiondrivespeaker | none )
+    chassisOption           ( VISION_DRIVE_NOTE | VISION_DRIVE_SPEAKER | NO_VISION )
 
-    noteOption              ( UNKNOWN_STATE_NOTE_MANAGER | NOTE_MANAGER_OFF | NOTE_MANAGER_READY |
-                                NOTE_MANAGER_FEEDER_INTAKE | NOTE_MANAGER_EXPEL | NOTE_MANAGER_PLACER_INTAKE | 
-                                NOTE_MANAGER_HOLD_FEEDER_FRONT | NOTE_MANAGER_HOLD_FEEDER_BACK | 
-                                NOTE_MANAGER_INTAKE_TO_FEEDER | NOTE_MANAGER_LAUNCHER_TO_PLACER_FRONT | 
-                                NOTE_MANAGER_LAUNCHER_TO_PLACER_BACK | NOTE_MANAGER_HOLD_FEEDER | 
-                                NOTE_MANAGER_READY_AUTO_LAUNCH | NOTE_MANAGER_READY_MANUAL_LAUNCH | 
-                                NOTE_MANAGER_PASS | NOTE_MANAGER_AUTO_LAUNCH | NOTE_MANAGER_MANUAL_LAUNCH | 
-                                NOTE_MANAGER_READY_ODOMETRY_LAUNCH | NOTE_MANAGER_AUTO_LAUNCH_ODOMETRY | 
-                                NOTE_MANAGER_HOLD_PLACER_FRONT | NOTE_MANAGER_HOLD_PLACER_BACK | 
-                                NOTE_MANAGER_INTAKE_TO_PLACER | NOTE_MANAGER_PREPARE_PLACE_AMP | 
-                                NOTE_MANAGER_PREPARE_PLACE_TRAP | NOTE_MANAGER_PLACE_AMP | 
-                                NOTE_MANAGER_PLACE_TRAP | NOTE_MANAGER_PLACER_TO_LAUNCHER_FRONT | 
-                                NOTE_MANAGER_PLACER_TO_LAUNCHER_BACK | NOTE_MANAGER_BACKUP_MANUAL_LAUNCH | 
-                                NOTE_MANAGER_BACKUP_MANUAL_PLACE | MAX_STATE_NOTE_MANAGER | none )
+    noteOption              ( STATE_OFF | STATE_READY | STATE_FEEDER_INTAKE | 
+		                      STATE_EXPEL | STATE_PLACER_INTAKE | STATE_HOLD_FEEDER_FRONT | 
+		                      STATE_HOLD_FEEDER_BACK | STATE_INTAKE_TO_FEEDER | STATE_LAUNCHER_TO_PLACER_FRONT | 
+		                      STATE_LAUNCHER_TO_PLACER_BACK | STATE_HOLD_FEEDER | STATE_READY_AUTO_LAUNCH | 
+		                      STATE_READY_MANUAL_LAUNCH | STATE_PASS | STATE_AUTO_LAUNCH | STATE_MANUAL_LAUNCH | 
+		                      STATE_READY_ODOMETRY_LAUNCH | STATE_AUTO_LAUNCH_ODOMETRY | STATE_HOLD_PLACER_FRONT | 
+		                      STATE_HOLD_PLACER_BACK | STATE_INTAKE_TO_PLACER | STATE_PREPARE_PLACE_AMP | 
+		                      STATE_PREPARE_PLACE_TRAP | STATE_PLACE_AMP | STATE_PLACE_TRAP | STATE_PLACER_TO_LAUNCHER_FRONT | 
+		                      STATE_PLACER_TO_LAUNCHER_BACK | STATE_BACKUP_MANUAL_LAUNCH | STATE_BACKUP_MANUAL_PLACE )
    
-    avoidOption             ( podium | robotcollision | none )
+    avoidOption             ( PODIUM | ROBOT_COLLISION | NO_AVOID_OPTION )
     
 >
 

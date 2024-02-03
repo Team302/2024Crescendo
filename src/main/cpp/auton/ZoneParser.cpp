@@ -149,14 +149,14 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {"NOTE_MANAGER_BACKUP_MANUAL_LAUNCH", noteManager_gen::STATE_NAMES::STATE_BACKUP_MANUAL_PLACE}};
 
     static std::map<std::string, ChassisOptionEnums::AutonChassisOptions> xmlStringToChassisOptionEnumMap{
-        {"VISIONDRIVENOTE", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_NOTE},
-        {"VISIONDRIVESPEAKER", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_SPEAKER},
-        {"NONE", ChassisOptionEnums::AutonChassisOptions::NO_VISION},
+        {"VISION_DRIVE_NOTE", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_NOTE},
+        {"VISION_DRIVE_SPEAKER", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_SPEAKER},
+        {"NO_VISION", ChassisOptionEnums::AutonChassisOptions::NO_VISION},
     };
     static std::map<std::string, ChassisOptionEnums::AutonAvoidOptions> xmlStringToAvoidOptionEnumMap{
         {"PODIUM", ChassisOptionEnums::AutonAvoidOptions::PODIUM},
-        {"ROBOTCOLLISION", ChassisOptionEnums::AutonAvoidOptions::ROBOT_COLLISION},
-        {"NONE", ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION},
+        {"ROBOT_COLLISION", ChassisOptionEnums::AutonAvoidOptions::ROBOT_COLLISION},
+        {"NO_AVOID_OPTION", ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION},
 
     };
 
@@ -223,32 +223,14 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         }
         else if (strcmp(attr.name(), "chassisOption") == 0)
         {
-            if (strcmp(attr.value(), "visiondrivenote") == 0)
+            auto itr = xmlStringToChassisOptionEnumMap.find(attr.value());
+            if (itr != xmlStringToChassisOptionEnumMap.end())
             {
-                auto itr = xmlStringToChassisOptionEnumMap.find(attr.value());
-                if (itr != xmlStringToChassisOptionEnumMap.end())
-                {
-                    chassisChosenOption = itr->second;
-                }
-                else
-                {
-                    hasError = true;
-                }
+                chassisChosenOption = itr->second;
             }
-            else if (strcmp(attr.value(), "visiondrivespeaker") == 0)
+            else
             {
-                auto itr = xmlStringToChassisOptionEnumMap.find(attr.value());
-                if (itr != xmlStringToChassisOptionEnumMap.end())
-                {
-                    chassisChosenOption = itr->second;
-                }
-                else
-                {
-                    hasError = true;
-                }
-            }
-            else if (strcmp(attr.value(), "none") == 0)
-            {
+                hasError = true;
             }
         }
         else if (strcmp(attr.name(), "noteOption") == 0)
@@ -265,32 +247,14 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         }
         else if (strcmp(attr.name(), "avoidOption") == 0)
         {
-            if (strcmp(attr.value(), "podium") == 0)
+            auto itr = xmlStringToAvoidOptionEnumMap.find(attr.value());
+            if (itr != xmlStringToAvoidOptionEnumMap.end())
             {
-                auto itr = xmlStringToAvoidOptionEnumMap.find(attr.value());
-                if (itr != xmlStringToAvoidOptionEnumMap.end())
-                {
-                    avoidChosenOption = itr->second;
-                }
-                else
-                {
-                    hasError = true;
-                }
+                avoidChosenOption = itr->second;
             }
-            else if (strcmp(attr.value(), "robotcollision") == 0)
+            else
             {
-                auto itr = xmlStringToAvoidOptionEnumMap.find(attr.value());
-                if (itr != xmlStringToAvoidOptionEnumMap.end())
-                {
-                    avoidChosenOption = itr->second;
-                }
-                else
-                {
-                    hasError = true;
-                }
-            }
-            else if (strcmp(attr.value(), "none") == 0)
-            {
+                hasError = true;
             }
         }
     }
