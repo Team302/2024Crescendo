@@ -24,6 +24,10 @@
 class FaceTarget : public ISwerveDriveOrientation
 {
 public:
+    enum FIELDAPRILTAGS
+    {
+
+    };
     FaceTarget() = delete;
 
     FaceTarget(ChassisOptionEnums::HeadingOption headingOption);
