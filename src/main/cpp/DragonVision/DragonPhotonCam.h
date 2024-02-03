@@ -46,8 +46,8 @@ public:
     units::angle::degree_t GetTargetSkew() const;
     double GetTargetArea() const;
 
-    std::optional<VisionPose> GetFieldPosition();
-    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
+    std::optional<VisionPose> GetFieldPosition() const;
+    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const;
 
     units::length::inch_t EstimateTargetXDistance() const;
     units::length::inch_t EstimateTargetYDistance() const;
@@ -55,9 +55,9 @@ public:
     units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const;
     units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const;
     units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
-    bool UpdatePipeline(PIPELINE pipeline);
+    bool UpdatePipeline();
 
-    std::optional<VisionData> GetDataToNearestAprilTag();
+    std::optional<VisionData> GetDataToNearestAprilTag() const;
 
 private:
     photon::PhotonCamera *m_camera; // photoncamera instance

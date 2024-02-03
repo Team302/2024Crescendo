@@ -476,7 +476,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
         return units::length::inch_t(-1.0);
 }
 
-std::optional<VisionData> DragonLimelight::GetDataToNearestApriltag()
+std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag() const
 {
     if (GetAprilTagID() == -1)
     {

@@ -120,11 +120,11 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag()
 
 	if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherTagId) != tagIdsToCheck.end())
 	{
-		return m_dragonCameraMap[LAUNCHER]->GetDataToNearestApriltag(); // launcherTagId is for stage id
+		return m_dragonCameraMap[LAUNCHER]->GetDataToNearestAprilTag(); // launcherTagId is for stage id
 	}
 	else if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerTagId) != tagIdsToCheck.end())
 	{
-		return m_dragonCameraMap[PLACER]->GetDataToNearestApriltag(); // placerTagId is for stage id
+		return m_dragonCameraMap[PLACER]->GetDataToNearestAprilTag(); // placerTagId is for stage id
 	}
 
 	// tag doesnt matter or no tag
@@ -145,8 +145,8 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 	else if ((launcherTagId != -1) && (placerTagId != -1)) // if we see april tags in both cameras
 	{
 		// distance logic
-		units::length::inch_t launcherDistance = m_dragonCameraMap[LAUNCHER]->GetEstimatedTargetXDistance_RelToRobotCoords();
-		units::length::inch_t placerDistance = m_dragonCameraMap[PLACER]->GetEstimatedTargetXDistance_RelToRobotCoords();
+		units::length::inch_t launcherDistance = m_dragonCameraMap[LAUNCHER]->EstimateTargetXDistance_RelToRobotCoords();
+		units::length::inch_t placerDistance = m_dragonCameraMap[PLACER]->EstimateTargetXDistance_RelToRobotCoords();
 
 		selectedCam = units::math::abs(launcherDistance) <= units::math::abs(placerDistance) ? m_dragonCameraMap[LAUNCHER] : m_dragonCameraMap[PLACER]; // if front is less ambiguous, select it, and vice versa
 	}
@@ -160,10 +160,20 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 
 	if (selectedCam != nullptr)
 	{
-		return selectedCam->GetDataToNearestApriltag();
+		return selectedCam->GetDataToNearestAprilTag();
 	}
 
 	return std::nullopt;
+}
+
+std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(CAMERA_POSITION position)
+{
+	if (m_dragonCameraMap[position] != nullptr)
+	{
+		return m_dragonCameraMap[position]->GetDataToNearestAprilTag();
+	}
+
+	return nullopt;
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT element)
@@ -189,8 +199,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		else if (frontHasDetection && backHasDetection)
 		{
 			// check which note is closest to robot
-			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[LAUNCHER_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_dragonCameraMap[LAUNCHER_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
-			frc::Translation2d translationPlacer = frc::Translation2d(m_dragonCameraMap[PLACER_INTAKE]->GetEstimatedTargetXDistance_RelToRobotCoords(), m_dragonCameraMap[PLACER_INTAKE]->GetEstimatedTargetYDistance_RelToRobotCoords());
+			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[LAUNCHER_INTAKE]->EstimateTargetXDistance_RelToRobotCoords(), m_dragonCameraMap[LAUNCHER_INTAKE]->EstimateTargetYDistance_RelToRobotCoords());
+			frc::Translation2d translationPlacer = frc::Translation2d(m_dragonCameraMap[PLACER_INTAKE]->EstimateTargetXDistance_RelToRobotCoords(), m_dragonCameraMap[PLACER_INTAKE]->EstimateTargetYDistance_RelToRobotCoords());
 
 			selectedCam = units::math::abs(translationLauncher.Norm()) < units::math::abs(translationPlacer.Norm()) ? m_dragonCameraMap[LAUNCHER_INTAKE] : m_dragonCameraMap[PLACER_INTAKE];
 		}
@@ -212,7 +222,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	if (selectedCam != nullptr)
 	{
 		// create translation using 3 estimated distances
-		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->GetEstimatedTargetXDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetYDistance_RelToRobotCoords(), selectedCam->GetEstimatedTargetZDistance_RelToRobotCoords());
+		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->EstimateTargetXDistance_RelToRobotCoords(), selectedCam->EstimateTargetYDistance_RelToRobotCoords(), selectedCam->EstimateTargetZDistance_RelToRobotCoords());
 
 		// create rotation3d with pitch and yaw (don't have access to roll)
 		frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame(), selectedCam->GetTargetYawRobotFrame());
@@ -280,7 +290,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	if (optionalAprilTagPose)
 	{
 		frc::Pose3d AprilTagPose = optionalAprilTagPose.value();
-		std::optional<VisionData> dataToAprilTag = selectedCam->GetDataToNearestApriltag();
+		std::optional<VisionData> dataToAprilTag = selectedCam->GetDataToNearestAprilTag();
 		frc::Transform3d transformToAprilTag = dataToAprilTag.value().deltaToTarget;
 		frc::Pose3d robotPose = AprilTagPose + transformToAprilTag.Inverse();
 		frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);

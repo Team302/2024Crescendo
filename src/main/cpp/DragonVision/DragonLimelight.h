@@ -107,7 +107,7 @@ public:
     std::optional<VisionPose> GetBlueFieldPosition() const;
     std::optional<VisionPose> GetOriginFieldPosition() const;
 
-    std::optional<VisionData> GetDataToNearestApriltag();
+    std::optional<VisionData> GetDataToNearestAprilTag() const;
 
     units::length::inch_t EstimateTargetXDistance() const;
     units::length::inch_t EstimateTargetYDistance() const;

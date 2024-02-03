@@ -63,7 +63,7 @@ public:
     virtual units::angle::degree_t GetTargetPitchRobotFrame() const = 0;
     /// @brief Gets the pitch of the current target
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetPitchAngle() const = 0;
+    virtual units::angle::degree_t GetTargetPitch() const = 0;
     /// @brief returns the curent latancy of the vision pipeline
     /// @return units::time::millisecond_t
     virtual units::time::millisecond_t GetPipelineLatency() const = 0;
@@ -86,15 +86,15 @@ public:
     virtual std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
 
     //  Estimating distance
-    virtual units::length::inch_t GetEstimatedTargetXDistance() const = 0;
-    virtual units::length::inch_t GetEstimatedTargetYDistance() const = 0;
-    virtual units::length::inch_t GetEstimatedTargetZDistance() const = 0;
+    virtual units::length::inch_t EstimateTargetXDistance() const = 0;
+    virtual units::length::inch_t EstimateTargetYDistance() const = 0;
+    virtual units::length::inch_t EstimateTargetZDistance() const = 0;
 
-    virtual units::length::inch_t GetEstimatedTargetXDistance_RelToRobotCoords() const = 0;
-    virtual units::length::inch_t GetEstimatedTargetYDistance_RelToRobotCoords() const = 0;
-    virtual units::length::inch_t GetEstimatedTargetZDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const = 0;
 
-    virtual std::optional<VisionData> GetDataToNearestApriltag() const = 0;
+    virtual std::optional<VisionData> GetDataToNearestAprilTag() const = 0;
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }

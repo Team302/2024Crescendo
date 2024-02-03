@@ -45,7 +45,7 @@ bool DragonPhotonCam::HasTarget() const
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
     return result.HasTargets();
 }
-std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
+std::optional<VisionPose> DragonPhotonCam::GetFieldPosition() const
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -94,7 +94,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
     return std::nullopt;
 }
 
-std::optional<VisionPose> DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance)
+std::optional<VisionPose> DragonPhotonCam::GetFieldPosition(frc::DriverStation::Alliance alliance) const
 {
     return GetFieldPosition();
 }
@@ -466,13 +466,13 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
 
     return units::length::inch_t(-1.0);
 }
-bool DragonPhotonCam::UpdatePipeline(DragonCamera::PIPELINE pipeline)
+bool DragonPhotonCam::UpdatePipeline()
 {
     m_camera->SetPipelineIndex(static_cast<int>(m_pipeline));
     return false;
 }
 
-std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
+std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag() const
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
