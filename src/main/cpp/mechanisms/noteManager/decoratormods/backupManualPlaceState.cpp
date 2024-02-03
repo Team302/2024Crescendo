@@ -34,16 +34,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-backupManualPlaceState::backupManualPlaceState ( std::string stateName,
-        int stateId,
-        noteManagerAllStatesStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+backupManualPlaceState::backupManualPlaceState(std::string stateName,
+											   int stateId,
+											   noteManagerAllStatesStateGen *generatedState,
+											   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void backupManualPlaceState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "backupManualPlaceState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("backupManualPlaceState"), string("init"));
 
 	m_genState->Init();
 }
@@ -51,7 +51,13 @@ void backupManualPlaceState::Init()
 void backupManualPlaceState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("backupManualPlaceState"), string("run"));
+
 	m_genState->Run();
+	m_genState->GetnoteManager()->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, static_cast<double>(TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_FRONT_INTAKE)));
+	m_genState->GetnoteManager()->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE, static_cast<double>(TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_BACK_INTAKE)));
+	m_genState->GetnoteManager()->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE));
+	m_genState->GetnoteManager()->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR) * 0.5);
+	m_genState->GetnoteManager()->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE) * 0.5);
 }
 
 void backupManualPlaceState::Exit()
@@ -65,9 +71,9 @@ bool backupManualPlaceState::AtTarget()
 	return attarget;
 }
 
-bool backupManualPlaceState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool backupManualPlaceState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXAMPLE_MECH_FORWARD));
 }
