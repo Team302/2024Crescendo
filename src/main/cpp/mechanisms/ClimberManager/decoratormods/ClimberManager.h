@@ -25,10 +25,12 @@
 // Team 302 includes
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/base/StateMgr.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
+#include "robotstate/RobotStateChanges.h"
 
 // forward declares
 
-class ClimberManager : public ClimberManagerGen
+class ClimberManager : public ClimberManagerGen,public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -44,14 +46,14 @@ public:
 
 	void createAndRegisterStates();
 
-	// todo not sure what to do with these
-	/*
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	*/
+	void Update(RobotStateChanges::StateChange change, int value) override;
+
+	bool isClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
+	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
+
 
 private:
 	ClimberManagerGen *m_ClimberManager;
+	RobotStateChanges::ClimbMode m_climbMode;
+	RobotStateChanges::GamePeriod m_gamePeriod;
 };

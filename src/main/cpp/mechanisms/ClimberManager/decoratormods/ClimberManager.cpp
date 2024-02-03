@@ -32,6 +32,8 @@
 #include "mechanisms/ClimberManager/decoratormods/autoClimbState.h"
 #include "mechanisms/ClimberManager/decoratormods/HoldState.h"
 
+#include "robotstate/RobotState.h"
+
 using std::string;
 using namespace ClimberManagerStates;
 
@@ -42,10 +44,17 @@ using namespace ClimberManagerStates;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-ClimberManager::ClimberManager ( ClimberManagerGen *base ) : ClimberManagerGen(),
+ClimberManager::ClimberManager ( ClimberManagerGen *base ) : ClimberManagerGen(),IRobotStateChangeSubscriber(),
 	m_ClimberManager ( base )
 {
 	PeriodicLooper::GetInstance()->RegisterAll ( this );
+	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
+	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
+
+	RobotState *RobotStates = RobotState::GetInstance();
+
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void ClimberManager::createAndRegisterStates()
@@ -73,6 +82,14 @@ void ClimberManager::createAndRegisterStates()
 	autoClimbStateInst->RegisterTransitionState ( ManualStateInst );
 	HoldStateInst->RegisterTransitionState ( ManualStateInst );
 
+}
+
+void ClimberManager::Update(RobotStateChanges::StateChange change, int value)
+{
+	if (change == RobotStateChanges::ClimbModeStatus)
+		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
+	else if (change == RobotStateChanges::GameState)
+		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
 // todo not sure what to do with this
