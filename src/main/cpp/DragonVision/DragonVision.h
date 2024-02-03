@@ -52,6 +52,9 @@ public:
         SPEAKER,
         AMP,
         STAGE,
+        LEFT_STAGE,
+        RIGHT_STAGE,
+        CENTER_STAGE,
         SOURCE,
         NEAREST_APRILTAG
     };
@@ -95,7 +98,7 @@ private:
     std::optional<VisionData> GetVisionDataFromNote(VISION_ELEMENT element);
     std::optional<VisionData> GetVisionDataFromElement(VISION_ELEMENT element);
     std::optional<VisionData> GetVisionDataToNearestTag();
-    std::optional<VisionData> GetVisionDataToNearestStageTag();
+    std::optional<VisionData> GetVisionDataToNearestStageTag(VISION_ELEMENT element);
 
     static DragonVision *m_dragonVision;
 
