@@ -15,6 +15,7 @@
 
 #pragma once
 
+#include "optional"
 #include "frc/geometry/Pose3d.h"
 
 // Team302 Includes
@@ -28,5 +29,5 @@ public:
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 protected:
-    frc::Pose3d GetVisionTargetPose() override;
+    std::optional<frc::Pose3d> GetVisionTargetPose() override;
 };
