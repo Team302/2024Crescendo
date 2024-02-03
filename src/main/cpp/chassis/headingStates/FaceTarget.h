@@ -30,6 +30,11 @@ public:
         BLUE_SOURCE_TWO,
         RED_SOURCE_ONE = 10,
         RED_SOURCE_TWO = 9
+        BLUE_SUBWOOFER = 8,
+        BLUE_SPEAKER = 7,
+        RED_SUBWOOFER = 3,
+        RED_SPEAKER = 4
+
     };
     FaceTarget() = delete;
 
