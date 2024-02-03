@@ -13,14 +13,21 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include <optional>
+
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceLeftStage.h"
+#include "chassis/headingStates/FaceTarget.h"
+#include "utils/FMSData.h"
+#include "frc/apriltag/AprilTagFields.h"
 
-FaceLeftStage::FaceLeftStage() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE)
+FaceLeftStage::FaceLeftStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE)
 {
 }
 
-void FaceLeftStage::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+std::optional<frc::Pose3d> FaceLeftStage::GetVisionTargetPose()
 {
+    int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::BLUE_STAGE_LEFT : FaceTarget::RED_STAGE_LEFT);
+    return frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo).GetTagPose(aprilTag);
 }
