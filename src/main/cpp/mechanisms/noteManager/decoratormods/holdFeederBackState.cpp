@@ -44,7 +44,7 @@ holdFeederBackState::holdFeederBackState(std::string stateName,
 void holdFeederBackState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederBackState"), string("init"));
-
+	m_mechanism->getbackIntake()->EnableBrakeMode(true);
 	m_genState->Init();
 }
 
