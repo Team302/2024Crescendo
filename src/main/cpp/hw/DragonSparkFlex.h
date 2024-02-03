@@ -19,9 +19,11 @@
 
 #include "configs/RobotElementNames.h"
 #include "hw/interfaces/IDragonMotorController.h"
+#include "hw/DistanceAngleCalcStruc.h"
 
 #include "ctre/phoenix/motorcontrol/RemoteSensorSource.h" // need to remove dependency on ctre
 #include "rev/CANSparkFlex.h"
+#include "rev/SparkLimitSwitch.h"
 
 // namespaces
 using namespace rev;
@@ -36,7 +38,9 @@ public:
                     RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                     rev::CANSparkFlex::MotorType motorType,
                     rev::SparkRelativeEncoder::Type feedbackType,
-                    double gearRatio);
+                    rev::SparkLimitSwitch::Type forwardType,
+                    rev::SparkLimitSwitch::Type reverseType,
+                    const DistanceAngleCalcStruc &calcStruc);
     virtual ~DragonSparkFlex() = default;
 
     // Getters
@@ -51,15 +55,13 @@ public:
     void Set(double value) override;
     void SetRotationOffset(double rotations) override;
     void SetVoltageRamping(double ramping, double rampingClosedLoop = -1) override; // seconds 0 to full, set to 0 to disable
-    void EnableCurrentLimiting(bool enabled) override;
     void EnableBrakeMode(bool enabled) override;
     void Invert(bool inverted) override;
 
     void InvertEncoder(bool inverted);
     void SetSmartCurrentLimiting(int limit);
     void SetSecondaryCurrentLimiting(int limit, int duration);
-
-    double GetGearRatio() const override { return m_gearRatio; }
+    void EnableCurrentLimiting(bool enabled);
 
     // dummy methods below
     // std::shared_ptr<frc::MotorController> GetSpeedController() override;
@@ -75,21 +77,26 @@ public:
     bool IsReverseLimitSwitchClosed() override;
     void EnableVoltageCompensation(double fullvoltage) override;
     void SetSelectedSensorPosition(double initialPosition) override;
-    double GetCountsPerInch() const override;
-    double GetCountsPerDegree() const override;
     void EnableDisableLimitSwitches(bool enable) override;
-    double GetCountsPerRev() const override { return 1.0; }
+    double GetCountsPerRev() const override { return m_calcStruc.countsPerRev; }
+    double GetGearRatio() const override { return m_calcStruc.gearRatio; }
+    double GetCountsPerInch() const override { return m_calcStruc.countsPerInch; }
+    double GetCountsPerDegree() const override { return m_calcStruc.countsPerDegree; }
 
 private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
     rev::CANSparkFlex *m_spark;
+    rev::SparkLimitSwitch m_forwardLimitSwitch;
+    rev::SparkLimitSwitch m_reverseLimitSwitch;
+    rev::SparkLimitSwitch::Type m_forwardType;
+    rev::SparkLimitSwitch::Type m_reverseType;
     double m_outputRotationOffset;
-    double m_gearRatio;
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
     rev::SparkRelativeEncoder m_encoder;
     rev::SparkPIDController m_pidController;
+    DistanceAngleCalcStruc m_calcStruc;
 
     rev::CANSparkFlex *GetSparkFlex();
 };

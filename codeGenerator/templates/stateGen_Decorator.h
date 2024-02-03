@@ -5,25 +5,30 @@ $$_GEN_NOTICE_$$
 #include <string>
 
 #include "State.h"
-#include "mechanisms/controllers/MechanismTargetData.h"
-
-#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$_$$_STATE_NAME_$$_StateGen.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/decoratormods/$$_MECHANISM_INSTANCE_NAME_$$.h"
+#include "mechanisms/$$_MECHANISM_INSTANCE_NAME_$$/generated/$$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen.h"
 
 using namespace std;
-class $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State : public State
-{
-public:
-    $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State() = delete;
-    $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State(std::string stateName,
-                                                       int stateId,
-                                                       $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *generatedState);
-    ~$$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$State() = default;
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
-    bool IsTransitionCondition(bool considerGamepadTransitions) const override;
 
-private:
-    $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *m_genState;
-};
+namespace $$_MECHANISM_INSTANCE_NAME_$$States
+{
+    class $$_STATE_NAME_$$State : public State
+    {
+    public:
+        $$_STATE_NAME_$$State() = delete;
+        $$_STATE_NAME_$$State(std::string stateName,
+                              int stateId,
+                              $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *generatedState,
+                              $$_MECHANISM_INSTANCE_NAME_$$ *mech);
+        ~$$_STATE_NAME_$$State() = default;
+        void Init() override;
+        void Run() override;
+        void Exit() override;
+        bool AtTarget() override;
+        bool IsTransitionCondition(bool considerGamepadTransitions) override;
+
+    private:
+        $$_MECHANISM_INSTANCE_NAME_$$$$_STATE_NAME_$$StateGen *m_genState;
+        $$_MECHANISM_INSTANCE_NAME_$$ *m_mechanism;
+    };
+}

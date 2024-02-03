@@ -25,8 +25,8 @@
 #include "auton/PrimitiveParams.h"
 #include "auton/drivePrimitives/DriveHoldPosition.h"
 #include "auton/drivePrimitives/IPrimitive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/ChassisConfig.h"
 #include "mechanisms/controllers/ControlModes.h"
 
 // Third Party Includes
@@ -37,7 +37,7 @@ using namespace frc;
 DriveHoldPosition::DriveHoldPosition() : m_chassis(nullptr),
 										 m_timeRemaining(units::time::second_t(0.0)) // Value will be changed in init
 {
-	auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+	auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 	m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 

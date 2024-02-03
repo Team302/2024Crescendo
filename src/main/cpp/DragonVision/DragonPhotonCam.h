@@ -29,19 +29,35 @@ public:
                     units::angle::degree_t yaw,             /// <I> - Yaw of limelight
                     units::angle::degree_t roll);           /// <I> - Roll of limelight
 
-    units::angle::degree_t GetTargetYAngle() const;
-    units::angle::degree_t GetTargetYAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
-    units::angle::degree_t GetTargetZAngleRobotFrame(units::length::inch_t *targetDistOffset_RF, units::length::inch_t *targetDistfromRobot_RF) const;
-    units::angle::degree_t GetTargetZAngle() const;
-    units::time::microsecond_t GetPipelineLatency() const;
+    DragonPhotonCam() = delete;
+
+    bool HasTarget() const;
+
+    units::angle::degree_t GetTargetYaw() const;
+    units::angle::degree_t GetTargetYawRobotFrame() const;
+
+    double GetPoseAmbiguity() const;
+
+    units::angle::degree_t GetTargetPitchRobotFrame() const;
+    units::angle::degree_t GetTargetPitch() const;
+
+    units::time::millisecond_t GetPipelineLatency() const;
     int GetAprilTagID() const;
+    units::angle::degree_t GetTargetSkew() const;
+    double GetTargetArea() const;
+
+    std::optional<VisionPose> GetFieldPosition();
+    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
+
     units::length::inch_t EstimateTargetXDistance() const;
     units::length::inch_t EstimateTargetYDistance() const;
     units::length::inch_t EstimateTargetZDistance() const;
     units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const;
     units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const;
     units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
-    bool SetPipeline(PIPELINE pipeline);
+    bool UpdatePipeline(PIPELINE pipeline);
+
+    std::optional<VisionData> GetDataToNearestAprilTag();
 
 private:
     photon::PhotonCamera *m_camera; // photoncamera instance

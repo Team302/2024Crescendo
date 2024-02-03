@@ -4,7 +4,6 @@
   <robotConfiguration>..\RobotConfig\2024Crescendo.xml</robotConfiguration>
   <appDataConfigurations>
     <string>../Minimal/minimalRobot.xml</string>
-    <string>../targetTest/targetTest.xml</string>
     <string>../RobotConfig/2024Crescendo.xml</string>
   </appDataConfigurations>
   <collectionBaseTypes>
@@ -163,12 +162,12 @@
     <codeTemplateFile>
       <name>MechanismInstance_gen_h</name>
       <templateFilePathName>..\..\templates\MechanismInstance_gen.h</templateFilePathName>
-      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_gen.h</outputFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAMEGen.h</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
       <name>MechanismInstance_gen_cpp</name>
       <templateFilePathName>..\..\templates\MechanismInstance_gen.cpp</templateFilePathName>
-      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_gen.cpp</outputFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAMEGen.cpp</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
       <name>MechanismInstance_h</name>
@@ -203,32 +202,32 @@
     <codeTemplateFile>
       <name>BaseStateGen_h</name>
       <templateFilePathName>..\..\templates\baseStateGen.h</templateFilePathName>
-      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_Base_StateGen.h</outputFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAMEBaseStateGen.h</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
       <name>BaseStateGen_cpp</name>
       <templateFilePathName>..\..\templates\baseStateGen.cpp</templateFilePathName>
-      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_Base_StateGen.cpp</outputFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAMEBaseStateGen.cpp</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
       <name>stateGen_h</name>
       <templateFilePathName>..\..\templates\stateGen.h</templateFilePathName>
-      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_STATE_NAME_StateGen.h</outputFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAMESTATE_NAMEStateGen.h</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
       <name>stateGen_cpp</name>
       <templateFilePathName>..\..\templates\stateGen.cpp</templateFilePathName>
-      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_STATE_NAME_StateGen.cpp</outputFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAMESTATE_NAMEStateGen.cpp</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
       <name>stateGen_Decorator_h</name>
       <templateFilePathName>..\..\templates\stateGen_Decorator.h</templateFilePathName>
-      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_STATE_NAME_State.h</outputFilePathName>
+      <outputFilePathName>mechanisms\STATE_NAMEState.h</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
       <name>stateGen_Decorator_cpp</name>
       <templateFilePathName>..\..\templates\stateGen_Decorator.cpp</templateFilePathName>
-      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_STATE_NAME_State.cpp</outputFilePathName>
+      <outputFilePathName>mechanisms\STATE_NAMEState.cpp</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
       <name>chassis_h</name>
@@ -238,7 +237,7 @@
   </codeTemplateFiles>
   <CopyrightNotice>
 //====================================================================================================================================================
-// Copyright 2023 Lake Orion Robotics FIRST Team 302
+// Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,

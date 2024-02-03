@@ -16,6 +16,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using static ApplicationData.generatorContext;
 using static ApplicationData.motorControlData;
 using static ApplicationData.TalonFX;
 using static ApplicationData.TalonSRX;
@@ -168,10 +169,10 @@ namespace ApplicationData
 
         [DataDescription("One power distribution panel can be configured for a robot")]
         public pdp PowerDistributionPanel { get; set; }
-        
+
         [DataDescription("A robot can contain multiple pneumatic control modules")]
         public List<pcm> PneumaticControlModules { get; set; }
-      
+
         [DataDescription("A robot can contain multiple limelights")]
         public List<limelight> Limelights { get; set; }
 
@@ -223,7 +224,7 @@ namespace ApplicationData
 
         public string getFullRobotName()
         {
-            return string.Format("{0}_{1}", name, robotID.value);
+            return string.Format("{0}{1}", name, robotID.value);
         }
 
         public List<string> generate(string generateFunctionName)
@@ -324,6 +325,10 @@ namespace ApplicationData
                     if (theObject != null)
                     {
                         Type elementType = theObject.GetType().GetGenericArguments().Single();
+
+                        if ((generateFunctionName == "generateIndexedObjectCreation") && (elementType == typeof(state)))
+                            continue;
+
                         ICollection ic = theObject as ICollection;
                         int index = 0;
                         foreach (var v in ic)
@@ -891,9 +896,9 @@ namespace ApplicationData
         {
             List<string> sb = new List<string>();
 
-            foreach(pigeon p in Pigeons)
+            foreach (pigeon p in Pigeons)
             {
-                sb.Add(string.Format("{1}::{0}",ToUnderscoreCase(p.name), ToUnderscoreCase(p.GetType().Name)));
+                sb.Add(string.Format("{1}::{0}", ToUnderscoreCase(p.name), ToUnderscoreCase(p.GetType().Name)));
             }
 
             return sb;
@@ -925,22 +930,22 @@ namespace ApplicationData
 
         public override List<string> generateIndexedObjectCreation(int index)
         {
-            return new List<string>();
+            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}))",
+                                            name,
+                                            getImplementationName(),
+                                            utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
+                                            digitalId.value,
+                                            reversed.value.ToString().ToLower(),
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(debouncetime.__units__),
+                                            debouncetime.value
+                                            );
+
+            return new List<string> { creation };
         }
 
         override public List<string> generateObjectCreation()
         {
-            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}))",
-                name,
-                getImplementationName(),
-                utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
-                digitalId.value,
-                reversed.value.ToString().ToLower(),
-                generatorContext.theGeneratorConfig.getWPIphysicalUnitType(debouncetime.__units__),
-                debouncetime.value
-                );
-
-            return new List<string> { creation };
+            return new List<string>();
         }
 
         override public List<string> generateInitialization()
@@ -1403,6 +1408,12 @@ namespace ApplicationData
         {
             return new List<string> { string.Format("{0}* {1};", getImplementationName(), name) };
         }
+
+        virtual public List<string> generateDefinitionGetter()
+        {
+            return new List<string> { string.Format("{0}* get{1}() const {{return {1};}}", getImplementationName(), name) };
+        }
+
         virtual public List<string> generateInitialization()
         {
             return new List<string> { "baseRobotElementClass.generateInitialization needs to be overridden" };
@@ -1484,6 +1495,11 @@ namespace ApplicationData
 
     public static class generatorContext
     {
+        public enum GenerationStage { Unknown, MechInstanceGen, MechInstanceDecorator }
+
+        public static GenerationStage generationStage { get; set; }
+
+        public const bool singleStateGenFile = true;
         public static mechanism theMechanism { get; set; }
         public static mechanismInstance theMechanismInstance { get; set; }
         public static int stateIndex { get; set; }
@@ -1492,6 +1508,7 @@ namespace ApplicationData
 
         public static void clear()
         {
+            generationStage = GenerationStage.Unknown;
             theMechanism = null;
             theMechanismInstance = null;
             theRobot = null;
@@ -1693,7 +1710,7 @@ namespace ApplicationData
 
         [ConstantInMechInstance]
         [DataDescription("The name of the motor that this target applies to")]
-        public string motorName { get;set; }
+        public string motorName { get; set; }
 
         [ConstantInMechInstance]
         [DataDescription("The name of the control data to use in order to reach this target")]
@@ -1725,9 +1742,9 @@ namespace ApplicationData
         public override List<string> generateIncludes()
         {
             List<string> sb = new List<string>();
-            if (generatorContext.theMechanismInstance != null)
+            if ((generatorContext.theMechanismInstance != null) && (generatorContext.GenerationStage.MechInstanceDecorator == generatorContext.generationStage))
             {
-                sb.Add(string.Format("#include \"mechanisms/{1}/decoratormods/{1}_{0}_State.h\"",
+                sb.Add(string.Format("#include \"mechanisms/{1}/decoratormods/{0}State.h\"",
                     name,
                     generatorContext.theMechanismInstance.name));
             }
@@ -1738,10 +1755,22 @@ namespace ApplicationData
         {
             if (generatorContext.theMechanismInstance != null)
             {
-                string creation = string.Format("{1}{0}State* {0}State = new {1}{0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this))",
-                name,
-                generatorContext.theMechanismInstance.name,
-                index);
+                string creation = "";
+
+                if (generatorContext.singleStateGenFile)
+                {
+                    creation = string.Format("{0}State* {0}StateInst = new {0}State(string(\"{0}\"), {2}, new {1}AllStatesStateGen(string(\"{0}\"), {2}, this), this)",
+                    name,
+                    generatorContext.theMechanismInstance.name,
+                    index);
+                }
+                else
+                {
+                    creation = string.Format("{0}State* {0}StateInst = new {0}State(string(\"{0}\"), {2}, new {1}{0}StateGen(string(\"{0}\"), {2}, this), this)",
+                    name,
+                    generatorContext.theMechanismInstance.name,
+                    index);
+                }
 
                 List<string> code = new List<string>() { creation };
 
@@ -1765,9 +1794,23 @@ namespace ApplicationData
         }
         override public List<string> generateObjectAddToMaps()
         {
-            string creation = string.Format("AddToStateVector({0}State)", name);
+            string creation = string.Format("AddToStateVector({0}StateInst)", name);
 
             return new List<string> { creation };
+        }
+
+        override public List<string> generateElementNames()
+        {
+            Type baseType = GetType();
+            while ((baseType.BaseType != typeof(object)) && (baseType.BaseType != typeof(baseRobotElementClass)))
+                baseType = baseType.BaseType;
+
+            if (generatorContext.theMechanismInstance != null)
+            {
+                return new List<string> { string.Format("{2}_{0}::{0}_{1}", ToUnderscoreCase(generatorContext.theMechanismInstance.name), ToUnderscoreCase(name), ToUnderscoreCase(baseType.Name)) };
+            }
+            else
+                return new List<string> { "generateElementNames got to the else statement...should not be here" };
         }
     }
     /*
