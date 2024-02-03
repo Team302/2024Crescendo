@@ -31,9 +31,12 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         auto currentPose = chassis->GetPose();
 
         auto pose3d = GetVisionTargetPose();
-        auto targetPose = pose3d.ToPose2d();
+        if (pose3d)
+        {
+            auto targetPose = pose3d.value().ToPose2d();
 
-        auto trans = currentPose - targetPose;
-        chassis->SetStoredHeading(trans.Rotation().Degrees());
+            auto trans = currentPose - targetPose;
+            chassis->SetStoredHeading(trans.Rotation().Degrees());
+        }
     }
 }
