@@ -34,16 +34,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-holdFeederFrontState::holdFeederFrontState ( std::string stateName,
-        int stateId,
-        noteManagerAllStatesStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+holdFeederFrontState::holdFeederFrontState(std::string stateName,
+										   int stateId,
+										   noteManagerAllStatesStateGen *generatedState,
+										   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void holdFeederFrontState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "holdFeederFrontState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederFrontState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,10 +65,10 @@ bool holdFeederFrontState::AtTarget()
 	return attarget;
 }
 
-bool holdFeederFrontState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool holdFeederFrontState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-	bool feederSensor = m_mechanism->getfeederSensor();
-	bool frontIntakeSensor = m_mechanism->getfrontIntakeSensor();
+	bool feederSensor = m_mechanism->getfeederSensor()->Get();
+	bool frontIntakeSensor = m_mechanism->getfrontIntakeSensor()->Get();
 	return (feederSensor && frontIntakeSensor);
 }

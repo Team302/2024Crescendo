@@ -34,16 +34,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-holdPlacerBackState::holdPlacerBackState ( std::string stateName,
-        int stateId,
-        noteManagerAllStatesStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+holdPlacerBackState::holdPlacerBackState(std::string stateName,
+										 int stateId,
+										 noteManagerAllStatesStateGen *generatedState,
+										 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void holdPlacerBackState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "holdPlacerBackState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdPlacerBackState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,12 +65,12 @@ bool holdPlacerBackState::AtTarget()
 	return attarget;
 }
 
-bool holdPlacerBackState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool holdPlacerBackState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	bool placerInSensor = m_mechanism->getplacerInSensor();
-	bool backIntakeSensor = m_mechanism->getbackIntakeSensor();
-	
+	bool placerInSensor = m_mechanism->getplacerInSensor()->Get();
+	bool backIntakeSensor = m_mechanism->getbackIntakeSensor()->Get();
+
 	return (placerInSensor && backIntakeSensor);
 }
