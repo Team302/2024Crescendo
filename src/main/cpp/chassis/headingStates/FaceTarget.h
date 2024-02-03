@@ -26,6 +26,7 @@ class FaceTarget : public ISwerveDriveOrientation
 public:
     enum AprilTagIDs
     {
+        NO_APRIL_TAG,
         BLUE_SOURCE_ONE = 1,
         BLUE_SOURCE_TWO,
         RED_SOURCE_ONE = 10,
@@ -41,7 +42,8 @@ public:
         BLUE_SUBWOOFER = 8,
         BLUE_SPEAKER = 7,
         RED_SUBWOOFER = 3,
-        RED_SPEAKER = 4
+        RED_SPEAKER = 4,
+        MAX_APRIL_TAGS
 
     };
 
