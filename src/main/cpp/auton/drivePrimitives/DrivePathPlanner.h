@@ -20,7 +20,7 @@
 // Team302 Includes
 #include "auton/PrimitiveParams.h"
 #include "auton/drivePrimitives/IPrimitive.h"
-#include "chassis/swerve/SwerveChassis.h"
+#include "chassis/SwerveChassis.h"
 
 // FRC,WPI Includes
 #include "frc/Timer.h"

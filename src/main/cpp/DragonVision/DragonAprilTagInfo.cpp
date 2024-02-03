@@ -23,21 +23,15 @@
 using frc::AprilTagFieldLayout;
 using frc::Pose3d;
 
-DragonAprilTagInfo::DragonAprilTagInfo() : m_layout(frc::LoadAprilTagLayoutField(frc::AprilTagField::k2023ChargedUp))
+DragonAprilTagInfo::DragonAprilTagInfo()
 {
 }
-
-std::optional<Pose3d> DragonAprilTagInfo::Get3DPose(int tagid) const
+frc::AprilTagFieldLayout DragonAprilTagInfo::m_layout = frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo);
+frc::AprilTagFieldLayout DragonAprilTagInfo::GetAprilTagLayout()
 {
-    return m_layout.GetTagPose(tagid);
-}
-
-std::optional<units::length::inch_t> DragonAprilTagInfo::GetHeight(int tagid) const
-{
-    auto pose = Get3DPose(tagid);
-    if (pose.has_value())
+    if (m_layout != frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
     {
-        return pose->Z();
+        DragonAprilTagInfo::m_layout = frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo);
     }
-    return {};
+    return DragonAprilTagInfo::m_layout;
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id = "RESET_POSITION_PATH_PLANNER"
+pathname= "BlueSubwooferRWing3Center1.path"/>
+
+<snippet file= "ShootWhenStop.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferRWing3Center1.path"/>
+
+<snippet file= "ShootWhenStop.xml"/>
+
+<!--Launching zones: 
+V9-X11
+R9-T11
+M8-O10-->
+
+</auton>
