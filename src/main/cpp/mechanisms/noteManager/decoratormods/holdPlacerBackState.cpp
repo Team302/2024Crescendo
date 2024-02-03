@@ -44,8 +44,9 @@ holdPlacerBackState::holdPlacerBackState(std::string stateName,
 void holdPlacerBackState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdPlacerBackState"), string("init"));
-	m_mechanism->getbackIntake()->EnableBrakeMode(true);
+
 	m_genState->Init();
+	m_mechanism->getbackIntake()->EnableBrakeMode(true);
 }
 
 void holdPlacerBackState::Run()

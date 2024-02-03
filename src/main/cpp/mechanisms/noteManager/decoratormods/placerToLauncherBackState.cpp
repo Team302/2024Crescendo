@@ -44,8 +44,9 @@ placerToLauncherBackState::placerToLauncherBackState(std::string stateName,
 void placerToLauncherBackState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placerToLauncherBackState"), string("init"));
-	m_mechanism->getbackIntake()->EnableBrakeMode(false);
+
 	m_genState->Init();
+	m_mechanism->getbackIntake()->EnableBrakeMode(false);
 }
 
 void placerToLauncherBackState::Run()

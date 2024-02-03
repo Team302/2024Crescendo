@@ -44,8 +44,9 @@ launcherToPlacerBackState::launcherToPlacerBackState(std::string stateName,
 void launcherToPlacerBackState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("launcherToPlacerBackState"), string("init"));
-	m_mechanism->getbackIntake()->EnableBrakeMode(false);
+
 	m_genState->Init();
+	m_mechanism->getbackIntake()->EnableBrakeMode(false);
 }
 
 void launcherToPlacerBackState::Run()
