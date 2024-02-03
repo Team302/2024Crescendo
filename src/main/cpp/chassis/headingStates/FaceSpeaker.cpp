@@ -13,14 +13,23 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include "frc/geometry/Pose3d.h"
+#include "frc/apriltag/AprilTagFields.h"
+#include <optional>
+
 // Team302 Includes
 #include "chassis/ChassisMovement.h"
 #include "chassis/headingStates/FaceSpeaker.h"
+#include "chassis/headingStates/FaceTarget.h"
+#include "DragonVision/DragonAprilTagInfo.h"
+#include "utils/FMSData.h"
 
-FaceSpeaker::FaceSpeaker() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_SPEAKER)
+FaceSpeaker::FaceSpeaker() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_SPEAKER)
 {
 }
 
-void FaceSpeaker::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+std::optional<frc::Pose3d> FaceSpeaker::GetVisionTargetPose()
 {
+    int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::BLUE_AMP : FaceTarget::RED_AMP);
+    return frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo).GetTagPose(aprilTag);
 }
