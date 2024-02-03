@@ -29,7 +29,7 @@ public:
         BLUE_SOURCE_ONE = 1,
         BLUE_SOURCE_TWO,
         RED_SOURCE_ONE = 10,
-        RED_SOURCE_TWO = 9
+        RED_SOURCE_TWO = 9,
         BLUE_SUBWOOFER = 8,
         BLUE_SPEAKER = 7,
         RED_SUBWOOFER = 3,
