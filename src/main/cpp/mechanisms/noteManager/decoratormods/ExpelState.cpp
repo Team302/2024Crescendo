@@ -34,17 +34,17 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-ExpelState::ExpelState ( std::string stateName,
-                         int stateId,
-                         noteManagerAllStatesStateGen *generatedState,
-                         noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+ExpelState::ExpelState(std::string stateName,
+					   int stateId,
+					   noteManagerAllStatesStateGen *generatedState,
+					   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void ExpelState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "ExpelState" ), string ( "init" ) );
-
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ExpelState"), string("init"));
+	m_mechanism->getTransfer()->EnableBrakeMode(false);
 	m_genState->Init();
 }
 
@@ -65,7 +65,7 @@ bool ExpelState::AtTarget()
 	return attarget;
 }
 
-bool ExpelState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool ExpelState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
