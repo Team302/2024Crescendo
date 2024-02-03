@@ -25,6 +25,7 @@ class RobotConfigMgr
 public:
 	enum RobotIdentifier
 	{
+		CHASSISBOT_9998 = 9998,
 		PRACTICE_BOT_9999 = 9999,
 		THING_1 = 1,
 
