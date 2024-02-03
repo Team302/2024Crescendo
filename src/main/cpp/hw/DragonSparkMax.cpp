@@ -127,10 +127,6 @@ void DragonSparkMax::SetVoltageRamping(double ramping, double rampingClosedLoop)
     }
 }
 
-void DragonSparkMax::EnableCurrentLimiting(bool enabled)
-{
-}
-
 void DragonSparkMax::EnableBrakeMode(bool enabled)
 {
     m_spark->SetIdleMode(enabled ? rev::CANSparkMax::IdleMode::kBrake : rev::CANSparkMax::IdleMode::kCoast);
