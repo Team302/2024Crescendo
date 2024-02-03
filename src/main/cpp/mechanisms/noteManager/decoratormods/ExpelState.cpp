@@ -44,8 +44,8 @@ ExpelState::ExpelState(std::string stateName,
 void ExpelState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ExpelState"), string("init"));
-	m_mechanism->getTransfer()->EnableBrakeMode(false);
 	m_genState->Init();
+	m_mechanism->getTransfer()->EnableBrakeMode(false);
 }
 
 void ExpelState::Run()
