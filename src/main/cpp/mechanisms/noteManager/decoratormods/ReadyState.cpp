@@ -1,4 +1,4 @@
-// clang-format off
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -34,16 +34,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-ReadyState::ReadyState ( std::string stateName,
-                         int stateId,
-                         noteManagerAllStatesStateGen *generatedState,
-                         noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+ReadyState::ReadyState(std::string stateName,
+					   int stateId,
+					   noteManagerAllStatesStateGen *generatedState,
+					   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void ReadyState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "ReadyState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +65,9 @@ bool ReadyState::AtTarget()
 	return attarget;
 }
 
-bool ReadyState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXAMPLE_MECH_FORWARD));
 }

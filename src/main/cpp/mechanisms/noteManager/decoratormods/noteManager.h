@@ -1,4 +1,4 @@
-// clang-format off
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -25,10 +25,12 @@
 // Team 302 includes
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
 #include "mechanisms/base/StateMgr.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
+#include "robotstate/RobotStateChanges.h"
 
 // forward declares
 
-class noteManager : public noteManagerGen
+class noteManager : public noteManagerGen, public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -44,14 +46,16 @@ public:
 
 	void createAndRegisterStates();
 
-	// todo not sure what to do with these
-	/*
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-	*/
+	bool isLauncherMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Launcher; }
+	bool isPlacerMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Placer; }
+	bool isClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
+	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
+
+	void Update(RobotStateChanges::StateChange change, int value) override;
 
 private:
 	noteManagerGen *m_noteManager;
+	RobotStateChanges::ScoringMode m_scoringMode;
+	RobotStateChanges::ClimbMode m_climbMode;
+	RobotStateChanges::GamePeriod m_gamePeriod;
 };

@@ -1,4 +1,4 @@
-// clang-format off
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -68,6 +68,5 @@ bool placerToLauncherFrontState::AtTarget()
 bool placerToLauncherFrontState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (m_mechanism->isLauncherMode());
 }

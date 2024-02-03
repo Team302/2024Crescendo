@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -34,16 +33,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-holdFeederState::holdFeederState ( std::string stateName,
-                                   int stateId,
-                                   noteManagerAllStatesStateGen *generatedState,
-                                   noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+holdFeederState::holdFeederState(std::string stateName,
+								 int stateId,
+								 noteManagerAllStatesStateGen *generatedState,
+								 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void holdFeederState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "holdFeederState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +64,14 @@ bool holdFeederState::AtTarget()
 	return attarget;
 }
 
-bool holdFeederState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool holdFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 {
+	bool transition = false;
 	// To get the current state use m_mechanism->GetCurrentState()
+	bool feederSensor = m_mechanism->getfeederSensor()->Get();
+	bool launcherSensor = m_mechanism->getlauncherSensor()->Get();
+	auto currentstate = m_mechanism->GetCurrentState();
+	bool visionTargetAcquired = false; // todo be set later with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return ((feederSensor && launcherSensor) || (currentstate == m_genState->GetnoteManager()->STATE_READY_AUTO_LAUNCH && visionTargetAcquired == false));
 }

@@ -1,4 +1,4 @@
-// clang-format off
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -59,6 +59,8 @@
 #include "mechanisms/noteManager/decoratormods/backupManualLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/backupManualPlaceState.h"
 
+#include "robotstate/RobotState.h"
+
 using std::string;
 using namespace noteManagerStates;
 
@@ -69,10 +71,20 @@ using namespace noteManagerStates;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-noteManager::noteManager ( noteManagerGen *base ) : noteManagerGen(),
+noteManager::noteManager ( noteManagerGen *base ) : noteManagerGen(), IRobotStateChangeSubscriber(),
 	m_noteManager ( base )
 {
 	PeriodicLooper::GetInstance()->RegisterAll ( this );
+
+	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
+	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
+	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
+
+	RobotState *RobotStates = RobotState::GetInstance();
+
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void noteManager::createAndRegisterStates()
@@ -234,22 +246,13 @@ void noteManager::createAndRegisterStates()
 
 }
 
-// todo not sure what to do with this
-/*
-bool noteManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
+void noteManager::Update(RobotStateChanges::StateChange change, int value)
 {
-    return m_noteManager->IsAtMinPosition(identifier);
+	if (change == RobotStateChanges::DesiredScoringMode)
+		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
+	else if (change == RobotStateChanges::ClimbModeStatus)
+		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
+	else if (change == RobotStateChanges::GameState)
+		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
-bool noteManager::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_noteManager->IsAtMinPosition(identifier);
-}
-bool noteManager::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_noteManager->IsAtMaxPosition(identifier);
-}
-bool noteManager::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_noteManager->IsAtMaxPosition(identifier);
-}
-*/
+

@@ -1,4 +1,4 @@
-// clang-format off
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -68,6 +68,7 @@ bool holdFeederFrontState::AtTarget()
 bool holdFeederFrontState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	bool feederSensor = m_mechanism->getfeederSensor();
+	bool frontIntakeSensor = m_mechanism->getfrontIntakeSensor();
+	return (feederSensor && frontIntakeSensor);
 }

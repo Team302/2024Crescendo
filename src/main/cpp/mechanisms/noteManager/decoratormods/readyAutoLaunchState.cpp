@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -34,16 +33,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-readyAutoLaunchState::readyAutoLaunchState ( std::string stateName,
-        int stateId,
-        noteManagerAllStatesStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+readyAutoLaunchState::readyAutoLaunchState(std::string stateName,
+										   int stateId,
+										   noteManagerAllStatesStateGen *generatedState,
+										   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void readyAutoLaunchState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "readyAutoLaunchState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyAutoLaunchState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +64,10 @@ bool readyAutoLaunchState::AtTarget()
 	return attarget;
 }
 
-bool readyAutoLaunchState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool readyAutoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	bool visionTargetAcquired = false; // todo this will be set with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	return (visionTargetAcquired);
 }

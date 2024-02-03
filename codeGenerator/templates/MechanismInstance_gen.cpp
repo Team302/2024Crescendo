@@ -1,4 +1,4 @@
-// clang-format off
+
 $$_COPYRIGHT_$$
 $$_GEN_NOTICE_$$
 

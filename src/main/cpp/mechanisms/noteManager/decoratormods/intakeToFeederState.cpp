@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -34,16 +33,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-intakeToFeederState::intakeToFeederState ( std::string stateName,
-        int stateId,
-        noteManagerAllStatesStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+intakeToFeederState::intakeToFeederState(std::string stateName,
+										 int stateId,
+										 noteManagerAllStatesStateGen *generatedState,
+										 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void intakeToFeederState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "intakeToFeederState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("intakeToFeederState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +64,11 @@ bool intakeToFeederState::AtTarget()
 	return attarget;
 }
 
-bool intakeToFeederState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool intakeToFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return (considerGamepadTransitions && (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH) ||
+										   (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH)) ||
+										   (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS))));
 }

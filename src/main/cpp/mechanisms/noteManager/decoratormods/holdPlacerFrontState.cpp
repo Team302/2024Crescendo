@@ -1,4 +1,4 @@
-// clang-format off
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -68,6 +68,8 @@ bool holdPlacerFrontState::AtTarget()
 bool holdPlacerFrontState::IsTransitionCondition ( bool considerGamepadTransitions )
 {
 	// To get the current state use m_mechanism->GetCurrentState()
+	bool placerInSensor =m_mechanism->getplacerInSensor();
+	bool frontintakesensor = m_mechanism->getfrontIntakeSensor();	
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return ( placerInSensor && frontintakesensor);
 }

@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -34,16 +33,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-placerIntakeState::placerIntakeState ( std::string stateName,
-                                       int stateId,
-                                       noteManagerAllStatesStateGen *generatedState,
-                                       noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+placerIntakeState::placerIntakeState(std::string stateName,
+									 int stateId,
+									 noteManagerAllStatesStateGen *generatedState,
+									 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void placerIntakeState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "placerIntakeState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placerIntakeState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +64,19 @@ bool placerIntakeState::AtTarget()
 	return attarget;
 }
 
-bool placerIntakeState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool placerIntakeState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	int currentState = m_mechanism->GetCurrentState();
+	bool noSensorsDetected = (m_mechanism->getfeederSensor()->Get() == false) &&
+							 (m_mechanism->getlauncherSensor()->Get() == false) &&
+							 (m_mechanism->getplacerInSensor()->Get() == false) &&
+							 (m_mechanism->getplacerMidSensor()->Get() == false) &&
+							 (m_mechanism->getplacerOutSensor()->Get() == false) &&
+							 (m_mechanism->getbackIntakeSensor()->Get() == false) &&
+							 (m_mechanism->getfrontIntakeSensor()->Get() == false);
+
+	return ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->isPlacerMode()) ||
+			(noSensorsDetected && (currentState == static_cast<int>(m_mechanism->STATE_LAUNCHER_TO_PLACER_FRONT))));
 }

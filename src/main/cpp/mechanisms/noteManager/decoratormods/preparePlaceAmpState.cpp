@@ -1,4 +1,3 @@
-// clang-format off
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -34,16 +33,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-preparePlaceAmpState::preparePlaceAmpState ( std::string stateName,
-        int stateId,
-        noteManagerAllStatesStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+preparePlaceAmpState::preparePlaceAmpState(std::string stateName,
+										   int stateId,
+										   noteManagerAllStatesStateGen *generatedState,
+										   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void preparePlaceAmpState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "preparePlaceAmpState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("preparePlaceAmpState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +64,13 @@ bool preparePlaceAmpState::AtTarget()
 	return attarget;
 }
 
-bool preparePlaceAmpState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool preparePlaceAmpState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	auto currentState = m_mechanism->GetCurrentState();
+	bool placerInSensor = m_mechanism->getplacerInSensor()->Get();
+	bool placerMidSensor = m_mechanism->getplacerMidSensor()->Get();
+	return ((placerInSensor && placerMidSensor && (m_mechanism->isClimbMode() == false)) ||
+			((currentState == m_mechanism->STATE_PREPARE_PLACE_TRAP) && (m_mechanism->isClimbMode() == false)));
 }
