@@ -16,11 +16,16 @@
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceLeftStage.h"
+#include "chassis/headingStates/FaceTarget.h"
+#include "utils/FMSData.h"
 
-FaceLeftStage::FaceLeftStage() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE)
+FaceLeftStage::FaceLeftStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE)
 {
 }
 
-void FaceLeftStage::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+frc::Pose3d FaceLeftStage::GetVisionTargetPose()
 {
+    int apriltag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 15 : 12;
+    DragonAprilTagInfo aprilTagInfo;
+    return aprilTagInfo.Get3DPose(apriltag);
 }
