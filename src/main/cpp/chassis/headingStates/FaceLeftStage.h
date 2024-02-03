@@ -27,5 +27,5 @@ public:
     ~FaceLeftStage() = default;
 
 protected:
-    frc::Pose3d GetVisionTargetPose() override;
+    std::optional<frc::Pose3d> GetVisionTargetPose() override;
 };
