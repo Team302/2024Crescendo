@@ -24,10 +24,18 @@
 class FaceTarget : public ISwerveDriveOrientation
 {
 public:
-    enum FIELDAPRILTAGS
+    enum AprilTagIDs
     {
-
+        BLUE_AMP = 6,
+        BLUE_STAGE_LEFT = 15,
+        BLUE_STAGE_CENTER = 14,
+        BLUE_STAGE_RIGHT = 16,
+        RED_AMP = 5,
+        RED_STAGE_LEFT = 11,
+        RED_STAGE_CENTER = 13,
+        BLUE_STAGE_RIGHT = 12
     };
+
     FaceTarget() = delete;
 
     FaceTarget(ChassisOptionEnums::HeadingOption headingOption);
