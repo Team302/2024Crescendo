@@ -13,6 +13,11 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include "frc/apriltag/AprilTagFieldLayout.h"
+#include "frc/apriltag/AprilTagFields.h"
+#include "frc/DriverStation.h"
+#include "utils/FMSData.h"
+
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceCenterStage.h"
@@ -21,9 +26,8 @@ FaceCenterStage::FaceCenterStage() : FaceTarget(ChassisOptionEnums::HeadingOptio
 {
 }
 
-Pose3d FaceCenterStage::GetVisionTargetPose()
+std::optional<frc::Pose3d> FaceCenterStage::GetVisionTargetPose()
 {
-    int apriltag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 14 : 13;
-    DragonAprilTagInfo aprilTagInfo;
-    return aprilTagInfo.Get3DPose(apriltag);
+    int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::RED_STAGE_CENTER : FaceTarget::BLUE_STAGE_CENTER);
+    return frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo).GetTagPose(aprilTag);
 }

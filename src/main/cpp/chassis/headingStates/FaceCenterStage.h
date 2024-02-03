@@ -15,14 +15,14 @@
 
 #pragma once
 
-include<optional>
+#include <optional>
 
 #include "frc/geometry/Pose3d.h"
 
 // Team302 Includes
 #include "chassis/headingStates/FaceTarget.h"
 
-    class FaceCenterStage : public FaceTarget
+class FaceCenterStage : public FaceTarget
 {
 public:
     FaceCenterStage();
