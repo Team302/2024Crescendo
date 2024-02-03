@@ -61,6 +61,7 @@ public:
     void InvertEncoder(bool inverted);
     void SetSmartCurrentLimiting(int limit);
     void SetSecondaryCurrentLimiting(int limit, int duration);
+    void EnableCurrentLimiting(bool enabled);
 
     // dummy methods below
     // std::shared_ptr<frc::MotorController> GetSpeedController() override;

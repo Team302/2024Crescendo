@@ -104,6 +104,10 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     }
 }
 
+void DragonSparkFlex::EnableCurrentLimiting(bool enabled)
+{
+}
+
 void DragonSparkFlex::Set(double value)
 {
     m_spark->Set(value);

@@ -1100,7 +1100,7 @@ namespace ApplicationData
     {
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::{7},rev::SparkLimitSwitch::Type::{8},{6})",
+            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::k{7},rev::SparkLimitSwitch::Type::k{8},{6})",
                 name,
                 getImplementationName(),
                 canID.value.ToString(),
@@ -1210,7 +1210,7 @@ namespace ApplicationData
     {
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkFlex::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::{7},rev::SparkLimitSwitch::Type::{8},{6})",
+            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkFlex::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::k{7},rev::SparkLimitSwitch::Type::k{8},{6})",
                 name,
                 getImplementationName(),
                 canID.value.ToString(),
