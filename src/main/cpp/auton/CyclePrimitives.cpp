@@ -31,7 +31,6 @@
 #include "auton/PrimitiveParser.h"
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "utils/logging/Logger.h"
-#include "mechanisms/StateMgrHelper.h"
 #include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
 
@@ -54,10 +53,8 @@ CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 									 m_timer(make_unique<Timer>()),
 									 m_maxTime(units::time::second_t(0.0)),
 									 m_isDone(false)
-{
-}
 
-void CyclePrimitives::Init()
+										 void CyclePrimitives::Init()
 {
 	m_currentPrimSlot = 0; // Reset current prim
 	m_primParams.clear();
@@ -141,4 +138,27 @@ void CyclePrimitives::RunDriveStop()
 		m_DriveStop->Init(params);
 	}
 	m_DriveStop->Run();
+}
+
+void CyclePrimitives::SetMechanismStateFromParam(PrimitiveParams *params)
+{
+
+	/**
+	if (params != nullptr)
+	{
+		for (auto i = MechanismTypes::MECHANISM_TYPE::UNKNOWN_MECHANISM + 1; i < MechanismTypes::MECHANISM_TYPE::MAX_MECHANISM_TYPES; ++i)
+		{
+			auto mech = MechanismFactory::GetMechanismFactory()->GetMechanism(static_cast<MechanismTypes::MECHANISM_TYPE>(i));
+			auto stateMgr = mech != nullptr ? mech->GetStateMgr() : nullptr;
+			if (stateMgr != nullptr)
+			{
+				auto stateID = stateMgr->GetCurrentStateParam(params);
+				if (stateID > -1)
+				{
+					stateMgr->SetCurrentState(stateID, true);
+				}
+			}
+		}
+	}
+	**/
 }
