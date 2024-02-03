@@ -17,6 +17,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using static ApplicationData.motorControlData;
+using static ApplicationData.MotorController;
 using static ApplicationData.TalonFX;
 using static ApplicationData.TalonSRX;
 using static System.Net.Mime.MediaTypeNames;
@@ -741,30 +742,32 @@ namespace ApplicationData
     }
 
     [Serializable]
+    public class LimitSwitches : baseDataClass
+    {
+        [DefaultValue(SwitchConfiguration.NormallyOpen)]
+        [ConstantInMechInstance]
+        public SwitchConfiguration ForwardLimitSwitch { get; set; }
+
+        [DefaultValue(SwitchConfiguration.NormallyOpen)]
+        [ConstantInMechInstance]
+        public SwitchConfiguration ReverseLimitSwitch { get; set; }
+
+        [DefaultValue(false)]
+        [ConstantInMechInstance]
+        public boolParameter LimitSwitchesEnabled { get; set; }
+
+        public LimitSwitches()
+        {
+            defaultDisplayName = this.GetType().Name;
+        }
+    }
+
+    [Serializable]
     [ImplementationName("DragonTalonSRX")]
     [UserIncludeFile("hw/DragonTalonSRX.h")]
     public class TalonSRX : MotorController
     {
-        [Serializable]
-        public class LimitSwitches : baseDataClass
-        {
-            [DefaultValue(SwitchConfiguration.NormallyOpen)]
-            [ConstantInMechInstance]
-            public SwitchConfiguration ForwardLimitSwitch { get; set; }
 
-            [DefaultValue(SwitchConfiguration.NormallyOpen)]
-            [ConstantInMechInstance]
-            public SwitchConfiguration ReverseLimitSwitch { get; set; }
-
-            [DefaultValue(false)]
-            [ConstantInMechInstance]
-            public boolParameter LimitSwitchesEnabled { get; set; }
-
-            public LimitSwitches()
-            {
-                defaultDisplayName = this.GetType().Name;
-            }
-        }
         public LimitSwitches limitSwitches { get; set; }
 
         [Serializable]
@@ -1025,43 +1028,26 @@ namespace ApplicationData
             kStatus7 = 7,
         }
 
+        public LimitSwitches limitSwitches { get; set; }
+
         [Serializable]
         public class CurrentLimits_SparkController : baseDataClass
         {
-            [DefaultValue(false)]
-            [ConstantInMechInstance]
-            public boolParameter EnableCurrentLimits { get; set; }
-
-            [DefaultValue(0)]
+            [DefaultValue(50)]
             [PhysicalUnitsFamily(physicalUnit.Family.current)]
             [ConstantInMechInstance]
-            public intParameter PeakCurrentLimit { get; set; }
+            [Range(0, 100)]
+            public intParameter PrimaryLimit { get; set; }
 
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.time)]
-            [ConstantInMechInstance]
-            public intParameter PeakCurrentLimitTimeout { get; set; }
-
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.time)]
-            [ConstantInMechInstance]
-            public intParameter PeakCurrentDuration { get; set; }
-
-            [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.time)]
-            [ConstantInMechInstance]
-            public intParameter PeakCurrentDurationTimeout { get; set; }
-
-
-            [DefaultValue(0)]
+            [DefaultValue(50)]
             [PhysicalUnitsFamily(physicalUnit.Family.current)]
             [ConstantInMechInstance]
-            public intParameter ContinuousCurrentLimit { get; set; }
+            [Range(0, 100)]
+            public intParameter SecondaryLimit { get; set; }
 
             [DefaultValue(0)]
-            [PhysicalUnitsFamily(physicalUnit.Family.time)]
             [ConstantInMechInstance]
-            public intParameter ContinuousCurrentLimitTimeout { get; set; }
+            public intParameter SecondaryLimitCycles { get; set; }
 
             public CurrentLimits_SparkController()
             {
@@ -1114,14 +1100,16 @@ namespace ApplicationData
     {
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,{6})",
+            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkMax::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::{7},rev::SparkLimitSwitch::Type::{8},{6})",
                 name,
                 getImplementationName(),
                 canID.value.ToString(),
                 utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
                 motorBrushType,
                 sensorType,
-                theDistanceAngleCalcInfo.getName(name));
+                theDistanceAngleCalcInfo.getName(name),
+                limitSwitches.ForwardLimitSwitch,
+                limitSwitches.ReverseLimitSwitch);
 
 
             List<string> code = new List<string>() { "", theDistanceAngleCalcInfo.getDefinition(name), creation };
@@ -1154,9 +1142,14 @@ namespace ApplicationData
                                                                     name,
                                                                     (theConfigMotorSettings.mode == NeutralModeValue.Brake).ToString().ToLower()));
 
-            initCode.Add(string.Format("{0}->EnableCurrentLimiting( {1});",
+            initCode.Add(string.Format("{0}->SetSmartCurrentLimiting({1});",
                                                                     name,
-                                                                    currentLimits.EnableCurrentLimits.value.ToString().ToLower()));
+                                                                    currentLimits.PrimaryLimit.value)); 
+            
+            initCode.Add(string.Format("{0}->SetSecondaryCurrentLimiting({1}, {2});",
+                                                                    name,
+                                                                    currentLimits.SecondaryLimit.value,
+                                                                    currentLimits.SecondaryLimitCycles.value));
 
             //initCode.Add(string.Format(@"{0}->ConfigPeakCurrentLimit(units::current::ampere_t ( {1}({2})).to<int>(), 
             //                                                         units::time::millisecond_t({3}({4})).to<int>() );",      //todo check return code
@@ -1187,17 +1180,10 @@ namespace ApplicationData
                                                                     generatorContext.theGeneratorConfig.getWPIphysicalUnitType(theDistanceAngleCalcInfo.diameter.physicalUnits),
                                                                     theDistanceAngleCalcInfo.diameter.value));
 
-            //initCode.Add(string.Format("{0}->EnableDisableLimitSwitches( {1});",
-            //                                                        name,
-            //                                                        limitSwitches.LimitSwitchesEnabled.value.ToString().ToLower()));
+            initCode.Add(string.Format("{0}->EnableDisableLimitSwitches( {1});",
+                                                                    name,
+                                                                    limitSwitches.LimitSwitchesEnabled.value.ToString().ToLower()));
 
-            //initCode.Add(string.Format("{0}->SetForwardLimitSwitch( {1});",
-            //                                                        name,
-            //                                                        (limitSwitches.ForwardLimitSwitch == SwitchConfiguration.NormallyOpen).ToString().ToLower()));
-
-            //initCode.Add(string.Format("{0}->SetReverseLimitSwitch( {1});",
-            //                                                        name,
-            //                                                        (limitSwitches.ReverseLimitSwitch == SwitchConfiguration.NormallyOpen).ToString().ToLower()));
 
             if (enableFollowID.value)
             {
@@ -1224,14 +1210,16 @@ namespace ApplicationData
     {
         override public List<string> generateIndexedObjectCreation(int currentIndex)
         {
-            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkFlex::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,{6})",
+            string creation = string.Format("{0} = new {1}({2},RobotElementNames::{3},rev::CANSparkFlex::MotorType::{4},rev::SparkRelativeEncoder::Type::{5},rev::SparkLimitSwitch::Type::{7},rev::SparkLimitSwitch::Type::{8},{6})",
                 name,
                 getImplementationName(),
                 canID.value.ToString(),
                 utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
                 motorBrushType,
                 sensorType,
-                theDistanceAngleCalcInfo.getName(name));
+                theDistanceAngleCalcInfo.getName(name),
+                limitSwitches.ForwardLimitSwitch,
+                limitSwitches.ReverseLimitSwitch);
 
 
             List<string> code = new List<string>() { "", theDistanceAngleCalcInfo.getDefinition(name), creation };
@@ -1264,9 +1252,14 @@ namespace ApplicationData
                                                                     name,
                                                                     (theConfigMotorSettings.mode == NeutralModeValue.Brake).ToString().ToLower()));
 
-            initCode.Add(string.Format("{0}->EnableCurrentLimiting( {1});",
+            initCode.Add(string.Format("{0}->SetSmartCurrentLimiting({1});",
                                                                     name,
-                                                                    currentLimits.EnableCurrentLimits.value.ToString().ToLower()));
+                                                                    currentLimits.PrimaryLimit.value));
+
+            initCode.Add(string.Format("{0}->SetSecondaryCurrentLimiting({1}, {2});",
+                                                                    name,
+                                                                    currentLimits.SecondaryLimit.value,
+                                                                    currentLimits.SecondaryLimitCycles.value));
 
             //initCode.Add(string.Format(@"{0}->ConfigPeakCurrentLimit(units::current::ampere_t ( {1}({2})).to<int>(), 
             //                                                         units::time::millisecond_t({3}({4})).to<int>() );",      //todo check return code
@@ -1297,17 +1290,10 @@ namespace ApplicationData
                                                                     generatorContext.theGeneratorConfig.getWPIphysicalUnitType(theDistanceAngleCalcInfo.diameter.physicalUnits),
                                                                     theDistanceAngleCalcInfo.diameter.value));
 
-            //initCode.Add(string.Format("{0}->EnableDisableLimitSwitches( {1});",
-            //                                                        name,
-            //                                                        limitSwitches.LimitSwitchesEnabled.value.ToString().ToLower()));
+            initCode.Add(string.Format("{0}->EnableDisableLimitSwitches( {1});",
+                                                                    name,
+                                                                    limitSwitches.LimitSwitchesEnabled.value.ToString().ToLower()));
 
-            //initCode.Add(string.Format("{0}->SetForwardLimitSwitch( {1});",
-            //                                                        name,
-            //                                                        (limitSwitches.ForwardLimitSwitch == SwitchConfiguration.NormallyOpen).ToString().ToLower()));
-
-            //initCode.Add(string.Format("{0}->SetReverseLimitSwitch( {1});",
-            //                                                        name,
-            //                                                        (limitSwitches.ReverseLimitSwitch == SwitchConfiguration.NormallyOpen).ToString().ToLower()));
 
             if (enableFollowID.value)
             {
