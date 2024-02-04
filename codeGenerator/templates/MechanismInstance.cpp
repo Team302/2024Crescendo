@@ -39,23 +39,3 @@ void $$_MECHANISM_INSTANCE_NAME_$$::createAndRegisterStates()
 
     $$_STATE_TRANSITION_REGISTRATION_$$
 }
-
-// todo not sure what to do with this
-/*
-bool $$_MECHANISM_INSTANCE_NAME_$$::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_$$_MECHANISM_INSTANCE_NAME_$$->IsAtMinPosition(identifier);
-}
-bool $$_MECHANISM_INSTANCE_NAME_$$::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_$$_MECHANISM_INSTANCE_NAME_$$->IsAtMinPosition(identifier);
-}
-bool $$_MECHANISM_INSTANCE_NAME_$$::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_$$_MECHANISM_INSTANCE_NAME_$$->IsAtMaxPosition(identifier);
-}
-bool $$_MECHANISM_INSTANCE_NAME_$$::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_$$_MECHANISM_INSTANCE_NAME_$$->IsAtMaxPosition(identifier);
-}
-*/
