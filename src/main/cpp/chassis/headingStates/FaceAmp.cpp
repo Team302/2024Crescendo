@@ -13,9 +13,6 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include "frc/apriltag/AprilTagFieldLayout.h"
-#include "frc/apriltag/AprilTagFields.h"
-
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceAmp.h"
@@ -27,13 +24,14 @@ FaceAmp::FaceAmp() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_AMP)
 {
 }
 
-std::optional<frc::Pose3d> FaceAmp::GetVisionTargetPose()
+std::optional<frc::Pose3d> FaceAmp::GetAprilTagPose()
 {
     // change the aprilTag variable to use the AprilTagIDs enum
     int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::BLUE_AMP : FaceTarget::RED_AMP);
-    return frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo).GetTagPose(aprilTag);
+    return GetLayout().GetTagPose(aprilTag);
 }
 
-void FaceAmp::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
+std::optional<frc::Transform3d> FaceAmp::GetVisionTargetTransform()
 {
+    return std::nullopt;
 }
