@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER"
+pathname= "BluePodiumWing2Center0.path"/>
+
+<snippet file= "ShootWhenStop.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname = "BluePodiumWing2Center0"/>
+
+<snippet file= "ShootWhenStop.xml"/>
+
+<!--Zone to launch: 7S-9U-->
+
+</auton>

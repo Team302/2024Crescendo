@@ -19,10 +19,10 @@
 #include <frc/Filesystem.h>
 
 // Team 302 Includes
-#include <utils/WaypointXmlParser.h>
+#include "utils/WaypointXmlParser.h"
 #include "utils/logging/Logger.h"
-#include <utils/Waypoint2d.h>
-#include <chassis/swerve/driveStates/DragonTrajectoryGenerator.h>
+#include "utils/Waypoint2d.h"
+#include "chassis/driveStates/DragonTrajectoryGenerator.h"
 // Third party includes
 #include <pugixml/pugixml.hpp>
 

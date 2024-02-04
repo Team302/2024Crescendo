@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "chassis/swerve/SwerveChassis.h"
+#include "chassis/SwerveChassis.h"
 #include "chassis/IChassis.h"
 
 #include "configs/RobotElementNames.h"

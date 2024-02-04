@@ -22,8 +22,8 @@
 #include "auton/drivePrimitives/ResetPositionPathPlanner.h"
 #include "auton/PrimitiveParams.h"
 #include "auton/drivePrimitives/IPrimitive.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "utils/logging/Logger.h"
 #include "DragonVision/DragonVision.h"
 
@@ -37,7 +37,7 @@ using namespace pathplanner;
 
 ResetPositionPathPlanner::ResetPositionPathPlanner() : m_chassis()
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 
