@@ -49,14 +49,14 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.1</value>
         </closedLoopRampTime>
         <enableClosedLoop>
           <unitsFamily>none</unitsFamily>
@@ -152,14 +152,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>25</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>30</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -228,14 +228,14 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.1</value>
         </closedLoopRampTime>
         <enableClosedLoop>
           <unitsFamily>none</unitsFamily>
@@ -331,14 +331,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>25</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>30</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -407,14 +407,14 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.1</value>
         </closedLoopRampTime>
         <enableClosedLoop>
           <unitsFamily>none</unitsFamily>
@@ -510,14 +510,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>25</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>30</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -586,14 +586,14 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.1</value>
         </closedLoopRampTime>
         <enableClosedLoop>
           <unitsFamily>none</unitsFamily>
@@ -689,14 +689,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>35</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>40</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -1405,7 +1405,7 @@
           <name>boolParameter</name>
           <__units__ />
           <type>Boolean</type>
-          <value>false</value>
+          <value>true</value>
         </LimitSwitchesEnabled>
       </limitSwitches>
       <currentLimits>
@@ -1414,14 +1414,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>25</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>30</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -1490,14 +1490,14 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.1</value>
         </closedLoopRampTime>
         <enableClosedLoop>
           <unitsFamily>none</unitsFamily>
@@ -1593,14 +1593,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>35</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>40</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -1669,21 +1669,21 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.1</value>
         </closedLoopRampTime>
         <enableClosedLoop>
           <unitsFamily>none</unitsFamily>
           <name>boolParameter</name>
           <__units__ />
           <type>Boolean</type>
-          <value>false</value>
+          <value>true</value>
         </enableClosedLoop>
       </voltageRamping>
       <motorType>NEOMOTOR</motorType>
@@ -1772,14 +1772,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>25</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>30</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -1789,7 +1789,9 @@
           <value>0</value>
         </SecondaryLimitCycles>
       </currentLimits>
-      <theConfigMotorSettings />
+      <theConfigMotorSettings>
+        <mode>Brake</mode>
+      </theConfigMotorSettings>
       <RotationOffset>
         <unitsFamily>none</unitsFamily>
         <name>doubleParameter</name>
