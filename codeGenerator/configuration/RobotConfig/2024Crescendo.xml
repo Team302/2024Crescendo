@@ -6543,7 +6543,6 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6555,7 +6554,6 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6588,10 +6586,9 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
-                    <controlDataName>climberPosInch</controlDataName>
+                    <controlDataName>climberPercetOut</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>rightClimber</name>
@@ -6600,10 +6597,9 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
-                    <controlDataName>climberPosInch</controlDataName>
+                    <controlDataName>climberPercetOut</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -6671,7 +6667,6 @@
                       <name>Target</name>
                       <__units__>m</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6683,7 +6678,6 @@
                       <name>Target</name>
                       <__units__>m</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>

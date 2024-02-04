@@ -34,16 +34,16 @@ using namespace ClimberManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-ManualState::ManualState ( std::string stateName,
-                           int stateId,
-                           ClimberManagerAllStatesStateGen *generatedState,
-                           ClimberManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+ManualState::ManualState(std::string stateName,
+						 int stateId,
+						 ClimberManagerAllStatesStateGen *generatedState,
+						 ClimberManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void ManualState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "ManualState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("init"));
 
 	m_genState->Init();
 }
@@ -51,6 +51,7 @@ void ManualState::Init()
 void ManualState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("run"));
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Count"), m_mechanism->getleftClimber()->GetCounts());
 	m_genState->Run();
 }
 
@@ -65,7 +66,7 @@ bool ManualState::AtTarget()
 	return attarget;
 }
 
-bool ManualState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool ManualState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	auto currentState = m_mechanism->GetCurrentState();

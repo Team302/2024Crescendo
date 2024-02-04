@@ -81,7 +81,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     switch (controlInfo.GetMode())
     {
     case ControlModes::PERCENT_OUTPUT:
-        m_spark->Set(0); // init to zero just to be safe
+        m_pidController.SetReference(0, CANSparkFlex::ControlType::kDutyCycle, slot);
         break;
     case ControlModes::POSITION_INCH:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);

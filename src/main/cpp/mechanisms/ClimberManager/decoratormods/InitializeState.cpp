@@ -46,6 +46,9 @@ void InitializeState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("InitializeState"), string("init"));
 
 	m_genState->Init();
+	// m_mechanism->getleftClimber()->SetSelectedSensorPosition(30.5);
+	// m_mechanism->getrightClimber()->SetSelectedSensorPosition(30.5);
+	// Uncomment once climber is setup
 }
 
 void InitializeState::Run()
@@ -69,5 +72,5 @@ bool InitializeState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return (m_mechanism->IsEnabled() && false); // Only doing note manager and don't want the climber to move yet
+	return (m_mechanism->IsEnabled());
 }
