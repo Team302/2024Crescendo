@@ -20,7 +20,7 @@
 class FieldConsts
 {
 public:
-    FieldConsts();
+    FieldConsts() = default;
     ~FieldConsts() = default;
     enum FIELD_ELEMENT
     {
@@ -40,7 +40,6 @@ public:
     frc::Pose3d GetFeildElement(FIELD_ELEMENT element);
 
 private:
-    std::map<FIELD_ELEMENT, frc::Pose3d> FieldMap;
     // blue
     const frc::Pose3d m_BlueSource = frc::Pose3d(units::length::meter_t(15.63), units::length::meter_t(0.565), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(120)));
     const frc::Pose3d m_BlueAmp = frc::Pose3d(units::length::meter_t(1.84), units::length::meter_t(8.2), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(-90.0)));

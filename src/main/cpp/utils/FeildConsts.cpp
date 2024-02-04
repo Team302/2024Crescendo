@@ -15,15 +15,8 @@
 #include "FeildConsts.h"
 using namespace std;
 
-FieldConsts::FieldConsts()
-{
-    for (int i = 0; i <= vector.capacity(); i++)
-    {
-        FieldConsts::FieldMap.emplace(static_cast<FIELD_ELEMENT>(i), vector[i]);
-    }
-}
-
 frc::Pose3d FieldConsts::GetFeildElement(FIELD_ELEMENT element)
 {
-    return frc::Pose3d();
+    frc::Pose3d Pose3d = vector[static_cast<int>(element)];
+    return Pose3d;
 }
