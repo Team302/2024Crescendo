@@ -621,279 +621,6 @@
                 <sensorType>kHallSensor</sensorType>
               </MotorController>
               <MotorController
-                xsi:type="TalonFX">
-                <name>Placer</name>
-                <theDistanceAngleCalcInfo>
-                  <countsPerRev>
-                    <unitsFamily>none</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__ />
-                    <type>Int32</type>
-                    <value>0</value>
-                  </countsPerRev>
-                  <gearRatio>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>1</value>
-                  </gearRatio>
-                  <diameter>
-                    <unitsFamily>length</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>m</__units__>
-                    <type>Double</type>
-                    <value>1</value>
-                  </diameter>
-                  <countsPerInch>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </countsPerInch>
-                  <countsPerDegree>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </countsPerDegree>
-                </theDistanceAngleCalcInfo>
-                <voltageRamping>
-                  <openLoopRampTime>
-                    <unitsFamily>time</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>s</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </openLoopRampTime>
-                  <closedLoopRampTime>
-                    <unitsFamily>time</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>s</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </closedLoopRampTime>
-                  <enableClosedLoop>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </enableClosedLoop>
-                </voltageRamping>
-                <motorType>FALCON500</motorType>
-                <canID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>uintParameter</name>
-                  <__units__ />
-                  <type>UInt32</type>
-                  <value>19</value>
-                </canID>
-                <pdpID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>uintParameter</name>
-                  <__units__ />
-                  <type>UInt32</type>
-                  <value>19</value>
-                </pdpID>
-                <followID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>uintParameter</name>
-                  <__units__ />
-                  <type>UInt32</type>
-                  <value>0</value>
-                </followID>
-                <enableFollowID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>boolParameter</name>
-                  <__units__ />
-                  <type>Boolean</type>
-                  <value>false</value>
-                </enableFollowID>
-                <remoteSensor>
-                  <CanID>
-                    <unitsFamily>none</unitsFamily>
-                    <name>uintParameter</name>
-                    <__units__ />
-                    <type>UInt32</type>
-                    <value>0</value>
-                  </CanID>
-                </remoteSensor>
-                <fusedCANcoder>
-                  <enable>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </enable>
-                  <fusedCANcoder>
-                    <name>CANcoderInstance</name>
-                  </fusedCANcoder>
-                  <sensorToMechanismRatio>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </sensorToMechanismRatio>
-                  <rotorToSensorRatio>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </rotorToSensorRatio>
-                </fusedCANcoder>
-                <sensorIsInverted>
-                  <unitsFamily>none</unitsFamily>
-                  <name>boolParameter</name>
-                  <__units__ />
-                  <type>Boolean</type>
-                  <value>false</value>
-                </sensorIsInverted>
-                <theCurrentLimits>
-                  <enableStatorCurrentLimit>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </enableStatorCurrentLimit>
-                  <statorCurrentLimit>
-                    <unitsFamily>current</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>A</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </statorCurrentLimit>
-                  <enableSupplyCurrentLimit>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </enableSupplyCurrentLimit>
-                  <supplyCurrentLimit>
-                    <unitsFamily>current</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>A</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </supplyCurrentLimit>
-                  <supplyCurrentThreshold>
-                    <unitsFamily>current</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>A</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </supplyCurrentThreshold>
-                  <supplyTimeThreshold>
-                    <unitsFamily>time</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>s</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </supplyTimeThreshold>
-                </theCurrentLimits>
-                <PIDFs />
-                <theConfigHWLimitSW>
-                  <enableForward>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </enableForward>
-                  <remoteForwardSensorID>
-                    <unitsFamily>none</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__ />
-                    <type>Int32</type>
-                    <value>0</value>
-                  </remoteForwardSensorID>
-                  <forwardResetPosition>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </forwardResetPosition>
-                  <forwardPosition>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </forwardPosition>
-                  <forwardType>LimitSwitchPin</forwardType>
-                  <forwardOpenClose>NormallyOpen</forwardOpenClose>
-                  <enableReverse>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </enableReverse>
-                  <remoteReverseSensorID>
-                    <unitsFamily>none</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__ />
-                    <type>Int32</type>
-                    <value>0</value>
-                  </remoteReverseSensorID>
-                  <reverseResetPosition>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </reverseResetPosition>
-                  <reversePosition>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </reversePosition>
-                  <revType>LimitSwitchPin</revType>
-                  <revOpenClose>NormallyOpen</revOpenClose>
-                </theConfigHWLimitSW>
-                <theConfigMotorSettings>
-                  <deadbandPercent>
-                    <unitsFamily>percent</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>%</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </deadbandPercent>
-                  <peakForwardDutyCycle>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </peakForwardDutyCycle>
-                  <peakReverseDutyCycle>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </peakReverseDutyCycle>
-                  <mode>Brake</mode>
-                </theConfigMotorSettings>
-                <diameter>
-                  <unitsFamily>length</unitsFamily>
-                  <name>doubleParameter</name>
-                  <__units__>m</__units__>
-                  <type>Double</type>
-                  <value>0</value>
-                </diameter>
-              </MotorController>
-              <MotorController
                 xsi:type="SparkFlex">
                 <name>Elevator</name>
                 <theDistanceAngleCalcInfo>
@@ -1443,28 +1170,28 @@
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
+                    <value>true</value>
                   </enableSupplyCurrentLimit>
                   <supplyCurrentLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>A</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>30</value>
                   </supplyCurrentLimit>
                   <supplyCurrentThreshold>
                     <unitsFamily>current</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>A</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>40</value>
                   </supplyCurrentThreshold>
                   <supplyTimeThreshold>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.3</value>
                   </supplyTimeThreshold>
                 </theCurrentLimits>
                 <PIDFs />
@@ -1716,28 +1443,28 @@
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
+                    <value>true</value>
                   </enableSupplyCurrentLimit>
                   <supplyCurrentLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>A</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>30</value>
                   </supplyCurrentLimit>
                   <supplyCurrentThreshold>
                     <unitsFamily>current</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>A</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>40</value>
                   </supplyCurrentThreshold>
                   <supplyTimeThreshold>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.3</value>
                   </supplyTimeThreshold>
                 </theCurrentLimits>
                 <PIDFs />
@@ -2033,6 +1760,204 @@
                 <motorBrushType>kBrushed</motorBrushType>
                 <sensorType>kNoSensor</sensorType>
               </MotorController>
+              <MotorController
+                xsi:type="SparkFlex">
+                <name>Placer</name>
+                <theDistanceAngleCalcInfo>
+                  <countsPerRev>
+                    <unitsFamily>none</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__ />
+                    <type>Int32</type>
+                    <value>0</value>
+                  </countsPerRev>
+                  <gearRatio>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>1</value>
+                  </gearRatio>
+                  <diameter>
+                    <unitsFamily>length</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__>m</__units__>
+                    <type>Double</type>
+                    <value>1</value>
+                  </diameter>
+                  <countsPerInch>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </countsPerInch>
+                  <countsPerDegree>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </countsPerDegree>
+                </theDistanceAngleCalcInfo>
+                <voltageRamping>
+                  <openLoopRampTime>
+                    <unitsFamily>time</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__>s</__units__>
+                    <type>Double</type>
+                    <value>0</value>
+                  </openLoopRampTime>
+                  <closedLoopRampTime>
+                    <unitsFamily>time</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__>s</__units__>
+                    <type>Double</type>
+                    <value>0</value>
+                  </closedLoopRampTime>
+                  <enableClosedLoop>
+                    <unitsFamily>none</unitsFamily>
+                    <name>boolParameter</name>
+                    <__units__ />
+                    <type>Boolean</type>
+                    <value>false</value>
+                  </enableClosedLoop>
+                </voltageRamping>
+                <motorType>NEOMOTOR</motorType>
+                <canID>
+                  <unitsFamily>none</unitsFamily>
+                  <name>uintParameter</name>
+                  <__units__ />
+                  <type>UInt32</type>
+                  <value>19</value>
+                </canID>
+                <pdpID>
+                  <unitsFamily>none</unitsFamily>
+                  <name>uintParameter</name>
+                  <__units__ />
+                  <type>UInt32</type>
+                  <value>19</value>
+                </pdpID>
+                <followID>
+                  <unitsFamily>none</unitsFamily>
+                  <name>uintParameter</name>
+                  <__units__ />
+                  <type>UInt32</type>
+                  <value>0</value>
+                </followID>
+                <enableFollowID>
+                  <unitsFamily>none</unitsFamily>
+                  <name>boolParameter</name>
+                  <__units__ />
+                  <type>Boolean</type>
+                  <value>false</value>
+                </enableFollowID>
+                <remoteSensor>
+                  <CanID>
+                    <unitsFamily>none</unitsFamily>
+                    <name>uintParameter</name>
+                    <__units__ />
+                    <type>UInt32</type>
+                    <value>0</value>
+                  </CanID>
+                </remoteSensor>
+                <fusedCANcoder>
+                  <enable>
+                    <unitsFamily>none</unitsFamily>
+                    <name>boolParameter</name>
+                    <__units__ />
+                    <type>Boolean</type>
+                    <value>false</value>
+                  </enable>
+                  <fusedCANcoder>
+                    <name>CANcoderInstance</name>
+                  </fusedCANcoder>
+                  <sensorToMechanismRatio>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </sensorToMechanismRatio>
+                  <rotorToSensorRatio>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </rotorToSensorRatio>
+                </fusedCANcoder>
+                <sensorIsInverted>
+                  <unitsFamily>none</unitsFamily>
+                  <name>boolParameter</name>
+                  <__units__ />
+                  <type>Boolean</type>
+                  <value>false</value>
+                </sensorIsInverted>
+                <currentLimits>
+                  <EnableCurrentLimits>
+                    <unitsFamily>none</unitsFamily>
+                    <name>boolParameter</name>
+                    <__units__ />
+                    <type>Boolean</type>
+                    <value>false</value>
+                  </EnableCurrentLimits>
+                  <PeakCurrentLimit>
+                    <unitsFamily>current</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__>A</__units__>
+                    <type>Int32</type>
+                    <value>0</value>
+                  </PeakCurrentLimit>
+                  <PeakCurrentLimitTimeout>
+                    <unitsFamily>time</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__>s</__units__>
+                    <type>Int32</type>
+                    <value>0</value>
+                  </PeakCurrentLimitTimeout>
+                  <PeakCurrentDuration>
+                    <unitsFamily>time</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__>s</__units__>
+                    <type>Int32</type>
+                    <value>0</value>
+                  </PeakCurrentDuration>
+                  <PeakCurrentDurationTimeout>
+                    <unitsFamily>time</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__>s</__units__>
+                    <type>Int32</type>
+                    <value>0</value>
+                  </PeakCurrentDurationTimeout>
+                  <ContinuousCurrentLimit>
+                    <unitsFamily>current</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__>A</__units__>
+                    <type>Int32</type>
+                    <value>0</value>
+                  </ContinuousCurrentLimit>
+                  <ContinuousCurrentLimitTimeout>
+                    <unitsFamily>time</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__>s</__units__>
+                    <type>Int32</type>
+                    <value>0</value>
+                  </ContinuousCurrentLimitTimeout>
+                </currentLimits>
+                <theConfigMotorSettings>
+                  <mode>Brake</mode>
+                </theConfigMotorSettings>
+                <RotationOffset>
+                  <unitsFamily>none</unitsFamily>
+                  <name>doubleParameter</name>
+                  <__units__ />
+                  <type>Double</type>
+                  <value>0</value>
+                </RotationOffset>
+                <motorBrushType>kBrushless</motorBrushType>
+                <sensorType>kHallSensor</sensorType>
+              </MotorController>
             </MotorControllers>
             <closedLoopControlParameters />
             <solenoid />
@@ -2046,7 +1971,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>1</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -2070,7 +1995,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>2</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -2094,7 +2019,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>3</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -2118,7 +2043,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>4</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -2142,7 +2067,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>5</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -2166,7 +2091,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>6</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -2190,7 +2115,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>0</value>
+                  <value>7</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -2745,6 +2670,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2756,6 +2682,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2813,6 +2740,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2824,6 +2752,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2835,6 +2764,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2868,6 +2798,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2879,6 +2810,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2890,6 +2822,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2940,6 +2873,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2951,6 +2885,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2973,6 +2908,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2995,6 +2931,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3006,6 +2943,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3017,6 +2955,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3067,6 +3006,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3078,6 +3018,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3089,6 +3030,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3100,6 +3042,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3133,6 +3076,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3144,6 +3088,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3205,6 +3150,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3260,6 +3206,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3271,6 +3218,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3387,6 +3335,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3398,6 +3347,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3441,6 +3391,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3452,6 +3403,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3463,6 +3415,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3496,6 +3449,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3507,6 +3461,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3518,6 +3473,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3561,6 +3517,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3583,6 +3540,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3616,6 +3574,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3627,6 +3586,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3638,6 +3598,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3681,6 +3642,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3692,6 +3654,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>0.15</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3703,6 +3666,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3714,6 +3678,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3736,6 +3701,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3747,6 +3713,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3758,6 +3725,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3881,6 +3849,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -3892,6 +3861,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4008,6 +3978,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4019,6 +3990,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4128,6 +4100,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>60</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4139,6 +4112,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>60</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4150,6 +4124,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>45</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4230,6 +4205,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -4241,6 +4217,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4252,6 +4229,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4343,6 +4321,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -4354,6 +4333,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4365,6 +4345,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4456,6 +4437,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -4467,6 +4449,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>60</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4478,6 +4461,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>60</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4489,6 +4473,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>45</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4594,6 +4579,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4605,6 +4591,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4707,6 +4694,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4718,6 +4706,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4834,6 +4823,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4845,6 +4835,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4895,6 +4886,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -4961,6 +4953,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -4972,6 +4965,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5022,6 +5016,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5033,6 +5028,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5044,6 +5040,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5055,6 +5052,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5088,6 +5086,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5099,6 +5098,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5193,6 +5193,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>11.5</value>
                     </target>
                     <motorName>Elevator</motorName>
                     <controlDataName>positionInch</controlDataName>
@@ -5215,6 +5216,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5226,6 +5228,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5320,6 +5323,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>16.5</value>
                     </target>
                     <motorName>Elevator</motorName>
                     <controlDataName>positionInch</controlDataName>
@@ -5342,6 +5346,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5353,6 +5358,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5422,6 +5428,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5433,6 +5440,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>11.5</value>
                     </target>
                     <motorName>Elevator</motorName>
                     <controlDataName>positionInch</controlDataName>
@@ -5455,6 +5463,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5466,6 +5475,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5535,6 +5545,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5546,6 +5557,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>16.5</value>
                     </target>
                     <motorName>Elevator</motorName>
                     <controlDataName>positionInch</controlDataName>
@@ -5568,6 +5580,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5579,6 +5592,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5622,6 +5636,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5633,6 +5648,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5644,6 +5660,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5655,6 +5672,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5677,6 +5695,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5688,6 +5707,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5699,6 +5719,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5742,6 +5763,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5764,6 +5786,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5775,6 +5798,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5797,6 +5821,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5808,6 +5833,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5819,6 +5845,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5895,7 +5922,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>length</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
@@ -5921,6 +5948,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5932,6 +5960,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5939,7 +5968,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
@@ -6008,7 +6037,7 @@
                   <motorTarget>
                     <name>Elevator</name>
                     <target>
-                      <unitsFamily>length</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
@@ -6034,6 +6063,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -6045,6 +6075,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -6052,7 +6083,7 @@
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
@@ -6080,7 +6111,7 @@
                     <name>intParameter</name>
                     <__units__ />
                     <type>Int32</type>
-                    <value>0</value>
+                    <value>1</value>
                   </countsPerRev>
                   <gearRatio>
                     <unitsFamily>none</unitsFamily>
@@ -6101,14 +6132,14 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1</value>
                   </countsPerDegree>
                 </theDistanceAngleCalcInfo>
                 <voltageRamping>
@@ -6117,21 +6148,21 @@
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.2</value>
                   </openLoopRampTime>
                   <closedLoopRampTime>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.2</value>
                   </closedLoopRampTime>
                   <enableClosedLoop>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
+                    <value>true</value>
                   </enableClosedLoop>
                 </voltageRamping>
                 <motorType>NEOMOTOR</motorType>
@@ -6685,6 +6716,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6696,6 +6728,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6728,7 +6761,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>15</value>
+                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6740,7 +6773,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>15</value>
+                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6771,8 +6804,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__>m</__units__>
+                      <__units__>in</__units__>
                       <type>Double</type>
+                      <value>28</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6782,8 +6816,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__>m</__units__>
+                      <__units__>in</__units__>
                       <type>Double</type>
+                      <value>28</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6807,8 +6842,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__ />
+                      <__units__>m</__units__>
                       <type>Double</type>
+                      <value>20.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6818,8 +6854,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__ />
+                      <__units__>m</__units__>
                       <type>Double</type>
+                      <value>20.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>

@@ -12,7 +12,7 @@
           <name>intParameter</name>
           <__units__ />
           <type>Int32</type>
-          <value>0</value>
+          <value>1</value>
         </countsPerRev>
         <gearRatio>
           <unitsFamily>none</unitsFamily>
@@ -33,14 +33,14 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>1</value>
         </countsPerInch>
         <countsPerDegree>
           <unitsFamily>none</unitsFamily>
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>1</value>
         </countsPerDegree>
       </theDistanceAngleCalcInfo>
       <voltageRamping>
@@ -49,21 +49,21 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.2</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0</value>
+          <value>0.2</value>
         </closedLoopRampTime>
         <enableClosedLoop>
           <unitsFamily>none</unitsFamily>
           <name>boolParameter</name>
           <__units__ />
           <type>Boolean</type>
-          <value>false</value>
+          <value>true</value>
         </enableClosedLoop>
       </voltageRamping>
       <motorType>NEOMOTOR</motorType>
