@@ -94,13 +94,6 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
         motorconfig.PeakReverseDutyCycle = -1.0;
         motorconfig.DutyCycleNeutralDeadband = 0.0;
         m_driveTalon->GetConfigurator().Apply(motorconfig);
-
-        Slot0Configs config{};
-        config.kV = attrs.driveControl.GetF();
-        config.kP = attrs.driveControl.GetP();
-        config.kI = attrs.driveControl.GetI();
-        config.kD = attrs.driveControl.GetD();
-        m_driveTalon->GetConfigurator().Apply(config, 50_ms);
     }
     if (m_turnTalon != nullptr)
     {
@@ -115,10 +108,10 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
         m_turnTalon->GetConfigurator().Apply(motorconfig);
 
         Slot0Configs config{};
-        config.kV = attrs.angleControl.GetF();
-        config.kP = attrs.angleControl.GetP();
-        config.kI = attrs.angleControl.GetI();
-        config.kD = attrs.angleControl.GetD();
+        config.kV = m_turnKf;
+        config.kP = m_turnKp;
+        config.kI = m_turnKi;
+        config.kD = m_turnKd;
         m_turnTalon->GetConfigurator().Apply(config, 50_ms);
     }
     if (m_turnCancoder != nullptr)
@@ -164,6 +157,7 @@ void SwerveModule::ZeroAlignModule()
 {
     // Desired State
     SetTurnAngle(units::degree_t(0));
+    LogInformation();
 }
 
 /// @brief Get the current state of the module (speed of the wheel and angle of the wheel)
@@ -218,6 +212,8 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
 
     // Set Drive Target
     SetDriveSpeed(optimizedState.speed);
+
+    LogInformation();
 }
 
 /// @brief Run the swerve module at the same speed and angle

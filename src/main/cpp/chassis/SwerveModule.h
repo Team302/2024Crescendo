@@ -98,7 +98,7 @@ private:
     ctre::phoenix6::controls::PositionTorqueCurrentFOC m_torquePosition{0_tr, 0_tps, 0_A, 1, false};
     ctre::phoenix6::controls::PositionVoltage m_voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
 
-    double m_turnKp = 5.0;
+    double m_turnKp = 1.0;
     double m_turnKi = 0.0;
     double m_turnKd = 0.5;
     double m_turnKf = 0.0;

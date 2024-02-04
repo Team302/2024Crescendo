@@ -36,310 +36,100 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
     {
     case SDS_MK4_L1:
         attr.driveGearRatio = 8.14;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
-        attr.angleGearRatio = 12.8;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.angleGearRatio = 150.0 / 7.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
 
         break;
 
     case SDS_MK4_L2:
         attr.driveGearRatio = 6.75;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
-        attr.angleGearRatio = 12.8;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.angleGearRatio = 150.0 / 7.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4_L3:
         attr.driveGearRatio = 6.12;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
-        attr.angleGearRatio = 12.8;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.angleGearRatio = 150.0 / 7.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4_L4:
         attr.driveGearRatio = 5.14;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
-        attr.angleGearRatio = 12.8;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.angleGearRatio = 150.0 / 7.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4_L1_COLSON:
         attr.driveGearRatio = 6.75;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4_L2_COLSON:
         attr.driveGearRatio = 6.12;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4_L3_COLSON:
         attr.driveGearRatio = 5.14;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4_L4_COLSON:
         attr.driveGearRatio = 8.14;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4I_L1:
         attr.driveGearRatio = 8.14;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4I_L2:
         attr.driveGearRatio = 6.75;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4I_L3:
         attr.driveGearRatio = 6.12;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4I_L1_COLSON:
         attr.driveGearRatio = 8.14;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4I_L2_COLSON:
         attr.driveGearRatio = 6.75;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
     case SDS_MK4I_L3_COLSON:
         attr.driveGearRatio = 6.12;
-        attr.driveControl.SetMode(ControlModes::CONTROL_TYPE::VELOCITY_RPS);
-        attr.driveControl.SetP(1.0);
-        attr.driveControl.SetI(0.1);
-        attr.driveControl.SetD(0.0);
-        attr.driveControl.SetF(0.0);
-        attr.driveControl.SetFOCEnabled(true);
-
         attr.angleGearRatio = 150.0 / 7.0;
-        attr.angleControl.SetMode(ControlModes::CONTROL_TYPE::POSITION_DEGREES_ABSOLUTE);
-        attr.angleControl.SetP(30.0);
-        attr.angleControl.SetI(0.1);
-        attr.angleControl.SetD(0.2);
-        attr.angleControl.SetF(0.0);
-        attr.angleControl.SetCruiseVelocity(1.0);
-        attr.angleControl.SetMaxAcceleration(1.0);
-
-        attr.sensorToMechanismRatio = 1.0;
+        attr.sensorToMechanismRatio = 150.0 / 7.0;
         attr.rotorToSensorRatio = 12.8;
         break;
 
