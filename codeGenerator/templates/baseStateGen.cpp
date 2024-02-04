@@ -35,7 +35,7 @@ $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::$$_MECHANISM_INSTANCE_NAME_$$BaseStat
     for (auto usage : motorUsages)
     {
         auto motormech = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorMech(usage);
-        m_motorMap[usage] = new BaseMechMotorState(stateName, stateId, *motormech);
+        m_motorMap[usage] = new BaseMechMotorState(stateName, stateId, motormech);
     }
     auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetSolenoidUsages();
     for (auto usage : solUsages)

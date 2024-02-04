@@ -5,7 +5,7 @@ $$_GEN_NOTICE_$$
 #include <string>
 
 #include "State.h"
-#include "mechanisms/base/BaseMechMotorState.h"
+
 #include "mechanisms/base/BaseMechServoState.h"
 #include "mechanisms/base/BaseMechSolenoidState.h"
 #include "mechanisms/controllers/ControlData.h"
