@@ -57,7 +57,7 @@ void backupManualLaunchState::Run()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Launcher Angle"), TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE));
 
 	double frontIntakeTarget = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_FRONT_INTAKE) ? 1.0 : 0.0;
-	double backIntakeTarget = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_FRONT_INTAKE) ? 1.0 : 0.0;
+	double backIntakeTarget = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_BACK_INTAKE) ? 1.0 : 0.0;
 
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Back Intake"), backIntakeTarget);
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE, backIntakeTarget);
