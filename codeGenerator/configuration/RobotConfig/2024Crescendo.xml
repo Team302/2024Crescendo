@@ -3020,7 +3020,6 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>-1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>

@@ -87,24 +87,30 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 	bool frontIntakeSensor = m_mechanism->getfrontIntakeSensor()->Get();
 	bool backIntakeSensor = m_mechanism->getbackIntakeSensor()->Get();
 
+	int reason = 0;
+
 	if (m_mechanism->IsEnabled() && (currentState == static_cast<int>(m_mechanism->STATE_OFF)))
 	{
 		transition = true;
+		reason = 1;
 	}
 	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::READY))
 	{
 		transition = true;
+		reason = 2;
 	}
 	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) &&
 			 ((currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_PLACE))))
 	{
 		transition = true;
+		reason = 3;
 	}
 	else if ((launcherSensor == false) &&
 			 (feederSensor == false) &&
 			 ((currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH_ODOMETRY))))
 	{
 		transition = true;
+		reason = 4;
 	}
 	else if ((placerInSensor == false) &&
 			 (placerMidSensor == false) &&
@@ -112,17 +118,23 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 			 ((currentState == static_cast<int>(m_mechanism->STATE_PLACE_AMP)) || (currentState == static_cast<int>(m_mechanism->STATE_PLACE_TRAP))))
 	{
 		transition = true;
+		reason = 5;
 	}
 	else if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) == false) &&
-			 ((frontIntakeSensor == false) || (backIntakeSensor == false)) &&
+			 ((frontIntakeSensor == false) && (backIntakeSensor == false)) &&
 			 ((currentState == static_cast<int>(m_mechanism->STATE_PLACER_INTAKE)) || (currentState == static_cast<int>(m_mechanism->STATE_FEEDER_INTAKE))))
 	{
 		transition = true;
+		reason = 6;
 	}
 	else if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL) == false) &&
 			 (currentState == static_cast<int>(m_mechanism->STATE_EXPEL)))
 	{
 		transition = true;
+		reason = 7;
 	}
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason);
+
 	return (transition);
 }

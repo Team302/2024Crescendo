@@ -92,6 +92,7 @@ void StateMgr::CheckForSensorTransitions()
         if (transition)
         {
             SetCurrentState(state->GetStateId(), true);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Current State"), state->GetStateName());
             break;
         }
     }
@@ -106,6 +107,7 @@ void StateMgr::CheckForGamepadTransitions()
         if (transition)
         {
             SetCurrentState(state->GetStateId(), true);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Current State"), state->GetStateName());
             break;
         }
     }
