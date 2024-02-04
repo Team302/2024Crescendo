@@ -632,14 +632,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>2</value>
+                  <value>12</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>2</value>
+                  <value>12</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -2537,7 +2537,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2549,7 +2548,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5815,7 +5813,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5827,7 +5824,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5930,7 +5926,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5942,7 +5937,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>

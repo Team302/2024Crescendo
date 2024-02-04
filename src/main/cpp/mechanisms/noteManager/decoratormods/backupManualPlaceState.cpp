@@ -50,7 +50,7 @@ void backupManualPlaceState::Init()
 
 void backupManualPlaceState::Run()
 {
-	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("backupManualPlaceState"), string("run"));
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("backupManualPlaceState"), string("run"));
 	/* Have to use SetTargetControl until fix for updateTarget skipping a layer of code
 	m_genState->Run();
 	m_genState->GetnoteManager()->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, static_cast<double>(TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_FRONT_INTAKE)));

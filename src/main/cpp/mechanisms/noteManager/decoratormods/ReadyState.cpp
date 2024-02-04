@@ -50,7 +50,7 @@ void ReadyState::Init()
 
 void ReadyState::Run()
 {
-	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("run"));
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("run"));
 	m_genState->Run();
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Front Intake Sensor"), m_mechanism->getfrontIntakeSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Back Intake Sensor"), m_mechanism->getbackIntakeSensor()->Get());
