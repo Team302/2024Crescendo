@@ -1822,7 +1822,7 @@
         <name>boolParameter</name>
         <__units__ />
         <type>Boolean</type>
-        <value>false</value>
+        <value>true</value>
       </reversed>
       <debouncetime>
         <unitsFamily>time</unitsFamily>
@@ -1846,7 +1846,7 @@
         <name>boolParameter</name>
         <__units__ />
         <type>Boolean</type>
-        <value>false</value>
+        <value>true</value>
       </reversed>
       <debouncetime>
         <unitsFamily>time</unitsFamily>
@@ -1870,7 +1870,7 @@
         <name>boolParameter</name>
         <__units__ />
         <type>Boolean</type>
-        <value>false</value>
+        <value>true</value>
       </reversed>
       <debouncetime>
         <unitsFamily>time</unitsFamily>
@@ -1894,7 +1894,7 @@
         <name>boolParameter</name>
         <__units__ />
         <type>Boolean</type>
-        <value>false</value>
+        <value>true</value>
       </reversed>
       <debouncetime>
         <unitsFamily>time</unitsFamily>
@@ -1918,7 +1918,7 @@
         <name>boolParameter</name>
         <__units__ />
         <type>Boolean</type>
-        <value>false</value>
+        <value>true</value>
       </reversed>
       <debouncetime>
         <unitsFamily>time</unitsFamily>
@@ -1942,7 +1942,7 @@
         <name>boolParameter</name>
         <__units__ />
         <type>Boolean</type>
-        <value>false</value>
+        <value>true</value>
       </reversed>
       <debouncetime>
         <unitsFamily>time</unitsFamily>
@@ -1966,7 +1966,7 @@
         <name>boolParameter</name>
         <__units__ />
         <type>Boolean</type>
-        <value>false</value>
+        <value>true</value>
       </reversed>
       <debouncetime>
         <unitsFamily>time</unitsFamily>

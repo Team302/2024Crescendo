@@ -1845,7 +1845,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -1869,7 +1869,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -1893,7 +1893,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -1917,7 +1917,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -1941,7 +1941,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -1965,7 +1965,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -1989,7 +1989,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -2537,6 +2537,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>10</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2548,6 +2549,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>10</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
