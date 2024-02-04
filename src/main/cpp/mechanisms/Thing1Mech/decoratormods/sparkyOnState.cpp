@@ -34,16 +34,16 @@ using namespace Thing1MechStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-sparkyOnState::sparkyOnState ( std::string stateName,
-                               int stateId,
-                               Thing1MechAllStatesStateGen *generatedState,
-                               Thing1Mech *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+sparkyOnState::sparkyOnState(std::string stateName,
+							 int stateId,
+							 Thing1MechAllStatesStateGen *generatedState,
+							 Thing1Mech *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void sparkyOnState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "sparkyOnState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("sparkyOnState"), string("init"));
 
 	m_genState->Init();
 }
@@ -51,6 +51,8 @@ void sparkyOnState::Init()
 void sparkyOnState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("sparkyOnState"), string("run"));
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE));
+
 	m_genState->Run();
 }
 
@@ -65,7 +67,7 @@ bool sparkyOnState::AtTarget()
 	return attarget;
 }
 
-bool sparkyOnState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool sparkyOnState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 

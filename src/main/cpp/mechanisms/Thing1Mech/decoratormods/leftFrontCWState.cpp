@@ -34,16 +34,16 @@ using namespace Thing1MechStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-leftFrontCWState::leftFrontCWState ( std::string stateName,
-                                     int stateId,
-                                     Thing1MechAllStatesStateGen *generatedState,
-                                     Thing1Mech *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+leftFrontCWState::leftFrontCWState(std::string stateName,
+								   int stateId,
+								   Thing1MechAllStatesStateGen *generatedState,
+								   Thing1Mech *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void leftFrontCWState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "leftFrontCWState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("leftFrontCWState"), string("init"));
 
 	m_genState->Init();
 }
@@ -51,6 +51,9 @@ void leftFrontCWState::Init()
 void leftFrontCWState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("leftFrontCWState"), string("run"));
+
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_LEFT_FRONT_MOTOR, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE));
+
 	m_genState->Run();
 }
 
@@ -65,7 +68,7 @@ bool leftFrontCWState::AtTarget()
 	return attarget;
 }
 
-bool leftFrontCWState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool leftFrontCWState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
