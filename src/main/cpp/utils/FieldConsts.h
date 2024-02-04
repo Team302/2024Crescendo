@@ -48,7 +48,7 @@ private:
     const frc::Pose3d m_BlueStageRight = frc::Pose3d(units::length::meter_t(4.64), units::length::meter_t(3.71), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(120.0)));
     const frc::Pose3d m_BlueStageLeft = frc::Pose3d(units::length::meter_t(4.64), units::length::meter_t(4.5), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(120.0)));
     // red
-    const frc::Pose3d m_RedSource = frc::Pose3d(units::length::meter_t(.91), units::length::meter_t(.565), units::length::meter_t(0, 0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(60.0)));
+    const frc::Pose3d m_RedSource = frc::Pose3d(units::length::meter_t(.91), units::length::meter_t(.565), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(60.0)));
     const frc::Pose3d m_RedAmp = frc::Pose3d(units::length::meter_t(14.7), units::length::meter_t(8.2), units::length::meter_t(0, 0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(-90.0)));
     const frc::Pose3d m_RedSpeaker = frc::Pose3d(units::length::meter_t(16.58), units::length::meter_t(5.55), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(180.0)));
     const frc::Pose3d m_RedCenterStage = frc::Pose3d(units::length::meter_t(11.22), units::length::meter_t(4.11), units::length::meter_t(0.0), frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(180.0)));
