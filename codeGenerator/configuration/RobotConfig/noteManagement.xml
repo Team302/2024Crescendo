@@ -1303,7 +1303,7 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>1.05494</value>
         </countsPerDegree>
       </theDistanceAngleCalcInfo>
       <voltageRamping>
@@ -1433,6 +1433,7 @@
         </SecondaryLimitCycles>
       </currentLimits>
       <theConfigMotorSettings>
+        <inverted>Clockwise_Positive</inverted>
         <mode>Brake</mode>
       </theConfigMotorSettings>
       <RotationOffset>
@@ -1594,14 +1595,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>80</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>80</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -1654,7 +1655,7 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>6.8085</value>
         </countsPerInch>
         <countsPerDegree>
           <unitsFamily>none</unitsFamily>
@@ -1791,6 +1792,7 @@
         </SecondaryLimitCycles>
       </currentLimits>
       <theConfigMotorSettings>
+        <inverted>Clockwise_Positive</inverted>
         <mode>Brake</mode>
       </theConfigMotorSettings>
       <RotationOffset>

@@ -219,7 +219,7 @@ void DragonSparkFlex::SetSelectedSensorPosition(
 
 double DragonSparkFlex::GetCounts()
 {
-    return m_spark->GetAbsoluteEncoder(rev::SparkAbsoluteEncoder::Type::kDutyCycle).GetPosition();
+    return m_encoder.GetPosition();
 }
 
 void DragonSparkFlex::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType)
