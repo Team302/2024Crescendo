@@ -17,17 +17,13 @@
 #pragma once
 
 // C++ Includes
-#include <string>
 #include <vector>
 
 // FRC includes
-#include "units/time.h"
 
 // Team 302 includes
 #include "chassis/ChassisOptionEnums.h"
-#include "mechanisms/noteManager/generated/noteManager_gen.h"
-// #include "auton/AutonGrid.h"
-// @ADDMECH include for your mechanism
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
 
 // Third Party Includes
 
@@ -39,7 +35,7 @@ public:
         int ygrid1,
         int xgrid2,
         int ygrid2,
-        noteManager_gen::STATE_NAMES,
+        noteManagerGen::STATE_NAMES,
         ChassisOptionEnums::AutonChassisOptions,
         ChassisOptionEnums::AutonAvoidOptions); // declare ZoneParams public constructor with parameters xgrid1, etc.
 

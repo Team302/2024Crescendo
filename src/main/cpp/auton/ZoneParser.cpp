@@ -16,10 +16,8 @@
 #include <map>
 #include <string>
 
-#include <frc/Filesystem.h>
-
 #include "auton/AutonGrid.h"
-#include "mechanisms/noteManager/generated/noteManager_gen.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
 
 #include <auton/ZoneParams.h>
 #include <auton/ZoneParser.h>
@@ -117,36 +115,36 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {"Y_53", AutonGrid::YGRID::Y_53},
         {"Y_54", AutonGrid::YGRID::Y_54}};
 
-    static std::map<std::string, noteManager_gen::STATE_NAMES> xmlStringToSTATE_NAMESEnumMap{
-        {"STATE_OFF", noteManager_gen::STATE_NAMES::STATE_OFF},
-        {"STATE_READY", noteManager_gen::STATE_NAMES::STATE_READY},
-        {"STATE_FEEDER_INTAKE", noteManager_gen::STATE_NAMES::STATE_FEEDER_INTAKE},
-        {"STATE_EXPEL", noteManager_gen::STATE_NAMES::STATE_EXPEL},
-        {"STATE_PLACER_INTAKE", noteManager_gen::STATE_NAMES::STATE_PLACER_INTAKE},
-        {"STATE_HOLD_FEEDER_FRONT", noteManager_gen::STATE_NAMES::STATE_HOLD_FEEDER_FRONT},
-        {"STATE_HOLD_FEEDER_BACK", noteManager_gen::STATE_NAMES::STATE_HOLD_FEEDER_BACK},
-        {"STATE_INTAKE_TO_FEEDER", noteManager_gen::STATE_NAMES::STATE_INTAKE_TO_FEEDER},
-        {"STATE_LAUNCHER_TO_PLACER_FRONT", noteManager_gen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER_FRONT},
-        {"STATE_LAUNCHER_TO_PLACER_BACK", noteManager_gen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER_BACK},
-        {"STATE_HOLD_FEEDER", noteManager_gen::STATE_NAMES::STATE_HOLD_FEEDER},
-        {"STATE_READY_AUTO_LAUNCH", noteManager_gen::STATE_NAMES::STATE_READY_AUTO_LAUNCH},
-        {"STATE_READY_MANUAL_LAUNCH", noteManager_gen::STATE_NAMES::STATE_READY_MANUAL_LAUNCH},
-        {"STATE_PASS", noteManager_gen::STATE_NAMES::STATE_PASS},
-        {"STATE_AUTO_LAUNCH", noteManager_gen::STATE_NAMES::STATE_AUTO_LAUNCH},
-        {"STATE_MANUAL_LAUNCH", noteManager_gen::STATE_NAMES::STATE_MANUAL_LAUNCH},
-        {"STATE_READY_ODOMETRY_LAUNCH", noteManager_gen::STATE_NAMES::STATE_READY_ODOMETRY_LAUNCH},
-        {"STATE_AUTO_LAUNCH_ODOMETRY", noteManager_gen::STATE_NAMES::STATE_AUTO_LAUNCH_ODOMETRY},
-        {"STATE_HOLD_PLACER_FRONT", noteManager_gen::STATE_NAMES::STATE_HOLD_PLACER_FRONT},
-        {"STATE_HOLD_PLACER_BACK", noteManager_gen::STATE_NAMES::STATE_HOLD_PLACER_BACK},
-        {"STATE_INTAKE_TO_PLACER", noteManager_gen::STATE_NAMES::STATE_INTAKE_TO_PLACER},
-        {"STATE_PREPARE_PLACE_AMP", noteManager_gen::STATE_NAMES::STATE_PREPARE_PLACE_AMP},
-        {"STATE_PREPARE_PLACE_TRAP", noteManager_gen::STATE_NAMES::STATE_PREPARE_PLACE_TRAP},
-        {"STATE_PLACE_AMP", noteManager_gen::STATE_NAMES::STATE_PLACE_AMP},
-        {"STATE_PLACE_TRAP", noteManager_gen::STATE_NAMES::STATE_PLACE_TRAP},
-        {"STATE_PLACER_TO_LAUNCHER_FRONT", noteManager_gen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER_FRONT},
-        {"STATE_PLACER_TO_LAUNCHER_BACK", noteManager_gen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER_BACK},
-        {"STATE_BACKUP_MANUAL_LAUNCH", noteManager_gen::STATE_NAMES::STATE_BACKUP_MANUAL_LAUNCH},
-        {"NOTE_MANAGER_BACKUP_MANUAL_LAUNCH", noteManager_gen::STATE_NAMES::STATE_BACKUP_MANUAL_PLACE}};
+    static std::map<std::string, noteManagerGen::STATE_NAMES> xmlStringToSTATE_NAMESEnumMap{
+        {"STATE_OFF", noteManagerGen::STATE_NAMES::STATE_OFF},
+        {"STATE_READY", noteManagerGen::STATE_NAMES::STATE_READY},
+        {"STATE_FEEDER_INTAKE", noteManagerGen::STATE_NAMES::STATE_FEEDER_INTAKE},
+        {"STATE_EXPEL", noteManagerGen::STATE_NAMES::STATE_EXPEL},
+        {"STATE_PLACER_INTAKE", noteManagerGen::STATE_NAMES::STATE_PLACER_INTAKE},
+        {"STATE_HOLD_FEEDER_FRONT", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER_FRONT},
+        {"STATE_HOLD_FEEDER_BACK", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER_BACK},
+        {"STATE_INTAKE_TO_FEEDER", noteManagerGen::STATE_NAMES::STATE_INTAKE_TO_FEEDER},
+        {"STATE_LAUNCHER_TO_PLACER_FRONT", noteManagerGen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER_FRONT},
+        {"STATE_LAUNCHER_TO_PLACER_BACK", noteManagerGen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER_BACK},
+        {"STATE_HOLD_FEEDER", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER},
+        {"STATE_READY_AUTO_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_AUTO_LAUNCH},
+        {"STATE_READY_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_MANUAL_LAUNCH},
+        {"STATE_PASS", noteManagerGen::STATE_NAMES::STATE_PASS},
+        {"STATE_AUTO_LAUNCH", noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH},
+        {"STATE_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_MANUAL_LAUNCH},
+        {"STATE_READY_ODOMETRY_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_ODOMETRY_LAUNCH},
+        {"STATE_AUTO_LAUNCH_ODOMETRY", noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH_ODOMETRY},
+        {"STATE_HOLD_PLACER_FRONT", noteManagerGen::STATE_NAMES::STATE_HOLD_PLACER_FRONT},
+        {"STATE_HOLD_PLACER_BACK", noteManagerGen::STATE_NAMES::STATE_HOLD_PLACER_BACK},
+        {"STATE_INTAKE_TO_PLACER", noteManagerGen::STATE_NAMES::STATE_INTAKE_TO_PLACER},
+        {"STATE_PREPARE_PLACE_AMP", noteManagerGen::STATE_NAMES::STATE_PREPARE_PLACE_AMP},
+        {"STATE_PREPARE_PLACE_TRAP", noteManagerGen::STATE_NAMES::STATE_PREPARE_PLACE_TRAP},
+        {"STATE_PLACE_AMP", noteManagerGen::STATE_NAMES::STATE_PLACE_AMP},
+        {"STATE_PLACE_TRAP", noteManagerGen::STATE_NAMES::STATE_PLACE_TRAP},
+        {"STATE_PLACER_TO_LAUNCHER_FRONT", noteManagerGen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER_FRONT},
+        {"STATE_PLACER_TO_LAUNCHER_BACK", noteManagerGen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER_BACK},
+        {"STATE_BACKUP_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_LAUNCH},
+        {"NOTE_MANAGER_BACKUP_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_PLACE}};
 
     static std::map<std::string, ChassisOptionEnums::AutonChassisOptions> xmlStringToChassisOptionEnumMap{
         {"VISION_DRIVE_NOTE", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_NOTE},
@@ -164,7 +162,7 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
     AutonGrid::YGRID ygrid1 = AutonGrid::YGRID::NONE;
     AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
     AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
-    noteManager_gen::STATE_NAMES noteChosenOption = noteManager_gen::STATE_NAMES::STATE_OFF;
+    noteManagerGen::STATE_NAMES noteChosenOption = noteManagerGen::STATE_NAMES::STATE_OFF;
     ChassisOptionEnums::AutonChassisOptions chassisChosenOption = ChassisOptionEnums::AutonChassisOptions::NO_VISION;
     ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION;
 
