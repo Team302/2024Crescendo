@@ -1463,8 +1463,8 @@
                   <type>Double</type>
                   <value>0</value>
                 </RotationOffset>
-                <motorBrushType>kBrushed</motorBrushType>
-                <sensorType>kNoSensor</sensorType>
+                <motorBrushType>kBrushless</motorBrushType>
+                <sensorType>kHallSensor</sensorType>
               </MotorController>
               <MotorController
                 xsi:type="SparkFlex">
