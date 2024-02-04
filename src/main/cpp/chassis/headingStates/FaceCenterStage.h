@@ -29,5 +29,6 @@ public:
     ~FaceCenterStage() = default;
 
 protected:
-    std::optional<frc::Pose3d> GetVisionTargetPose() override;
+    std::optional<frc::Pose3d> GetAprilTagPose() override;
+    std::optional<frc::Transform3d> GetVisionTargetTransform() override;
 };

@@ -26,8 +26,6 @@
 #include "utils/logging/Logger.h"
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
-#include <utils/WaypointXmlParser.h>
-
 #include <AdjustableItemMgr.h>
 
 using namespace std;
@@ -45,9 +43,6 @@ void Robot::RobotInit()
 
     ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
     auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-
-    auto waypointParser = WaypointXmlParser::GetInstance();
-    waypointParser->ParseWaypoints();
 
     // Get AdjustableItemMgr instance
     m_tuner = nullptr;

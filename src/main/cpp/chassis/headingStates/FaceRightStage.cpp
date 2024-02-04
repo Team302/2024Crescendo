@@ -26,8 +26,13 @@ FaceRightStage::FaceRightStage() : FaceTarget(ChassisOptionEnums::HeadingOption:
 {
 }
 
-std::optional<frc::Pose3d> FaceRightStage::GetVisionTargetPose()
+std::optional<frc::Pose3d> FaceRightStage::GetAprilTagPose()
 {
     int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::BLUE_STAGE_RIGHT : FaceTarget::RED_STAGE_RIGHT);
-    return frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo).GetTagPose(aprilTag);
+    return GetLayout().GetTagPose(aprilTag);
+}
+
+std::optional<frc::Transform3d> FaceRightStage::GetVisionTargetTransform()
+{
+    return std::nullopt;
 }

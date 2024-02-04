@@ -17,15 +17,13 @@
 #pragma once
 
 // C++ Includes
-#include <string>
 #include <vector>
 
 // FRC includes
-#include "units/time.h"
 
 // Team 302 includes
-// #include "auton/AutonGrid.h"
-// @ADDMECH include for your mechanism
+#include "chassis/ChassisOptionEnums.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
 
 // Third Party Includes
 
@@ -36,7 +34,10 @@ public:
         int xgrid1,
         int ygrid1,
         int xgrid2,
-        int ygrid2); // declare ZoneParams public constructor with parameters xgrid1, etc.
+        int ygrid2,
+        noteManagerGen::STATE_NAMES,
+        ChassisOptionEnums::AutonChassisOptions,
+        ChassisOptionEnums::AutonAvoidOptions); // declare ZoneParams public constructor with parameters xgrid1, etc.
 
     ZoneParams() = delete;
     ~ZoneParams() = default; // Destructor
@@ -44,7 +45,10 @@ private:
     int m_xgrid1;
     int m_ygrid1;
     int m_xgrid2;
-    int m_ygrid2; // instances of said parameters
+    int m_ygrid2;
+    int m_noteoption;
+    int m_chassisoption;
+    int m_avoidoption; // instances of said parameters
 };
 
 typedef std::vector<ZoneParams *> ZoneParamsVector; // create typedef ZoneParamsVector
