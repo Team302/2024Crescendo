@@ -51,7 +51,7 @@ void noteManagerGen::Create()
 	frontIntakeCalcStruct.countsPerDegree = 0 ;;
 	frontIntake = new DragonSparkMax ( 13,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,frontIntakeCalcStruct );
 	m_motorMap[frontIntake->GetType()] = new BaseMechMotor ( m_ntName,
-	    *frontIntake,
+	    frontIntake,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -65,7 +65,7 @@ void noteManagerGen::Create()
 	backIntakeCalcStruct.countsPerDegree = 0 ;;
 	backIntake = new DragonSparkMax ( 17,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,backIntakeCalcStruct );
 	m_motorMap[backIntake->GetType()] = new BaseMechMotor ( m_ntName,
-	    *backIntake,
+	    backIntake,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -79,7 +79,7 @@ void noteManagerGen::Create()
 	TransferCalcStruct.countsPerDegree = 0 ;;
 	Transfer = new DragonSparkMax ( 14,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,TransferCalcStruct );
 	m_motorMap[Transfer->GetType()] = new BaseMechMotor ( m_ntName,
-	    *Transfer,
+	    Transfer,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -93,7 +93,7 @@ void noteManagerGen::Create()
 	FeederCalcStruct.countsPerDegree = 0 ;;
 	Feeder = new DragonSparkFlex ( 12,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,FeederCalcStruct );
 	m_motorMap[Feeder->GetType()] = new BaseMechMotor ( m_ntName,
-	    *Feeder,
+	    Feeder,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -107,7 +107,7 @@ void noteManagerGen::Create()
 	launcherTopCalcStruct.countsPerDegree = 0 ;;
 	launcherTop = new DragonTalonFX ( "launcherTop",RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP,11, launcherTopCalcStruct, IDragonMotorController::MOTOR_TYPE::FALCON500, "rio" );
 	m_motorMap[launcherTop->GetType()] = new BaseMechMotor ( m_ntName,
-	    *launcherTop,
+	    launcherTop,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -121,7 +121,7 @@ void noteManagerGen::Create()
 	launcherBottomCalcStruct.countsPerDegree = 0 ;;
 	launcherBottom = new DragonTalonFX ( "launcherBottom",RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM,10, launcherBottomCalcStruct, IDragonMotorController::MOTOR_TYPE::FALCON500, "rio" );
 	m_motorMap[launcherBottom->GetType()] = new BaseMechMotor ( m_ntName,
-	    *launcherBottom,
+	    launcherBottom,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -135,7 +135,7 @@ void noteManagerGen::Create()
 	launcherAngleCalcStruct.countsPerDegree = 0 ;;
 	launcherAngle = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushed,rev::SparkRelativeEncoder::Type::kNoSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
 	m_motorMap[launcherAngle->GetType()] = new BaseMechMotor ( m_ntName,
-	    *launcherAngle,
+	    launcherAngle,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -149,7 +149,7 @@ void noteManagerGen::Create()
 	PlacerCalcStruct.countsPerDegree = 0 ;;
 	Placer = new DragonSparkFlex ( 19,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,PlacerCalcStruct );
 	m_motorMap[Placer->GetType()] = new BaseMechMotor ( m_ntName,
-	    *Placer,
+	    Placer,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,

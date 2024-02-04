@@ -35,7 +35,7 @@ $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::$$_MECHANISM_INSTANCE_NAME_$$BaseStat
     for (auto usage : motorUsages)
     {
         auto motormech = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorMech(usage);
-        m_motorMap[usage] = new BaseMechMotorState(stateName, stateId, *motormech);
+        m_motorMap[usage] = motormech;
     }
     auto solUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetSolenoidUsages();
     for (auto usage : solUsages)
@@ -56,7 +56,7 @@ $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::$$_MECHANISM_INSTANCE_NAME_$$BaseStat
 /// @param percentOutput target value
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, double percentOutput)
 {
-    auto motormech = GetMotorMechState(identifier);
+    auto motormech = GetMotorMech(identifier);
     if (motormech != nullptr)
     {
         motormech->SetTargetControl(percentOutput);
@@ -67,9 +67,9 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNam
 /// @param identifier Motor Control Usage to indicate what motor to update
 /// @param controlConst pid constants for controling motor
 /// @param angle target value
-void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angle::degree_t angle)
+void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::angle::degree_t angle)
 {
-    auto motormech = GetMotorMechState(identifier);
+    auto motormech = GetMotorMech(identifier);
     if (motormech != nullptr)
     {
         motormech->SetTargetControl(controlConst, angle);
@@ -80,9 +80,9 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNam
 /// @param identifier Motor Control Usage to indicate what motor to update
 /// @param controlConst pid constants for controling motor
 /// @param angularVelocity target value
-void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angular_velocity::revolutions_per_minute_t angVel)
+void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::angular_velocity::revolutions_per_minute_t angVel)
 {
-    auto motormech = GetMotorMechState(identifier);
+    auto motormech = GetMotorMech(identifier);
     if (motormech != nullptr)
     {
         motormech->SetTargetControl(controlConst, angVel);
@@ -93,9 +93,9 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNam
 /// @param identifier Motor Control Usage to indicate what motor to update
 /// @param controlConst pid constants for controling motor
 /// @param position target value
-void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::length::inch_t position)
+void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::length::inch_t position)
 {
-    auto motormech = GetMotorMechState(identifier);
+    auto motormech = GetMotorMech(identifier);
     if (motormech != nullptr)
     {
         motormech->SetTargetControl(controlConst, position);
@@ -106,9 +106,9 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNam
 /// @param identifier Motor Control Usage to indicate what motor to update
 /// @param controlConst pid constants for controling motor
 /// @param velocity target value
-void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::velocity::feet_per_second_t velocity)
+void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::velocity::feet_per_second_t velocity)
 {
-    auto motormech = GetMotorMechState(identifier);
+    auto motormech = GetMotorMech(identifier);
     if (motormech != nullptr)
     {
         motormech->SetTargetControl(controlConst, velocity);
@@ -144,15 +144,16 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::Init()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::InitMotorStates()
 {
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
-    for (auto usage : motorUsages)
-    {
-        auto state = GetMotorMechState(usage);
-        if (state != nullptr)
-        {
-            state->Init();
-        }
-    }
+    // todo nothing to do in the init motor state because everything is done when we call SetTargetControl
+    // auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
+    // for (auto usage : motorUsages)
+    // {
+    //     auto state = GetMotorMechState(usage);
+    //     if (state != nullptr)
+    //     {
+    //         state->Init();
+    //     }
+    // }
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::InitSolenoidStates()
 {
@@ -190,10 +191,10 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::RunMotorStates()
     auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)
     {
-        auto state = GetMotorMechState(usage);
-        if (state != nullptr)
+        auto motorMech = GetMotorMech(usage);
+        if (motorMech != nullptr)
         {
-            state->Run();
+            motorMech->Update();
         }
     }
 }
@@ -230,15 +231,16 @@ void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::Exit()
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::ExitMotorStates()
 {
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
-    for (auto usage : motorUsages)
-    {
-        auto state = GetMotorMechState(usage);
-        if (state != nullptr)
-        {
-            state->Exit();
-        }
-    }
+    // todo there is nothing to do at the BaseMotorMech so far
+    //  auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
+    //  for ( auto usage : motorUsages )
+    //  {
+    //  	auto motorMech = GetMotorMech ( usage );
+    //  	if ( motorMech != nullptr )
+    //  	{
+    //  		motorMech->Exit();
+    //  	}
+    //  }
 }
 void $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::ExitSolenoidStates()
 {
@@ -284,10 +286,10 @@ bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetMotorStates() const
     auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
     for (auto usage : motorUsages)
     {
-        auto state = GetMotorMechState(usage);
-        if (state != nullptr)
+        auto motorMech = GetMotorMech(usage);
+        if (motorMech != nullptr)
         {
-            attarget = state->AtTarget();
+            attarget = motorMech->AtTarget();
             if (!attarget)
             {
                 break;
@@ -299,10 +301,10 @@ bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetMotorStates() const
 bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetSolenoidStates() const
 {
     auto attarget = true;
-    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetMotorUsages();
+    auto motorUsages = m_$$_MECHANISM_INSTANCE_NAME_$$->GetSolenoidUsages();
     for (auto usage : motorUsages)
     {
-        auto state = GetMotorMechState(usage);
+        auto state = GetSolenoidMechState(usage);
         if (state != nullptr)
         {
             attarget = state->AtTarget();
@@ -333,7 +335,7 @@ bool $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTargetServoStates() const
     return attarget;
 }
 
-BaseMechMotorState *$$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::GetMotorMechState(RobotElementNames::MOTOR_CONTROLLER_USAGE usage) const
+BaseMechMotor *$$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::GetMotorMech(RobotElementNames::MOTOR_CONTROLLER_USAGE usage) const
 {
     auto itr = m_motorMap.find(usage);
     if (itr != m_motorMap.end())

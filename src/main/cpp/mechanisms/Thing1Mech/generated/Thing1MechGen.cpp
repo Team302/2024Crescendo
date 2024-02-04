@@ -56,7 +56,7 @@ void Thing1MechGen::Create()
 	                                     BackLeftMotorCalcStruct,
 	                                     IDragonMotorController::MOTOR_TYPE::ANDYMARKNEVEREST );
 	m_motorMap[BackLeftMotor->GetType()] = new BaseMechMotor ( m_ntName,
-	    *BackLeftMotor,
+	    BackLeftMotor,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -75,7 +75,7 @@ void Thing1MechGen::Create()
 	                                      RightBackMotorCalcStruct,
 	                                      IDragonMotorController::MOTOR_TYPE::ANDYMARKNEVEREST );
 	m_motorMap[RightBackMotor->GetType()] = new BaseMechMotor ( m_ntName,
-	    *RightBackMotor,
+	    RightBackMotor,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -94,7 +94,7 @@ void Thing1MechGen::Create()
 	                                      LeftFrontMotorCalcStruct,
 	                                      IDragonMotorController::MOTOR_TYPE::ANDYMARKNEVEREST );
 	m_motorMap[LeftFrontMotor->GetType()] = new BaseMechMotor ( m_ntName,
-	    *LeftFrontMotor,
+	    LeftFrontMotor,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -113,7 +113,7 @@ void Thing1MechGen::Create()
 	                                       RightFrontMotorCalcStruct,
 	                                       IDragonMotorController::MOTOR_TYPE::ANDYMARKNEVEREST );
 	m_motorMap[RightFrontMotor->GetType()] = new BaseMechMotor ( m_ntName,
-	    *RightFrontMotor,
+	    RightFrontMotor,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -127,7 +127,7 @@ void Thing1MechGen::Create()
 	FlaconCalcStruct.countsPerDegree = 0 ;;
 	Flacon = new DragonTalonFX ( "Flacon",RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_FLACON,11, FlaconCalcStruct, IDragonMotorController::MOTOR_TYPE::FALCON500, "rio" );
 	m_motorMap[Flacon->GetType()] = new BaseMechMotor ( m_ntName,
-	    *Flacon,
+	    Flacon,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -141,7 +141,7 @@ void Thing1MechGen::Create()
 	Neo550CalcStruct.countsPerDegree = 0 ;;
 	Neo550 = new DragonSparkMax ( 4,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_NEO550,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,Neo550CalcStruct );
 	m_motorMap[Neo550->GetType()] = new BaseMechMotor ( m_ntName,
-	    *Neo550,
+	    Neo550,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -155,7 +155,7 @@ void Thing1MechGen::Create()
 	VortexCalcStruct.countsPerDegree = 0 ;;
 	Vortex = new DragonSparkFlex ( 5,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,VortexCalcStruct );
 	m_motorMap[Vortex->GetType()] = new BaseMechMotor ( m_ntName,
-	    *Vortex,
+	    Vortex,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,

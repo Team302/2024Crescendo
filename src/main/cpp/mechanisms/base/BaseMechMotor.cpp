@@ -41,7 +41,7 @@ using namespace std;
 /// @param [in] EndOfTravelSensorOption maximum end of travel sensor option
 /// @param [in] DragonDigitalInput* maximum end of travel sensor if plugged into RoboRio otherwise ignored
 BaseMechMotor::BaseMechMotor(std::string networkTableName,
-                             IDragonMotorController &motorController,
+                             IDragonMotorController *motorController,
                              EndOfTravelSensorOption minEndOfTravelOption,
                              DragonDigitalInput *minSensor,
                              EndOfTravelSensorOption maxEndOfTravelOption,
@@ -64,8 +64,39 @@ BaseMechMotor::BaseMechMotor(std::string networkTableName,
 
 void BaseMechMotor::Update()
 {
-    m_motor.Set(m_target);
+    m_motor->Set(m_target);
     LogInformation();
+}
+
+void BaseMechMotor::SetTargetControl(double percentOutput)
+{
+    UpdateTarget(percentOutput);
+}
+
+void BaseMechMotor::SetTargetControl(ControlData *controlConst, units::angle::degree_t angle)
+{
+    m_controlData = controlConst;
+    SetControlConstants(0, *m_controlData); // todo pass by pointer so as not to make a copy
+    UpdateTarget(angle);
+}
+
+void BaseMechMotor::SetTargetControl(ControlData *controlConst, units::angular_velocity::revolutions_per_minute_t angVel)
+{
+    m_controlData = controlConst;
+    SetControlConstants(0, *m_controlData);
+    UpdateTarget(angVel);
+}
+void BaseMechMotor::SetTargetControl(ControlData *controlConst, units::length::inch_t position)
+{
+    m_controlData = controlConst;
+    SetControlConstants(0, *m_controlData);
+    UpdateTarget(position);
+}
+void BaseMechMotor::SetTargetControl(ControlData *controlConst, units::velocity::feet_per_second_t velocity)
+{
+    m_controlData = controlConst;
+    SetControlConstants(0, *m_controlData);
+    UpdateTarget(velocity);
 }
 
 void BaseMechMotor::UpdateTarget(double target)
@@ -105,24 +136,50 @@ void BaseMechMotor::UpdateTarget(units::angular_velocity::revolutions_per_minute
     Update();
 }
 
+bool BaseMechMotor::AtTarget()
+{
+    auto pctError = 0.0;
+    if (m_targetType == MotorTargetType::PERCENT_OUTPUT)
+    {
+        pctError = (m_target - GetTarget()) / m_target; // todo this will always be 0
+    }
+    else if (m_targetType == MotorTargetType::ANGLE)
+    {
+        pctError = (m_targetAngle - GetPositionDegrees()) / m_targetAngle;
+    }
+    else if (m_targetType == MotorTargetType::ANGULAR_VELOCITY)
+    {
+        pctError = (m_targetAngularVelocity - GetRPM()) / m_targetAngularVelocity;
+    }
+    else if (m_targetType == MotorTargetType::POSITION)
+    {
+        pctError = (m_targetPosition - GetPositionInches()) / m_targetPosition;
+    }
+    else if (m_targetType == MotorTargetType::VELOCITY)
+    {
+        pctError = (m_targetVelocity - GetFeetPerSec()) / m_targetVelocity;
+    }
+    return pctError < 0.02; // TODO: this might need to be configurable
+}
+
 units::length::inch_t BaseMechMotor::GetPositionInches()
 {
-    return units::length::inch_t(GetMotor().GetCounts() / GetMotor().GetCountsPerInch());
+    return units::length::inch_t(GetMotor()->GetCounts() / GetMotor()->GetCountsPerInch());
 }
 
 units::velocity::feet_per_second_t BaseMechMotor::GetFeetPerSec()
 {
-    return units::velocity::feet_per_second_t(GetMotor().GetRPS() / GetMotor().GetCountsPerInch());
+    return units::velocity::feet_per_second_t(GetMotor()->GetRPS() / GetMotor()->GetCountsPerInch());
 }
 
 units::angle::degree_t BaseMechMotor::GetPositionDegrees()
 {
-    return units::angle::degree_t(GetMotor().GetCounts() / GetMotor().GetCountsPerDegree());
+    return units::angle::degree_t(GetMotor()->GetCounts() / GetMotor()->GetCountsPerDegree());
 }
 
 units::angular_velocity::revolutions_per_minute_t BaseMechMotor::GetRPM()
 {
-    return units::angular_velocity::revolutions_per_minute_t(GetMotor().GetRPS() / 60.0);
+    return units::angular_velocity::revolutions_per_minute_t(GetMotor()->GetRPS() / 60.0);
 }
 
 bool BaseMechMotor::IsAtMinTravel() const
@@ -156,7 +213,7 @@ bool BaseMechMotor::IsAtMaxTravel() const
 /// @return void
 void BaseMechMotor::SetControlConstants(int slot, ControlData pid)
 {
-    m_motor.SetControlConstants(slot, pid);
+    m_motor->SetControlConstants(slot, pid);
 }
 
 /// @brief log data to the network table if it is activated and time period has past

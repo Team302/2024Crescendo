@@ -43,7 +43,7 @@ void ClimberManagerGen::Create()
 	leftClimberCalcStruct.countsPerDegree = 1 ;;
 	leftClimber = new DragonSparkMax ( 16,RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,leftClimberCalcStruct );
 	m_motorMap[leftClimber->GetType()] = new BaseMechMotor ( m_ntName,
-	    *leftClimber,
+	    leftClimber,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -57,7 +57,7 @@ void ClimberManagerGen::Create()
 	rightClimberCalcStruct.countsPerDegree = 0 ;;
 	rightClimber = new DragonSparkMax ( 15,RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,rightClimberCalcStruct );
 	m_motorMap[rightClimber->GetType()] = new BaseMechMotor ( m_ntName,
-	    *rightClimber,
+	    rightClimber,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,

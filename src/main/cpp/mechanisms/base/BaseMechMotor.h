@@ -28,6 +28,7 @@
 // Team 302 includes
 #include "hw/DragonDigitalInput.h"
 #include "mechanisms/base/IBaseMechMotor.h"
+#include "mechanisms/controllers/ControlData.h"
 #include "utils/logging/LoggableItem.h"
 
 // forward declares
@@ -52,7 +53,7 @@ public:
     /// @param [in] EndOfTravelSensorOption maximum end of travel sensor option
     /// @param [in] DragonDigitalInput* maximum end of travel sensor if plugged into RoboRio otherwise ignored
     BaseMechMotor(std::string networkTableName,
-                  IDragonMotorController &motorController,
+                  IDragonMotorController *motorController,
                   EndOfTravelSensorOption minEndOfTravelOption,
                   DragonDigitalInput *minSensor,
                   EndOfTravelSensorOption maxEndOfTravelOption,
@@ -67,11 +68,19 @@ public:
     /// @return void
     virtual void Update() override;
 
+    void SetTargetControl(double percentOutput);
+    void SetTargetControl(ControlData *controlConst, units::angle::degree_t angle);
+    void SetTargetControl(ControlData *controlConst, units::angular_velocity::revolutions_per_minute_t angVel);
+    void SetTargetControl(ControlData *controlConst, units::length::inch_t position);
+    void SetTargetControl(ControlData *controlConst, units::velocity::feet_per_second_t velocity);
+
     void UpdateTarget(double target) override;
-    void UpdateTarget(units::length::inch_t target) override;
-    void UpdateTarget(units::velocity::feet_per_second_t target) override;
     void UpdateTarget(units::angle::degree_t target) override;
     void UpdateTarget(units::angular_velocity::revolutions_per_minute_t target) override;
+    void UpdateTarget(units::length::inch_t target) override;
+    void UpdateTarget(units::velocity::feet_per_second_t target) override;
+
+    bool AtTarget();
 
     double GetTarget() const override { return m_target; }
 
@@ -96,19 +105,20 @@ public:
     /// @param [in] ControlData* pid:  the control constants
     void SetControlConstants(int slot, ControlData pid) override;
 
-    IDragonMotorController &GetMotor() const { return m_motor; }
+    IDragonMotorController *GetMotor() const { return m_motor; }
 
 private:
     void SetTarget(double target) { m_target = target; }
     std::string GetNetworkTableName() const { return m_networkTableName; }
 
     std::string m_networkTableName;
-    IDragonMotorController &m_motor;
+    IDragonMotorController *m_motor;
     EndOfTravelSensorOption m_minEndOfTravelOption;
     DragonDigitalInput *m_minRoboRioDigital;
     EndOfTravelSensorOption m_maxEndOfTravelOption;
     DragonDigitalInput *m_maxRoboRioDigital;
 
+    ControlData *m_controlData;
     MotorTargetType m_targetType;
     double m_target;
     units::angle::degree_t m_targetAngle;

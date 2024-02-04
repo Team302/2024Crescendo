@@ -301,7 +301,7 @@ namespace ApplicationData
         override public List<string> generateObjectAddToMaps()
         {
             string creation = string.Format(@"m_motorMap[{0}->GetType()] = new BaseMechMotor(m_ntName, 
-                                                                                            *{0}, 
+                                                                                            {0}, 
                                                                                             BaseMechMotor::EndOfTravelSensorOption::NONE, 
                                                                                             nullptr, 
                                                                                             BaseMechMotor::EndOfTravelSensorOption::NONE, 
