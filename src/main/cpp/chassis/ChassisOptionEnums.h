@@ -60,6 +60,19 @@ public:
         HOLONOMIC
     };
 
+    enum AutonChassisOptions
+    {
+        VISION_DRIVE_NOTE,
+        VISION_DRIVE_SPEAKER,
+        NO_VISION
+    };
+    enum AutonAvoidOptions
+    {
+        PODIUM,
+        ROBOT_COLLISION,
+        NO_AVOID_OPTION
+    };
+
     ChassisOptionEnums() = delete;
     ~ChassisOptionEnums() = delete;
 };
