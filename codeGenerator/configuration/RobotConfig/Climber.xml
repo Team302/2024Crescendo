@@ -137,56 +137,37 @@
         <type>Boolean</type>
         <value>false</value>
       </sensorIsInverted>
-      <currentLimits>
-        <EnableCurrentLimits>
+      <limitSwitches>
+        <LimitSwitchesEnabled>
           <unitsFamily>none</unitsFamily>
           <name>boolParameter</name>
           <__units__ />
           <type>Boolean</type>
           <value>false</value>
-        </EnableCurrentLimits>
-        <PeakCurrentLimit>
+        </LimitSwitchesEnabled>
+      </limitSwitches>
+      <currentLimits>
+        <PrimaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>0</value>
-        </PeakCurrentLimit>
-        <PeakCurrentLimitTimeout>
-          <unitsFamily>time</unitsFamily>
-          <name>intParameter</name>
-          <__units__>s</__units__>
-          <type>Int32</type>
-          <value>0</value>
-        </PeakCurrentLimitTimeout>
-        <PeakCurrentDuration>
-          <unitsFamily>time</unitsFamily>
-          <name>intParameter</name>
-          <__units__>s</__units__>
-          <type>Int32</type>
-          <value>0</value>
-        </PeakCurrentDuration>
-        <PeakCurrentDurationTimeout>
-          <unitsFamily>time</unitsFamily>
-          <name>intParameter</name>
-          <__units__>s</__units__>
-          <type>Int32</type>
-          <value>0</value>
-        </PeakCurrentDurationTimeout>
-        <ContinuousCurrentLimit>
+          <value>50</value>
+        </PrimaryLimit>
+        <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>0</value>
-        </ContinuousCurrentLimit>
-        <ContinuousCurrentLimitTimeout>
-          <unitsFamily>time</unitsFamily>
+          <value>50</value>
+        </SecondaryLimit>
+        <SecondaryLimitCycles>
+          <unitsFamily>none</unitsFamily>
           <name>intParameter</name>
-          <__units__>s</__units__>
+          <__units__ />
           <type>Int32</type>
           <value>0</value>
-        </ContinuousCurrentLimitTimeout>
+        </SecondaryLimitCycles>
       </currentLimits>
       <theConfigMotorSettings>
         <mode>Brake</mode>
@@ -335,56 +316,37 @@
         <type>Boolean</type>
         <value>false</value>
       </sensorIsInverted>
-      <currentLimits>
-        <EnableCurrentLimits>
+      <limitSwitches>
+        <LimitSwitchesEnabled>
           <unitsFamily>none</unitsFamily>
           <name>boolParameter</name>
           <__units__ />
           <type>Boolean</type>
           <value>false</value>
-        </EnableCurrentLimits>
-        <PeakCurrentLimit>
+        </LimitSwitchesEnabled>
+      </limitSwitches>
+      <currentLimits>
+        <PrimaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>0</value>
-        </PeakCurrentLimit>
-        <PeakCurrentLimitTimeout>
-          <unitsFamily>time</unitsFamily>
-          <name>intParameter</name>
-          <__units__>s</__units__>
-          <type>Int32</type>
-          <value>0</value>
-        </PeakCurrentLimitTimeout>
-        <PeakCurrentDuration>
-          <unitsFamily>time</unitsFamily>
-          <name>intParameter</name>
-          <__units__>s</__units__>
-          <type>Int32</type>
-          <value>0</value>
-        </PeakCurrentDuration>
-        <PeakCurrentDurationTimeout>
-          <unitsFamily>time</unitsFamily>
-          <name>intParameter</name>
-          <__units__>s</__units__>
-          <type>Int32</type>
-          <value>0</value>
-        </PeakCurrentDurationTimeout>
-        <ContinuousCurrentLimit>
+          <value>50</value>
+        </PrimaryLimit>
+        <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>0</value>
-        </ContinuousCurrentLimit>
-        <ContinuousCurrentLimitTimeout>
-          <unitsFamily>time</unitsFamily>
+          <value>50</value>
+        </SecondaryLimit>
+        <SecondaryLimitCycles>
+          <unitsFamily>none</unitsFamily>
           <name>intParameter</name>
-          <__units__>s</__units__>
+          <__units__ />
           <type>Int32</type>
           <value>0</value>
-        </ContinuousCurrentLimitTimeout>
+        </SecondaryLimitCycles>
       </currentLimits>
       <theConfigMotorSettings>
         <mode>Brake</mode>
