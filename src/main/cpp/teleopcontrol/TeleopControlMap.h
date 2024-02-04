@@ -239,6 +239,6 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlA
     {TeleopControlFunctions::CLIMB_DOWN, driverLTrigger},
     {TeleopControlFunctions::MANUAL_PLACE, copilotLTrigger},
     {TeleopControlFunctions::MANUAL_FEED, copilotRTrigger},
-    {TeleopControlFunctions::LAUNCH_ANGLE, copilotRJoystickY},
-    {TeleopControlFunctions::ELEVATOR, copilotLJoystickY},
+    {TeleopControlFunctions::LAUNCH_ANGLE, copilotLJoystickY},
+    {TeleopControlFunctions::ELEVATOR, copilotRJoystickY},
 };

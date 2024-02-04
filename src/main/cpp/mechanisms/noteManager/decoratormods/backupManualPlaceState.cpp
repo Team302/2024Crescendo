@@ -57,6 +57,8 @@ void backupManualPlaceState::Run()
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED));
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR) * 0.5);
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE) * 0.5);
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Back Intake Button"), static_cast<double>(TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_BACK_INTAKE)));
 }
 
 void backupManualPlaceState::Exit()

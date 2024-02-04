@@ -730,6 +730,7 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -1005,7 +1006,6 @@
                     <type>Double</type>
                     <value>0</value>
                   </peakReverseDutyCycle>
-                  <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <diameter>
                   <unitsFamily>length</unitsFamily>
@@ -1278,7 +1278,6 @@
                     <type>Double</type>
                     <value>0</value>
                   </peakReverseDutyCycle>
-                  <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <diameter>
                   <unitsFamily>length</unitsFamily>
@@ -1607,7 +1606,7 @@
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
+                    <value>true</value>
                   </LimitSwitchesEnabled>
                 </limitSwitches>
                 <currentLimits>
