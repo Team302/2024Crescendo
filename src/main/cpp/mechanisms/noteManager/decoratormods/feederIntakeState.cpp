@@ -34,16 +34,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-feederIntakeState::feederIntakeState ( std::string stateName,
-                                       int stateId,
-                                       noteManagerAllStatesStateGen *generatedState,
-                                       noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+feederIntakeState::feederIntakeState(std::string stateName,
+									 int stateId,
+									 noteManagerAllStatesStateGen *generatedState,
+									 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void feederIntakeState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "feederIntakeState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("feederIntakeState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +65,13 @@ bool feederIntakeState::AtTarget()
 	return attarget;
 }
 
-bool feederIntakeState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool feederIntakeState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	auto currentstate = m_mechanism->GetCurrentState();
+	bool noSensorsDetected = m_mechanism->getlauncherSensor()->Get() == false && m_mechanism->getplacerInSensor()->Get() == false && m_mechanism->getplacerMidSensor()->Get() == false && m_mechanism->getplacerOutSensor()->Get() == false && m_mechanism->getbackIntakeSensor()->Get() == false && m_mechanism->getfrontIntakeSensor()->Get() == false && m_mechanism->getfeederSensor()->Get() == false;
+
+	return ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->isLauncherMode()) ||
+			(noSensorsDetected && (currentstate == static_cast<int>(m_mechanism->STATE_PLACER_TO_LAUNCHER_FRONT))));
 }

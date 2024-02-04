@@ -125,7 +125,6 @@ void CyclePrimitives::RunDriveStop()
 		auto time = DriverStation::GetMatchType() != DriverStation::MatchType::kNone ? DriverStation::GetMatchTime() : units::time::second_t(15.0);
 		auto params = new PrimitiveParams(DO_NOTHING, // identifier
 										  time,		  // time
-										  0.0,		  // distance
 										  ChassisOptionEnums::HeadingOption::MAINTAIN,
 										  0.0, // heading
 											   //   0.0, // start drive speed
