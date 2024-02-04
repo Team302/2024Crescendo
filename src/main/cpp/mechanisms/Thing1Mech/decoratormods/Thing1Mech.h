@@ -38,9 +38,11 @@ public:
 	/// @param otherMotor Same as previous
 	/// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 	/// Additional actuators and sensors are also in this list.
-	Thing1Mech ( Thing1MechGen *generatedMech );
+	Thing1Mech(Thing1MechGen *generatedMech);
 	Thing1Mech() = delete;
 	~Thing1Mech() = default;
+
+	void RunCommonTasks() override;
 
 	void createAndRegisterStates();
 

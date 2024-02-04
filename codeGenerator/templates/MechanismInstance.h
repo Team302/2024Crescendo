@@ -27,6 +27,8 @@ public:
     $$_MECHANISM_INSTANCE_NAME_$$() = delete;
     ~$$_MECHANISM_INSTANCE_NAME_$$() = default;
 
+    void RunCommonTasks() override;
+
     void createAndRegisterStates();
 
     // todo not sure what to do with these

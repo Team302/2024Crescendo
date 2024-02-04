@@ -48,44 +48,49 @@ using namespace Thing1MechStates;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-Thing1Mech::Thing1Mech ( Thing1MechGen *base ) : Thing1MechGen(),IRobotStateChangeSubscriber(),
-	m_Thing1Mech ( base )
+Thing1Mech::Thing1Mech(Thing1MechGen *base) : Thing1MechGen(), IRobotStateChangeSubscriber(),
+											  m_Thing1Mech(base)
 {
-	PeriodicLooper::GetInstance()->RegisterAll ( this );
+	PeriodicLooper::GetInstance()->RegisterAll(this);
+
 	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
 	RobotState::GetInstance()->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 }
 
+void Thing1Mech::RunCommonTasks()
+{
+	// This function is called once per loop before the current state Run()
+}
+
 void Thing1Mech::createAndRegisterStates()
 {
-	leftFrontCWState* leftFrontCWStateInst = new leftFrontCWState ( string ( "leftFrontCW" ), 0, new Thing1MechAllStatesStateGen ( string ( "leftFrontCW" ), 0, this ), this );
-	AddToStateVector ( leftFrontCWStateInst );
+	leftFrontCWState *leftFrontCWStateInst = new leftFrontCWState(string("leftFrontCW"), 0, new Thing1MechAllStatesStateGen(string("leftFrontCW"), 0, this), this);
+	AddToStateVector(leftFrontCWStateInst);
 
-	rightFrontCWState* rightFrontCWStateInst = new rightFrontCWState ( string ( "rightFrontCW" ), 1, new Thing1MechAllStatesStateGen ( string ( "rightFrontCW" ), 1, this ), this );
-	AddToStateVector ( rightFrontCWStateInst );
+	rightFrontCWState *rightFrontCWStateInst = new rightFrontCWState(string("rightFrontCW"), 1, new Thing1MechAllStatesStateGen(string("rightFrontCW"), 1, this), this);
+	AddToStateVector(rightFrontCWStateInst);
 
-	rightBackCWState* rightBackCWStateInst = new rightBackCWState ( string ( "rightBackCW" ), 2, new Thing1MechAllStatesStateGen ( string ( "rightBackCW" ), 2, this ), this );
-	AddToStateVector ( rightBackCWStateInst );
+	rightBackCWState *rightBackCWStateInst = new rightBackCWState(string("rightBackCW"), 2, new Thing1MechAllStatesStateGen(string("rightBackCW"), 2, this), this);
+	AddToStateVector(rightBackCWStateInst);
 
-	leftBackCWState* leftBackCWStateInst = new leftBackCWState ( string ( "leftBackCW" ), 3, new Thing1MechAllStatesStateGen ( string ( "leftBackCW" ), 3, this ), this );
-	AddToStateVector ( leftBackCWStateInst );
+	leftBackCWState *leftBackCWStateInst = new leftBackCWState(string("leftBackCW"), 3, new Thing1MechAllStatesStateGen(string("leftBackCW"), 3, this), this);
+	AddToStateVector(leftBackCWStateInst);
 
-	sparkyOnState* sparkyOnStateInst = new sparkyOnState ( string ( "sparkyOn" ), 4, new Thing1MechAllStatesStateGen ( string ( "sparkyOn" ), 4, this ), this );
-	AddToStateVector ( sparkyOnStateInst );
+	sparkyOnState *sparkyOnStateInst = new sparkyOnState(string("sparkyOn"), 4, new Thing1MechAllStatesStateGen(string("sparkyOn"), 4, this), this);
+	AddToStateVector(sparkyOnStateInst);
 
-	thing1TalonState* thing1TalonStateInst = new thing1TalonState ( string ( "thing1Talon" ), 5, new Thing1MechAllStatesStateGen ( string ( "thing1Talon" ), 5, this ), this );
-	AddToStateVector ( thing1TalonStateInst );
+	thing1TalonState *thing1TalonStateInst = new thing1TalonState(string("thing1Talon"), 5, new Thing1MechAllStatesStateGen(string("thing1Talon"), 5, this), this);
+	AddToStateVector(thing1TalonStateInst);
 
-	leftFrontCWStateInst->RegisterTransitionState ( rightFrontCWStateInst );
-	rightFrontCWStateInst->RegisterTransitionState ( leftBackCWStateInst );
-	rightFrontCWStateInst->RegisterTransitionState ( rightBackCWStateInst );
-	rightBackCWStateInst->RegisterTransitionState ( leftBackCWStateInst );
-	rightBackCWStateInst->RegisterTransitionState ( thing1TalonStateInst );
-	leftBackCWStateInst->RegisterTransitionState ( leftFrontCWStateInst );
-	leftBackCWStateInst->RegisterTransitionState ( sparkyOnStateInst );
-	sparkyOnStateInst->RegisterTransitionState ( leftBackCWStateInst );
-	thing1TalonStateInst->RegisterTransitionState ( rightBackCWStateInst );
-
+	leftFrontCWStateInst->RegisterTransitionState(rightFrontCWStateInst);
+	rightFrontCWStateInst->RegisterTransitionState(leftBackCWStateInst);
+	rightFrontCWStateInst->RegisterTransitionState(rightBackCWStateInst);
+	rightBackCWStateInst->RegisterTransitionState(leftBackCWStateInst);
+	rightBackCWStateInst->RegisterTransitionState(thing1TalonStateInst);
+	leftBackCWStateInst->RegisterTransitionState(leftFrontCWStateInst);
+	leftBackCWStateInst->RegisterTransitionState(sparkyOnStateInst);
+	sparkyOnStateInst->RegisterTransitionState(leftBackCWStateInst);
+	thing1TalonStateInst->RegisterTransitionState(rightBackCWStateInst);
 }
 
 void Thing1Mech::Update(RobotStateChanges::StateChange change, int value)
