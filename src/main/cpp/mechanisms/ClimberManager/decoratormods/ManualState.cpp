@@ -56,6 +56,16 @@ void ManualState::Run()
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
 
+	double currentPos = m_mechanism->getleftClimber()->GetCounts();
+	double delta = 3.0 * 0.02 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 3 in/s * 0.02 for 20 ms loop time * controller input
+	double Target = currentPos + delta;
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Target"), Target);
+
+	/*	Uncomment once back in posInchControl
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, Target);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, Target);
+	*/
 	m_genState->Run();
 }
 

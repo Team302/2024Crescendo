@@ -6543,6 +6543,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>23</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6554,6 +6555,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>23</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6586,6 +6588,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPercetOut</controlDataName>
@@ -6597,6 +6600,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPercetOut</controlDataName>
@@ -6665,8 +6669,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__>m</__units__>
+                      <__units__>in</__units__>
                       <type>Double</type>
+                      <value>33</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6676,8 +6681,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__>m</__units__>
+                      <__units__>in</__units__>
                       <type>Double</type>
+                      <value>33</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
