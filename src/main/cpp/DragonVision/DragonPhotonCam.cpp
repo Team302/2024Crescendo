@@ -33,9 +33,10 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
                                  units::length::inch_t mountingZOffset,
                                  units::angle::degree_t pitch,
                                  units::angle::degree_t yaw,
-                                 units::angle::degree_t roll) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                                                                m_camera(new photon::PhotonCamera(name))
+                                 units::angle::degree_t roll) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll)
+
 {
+    m_camera = new photon::PhotonCamera(name.c_str());
     SetPipeline(initialPipeline);
 }
 
