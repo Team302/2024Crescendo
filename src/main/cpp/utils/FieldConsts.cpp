@@ -17,6 +17,6 @@ using namespace std;
 
 frc::Pose3d FieldConsts::GetFeildElement(FIELD_ELEMENT element)
 {
-    frc::Pose3d Pose3d = vector[static_cast<int>(element)];
+    frc::Pose3d Pose3d = FieldConstantsPoseMap[element];
     return Pose3d;
 }
