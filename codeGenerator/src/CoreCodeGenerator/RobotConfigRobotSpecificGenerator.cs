@@ -50,8 +50,8 @@ namespace CoreCodeGenerator
                     sb.AppendLine(string.Format("{0}* m_the{0} = nullptr;", mi.name));
                     includes.AppendLine(String.Format("#include \"{0}\"", mi.getIncludePath()));
                 }
-                resultString = resultString.Replace("$$_MECHANISM_PTR_DECLARATIONS_$$", sb.ToString());
-                resultString = resultString.Replace("$$_MECHANISM_INCLUDE_FILES_$$", includes.ToString());
+                resultString = resultString.Replace("$$_MECHANISM_PTR_DECLARATIONS_$$", sb.ToString().Trim());
+                resultString = resultString.Replace("$$_MECHANISM_INCLUDE_FILES_$$", includes.ToString().Trim());
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }
@@ -90,7 +90,7 @@ namespace CoreCodeGenerator
                     sb.AppendLine(resultString);
                 }
 
-                resultString = template.Replace("$$_MECHANISMS_INITIALIZATION_$$", sb.ToString());
+                resultString = template.Replace("$$_MECHANISMS_INITIALIZATION_$$", sb.ToString().Trim());
                 resultString = resultString.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
                 resultString = resultString.Replace("$$_ROBOT_ENUM_NAME_$$", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper());
 

@@ -57,7 +57,7 @@ namespace CoreCodeGenerator
                     sb.AppendLine(string.Format("{0}", list[i]));
             }
 
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
         protected string ListToString(List<string> list)
         {
@@ -140,6 +140,10 @@ namespace CoreCodeGenerator
 
                     if (currentText == contentsWithoutGenInfo)
                         writeFile = false;
+                    else
+                    {
+
+                    }
                 }
             }
 
