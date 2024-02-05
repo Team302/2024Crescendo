@@ -28,7 +28,7 @@ FaceSpeaker::FaceSpeaker() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_
 {
 }
 
-std::optional<frc::Pose3d> FaceSpeaker::GetVisionTargetPose()
+std::optional<frc::Pose3d> FaceSpeaker::GetAprilTagPose()
 {
     int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::BLUE_AMP : FaceTarget::RED_AMP);
     return frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo).GetTagPose(aprilTag);
