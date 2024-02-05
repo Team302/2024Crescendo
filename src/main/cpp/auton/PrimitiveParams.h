@@ -40,7 +40,6 @@ public:
     PrimitiveParams(
         PRIMITIVE_IDENTIFIER id,
         units::time::second_t time,
-        float distance,
         ChassisOptionEnums::HeadingOption headingOption,
         float heading,
         std::string pathName,
@@ -53,7 +52,6 @@ public:
     // Some getters
     PRIMITIVE_IDENTIFIER GetID() const { return m_id; };
     units::time::second_t GetTime() const { return m_time; };
-    float GetDistance() const { return m_distance; };
     ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
     float GetHeading() const { return m_heading; };
     std::string GetPathName() const { return m_pathName; };
@@ -63,22 +61,14 @@ public:
     // @ADDMECH Add methods to get the state mgr for mechanism
 
     // Setters
-    void
-    SetDistance(float distance)
-    {
-        m_distance = distance;
-    }
     void SetPathName(std::string path) { m_pathName = path; }
 
 private:
     // Primitive Parameters
     PRIMITIVE_IDENTIFIER m_id; // Primitive ID
     units::time::second_t m_time;
-    float m_distance;
     ChassisOptionEnums::HeadingOption m_headingOption;
     float m_heading;
-    float m_startDriveSpeed;
-    float m_endDriveSpeed;
     std::string m_pathName;
     // @ADDMECH add attribute for your mechanism state
     DragonCamera::PIPELINE m_pipelineMode;

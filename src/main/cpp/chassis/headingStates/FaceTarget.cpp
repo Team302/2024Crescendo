@@ -19,24 +19,35 @@
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose3d.h"
 
-FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerveDriveOrientation(headingOption)
+FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerveDriveOrientation(headingOption),
+                                                                          m_layout(frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
+
 {
 }
+
 void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {
-        auto currentPose = chassis->GetPose();
-
-        auto pose3d = GetVisionTargetPose();
-        if (pose3d)
+        auto target = GetVisionTargetTransform();
+        if (target)
         {
-            auto targetPose = pose3d.value().ToPose2d();
+            auto rotation = target.value().Rotation().Angle();
+            chassis->SetStoredHeading(rotation);
+        }
+        else
+        {
+            auto currentPose = chassis->GetPose();
+            auto pose3d = GetAprilTagPose();
+            if (pose3d)
+            {
+                auto targetPose = pose3d.value().ToPose2d();
 
-            auto trans = currentPose - targetPose;
-            chassis->SetStoredHeading(trans.Rotation().Degrees());
+                auto trans = currentPose - targetPose;
+                chassis->SetStoredHeading(trans.Rotation().Degrees());
+            }
         }
     }
 }

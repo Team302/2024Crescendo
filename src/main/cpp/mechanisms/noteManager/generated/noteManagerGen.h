@@ -141,12 +141,12 @@ public:
 	DragonSparkMax* getfrontIntake() const {return frontIntake;}
 	DragonSparkMax* getbackIntake() const {return backIntake;}
 	DragonSparkMax* getTransfer() const {return Transfer;}
-	DragonSparkFlex* getElevator() const {return Elevator;}
 	DragonSparkFlex* getFeeder() const {return Feeder;}
 	DragonTalonFX* getlauncherTop() const {return launcherTop;}
 	DragonTalonFX* getlauncherBottom() const {return launcherBottom;}
 	DragonSparkMax* getlauncherAngle() const {return launcherAngle;}
 	DragonSparkFlex* getPlacer() const {return Placer;}
+	DragonSparkMax* getElevator() const {return Elevator;}
 	DragonDigitalInput* getfrontIntakeSensor() const {return frontIntakeSensor;}
 	DragonDigitalInput* getbackIntakeSensor() const {return backIntakeSensor;}
 	DragonDigitalInput* getfeederSensor() const {return feederSensor;}
@@ -173,12 +173,12 @@ private:
 	DragonSparkMax* frontIntake;
 	DragonSparkMax* backIntake;
 	DragonSparkMax* Transfer;
-	DragonSparkFlex* Elevator;
 	DragonSparkFlex* Feeder;
 	DragonTalonFX* launcherTop;
 	DragonTalonFX* launcherBottom;
 	DragonSparkMax* launcherAngle;
 	DragonSparkFlex* Placer;
+	DragonSparkMax* Elevator;
 	DragonDigitalInput* frontIntakeSensor;
 	DragonDigitalInput* backIntakeSensor;
 	DragonDigitalInput* feederSensor;

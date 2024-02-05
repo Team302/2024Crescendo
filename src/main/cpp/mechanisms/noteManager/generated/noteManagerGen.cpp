@@ -86,29 +86,13 @@ void noteManagerGen::Create()
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
 
-
-	DistanceAngleCalcStruc ElevatorCalcStruct;
-	ElevatorCalcStruct.countsPerRev = 0 ;
-	ElevatorCalcStruct.gearRatio = 1 ;
-	ElevatorCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
-	ElevatorCalcStruct.countsPerInch = 0 ;
-	ElevatorCalcStruct.countsPerDegree = 0 ;;
-	Elevator = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,ElevatorCalcStruct );
-	m_motorMap[Elevator->GetType()] = new BaseMechMotor ( m_ntName,
-	    Elevator,
-	    BaseMechMotor::EndOfTravelSensorOption::NONE,
-	    nullptr,
-	    BaseMechMotor::EndOfTravelSensorOption::NONE,
-	    nullptr );
-
-
 	DistanceAngleCalcStruc FeederCalcStruct;
 	FeederCalcStruct.countsPerRev = 0 ;
 	FeederCalcStruct.gearRatio = 1 ;
 	FeederCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	FeederCalcStruct.countsPerInch = 0 ;
 	FeederCalcStruct.countsPerDegree = 0 ;;
-	Feeder = new DragonSparkFlex ( 2,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,FeederCalcStruct );
+	Feeder = new DragonSparkFlex ( 12,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,FeederCalcStruct );
 	m_motorMap[Feeder->GetType()] = new BaseMechMotor ( m_ntName,
 	    Feeder,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -152,8 +136,8 @@ void noteManagerGen::Create()
 	launcherAngleCalcStruct.gearRatio = 1 ;
 	launcherAngleCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	launcherAngleCalcStruct.countsPerInch = 0 ;
-	launcherAngleCalcStruct.countsPerDegree = 0 ;;
-	launcherAngle = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushed,rev::SparkRelativeEncoder::Type::kNoSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
+	launcherAngleCalcStruct.countsPerDegree = 1.05494 ;;
+	launcherAngle = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
 	m_motorMap[launcherAngle->GetType()] = new BaseMechMotor ( m_ntName,
 	    launcherAngle,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
@@ -176,18 +160,27 @@ void noteManagerGen::Create()
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
 
+	DistanceAngleCalcStruc ElevatorCalcStruct;
+	ElevatorCalcStruct.countsPerRev = 0 ;
+	ElevatorCalcStruct.gearRatio = 1 ;
+	ElevatorCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
+	ElevatorCalcStruct.countsPerInch = 6.8085 ;
+	ElevatorCalcStruct.countsPerDegree = 0 ;;
+	Elevator = new DragonSparkMax ( 62,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,ElevatorCalcStruct );
+	m_motorMap[Elevator->GetType()] = new BaseMechMotor ( m_ntName,
+	    Elevator,
+	    BaseMechMotor::EndOfTravelSensorOption::NONE,
+	    nullptr,
+	    BaseMechMotor::EndOfTravelSensorOption::NONE,
+	    nullptr );
 
-
-
-
-
-	frontIntakeSensor = new DragonDigitalInput ( "frontIntakeSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_FRONT_INTAKE_SENSOR,1,false,units::time::second_t ( 0 ) );
-	backIntakeSensor = new DragonDigitalInput ( "backIntakeSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_BACK_INTAKE_SENSOR,2,false,units::time::second_t ( 0 ) );
-	feederSensor = new DragonDigitalInput ( "feederSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_FEEDER_SENSOR,3,false,units::time::second_t ( 0 ) );
-	launcherSensor = new DragonDigitalInput ( "launcherSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_LAUNCHER_SENSOR,4,false,units::time::second_t ( 0 ) );
-	placerInSensor = new DragonDigitalInput ( "placerInSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_IN_SENSOR,5,false,units::time::second_t ( 0 ) );
-	placerMidSensor = new DragonDigitalInput ( "placerMidSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_MID_SENSOR,6,false,units::time::second_t ( 0 ) );
-	placerOutSensor = new DragonDigitalInput ( "placerOutSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_OUT_SENSOR,7,false,units::time::second_t ( 0 ) );
+	frontIntakeSensor = new DragonDigitalInput ( "frontIntakeSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_FRONT_INTAKE_SENSOR,1,true,units::time::second_t ( 0 ) );
+	backIntakeSensor = new DragonDigitalInput ( "backIntakeSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_BACK_INTAKE_SENSOR,2,true,units::time::second_t ( 0 ) );
+	feederSensor = new DragonDigitalInput ( "feederSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_FEEDER_SENSOR,3,true,units::time::second_t ( 0 ) );
+	launcherSensor = new DragonDigitalInput ( "launcherSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_LAUNCHER_SENSOR,4,true,units::time::second_t ( 0 ) );
+	placerInSensor = new DragonDigitalInput ( "placerInSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_IN_SENSOR,5,true,units::time::second_t ( 0 ) );
+	placerMidSensor = new DragonDigitalInput ( "placerMidSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_MID_SENSOR,6,true,units::time::second_t ( 0 ) );
+	placerOutSensor = new DragonDigitalInput ( "placerOutSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_OUT_SENSOR,7,true,units::time::second_t ( 0 ) );
 
 
 	percentOutput = new ControlData (
@@ -268,27 +261,27 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 
 		frontIntake->SetRemoteSensor ( 0,
 		                               ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
-		frontIntake->Invert ( true );
+		frontIntake->Invert ( false );
 		frontIntake->EnableBrakeMode ( true );
-		frontIntake->SetSmartCurrentLimiting ( 50 );
-		frontIntake->SetSecondaryCurrentLimiting ( 50, 0 );
+		frontIntake->SetSmartCurrentLimiting ( 40 );
+		frontIntake->SetSecondaryCurrentLimiting ( 40, 0 );
 		frontIntake->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
 		frontIntake->EnableDisableLimitSwitches ( false );
 // frontIntake : Follower motor mode is not enabled
-		frontIntake->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0 ) ).to<double>(),
+		frontIntake->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0.25 ) ).to<double>(),
 		                                 units::time::second_t ( units::time::second_t ( 0 ) ).to<double>() );
 		frontIntake->SetSensorInverted ( false );
 
 		backIntake->SetRemoteSensor ( 0,
 		                              ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
-		backIntake->Invert ( true );
+		backIntake->Invert ( false );
 		backIntake->EnableBrakeMode ( true );
-		backIntake->SetSmartCurrentLimiting ( 50 );
-		backIntake->SetSecondaryCurrentLimiting ( 50, 0 );
+		backIntake->SetSmartCurrentLimiting ( 40 );
+		backIntake->SetSecondaryCurrentLimiting ( 40, 0 );
 		backIntake->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
 		backIntake->EnableDisableLimitSwitches ( false );
 // backIntake : Follower motor mode is not enabled
-		backIntake->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0 ) ).to<double>(),
+		backIntake->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0.25 ) ).to<double>(),
 		                                units::time::second_t ( units::time::second_t ( 0 ) ).to<double>() );
 		backIntake->SetSensorInverted ( false );
 
@@ -296,38 +289,25 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 		                            ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
 		Transfer->Invert ( true );
 		Transfer->EnableBrakeMode ( true );
-		Transfer->SetSmartCurrentLimiting ( 50 );
-		Transfer->SetSecondaryCurrentLimiting ( 50, 0 );
+		Transfer->SetSmartCurrentLimiting ( 40 );
+		Transfer->SetSecondaryCurrentLimiting ( 40, 0 );
 		Transfer->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
 		Transfer->EnableDisableLimitSwitches ( false );
 // Transfer : Follower motor mode is not enabled
-		Transfer->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0 ) ).to<double>(),
+		Transfer->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0.25 ) ).to<double>(),
 		                              units::time::second_t ( units::time::second_t ( 0 ) ).to<double>() );
 		Transfer->SetSensorInverted ( false );
 
-		Elevator->SetRemoteSensor ( 0,
-		                            ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
-		Elevator->Invert ( true );
-		Elevator->EnableBrakeMode ( true );
-		Elevator->SetSmartCurrentLimiting ( 50 );
-		Elevator->SetSecondaryCurrentLimiting ( 50, 0 );
-		Elevator->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
-		Elevator->EnableDisableLimitSwitches ( false );
-// Elevator : Follower motor mode is not enabled
-		Elevator->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0 ) ).to<double>(),
-		                              units::time::second_t ( units::time::second_t ( 0 ) ).to<double>() );
-		Elevator->SetSensorInverted ( false );
-
 		Feeder->SetRemoteSensor ( 0,
 		                          ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
-		Feeder->Invert ( true );
+		Feeder->Invert ( false );
 		Feeder->EnableBrakeMode ( true );
 		Feeder->SetSmartCurrentLimiting ( 50 );
 		Feeder->SetSecondaryCurrentLimiting ( 50, 0 );
 		Feeder->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
 		Feeder->EnableDisableLimitSwitches ( false );
 // Feeder : Follower motor mode is not enabled
-		Feeder->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0 ) ).to<double>(),
+		Feeder->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0.25 ) ).to<double>(),
 		                            units::time::second_t ( units::time::second_t ( 0 ) ).to<double>() );
 		Feeder->SetSensorInverted ( false );
 
@@ -350,7 +330,7 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 		                               ReverseLimitSourceValue::LimitSwitchPin, // revType
 		                               ReverseLimitTypeValue::NormallyOpen ); // revOpenClose
 		launcherTop->ConfigMotorSettings ( ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive, // ctre::phoenixpro::signals::InvertedValue
-		                                   ctre::phoenix6::signals::NeutralModeValue::Brake, // ctre::phoenixpro::signals::NeutralModeValue
+		                                   ctre::phoenix6::signals::NeutralModeValue::Coast, // ctre::phoenixpro::signals::NeutralModeValue
 		                                   0, // deadbandPercent
 		                                   0, // peakForwardDutyCycle
 		                                   0 ); // peakReverseDutyCycle
@@ -380,7 +360,7 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 		                                  ReverseLimitSourceValue::LimitSwitchPin, // revType
 		                                  ReverseLimitTypeValue::NormallyOpen ); // revOpenClose
 		launcherBottom->ConfigMotorSettings ( ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive, // ctre::phoenixpro::signals::InvertedValue
-		                                      ctre::phoenix6::signals::NeutralModeValue::Brake, // ctre::phoenixpro::signals::NeutralModeValue
+		                                      ctre::phoenix6::signals::NeutralModeValue::Coast, // ctre::phoenixpro::signals::NeutralModeValue
 		                                      0, // deadbandPercent
 		                                      0, // peakForwardDutyCycle
 		                                      0 ); // peakReverseDutyCycle
@@ -393,12 +373,12 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 		launcherBottom->SetSensorInverted ( false );
 		launcherAngle->SetRemoteSensor ( 0,
 		                                 ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
-		launcherAngle->Invert ( true );
+		launcherAngle->Invert ( false );
 		launcherAngle->EnableBrakeMode ( true );
-		launcherAngle->SetSmartCurrentLimiting ( 50 );
-		launcherAngle->SetSecondaryCurrentLimiting ( 50, 0 );
+		launcherAngle->SetSmartCurrentLimiting ( 40 );
+		launcherAngle->SetSecondaryCurrentLimiting ( 40, 0 );
 		launcherAngle->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
-		launcherAngle->EnableDisableLimitSwitches ( false );
+		launcherAngle->EnableDisableLimitSwitches ( true );
 // launcherAngle : Follower motor mode is not enabled
 		launcherAngle->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0 ) ).to<double>(),
 		                                   units::time::second_t ( units::time::second_t ( 0 ) ).to<double>() );
@@ -408,19 +388,27 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 		                          ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
 		Placer->Invert ( true );
 		Placer->EnableBrakeMode ( true );
-		Placer->SetSmartCurrentLimiting ( 50 );
-		Placer->SetSecondaryCurrentLimiting ( 50, 0 );
+		Placer->SetSmartCurrentLimiting ( 80 );
+		Placer->SetSecondaryCurrentLimiting ( 80, 0 );
 		Placer->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
-		Placer->EnableDisableLimitSwitches ( false );
+		Placer->EnableDisableLimitSwitches ( true );
 // Placer : Follower motor mode is not enabled
-		Placer->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0 ) ).to<double>(),
+		Placer->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0.25 ) ).to<double>(),
 		                            units::time::second_t ( units::time::second_t ( 0 ) ).to<double>() );
 		Placer->SetSensorInverted ( false );
 
-
-
-
-
+		Elevator->SetRemoteSensor ( 0,
+		                            ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
+		Elevator->Invert ( false );
+		Elevator->EnableBrakeMode ( true );
+		Elevator->SetSmartCurrentLimiting ( 40 );
+		Elevator->SetSecondaryCurrentLimiting ( 40, 0 );
+		Elevator->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
+		Elevator->EnableDisableLimitSwitches ( true );
+// Elevator : Follower motor mode is not enabled
+		Elevator->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0.25 ) ).to<double>(),
+		                              units::time::second_t ( units::time::second_t ( 0.1 ) ).to<double>() );
+		Elevator->SetSensorInverted ( false );
 
 // frontIntakeSensor : Digital inputs do not have initialization needs
 // backIntakeSensor : Digital inputs do not have initialization needs
