@@ -28,6 +28,11 @@
 #include <utils/logging/LoggerEnums.h>
 #include <AdjustableItemMgr.h>
 
+/// DEBUGGING
+#include "DragonVision/DragonVision.h"
+#include "DragonVision/DragonPhotonCam.h"
+#include "DragonVision/DragonLimelight.h"
+
 using namespace std;
 
 void Robot::RobotInit()
@@ -164,6 +169,29 @@ void Robot::TeleopInit()
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
+    DragonCamera *photon = new DragonPhotonCam("Photon",
+                                               DragonCamera::PIPELINE::APRIL_TAG,
+                                               units::length::inch_t(0.0),
+                                               units::length::inch_t(0.0),
+                                               units::length::inch_t(0.0),
+                                               units::angle::degree_t(0.0),
+                                               units::angle::degree_t(0.0),
+                                               units::angle::degree_t(0.0));
+    DragonCamera *limelight = new DragonLimelight("Limelight",
+                                                  DragonCamera::PIPELINE::MACHINE_LEARNING,
+                                                  units::length::inch_t(0.0),
+                                                  units::length::inch_t(0.0),
+                                                  units::length::inch_t(0.0),
+                                                  units::angle::degree_t(0.0),
+                                                  units::angle::degree_t(0.0),
+                                                  units::angle::degree_t(0.0),
+                                                  DragonLimelight::LED_ON,
+                                                  DragonLimelight::CAM_MODE::CAM_DRIVER,
+                                                  DragonLimelight::STREAM_DEFAULT,
+                                                  DragonLimelight::SNAPSHOT_MODE::SNAP_OFF);
+    DragonVision::GetDragonVision()->AddCamera(photon, DragonVision::CAMERA_POSITION::LAUNCHER);
+    DragonVision::GetDragonVision()->AddCamera(limelight, DragonVision::CAMERA_POSITION::LAUNCHER_INTAKE);
+
     /**
     // now in teleop, clear field of trajectories
     if (m_field != nullptr)
@@ -172,7 +200,8 @@ void Robot::TeleopInit()
     }
     **/
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
+    Logger::GetLogger()
+        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
 
 void Robot::TeleopPeriodic()

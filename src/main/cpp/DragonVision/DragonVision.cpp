@@ -24,7 +24,6 @@
 #include "DragonVision/DragonVision.h"
 #include "DragonVision/DragonPhotonCam.h"
 #include "utils/FMSData.h"
-#include "DragonVision/DragonAprilTagInfo.h"
 
 #include <string>
 // Third Party Includes
@@ -317,7 +316,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	}
 
 	// optional of the April Tag's 3D pose
-	std::optional<frc::Pose3d> optionalAprilTagPose = DragonAprilTagInfo::GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID());
+	std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID());
 
 	// get valid value of optionalAprilTagPose
 	if (optionalAprilTagPose)

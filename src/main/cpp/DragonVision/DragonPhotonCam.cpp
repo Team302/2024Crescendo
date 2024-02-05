@@ -25,7 +25,6 @@
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
 #include "DragonVision/DragonVision.h"
-#include "DragonVision/DragonAprilTagInfo.h"
 
 DragonPhotonCam::DragonPhotonCam(std::string name,
                                  DragonCamera::PIPELINE initialPipeline,
@@ -62,7 +61,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition() const
         // get detected tag id
         int tagId = target.GetFiducialId();
 
-        std::optional<frc::Pose3d> potentialPose = DragonAprilTagInfo::GetAprilTagLayout().GetTagPose(tagId);
+        std::optional<frc::Pose3d> potentialPose = DragonVision::GetAprilTagLayout().GetTagPose(tagId);
 
         if (potentialPose.has_value())
         {

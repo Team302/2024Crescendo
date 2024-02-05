@@ -27,7 +27,6 @@
 #include "frc/geometry/Pose2d.h"
 
 // Team 302 includes
-#include "DragonVision/DragonAprilTagInfo.h"
 #include "DragonVision/DragonCamera.h"
 
 // Third Party Includes
@@ -136,5 +135,4 @@ protected:
     std::shared_ptr<nt::NetworkTable> m_networktable;
 
 private:
-    DragonAprilTagInfo m_aprilTagInfo;
 };
