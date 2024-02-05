@@ -72,14 +72,14 @@
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.25</value>
                   </openLoopRampTime>
                   <closedLoopRampTime>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.1</value>
                   </closedLoopRampTime>
                   <enableClosedLoop>
                     <unitsFamily>none</unitsFamily>
@@ -160,58 +160,40 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
                     <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>40</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>40</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -270,14 +252,14 @@
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.25</value>
                   </openLoopRampTime>
                   <closedLoopRampTime>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.1</value>
                   </closedLoopRampTime>
                   <enableClosedLoop>
                     <unitsFamily>none</unitsFamily>
@@ -358,58 +340,40 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
                     <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>40</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>40</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -468,14 +432,14 @@
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.25</value>
                   </openLoopRampTime>
                   <closedLoopRampTime>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.1</value>
                   </closedLoopRampTime>
                   <enableClosedLoop>
                     <unitsFamily>none</unitsFamily>
@@ -556,254 +520,37 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
+                    <unitsFamily>none</unitsFamily>
+                    <name>boolParameter</name>
+                    <__units__ />
+                    <type>Boolean</type>
+                    <value>false</value>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
                 <currentLimits>
-                  <EnableCurrentLimits>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>40</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
-                </currentLimits>
-                <theConfigMotorSettings>
-                  <mode>Brake</mode>
-                </theConfigMotorSettings>
-                <RotationOffset>
-                  <unitsFamily>none</unitsFamily>
-                  <name>doubleParameter</name>
-                  <__units__ />
-                  <type>Double</type>
-                  <value>0</value>
-                </RotationOffset>
-                <motorBrushType>kBrushless</motorBrushType>
-                <sensorType>kHallSensor</sensorType>
-              </MotorController>
-              <MotorController
-                xsi:type="SparkFlex">
-                <name>Elevator</name>
-                <theDistanceAngleCalcInfo>
-                  <countsPerRev>
+                    <value>40</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
                     <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </countsPerRev>
-                  <gearRatio>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>1</value>
-                  </gearRatio>
-                  <diameter>
-                    <unitsFamily>length</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>m</__units__>
-                    <type>Double</type>
-                    <value>1</value>
-                  </diameter>
-                  <countsPerInch>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </countsPerInch>
-                  <countsPerDegree>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </countsPerDegree>
-                </theDistanceAngleCalcInfo>
-                <voltageRamping>
-                  <openLoopRampTime>
-                    <unitsFamily>time</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>s</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </openLoopRampTime>
-                  <closedLoopRampTime>
-                    <unitsFamily>time</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__>s</__units__>
-                    <type>Double</type>
-                    <value>0</value>
-                  </closedLoopRampTime>
-                  <enableClosedLoop>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </enableClosedLoop>
-                </voltageRamping>
-                <motorType>NEOMOTOR</motorType>
-                <canID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>uintParameter</name>
-                  <__units__ />
-                  <type>UInt32</type>
-                  <value>0</value>
-                </canID>
-                <pdpID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>uintParameter</name>
-                  <__units__ />
-                  <type>UInt32</type>
-                  <value>0</value>
-                </pdpID>
-                <followID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>uintParameter</name>
-                  <__units__ />
-                  <type>UInt32</type>
-                  <value>0</value>
-                </followID>
-                <enableFollowID>
-                  <unitsFamily>none</unitsFamily>
-                  <name>boolParameter</name>
-                  <__units__ />
-                  <type>Boolean</type>
-                  <value>false</value>
-                </enableFollowID>
-                <remoteSensor>
-                  <CanID>
-                    <unitsFamily>none</unitsFamily>
-                    <name>uintParameter</name>
-                    <__units__ />
-                    <type>UInt32</type>
-                    <value>0</value>
-                  </CanID>
-                </remoteSensor>
-                <fusedCANcoder>
-                  <enable>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </enable>
-                  <fusedCANcoder>
-                    <name>CANcoderInstance</name>
-                  </fusedCANcoder>
-                  <sensorToMechanismRatio>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </sensorToMechanismRatio>
-                  <rotorToSensorRatio>
-                    <unitsFamily>none</unitsFamily>
-                    <name>doubleParameter</name>
-                    <__units__ />
-                    <type>Double</type>
-                    <value>0</value>
-                  </rotorToSensorRatio>
-                </fusedCANcoder>
-                <sensorIsInverted>
-                  <unitsFamily>none</unitsFamily>
-                  <name>boolParameter</name>
-                  <__units__ />
-                  <type>Boolean</type>
-                  <value>false</value>
-                </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
-                    <unitsFamily>none</unitsFamily>
-                    <name>boolParameter</name>
-                    <__units__ />
-                    <type>Boolean</type>
-                    <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
-                    <unitsFamily>current</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>A</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
-                    <unitsFamily>current</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>A</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
                   <mode>Brake</mode>
@@ -864,14 +611,14 @@
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.25</value>
                   </openLoopRampTime>
                   <closedLoopRampTime>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.1</value>
                   </closedLoopRampTime>
                   <enableClosedLoop>
                     <unitsFamily>none</unitsFamily>
@@ -887,14 +634,14 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>2</value>
+                  <value>12</value>
                 </canID>
                 <pdpID>
                   <unitsFamily>none</unitsFamily>
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>2</value>
+                  <value>12</value>
                 </pdpID>
                 <followID>
                   <unitsFamily>none</unitsFamily>
@@ -952,58 +699,40 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
                     <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>50</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>50</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -1279,7 +1008,6 @@
                     <type>Double</type>
                     <value>0</value>
                   </peakReverseDutyCycle>
-                  <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <diameter>
                   <unitsFamily>length</unitsFamily>
@@ -1552,7 +1280,6 @@
                     <type>Double</type>
                     <value>0</value>
                   </peakReverseDutyCycle>
-                  <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <diameter>
                   <unitsFamily>length</unitsFamily>
@@ -1599,7 +1326,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1.05494</value>
                   </countsPerDegree>
                 </theDistanceAngleCalcInfo>
                 <voltageRamping>
@@ -1696,58 +1423,40 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
-                    <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                    <value>true</value>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>40</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>40</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -1757,8 +1466,8 @@
                   <type>Double</type>
                   <value>0</value>
                 </RotationOffset>
-                <motorBrushType>kBrushed</motorBrushType>
-                <sensorType>kNoSensor</sensorType>
+                <motorBrushType>kBrushless</motorBrushType>
+                <sensorType>kHallSensor</sensorType>
               </MotorController>
               <MotorController
                 xsi:type="SparkFlex">
@@ -1806,14 +1515,14 @@
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.25</value>
                   </openLoopRampTime>
                   <closedLoopRampTime>
                     <unitsFamily>time</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__>s</__units__>
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.1</value>
                   </closedLoopRampTime>
                   <enableClosedLoop>
                     <unitsFamily>none</unitsFamily>
@@ -1894,58 +1603,219 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
+                    <unitsFamily>none</unitsFamily>
+                    <name>boolParameter</name>
+                    <__units__ />
+                    <type>Boolean</type>
+                    <value>true</value>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
                 <currentLimits>
-                  <EnableCurrentLimits>
+                  <PrimaryLimit>
+                    <unitsFamily>current</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__>A</__units__>
+                    <type>Int32</type>
+                    <value>80</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
+                    <unitsFamily>current</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__>A</__units__>
+                    <type>Int32</type>
+                    <value>80</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__ />
+                    <type>Int32</type>
+                    <value>0</value>
+                  </SecondaryLimitCycles>
+                </currentLimits>
+                <theConfigMotorSettings>
+                  <mode>Brake</mode>
+                </theConfigMotorSettings>
+                <RotationOffset>
+                  <unitsFamily>none</unitsFamily>
+                  <name>doubleParameter</name>
+                  <__units__ />
+                  <type>Double</type>
+                  <value>0</value>
+                </RotationOffset>
+                <motorBrushType>kBrushless</motorBrushType>
+                <sensorType>kHallSensor</sensorType>
+              </MotorController>
+              <MotorController
+                xsi:type="SparkMax">
+                <name>Elevator</name>
+                <theDistanceAngleCalcInfo>
+                  <countsPerRev>
+                    <unitsFamily>none</unitsFamily>
+                    <name>intParameter</name>
+                    <__units__ />
+                    <type>Int32</type>
+                    <value>0</value>
+                  </countsPerRev>
+                  <gearRatio>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>1</value>
+                  </gearRatio>
+                  <diameter>
+                    <unitsFamily>length</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__>m</__units__>
+                    <type>Double</type>
+                    <value>1</value>
+                  </diameter>
+                  <countsPerInch>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>6.8085</value>
+                  </countsPerInch>
+                  <countsPerDegree>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </countsPerDegree>
+                </theDistanceAngleCalcInfo>
+                <voltageRamping>
+                  <openLoopRampTime>
+                    <unitsFamily>time</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__>s</__units__>
+                    <type>Double</type>
+                    <value>0.25</value>
+                  </openLoopRampTime>
+                  <closedLoopRampTime>
+                    <unitsFamily>time</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__>s</__units__>
+                    <type>Double</type>
+                    <value>0.1</value>
+                  </closedLoopRampTime>
+                  <enableClosedLoop>
+                    <unitsFamily>none</unitsFamily>
+                    <name>boolParameter</name>
+                    <__units__ />
+                    <type>Boolean</type>
+                    <value>true</value>
+                  </enableClosedLoop>
+                </voltageRamping>
+                <motorType>NEOMOTOR</motorType>
+                <canID>
+                  <unitsFamily>none</unitsFamily>
+                  <name>uintParameter</name>
+                  <__units__ />
+                  <type>UInt32</type>
+                  <value>62</value>
+                </canID>
+                <pdpID>
+                  <unitsFamily>none</unitsFamily>
+                  <name>uintParameter</name>
+                  <__units__ />
+                  <type>UInt32</type>
+                  <value>0</value>
+                </pdpID>
+                <followID>
+                  <unitsFamily>none</unitsFamily>
+                  <name>uintParameter</name>
+                  <__units__ />
+                  <type>UInt32</type>
+                  <value>0</value>
+                </followID>
+                <enableFollowID>
+                  <unitsFamily>none</unitsFamily>
+                  <name>boolParameter</name>
+                  <__units__ />
+                  <type>Boolean</type>
+                  <value>false</value>
+                </enableFollowID>
+                <remoteSensor>
+                  <CanID>
+                    <unitsFamily>none</unitsFamily>
+                    <name>uintParameter</name>
+                    <__units__ />
+                    <type>UInt32</type>
+                    <value>0</value>
+                  </CanID>
+                </remoteSensor>
+                <fusedCANcoder>
+                  <enable>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
                     <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  </enable>
+                  <fusedCANcoder>
+                    <name>CANcoderInstance</name>
+                  </fusedCANcoder>
+                  <sensorToMechanismRatio>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </sensorToMechanismRatio>
+                  <rotorToSensorRatio>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </rotorToSensorRatio>
+                </fusedCANcoder>
+                <sensorIsInverted>
+                  <unitsFamily>none</unitsFamily>
+                  <name>boolParameter</name>
+                  <__units__ />
+                  <type>Boolean</type>
+                  <value>false</value>
+                </sensorIsInverted>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
+                    <unitsFamily>none</unitsFamily>
+                    <name>boolParameter</name>
+                    <__units__ />
+                    <type>Boolean</type>
+                    <value>true</value>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>40</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>40</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -1978,7 +1848,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -2002,7 +1872,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -2026,7 +1896,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -2050,7 +1920,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -2074,7 +1944,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -2098,7 +1968,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -2122,7 +1992,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </reversed>
                 <debouncetime>
                   <unitsFamily>time</unitsFamily>
@@ -2670,7 +2540,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>10</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2682,7 +2552,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>10</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5948,7 +5818,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5960,7 +5829,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -6063,7 +5931,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -6075,7 +5942,6 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -6236,56 +6102,37 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
                     <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>50</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>50</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
                   <mode>Brake</mode>
@@ -6434,56 +6281,37 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
                     <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>50</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>50</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
                   <mode>Brake</mode>
@@ -8102,56 +7930,37 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
                     <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>50</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>50</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings />
                 <RotationOffset>
@@ -8298,56 +8107,37 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </sensorIsInverted>
-                <currentLimits>
-                  <EnableCurrentLimits>
+                <limitSwitches>
+                  <LimitSwitchesEnabled>
                     <unitsFamily>none</unitsFamily>
                     <name>boolParameter</name>
                     <__units__ />
                     <type>Boolean</type>
                     <value>false</value>
-                  </EnableCurrentLimits>
-                  <PeakCurrentLimit>
+                  </LimitSwitchesEnabled>
+                </limitSwitches>
+                <currentLimits>
+                  <PrimaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimit>
-                  <PeakCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentLimitTimeout>
-                  <PeakCurrentDuration>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDuration>
-                  <PeakCurrentDurationTimeout>
-                    <unitsFamily>time</unitsFamily>
-                    <name>intParameter</name>
-                    <__units__>s</__units__>
-                    <type>Int32</type>
-                    <value>0</value>
-                  </PeakCurrentDurationTimeout>
-                  <ContinuousCurrentLimit>
+                    <value>50</value>
+                  </PrimaryLimit>
+                  <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>0</value>
-                  </ContinuousCurrentLimit>
-                  <ContinuousCurrentLimitTimeout>
-                    <unitsFamily>time</unitsFamily>
+                    <value>50</value>
+                  </SecondaryLimit>
+                  <SecondaryLimitCycles>
+                    <unitsFamily>none</unitsFamily>
                     <name>intParameter</name>
-                    <__units__>s</__units__>
+                    <__units__ />
                     <type>Int32</type>
                     <value>0</value>
-                  </ContinuousCurrentLimitTimeout>
+                  </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings />
                 <RotationOffset>

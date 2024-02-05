@@ -87,7 +87,7 @@ DragonTalonFX::DragonTalonFX(string networkTableName,
 {
 	ResetToDefaults();
 	auto factory = DragonControlToCTREV6AdapterFactory::GetFactory();
-	for (auto i = 1; i < 4; ++i)
+	for (auto i = 0; i < 4; ++i)
 	{
 		m_controller[i] = factory->CreateAdapter(networkTableName,
 												 i,
