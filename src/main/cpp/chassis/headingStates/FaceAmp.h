@@ -26,8 +26,8 @@ class FaceAmp : public FaceTarget
 public:
     FaceAmp();
     ~FaceAmp() = default;
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 protected:
-    std::optional<frc::Pose3d> GetVisionTargetPose() override;
+    std::optional<frc::Pose3d> GetAprilTagPose() override;
+    std::optional<frc::Transform3d> GetVisionTargetTransform() override;
 };

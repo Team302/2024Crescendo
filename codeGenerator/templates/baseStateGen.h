@@ -5,7 +5,7 @@ $$_GEN_NOTICE_$$
 #include <string>
 
 #include "State.h"
-#include "mechanisms/base/BaseMechMotorState.h"
+
 #include "mechanisms/base/BaseMechServoState.h"
 #include "mechanisms/base/BaseMechSolenoidState.h"
 #include "mechanisms/controllers/ControlData.h"
@@ -32,25 +32,25 @@ namespace $$_MECHANISM_INSTANCE_NAME_$$States
         /// @param identifier Motor Control Usage to indicate what motor to update
         /// @param controlConst pid constants for controling motor
         /// @param angle target value
-        void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angle::degree_t angle);
+        void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::angle::degree_t angle);
 
         /// @brief Set the target value for the actuator
         /// @param identifier Motor Control Usage to indicate what motor to update
         /// @param controlConst pid constants for controling motor
         /// @param angularVelocity target value
-        void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angular_velocity::revolutions_per_minute_t angVel);
+        void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::angular_velocity::revolutions_per_minute_t angVel);
 
         /// @brief Set the target value for the actuator
         /// @param identifier Motor Control Usage to indicate what motor to update
         /// @param controlConst pid constants for controling motor
         /// @param position target value
-        void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::length::inch_t position);
+        void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::length::inch_t position);
 
         /// @brief Set the target value for the actuator
         /// @param identifier Motor Control Usage to indicate what motor to update
         /// @param controlConst pid constants for controling motor
         /// @param velocity target value
-        void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::velocity::feet_per_second_t velocity);
+        void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::velocity::feet_per_second_t velocity);
 
         /// @brief Set the target value for the actuator
         /// @param identifier solenoid Usage to indicate what motor to update
@@ -85,13 +85,13 @@ namespace $$_MECHANISM_INSTANCE_NAME_$$States
         $$_MECHANISM_INSTANCE_NAME_$$Gen *Get$$_MECHANISM_INSTANCE_NAME_$$() { return m_$$_MECHANISM_INSTANCE_NAME_$$; }
 
     protected:
-        BaseMechMotorState *GetMotorMechState(RobotElementNames::MOTOR_CONTROLLER_USAGE usage) const;
+        BaseMechMotor *GetMotorMech(RobotElementNames::MOTOR_CONTROLLER_USAGE usage) const;
         BaseMechSolenoidState *GetSolenoidMechState(RobotElementNames::SOLENOID_USAGE usage) const;
         BaseMechServoState *GetServoMechState(RobotElementNames::SERVO_USAGE usage) const;
 
     private:
         $$_MECHANISM_INSTANCE_NAME_$$Gen *m_$$_MECHANISM_INSTANCE_NAME_$$;
-        std::unordered_map<RobotElementNames::MOTOR_CONTROLLER_USAGE, BaseMechMotorState *> m_motorMap;
+        std::unordered_map<RobotElementNames::MOTOR_CONTROLLER_USAGE, BaseMechMotor *> m_motorMap;
         std::unordered_map<RobotElementNames::SOLENOID_USAGE, BaseMechSolenoidState *> m_solenoidMap;
         std::unordered_map<RobotElementNames::SERVO_USAGE, BaseMechServoState *> m_servoMap;
     };

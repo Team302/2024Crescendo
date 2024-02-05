@@ -7,15 +7,15 @@
 <!ATTLIST primitive 
           id                ( DO_NOTHING | HOLD_POSITION | 
                               DRIVE_DISTANCE | DRIVE_TIME | 
-                              TURN_ANGLE_ABS | TURN_ANGLE_REL | DRIVE_PATH_PLANNER | RESET_POSITION | RESET_POSITION_PATH_PLANNER | VISION_ALIGN | FACE_AMP |
-                              FACE_SPEAKER | FACE_RIGHT_STAGE | FACE_LEFT_STAGE | FACE_CENTER_STAGE ) "DO_NOTHING"
+                              TURN_ANGLE_ABS | TURN_ANGLE_REL | 
+                              DRIVE_PATH_PLANNER | RESET_POSITION_PATH_PLANNER | 
+                              VISION_ALIGN | FACE_AMP | FACE_SPEAKER | 
+                              FACE_RIGHT_STAGE | FACE_LEFT_STAGE | FACE_CENTER_STAGE ) "DO_NOTHING"
 
 		  time				CDATA #IMPLIED
           distance		    CDATA "0.0"
           headingOption     CDATA "MAINTAIN"
           heading           CDATA "0.0"
-          drivespeed        CDATA "0.0"
-          enddrivespeed     CDATA "0.0"
           pathname          CDATA #IMPLIED
           alignmentMethod   ( ROTATE | STRAFE ) "ROTATE"
           pipeline          ( UNKNOWN | OFF | APRIL_TAG | CONE_NODE | CONE | CUBE ) "APRIL_TAG"
@@ -24,29 +24,41 @@
 
 <!ELEMENT zone EMPTY >
 <!ATTLIST zone
-    ygrid1             		(  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
-                              		  10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
-                              		  20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
-                              		  30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
-                              		  40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
-                              		  50 | 51 | 52 | 53 | 54 ) "0"
+    ygrid1             		(  Y_1 |  Y_2 |  Y_3 |  Y_4 |  Y_5 |  Y_6 |  Y_7 |  Y_8 |  Y_9 | 
+                              		  Y_10 | Y_11 | Y_12 | Y_13 | Y_14 | Y_15 | Y_16 | Y_17 | Y_18 | Y_19 | 
+                              		  Y_20 | Y_21 | Y_22 | Y_23 | Y_24 | Y_25 | Y_26 | Y_27 | Y_28 | Y_29 | 
+                              		  Y_30 | Y_31 | Y_32 | Y_33 | Y_34 | Y_35 | Y_36 | Y_37 | Y_38 | Y_39 | 
+                              		  Y_40 | Y_41 | Y_42 | Y_43 | Y_44 | Y_45 | Y_46 | Y_47 | Y_48 | Y_49 | 
+                              		  Y_50 | Y_51 | Y_52 | Y_53 | Y_54 ) "0"
 
-    xgrid1             		(  0 | A |  B |  C |  D |  E |  F |  G |  H |  I |  J | 
-                              		  K | L | M | N | O | P | Q | R | S | T | 
-                              		  U | V | W | X | Y | Z | AA ) "0"
+    xgrid1             		(  X_A |  X_B |  X_C |  X_D |  X_E |  X_F |  X_G |  X_H |  X_I |  X_J | 
+                              		  X_K | X_L | X_M | X_N | X_O | X_P | X_Q | X_R | X_S | X_T | 
+                              		  X_U | X_V | X_W | X_X | X_Y | X_Z | X_AA ) "0"
 
-    ygrid2             		(  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
-                              		  10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
-                              		  20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
-                              		  30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 
-                              		  40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
-                              		  50 | 51 | 52 | 53 | 54 ) "0"
+    ygrid2             		(  Y_1 |  Y_2 |  Y_3 |  Y_4 |  Y_5 |  Y_6 |  Y_7 |  Y_8 |  Y_9 | 
+                              		  Y_10 | Y_11 | Y_12 | Y_13 | Y_14 | Y_15 | Y_16 | Y_17 | Y_18 | Y_19 | 
+                              		  Y_20 | Y_21 | Y_22 | Y_23 | Y_24 | Y_25 | Y_26 | Y_27 | Y_28 | Y_29 | 
+                              		  Y_30 | Y_31 | Y_32 | Y_33 | Y_34 | Y_35 | Y_36 | Y_37 | Y_38 | Y_39 | 
+                              		  Y_40 | Y_41 | Y_42 | Y_43 | Y_44 | Y_45 | Y_46 | Y_47 | Y_48 | Y_49 | 
+                              		  Y_50 | Y_51 | Y_52 | Y_53 | Y_54 ) "0"
 
-    xgrid2             		(  0 | A |  B |  C |  D |  E |  F |  G |  H |  I |  J | 
-                              		  K | L | M | N | O | P | Q | R | S | T | 
-                              		  U | V | W | X | Y | Z | AA ) "0"
+    xgrid2             		(  X_A |  X_B |  X_C |  X_D |  X_E |  X_F |  X_G |  X_H |  X_I |  X_J | 
+                              		  X_K | X_L | X_M | X_N | X_O | X_P | X_Q | X_R | X_S | X_T | 
+                              		  X_U | X_V | X_W | X_X | X_Y | X_Z | X_AA ) "0"
     
+    chassisOption           ( VISION_DRIVE_NOTE | VISION_DRIVE_SPEAKER | NO_VISION )
+
+    noteOption              ( STATE_OFF | STATE_READY | STATE_FEEDER_INTAKE | 
+		                      STATE_EXPEL | STATE_PLACER_INTAKE | STATE_HOLD_FEEDER_FRONT | 
+		                      STATE_HOLD_FEEDER_BACK | STATE_INTAKE_TO_FEEDER | STATE_LAUNCHER_TO_PLACER_FRONT | 
+		                      STATE_LAUNCHER_TO_PLACER_BACK | STATE_HOLD_FEEDER | STATE_READY_AUTO_LAUNCH | 
+		                      STATE_READY_MANUAL_LAUNCH | STATE_PASS | STATE_AUTO_LAUNCH | STATE_MANUAL_LAUNCH | 
+		                      STATE_READY_ODOMETRY_LAUNCH | STATE_AUTO_LAUNCH_ODOMETRY | STATE_HOLD_PLACER_FRONT | 
+		                      STATE_HOLD_PLACER_BACK | STATE_INTAKE_TO_PLACER | STATE_PREPARE_PLACE_AMP | 
+		                      STATE_PREPARE_PLACE_TRAP | STATE_PLACE_AMP | STATE_PLACE_TRAP | STATE_PLACER_TO_LAUNCHER_FRONT | 
+		                      STATE_PLACER_TO_LAUNCHER_BACK | STATE_BACKUP_MANUAL_LAUNCH | STATE_BACKUP_MANUAL_PLACE )
    
+    avoidOption             ( PODIUM | ROBOT_COLLISION | NO_AVOID_OPTION )
     
 >
 
