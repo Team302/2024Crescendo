@@ -28,7 +28,7 @@ $$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTAN
     PeriodicLooper::GetInstance()->RegisterAll(this);
 }
 
-void Thing1Mech::RunCommonTasks()
+void $$_MECHANISM_INSTANCE_NAME_$$::RunCommonTasks()
 {
     // This function is called once per loop before the current state Run()
 }
