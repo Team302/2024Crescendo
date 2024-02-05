@@ -46,6 +46,7 @@ void holdFeederBackState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederBackState"), string("init"));
 
 	m_genState->Init();
+	m_mechanism->getbackIntake()->EnableBrakeMode(true);
 }
 
 void holdFeederBackState::Run()

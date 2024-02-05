@@ -14,8 +14,12 @@
 //====================================================================================================================================================
 
 #pragma once
+#include <optional>
 
+#include "frc/apriltag/AprilTagFieldLayout.h"
+#include "frc/apriltag/AprilTagFields.h"
 #include "frc/geometry/Pose3d.h"
+#include "frc/geometry/Transform3d.h"
 
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
@@ -24,6 +28,29 @@
 class FaceTarget : public ISwerveDriveOrientation
 {
 public:
+    enum AprilTagIDs
+    {
+        NO_APRIL_TAG = 0,
+        BLUE_SOURCE_ONE = 1,
+        BLUE_SOURCE_TWO = 2,
+        RED_SOURCE_ONE = 10,
+        RED_SOURCE_TWO = 9,
+        BLUE_AMP = 6,
+        BLUE_STAGE_LEFT = 15,
+        BLUE_STAGE_CENTER = 14,
+        BLUE_STAGE_RIGHT = 16,
+        RED_AMP = 5,
+        RED_STAGE_LEFT = 11,
+        RED_STAGE_CENTER = 13,
+        RED_STAGE_RIGHT = 12,
+        BLUE_SUBWOOFER = 8,
+        BLUE_SPEAKER = 7,
+        RED_SUBWOOFER = 3,
+        RED_SPEAKER = 4,
+        MAX_APRIL_TAGS
+
+    };
+
     FaceTarget() = delete;
 
     FaceTarget(ChassisOptionEnums::HeadingOption headingOption);
@@ -31,5 +58,10 @@ public:
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 protected:
-    virtual frc::Pose3d GetVisionTargetPose() = 0;
+    virtual std::optional<frc::Pose3d> GetAprilTagPose() = 0;
+    virtual std::optional<frc::Transform3d> GetVisionTargetTransform() = 0;
+    frc::AprilTagFieldLayout GetLayout() const { return m_layout; }
+
+private:
+    frc::AprilTagFieldLayout m_layout;
 };

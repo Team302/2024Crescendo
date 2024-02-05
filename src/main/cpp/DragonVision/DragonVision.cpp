@@ -79,9 +79,9 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	{
 		return GetVisionDataToNearestTag();
 	}
-	else if (element == VISION_ELEMENT::STAGE)
+	else if (element == VISION_ELEMENT::STAGE || element == VISION_ELEMENT::CENTER_STAGE || element == VISION_ELEMENT::LEFT_STAGE || element == VISION_ELEMENT::RIGHT_STAGE)
 	{
-		return GetVisionDataToNearestStageTag();
+		return GetVisionDataToNearestStageTag(element);
 	}
 	else // looking for april tag elements
 	{
@@ -92,7 +92,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	return std::nullopt;
 }
 
-std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag()
+std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_ELEMENT element)
 {
 	int launcherTagId = m_dragonCameraMap[LAUNCHER]->GetAprilTagID();
 	int placerTagId = m_dragonCameraMap[PLACER]->GetAprilTagID();
@@ -102,22 +102,55 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag()
 
 	// initialize tags to check to null pointer
 	std::vector<int> tagIdsToCheck = {};
-
-	if (allianceColor == frc::DriverStation::Alliance::kBlue)
+	switch (element)
 	{
-		// blue alliance stage tag ids are 14, 15, 16
-		tagIdsToCheck.emplace_back(14);
-		tagIdsToCheck.emplace_back(15);
-		tagIdsToCheck.emplace_back(16);
+	case VISION_ELEMENT::STAGE:
+		if (allianceColor == frc::DriverStation::Alliance::kBlue)
+		{
+			// blue alliance stage tag ids are 14, 15, 16
+			tagIdsToCheck.emplace_back(14);
+			tagIdsToCheck.emplace_back(15);
+			tagIdsToCheck.emplace_back(16);
+		}
+		else
+		{
+			// red alliance stage tag ids are 11, 12, 13
+			tagIdsToCheck.emplace_back(11);
+			tagIdsToCheck.emplace_back(12);
+			tagIdsToCheck.emplace_back(13);
+		}
+		break;
+	case VISION_ELEMENT::LEFT_STAGE:
+		if (allianceColor == frc::DriverStation::Alliance::kBlue)
+		{
+			tagIdsToCheck.emplace_back(15);
+		}
+		else
+		{
+			tagIdsToCheck.emplace_back(11);
+		}
+		break;
+	case VISION_ELEMENT::RIGHT_STAGE:
+		if (allianceColor == frc::DriverStation::Alliance::kBlue)
+		{
+			tagIdsToCheck.emplace_back(16);
+		}
+		else
+		{
+			tagIdsToCheck.emplace_back(12);
+		}
+		break;
+	case VISION_ELEMENT::CENTER_STAGE:
+		if (allianceColor == frc::DriverStation::Alliance::kBlue)
+		{
+			tagIdsToCheck.emplace_back(14);
+		}
+		else
+		{
+			tagIdsToCheck.emplace_back(13);
+		}
+		break;
 	}
-	else
-	{
-		// red alliance stage tag ids are 11, 12, 13
-		tagIdsToCheck.emplace_back(11);
-		tagIdsToCheck.emplace_back(12);
-		tagIdsToCheck.emplace_back(13);
-	}
-
 	if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherTagId) != tagIdsToCheck.end())
 	{
 		return m_dragonCameraMap[LAUNCHER]->GetDataToNearestAprilTag(); // launcherTagId is for stage id

@@ -104,6 +104,10 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     }
 }
 
+void DragonSparkFlex::EnableCurrentLimiting(bool enabled)
+{
+}
+
 void DragonSparkFlex::Set(double value)
 {
     m_spark->Set(value);
@@ -123,10 +127,6 @@ void DragonSparkFlex::SetVoltageRamping(double ramping, double rampingClosedLoop
     {
         m_spark->SetClosedLoopRampRate(rampingClosedLoop);
     }
-}
-
-void DragonSparkFlex::EnableCurrentLimiting(bool enabled)
-{
 }
 
 void DragonSparkFlex::EnableBrakeMode(bool enabled)
@@ -219,7 +219,7 @@ void DragonSparkFlex::SetSelectedSensorPosition(
 
 double DragonSparkFlex::GetCounts()
 {
-    return m_spark->GetAbsoluteEncoder(rev::SparkAbsoluteEncoder::Type::kDutyCycle).GetPosition();
+    return m_encoder.GetPosition();
 }
 
 void DragonSparkFlex::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType)
