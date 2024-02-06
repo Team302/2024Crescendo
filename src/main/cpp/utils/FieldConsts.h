@@ -37,7 +37,7 @@ public:
         RED_RIGHT_STAGE,
         RED_LEFT_STAGE
     };
-    frc::Pose3d GetFeildElement(FIELD_ELEMENT element);
+    frc::Pose3d GetFieldElement(FIELD_ELEMENT element);
 
 private:
     // blue

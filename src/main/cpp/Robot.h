@@ -32,6 +32,7 @@ class AutonPreviewer;
 class RobotState;
 class SomeMech;
 class RobotDefinition;
+class FieldConsts;
 
 class Robot : public frc::TimedRobot
 {
@@ -64,6 +65,7 @@ private:
     AdjustableItemMgr *m_tuner;
     FMSData *m_fmsData;
     DragonField *m_field;
+    FieldConsts *m_fieldConsts;
     AutonPreviewer *m_previewer;
     RobotState *m_robotState;
     SomeMech *m_someMech;

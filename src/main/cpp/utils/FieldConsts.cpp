@@ -15,7 +15,7 @@
 #include "FieldConsts.h"
 using namespace std;
 
-frc::Pose3d FieldConsts::GetFeildElement(FIELD_ELEMENT element)
+frc::Pose3d FieldConsts::GetFieldElement(FIELD_ELEMENT element)
 {
     frc::Pose3d Pose3d = FieldConstantsPoseMap[element];
     return Pose3d;

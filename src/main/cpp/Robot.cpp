@@ -27,6 +27,8 @@
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
 #include <AdjustableItemMgr.h>
+#include <frc/geometry/Pose3d.h>
+#include <utils\FieldConsts.cpp>
 
 using namespace std;
 
@@ -171,8 +173,19 @@ void Robot::TeleopInit()
         m_field->ResetField(); // ToDo:  Move to DriveTeamFeedback
     }
     **/
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
+    m_field->AddPose("Blue Speaker", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::BLUE_SPEAKER).ToPose2d());
+    m_field->AddPose("Blue Amp", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::BLUE_AMP).ToPose2d());
+    m_field->AddPose("Blue Left stage", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::BLUE_LEFT_STAGE).ToPose2d());
+    m_field->AddPose("Blue right stage", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::BLUE_RIGHT_STAGE).ToPose2d());
+    m_field->AddPose("Blue center stage", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::BLUE_CENTER_STAGE).ToPose2d());
+    m_field->AddPose("red amp", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::RED_AMP).ToPose2d());
+    m_field->AddPose("red speaker", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::RED_SPEAKER).ToPose2d());
+    m_field->AddPose("red left stage", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::RED_LEFT_STAGE).ToPose2d());
+    m_field->AddPose("red right stage", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::RED_RIGHT_STAGE).ToPose2d());
+    m_field->AddPose("red center stage", m_fieldConsts->GetFieldElement(FieldConsts::FIELD_ELEMENT::RED_CENTER_STAGE).ToPose2d());
+    m_field->GetInstance();
+    Logger::GetLogger()
+        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
 
 void Robot::TeleopPeriodic()
