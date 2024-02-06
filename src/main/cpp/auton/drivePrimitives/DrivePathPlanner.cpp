@@ -25,10 +25,10 @@
 #include "frc/kinematics/ChassisSpeeds.h"
 
 // 302 Includes
-#include "auton/drivePrimitives/DrivePathPlanner.h"
-#include "auton/drivePrimitives/DragonTrajectoryUtils.h"
-#include "chassis/ChassisMovement.h"
-#include "chassis/ChassisOptionEnums.h"
+#include <auton/drivePrimitives/DrivePathPlanner.h>
+#include <chassis/ChassisMovement.h>
+#include <chassis/ChassisOptionEnums.h>
+
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/IChassis.h"
