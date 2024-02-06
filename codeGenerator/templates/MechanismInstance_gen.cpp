@@ -9,13 +9,15 @@ $$_GEN_NOTICE_$$
 #include "hw/interfaces/IDragonMotorController.h"
 
 #include "$$_MECHANISM_INSTANCE_NAME_$$Gen.h"
+#include "utils/logging/Logger.h"
 
 $$_USING_DIRECTIVES_$$
 
 $$_MECHANISM_INSTANCE_NAME_$$Gen::$$_MECHANISM_INSTANCE_NAME_$$Gen() : BaseMech(MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_TYPE_NAME_$$, "", std::string("$$_MECHANISM_INSTANCE_NAME_$$")),
-                                                                         m_motorMap(),
-                                                                         m_solenoidMap(),
-                                                                         m_servoMap()
+                                                                       m_motorMap(),
+                                                                       m_solenoidMap(),
+                                                                       m_servoMap(),
+                                                                       m_stateMap()
 {
 }
 
@@ -29,14 +31,17 @@ void $$_MECHANISM_INSTANCE_NAME_$$Gen::Create()
     m_table.get()->PutBoolean(m_tuningIsEnabledStr, m_tuning);
 }
 
+std::map<std::string, $$_MECHANISM_INSTANCE_NAME_$$Gen::STATE_NAMES> $$_MECHANISM_INSTANCE_NAME_$$Gen::stringToSTATE_NAMESEnumMap{
+    $$_STATE_MAP_$$};
+
 void $$_MECHANISM_INSTANCE_NAME_$$Gen::Initialize(RobotConfigMgr::RobotIdentifier robotFullName)
 {
     $$_ELEMENT_INITIALIZATION_$$
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$Gen::SetTheCurrentState(STATE_NAMES state, bool run)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::SetCurrentState(int state, bool run)
 {
-    SetCurrentState( static_cast<int>(state), run);
+    StateMgr::SetCurrentState(state, run);
 }
 
 _STATE_MANAGER_START_
@@ -166,7 +171,6 @@ bool $$_MECHANISM_INSTANCE_NAME_$$Gen::IsAtMinPosition(RobotElementNames::SOLENO
     return false;
 }
 
-
 bool $$_MECHANISM_INSTANCE_NAME_$$Gen::IsAtMaxPosition(RobotElementNames::SOLENOID_USAGE identifier) const
 {
     auto sol = GetSolenoidMech(identifier);
@@ -217,7 +221,6 @@ std::vector<RobotElementNames::SERVO_USAGE> $$_MECHANISM_INSTANCE_NAME_$$Gen::Ge
     }
     return output;
 }
-
 
 void $$_MECHANISM_INSTANCE_NAME_$$Gen::Cyclic()
 {
