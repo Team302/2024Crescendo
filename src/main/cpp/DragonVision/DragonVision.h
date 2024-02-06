@@ -106,5 +106,5 @@ private:
 
     std::map<CAMERA_POSITION, DragonCamera *> m_dragonCameraMap;
 
-    std::vector<photon::PhotonPoseEstimator *> m_poseEstimators;
+    std::vector<photon::PhotonPoseEstimator> m_poseEstimators = std::vector<photon::PhotonPoseEstimator>();
 };

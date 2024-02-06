@@ -46,7 +46,7 @@ using namespace std;
 /// Need to support new OriginFieldPosition function, look at limelight docs NetworkTables API
 
 ///-----------------------------------------------------------------------------------
-/// Method:         DragonLimelight (constructor)
+/// Method:         DragonLimelight (ructor)
 /// Description:    Create the object
 ///-----------------------------------------------------------------------------------
 DragonLimelight::DragonLimelight(
@@ -73,7 +73,7 @@ DragonLimelight::DragonLimelight(
 
 /// @brief Assume that the current pipeline is AprilTag and that a target is detected
 /// @return -1 if the network table cannot be found
-int DragonLimelight::GetAprilTagID() const
+int DragonLimelight::GetAprilTagID()
 {
     auto nt = m_networktable.get();
     if (nt != nullptr)
@@ -84,12 +84,12 @@ int DragonLimelight::GetAprilTagID() const
     return -1;
 }
 
-std::optional<VisionPose> DragonLimelight::GetFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetFieldPosition()
 {
     return GetBlueFieldPosition();
 }
 
-std::optional<VisionPose> DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance alliance) const
+std::optional<VisionPose> DragonLimelight::GetFieldPosition(frc::DriverStation::Alliance alliance)
 {
     if (alliance == frc::DriverStation::Alliance::kRed)
         return GetRedFieldPosition();
@@ -99,7 +99,7 @@ std::optional<VisionPose> DragonLimelight::GetFieldPosition(frc::DriverStation::
     }
 }
 
-std::optional<VisionPose> DragonLimelight::GetRedFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetRedFieldPosition()
 {
     if (m_networktable.get() != nullptr)
     {
@@ -120,7 +120,7 @@ std::optional<VisionPose> DragonLimelight::GetRedFieldPosition() const
     }
 }
 
-std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition()
 {
     if (m_networktable.get() != nullptr)
     {
@@ -139,7 +139,7 @@ std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition() const
     }
 }
 
-std::optional<VisionPose> DragonLimelight::GetOriginFieldPosition() const
+std::optional<VisionPose> DragonLimelight::GetOriginFieldPosition()
 {
     if (m_networktable.get() != nullptr)
     {
@@ -160,13 +160,13 @@ std::optional<VisionPose> DragonLimelight::GetOriginFieldPosition() const
     }
 }
 
-std::vector<double> DragonLimelight::Get3DSolve() const
+std::vector<double> DragonLimelight::Get3DSolve()
 {
     std::vector<double> output;
     return output;
 }
 
-bool DragonLimelight::HasTarget() const
+bool DragonLimelight::HasTarget()
 {
     auto nt = m_networktable.get();
     if (nt != nullptr)
@@ -198,7 +198,7 @@ units::angle::degree_t DragonLimelight::GetTy() const
     return units::angle::degree_t(0.0);
 }
 
-units::angle::degree_t DragonLimelight::GetTargetYaw() const
+units::angle::degree_t DragonLimelight::GetTargetYaw()
 {
     if (abs(GetCameraRoll().to<double>()) < 1.0)
     {
@@ -220,7 +220,7 @@ units::angle::degree_t DragonLimelight::GetTargetYaw() const
     return GetTx();
 }
 
-units::angle::degree_t DragonLimelight::GetTargetYawRobotFrame() const
+units::angle::degree_t DragonLimelight::GetTargetYawRobotFrame()
 {
     // Get the horizontal angle to the target and convert to radians
     units::angle::radian_t limelightFrameHorizAngleRad = GetTargetYaw();
@@ -236,7 +236,7 @@ units::angle::degree_t DragonLimelight::GetTargetYawRobotFrame() const
     return angleOffset;
 }
 
-units::angle::degree_t DragonLimelight::GetTargetPitch() const
+units::angle::degree_t DragonLimelight::GetTargetPitch()
 {
     if (abs(GetCameraRoll().to<double>()) < 1.0)
     {
@@ -258,7 +258,7 @@ units::angle::degree_t DragonLimelight::GetTargetPitch() const
     return GetTy();
 }
 
-units::angle::degree_t DragonLimelight::GetTargetPitchRobotFrame() const
+units::angle::degree_t DragonLimelight::GetTargetPitchRobotFrame()
 {
     units::length::inch_t targetXDistance = EstimateTargetXDistance_RelToRobotCoords();
 
@@ -274,7 +274,7 @@ units::angle::degree_t DragonLimelight::GetTargetPitchRobotFrame() const
     return units::angle::degree_t(0.0);
 }
 
-double DragonLimelight::GetTargetArea() const
+double DragonLimelight::GetTargetArea()
 {
     auto nt = m_networktable.get();
     if (nt != nullptr)
@@ -284,7 +284,7 @@ double DragonLimelight::GetTargetArea() const
     return 0.0;
 }
 
-units::angle::degree_t DragonLimelight::GetTargetSkew() const
+units::angle::degree_t DragonLimelight::GetTargetSkew()
 {
     if (m_networktable != nullptr)
     {
@@ -293,7 +293,7 @@ units::angle::degree_t DragonLimelight::GetTargetSkew() const
     return units::angle::degree_t(0.0);
 }
 
-units::time::millisecond_t DragonLimelight::GetPipelineLatency() const
+units::time::millisecond_t DragonLimelight::GetPipelineLatency()
 {
     auto nt = m_networktable.get();
     if (nt != nullptr)
@@ -383,7 +383,7 @@ void DragonLimelight::PrintValues()
  */
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
+units::length::inch_t DragonLimelight::EstimateTargetXDistance()
 {
     units::length::meter_t mountingHeight = m_cameraPose.Z();
 
@@ -406,7 +406,7 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance() const
     }
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
+units::length::inch_t DragonLimelight::EstimateTargetYDistance()
 {
     if (GetAprilTagID() == -1)
     {
@@ -423,7 +423,7 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance() const
     }
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
+units::length::inch_t DragonLimelight::EstimateTargetZDistance()
 {
     if (GetAprilTagID() == -1)
     {
@@ -440,7 +440,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance() const
     }
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetXDistance_RelToRobotCoords() const
+units::length::inch_t DragonLimelight::EstimateTargetXDistance_RelToRobotCoords()
 {
     if (EstimateTargetXDistance().to<double>() != -1.0)
     {
@@ -452,7 +452,7 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance_RelToRobotCoords(
         return units::length::inch_t(-1.0);
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetYDistance_RelToRobotCoords() const
+units::length::inch_t DragonLimelight::EstimateTargetYDistance_RelToRobotCoords()
 {
     if (EstimateTargetYDistance().to<double>() != -1.0)
     {
@@ -464,7 +464,7 @@ units::length::inch_t DragonLimelight::EstimateTargetYDistance_RelToRobotCoords(
         return units::length::inch_t(-1.0);
 }
 
-units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords() const
+units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords()
 {
     if (EstimateTargetZDistance().to<double>() != -1.0)
     {
@@ -476,7 +476,7 @@ units::length::inch_t DragonLimelight::EstimateTargetZDistance_RelToRobotCoords(
         return units::length::inch_t(-1.0);
 }
 
-std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag() const
+std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 {
     if (GetAprilTagID() == -1)
     {

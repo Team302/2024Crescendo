@@ -13,7 +13,7 @@
 /// OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include "photon/PhotonCamera.h"
+#include <string>
 
 #include "DragonVision/DragonCamera.h"
 
@@ -31,34 +31,34 @@ public:
 
     DragonPhotonCam() = delete;
 
-    bool HasTarget() const;
+    bool HasTarget();
 
-    units::angle::degree_t GetTargetYaw() const;
-    units::angle::degree_t GetTargetYawRobotFrame() const;
+    units::angle::degree_t GetTargetYaw();
+    units::angle::degree_t GetTargetYawRobotFrame();
 
-    double GetPoseAmbiguity() const;
+    double GetPoseAmbiguity();
 
-    units::angle::degree_t GetTargetPitchRobotFrame() const;
-    units::angle::degree_t GetTargetPitch() const;
+    units::angle::degree_t GetTargetPitchRobotFrame();
+    units::angle::degree_t GetTargetPitch();
 
-    units::time::millisecond_t GetPipelineLatency() const;
-    int GetAprilTagID() const;
-    units::angle::degree_t GetTargetSkew() const;
-    double GetTargetArea() const;
+    units::time::millisecond_t GetPipelineLatency();
+    int GetAprilTagID();
+    units::angle::degree_t GetTargetSkew();
+    double GetTargetArea();
 
-    std::optional<VisionPose> GetFieldPosition() const;
-    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const;
+    std::optional<VisionPose> GetFieldPosition();
+    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
 
-    units::length::inch_t EstimateTargetXDistance() const;
-    units::length::inch_t EstimateTargetYDistance() const;
-    units::length::inch_t EstimateTargetZDistance() const;
-    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const;
-    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const;
-    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetXDistance();
+    units::length::inch_t EstimateTargetYDistance();
+    units::length::inch_t EstimateTargetZDistance();
+    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords();
+    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords();
+    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords();
     bool UpdatePipeline();
 
-    std::optional<VisionData> GetDataToNearestAprilTag() const;
+    std::optional<VisionData> GetDataToNearestAprilTag();
 
 private:
-    photon::PhotonCamera *m_camera; // photoncamera instance
+    std::string m_name = ""; // camera name
 };

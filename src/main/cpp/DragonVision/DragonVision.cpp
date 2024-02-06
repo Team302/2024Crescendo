@@ -50,7 +50,7 @@ frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
 	return DragonVision::m_aprilTagLayout;
 }
 
-DragonVision::DragonVision() : m_poseEstimators()
+DragonVision::DragonVision()
 {
 }
 
@@ -61,10 +61,10 @@ void DragonVision::AddCamera(DragonCamera *camera, CAMERA_POSITION position)
 	// check if we should add camera to photon pose estimator
 	if ((position == CAMERA_POSITION::LAUNCHER) || (position == CAMERA_POSITION::PLACER))
 	{
-		m_poseEstimators.emplace_back(new photon::PhotonPoseEstimator(GetAprilTagLayout(),
-																	  photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR,
-																	  std::move(*dynamic_cast<photon::PhotonCamera *>(camera)),
-																	  camera->GetTransformFromRobotCenter()));
+		m_poseEstimators.emplace_back(photon::PhotonPoseEstimator{GetAprilTagLayout(),
+																  photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR,
+																  std::move(photon::PhotonCamera{camera->GetCameraName()}),
+																  camera->GetTransformFromRobotCenter()});
 	}
 }
 
@@ -347,33 +347,30 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 {
 	std::vector<VisionPose> estimatedPoses = {};
 
-	for (photon::PhotonPoseEstimator *estimator : m_poseEstimators)
+	for (photon::PhotonPoseEstimator estimator : m_poseEstimators)
 	{
-		if (estimator != nullptr)
+		units::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
+		std::optional<photon::EstimatedRobotPose> estimation = estimator.Update();
+
+		if (estimation) // check if we have a result
 		{
-			units::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
-			std::optional<photon::EstimatedRobotPose> estimation = estimator->Update();
+			frc::Pose3d estimatedPose = estimation.value().estimatedPose;
+			units::millisecond_t timestamp = estimation.value().timestamp;
 
-			if (estimation) // check if we have a result
+			// returned result
+
+			double ambiguity = 0.0;
+			wpi::array<double, 3> visionStdMeasurements = VisionPose{}.visionMeasurementStdDevs;
+
+			for (auto target : estimation.value().targetsUsed)
 			{
-				frc::Pose3d estimatedPose = estimation.value().estimatedPose;
-				units::millisecond_t timestamp = estimation.value().timestamp;
-
-				// returned result
-
-				double ambiguity = 0.0;
-				wpi::array<double, 3> visionStdMeasurements = VisionPose{}.visionMeasurementStdDevs;
-
-				for (auto target : estimation.value().targetsUsed)
-				{
-					ambiguity += target.GetPoseAmbiguity();
-					visionStdMeasurements[0] += ambiguity;
-					visionStdMeasurements[1] += ambiguity;
-					visionStdMeasurements[2] += ambiguity;
-				}
-
-				estimatedPoses.emplace_back(VisionPose{estimatedPose, currentTime - timestamp, visionStdMeasurements});
+				ambiguity += target.GetPoseAmbiguity();
+				visionStdMeasurements[0] += ambiguity;
+				visionStdMeasurements[1] += ambiguity;
+				visionStdMeasurements[2] += ambiguity;
 			}
+
+			estimatedPoses.emplace_back(VisionPose{estimatedPose, currentTime - timestamp, visionStdMeasurements});
 		}
 	}
 

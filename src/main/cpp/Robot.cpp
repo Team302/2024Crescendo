@@ -26,7 +26,6 @@
 #include "utils/logging/Logger.h"
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
-#include <utils/WaypointXmlParser.h>
 
 /// DEBUG
 #include "DragonVision/DragonPhotonCam.h"
@@ -35,8 +34,6 @@
 #include "DragonVision/DragonLimelight.h"
 
 #include <AdjustableItemMgr.h>
-
-
 
 using namespace std;
 
@@ -174,7 +171,10 @@ void Robot::TeleopInit()
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
-    DragonCamera *photon = new DragonPhotonCam("Photon",
+    /// DEBUG
+    photon::PhotonCamera test = photon::PhotonCamera{"Camera_B"};
+
+    DragonCamera *photon = new DragonPhotonCam("Camera_B",
                                                DragonCamera::PIPELINE::APRIL_TAG,
                                                units::length::inch_t(0.0),
                                                units::length::inch_t(0.0),
@@ -182,7 +182,7 @@ void Robot::TeleopInit()
                                                units::angle::degree_t(0.0),
                                                units::angle::degree_t(0.0),
                                                units::angle::degree_t(0.0));
-    DragonCamera *limelight = new DragonLimelight("Limelight",
+    DragonCamera *limelight = new DragonLimelight("limelight",
                                                   DragonCamera::PIPELINE::MACHINE_LEARNING,
                                                   units::length::inch_t(0.0),
                                                   units::length::inch_t(0.0),
@@ -204,16 +204,6 @@ void Robot::TeleopInit()
         m_field->ResetField(); // ToDo:  Move to DriveTeamFeedback
     }
     **/
-
-    /// DEBUG
-
-    DragonVision::GetDragonVision()->AddCamera(new DragonPhotonCam("Camera_B", DragonCamera::PIPELINE::OFF, units::length::inch_t(0.0),
-                                                                   units::length::inch_t(0.0),
-                                                                   units::length::inch_t(0.0),
-                                                                   units::angle::degree_t(0.0),
-                                                                   units::angle::degree_t(0.0),
-                                                                   units::angle::degree_t(0.0)),
-                                               DragonVision::CAMERA_POSITION::LAUNCHER);
 
     Logger::GetLogger()
         ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
