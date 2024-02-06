@@ -624,7 +624,7 @@
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
-          <controlDataName>climberPercetOut</controlDataName>
+          <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>rightClimber</name>
@@ -635,7 +635,7 @@
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
-          <controlDataName>climberPercetOut</controlDataName>
+          <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>

@@ -44,8 +44,8 @@ ManualState::ManualState(std::string stateName,
 void ManualState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("init"));
-
 	m_genState->Init();
+	m_currentPos = m_mechanism->getleftClimber()->GetCounts();
 }
 
 void ManualState::Run()
@@ -53,12 +53,8 @@ void ManualState::Run()
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("run"));
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Count"), m_mechanism->getleftClimber()->GetCounts());
 
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
-
-	double currentPos = m_mechanism->getleftClimber()->GetCounts();
 	double delta = 3.0 * 0.02 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 3 in/s * 0.02 for 20 ms loop time * controller input
-	double Target = currentPos + delta;
+	double Target = m_currentPos + delta;
 
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Target"), Target);
 
@@ -84,5 +80,5 @@ bool ManualState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	auto currentState = m_mechanism->GetCurrentState();
-	return (m_mechanism->isClimbMode() || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) && currentState == m_mechanism->STATE_AUTO_CLIMB));
+	return (m_mechanism->isClimbMode() || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) && (currentState == m_mechanism->STATE_AUTO_CLIMB)));
 }

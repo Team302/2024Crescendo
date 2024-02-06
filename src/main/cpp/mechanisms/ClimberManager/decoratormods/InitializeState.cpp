@@ -46,9 +46,8 @@ void InitializeState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("InitializeState"), string("init"));
 
 	m_genState->Init();
-	// m_mechanism->getleftClimber()->SetSelectedSensorPosition(33);
-	// m_mechanism->getrightClimber()->SetSelectedSensorPosition(33);
-	// Uncomment once climber is setup
+	m_mechanism->getleftClimber()->SetSelectedSensorPosition(33);
+	m_mechanism->getrightClimber()->SetSelectedSensorPosition(33);
 }
 
 void InitializeState::Run()

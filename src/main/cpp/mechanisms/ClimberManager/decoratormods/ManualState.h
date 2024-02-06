@@ -27,23 +27,24 @@ using namespace std;
 
 namespace ClimberManagerStates
 {
-class ManualState : public State
-{
-public:
-	ManualState() = delete;
-	ManualState ( std::string stateName,
-	              int stateId,
-	              ClimberManagerAllStatesStateGen *generatedState,
-	              ClimberManager *mech );
-	~ManualState() = default;
-	void Init() override;
-	void Run() override;
-	void Exit() override;
-	bool AtTarget() override;
-	bool IsTransitionCondition ( bool considerGamepadTransitions ) override;
+	class ManualState : public State
+	{
+	public:
+		ManualState() = delete;
+		ManualState(std::string stateName,
+					int stateId,
+					ClimberManagerAllStatesStateGen *generatedState,
+					ClimberManager *mech);
+		~ManualState() = default;
+		void Init() override;
+		void Run() override;
+		void Exit() override;
+		bool AtTarget() override;
+		bool IsTransitionCondition(bool considerGamepadTransitions) override;
 
-private:
-	ClimberManagerAllStatesStateGen *m_genState;
-	ClimberManager *m_mechanism;
-};
+	private:
+		ClimberManagerAllStatesStateGen *m_genState;
+		ClimberManager *m_mechanism;
+		double m_currentPos;
+	};
 }
