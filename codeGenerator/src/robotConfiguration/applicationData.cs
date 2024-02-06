@@ -164,8 +164,8 @@ namespace ApplicationData
 
     [Serializable()]
     public partial class applicationData
-    {
 #if !enableTestAutomation
+    {
 
         [DataDescription("One power distribution panel can be configured for a robot")]
         public pdp PowerDistributionPanel { get; set; }
@@ -405,6 +405,8 @@ namespace ApplicationData
         public List<PIDFZ> closedLoopControlParameters { get; set; }
         public List<solenoid> solenoid { get; set; }
         public List<servo> servo { get; set; }
+        public List<limelight> limelight { get; set; }
+        public List<PhotonCam> photonCam { get; set; }
         public List<analogInput> analogInput { get; set; }
         public List<digitalInput> digitalInput { get; set; }
         // not defined in /hw/Dragon.. public List<colorSensor> colorSensor { get; set; }
@@ -714,75 +716,6 @@ namespace ApplicationData
             };
 
             return initCode;
-        }
-    }
-
-    [Serializable()]
-    public class limelight : baseRobotElementClass
-    {
-        public enum limelightRotation
-        {
-            Angle_0_deg = 0,
-            Angle_90_deg = 90,
-            Angle_180_deg = 180,
-            Angle_270_deg = 270,
-        }
-        public enum limelightDefaultLedMode
-        {
-            currentPipeline,
-            off,
-            blink,
-            on,
-        }
-        public enum limelightDefaultCamMode
-        {
-            vision,
-            driverCamera,
-        }
-        public enum limelightStreamMode
-        {
-            sideBySide,
-            pipMain,
-            pipSecondary,
-        }
-        public enum limelightSnapshots
-        {
-            off,
-            twoPerSec,
-        }
-
-        [DefaultValue(0.0)]
-        [PhysicalUnitsFamily(physicalUnit.Family.length)]
-        public doubleParameter mountingheight { get; set; }
-
-        [DefaultValue(0.0)]
-        [PhysicalUnitsFamily(physicalUnit.Family.length)]
-        public doubleParameter horizontaloffset { get; set; }
-
-        [DefaultValue(0.0)]
-        [PhysicalUnitsFamily(physicalUnit.Family.angle)]
-        public doubleParameter mountingangle { get; set; }
-
-        [DefaultValue(limelightRotation.Angle_0_deg)]
-        [PhysicalUnitsFamily(physicalUnit.Family.angle)]
-        public limelightRotation rotation { get; set; }
-
-        public List<doubleParameterUserDefinedTunable> tunableParameters { get; set; }
-
-        [DefaultValue(limelightDefaultLedMode.currentPipeline)]
-        public limelightDefaultLedMode defaultledmode { get; set; }
-
-        [DefaultValue(limelightDefaultCamMode.vision)]
-        public limelightDefaultCamMode defaultcammode { get; set; }
-
-        [DefaultValue(limelightStreamMode.sideBySide)]
-        public limelightStreamMode streammode { get; set; }
-
-        [DefaultValue(limelightSnapshots.off)]
-        public limelightSnapshots snapshots { get; set; }
-
-        public limelight()
-        {
         }
     }
 
@@ -1230,41 +1163,7 @@ namespace ApplicationData
         }
     }
 
-    [Serializable()]
-    public class camera : baseRobotElementClass
-    {
-        public enum cameraformat
-        {
-            KMJPEG,
-            KYUYV,
-            KRGB565,
-            KBGR,
-            KGRAY,
-        }
-
-        [DefaultValue("0")]
-        public uintParameter id { get; set; }
-
-        [DefaultValue(cameraformat.KMJPEG)]
-        public cameraformat format { get; set; }
-
-        [DefaultValue(640)]
-        public uintParameter width { get; set; }
-
-        [DefaultValue(480)]
-        public uintParameter height { get; set; }
-
-        [DefaultValue(30)]
-        public uintParameter fps { get; set; }
-
-        [DefaultValue(false)]
-        public boolParameter thread { get; set; }
-
-        public camera()
-        {
-        }
-    }
-
+    
     [Serializable()]
     public class roborio : baseRobotElementClass
     {
