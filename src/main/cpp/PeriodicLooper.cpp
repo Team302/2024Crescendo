@@ -111,6 +111,7 @@ void PeriodicLooper::RunCurrentStates(vector<StateMgr *> mgrs)
 {
     for (auto mgr : mgrs)
     {
+        mgr->RunCommonTasks();
         mgr->RunCurrentState();
     }
 }

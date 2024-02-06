@@ -70,5 +70,5 @@ bool placerToLauncherBackState::IsTransitionCondition(bool considerGamepadTransi
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return (m_mechanism->isLauncherMode());
+	return (m_mechanism->IsLauncherMode());
 }

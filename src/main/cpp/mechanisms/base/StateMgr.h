@@ -38,6 +38,8 @@ public:
     ~StateMgr() = default;
     void Init(BaseMech *mech);
 
+    virtual void RunCommonTasks();
+
     /// @brief  run the current state
     /// @return void
     virtual void RunCurrentState();
