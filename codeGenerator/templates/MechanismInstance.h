@@ -29,7 +29,7 @@ public:
 
     void RunCommonTasks() override;
 
-    void createAndRegisterStates();
+    void CreateAndRegisterStates();
 
 private:
     $$_MECHANISM_INSTANCE_NAME_$$Gen *m_$$_MECHANISM_INSTANCE_NAME_$$;

@@ -33,7 +33,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$::RunCommonTasks()
     // This function is called once per loop before the current state Run()
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$::createAndRegisterStates()
+void $$_MECHANISM_INSTANCE_NAME_$$::CreateAndRegisterStates()
 {
     $$_OBJECT_CREATION_$$
 

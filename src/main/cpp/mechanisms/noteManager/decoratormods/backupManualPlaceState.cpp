@@ -90,6 +90,6 @@ bool backupManualPlaceState::IsTransitionCondition(bool considerGamepadTransitio
 {
 	int currentState = m_mechanism->GetCurrentState();
 
-	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) && m_mechanism->isPlacerMode()) ||
-			(currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_LAUNCH) && m_mechanism->isPlacerMode()));
+	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) && m_mechanism->IsPlacerMode()) ||
+			(currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_LAUNCH) && m_mechanism->IsPlacerMode()));
 }
