@@ -51,6 +51,16 @@ namespace CoreCodeGenerator
                     includes.AppendLine(String.Format("#include \"{0}\"", mi.getIncludePath()));
                 }
                 resultString = resultString.Replace("$$_MECHANISM_PTR_DECLARATIONS_$$", sb.ToString().Trim());
+
+                sb.Clear();
+
+                foreach (camera cam in robot.Cameras)
+                {
+                    sb.AppendLine(ListToString(cam.generateDefinition()));
+                    includes.AppendLine(ListToString(cam.generateIncludes(),";"));
+                }
+                resultString = resultString.Replace("$$_CAMERA_PTR_DECLARATIONS_$$", sb.ToString().Trim());
+
                 resultString = resultString.Replace("$$_MECHANISM_INCLUDE_FILES_$$", includes.ToString().Trim());
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);

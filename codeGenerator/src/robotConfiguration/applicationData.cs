@@ -1406,7 +1406,7 @@ namespace ApplicationData
         }
         virtual public List<string> generateDefinition()
         {
-            return new List<string> { string.Format("{0}* {1};", getImplementationName(), name) };
+            return new List<string> { string.Format("{0}* {1};", getImplementationName(), name) }; //todo add m_ in off season
         }
 
         virtual public List<string> generateDefinitionGetter()

@@ -14,3 +14,8 @@ void RobotConfig$$_ROBOT_NAME_$$::DefineMechanisms()
 {
     $$_MECHANISMS_INITIALIZATION_$$
 }
+
+void RobotConfig$$_ROBOT_NAME_$$::DefineVisionSensors()
+{
+    $$_CAMERAS_INITIALIZATION_$$
+}
