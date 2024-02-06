@@ -33,7 +33,7 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>1</value>
+          <value>2.41819</value>
         </countsPerInch>
         <countsPerDegree>
           <unitsFamily>none</unitsFamily>
@@ -212,7 +212,7 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>2.41819</value>
         </countsPerInch>
         <countsPerDegree>
           <unitsFamily>none</unitsFamily>
