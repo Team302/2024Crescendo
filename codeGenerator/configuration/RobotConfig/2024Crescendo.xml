@@ -2668,7 +2668,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>1</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3318,7 +3318,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>1</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
