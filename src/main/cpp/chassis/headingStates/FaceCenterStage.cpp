@@ -21,6 +21,9 @@
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceCenterStage.h"
+#include "utils/FMSData.h"
+#include "DragonVision/DragonVision.h"
+#include "DragonVision/DragonAprilTagInfo.h"
 
 FaceCenterStage::FaceCenterStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE)
 {
@@ -30,9 +33,27 @@ std::optional<frc::Pose3d> FaceCenterStage::GetAprilTagPose()
 {
     int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::RED_STAGE_CENTER : FaceTarget::BLUE_STAGE_CENTER);
     return GetLayout().GetTagPose(aprilTag);
+
+    std::optional<frc::Transform3d> GetVisionTargetTransform() override;
+
+    auto vision = DragonVision::GetDragonVision();
+    if (vision != nullptr)
+    {
+        return vision->GetVisionDataFromElement();
+    }
+    return std::nullopt;
 }
 
 std::optional<frc::Transform3d> FaceCenterStage::GetVisionTargetTransform()
 {
+    auto vision = DragonVision::GetDragonVision();
+    if (vision != nullptr)
+    {
+        auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+        if (data)
+        {
+            return std::optional<frc::Transform3d>(data.value().deltaToTarget);
+        }
+    }
     return std::nullopt;
 }
