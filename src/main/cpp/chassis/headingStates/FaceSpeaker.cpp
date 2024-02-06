@@ -23,6 +23,7 @@
 #include "chassis/headingStates/FaceTarget.h"
 #include "DragonVision/DragonAprilTagInfo.h"
 #include "utils/FMSData.h"
+#include "DragonVision/DragonVision.h"
 
 FaceSpeaker::FaceSpeaker() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_SPEAKER)
 {
@@ -35,5 +36,14 @@ std::optional<frc::Pose3d> FaceSpeaker::GetAprilTagPose()
 }
 std::optional<frc::Transform3d> FaceSpeaker::GetVisionTargetTransform()
 {
+    auto vision = DragonVision::GetDragonVision();
+    if (vision != nullptr)
+    {
+        auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+        if (data)
+        {
+            return std::optional<frc::Transform3d>(data.value().deltaToTarget);
+        }
+    }
     return std::nullopt;
 }
