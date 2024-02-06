@@ -147,10 +147,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             time = units::time::second_t(attr.as_float());
                         }
-                        else if (strcmp(attr.name(), "distance") == 0)
-                        {
-                            distance = attr.as_float();
-                        }
                         else if (strcmp(attr.name(), "headingOption") == 0)
                         {
                             auto headingItr = headingOptionMap.find(attr.value());
@@ -222,7 +218,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     {
                         paramVector.emplace_back(new PrimitiveParams(primitiveType,
                                                                      time,
-                                                                     distance,
                                                                      headingOption,
                                                                      heading,
                                                                      pathName,
@@ -257,7 +252,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
         auto logger = Logger::GetLogger();
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Primitive ID"), to_string(param->GetID()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Time"), param->GetTime().to<double>());
-        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Distance"), param->GetDistance());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());

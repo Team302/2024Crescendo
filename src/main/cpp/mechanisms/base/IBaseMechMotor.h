@@ -57,6 +57,12 @@ public:
     /// @return void
     virtual void Update() = 0;
 
+    virtual void SetTargetControl(double percentOutput) = 0;
+    virtual void SetTargetControl(ControlData *controlConst, units::angle::degree_t angle) = 0;
+    virtual void SetTargetControl(ControlData *controlConst, units::angular_velocity::revolutions_per_minute_t angVel) = 0;
+    virtual void SetTargetControl(ControlData *controlConst, units::length::inch_t position) = 0;
+    virtual void SetTargetControl(ControlData *controlConst, units::velocity::feet_per_second_t velocity) = 0;
+
     virtual void UpdateTarget(double target) = 0;
     virtual void UpdateTarget(units::length::inch_t target) = 0;
     virtual void UpdateTarget(units::velocity::feet_per_second_t target) = 0;
