@@ -16,7 +16,7 @@
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceAmp.h"
-
+#include "DragonVision/DragonVision.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonAprilTagInfo.h"
 
