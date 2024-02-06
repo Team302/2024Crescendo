@@ -72,7 +72,7 @@ namespace CoreCodeGenerator
                 sb.AppendLine();
             }
 
-            template = template.Replace("$$_ROBOT_ELEMENT_NAMES_ENUMS_$$", sb.ToString() + Environment.NewLine);
+            template = template.Replace("$$_ROBOT_ELEMENT_NAMES_ENUMS_$$", sb.ToString().Trim() + Environment.NewLine);
 
             copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName), template);
         }
