@@ -43,5 +43,4 @@ std::optional<frc::Transform3d> FaceAmp::GetVisionTargetTransform()
         }
     }
     return std::nullopt;
-    return std::nullopt;
 }
