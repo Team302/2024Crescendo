@@ -60,6 +60,13 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     headingOptionMap["FACE_RIGHT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
     headingOptionMap["FACE_CENTER_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
 
+    static std::map<std::string, DragonCamera::PIPELINE> xmlStringToPipelineEnumMap
+    {
+        headingOptionMap["UNKNOWN"] = DragonCamera::PIPELINE::UNKNOWN;
+        headingOptionMap["OFF"] = DragonCamera::PIPELINE::OFF;
+        headingOptionMap["APRIL_TAG"] = DragonCamera::PIPELINE::APRIL_TAG;
+    };
+
     xml_document doc;
     xml_parse_result result = doc.load_file(fulldirfile.c_str());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "PrimitiveParser", "Original File", fulldirfile.c_str());
