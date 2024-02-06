@@ -94,7 +94,9 @@ private:
     rev::SparkLimitSwitch m_reverseLimitSwitch;
     rev::SparkLimitSwitch::Type m_forwardType;
     rev::SparkLimitSwitch::Type m_reverseType; // DRAGON_CONTROL_MODE m_controlMode;
+    rev::ControlType m_controlType;
     double m_outputRotationOffset;
+    int m_slot;
 
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;

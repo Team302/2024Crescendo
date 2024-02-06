@@ -1613,6 +1613,7 @@
         </SecondaryLimitCycles>
       </currentLimits>
       <theConfigMotorSettings>
+        <inverted>Clockwise_Positive</inverted>
         <mode>Brake</mode>
       </theConfigMotorSettings>
       <RotationOffset>
@@ -2287,7 +2288,7 @@
         <type>Boolean</type>
         <value>false</value>
       </enableFOC>
-      <controlType>POSITION_DEGREES_ABSOLUTE</controlType>
+      <controlType>POSITION_DEGREES</controlType>
     </motorControlData>
   </stateMotorControlData>
   <states>

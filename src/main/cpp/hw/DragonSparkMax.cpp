@@ -19,6 +19,7 @@
 #include "mechanisms/controllers/ControlData.h"
 
 #include "frc/smartdashboard/SmartDashboard.h"
+#include "utils/logging/Logger.h"
 
 using rev::CANSparkMax;
 
@@ -79,24 +80,28 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     m_pidController.SetI(controlInfo.GetI(), slot);
     m_pidController.SetD(controlInfo.GetD(), slot);
     m_pidController.SetFF(controlInfo.GetF(), slot);
+    m_slot = slot;
 
     switch (controlInfo.GetMode())
     {
     case ControlModes::PERCENT_OUTPUT:
         m_spark->Set(0); // init to zero just to be safe
+        m_controlType = rev::ControlType::kDutyCycle;
         break;
     case ControlModes::POSITION_INCH:
         m_pidController.SetReference(0, CANSparkMax::ControlType::kPosition, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerInch);
+        m_controlType = rev::ControlType::kPosition;
         break;
     case ControlModes::POSITION_DEGREES:
         m_pidController.SetReference(0, CANSparkMax::ControlType::kPosition, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerDegree);
+        m_controlType = rev::ControlType::kPosition;
         break;
     case ControlModes::VELOCITY_RPS:
         m_pidController.SetReference(0, CANSparkMax::ControlType::kVelocity, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerRev);
-
+        m_controlType = rev::ControlType::kVelocity;
         break;
 
     default:
@@ -112,7 +117,14 @@ void DragonSparkMax::EnableCurrentLimiting(bool enabled)
 
 void DragonSparkMax::Set(double value)
 {
-    m_spark->Set(value);
+    if (m_controlType == rev::ControlType::kDutyCycle)
+    {
+        m_spark->Set(value);
+    }
+    else
+    {
+        m_pidController.SetReference(value, m_controlType, m_slot);
+    }
 }
 
 void DragonSparkMax::SetRotationOffset(double rotations)

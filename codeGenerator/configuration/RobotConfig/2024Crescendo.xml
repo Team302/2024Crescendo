@@ -1636,6 +1636,7 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -2310,7 +2311,7 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </enableFOC>
-                <controlType>POSITION_DEGREES_ABSOLUTE</controlType>
+                <controlType>POSITION_DEGREES</controlType>
               </motorControlData>
             </stateMotorControlData>
             <states>
@@ -3993,7 +3994,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>45</value>
+                      <value>-0.1</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5997,7 +5998,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>1</value>
+                    <value>2.41819</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -6176,7 +6177,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>2.41819</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
