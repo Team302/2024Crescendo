@@ -173,9 +173,6 @@ namespace ApplicationData
         [DataDescription("A robot can contain multiple pneumatic control modules")]
         public List<pcm> PneumaticControlModules { get; set; }
 
-        [DataDescription("A robot can contain multiple limelights")]
-        public List<limelight> Limelights { get; set; }
-
         [DataDescription("A robot can have one chassis definition")]
         public chassis Chassis { get; set; }
 
@@ -183,7 +180,7 @@ namespace ApplicationData
         public List<mechanismInstance> mechanismInstances { get; set; }
 
         [DataDescription("A robot can contain multiple cameras")]
-        public List<camera> Cameras { get; set; }
+        public List<Camera> Cameras { get; set; }
 
         [DataDescription("A robot can contain multiple roborios")]
         public List<roborio> Roborios { get; set; }
@@ -405,8 +402,6 @@ namespace ApplicationData
         public List<PIDFZ> closedLoopControlParameters { get; set; }
         public List<solenoid> solenoid { get; set; }
         public List<servo> servo { get; set; }
-        public List<limelight> limelight { get; set; }
-        public List<PhotonCam> photonCam { get; set; }
         public List<analogInput> analogInput { get; set; }
         public List<digitalInput> digitalInput { get; set; }
         // not defined in /hw/Dragon.. public List<colorSensor> colorSensor { get; set; }

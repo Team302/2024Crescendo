@@ -54,10 +54,10 @@ namespace CoreCodeGenerator
 
                 sb.Clear();
 
-                foreach (camera cam in robot.Cameras)
+                foreach (Camera cam in robot.Cameras)
                 {
                     sb.AppendLine(ListToString(cam.generateDefinition()));
-                    includes.AppendLine(ListToString(cam.generateIncludes(),";"));
+                    includes.AppendLine(ListToString(cam.generateIncludes(), ";"));
                 }
                 resultString = resultString.Replace("$$_CAMERA_PTR_DECLARATIONS_$$", sb.ToString().Trim());
 
@@ -103,6 +103,19 @@ namespace CoreCodeGenerator
                 resultString = template.Replace("$$_MECHANISMS_INITIALIZATION_$$", sb.ToString().Trim());
                 resultString = resultString.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
                 resultString = resultString.Replace("$$_ROBOT_ENUM_NAME_$$", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper());
+
+                sb.Clear();
+
+                foreach (Camera cam in robot.Cameras)
+                {
+                    //resultString = mechInstDef.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                    //resultString += mechInstDefState.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+
+                    sb.AppendLine("//create cameras here");
+                }
+                resultString = resultString.Replace("$$_CAMERAS_INITIALIZATION_$$", sb.ToString().Trim());
+
+
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }
