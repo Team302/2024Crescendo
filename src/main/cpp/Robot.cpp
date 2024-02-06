@@ -27,12 +27,6 @@
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
 
-/// DEBUG
-#include "DragonVision/DragonPhotonCam.h"
-#include "DragonVision/DragonVision.h"
-#include "DragonVision/DragonVisionStructs.h"
-#include "DragonVision/DragonLimelight.h"
-
 #include <AdjustableItemMgr.h>
 
 using namespace std;
@@ -170,32 +164,6 @@ void Robot::TeleopInit()
         m_chassis->Drive();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-
-    /// DEBUG
-    photon::PhotonCamera test = photon::PhotonCamera{"Camera_B"};
-
-    DragonCamera *photon = new DragonPhotonCam("Camera_B",
-                                               DragonCamera::PIPELINE::APRIL_TAG,
-                                               units::length::inch_t(0.0),
-                                               units::length::inch_t(0.0),
-                                               units::length::inch_t(0.0),
-                                               units::angle::degree_t(0.0),
-                                               units::angle::degree_t(0.0),
-                                               units::angle::degree_t(0.0));
-    DragonCamera *limelight = new DragonLimelight("limelight",
-                                                  DragonCamera::PIPELINE::MACHINE_LEARNING,
-                                                  units::length::inch_t(0.0),
-                                                  units::length::inch_t(0.0),
-                                                  units::length::inch_t(0.0),
-                                                  units::angle::degree_t(0.0),
-                                                  units::angle::degree_t(0.0),
-                                                  units::angle::degree_t(0.0),
-                                                  DragonLimelight::LED_ON,
-                                                  DragonLimelight::CAM_MODE::CAM_DRIVER,
-                                                  DragonLimelight::STREAM_DEFAULT,
-                                                  DragonLimelight::SNAPSHOT_MODE::SNAP_OFF);
-    DragonVision::GetDragonVision()->AddCamera(photon, DragonVision::CAMERA_POSITION::LAUNCHER);
-    DragonVision::GetDragonVision()->AddCamera(limelight, DragonVision::CAMERA_POSITION::LAUNCHER_INTAKE);
 
     /**
     // now in teleop, clear field of trajectories
