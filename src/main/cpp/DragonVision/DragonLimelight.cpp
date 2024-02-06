@@ -46,7 +46,7 @@ using namespace std;
 /// Need to support new OriginFieldPosition function, look at limelight docs NetworkTables API
 
 ///-----------------------------------------------------------------------------------
-/// Method:         DragonLimelight (ructor)
+/// Method:         DragonLimelight (constructor)
 /// Description:    Create the object
 ///-----------------------------------------------------------------------------------
 DragonLimelight::DragonLimelight(
