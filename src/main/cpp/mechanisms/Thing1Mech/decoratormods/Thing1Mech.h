@@ -19,6 +19,7 @@
 #pragma once
 
 // C++ Includes
+#include <string>
 
 // FRC Includes
 
@@ -28,7 +29,8 @@
 #include "robotstate/IRobotStateChangeSubscriber.h"
 #include "robotstate/RobotStateChanges.h"
 
-class Thing1Mech : public Thing1MechGen, public IRobotStateChangeSubscriber
+class Thing1Mech : public Thing1MechGen,
+				   public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -43,7 +45,7 @@ public:
 	~Thing1Mech() = default;
 
 	void RunCommonTasks() override;
-
+	void SetCurrentState(int state, bool run) override;
 	void CreateAndRegisterStates();
 
 	RobotStateChanges::ScoringMode m_scoringMode;

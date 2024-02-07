@@ -86,7 +86,8 @@ namespace CoreCodeGenerator
 
             string mechInstDefState =
                 @"m_the$$_MECHANISM_INSTANCE_NAME_$$->Init(m_the$$_MECHANISM_INSTANCE_NAME_$$);
-                  ";
+                  m_mechanismMap[MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_INSTANCE_NAME_UPPERCASE_$$] = m_the$$_MECHANISM_INSTANCE_NAME_$$;
+                 ";
 
             generatorContext.clear();
             foreach (applicationData robot in theRobotConfiguration.theRobotVariants.Robots)
@@ -99,6 +100,7 @@ namespace CoreCodeGenerator
                 {
                     resultString = mechInstDef.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
                     resultString += mechInstDefState.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                    resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPERCASE_$$", ToUnderscoreCase(mi.name).ToUpper());
 
                     sb.AppendLine(resultString);
                 }

@@ -91,6 +91,15 @@ namespace CoreCodeGenerator
                         List<string> theUsings = generateMethod(mi, "generateUsings").Distinct().ToList();
                         resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";").Trim());
 
+
+                        List<string> enumMapList = new List<string>();
+                        foreach (state s in mi.mechanism.states)
+                        {
+                            enumMapList.Add(String.Format("{{\"STATE_{0}\", {1}Gen::STATE_NAMES::STATE_{0}}}", ToUnderscoreCase(s.name).ToUpper(), mi.name));
+                        }
+                        resultString = resultString.Replace("$$_STATE_MAP_$$", ListToString(enumMapList, ",").Trim());
+
+
                         #region Tunable Parameters
                         string allParameterReading = "";
 #if david

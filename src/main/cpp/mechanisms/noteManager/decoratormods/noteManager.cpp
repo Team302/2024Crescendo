@@ -92,6 +92,11 @@ void noteManager::RunCommonTasks()
 	// This function is called once per loop before the current state Run()
 }
 
+void noteManager::SetCurrentState(int state, bool run)
+{
+	noteManagerGen::SetCurrentState(state, run);
+}
+
 void noteManager::CreateAndRegisterStates()
 {
 	OffState *OffStateInst = new OffState(string("Off"), 0, new noteManagerAllStatesStateGen(string("Off"), 0, this), this);
