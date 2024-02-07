@@ -34,23 +34,23 @@ void ChassisConfigChassis_9998::DefineChassis()
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ChassisConfigChassis_9998::DefineChassis"), string("arrived"));
     m_leftFrontModule = new SwerveModule(SwerveModuleConstants::ModuleID::LEFT_FRONT,
                                          SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
-                                         m_leftfrontdriveID, m_leftsideInvert,
-                                         m_leftfrontturnID, false,
+                                         m_leftfrontdriveID, m_leftfrontdriveInvert,
+                                         m_leftfrontturnID, m_leftfrontturnInvert,
                                          m_leftfrontturnID, m_leftfrontOffset);
     m_leftBackModule = new SwerveModule(SwerveModuleConstants::ModuleID::LEFT_BACK,
                                         SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
-                                        m_leftbackdriveID, m_leftsideInvert,
-                                        m_leftbackturnID, false,
+                                        m_leftbackdriveID, m_leftbackdriveInvert,
+                                        m_leftbackturnID, m_leftbackturnInvert,
                                         m_leftbackturnID, m_leftbackOffset);
     m_rightFrontModule = new SwerveModule(SwerveModuleConstants::ModuleID::RIGHT_FRONT,
                                           SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
-                                          m_rightfrontdriveID, m_rightsideInvert,
-                                          m_rightfrontturnID, false,
+                                          m_rightfrontdriveID, m_rightfrontdriveInvert,
+                                          m_rightfrontturnID, m_rightfrontturnInvert,
                                           m_rightfrontturnID, m_rightfrontOffset);
     m_rightBackModule = new SwerveModule(SwerveModuleConstants::ModuleID::RIGHT_BACK,
                                          SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
-                                         m_rightbackdriveID, m_rightsideInvert,
-                                         m_rightbackturnID, false,
+                                         m_rightbackdriveID, m_rightbackdriveInvert,
+                                         m_rightbackturnID, m_rightbackturnInvert,
                                          m_rightbackturnID, m_rightbackOffset);
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ChassisConfigChassis_9998::DefineChassis"), string("module 4"));
     m_chassis = new SwerveChassis(m_leftFrontModule,

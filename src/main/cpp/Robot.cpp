@@ -106,6 +106,14 @@ void Robot::RobotPeriodic()
     {
         feedback->UpdateFeedback();
     }
+
+    if (m_chassis != nullptr)
+    {
+        m_chassis->GetFrontLeft()->LogInformation();
+        m_chassis->GetFrontRight()->LogInformation();
+        m_chassis->GetBackLeft()->LogInformation();
+        m_chassis->GetBackRight()->LogInformation();
+    }
 }
 
 /**

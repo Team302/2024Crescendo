@@ -42,22 +42,20 @@
 
 using namespace std;
 using namespace frc;
-using ctre::phoenix6::configs::MotorOutputConfigs;
-using ctre::phoenix6::hardware::CANcoder;
-using ctre::phoenix6::hardware::TalonFX;
-using ctre::phoenix6::signals::AbsoluteSensorRangeValue;
-using ctre::phoenix6::signals::InvertedValue;
-using ctre::phoenix6::signals::NeutralModeValue;
-
 using ctre::phoenix6::configs::CANcoderConfiguration;
 using ctre::phoenix6::configs::CANcoderConfigurator;
+using ctre::phoenix6::configs::MotorOutputConfigs;
 using ctre::phoenix6::configs::Slot0Configs;
 using ctre::phoenix6::configs::TalonFXConfiguration;
 using ctre::phoenix6::controls::DutyCycleOut;
+using ctre::phoenix6::controls::PositionVoltage;
 using ctre::phoenix6::controls::VelocityTorqueCurrentFOC;
 using ctre::phoenix6::hardware::CANcoder;
+using ctre::phoenix6::hardware::TalonFX;
 using ctre::phoenix6::signals::AbsoluteSensorRangeValue;
 using ctre::phoenix6::signals::FeedbackSensorSourceValue;
+using ctre::phoenix6::signals::InvertedValue;
+using ctre::phoenix6::signals::NeutralModeValue;
 using ctre::phoenix6::signals::SensorDirectionValue;
 
 SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
@@ -204,8 +202,30 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     Rotation2d currAngle = Rotation2d(angle);
     auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("module"), string("angle"), optimizedState.angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("module"), string("speed"), optimizedState.speed.to<double>());
+    string ntAngleName;
+    string ntSpeed;
+    if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_BACK)
+    {
+        ntAngleName += string("leftback target Angle");
+        ntSpeed += string("leftback target speed");
+    }
+    else if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_FRONT)
+    {
+        ntAngleName += string("leftfront target Angle");
+        ntSpeed += string("leftfront target speed");
+    }
+    else if (m_moduleID == SwerveModuleConstants::ModuleID::RIGHT_BACK)
+    {
+        ntAngleName += string("rightback target Angle");
+        ntSpeed += string("rightback target speed");
+    }
+    else
+    {
+        ntAngleName += string("rightfront target Angle");
+        ntSpeed += string("rightfront target speed");
+    }
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntAngleName, optimizedState.angle.Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntSpeed, optimizedState.speed.to<double>());
 
     // Set Turn Target
     SetTurnAngle(optimizedState.angle.Degrees());
@@ -245,9 +265,19 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 /// @returns void
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
+    PositionVoltage voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
+    Slot0Configs config{};
+    config.kV = m_turnKf;
+    config.kP = m_turnKp;
+    config.kI = m_turnKi;
+    config.kD = m_turnKd;
+    m_turnTalon->GetConfigurator().Apply(config);
+
     m_activeState.angle = targetAngle;
-    m_turnTalon->SetControl(m_voltagePosition.WithPosition(targetAngle));
-    // m_turnTalon->SetControl(m_torquePosition.WithPosition(targetAngle));
+    m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
+
+    //  m_turnTalon->SetControl(m_voltagePosition.WithPosition(targetAngle));
+    //  m_turnTalon->SetControl(m_torquePosition.WithPosition(targetAngle));
 }
 
 /// @brief stop the drive and turn motors
@@ -259,24 +289,40 @@ void SwerveModule::StopMotors()
 
 void SwerveModule::LogInformation()
 {
-    string ntName;
+    string ntAngleName;
+    string ntMotorPositionName;
+    string ntRotorPositionName;
     if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_BACK)
     {
-        ntName += string("leftback Angle");
+        ntAngleName += string("leftback Angle");
+        ntMotorPositionName += string("leftback turns");
+        ntRotorPositionName += string("leftback rotor");
     }
     else if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_FRONT)
     {
-        ntName += string("leftfront Angle");
+        ntAngleName += string("leftfront Angle");
+        ntMotorPositionName += string("leftfront turns");
+        ntRotorPositionName += string("leftfront rotor");
     }
     else if (m_moduleID == SwerveModuleConstants::ModuleID::RIGHT_BACK)
     {
-        ntName += string("rightback Angle");
+        ntAngleName += string("rightback Angle");
+        ntMotorPositionName += string("rightback turns");
+        ntRotorPositionName += string("rightback rotor");
     }
     else
     {
-        ntName += string("rightfront Angle");
+        ntAngleName += string("rightfront Angle");
+        ntMotorPositionName += string("rightfront turns");
+        ntRotorPositionName += string("rightfront rotor");
     }
     auto angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     units::angle::degree_t angleDegree = angle;
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntName, angleDegree.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntAngleName, angleDegree.to<double>());
+
+    auto turns = m_turnTalon->GetPosition().GetValueAsDouble();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntMotorPositionName, turns);
+
+    auto rotor = m_turnTalon->GetRotorPosition().GetValueAsDouble();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntRotorPositionName, turns);
 }
