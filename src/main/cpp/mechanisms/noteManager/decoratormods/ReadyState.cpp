@@ -60,7 +60,7 @@ void ReadyState::Run()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Mid"), m_mechanism->getplacerMidSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Out"), m_mechanism->getplacerOutSensor()->Get());
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Mode"), static_cast<double>(m_mechanism->isPlacerMode()));
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Mode"), static_cast<double>(m_mechanism->IsPlacerMode()));
 }
 
 void ReadyState::Exit()

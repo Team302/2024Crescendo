@@ -34,16 +34,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-placerToLauncherFrontState::placerToLauncherFrontState ( std::string stateName,
-        int stateId,
-        noteManagerAllStatesStateGen *generatedState,
-        noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+placerToLauncherFrontState::placerToLauncherFrontState(std::string stateName,
+													   int stateId,
+													   noteManagerAllStatesStateGen *generatedState,
+													   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void placerToLauncherFrontState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "placerToLauncherFrontState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placerToLauncherFrontState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,8 +65,8 @@ bool placerToLauncherFrontState::AtTarget()
 	return attarget;
 }
 
-bool placerToLauncherFrontState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool placerToLauncherFrontState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-	return (m_mechanism->isLauncherMode());
+	return (m_mechanism->IsLauncherMode());
 }
