@@ -30,9 +30,10 @@ class DragonCamera
 public:
     enum VISION_ALIGNMENT
     {
-        NOTE = DragonCamera::VISION_ALIGNMENT::NOTE,
-        SPEAKER = DragonCamera::VISION_ALIGNMENT::SPEAKER,
-        UNKNOWN = DragonCamera::VISION_ALIGNMENT::UNKNOWN
+        NOTE = DragonVision::VISION_ELEMENT::NOTE,
+        SPEAKER = DragonVision::VISION_ELEMENT::SPEAKER,
+        UNKNOWN = 0,
+        APRIL_TAG
     };
 
     DragonCamera(

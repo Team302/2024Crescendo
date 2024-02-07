@@ -61,10 +61,11 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     headingOptionMap["FACE_RIGHT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
     headingOptionMap["FACE_CENTER_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
 
-    map<string, DragonCamera::VISION_ALIGNMENT> xmlStringToPipelineEnumMap{
+    map<string, DragonCamera::VISION_ALIGNMENT> xmlStringToVisionAlignmentEnumMap{
         {"UNKNOWN", DragonCamera::VISION_ALIGNMENT::UNKNOWN},
         {"NOTE", DragonCamera::VISION_ALIGNMENT::NOTE},
-        {"SPEAKER", DragonCamera::VISION_ALIGNMENT::SPEAKER}};
+        {"SPEAKER", DragonCamera::VISION_ALIGNMENT::SPEAKER},
+        {"APRIL_TAG", DragonCamera::VISION_ALIGNMENT::APRIL_TAG}};
     xml_document doc;
     xml_parse_result result = doc.load_file(fulldirfile.c_str());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "PrimitiveParser", "Original File", fulldirfile.c_str());
@@ -126,6 +127,8 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
                     auto visionAlignment = DragonCamera::VISION_ALIGNMENT::UNKNOWN;
+                    auto visionAlignmentmode = DragonCamera::VISION_ALIGNMENT::UNKNOWN;
+
                     std::string pathName;
                     ZoneParamsVector zones;
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
@@ -175,8 +178,8 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         }
                         else if (strcmp(attr.name(), "visionAlignment") == 0)
                         {
-                            auto visionAlignmentItr = xmlStringToPipelineEnumMap.find(attr.value());
-                            if (visionAlignmentItr != xmlStringToPipelineEnumMap.end())
+                            auto visionAlignmentItr = xmlStringToVisionAlignmentEnumMap.find(attr.value());
+                            if (visionAlignmentItr != xmlStringToVisionAlignmentEnumMap.end())
                             {
                                 visionAlignmentmode = DragonCamera::VISION_ALIGNMENT::APRIL_TAG;
                                 visionAlignment = visionAlignmentItr->second;
@@ -219,29 +222,30 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                 }
             }
         }
-        else
-        {
-            // Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML error parsing file"), fileName);
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML error message"), result.description());
-        }
-
-        std::string path;
-        auto slot = 0;
-        for (auto param : paramVector)
-        {
-            string ntName = string("Primitive ") + to_string(slot);
-            auto logger = Logger::GetLogger();
-            logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Primitive ID"), to_string(param->GetID()));
-            logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Time"), param->GetTime().to<double>());
-            logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
-            logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
-            logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
-            // @ADDMECH Log state data
-            // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("armstate"), param->GetArmState());
-            // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("extenderstate"), param->GetExtenderState());
-            // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("intakestate"), param->GetIntakeState());
-            slot++;
-        }
-
-        return paramVector;
     }
+    else
+    {
+        // Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML error parsing file"), fileName);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML error message"), result.description());
+    }
+
+    std::string path;
+    auto slot = 0;
+    for (auto param : paramVector)
+    {
+        string ntName = string("Primitive ") + to_string(slot);
+        auto logger = Logger::GetLogger();
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Primitive ID"), to_string(param->GetID()));
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Time"), param->GetTime().to<double>());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
+        // @ADDMECH Log state data
+        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("armstate"), param->GetArmState());
+        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("extenderstate"), param->GetExtenderState());
+        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("intakestate"), param->GetIntakeState());
+        slot++;
+    }
+
+    return paramVector;
+}
