@@ -46,8 +46,8 @@ void HoldState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HoldState"), string("init"));
 
 	m_genState->Init();
-	// Uncomment after switching to posInch
-	// m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, units::length::inch_t(m_mechanism->getleftClimber()->GetCounts()));
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, units::length::inch_t(m_mechanism->getleftClimber()->GetCounts()));
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, units::length::inch_t(m_mechanism->getrightClimber()->GetCounts()));
 }
 
 void HoldState::Run()
