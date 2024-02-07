@@ -18,6 +18,7 @@
 
 #include <frc/Filesystem.h>
 
+#include "DragonVision/DragonCamera.h"
 #include <auton/AutonSelector.h>
 #include <auton/PrimitiveEnums.h>
 #include <auton/PrimitiveParams.h>
@@ -60,12 +61,12 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     headingOptionMap["FACE_RIGHT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
     headingOptionMap["FACE_CENTER_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
 
-    static std::map<std::string, DragonCamera::PIPELINE> xmlStringToPipelineEnumMap
-    {
-        headingOptionMap["UNKNOWN"] = DragonCamera::PIPELINE::UNKNOWN;
-        headingOptionMap["OFF"] = DragonCamera::PIPELINE::OFF;
-        headingOptionMap["APRIL_TAG"] = DragonCamera::PIPELINE::APRIL_TAG;
-    };
+    map<string, DragonCamera::PIPELINE> xmlStringToPipelineEnumMap{
+        {"UNKNOWN", DragonCamera::PIPELINE::UNKNOWN},
+        {"OFF", DragonCamera::PIPELINE::OFF},
+        {"APRIL_TAG", DragonCamera::PIPELINE::APRIL_TAG},
+        {"MACHINE_LEARNING", DragonCamera::PIPELINE::APRIL_TAG},
+        {"COLOR_THRESHOLD", DragonCamera::PIPELINE::APRIL_TAG}};
 
     xml_document doc;
     xml_parse_result result = doc.load_file(fulldirfile.c_str());
@@ -127,6 +128,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto distance = 0.0;
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
+                    auto pipeline = DragonCamera::PIPELINE::UNKNOWN;
                     std::string pathName;
                     ZoneParamsVector zones;
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
@@ -135,6 +137,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto pipelineMode = DragonCamera::PIPELINE::UNKNOWN;
 
                     // @ADDMECH Initialize your mechanism state
+
                     for (xml_attribute attr = primitiveNode.first_attribute(); attr; attr = attr.next_attribute())
                     {
                         if (strcmp(attr.name(), "id") == 0)
@@ -177,27 +180,11 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         }
                         else if (strcmp(attr.name(), "pipeline") == 0)
                         {
-                            if (strcmp(attr.value(), "UNKNOWN") == 0)
+                            auto pipelineItr = xmlStringToPipelineEnumMap.find(attr.value());
+                            if (pipelineItr != xmlStringToPipelineEnumMap.end())
                             {
-                                pipelineMode = DragonCamera::PIPELINE::UNKNOWN;
+                                pipeline = pipelineItr->second;
                             }
-                            else if (strcmp(attr.value(), "OFF") == 0)
-                            {
-                                pipelineMode = DragonCamera::PIPELINE::OFF;
-                            }
-                            else if (strcmp(attr.value(), "APRIL_TAG") == 0)
-                            {
-                                pipelineMode = DragonCamera::PIPELINE::APRIL_TAG;
-                            }
-                            else if (strcmp(attr.value(), "MACHINE_LEARNING") == 0)
-                            {
-                                pipelineMode = DragonCamera::PIPELINE::MACHINE_LEARNING;
-                            }
-                            else if (strcmp(attr.value(), "COLOR_THRESHOLD") == 0)
-                            {
-                                pipelineMode = DragonCamera::PIPELINE::COLOR_THRESHOLD;
-                            }
-
                             else
                             {
                                 Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("PrimitiveParser::ParseXML invalid pipeline mode"), attr.value());
