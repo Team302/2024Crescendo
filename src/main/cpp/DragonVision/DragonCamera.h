@@ -48,53 +48,53 @@ public:
     );
     DragonCamera() = delete;
 
-    virtual bool HasTarget() const = 0;
+    virtual bool HasTarget() = 0;
 
     // Getters
 
     ///@brief Gets the yaw error to the target relative to the camera
     ///@return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetYaw() const = 0;
+    virtual units::angle::degree_t GetTargetYaw() = 0;
     /// @brief Gets the yaw error to target relative to the robot frame
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetYawRobotFrame() const = 0;
+    virtual units::angle::degree_t GetTargetYawRobotFrame() = 0;
     /// @brief Gets the pitch error relative to the robot frame
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetPitchRobotFrame() const = 0;
+    virtual units::angle::degree_t GetTargetPitchRobotFrame() = 0;
     /// @brief Gets the pitch of the current target
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetPitchAngle() const = 0;
+    virtual units::angle::degree_t GetTargetPitch() = 0;
     /// @brief returns the curent latancy of the vision pipeline
     /// @return units::time::millisecond_t
-    virtual units::time::millisecond_t GetPipelineLatency() const = 0;
+    virtual units::time::millisecond_t GetPipelineLatency() = 0;
     /// @brief rturns the skew of the target
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetSkew() const = 0;
+    virtual units::angle::degree_t GetTargetSkew() = 0;
     /// @brief returns the area of the "detection box"
     /// @return double
-    virtual double GetTargetArea() const = 0;
+    virtual double GetTargetArea() = 0;
     /// @brief returns the current apriltag id
     /// @return int
-    virtual int GetAprilTagID() const = 0;
+    virtual int GetAprilTagID() = 0;
     /// @brief returns the position of the robot
     /// @return std::optional<VisionPose>
-    virtual std::optional<VisionPose> GetFieldPosition() const = 0;
+    virtual std::optional<VisionPose> GetFieldPosition() = 0;
 
     /// @brief gets the robot position relative to the feild depending on wich alliance is specified
     /// @param frc::DriverStation::Alliance
     /// @return std::optional<visionData
-    virtual std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const = 0;
+    virtual std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) = 0;
 
     //  Estimating distance
-    virtual units::length::inch_t GetEstimatedTargetXDistance() const = 0;
-    virtual units::length::inch_t GetEstimatedTargetYDistance() const = 0;
-    virtual units::length::inch_t GetEstimatedTargetZDistance() const = 0;
+    virtual units::length::inch_t EstimateTargetXDistance() = 0;
+    virtual units::length::inch_t EstimateTargetYDistance() = 0;
+    virtual units::length::inch_t EstimateTargetZDistance() = 0;
 
-    virtual units::length::inch_t GetEstimatedTargetXDistance_RelToRobotCoords() const = 0;
-    virtual units::length::inch_t GetEstimatedTargetYDistance_RelToRobotCoords() const = 0;
-    virtual units::length::inch_t GetEstimatedTargetZDistance_RelToRobotCoords() const = 0;
+    virtual units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() = 0;
+    virtual units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() = 0;
+    virtual units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() = 0;
 
-    virtual std::optional<VisionData> GetDataToNearestApriltag() const = 0;
+    virtual std::optional<VisionData> GetDataToNearestAprilTag() = 0;
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }
@@ -104,8 +104,12 @@ public:
     units::length::inch_t GetMountingXOffset() const { return m_robotCenterToCam.X(); }
     units::length::inch_t GetMountingYOffset() const { return m_robotCenterToCam.Y(); }
     units::length::inch_t GetMountingZOffset() const { return m_robotCenterToCam.Z(); }
+    std::string GetCameraName() const { return m_cameraName; }
 
-    frc::Transform3d GetTransformFromRobotCenter() const { return m_robotCenterToCam; }
+    frc::Transform3d GetTransformFromRobotCenter() const
+    {
+        return m_robotCenterToCam;
+    }
 
     // Setters
     void SetPipeline(PIPELINE pipeline)
@@ -126,6 +130,7 @@ protected:
     frc::Pose3d m_cameraPose;
     frc::Transform3d m_robotCenterToCam;
     PIPELINE m_pipeline;
+    std::string m_cameraName;
 
     const units::length::inch_t m_noteVerticalOffset = units::length::inch_t(0.0); // This represents the note being at the same level as center of robot
 };
