@@ -13,7 +13,9 @@ public:
 
 protected:
     void DefineMechanisms() override;
+    void DefineVisionSensors() override;
 
 private:
     $$_MECHANISM_PTR_DECLARATIONS_$$
+    $$_CAMERA_PTR_DECLARATIONS_$$
 };

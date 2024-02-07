@@ -190,7 +190,7 @@ void Robot::TeleopPeriodic()
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
-    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(DragonVision::CAMERA_POSITION::LAUNCHER);
+    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHER);
     if (optionalVisionData)
     {
         VisionData visionData = optionalVisionData.value();
