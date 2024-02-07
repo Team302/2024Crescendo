@@ -46,8 +46,8 @@ namespace CoreCodeGenerator
                                                 break;", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper(), ToUnderscoreDigit(robot.getFullRobotName())));
                 includes.AppendLine(string.Format("#include \"configs/RobotConfig{0}.h\"", ToUnderscoreDigit(robot.getFullRobotName())));
             }
-            template = template.Replace("$$_ROBOT_CONFIGURATION_CREATION_$$", sb.ToString());
-            template = template.Replace("$$_ROBOT_CONFIG_INCLUDES_$$", includes.ToString());
+            template = template.Replace("$$_ROBOT_CONFIGURATION_CREATION_$$", sb.ToString().Trim());
+            template = template.Replace("$$_ROBOT_CONFIG_INCLUDES_$$", includes.ToString().Trim());
 
             copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName), template);
             #endregion
@@ -63,7 +63,7 @@ namespace CoreCodeGenerator
                 generatorContext.theRobot = robot;
                 sb.AppendLine(string.Format("{0} = {1},", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper(), robot.robotID.value));
             }
-            template = template.Replace("$$_ROBOT_CONFIGURATIONS_NAMES_ENUMS_$$", sb.ToString());
+            template = template.Replace("$$_ROBOT_CONFIGURATIONS_NAMES_ENUMS_$$", sb.ToString().Trim());
 
             copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName), template);
             #endregion

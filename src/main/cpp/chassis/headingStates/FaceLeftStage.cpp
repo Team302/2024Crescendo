@@ -21,6 +21,7 @@
 #include "chassis/headingStates/FaceTarget.h"
 #include "utils/FMSData.h"
 #include "frc/apriltag/AprilTagFields.h"
+#include "DragonVision/DragonVision.h"
 
 FaceLeftStage::FaceLeftStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE)
 {
@@ -34,5 +35,14 @@ std::optional<frc::Pose3d> FaceLeftStage::GetAprilTagPose()
 
 std::optional<frc::Transform3d> FaceLeftStage::GetVisionTargetTransform()
 {
+    auto vision = DragonVision::GetDragonVision();
+    if (vision != nullptr)
+    {
+        auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::LEFT_STAGE);
+        if (data)
+        {
+            return std::optional<frc::Transform3d>(data.value().deltaToTarget);
+        }
+    }
     return std::nullopt;
 }

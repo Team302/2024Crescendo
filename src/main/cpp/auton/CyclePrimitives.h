@@ -61,4 +61,6 @@ private:
 	std::unique_ptr<frc::Timer> m_timer;
 	units::time::second_t m_maxTime;
 	bool m_isDone;
+	static void SetMechanismStateFromParam(
+		PrimitiveParams *params);
 };

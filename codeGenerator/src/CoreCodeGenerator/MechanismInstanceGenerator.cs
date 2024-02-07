@@ -89,7 +89,16 @@ namespace CoreCodeGenerator
                         resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(generateMethod(mi, "generateIndexedObjectCreation"), ";"));
 
                         List<string> theUsings = generateMethod(mi, "generateUsings").Distinct().ToList();
-                        resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";"));
+                        resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";").Trim());
+
+
+                        List<string> enumMapList = new List<string>();
+                        foreach (state s in mi.mechanism.states)
+                        {
+                            enumMapList.Add(String.Format("{{\"STATE_{0}\", {1}Gen::STATE_NAMES::STATE_{0}}}", ToUnderscoreCase(s.name).ToUpper(), mi.name));
+                        }
+                        resultString = resultString.Replace("$$_STATE_MAP_$$", ListToString(enumMapList, ",").Trim());
+
 
                         #region Tunable Parameters
                         string allParameterReading = "";
@@ -343,7 +352,7 @@ namespace CoreCodeGenerator
                                     stateTargets.AppendLine("}");
                                 }
 
-                                resultString = resultString.Replace("$$_SET_TARGET_CONTROL_$$", stateTargets.ToString());
+                                resultString = resultString.Replace("$$_SET_TARGET_CONTROL_$$", stateTargets.ToString().Trim());
 
                                 filePathName = getMechanismFullFilePathName(mechanismName,
                                                                             cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName).Replace("STATE_NAME", stateName)
