@@ -13,7 +13,7 @@ public:
     RobotConfig$$_ROBOT_NAME_$$() = default;
     ~RobotConfig$$_ROBOT_NAME_$$() = default;
 
-    StateMgr *getMechanism(MechanismTypes::MECHANISM_TYPE mechType);
+    StateMgr *GetMechanism(MechanismTypes::MECHANISM_TYPE mechType);
 
 protected:
     void DefineMechanisms() override;

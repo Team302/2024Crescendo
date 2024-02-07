@@ -17,7 +17,7 @@ void RobotConfig$$_ROBOT_NAME_$$::DefineMechanisms(){
 
 }
 
-StateMgr *RobotConfig$$_ROBOT_NAME_$$::getMechanism(MechanismTypes::MECHANISM_TYPE mechType)
+StateMgr *RobotConfig$$_ROBOT_NAME_$$::GetMechanism(MechanismTypes::MECHANISM_TYPE mechType)
 {
     auto itr = m_mechanismMap.find(mechType);
     if (itr != m_mechanismMap.end())
