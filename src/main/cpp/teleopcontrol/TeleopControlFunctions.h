@@ -34,13 +34,15 @@ public:
         HOLONOMIC_DRIVE_STRAFE,
         RESET_POSITION,
         HOLD_POSITION,
-        ARCADE_THROTTLE,
-        ARCADE_STEER,
         SLOW_MODE,
         AUTO_TURN_FORWARD,
         AUTO_TURN_BACKWARD,
         // Standish raw vision
-        ALIGN_APRIL_TAG,
+        ALIGN_TO_SPEAKER,
+        ALIGN_TO_AMP,
+        ALIGN_TO_CENTER_STAGE_TRAP,
+        ALIGN_TO_LEFT_STAGE_TRAP,
+        ALIGN_TO_RIGHT_STAGE_TRAP,
         ALIGN_FLOOR_GAME_PIECE,
         // Scoring states
         DEBUG_INC_P,
