@@ -70,5 +70,5 @@ bool launcherToPlacerBackState::IsTransitionCondition(bool considerGamepadTransi
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return (m_mechanism->isPlacerMode());
+	return (m_mechanism->IsPlacerMode());
 }
