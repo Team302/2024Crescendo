@@ -152,14 +152,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>40</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>40</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -170,6 +170,7 @@
         </SecondaryLimitCycles>
       </currentLimits>
       <theConfigMotorSettings>
+        <inverted>Clockwise_Positive</inverted>
         <mode>Brake</mode>
       </theConfigMotorSettings>
       <RotationOffset>
@@ -331,14 +332,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>40</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>50</value>
+          <value>40</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
