@@ -53,12 +53,15 @@ namespace CoreCodeGenerator
                 resultString = resultString.Replace("$$_MECHANISM_PTR_DECLARATIONS_$$", sb.ToString().Trim());
 
                 sb.Clear();
-
+                List<string> incs = new List<string>();
                 foreach (Camera cam in robot.Cameras)
                 {
                     sb.AppendLine(ListToString(cam.generateDefinition()));
-                    includes.AppendLine(ListToString(cam.generateIncludes(), ";"));
+                    incs.AddRange(cam.generateIncludes());
                 }
+
+                includes.AppendLine(ListToString(incs.Distinct().ToList(), ""));
+
                 resultString = resultString.Replace("$$_CAMERA_PTR_DECLARATIONS_$$", sb.ToString().Trim());
 
                 resultString = resultString.Replace("$$_MECHANISM_INCLUDE_FILES_$$", includes.ToString().Trim());
@@ -112,11 +115,7 @@ namespace CoreCodeGenerator
 
                 }
                 resultString = resultString.Replace("$$_CAMERAS_INITIALIZATION_$$", ListToString(list).Trim());
-                if (robot.Cameras.Count > 0)
-                {
-                    resultString = resultString.Replace("$$_INCLUDE_$$", @"#include ""DragonVision/DragonVision.h""");
-                }
-
+                resultString = resultString.Replace("$$_INCLUDE_$$", (robot.Cameras.Count > 0) ? @"#include ""DragonVision/DragonVision.h""" : "");
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }

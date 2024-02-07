@@ -118,7 +118,7 @@ namespace CoreCodeGenerator
             contents = contents.Replace("$$_GEN_NOTICE_$$", generationString);
             contents = theToolConfiguration.EditorFormattingDisable.Trim() + Environment.NewLine + contents.TrimStart();
 
-            //contents = astyle.AStyleCaller.beautify(contents, null);
+            contents = astyle.AStyleCaller.beautify(contents, null);
 
             string outputFullFilePathName = getOutputFileFullPath(outputFilePathName);
 

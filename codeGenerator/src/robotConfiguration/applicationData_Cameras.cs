@@ -101,7 +101,6 @@ namespace ApplicationData
     [Serializable()]
     [ImplementationName("DragonLimelight")]
     [UserIncludeFile("DragonVision/DragonLimelight.h")]
-
     public class Limelight : Camera
     {
         public enum ledMode
@@ -178,7 +177,7 @@ namespace ApplicationData
                                             SnapshotMode.ToString()
                                             );
             string addCamera = string.Format(@"DragonVision::GetDragonVision()->AddCamera({0}, RobotElementNames::CAMERA_USAGE::{1});",name,ToUnderscoreCase( name).ToUpper());
-            return new List<string> { creation, addCamera };
+            return new List<string> { creation, addCamera, Environment.NewLine };
         }
     }
     
@@ -215,7 +214,7 @@ namespace ApplicationData
                                             generatorContext.theGeneratorConfig.getWPIphysicalUnitType(roll.__units__)
                                             );
             string addCamera = string.Format(@"DragonVision::GetDragonVision()->AddCamera({0}, RobotElementNames::CAMERA_USAGE::{1});", name, ToUnderscoreCase(name).ToUpper());
-            return new List<string> { creation, addCamera };
+            return new List<string> { creation, addCamera, Environment.NewLine };
         }
     }
 }
