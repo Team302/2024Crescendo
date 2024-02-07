@@ -114,16 +114,22 @@ public:
 	ControlData* getclimberPosInch() const {return climberPosInch;}
 	ControlData* getclimberPercetOut() const {return climberPercetOut;}
 
+	static std::map<std::string, STATE_NAMES> stringToSTATE_NAMESEnumMap;
+
 protected:
 	std::string m_ntName;
 	std::string m_tuningIsEnabledStr;
 	bool m_tuning = false;
 	std::shared_ptr<nt::NetworkTable> m_table;
 
+	void SetCurrentState ( int state, bool run ) override;
+
 private:
 	std::unordered_map<RobotElementNames::MOTOR_CONTROLLER_USAGE, BaseMechMotor *> m_motorMap;
 	std::unordered_map<RobotElementNames::SOLENOID_USAGE, BaseMechSolenoid *> m_solenoidMap;
 	std::unordered_map<RobotElementNames::SERVO_USAGE, BaseMechServo *> m_servoMap;
+
+	std::unordered_map<std::string, STATE_NAMES> m_stateMap;
 
 	DragonSparkMax* leftClimber;
 	DragonSparkMax* rightClimber;

@@ -17,7 +17,6 @@
 // Generated on Monday, February 5, 2024 10:04:45 PM
 
 // C++ Includes
-#include <string>
 
 // FRC Includes
 
@@ -60,6 +59,11 @@ Thing1Mech::Thing1Mech(Thing1MechGen *base) : Thing1MechGen(), IRobotStateChange
 void Thing1Mech::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+}
+
+void Thing1Mech::SetCurrentState(int state, bool run)
+{
+	Thing1MechGen::SetCurrentState(state, run);
 }
 
 void Thing1Mech::CreateAndRegisterStates()

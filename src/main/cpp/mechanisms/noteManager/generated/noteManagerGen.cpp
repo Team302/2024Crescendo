@@ -23,6 +23,7 @@
 #include "hw/interfaces/IDragonMotorController.h"
 
 #include "noteManagerGen.h"
+#include "utils/logging/Logger.h"
 
 using ctre::phoenix6::signals::ForwardLimitSourceValue;
 using ctre::phoenix6::signals::ForwardLimitTypeValue;
@@ -35,7 +36,8 @@ using ctre::phoenix::motorcontrol::RemoteSensorSource;
 noteManagerGen::noteManagerGen() : BaseMech ( MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER, "", std::string ( "noteManager" ) ),
 	m_motorMap(),
 	m_solenoidMap(),
-	m_servoMap()
+	m_servoMap(),
+	m_stateMap()
 {
 }
 
@@ -246,6 +248,38 @@ void noteManagerGen::Create()
 	m_table.get()->PutBoolean ( m_tuningIsEnabledStr, m_tuning );
 }
 
+std::map<std::string, noteManagerGen::STATE_NAMES> noteManagerGen::stringToSTATE_NAMESEnumMap
+{
+	{"STATE_OFF", noteManagerGen::STATE_NAMES::STATE_OFF},
+	{"STATE_READY", noteManagerGen::STATE_NAMES::STATE_READY},
+	{"STATE_FEEDER_INTAKE", noteManagerGen::STATE_NAMES::STATE_FEEDER_INTAKE},
+	{"STATE_EXPEL", noteManagerGen::STATE_NAMES::STATE_EXPEL},
+	{"STATE_PLACER_INTAKE", noteManagerGen::STATE_NAMES::STATE_PLACER_INTAKE},
+	{"STATE_HOLD_FEEDER_FRONT", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER_FRONT},
+	{"STATE_HOLD_FEEDER_BACK", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER_BACK},
+	{"STATE_INTAKE_TO_FEEDER", noteManagerGen::STATE_NAMES::STATE_INTAKE_TO_FEEDER},
+	{"STATE_LAUNCHER_TO_PLACER_FRONT", noteManagerGen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER_FRONT},
+	{"STATE_LAUNCHER_TO_PLACER_BACK", noteManagerGen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER_BACK},
+	{"STATE_HOLD_FEEDER", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER},
+	{"STATE_READY_AUTO_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_AUTO_LAUNCH},
+	{"STATE_READY_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_MANUAL_LAUNCH},
+	{"STATE_PASS", noteManagerGen::STATE_NAMES::STATE_PASS},
+	{"STATE_AUTO_LAUNCH", noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH},
+	{"STATE_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_MANUAL_LAUNCH},
+	{"STATE_READY_ODOMETRY_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_ODOMETRY_LAUNCH},
+	{"STATE_AUTO_LAUNCH_ODOMETRY", noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH_ODOMETRY},
+	{"STATE_HOLD_PLACER_FRONT", noteManagerGen::STATE_NAMES::STATE_HOLD_PLACER_FRONT},
+	{"STATE_HOLD_PLACER_BACK", noteManagerGen::STATE_NAMES::STATE_HOLD_PLACER_BACK},
+	{"STATE_INTAKE_TO_PLACER", noteManagerGen::STATE_NAMES::STATE_INTAKE_TO_PLACER},
+	{"STATE_PREPARE_PLACE_AMP", noteManagerGen::STATE_NAMES::STATE_PREPARE_PLACE_AMP},
+	{"STATE_PREPARE_PLACE_TRAP", noteManagerGen::STATE_NAMES::STATE_PREPARE_PLACE_TRAP},
+	{"STATE_PLACE_AMP", noteManagerGen::STATE_NAMES::STATE_PLACE_AMP},
+	{"STATE_PLACE_TRAP", noteManagerGen::STATE_NAMES::STATE_PLACE_TRAP},
+	{"STATE_PLACER_TO_LAUNCHER_FRONT", noteManagerGen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER_FRONT},
+	{"STATE_PLACER_TO_LAUNCHER_BACK", noteManagerGen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER_BACK},
+	{"STATE_BACKUP_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_LAUNCH},
+	{"STATE_BACKUP_MANUAL_PLACE", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_PLACE},};
+
 void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName )
 {
 	if ( false ) {}
@@ -448,9 +482,9 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 	}
 }
 
-void noteManagerGen::SetTheCurrentState ( STATE_NAMES state, bool run )
+void noteManagerGen::SetCurrentState ( int state, bool run )
 {
-	SetCurrentState ( static_cast<int> ( state ), run );
+	StateMgr::SetCurrentState ( state, run );
 }
 
 /// @brief  Set the control constants (e.g. PIDF values).

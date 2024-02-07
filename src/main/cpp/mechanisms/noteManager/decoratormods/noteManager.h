@@ -45,7 +45,7 @@ public:
 	~noteManager() = default;
 
 	void RunCommonTasks() override;
-
+	void SetCurrentState(int state, bool run) override;
 	void CreateAndRegisterStates();
 
 	bool IsLauncherMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Launcher; }

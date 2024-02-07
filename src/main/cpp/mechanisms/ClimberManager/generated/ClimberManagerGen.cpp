@@ -23,11 +23,13 @@
 #include "hw/interfaces/IDragonMotorController.h"
 
 #include "ClimberManagerGen.h"
+#include "utils/logging/Logger.h"
 
 ClimberManagerGen::ClimberManagerGen() : BaseMech ( MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER, "", std::string ( "ClimberManager" ) ),
 	m_motorMap(),
 	m_solenoidMap(),
-	m_servoMap()
+	m_servoMap(),
+	m_stateMap()
 {
 }
 
@@ -100,6 +102,14 @@ void ClimberManagerGen::Create()
 	m_table.get()->PutBoolean ( m_tuningIsEnabledStr, m_tuning );
 }
 
+std::map<std::string, ClimberManagerGen::STATE_NAMES> ClimberManagerGen::stringToSTATE_NAMESEnumMap
+{
+	{"STATE_OFF", ClimberManagerGen::STATE_NAMES::STATE_OFF},
+	{"STATE_INITIALIZE", ClimberManagerGen::STATE_NAMES::STATE_INITIALIZE},
+	{"STATE_MANUAL", ClimberManagerGen::STATE_NAMES::STATE_MANUAL},
+	{"STATE_AUTO_CLIMB", ClimberManagerGen::STATE_NAMES::STATE_AUTO_CLIMB},
+	{"STATE_HOLD", ClimberManagerGen::STATE_NAMES::STATE_HOLD},};
+
 void ClimberManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName )
 {
 	if ( false ) {}
@@ -143,9 +153,9 @@ void ClimberManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullNa
 	}
 }
 
-void ClimberManagerGen::SetTheCurrentState ( STATE_NAMES state, bool run )
+void ClimberManagerGen::SetCurrentState ( int state, bool run )
 {
-	SetCurrentState ( static_cast<int> ( state ), run );
+	StateMgr::SetCurrentState ( state, run );
 }
 
 /// @brief  Set the control constants (e.g. PIDF values).
