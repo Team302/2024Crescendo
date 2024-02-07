@@ -89,6 +89,8 @@ public:
     /// @param position the physical position of the camera
     void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
 
+    DragonCamera *GetCamera(CAMERA_POSITION position) { return m_dragonCameraMap[position]; }
+
     static frc::AprilTagFieldLayout m_aprilTagLayout;
 
 private:

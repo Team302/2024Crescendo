@@ -176,13 +176,13 @@ void Robot::TeleopInit()
 
     DragonCamera *photon = new DragonPhotonCam("Camera_B",
                                                DragonCamera::PIPELINE::APRIL_TAG,
-                                               units::length::inch_t(0.0),
-                                               units::length::inch_t(0.0),
-                                               units::length::inch_t(0.0),
-                                               units::angle::degree_t(0.0),
-                                               units::angle::degree_t(0.0),
-                                               units::angle::degree_t(0.0));
-    DragonCamera *limelight = new DragonLimelight("limelight",
+                                               units::length::inch_t(0.0),   // x
+                                               units::length::inch_t(0.0),   // y
+                                               units::length::inch_t(0.0),   // z
+                                               units::angle::degree_t(0.0),  // roll
+                                               units::angle::degree_t(0.0),  // pitch
+                                               units::angle::degree_t(0.0)); // yaw
+    /*DragonCamera *limelight = new DragonLimelight("limelight",
                                                   DragonCamera::PIPELINE::MACHINE_LEARNING,
                                                   units::length::inch_t(0.0),
                                                   units::length::inch_t(0.0),
@@ -193,9 +193,10 @@ void Robot::TeleopInit()
                                                   DragonLimelight::LED_ON,
                                                   DragonLimelight::CAM_MODE::CAM_DRIVER,
                                                   DragonLimelight::STREAM_DEFAULT,
-                                                  DragonLimelight::SNAPSHOT_MODE::SNAP_OFF);
+                                                  DragonLimelight::SNAPSHOT_MODE::SNAP_OFF);*/
     DragonVision::GetDragonVision()->AddCamera(photon, DragonVision::CAMERA_POSITION::LAUNCHER);
-    DragonVision::GetDragonVision()->AddCamera(limelight, DragonVision::CAMERA_POSITION::LAUNCHER_INTAKE);
+
+    nt::NetworkTableInstance::GetDefault().GetTable("VISION DEBUGGING")->PutNumber("Camera Z", 0.0);
 
     /**
     // now in teleop, clear field of trajectories
@@ -223,6 +224,13 @@ void Robot::TeleopPeriodic()
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
     std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(DragonVision::CAMERA_POSITION::LAUNCHER);
+    double zOffset = nt::NetworkTableInstance::GetDefault().GetTable("VISION DEBUGGING")->GetNumber("Camera Z", 0.0);
+    DragonVision::GetDragonVision()->GetCamera(DragonVision::CAMERA_POSITION::LAUNCHER)->SetCameraPosition(units::length::inch_t(0.0),           // x
+                                                                                                           units::length::inch_t(0.0),           // y
+                                                                                                           units::length::centimeter_t(zOffset), // z
+                                                                                                           units::angle::degree_t(0.0),          // roll
+                                                                                                           units::angle::degree_t(0.0),          // pitch
+                                                                                                           units::angle::degree_t(0.0));
     if (optionalVisionData)
     {
         VisionData visionData = optionalVisionData.value();
