@@ -13,7 +13,6 @@
         </canID>
       </PowerDistributionPanel>
       <PneumaticControlModules />
-      <Limelights />
       <Chassis>
         <name>chassis</name>
         <mechanismInstances />
@@ -1636,6 +1635,7 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -2310,7 +2310,7 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </enableFOC>
-                <controlType>POSITION_DEGREES_ABSOLUTE</controlType>
+                <controlType>POSITION_DEGREES</controlType>
               </motorControlData>
             </stateMotorControlData>
             <states>
@@ -2540,7 +2540,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>10</value>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2552,7 +2552,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>10</value>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -2564,6 +2564,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -2668,7 +2669,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>1</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2704,6 +2705,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -2837,6 +2839,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -2970,6 +2973,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3020,7 +3024,6 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>-1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3100,6 +3103,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3229,6 +3233,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3319,7 +3324,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>1</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3355,6 +3360,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3480,6 +3486,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3607,6 +3614,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3743,6 +3751,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-15</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3872,6 +3881,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-15</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3994,7 +4004,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>45</value>
+                      <value>-10</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4111,6 +4121,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4227,6 +4238,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-15</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4343,7 +4355,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>45</value>
+                      <value>-10</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4473,6 +4485,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-15</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4588,6 +4601,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-15</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4717,6 +4731,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4756,7 +4771,6 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>-1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -4847,6 +4861,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4980,6 +4995,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5110,6 +5126,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5240,6 +5257,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5357,6 +5375,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5474,6 +5493,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5601,6 +5621,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5727,6 +5748,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5742,6 +5764,13 @@
                     <__units__ />
                     <type>String</type>
                     <value>Ready</value>
+                  </stringParameterConstInMechInstance>
+                  <stringParameterConstInMechInstance>
+                    <unitsFamily>none</unitsFamily>
+                    <name>stringParameterConstInMechInstance_2</name>
+                    <__units__ />
+                    <type>String</type>
+                    <value>backupManualPlace</value>
                   </stringParameterConstInMechInstance>
                 </transitionsTo>
                 <motorTargets>
@@ -5818,6 +5847,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5829,6 +5859,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5856,6 +5887,13 @@
                     <type>String</type>
                     <value>Ready</value>
                   </stringParameterConstInMechInstance>
+                  <stringParameterConstInMechInstance>
+                    <unitsFamily>none</unitsFamily>
+                    <name>stringParameterConstInMechInstance_2</name>
+                    <__units__ />
+                    <type>String</type>
+                    <value>backupManualLaunch</value>
+                  </stringParameterConstInMechInstance>
                 </transitionsTo>
                 <motorTargets>
                   <motorTarget>
@@ -5931,6 +5969,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5942,6 +5981,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
+                      <value>30</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>velocityRPS</controlDataName>
@@ -5998,7 +6038,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>1</value>
+                    <value>2.41819</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -6177,7 +6217,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>2.41819</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -6544,7 +6584,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
+                      <value>22.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6556,7 +6596,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
+                      <value>22.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6589,7 +6629,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
+                      <value>22.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6601,7 +6641,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
+                      <value>22.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6670,9 +6710,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__>m</__units__>
+                      <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
+                      <value>22.5</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6682,9 +6722,9 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__>m</__units__>
+                      <__units__>in</__units__>
                       <type>Double</type>
-                      <value>20.5</value>
+                      <value>22.5</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6695,7 +6735,192 @@
           </mechanism>
         </mechanismInstance>
       </mechanismInstances>
-      <Cameras />
+      <Cameras>
+        <Camera
+          xsi:type="Limelight">
+          <name>PlacerIntake</name>
+          <mountingXOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingXOffset>
+          <mountingYOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingYOffset>
+          <mountingZOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingZOffset>
+          <pitch>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </pitch>
+          <yaw>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </yaw>
+          <roll>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </roll>
+        </Camera>
+        <Camera
+          xsi:type="PhotonCam">
+          <name>Placer</name>
+          <mountingXOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingXOffset>
+          <mountingYOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingYOffset>
+          <mountingZOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingZOffset>
+          <pitch>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </pitch>
+          <yaw>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </yaw>
+          <roll>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </roll>
+        </Camera>
+        <Camera
+          xsi:type="Limelight">
+          <name>LauncherIntake</name>
+          <mountingXOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingXOffset>
+          <mountingYOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingYOffset>
+          <mountingZOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingZOffset>
+          <pitch>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </pitch>
+          <yaw>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </yaw>
+          <roll>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </roll>
+        </Camera>
+        <Camera
+          xsi:type="PhotonCam">
+          <name>Launcher</name>
+          <mountingXOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingXOffset>
+          <mountingYOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingYOffset>
+          <mountingZOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingZOffset>
+          <pitch>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </pitch>
+          <yaw>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </yaw>
+          <roll>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </roll>
+        </Camera>
+      </Cameras>
       <Roborios />
       <Leds />
       <robotID>
@@ -6719,7 +6944,6 @@
         </canID>
       </PowerDistributionPanel>
       <PneumaticControlModules />
-      <Limelights />
       <Chassis>
         <name>chassis</name>
         <mechanismInstances />

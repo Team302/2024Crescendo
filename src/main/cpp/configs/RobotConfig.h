@@ -28,6 +28,8 @@
 #include "hw/DragonDigitalInput.h"
 #include "hw/DragonServo.h"
 #include "hw/DragonSolenoid.h"
+#include "mechanisms/base/StateMgr.h"
+#include "mechanisms/MechanismTypes.h"
 
 class RobotConfig
 {
@@ -47,6 +49,7 @@ public:
     virtual DragonCanCoder *GetCanCoder(RobotElementNames::CANCODER_USAGE usage);
     virtual IDragonPigeon *GetPigeon(RobotElementNames::PIGEON_USAGE usage);
 
+    virtual StateMgr *GetMechanism(MechanismTypes::MECHANISM_TYPE mechType) = 0;
     // TODO:  add methods to access mechanisms and hardware as necessary
 
 protected:

@@ -27,12 +27,6 @@
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
 
-/// DEBUG
-#include "DragonVision/DragonPhotonCam.h"
-#include "DragonVision/DragonVision.h"
-#include "DragonVision/DragonVisionStructs.h"
-#include "DragonVision/DragonLimelight.h"
-
 #include <AdjustableItemMgr.h>
 
 using namespace std;
