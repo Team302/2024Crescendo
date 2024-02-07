@@ -79,8 +79,6 @@ public:
 	void Create();
 	void Initialize ( RobotConfigMgr::RobotIdentifier robotFullName );
 
-	void SetTheCurrentState ( STATE_NAMES state, bool run );
-
 	/// @brief Set the control constants (e.g. PIDF values).
 	/// @param indentifier the motor controller usage to identify the motor
 	/// @param slot position on the motor controller to set
