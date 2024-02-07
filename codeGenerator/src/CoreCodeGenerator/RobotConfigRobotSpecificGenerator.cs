@@ -105,16 +105,17 @@ namespace CoreCodeGenerator
                 resultString = resultString.Replace("$$_ROBOT_ENUM_NAME_$$", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper());
 
                 sb.Clear();
-
+                List<string> list = new List<string>();
                 foreach (Camera cam in robot.Cameras)
                 {
-                    //resultString = mechInstDef.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
-                    //resultString += mechInstDefState.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+                    list.AddRange(cam.generateIndexedObjectCreation(0));
 
-                    sb.AppendLine("//create cameras here");
                 }
-                resultString = resultString.Replace("$$_CAMERAS_INITIALIZATION_$$", sb.ToString().Trim());
-
+                resultString = resultString.Replace("$$_CAMERAS_INITIALIZATION_$$", ListToString(list).Trim());
+                if (robot.Cameras.Count > 0)
+                {
+                    resultString = resultString.Replace("$$_INCLUDE_$$", @"#include ""DragonVision/DragonVision.h""");
+                }
 
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);

@@ -18,6 +18,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using static ApplicationData.generatorContext;
+using static ApplicationData.Limelight;
 using static ApplicationData.motorControlData;
 using static ApplicationData.TalonFX;
 using static ApplicationData.TalonSRX;
@@ -98,6 +99,9 @@ namespace ApplicationData
     }
     
     [Serializable()]
+    [ImplementationName("DragonLimelight")]
+    [UserIncludeFile("DragonVision/DragonLimelight.h")]
+
     public class Limelight : Camera
     {
         public enum ledMode
@@ -138,11 +142,80 @@ namespace ApplicationData
 
         [DefaultValue(snapshotMode.SNAP_OFF)]
         public snapshotMode SnapshotMode { get; set; }
+
+        public override List<string> generateIndexedObjectCreation(int index)
+        {
+            string creation = string.Format(@"{0} = new {1} ( ""{0}"", //std::string name,                      /// <I> - network table name
+                                                            DragonCamera::PIPELINE::{2}, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
+                                                            units::length::inch_t({4}({3})), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+                                                            units::length::inch_t({6}({5})), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+                                                            units::length::inch_t({8}({7})), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+                                                            units::angle::degree_t({10}({9})), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
+                                                            units::angle::degree_t({12}({11})), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
+                                                            units::angle::degree_t({14}({13})), //units::angle::degree_t roll,           /// <I> - Roll of camera
+                                                            DragonLimelight::LED_MODE::{15}, //LED_MODE ledMode,
+                                                            DragonLimelight::CAM_MODE::{16}, //CAM_MODE camMode,
+                                                            DragonLimelight::STREAM_MODE::{17}, //STREAM_MODE streamMode,
+                                                            DragonLimelight::SNAPSHOT_MODE::{18});//SNAPSHOT_MODE snapMode);",
+                                            name,
+                                            getImplementationName(),
+                                            pipeline.ToString(),
+                                            mountingXOffset.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mountingXOffset.__units__),
+                                            mountingYOffset.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mountingYOffset.__units__),
+                                            mountingZOffset.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mountingZOffset.__units__),
+                                            pitch.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(pitch.__units__),
+                                            yaw.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(yaw.__units__),
+                                            roll.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(roll.__units__),
+                                            LedMode.ToString(),
+                                            CamMode.ToString(),
+                                            StreamMode.ToString(),
+                                            SnapshotMode.ToString()
+                                            );
+            string addCamera = string.Format(@"DragonVision::GetDragonVision()->AddCamera({0}, RobotElementNames::CAMERA_USAGE::{1});",name,ToUnderscoreCase( name).ToUpper());
+            return new List<string> { creation, addCamera };
+        }
     }
     
     [Serializable()]
+    [ImplementationName("DragonPhotonCam")]
+    [UserIncludeFile("DragonVision/DragonPhotonCam.h")]
     public class PhotonCam : Camera
     {
-
+        public override List<string> generateIndexedObjectCreation(int index)
+        {
+            string creation = string.Format(@"{0} = new {1} ( ""{0}"", //std::string name,                      /// <I> - network table name
+                                                            DragonCamera::PIPELINE::{2}, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
+                                                            units::length::inch_t({4}({3})), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+                                                            units::length::inch_t({6}({5})), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+                                                            units::length::inch_t({8}({7})), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+                                                            units::angle::degree_t({10}({9})), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
+                                                            units::angle::degree_t({12}({11})), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
+                                                            units::angle::degree_t({14}({13}))); //units::angle::degree_t roll,           /// <I> - Roll of camera
+",
+                                            name,
+                                            getImplementationName(),
+                                            pipeline.ToString(),
+                                            mountingXOffset.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mountingXOffset.__units__),
+                                            mountingYOffset.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mountingYOffset.__units__),
+                                            mountingZOffset.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mountingZOffset.__units__),
+                                            pitch.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(pitch.__units__),
+                                            yaw.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(yaw.__units__),
+                                            roll.value,
+                                            generatorContext.theGeneratorConfig.getWPIphysicalUnitType(roll.__units__)
+                                            );
+            string addCamera = string.Format(@"DragonVision::GetDragonVision()->AddCamera({0}, RobotElementNames::CAMERA_USAGE::{1});", name, ToUnderscoreCase(name).ToUpper());
+            return new List<string> { creation, addCamera };
+        }
     }
 }
