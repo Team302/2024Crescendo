@@ -90,7 +90,7 @@
       <shortName>rad</shortName>
       <longName>radians</longName>
       <family>angle</family>
-      <wpiClassName>Units.radians</wpiClassName>
+      <wpiClassName>units::angle::radian_t</wpiClassName>
     </physicalUnit>
     <physicalUnit>
       <shortName>rad/s^2</shortName>
