@@ -9,6 +9,7 @@
   <collectionBaseTypes>
     <string>ApplicationData.MotorController</string>
     <string>ApplicationData.SparkController</string>
+    <string>ApplicationData.Camera</string>
     <string>ApplicationData.PriceChange</string>
     <string>ApplicationData.parameter</string>
   </collectionBaseTypes>
