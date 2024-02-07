@@ -7,10 +7,17 @@ $$_GEN_NOTICE_$$
 #include "utils/logging/Logger.h"
 #include "configs/RobotConfigMgr.h"
 #include "configs/RobotConfig$$_ROBOT_NAME_$$.h"
+#include "configs/RobotElementNames.h"
+$$_INCLUDE_$$
 
 using std::string;
 
 void RobotConfig$$_ROBOT_NAME_$$::DefineMechanisms()
 {
     $$_MECHANISMS_INITIALIZATION_$$
+}
+
+void RobotConfig$$_ROBOT_NAME_$$::DefineVisionSensors()
+{
+    $$_CAMERAS_INITIALIZATION_$$
 }
