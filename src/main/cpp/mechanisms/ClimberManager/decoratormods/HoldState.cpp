@@ -72,5 +72,5 @@ bool HoldState::IsTransitionCondition(bool considerGamepadTransitions)
 	// To get the current state use m_mechanism->GetCurrentState()
 	auto currentstate = m_mechanism->GetCurrentState();
 
-	return ((AtTarget() && (currentstate == m_mechanism->STATE_INITIALIZE)) || (!m_mechanism->IsClimbMode() && (currentstate = !m_mechanism->STATE_INITIALIZE)));
+	return ((AtTarget() && (currentstate == m_mechanism->STATE_INITIALIZE)) || (!m_mechanism->IsClimbMode()));
 }
