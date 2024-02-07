@@ -26,18 +26,4 @@ public:
     ~FaceGamePiece();
 
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
-
-private:
-    units::angular_velocity::radians_per_second_t limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularSpeed);
-    /*
-    bool AtTargetAngle(std::shared_ptr<DragonVisionTarget> targetData, units::angle::radian_t *error);
-
-    DragonLimelight::PIPELINE_MODE m_pipelineMode;
-    DragonVision *m_vision;
-
-    // Angular movement settings
-    const double m_minimumOmega_radps = 0.7;
-    const double m_maximumOmega_radps = 1.5;
-    const double m_AngularTolerance_rad = std::numbers::pi * 2.0 / 180.0;
-    double m_visionKP_Angle = 6.0;*/
 };
