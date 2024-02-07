@@ -49,9 +49,4 @@ private:
     const double m_slowModeMultiplier = 0.5;
     bool m_CheckTipping = false;
     bool m_checkTippingLatch = false;
-
-    void AlignToSpeaker(ChassisMovement &moveInfo);
-    void AlignToCenterStage(ChassisMovement &moveInfo);
-    void AlignToLeftStage(ChassisMovement &moveInfo);
-    void AlignToRightStage(ChassisMovement &moveInfo);
 };
