@@ -18,7 +18,7 @@
           heading           CDATA "0.0"
           pathname          CDATA #IMPLIED
           alignmentMethod   ( ROTATE | STRAFE ) "ROTATE"
-          pipeline          ( UNKNOWN | OFF | APRIL_TAG | CONE_NODE | CONE | CUBE ) "APRIL_TAG"
+          visionAligment          ( UNKNOWN | NOTE | SPEAKER ) "APRIL_TAG"
 >
 
 

@@ -23,22 +23,21 @@
 #include "frc/geometry/Pose3d.h"
 #include "frc/DriverStation.h"
 #include "DragonVision/DragonVisionStructs.h"
+#include "DragonVision/DragonVision.h"
 
 class DragonCamera
 {
 public:
-    enum PIPELINE
+    enum VISION_ALIGNMENT
     {
-        OFF,
-        UNKNOWN,
-        MACHINE_LEARNING,
-        APRIL_TAG,
-        COLOR_THRESHOLD
+        NOTE = DragonCamera::VISION_ALIGNMENT::NOTE,
+        SPEAKER = DragonCamera::VISION_ALIGNMENT::SPEAKER,
+        UNKNOWN = DragonCamera::VISION_ALIGNMENT::UNKNOWN
     };
 
     DragonCamera(
         std::string cameraName,                /// <I> camera name/type
-        PIPELINE pipeline,                     /// <I> enum for pipeline
+        VISION_ALIGNMENT visionAlignment,      /// <I> enum for pipeline
         units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot is positive)
         units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot is positive)
         units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot is positive)
@@ -97,7 +96,7 @@ public:
     virtual std::optional<VisionData> GetDataToNearestApriltag() const = 0;
 
     // Getters
-    PIPELINE GetPipeline() const { return m_pipeline; }
+    VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
     units::angle::degree_t GetCameraPitch() const { return m_robotCenterToCam.Rotation().Y(); }
     units::angle::degree_t GetCameraYaw() const { return m_robotCenterToCam.Rotation().Z(); }
     units::angle::degree_t GetCameraRoll() const { return m_robotCenterToCam.Rotation().X(); } // rotates around x-axis
@@ -108,9 +107,9 @@ public:
     frc::Transform3d GetTransformFromRobotCenter() const { return m_robotCenterToCam; }
 
     // Setters
-    void SetPipeline(PIPELINE pipeline)
+    void SetVisionAlignment(VISION_ALIGNMENT visionAlignment)
     {
-        m_pipeline = pipeline;
+        m_visionAlignment = visionAlignment;
     }
 
     void SetCameraPosition(
@@ -125,7 +124,7 @@ public:
 protected:
     frc::Pose3d m_cameraPose;
     frc::Transform3d m_robotCenterToCam;
-    PIPELINE m_pipeline;
+    VISION_ALIGNMENT m_visionAlignment;
 
     const units::length::inch_t m_noteVerticalOffset = units::length::inch_t(0.0); // This represents the note being at the same level as center of robot
 };
