@@ -77,24 +77,28 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     m_pidController.SetI(controlInfo.GetI(), slot);
     m_pidController.SetD(controlInfo.GetD(), slot);
     m_pidController.SetFF(controlInfo.GetF(), slot);
+    m_slot = slot;
 
     switch (controlInfo.GetMode())
     {
     case ControlModes::PERCENT_OUTPUT:
         m_spark->Set(0); // init to zero just to be safe
+        m_controlType = CANSparkBase::ControlType ::kDutyCycle;
         break;
     case ControlModes::POSITION_INCH:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerInch);
+        m_controlType = CANSparkBase::ControlType::kPosition;
         break;
     case ControlModes::POSITION_DEGREES:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerDegree);
+        m_controlType = CANSparkBase::ControlType ::kPosition;
         break;
     case ControlModes::VELOCITY_RPS:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kVelocity, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerRev);
-
+        m_controlType = CANSparkBase::ControlType ::kVelocity;
         break;
 
     default:
@@ -110,7 +114,14 @@ void DragonSparkFlex::EnableCurrentLimiting(bool enabled)
 
 void DragonSparkFlex::Set(double value)
 {
-    m_spark->Set(value);
+    if (m_controlType == CANSparkBase::ControlType ::kDutyCycle)
+    {
+        m_spark->Set(value);
+    }
+    else
+    {
+        m_pidController.SetReference(value, m_controlType, m_slot);
+    }
 }
 
 void DragonSparkFlex::SetRotationOffset(double rotations)

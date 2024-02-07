@@ -34,16 +34,16 @@ using namespace ClimberManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-OffState::OffState ( std::string stateName,
-                     int stateId,
-                     ClimberManagerAllStatesStateGen *generatedState,
-                     ClimberManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+OffState::OffState(std::string stateName,
+				   int stateId,
+				   ClimberManagerAllStatesStateGen *generatedState,
+				   ClimberManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void OffState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "OffState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("OffState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,7 +65,7 @@ bool OffState::AtTarget()
 	return attarget;
 }
 
-bool OffState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool OffState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 

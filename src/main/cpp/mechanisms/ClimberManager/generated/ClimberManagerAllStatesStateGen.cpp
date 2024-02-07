@@ -50,13 +50,14 @@ void ClimberManagerAllStatesStateGen::Init()
 	}
 	else if ( GetClimberManager()->GetCurrentState() == ClimberManagerGen::STATE_NAMES::STATE_INITIALIZE )
 	{
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 20.5 ) ) );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 20.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 22.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 22.5 ) ) );
+
 	}
 	else if ( GetClimberManager()->GetCurrentState() == ClimberManagerGen::STATE_NAMES::STATE_MANUAL )
 	{
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 20.5 ) ) );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 20.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 22.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 22.5 ) ) );
 	}
 	else if ( GetClimberManager()->GetCurrentState() == ClimberManagerGen::STATE_NAMES::STATE_AUTO_CLIMB )
 	{
@@ -65,8 +66,8 @@ void ClimberManagerAllStatesStateGen::Init()
 	}
 	else if ( GetClimberManager()->GetCurrentState() == ClimberManagerGen::STATE_NAMES::STATE_HOLD )
 	{
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::meter_t ( 20.5 ) ) );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::meter_t ( 20.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 22.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 22.5 ) ) );
 	}
 
 	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "ClimberManagerAllStatesStateGen" ), string ( "init" ) );
