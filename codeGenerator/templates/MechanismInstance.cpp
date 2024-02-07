@@ -37,7 +37,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$::SetCurrentState(int state, bool run)
     $$_MECHANISM_INSTANCE_NAME_$$Gen::SetCurrentState(state, run);
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$::createAndRegisterStates()
+void $$_MECHANISM_INSTANCE_NAME_$$::CreateAndRegisterStates()
 {
     $$_OBJECT_CREATION_$$
 

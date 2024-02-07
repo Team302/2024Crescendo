@@ -30,7 +30,7 @@ public:
 
     void RunCommonTasks() override;
     void SetCurrentState(int state, bool run) override;
-    void createAndRegisterStates();
+    void CreateAndRegisterStates();
 
 private:
     $$_MECHANISM_INSTANCE_NAME_$$Gen *m_$$_MECHANISM_INSTANCE_NAME_$$;

@@ -34,6 +34,7 @@ DragonCamera::DragonCamera(std::string cameraName, /// <I> camera name/type
                                                                        mountingYDistance,
                                                                        mountingZDistance,
                                                                        frc::Rotation3d(roll, pitch, yaw)),
-                                                          m_robotCenterToCam(frc::Pose3d{}, m_cameraPose)
+                                                          m_robotCenterToCam(frc::Pose3d{}, m_cameraPose), // transform from center of robot to camera
+                                                          m_cameraName(cameraName)
 {
 }

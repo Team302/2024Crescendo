@@ -51,6 +51,19 @@ namespace CoreCodeGenerator
                     includes.AppendLine(String.Format("#include \"{0}\"", mi.getIncludePath()));
                 }
                 resultString = resultString.Replace("$$_MECHANISM_PTR_DECLARATIONS_$$", sb.ToString().Trim());
+
+                sb.Clear();
+                List<string> incs = new List<string>();
+                foreach (Camera cam in robot.Cameras)
+                {
+                    sb.AppendLine(ListToString(cam.generateDefinition()));
+                    incs.AddRange(cam.generateIncludes());
+                }
+
+                includes.AppendLine(ListToString(incs.Distinct().ToList(), ""));
+
+                resultString = resultString.Replace("$$_CAMERA_PTR_DECLARATIONS_$$", sb.ToString().Trim());
+
                 resultString = resultString.Replace("$$_MECHANISM_INCLUDE_FILES_$$", includes.ToString().Trim());
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
@@ -68,7 +81,7 @@ namespace CoreCodeGenerator
                   m_the$$_MECHANISM_INSTANCE_NAME_$$ = new $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$GenMech);
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->Create();
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize(RobotConfigMgr::RobotIdentifier::$$_ROBOT_ENUM_NAME_$$);
-                  m_the$$_MECHANISM_INSTANCE_NAME_$$->createAndRegisterStates();
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$->CreateAndRegisterStates();
                   ";
 
             string mechInstDefState =
@@ -95,6 +108,16 @@ namespace CoreCodeGenerator
                 resultString = template.Replace("$$_MECHANISMS_INITIALIZATION_$$", sb.ToString().Trim());
                 resultString = resultString.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
                 resultString = resultString.Replace("$$_ROBOT_ENUM_NAME_$$", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper());
+
+                sb.Clear();
+                List<string> list = new List<string>();
+                foreach (Camera cam in robot.Cameras)
+                {
+                    list.AddRange(cam.generateIndexedObjectCreation(0));
+
+                }
+                resultString = resultString.Replace("$$_CAMERAS_INITIALIZATION_$$", ListToString(list).Trim());
+                resultString = resultString.Replace("$$_INCLUDE_$$", (robot.Cameras.Count > 0) ? @"#include ""DragonVision/DragonVision.h""" : "");
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }

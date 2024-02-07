@@ -140,10 +140,6 @@ namespace CoreCodeGenerator
 
                     if (currentText == contentsWithoutGenInfo)
                         writeFile = false;
-                    else
-                    {
-
-                    }
                 }
             }
 

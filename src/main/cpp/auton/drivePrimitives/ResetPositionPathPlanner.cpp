@@ -18,7 +18,6 @@
 #include <string>
 
 // Team 302 includes
-#include "auton/drivePrimitives/DragonTrajectoryUtils.h"
 #include "auton/drivePrimitives/ResetPositionPathPlanner.h"
 #include "auton/PrimitiveParams.h"
 #include "auton/drivePrimitives/IPrimitive.h"

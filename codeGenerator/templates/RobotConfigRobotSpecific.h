@@ -17,8 +17,12 @@ public:
 
 protected:
     void DefineMechanisms() override;
+    void DefineVisionSensors() override;
 
 private:
     $$_MECHANISM_PTR_DECLARATIONS_$$
+
     std::unordered_map<MechanismTypes::MECHANISM_TYPE, StateMgr *> m_mechanismMap;
+
+    $$_CAMERA_PTR_DECLARATIONS_$$
 };
