@@ -61,4 +61,6 @@ units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocit
          angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
 
      return angularVelocity;*/
+
+    return units::angular_velocity::radians_per_second_t(0.0);
 }

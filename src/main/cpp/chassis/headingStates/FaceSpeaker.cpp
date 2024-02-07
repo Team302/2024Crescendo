@@ -21,7 +21,6 @@
 #include "chassis/ChassisMovement.h"
 #include "chassis/headingStates/FaceSpeaker.h"
 #include "chassis/headingStates/FaceTarget.h"
-#include "DragonVision/DragonAprilTagInfo.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVision.h"
 

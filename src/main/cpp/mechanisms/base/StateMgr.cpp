@@ -58,6 +58,10 @@ void StateMgr::Init(BaseMech *mech)
     }
 }
 
+void StateMgr::RunCommonTasks()
+{
+}
+
 /// @brief  run the current state
 /// @return void
 void StateMgr::RunCurrentState()

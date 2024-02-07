@@ -66,7 +66,6 @@ bool holdFeederState::AtTarget()
 
 bool holdFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 {
-	bool transition = false;
 	// To get the current state use m_mechanism->GetCurrentState()
 	bool feederSensor = m_mechanism->getfeederSensor()->Get();
 	bool launcherSensor = m_mechanism->getlauncherSensor()->Get();
