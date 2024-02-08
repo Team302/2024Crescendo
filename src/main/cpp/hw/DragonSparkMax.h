@@ -81,10 +81,10 @@ public:
     void EnableVoltageCompensation(double fullvoltage) override;
     void SetSelectedSensorPosition(double initialPosition) override;
     void EnableDisableLimitSwitches(bool enable) override;
-    double GetCountsPerRev() const override { return 1 / m_calcStruc.countsPerRev; }
+    double GetCountsPerRev() const override { return 1 / m_calcStruc.countsPerRev; } // calc sturc is acutally rev/count for Rev convention, returning the reciprocal
     double GetGearRatio() const override { return m_calcStruc.gearRatio; }
-    double GetCountsPerInch() const override { return 1 / m_calcStruc.countsPerInch; }
-    double GetCountsPerDegree() const override { return 1 / m_calcStruc.countsPerDegree; }
+    double GetCountsPerInch() const override { return 1 / m_calcStruc.countsPerInch; }     // calc sturc is acutally rev/count for Rev convention, returning the reciprocal
+    double GetCountsPerDegree() const override { return 1 / m_calcStruc.countsPerDegree; } // calc sturc is acutally rev/count for Rev convention, returning the reciprocal
 
 private:
     double GetRotationsWithGearNoOffset() const;
