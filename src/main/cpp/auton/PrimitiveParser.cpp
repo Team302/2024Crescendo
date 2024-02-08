@@ -27,7 +27,7 @@
 #include <auton/drivePrimitives/IPrimitive.h>
 #include "utils/logging/Logger.h"
 #include <pugixml/pugixml.hpp>
-#include "mechanisms\ClimberManager\generated\ClimberManagerGen.h"
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 using namespace std;
 using namespace pugi;
 
