@@ -30,7 +30,6 @@
 #include "chassis/IChassis.h"
 #include "auton/ZoneParams.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
-// @ADDMECH include for your mechanism
 
 // Third Party Includes
 
