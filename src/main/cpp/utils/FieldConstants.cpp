@@ -12,10 +12,9 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-#include "FieldConsts.h"
-using namespace std;
+#include "FieldConstants.h"
 
-FieldConsts::FieldConsts()
+FieldConstants::FieldConstants()
 {
     fieldConstantsPoseMap[FIELD_ELEMENT::BLUE_CENTER_STAGE] = m_BlueCenterStage;
     fieldConstantsPoseMap[BLUE_AMP] = m_BlueAmp;
@@ -29,7 +28,7 @@ FieldConsts::FieldConsts()
     fieldConstantsPoseMap[RED_SPEAKER] = m_RedSpeaker;
     fieldConstantsPoseMap[RED_SOURCE] = m_RedSource;
 }
-frc::Pose3d FieldConsts::GetFieldElement(FIELD_ELEMENT element)
+frc::Pose3d FieldConstants::GetFieldElement(FIELD_ELEMENT element)
 {
     frc::Pose3d Pose3d = fieldConstantsPoseMap[element];
     return Pose3d;
