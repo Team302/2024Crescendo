@@ -28,12 +28,16 @@ PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
 								 float heading,
 								 std::string pathName,
 								 DragonCamera::PIPELINE pipelineMode,
-								 ZoneParamsVector zones) : m_id(id), // Primitive ID
-														   m_time(time),
-														   m_headingOption(headingOpt),
-														   m_heading(heading),
-														   m_pathName(pathName),
-														   m_pipelineMode(pipelineMode)
+								 ZoneParamsVector zones,
+								 noteManagerGen::STATE_NAMES noteState,
+								 ClimberManagerGen::STATE_NAMES climberState) : m_id(id), // Primitive ID
+																				m_time(time),
+																				m_headingOption(headingOpt),
+																				m_heading(heading),
+																				m_pathName(pathName),
+																				m_pipelineMode(pipelineMode),
+																				m_noteState(noteState),
+																				m_climberState(climberState)
 // @ADDMECH initilize state mgr attribute
 {
 }

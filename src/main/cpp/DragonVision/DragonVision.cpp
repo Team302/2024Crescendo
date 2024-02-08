@@ -28,8 +28,6 @@
 #include <string>
 // Third Party Includes
 
-using namespace std;
-
 DragonVision *DragonVision::m_dragonVision = nullptr;
 DragonVision *DragonVision::GetDragonVision()
 {
@@ -205,7 +203,7 @@ std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNam
 		return m_dragonCameraMap[position]->GetDataToNearestAprilTag();
 	}
 
-	return nullopt;
+	return std::nullopt;
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT element)
