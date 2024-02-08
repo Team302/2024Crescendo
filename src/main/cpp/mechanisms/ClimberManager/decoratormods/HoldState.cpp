@@ -70,7 +70,7 @@ bool HoldState::AtTarget()
 
 	double target = 15;
 
-	return (abs(left - target)) < 0.25 &&
+	return (abs(left - target)) <= 0.25 &&
 		   (abs(right - target) <= 0.25);
 }
 

@@ -80,5 +80,6 @@ bool ManualState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	auto currentState = m_mechanism->GetCurrentState();
-	return (m_mechanism->IsClimbMode() || (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) && (currentState == m_mechanism->STATE_AUTO_CLIMB)));
+	return (considerGamepadTransitions && (m_mechanism->IsClimbMode() ||
+										   (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) && (currentState == m_mechanism->STATE_AUTO_CLIMB))));
 }
