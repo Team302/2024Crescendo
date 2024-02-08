@@ -64,11 +64,6 @@ public:
 
     virtual void Initialize() = 0;
 
-    virtual frc::Pose2d GetPose() const = 0;
-    virtual void ResetPose(
-        const frc::Pose2d &pose) = 0;
-
-    virtual void UpdateOdometry() = 0;
     virtual units::length::inch_t GetWheelDiameter() const = 0;
     virtual units::length::inch_t GetTrack() const = 0;
     virtual units::velocity::meters_per_second_t GetMaxSpeed() const = 0;

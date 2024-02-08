@@ -59,6 +59,7 @@
 #include "utils/ConversionUtils.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
+#include "chassis/DragonSwervePoseEstimator.h"
 
 // Third Party Includes
 #include "ctre/phoenix6/Pigeon2.hpp"
@@ -274,9 +275,9 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
     return state;
 }
 
-Pose2d SwerveChassis::GetPose() const
+Pose2d DragonSwervePoseEstimator::GetPose() const
 {
-    return m_poseEstimator.GetEstimatedPosition();
+    return DragonSwervePoseEstimator::m_poseEstimator.GetEstimatedPosition();
 }
 
 units::angle::degree_t SwerveChassis::GetYaw() const
@@ -295,7 +296,7 @@ units::angle::degree_t SwerveChassis::GetRoll() const
 }
 
 /// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
-void SwerveChassis::UpdateOdometry()
+void DragonSwervePoseEstimator::UpdateOdometry()
 {
     Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
 
@@ -327,7 +328,7 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
                                          m_backRight->GetState()});
 }
 
-void SwerveChassis::ResetPose(const Pose2d &pose)
+void DragonSwervePoseEstimator::ResetPose(const Pose2d &pose)
 {
     Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
 
@@ -389,8 +390,4 @@ void SwerveChassis::LogInformation()
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vx"), m_drive.to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vy"), m_steer.to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Omega"), m_rotate.to<double>());
-    auto pose = GetPose();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current x position"), pose.X().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current y position"), pose.Y().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
 }

@@ -75,9 +75,6 @@ public:
 
     void Drive() override;
 
-    /// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
-    void UpdateOdometry();
-
     /// @brief Provide the current chassis speed information
     frc::ChassisSpeeds GetChassisSpeeds() const;
 
@@ -89,7 +86,6 @@ public:
 
     /// @brief Reset the current chassis pose based on the provided pose (the rotation comes from the Pigeon)
     /// @param [in] const Pose2d&       pose        Current XY position
-    void ResetPose(const frc::Pose2d &pose) override;
 
     /// @brief Reset yaw to 0 or 180 degrees depending on alliance
     void ResetYaw();
@@ -104,7 +100,6 @@ public:
     SwerveModule *GetFrontRight() const { return m_frontRight; }
     SwerveModule *GetBackLeft() const { return m_backLeft; }
     SwerveModule *GetBackRight() const { return m_backRight; }
-    frc::Pose2d GetPose() const;
     units::angle::degree_t GetYaw() const override;
     units::angle::degree_t GetPitch() const;
     units::angle::degree_t GetRoll() const;

@@ -25,6 +25,7 @@
 #include "teleopcontrol/TeleopControl.h"
 #include "utils/DragonField.h"
 #include "hw/factories/CompressorFactory.h"
+#include "chassis/DragonSwervePoseEstimator.h"
 
 using frc::DriverStation;
 
@@ -76,7 +77,7 @@ void RobotState::Run()
     PublishGameStateChanges();
     if (m_chassis != nullptr)
     {
-        m_chassis->UpdateOdometry();
+        m_chassis->SwerveChassis::DragonSwervePoseEstimator::UpdateOdometry();
     }
 
     if (DriverStation::IsTeleopEnabled())

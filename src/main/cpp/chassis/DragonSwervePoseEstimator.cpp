@@ -59,6 +59,42 @@
 #include "utils/ConversionUtils.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
+#include "chassis/DragonSwervePoseEstimator.h"
 
 // Third Party Includes
 #include "ctre/phoenix6/Pigeon2.hpp"
+
+using ctre::phoenix6::hardware::Pigeon2;
+using frc::SwerveModulePosition;
+using std::string;
+
+DragonSwervePoseEstimator::DragonSwervePoseEstimator(SwerveModule *frontLeft,
+                                                     SwerveModule *frontRight,
+                                                     SwerveModule *backLeft,
+                                                     SwerveModule *backRight,
+                                                     Pigeon2 *pigeon,
+                                                     frc::SwerveDrivePoseEstimator<4> poseEstimator,
+                                                     string networkTableName) : m_frontLeft(frontLeft),
+                                                                                m_frontRight(frontRight),
+                                                                                m_backLeft(backLeft),
+                                                                                m_backRight(backRight),
+                                                                                m_pigeon(pigeon),
+                                                                                m_drive(units::velocity::meters_per_second_t(0.0)),
+                                                                                m_steer(units::velocity::meters_per_second_t(0.0)),
+                                                                                m_rotate(units::angular_velocity::radians_per_second_t(0.0)),
+                                                                                m_frontLeftLocation(units::length::inch_t(22.75 / 2.0), units::length::inch_t(22.75 / 2.0)),
+                                                                                m_frontRightLocation(units::length::inch_t(22.75 / 2.0), units::length::inch_t(-22.75 / 2.0)),
+                                                                                m_backLeftLocation(units::length::inch_t(-22.75 / 2.0), units::length::inch_t(22.75 / 2.0)),
+                                                                                m_backRightLocation(units::length::inch_t(-22.75 / 2.0), units::length::inch_t(-22.75 / 2.0)),
+                                                                                m_kinematics(m_frontLeftLocation,
+                                                                                             m_frontRightLocation,
+                                                                                             m_backLeftLocation,
+                                                                                             m_backRightLocation),
+                                                                                m_poseEstimator(m_kinematics,
+                                                                                                frc::Rotation2d(),
+                                                                                                {SwerveModulePosition(), SwerveModulePosition(), SwerveModulePosition(), SwerveModulePosition()},
+                                                                                                frc::Pose2d(),
+                                                                                                {0.1, 0.1, 0.1},
+                                                                                                {0.1, 0.1, 0.1}),
+                                                                                m_storedYaw(m_pigeon->GetYaw().GetValueAsDouble()),
+                                                                                m_networkTableName(networkTableName){};
