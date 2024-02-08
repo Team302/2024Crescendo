@@ -29,8 +29,8 @@ class DragonCamera
 public:
     enum PIPELINE
     {
+        UNKNOWN = -1,
         OFF,
-        UNKNOWN,
         MACHINE_LEARNING,
         APRIL_TAG,
         COLOR_THRESHOLD

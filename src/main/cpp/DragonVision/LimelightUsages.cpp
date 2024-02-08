@@ -25,8 +25,6 @@
 
 // Third Party Includes
 
-using namespace std;
-
 LimelightUsages *LimelightUsages::m_instance = nullptr;
 LimelightUsages *LimelightUsages::GetInstance()
 {
@@ -48,13 +46,13 @@ LimelightUsages::~LimelightUsages()
     m_usageMap.clear();
 }
 
-LimelightUsages::LIMELIGHT_USAGE LimelightUsages::GetUsage(string usageString)
+LimelightUsages::LIMELIGHT_USAGE LimelightUsages::GetUsage(std::string usageString)
 {
     auto it = m_usageMap.find(usageString);
     if (it != m_usageMap.end())
     {
         return it->second;
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("LimelightUsages::GetUsage"), string("unknown usage"), usageString);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("LimelightUsages::GetUsage"), std::string("unknown usage"), usageString);
     return LimelightUsages::LIMELIGHT_USAGE::UNKNOWN_USAGE;
 }
