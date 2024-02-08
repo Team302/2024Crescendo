@@ -6391,7 +6391,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0.0005</value>
+                    <value>0</value>
                   </iGain>
                   <dGain>
                     <unitsFamily>none</unitsFamily>
@@ -6412,7 +6412,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0.5</value>
+                    <value>0</value>
                   </iZone>
                 </PID>
                 <peakValue>
