@@ -119,6 +119,7 @@ public:
 	DragonSparkMax* getNeo550() const {return Neo550;}
 	DragonSparkFlex* getVortex() const {return Vortex;}
 	ControlData* getpercentControlData() const {return percentControlData;}
+	ControlData* getspeedControlData() const {return speedControlData;}
 
 	static std::map<std::string, STATE_NAMES> stringToSTATE_NAMESEnumMap;
 
@@ -145,6 +146,7 @@ private:
 	DragonSparkMax* Neo550;
 	DragonSparkFlex* Vortex;
 	ControlData* percentControlData;
+	ControlData* speedControlData;
 
 	void CheckForTuningEnabled();
 	void ReadTuningParamsFromNT();

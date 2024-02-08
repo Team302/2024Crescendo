@@ -37,6 +37,7 @@ class DragonLimelight : public DragonCamera
 public:
     enum LED_MODE
     {
+        LED_UNKNOWN = -1,
         LED_DEFAULT,
         LED_OFF,
         LED_BLINK,
@@ -45,12 +46,14 @@ public:
 
     enum CAM_MODE
     {
+        CAM_UNKNOWN = -1,
         CAM_VISION,
         CAM_DRIVER
     };
 
     enum STREAM_MODE
     {
+        STREAM_UNKNOWN = -1,
         STREAM_DEFAULT,         // side by side if two cams
         STREAM_MAIN_AND_SECOND, // Second Cam bottom right of Main Cam
         STREAM_SECOND_AND_MAIN  // Main Cam bottom right of Second Cam
@@ -58,6 +61,7 @@ public:
 
     enum SNAPSHOT_MODE
     {
+        SNAPSHOT_MODE_UNKNOWN = -1,
         SNAP_OFF,
         SNAP_ON
     };

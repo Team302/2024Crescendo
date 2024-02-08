@@ -178,6 +178,22 @@ void Thing1MechGen::Create()
 	    0, // double nominalValue
 	    false  // bool enableFOC
 	);
+	speedControlData = new ControlData (
+	    ControlModes::CONTROL_TYPE::VELOCITY_RPS, // ControlModes::CONTROL_TYPE mode
+	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
+	    "speedControlData", // std::string indentifier
+	    0, // double proportional
+	    0, // double integral
+	    0, // double derivative
+	    0, // double feedforward
+	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
+	    0, // double integralZone
+	    0, // double maxAcceleration
+	    0, // double cruiseVelocity
+	    0, // double peakValue
+	    0, // double nominalValue
+	    false  // bool enableFOC
+	);
 
 	m_table = nt::NetworkTableInstance::GetDefault().GetTable ( m_ntName );
 	m_tuningIsEnabledStr = "Enable Tuning for " + m_ntName; // since this string is used every loop, we do not want to create the string every time
@@ -336,6 +352,7 @@ void Thing1MechGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName )
 		Vortex->SetSensorInverted ( false );
 
 // percentControlData : ControlData does not have initialization needs
+// speedControlData : ControlData does not have initialization needs
 
 //todo create initialization for leftFrontCW
 //todo create initialization for rightFrontCW
@@ -546,10 +563,20 @@ void Thing1MechGen::CheckForTuningEnabled()
 
 void Thing1MechGen::ReadTuningParamsFromNT()
 {
+	speedControlData->SetIZone ( m_table.get()->GetNumber ( "speedControlData_iZone", 0 ) );
+	speedControlData->SetF ( m_table.get()->GetNumber ( "speedControlData_fGain", 0 ) );
+	speedControlData->SetP ( m_table.get()->GetNumber ( "speedControlData_pGain", 0 ) );
+	speedControlData->SetI ( m_table.get()->GetNumber ( "speedControlData_iGain", 0 ) );
+	speedControlData->SetD ( m_table.get()->GetNumber ( "speedControlData_dGain", 0 ) );
 
 }
 
 void Thing1MechGen::PushTuningParamsToNT()
 {
+	m_table.get()->PutNumber ( "speedControlData_iZone", speedControlData->GetIZone() );
+	m_table.get()->PutNumber ( "speedControlData_fGain", speedControlData->GetF() );
+	m_table.get()->PutNumber ( "speedControlData_pGain", speedControlData->GetP() );
+	m_table.get()->PutNumber ( "speedControlData_iGain", speedControlData->GetI() );
+	m_table.get()->PutNumber ( "speedControlData_dGain", speedControlData->GetD() );
 
 }

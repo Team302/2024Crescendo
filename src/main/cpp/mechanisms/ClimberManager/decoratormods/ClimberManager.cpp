@@ -62,6 +62,7 @@ void ClimberManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Current State"), GetCurrentStatePtr()->GetStateName());
+	Cyclic();
 }
 
 void ClimberManager::SetCurrentState(int state, bool run)

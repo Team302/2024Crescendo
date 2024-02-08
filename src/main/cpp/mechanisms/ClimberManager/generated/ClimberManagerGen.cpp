@@ -353,10 +353,20 @@ void ClimberManagerGen::CheckForTuningEnabled()
 
 void ClimberManagerGen::ReadTuningParamsFromNT()
 {
+	climberPosInch->SetIZone ( m_table.get()->GetNumber ( "climberPosInch_iZone", 0 ) );
+	climberPosInch->SetF ( m_table.get()->GetNumber ( "climberPosInch_fGain", 0 ) );
+	climberPosInch->SetP ( m_table.get()->GetNumber ( "climberPosInch_pGain", 0 ) );
+	climberPosInch->SetI ( m_table.get()->GetNumber ( "climberPosInch_iGain", 0 ) );
+	climberPosInch->SetD ( m_table.get()->GetNumber ( "climberPosInch_dGain", 0 ) );
 
 }
 
 void ClimberManagerGen::PushTuningParamsToNT()
 {
+	m_table.get()->PutNumber ( "climberPosInch_iZone", climberPosInch->GetIZone() );
+	m_table.get()->PutNumber ( "climberPosInch_fGain", climberPosInch->GetF() );
+	m_table.get()->PutNumber ( "climberPosInch_pGain", climberPosInch->GetP() );
+	m_table.get()->PutNumber ( "climberPosInch_iGain", climberPosInch->GetI() );
+	m_table.get()->PutNumber ( "climberPosInch_dGain", climberPosInch->GetD() );
 
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<decoderDataSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <portNumber>30200</portNumber>
+  <data>
+  <dataTraceGroup>
+      <name>armData</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>ANgle</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Power</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+       </dataItems>
+    </dataTraceGroup>
+	
+    <dataTraceGroup>
+      <name>ChassisWheelData</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>FR Angle</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>FL Angle</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>RR Angle</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>RL Angle</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+      </dataItems>
+    </dataTraceGroup>
+	
+	<!--<dataTraceGroup>
+      <name>FourBar</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>Motor Power</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Pot Voltage</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Motor Velocity(degPerSec)</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+      </dataItems>
+    </dataTraceGroup>
+	
+	<dataTraceGroup>
+      <name>Intake</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>Current (A)</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>State</name>
+          <type>integerType</type>
+        </dataTraceItem>
+      </dataItems>
+    </dataTraceGroup>
+	-->
+  </data>
+</decoderDataSet>
