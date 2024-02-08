@@ -37,9 +37,6 @@
 
 // Third Party Includes
 
-using namespace nt;
-using namespace std;
-
 /// TODO
 /// Need to support DragonLimelight becoming a child of DragonCamera
 /// Need to remove everything involving target height, should use apriltag field positions
@@ -50,7 +47,7 @@ using namespace std;
 /// Description:    Create the object
 ///-----------------------------------------------------------------------------------
 DragonLimelight::DragonLimelight(
-    string networkTableName,                /// <I> networkTableName
+    std::string networkTableName,                /// <I> networkTableName
     DragonCamera::PIPELINE initialPipeline, /// <I> enum for pipeline
     units::length::inch_t mountingXOffset,  /// <I> x offset of cam from robot center (forward relative to robot)
     units::length::inch_t mountingYOffset,  /// <I> y offset of cam from robot center (left relative to robot)
@@ -62,7 +59,7 @@ DragonLimelight::DragonLimelight(
     CAM_MODE camMode,
     STREAM_MODE streamMode,
     SNAPSHOT_MODE snapMode) : DragonCamera(networkTableName, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                              m_networktable(NetworkTableInstance::GetDefault().GetTable(networkTableName.c_str()))
+                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(networkTableName.c_str()))
 {
     SetPipeline(initialPipeline);
     SetLEDMode(ledMode);
@@ -216,7 +213,7 @@ units::angle::degree_t DragonLimelight::GetTargetYaw()
     {
         return -1.0 * GetTy();
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("DragonLimelight"), string("GetTargetVerticalOffset"), string("Invalid limelight rotation"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTx();
 }
 
@@ -254,7 +251,7 @@ units::angle::degree_t DragonLimelight::GetTargetPitch()
     {
         return -1.0 * GetTx();
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("DragonLimelight"), string("GetTargetVerticalOffset"), string("Invalid limelight rotation"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTy();
 }
 
