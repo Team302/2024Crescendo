@@ -32,9 +32,9 @@ class LimelightUsages
 public:
     enum LIMELIGHT_USAGE
     {
+        UNKNOWN_USAGE = -1,
         PRIMARY,
-        SECONDARY,
-        UNKNOWN_USAGE
+        SECONDARY
     };
 
     static LimelightUsages *GetInstance();
