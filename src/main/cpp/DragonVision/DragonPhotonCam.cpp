@@ -196,11 +196,8 @@ units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame()
             // transform to get from cam to target
             frc::Transform3d camToTarget = target.GetBestCameraToTarget();
 
-            // Get the translation component from cam to target
-            frc::Translation3d camToTargetTranslation = camToTarget.Translation();
-
             // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t yawRobotRelative = units::math::atan2(m_cameraPose.Y() + camToTargetTranslation.Y(), m_cameraPose.X() + camToTargetTranslation.X());
+            units::angle::radian_t yawRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).Y(), frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).X());
 
             return yawRobotRelative;
         }
@@ -241,11 +238,8 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame()
             // transform to get from cam to target
             frc::Transform3d camToTarget = target.GetBestCameraToTarget();
 
-            // Get the translation component from cam to target
-            frc::Translation3d camToTargetTranslation = camToTarget.Translation();
-
             // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t pitchRobotRelative = units::math::atan2(m_cameraPose.Z() + camToTargetTranslation.Z(), m_cameraPose.X() + camToTargetTranslation.X());
+            units::angle::radian_t pitchRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).Z(), frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).X());
 
             return pitchRobotRelative;
         }
@@ -486,11 +480,9 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
         frc::Translation3d translation = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)}.Translation();
 
-        // Need to print out translation values, might be having 0/0 error
-
-        frc::Rotation3d rotation = frc::Rotation3d{units::math::asin(translation.Z() / translation.Y()),  // roll
-                                                   units::math::asin(translation.Z() / translation.X()),  // pitch
-                                                   units::math::asin(translation.X() / translation.Y())}; // yaw
+        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
+                                                   GetTargetPitchRobotFrame(),  // pitch
+                                                   GetTargetYawRobotFrame()};   // yaw
 
         return std::make_optional(VisionData{frc::Transform3d(translation, rotation), GetAprilTagID()});
     }

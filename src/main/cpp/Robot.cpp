@@ -29,6 +29,10 @@
 
 #include <AdjustableItemMgr.h>
 
+/// DEBUGGING
+#include "DragonVision/DragonVision.h"
+#include "DragonVision/DragonPhotonCam.h"
+
 using namespace std;
 
 void Robot::RobotInit()
@@ -188,7 +192,7 @@ void Robot::TeleopInit()
                                                   DragonLimelight::CAM_MODE::CAM_DRIVER,
                                                   DragonLimelight::STREAM_DEFAULT,
                                                   DragonLimelight::SNAPSHOT_MODE::SNAP_OFF);*/
-    DragonVision::GetDragonVision()->AddCamera(photon, DragonVision::CAMERA_POSITION::LAUNCHER);
+    DragonVision::GetDragonVision()->AddCamera(photon, RobotElementNames::CAMERA_USAGE::LAUNCHER);
 
     nt::NetworkTableInstance::GetDefault().GetTable("VISION DEBUGGING")->PutNumber("Camera Z", 0.0);
 
@@ -217,23 +221,23 @@ void Robot::TeleopPeriodic()
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
-    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(DragonVision::CAMERA_POSITION::LAUNCHER);
+    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHER);
     double zOffset = nt::NetworkTableInstance::GetDefault().GetTable("VISION DEBUGGING")->GetNumber("Camera Z", 0.0);
-    DragonVision::GetDragonVision()->GetCamera(DragonVision::CAMERA_POSITION::LAUNCHER)->SetCameraPosition(units::length::inch_t(0.0),           // x
-                                                                                                           units::length::inch_t(0.0),           // y
-                                                                                                           units::length::centimeter_t(zOffset), // z
-                                                                                                           units::angle::degree_t(0.0),          // roll
-                                                                                                           units::angle::degree_t(0.0),          // pitch
-                                                                                                           units::angle::degree_t(0.0));
+    DragonVision::GetDragonVision()->GetCamera(RobotElementNames::CAMERA_USAGE::LAUNCHER)->SetCameraPosition(units::length::inch_t(0.0),           // x
+                                                                                                             units::length::inch_t(0.0),           // y
+                                                                                                             units::length::centimeter_t(zOffset), // z
+                                                                                                             units::angle::degree_t(0.0),          // roll
+                                                                                                             units::angle::degree_t(0.0),          // pitch
+                                                                                                             units::angle::degree_t(0.0));
     if (optionalVisionData)
     {
         VisionData visionData = optionalVisionData.value();
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("X dist"), visionData.deltaToTarget.X().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("Y dist"), visionData.deltaToTarget.Y().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("Z dist"), visionData.deltaToTarget.Z().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("roll"), visionData.deltaToTarget.Rotation().X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("pitch"), visionData.deltaToTarget.Rotation().Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("yaw"), visionData.deltaToTarget.Rotation().Z().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("roll"), units::angle::degree_t(visionData.deltaToTarget.Rotation().X()).to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("pitch"), units::angle::degree_t(visionData.deltaToTarget.Rotation().Y()).to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("yaw"), units::angle::degree_t(visionData.deltaToTarget.Rotation().Z()).to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("april tag ID"), visionData.tagId);
     }
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
