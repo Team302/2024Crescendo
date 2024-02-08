@@ -15,8 +15,22 @@
 #include "FieldConsts.h"
 using namespace std;
 
+FieldConsts::FieldConsts()
+{
+    fieldConstantsPoseMap[FIELD_ELEMENT::BLUE_CENTER_STAGE] = m_BlueCenterStage;
+    fieldConstantsPoseMap[BLUE_AMP] = m_BlueAmp;
+    fieldConstantsPoseMap[BLUE_RIGHT_STAGE] = m_BlueRightStage;
+    fieldConstantsPoseMap[BLUE_LEFT_STAGE] = m_BlueLeftStage;
+    fieldConstantsPoseMap[BLUE_SOURCE] = m_BlueSource;
+    fieldConstantsPoseMap[BLUE_SPEAKER] = m_BlueSpeaker;
+    fieldConstantsPoseMap[RED_AMP] = m_RedAmp;
+    fieldConstantsPoseMap[RED_CENTER_STAGE] = m_RedCenterStage;
+    fieldConstantsPoseMap[RED_LEFT_STAGE] = m_RedLeftStage;
+    fieldConstantsPoseMap[RED_SPEAKER] = m_RedSpeaker;
+    fieldConstantsPoseMap[RED_SOURCE] = m_RedSource;
+}
 frc::Pose3d FieldConsts::GetFieldElement(FIELD_ELEMENT element)
 {
-    frc::Pose3d Pose3d = FieldConstantsPoseMap[element];
+    frc::Pose3d Pose3d = fieldConstantsPoseMap[element];
     return Pose3d;
 }
