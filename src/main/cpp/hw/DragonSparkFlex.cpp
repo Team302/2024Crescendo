@@ -58,7 +58,7 @@ double DragonSparkFlex::GetRotations()
 
 double DragonSparkFlex::GetRPS()
 {
-    return m_spark->GetEncoder(m_feedbackType).GetVelocity() / 60.0;
+    return m_encoder.GetVelocity() / 60.0;
 }
 
 RobotElementNames::MOTOR_CONTROLLER_USAGE DragonSparkFlex::GetType() const

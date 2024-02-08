@@ -90,6 +90,7 @@ noteManager::noteManager(noteManagerGen *base) : noteManagerGen(), IRobotStateCh
 void noteManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+	Cyclic();
 }
 
 void noteManager::SetCurrentState(int state, bool run)
