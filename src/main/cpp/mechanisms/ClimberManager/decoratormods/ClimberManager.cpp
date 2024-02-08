@@ -60,6 +60,7 @@ ClimberManager::ClimberManager(ClimberManagerGen *base) : ClimberManagerGen(), I
 void ClimberManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+	Cyclic();
 }
 
 void ClimberManager::SetCurrentState(int state, bool run)
