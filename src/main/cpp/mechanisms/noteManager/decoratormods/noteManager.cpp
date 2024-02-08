@@ -91,6 +91,20 @@ void noteManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
 	Cyclic();
+	ResetLauncherAngle();
+	ResetElevator();
+}
+
+void noteManager::ResetElevator()
+{
+	if (m_noteManager->getElevator()->IsReverseLimitSwitchClosed())
+		m_noteManager->getElevator()->SetSelectedSensorPosition(0);
+}
+
+void noteManager::ResetLauncherAngle()
+{
+	if (m_noteManager->getlauncherAngle()->IsReverseLimitSwitchClosed())
+		m_noteManager->getlauncherAngle()->SetSelectedSensorPosition(-26);
 }
 
 void noteManager::SetCurrentState(int state, bool run)

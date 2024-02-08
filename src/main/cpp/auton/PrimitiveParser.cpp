@@ -27,6 +27,7 @@
 #include <auton/drivePrimitives/IPrimitive.h>
 #include "utils/logging/Logger.h"
 #include <pugixml/pugixml.hpp>
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 using namespace std;
 using namespace pugi;
 
@@ -222,13 +223,16 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      heading,
                                                                      pathName,
                                                                      pipelineMode,
-                                                                     zones // vector of all zones included as part of the path
+                                                                     zones, // vector of all zones included as part of the path
                                                                      // can have multiple zones as part of a complex path
                                                                      // @ADDMECH add parameter for your mechanism state
                                                                      // armstate,
                                                                      // extenderstate,
                                                                      // intakestate,
-                                                                     ));
+
+                                                                     // Below are dummy values
+                                                                     noteManagerGen::STATE_NAMES::STATE_OFF,
+                                                                     ClimberManagerGen::STATE_NAMES::STATE_OFF));
                     }
                     else
                     {
