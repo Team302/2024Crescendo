@@ -54,8 +54,6 @@ void HoldState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HoldState"), string("run"));
 	m_genState->Run();
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left Counts"), m_mechanism->getleftClimber()->GetCounts());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Right Counts"), m_mechanism->getrightClimber()->GetCounts());
 }
 
 void HoldState::Exit()
@@ -67,12 +65,13 @@ bool HoldState::AtTarget()
 {
 	double left = m_mechanism->getleftClimber()->GetCounts();
 	double right = m_mechanism->getrightClimber()->GetCounts();
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("At Target Left"), left);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("At Target Right"), right);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left Counts"), left);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Right Counts"), right);
 
-	double target = 22.5;
+	double target = 15;
 
-	return (abs(left - target)) < 0.25 && (abs(right - target) <= 0.25);
+	return (abs(left - target)) < 0.25 &&
+		   (abs(right - target) <= 0.25);
 }
 
 bool HoldState::IsTransitionCondition(bool considerGamepadTransitions)
@@ -81,5 +80,5 @@ bool HoldState::IsTransitionCondition(bool considerGamepadTransitions)
 	auto currentstate = m_mechanism->GetCurrentState();
 	// auto attarget = m_genState->AtTarget();
 
-	return (AtTarget() && (currentstate == m_mechanism->STATE_INITIALIZE));
+	return ((AtTarget() && (currentstate == m_mechanism->STATE_INITIALIZE)) || (m_mechanism->IsClimbMode() == false && (currentstate != m_mechanism->STATE_INITIALIZE)));
 }
