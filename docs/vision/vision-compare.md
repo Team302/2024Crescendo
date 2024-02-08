@@ -1,5 +1,0 @@
-| Robot  | HW  | HW Ver  | Camera            | Software Ver | Pipeline  | Model                                                                         | Resolution | FPS    | Target   | Date of test |
-| ------ | --- | ------- | ----------------- | ------------ | --------- | ----------------------------------------------------------------------------- | ---------- | ------ | -------- | ------------ |
-| Thing2 | LL3 | LL3     | LL3               | 2023.06      | Detection | https://www.chiefdelphi.com/t/spectrum-3847-build-blog-2024/447471/75         | 320x240    | 14 fps | note     | 2024-01-17   |
-| Thing2 | LL3 | LL3     | LL3               | 2023.06      | Detection | https://www.chiefdelphi.com/uploads/short-url/Ao2uFtuW01nNlOSCEPgjnXL4ayS.zip | 320x240    | 4 fps  | note     | 2024-01-20   |
-| Thing2 | Pi4 | Pi4-4Gb | 2x USB ArduCam GS | 2024.02      | AprilTag  | Built in 36h11 detector                                                       | 320x240    | 30     | AprilTag | 2024-01-10   |
