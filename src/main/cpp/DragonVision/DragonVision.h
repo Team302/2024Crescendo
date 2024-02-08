@@ -28,6 +28,8 @@
 #include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonCamera.h"
 
+#include "configs/RobotElementNames.h"
+
 class DragonCamera;
 class DragonVision
 {
@@ -35,14 +37,6 @@ public:
     static DragonVision *GetDragonVision();
 
     static frc::AprilTagFieldLayout GetAprilTagLayout();
-
-    enum CAMERA_POSITION
-    {
-        LAUNCHER,
-        PLACER,
-        PLACER_INTAKE,
-        LAUNCHER_INTAKE
-    };
 
     enum VISION_ELEMENT
     {
@@ -81,12 +75,12 @@ public:
     /// @brief detects and returns transformation to the closest AprilTag using a specified camera
     /// @param position the physical position of the camera
     /// @return /// @return std::optional<VisionData> - a transform containg x, y, z distances and yaw, pitch, roll to target, and AprilTag Id
-    std::optional<VisionData> GetDataToNearestAprilTag(CAMERA_POSITION position);
+    std::optional<VisionData> GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position);
 
     /// @brief adds a camera at the specified position to DragonVision
     /// @param camera pointer to the camera object that should be added
     /// @param position the physical position of the camera
-    void AddCamera(DragonCamera *camera, CAMERA_POSITION position);
+    void AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USAGE position);
 
     static frc::AprilTagFieldLayout m_aprilTagLayout;
 
@@ -103,7 +97,7 @@ private:
 
     DragonCamera *m_dragonCamera;
 
-    std::map<CAMERA_POSITION, DragonCamera *> m_dragonCameraMap;
+    std::map<RobotElementNames::CAMERA_USAGE, DragonCamera *> m_dragonCameraMap;
 
-    std::vector<photon::PhotonPoseEstimator *> m_poseEstimators;
+    std::vector<photon::PhotonPoseEstimator> m_poseEstimators = std::vector<photon::PhotonPoseEstimator>();
 };

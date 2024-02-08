@@ -4,6 +4,7 @@ $$_GEN_NOTICE_$$
 #pragma once
 
 // C++ Includes
+#include <string>
 
 // FRC Includes
 
@@ -28,7 +29,7 @@ public:
     ~$$_MECHANISM_INSTANCE_NAME_$$() = default;
 
     void RunCommonTasks() override;
-
+    void SetCurrentState(int state, bool run) override;
     void CreateAndRegisterStates();
 
 private:

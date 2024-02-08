@@ -19,6 +19,7 @@
 #pragma once
 
 // C++ Includes
+#include <string>
 
 // FRC Includes
 
@@ -30,7 +31,8 @@
 
 // forward declares
 
-class ClimberManager : public ClimberManagerGen, public IRobotStateChangeSubscriber
+class ClimberManager : public ClimberManagerGen,
+					   public IRobotStateChangeSubscriber
 {
 public:
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
@@ -45,7 +47,7 @@ public:
 	~ClimberManager() = default;
 
 	void RunCommonTasks() override;
-
+	void SetCurrentState(int state, bool run) override;
 	void CreateAndRegisterStates();
 
 	void Update(RobotStateChanges::StateChange change, int value) override;

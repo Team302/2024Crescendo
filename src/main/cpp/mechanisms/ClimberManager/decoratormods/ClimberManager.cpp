@@ -17,7 +17,6 @@
 // Generated on Monday, February 5, 2024 10:04:45 PM
 
 // C++ Includes
-#include <string>
 
 // FRC Includes
 
@@ -61,6 +60,12 @@ ClimberManager::ClimberManager(ClimberManagerGen *base) : ClimberManagerGen(), I
 void ClimberManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+	Cyclic();
+}
+
+void ClimberManager::SetCurrentState(int state, bool run)
+{
+	ClimberManagerGen::SetCurrentState(state, run);
 }
 
 void ClimberManager::CreateAndRegisterStates()

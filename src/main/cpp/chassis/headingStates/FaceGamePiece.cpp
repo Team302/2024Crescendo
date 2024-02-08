@@ -13,52 +13,37 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include <optional>
+
 // Team302 Includes
+#include "chassis/headingStates/ISwerveDriveOrientation.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "chassis/headingStates/FaceGamePiece.h"
 
 /// debugging
 #include "utils/logging/Logger.h"
 
 FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE)
-// m_vision(DragonVision::GetDragonVision())
 {
 }
 
 void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
-    units::angle::radian_t angleError = units::angle::radian_t(0.0);
-
-    units::angular_velocity::radians_per_second_t omega = units::angular_velocity::radians_per_second_t(0.0);
-}
-/*/
-bool FaceGamePiece::AtTargetAngle(VisionData visionData, units::angle::radian_t *angleError)
-{
-
-    units::length::inch_t yError = visionData.deltaToTarget.Y();
-    units::length::inch_t xError = visionData.deltaToTarget.X();
-
-    if (std::abs(xError.to<double>()) > 0.01)
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    if (chassis != nullptr)
     {
-        *angleError = visionData.deltaToTarget.Rotation().Z();
-
-        if (std::abs((*angleError).to<double>()) < m_AngularTolerance_rad)
+        auto vision = DragonVision::GetDragonVision();
+        if (vision != nullptr)
         {
-            return true;
+            auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
+            if (data)
+            {
+                auto target = data.value().deltaToTarget;
+                auto rotation = target.Rotation();
+                auto angle = rotation.ToRotation2d().Degrees();
+                chassis->SetStoredHeading(angle);
+            }
         }
     }
-    return false;
-}
-*/
-units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularVelocity)
-{ /*
-
-     double sign = angularVelocity.to<double>() < 0 ? -1 : 1;
-
-     if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
-         angularVelocity = units::angular_velocity::radians_per_second_t(m_minimumOmega_radps * sign);
-
-     if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
-         angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
-
-     return angularVelocity;*/
 }

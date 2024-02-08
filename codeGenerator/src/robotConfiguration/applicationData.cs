@@ -164,17 +164,14 @@ namespace ApplicationData
 
     [Serializable()]
     public partial class applicationData
-    {
 #if !enableTestAutomation
+    {
 
         [DataDescription("One power distribution panel can be configured for a robot")]
         public pdp PowerDistributionPanel { get; set; }
 
         [DataDescription("A robot can contain multiple pneumatic control modules")]
         public List<pcm> PneumaticControlModules { get; set; }
-
-        [DataDescription("A robot can contain multiple limelights")]
-        public List<limelight> Limelights { get; set; }
 
         [DataDescription("A robot can have one chassis definition")]
         public chassis Chassis { get; set; }
@@ -183,7 +180,7 @@ namespace ApplicationData
         public List<mechanismInstance> mechanismInstances { get; set; }
 
         [DataDescription("A robot can contain multiple cameras")]
-        public List<camera> Cameras { get; set; }
+        public List<Camera> Cameras { get; set; }
 
         [DataDescription("A robot can contain multiple roborios")]
         public List<roborio> Roborios { get; set; }
@@ -717,75 +714,6 @@ namespace ApplicationData
         }
     }
 
-    [Serializable()]
-    public class limelight : baseRobotElementClass
-    {
-        public enum limelightRotation
-        {
-            Angle_0_deg = 0,
-            Angle_90_deg = 90,
-            Angle_180_deg = 180,
-            Angle_270_deg = 270,
-        }
-        public enum limelightDefaultLedMode
-        {
-            currentPipeline,
-            off,
-            blink,
-            on,
-        }
-        public enum limelightDefaultCamMode
-        {
-            vision,
-            driverCamera,
-        }
-        public enum limelightStreamMode
-        {
-            sideBySide,
-            pipMain,
-            pipSecondary,
-        }
-        public enum limelightSnapshots
-        {
-            off,
-            twoPerSec,
-        }
-
-        [DefaultValue(0.0)]
-        [PhysicalUnitsFamily(physicalUnit.Family.length)]
-        public doubleParameter mountingheight { get; set; }
-
-        [DefaultValue(0.0)]
-        [PhysicalUnitsFamily(physicalUnit.Family.length)]
-        public doubleParameter horizontaloffset { get; set; }
-
-        [DefaultValue(0.0)]
-        [PhysicalUnitsFamily(physicalUnit.Family.angle)]
-        public doubleParameter mountingangle { get; set; }
-
-        [DefaultValue(limelightRotation.Angle_0_deg)]
-        [PhysicalUnitsFamily(physicalUnit.Family.angle)]
-        public limelightRotation rotation { get; set; }
-
-        public List<doubleParameterUserDefinedTunable> tunableParameters { get; set; }
-
-        [DefaultValue(limelightDefaultLedMode.currentPipeline)]
-        public limelightDefaultLedMode defaultledmode { get; set; }
-
-        [DefaultValue(limelightDefaultCamMode.vision)]
-        public limelightDefaultCamMode defaultcammode { get; set; }
-
-        [DefaultValue(limelightStreamMode.sideBySide)]
-        public limelightStreamMode streammode { get; set; }
-
-        [DefaultValue(limelightSnapshots.off)]
-        public limelightSnapshots snapshots { get; set; }
-
-        public limelight()
-        {
-        }
-    }
-
 
     [Serializable()]
     public class chassis : baseRobotElementClass
@@ -1230,41 +1158,7 @@ namespace ApplicationData
         }
     }
 
-    [Serializable()]
-    public class camera : baseRobotElementClass
-    {
-        public enum cameraformat
-        {
-            KMJPEG,
-            KYUYV,
-            KRGB565,
-            KBGR,
-            KGRAY,
-        }
-
-        [DefaultValue("0")]
-        public uintParameter id { get; set; }
-
-        [DefaultValue(cameraformat.KMJPEG)]
-        public cameraformat format { get; set; }
-
-        [DefaultValue(640)]
-        public uintParameter width { get; set; }
-
-        [DefaultValue(480)]
-        public uintParameter height { get; set; }
-
-        [DefaultValue(30)]
-        public uintParameter fps { get; set; }
-
-        [DefaultValue(false)]
-        public boolParameter thread { get; set; }
-
-        public camera()
-        {
-        }
-    }
-
+    
     [Serializable()]
     public class roborio : baseRobotElementClass
     {
@@ -1406,7 +1300,7 @@ namespace ApplicationData
         }
         virtual public List<string> generateDefinition()
         {
-            return new List<string> { string.Format("{0}* {1};", getImplementationName(), name) };
+            return new List<string> { string.Format("{0}* {1};", getImplementationName(), name) }; //todo add m_ in off season
         }
 
         virtual public List<string> generateDefinitionGetter()

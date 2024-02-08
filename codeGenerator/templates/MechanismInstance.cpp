@@ -2,7 +2,6 @@ $$_COPYRIGHT_$$
 $$_GEN_NOTICE_$$
 
 // C++ Includes
-#include <string>
 
 // FRC Includes
 
@@ -31,6 +30,11 @@ $$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTAN
 void $$_MECHANISM_INSTANCE_NAME_$$::RunCommonTasks()
 {
     // This function is called once per loop before the current state Run()
+}
+
+void $$_MECHANISM_INSTANCE_NAME_$$::SetCurrentState(int state, bool run)
+{
+    $$_MECHANISM_INSTANCE_NAME_$$Gen::SetCurrentState(state, run);
 }
 
 void $$_MECHANISM_INSTANCE_NAME_$$::CreateAndRegisterStates()
