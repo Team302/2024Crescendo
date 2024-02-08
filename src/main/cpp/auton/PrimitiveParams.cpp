@@ -27,13 +27,13 @@ PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
 								 ChassisOptionEnums::HeadingOption headingOpt,
 								 float heading,
 								 std::string pathName,
-								 DragonCamera::PIPELINE pipelineMode,
+								 VISION_ALIGNMENT visionAlignment,
 								 ZoneParamsVector zones) : m_id(id), // Primitive ID
 														   m_time(time),
 														   m_headingOption(headingOpt),
 														   m_heading(heading),
 														   m_pathName(pathName),
-														   m_pipelineMode(pipelineMode)
+														   m_visionAlignment(visionAlignment)
 // @ADDMECH initilize state mgr attribute
 {
 }

@@ -18,7 +18,6 @@
 
 #include <frc/Filesystem.h>
 
-#include "DragonVision/DragonCamera.h"
 #include <auton/AutonSelector.h>
 #include <auton/PrimitiveEnums.h>
 #include <auton/PrimitiveParams.h>
@@ -61,11 +60,11 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     headingOptionMap["FACE_RIGHT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
     headingOptionMap["FACE_CENTER_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
 
-    map<string, DragonCamera::VISION_ALIGNMENT> xmlStringToVisionAlignmentEnumMap{
-        {"UNKNOWN", DragonCamera::VISION_ALIGNMENT::UNKNOWN},
-        {"NOTE", DragonCamera::VISION_ALIGNMENT::NOTE},
-        {"SPEAKER", DragonCamera::VISION_ALIGNMENT::SPEAKER},
-        {"APRIL_TAG", DragonCamera::VISION_ALIGNMENT::APRIL_TAG}};
+    map<string, PrimitiveParams::VISION_ALIGNMENT> xmlStringToVisionAlignmentEnumMap{
+        {"UNKNOWN", PrimitiveParams::VISION_ALIGNMENT::UNKNOWN},
+        {"NOTE", PrimitiveParams::VISION_ALIGNMENT::NOTE},
+        {"SPEAKER", PrimitiveParams::VISION_ALIGNMENT::SPEAKER},
+        {"APRIL_TAG", PrimitiveParams::VISION_ALIGNMENT::APRIL_TAG}};
     xml_document doc;
     xml_parse_result result = doc.load_file(fulldirfile.c_str());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "PrimitiveParser", "Original File", fulldirfile.c_str());
@@ -126,8 +125,8 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto distance = 0.0;
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
-                    auto visionAlignment = DragonCamera::VISION_ALIGNMENT::UNKNOWN;
-                    auto visionAlignmentmode = DragonCamera::VISION_ALIGNMENT::UNKNOWN;
+                    auto visionAlignment = PrimitiveParams::VISION_ALIGNMENT::UNKNOWN;
+                    auto visionAlignmentmode = PrimitiveParams::VISION_ALIGNMENT::UNKNOWN;
 
                     std::string pathName;
                     ZoneParamsVector zones;
@@ -181,7 +180,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                             auto visionAlignmentItr = xmlStringToVisionAlignmentEnumMap.find(attr.value());
                             if (visionAlignmentItr != xmlStringToVisionAlignmentEnumMap.end())
                             {
-                                visionAlignmentmode = DragonCamera::VISION_ALIGNMENT::APRIL_TAG;
+                                visionAlignmentmode = PrimitiveParams::VISION_ALIGNMENT::APRIL_TAG;
                                 visionAlignment = visionAlignmentItr->second;
                             }
                             else
@@ -206,7 +205,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                          headingOption,
                                                                          heading,
                                                                          pathName,
-                                                                         zones // vector of all zones included as part of the path
+                                                                         visionAlignment,
+                                                                         zones
+                                                                         // vector of all zones included as part of the path
                                                                          // can have multiple zones as part of a complex path
                                                                          // @ADDMECH add parameter for your mechanism state
                                                                          // armstate,

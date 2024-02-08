@@ -130,7 +130,8 @@ void CyclePrimitives::RunDriveStop()
 											   //   0.0, // start drive speed
 											   //   0.0, // end drive speed
 										  string(),
-										  DragonCamera::PIPELINE::UNKNOWN,
+										  PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
+										  // DragonCamera::PIPELINE::UNKNOWN,
 										  // @ADDMECH mechanism state
 										  // ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE,
 										  // ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND,

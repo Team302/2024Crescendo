@@ -378,7 +378,7 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 	return std::nullopt;
 }
 
-bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position)
+/*bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position)
 {
 	m_dragonCameraMap[position]->SetPipeline(mode);
 	m_dragonCameraMap[position]->UpdatePipeline();
@@ -388,4 +388,4 @@ bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION posi
 DragonCamera::PIPELINE DragonVision::GetPipeline(CAMERA_POSITION position)
 {
 	return m_dragonCameraMap[position]->GetPipeline();
-}
+}*/

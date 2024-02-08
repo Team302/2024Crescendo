@@ -18,7 +18,7 @@
           heading           CDATA "0.0"
           pathname          CDATA #IMPLIED
           alignmentMethod   ( ROTATE | STRAFE ) "ROTATE"
-          visionAligment          ( UNKNOWN | NOTE | SPEAKER ) "APRIL_TAG"
+          visionAligment          ( UNKNOWN | NOTE | SPEAKER | APRIL_TAG) "APRIL_TAG"
 >
 
 

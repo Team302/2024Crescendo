@@ -28,17 +28,18 @@
 class DragonCamera
 {
 public:
-    enum VISION_ALIGNMENT
+    enum PIPELINE
     {
-        NOTE = DragonVision::VISION_ELEMENT::NOTE,
-        SPEAKER = DragonVision::VISION_ELEMENT::SPEAKER,
-        UNKNOWN = 0,
-        APRIL_TAG
+        OFF,
+        UNKNOWN,
+        MACHINE_LEARNING,
+        APRIL_TAG,
+        COLOR_THRESHOLD
     };
 
     DragonCamera(
-        std::string cameraName,                /// <I> camera name/type
-        VISION_ALIGNMENT visionAlignment,      /// <I> enum for pipeline
+        std::string cameraName,
+        PIPELINE pipeline,                     /// <I> enum for pipeline             /// <I> camera name/type
         units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot is positive)
         units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot is positive)
         units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot is positive)
@@ -97,7 +98,8 @@ public:
     virtual std::optional<VisionData> GetDataToNearestApriltag() const = 0;
 
     // Getters
-    VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
+    PIPELINE GetPipeline() const { return m_pipeline; }
+
     units::angle::degree_t GetCameraPitch() const { return m_robotCenterToCam.Rotation().Y(); }
     units::angle::degree_t GetCameraYaw() const { return m_robotCenterToCam.Rotation().Z(); }
     units::angle::degree_t GetCameraRoll() const { return m_robotCenterToCam.Rotation().X(); } // rotates around x-axis
@@ -108,9 +110,10 @@ public:
     frc::Transform3d GetTransformFromRobotCenter() const { return m_robotCenterToCam; }
 
     // Setters
-    void SetVisionAlignment(VISION_ALIGNMENT visionAlignment)
+
+    void SetPipeline(PIPELINE pipeline)
     {
-        m_visionAlignment = visionAlignment;
+        m_pipeline = pipeline;
     }
 
     void SetCameraPosition(
@@ -123,9 +126,9 @@ public:
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
 
 protected:
+    PIPELINE m_pipeline;
     frc::Pose3d m_cameraPose;
     frc::Transform3d m_robotCenterToCam;
-    VISION_ALIGNMENT m_visionAlignment;
 
     const units::length::inch_t m_noteVerticalOffset = units::length::inch_t(0.0); // This represents the note being at the same level as center of robot
 };
