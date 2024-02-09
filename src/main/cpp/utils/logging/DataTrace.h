@@ -14,7 +14,7 @@
 //====================================================================================================================================================
 
 // FRC includes
-// #define INCLUDE_DATA_TRACE
+#define INCLUDE_DATA_TRACE
 
 // Team 302 includes
 #include <utils/logging/DataTraceSocket.h>
@@ -29,7 +29,8 @@ public:
     ~DataTrace() = default;
 
     void sendClimberData(double angle, double power);
-    void sendChassisWheelData(double angle_fr, double angle_fl, double angle_rr, double angle_rl);
+    void sendElevatorData(double ElevatorHeight);
+    void sendLauncherData(double WheelSetTop, double WheelSetBottom, double Angle);
 
 private:
     static DataTrace *m_instance;

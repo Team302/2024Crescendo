@@ -66,10 +66,9 @@ void ClimberManager::RunCommonTasks()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Climber Current State"), GetCurrentStatePtr()->GetStateName());
 	Cyclic();
 
-// Temp will remove, but currently not active
 #ifdef INCLUDE_DATA_TRACE
 	double left = getleftClimber()->GetCounts();
-	double right = getClimber()->GetCounts();
+	double right = getrightClimber()->GetCounts();
 	DataTrace::GetInstance()->sendClimberData(left, right);
 #endif
 }

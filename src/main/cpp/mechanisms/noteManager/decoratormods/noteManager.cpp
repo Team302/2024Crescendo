@@ -95,6 +95,15 @@ void noteManager::RunCommonTasks()
 	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
+
+#ifdef INCLUDE_DATA_TRACE
+	double wheelSetTop = getlauncherTop()->GetCounts();
+	double wheelSetBottom = getlauncherBottom()->GetCounts();
+	double angle = getlauncherAngle()->GetCounts();
+	double elevator = getElevator()->GetCounts();
+	DataTrace::GetInstance()->sendElevatorData(elevator);
+	DataTrace::GetInstance()->sendLauncherData(wheelSetTop, wheelSetBottom, angle);
+#endif
 }
 
 void noteManager::ResetElevator()
