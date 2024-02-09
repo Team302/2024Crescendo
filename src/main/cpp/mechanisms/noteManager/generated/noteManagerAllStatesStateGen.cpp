@@ -369,6 +369,8 @@ void noteManagerAllStatesStateGen::Init()
 	}
 	else if ( GetnoteManager()->GetCurrentState() == noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_LAUNCH )
 	{
+		GetnoteManager()->getElevator()->SetControlConstants(0,*GetnoteManager()->getpercentOutput());
+		GetnoteManager()->getlauncherAngle()->SetControlConstants(0,*GetnoteManager()->getpercentOutput());
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, 0 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE, 0 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0 );
@@ -381,6 +383,8 @@ void noteManagerAllStatesStateGen::Init()
 	}
 	else if ( GetnoteManager()->GetCurrentState() == noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_PLACE )
 	{
+		GetnoteManager()->getElevator()->SetControlConstants(0,*GetnoteManager()->getpercentOutput());
+		GetnoteManager()->getlauncherAngle()->SetControlConstants(0,*GetnoteManager()->getpercentOutput());
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, 0 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE, 0 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0 );
