@@ -89,45 +89,45 @@ namespace CoreCodeGenerator
                         resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(generateMethod(mi, "generateIndexedObjectCreation"), ";"));
 
                         List<string> theUsings = generateMethod(mi, "generateUsings").Distinct().ToList();
-                        resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";"));
+                        resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";").Trim());
+
+
+                        List<string> enumMapList = new List<string>();
+                        foreach (state s in mi.mechanism.states)
+                        {
+                            enumMapList.Add(String.Format("{{\"STATE_{0}\", {1}Gen::STATE_NAMES::STATE_{0}}}", ToUnderscoreCase(s.name).ToUpper(), mi.name));
+                        }
+                        resultString = resultString.Replace("$$_STATE_MAP_$$", ListToString(enumMapList, ",").Trim());
+
 
                         #region Tunable Parameters
                         string allParameterReading = "";
-#if david
-                foreach (closedLoopControlParameters cLCParams in mech.closedLoopControlParameters)
-                {
-                    Type objType = cLCParams.GetType();
-
-                    PropertyInfo[] propertyInfos = objType.GetProperties();
-
-                    foreach (PropertyInfo pi in propertyInfos)
-                    {
-                        bool skip = (pi.Name == "name");
-                        if (!skip)
-                            allParameterReading += string.Format("{0}_{1} = m_table.get()->GetNumber(\"{0}_{1}\", {2});{3}", cLCParams.name, pi.Name, pi.GetValue(cLCParams), Environment.NewLine);
-                    }
-
-                }
-#endif
-                        resultString = resultString.Replace("$$_READ_TUNABLE_PARAMETERS_$$", allParameterReading);
-
                         string allParameterWriting = "";
-#if david
-                foreach (closedLoopControlParameters cLCParams in mech.closedLoopControlParameters)
-                {
-                    Type objType = cLCParams.GetType();
 
-                    PropertyInfo[] propertyInfos = objType.GetProperties();
+                        foreach (motorControlData mcd in mi.mechanism.stateMotorControlData)
+                        {
+                            if (mcd.controlType != CONTROL_TYPE.PERCENT_OUTPUT)
+                            {
+                                object obj = mcd.PID;
+                                Type objType = obj.GetType();
 
-                    foreach (PropertyInfo pi in propertyInfos)
-                    {
-                        bool skip = (pi.Name == "name");
-                        if (!skip)
-                            allParameterWriting += string.Format("{0}_{1} = m_table.get()->PutNumber(\"{0}_{1}\", {0}_{1});{2}", cLCParams.name, pi.Name, Environment.NewLine);
-                    }
+                                PropertyInfo[] propertyInfos = objType.GetProperties();
 
-                }
-#endif
+                                foreach (PropertyInfo pi in propertyInfos)
+                                {
+                                    bool skip = (pi.Name == "name");
+                                    if (!skip)
+                                    {
+                                        string setItem = pi.Name == "iZone" ? "IZone" : pi.Name.Replace("Gain", "").ToUpper();
+                                        allParameterReading += string.Format("{0}->Set{4}( m_table.get()->GetNumber(\"{0}_{1}\", {2}));{3}", mcd.name, pi.Name, pi.GetValue(obj), Environment.NewLine, setItem);
+                                        allParameterWriting += string.Format(" m_table.get()->PutNumber(\"{0}_{1}\", {0}->Get{4}());{3}", mcd.name, pi.Name, pi.GetValue(obj), Environment.NewLine, setItem);
+                                    }
+                                }
+
+                            }
+                        }
+
+                        resultString = resultString.Replace("$$_READ_TUNABLE_PARAMETERS_$$", allParameterReading);
                         resultString = resultString.Replace("$$_PUSH_TUNABLE_PARAMETERS_$$", allParameterWriting);
 
                         #endregion
@@ -176,7 +176,7 @@ namespace CoreCodeGenerator
 
                         List<string> mechElementsGetters = generateMethod(mi.mechanism, "generateDefinitionGetter").FindAll(me => !me.StartsWith("state* "));
                         resultString = resultString.Replace("$$_MECHANISM_ELEMENTS_GETTERS_$$", ListToString(mechElementsGetters));
-                        
+
                         List<string> mechElements = generateMethod(mi.mechanism, "generateDefinition").FindAll(me => !me.StartsWith("state* "));
                         resultString = resultString.Replace("$$_MECHANISM_ELEMENTS_$$", ListToString(mechElements));
                         resultString = resultString.Replace("$$_INCLUDE_FILES_$$", ListToString(generateMethod(mi.mechanism, "generateIncludes").Distinct().ToList()));
@@ -343,7 +343,7 @@ namespace CoreCodeGenerator
                                     stateTargets.AppendLine("}");
                                 }
 
-                                resultString = resultString.Replace("$$_SET_TARGET_CONTROL_$$", stateTargets.ToString());
+                                resultString = resultString.Replace("$$_SET_TARGET_CONTROL_$$", stateTargets.ToString().Trim());
 
                                 filePathName = getMechanismFullFilePathName(mechanismName,
                                                                             cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName).Replace("STATE_NAME", stateName)

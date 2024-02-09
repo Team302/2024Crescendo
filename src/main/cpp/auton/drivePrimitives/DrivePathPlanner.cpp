@@ -21,15 +21,17 @@
 #include "frc/trajectory/TrajectoryUtil.h"
 #include "units/angular_velocity.h"
 #include "wpi/fs.h"
+#include "frc/geometry/Pose2d.h"
+#include "frc/kinematics/ChassisSpeeds.h"
 
 // 302 Includes
 #include <auton/drivePrimitives/DrivePathPlanner.h>
-#include <auton/drivePrimitives/DragonTrajectoryUtils.h>
 #include <chassis/ChassisMovement.h>
 #include <chassis/ChassisOptionEnums.h>
+
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/ChassisConfig.h"
-#include <chassis/IChassis.h>
+#include "chassis/IChassis.h"
 #include "utils/logging/Logger.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 
@@ -62,8 +64,15 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_ntName = string("DrivePathPlanner: ") + m_pathname;
     m_maxTime = params->GetTime();
 
-    // TODO:  things have been obsoleted in 2024, so we need to re-work this
-    // m_trajectory = PathPlannerPath::loadPath(m_pathname, PathConstraints(4.5_mps, 2.75_mps_sq));
+    auto pose = m_chassis->GetPose();
+
+    auto speed = m_chassis->GetChassisSpeeds();
+
+    auto path = PathPlannerPath::fromPathFile(m_pathname);
+    if (path.get() != nullptr)
+    {
+        m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
+    }
 
     // Start timeout timer for path
     m_timer.get()->Reset();
@@ -92,17 +101,6 @@ bool DrivePathPlanner::IsDone()
     {
         TrajectoryDrivePathPlanner *trajectoryDrive = dynamic_cast<TrajectoryDrivePathPlanner *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER));
 
-        if (trajectoryDrive->IsDone()) // TrajectoryDrive is done -> log the reason why and end drive path primitive
-        {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "WhyDone", trajectoryDrive->WhyDone());
-            return true;
-        }
-        else // TrajectoryDrive isn't done
-        {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "WhyDone", "Not done");
-            return false;
-        }
-
-        return false;
+        return trajectoryDrive != nullptr ? trajectoryDrive->IsDone() : false;
     }
 }

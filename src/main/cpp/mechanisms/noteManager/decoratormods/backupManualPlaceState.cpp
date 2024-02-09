@@ -72,6 +72,10 @@ void backupManualPlaceState::Run()
 	{
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, -1.0);
 	}
+	else
+	{
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0.0);
+	}
 	m_genState->Run();
 }
 
@@ -90,6 +94,6 @@ bool backupManualPlaceState::IsTransitionCondition(bool considerGamepadTransitio
 {
 	int currentState = m_mechanism->GetCurrentState();
 
-	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) && m_mechanism->isPlacerMode()) ||
-			(currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_LAUNCH) && m_mechanism->isPlacerMode()));
+	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) && m_mechanism->IsPlacerMode()) ||
+			(currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_LAUNCH) && m_mechanism->IsPlacerMode()));
 }

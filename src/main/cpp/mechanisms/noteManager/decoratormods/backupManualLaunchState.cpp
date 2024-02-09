@@ -73,6 +73,10 @@ void backupManualLaunchState::Run()
 	{
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 1.0);
 	}
+	else
+	{
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0.0);
+	}
 
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Elevator Counts"), m_mechanism->getElevator()->GetCounts());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Angle Counts"), m_mechanism->getlauncherAngle()->GetCounts());
@@ -92,6 +96,6 @@ bool backupManualLaunchState::IsTransitionCondition(bool considerGamepadTransiti
 {
 	int currentState = m_mechanism->GetCurrentState();
 
-	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) && m_mechanism->isLauncherMode()) ||
-			(currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_PLACE) && m_mechanism->isLauncherMode()));
+	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) && m_mechanism->IsLauncherMode()) ||
+			(currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_PLACE) && m_mechanism->IsLauncherMode()));
 }

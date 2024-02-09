@@ -34,6 +34,7 @@ void RobotConfig::BuildRobot()
     DefineServos();
 
     DefineChassis();
+    DefineVisionSensors();
     DefineMechanisms();
 }
 
