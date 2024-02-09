@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2024-02-01T00:16:32.588Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" etag="xP1lu-uYL9RL1fKpCe6D" version="22.1.18" type="device">
+<mxfile host="Electron" modified="2024-02-07T04:29:34.667Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" etag="Aq6NqREut_hahxpTxbd5" version="22.1.18" type="device">
   <diagram name="Page-1" id="7JSrTSUAfBA1Y6AAACkT">
-    <mxGraphModel dx="-622" dy="3173" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="20" dy="3182" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -84,7 +84,7 @@
         <mxCell id="5ZywD062RMziToVZuSmr-14" value="AtTarget() = True" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="5ZywD062RMziToVZuSmr-9" target="5ZywD062RMziToVZuSmr-12" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="5ZywD062RMziToVZuSmr-9" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;Initialize Climber&lt;/p&gt;&lt;hr&gt;&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Init: Set motors to positionInch ControlData and set both motors to current position to 30.5in&amp;nbsp;&lt;br&gt;Run:&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 8px; text-align: left;&quot;&gt;leftClimber: 20.5 in&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 8px; text-align: left;&quot;&gt;rightClimber: 20.5 in&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Exit: N/A&lt;/p&gt;" style="shape=mxgraph.sysml.simpleState;html=1;overflow=fill;whiteSpace=wrap;align=center;" parent="1" vertex="1">
+        <mxCell id="5ZywD062RMziToVZuSmr-9" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;Initialize Climber&lt;/p&gt;&lt;hr&gt;&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Init: Set motors to positionInch ControlData and set both motors to current position to 33 in&amp;nbsp;&lt;br&gt;Run:&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 8px; text-align: left;&quot;&gt;leftClimber: 22.5 in&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 8px; text-align: left;&quot;&gt;rightClimber: 22.5 in&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;text-align:left;&quot;&gt;Exit: N/A&lt;/p&gt;" style="shape=mxgraph.sysml.simpleState;html=1;overflow=fill;whiteSpace=wrap;align=center;" parent="1" vertex="1">
           <mxGeometry x="2526" y="-1340" width="302" height="150" as="geometry" />
         </mxCell>
         <mxCell id="5ZywD062RMziToVZuSmr-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="FIMyjUegxXdDTG1FlUWc-6" target="5ZywD062RMziToVZuSmr-9" edge="1">

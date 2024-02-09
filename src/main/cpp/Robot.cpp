@@ -209,11 +209,7 @@ void Robot::TeleopPeriodic()
 
 void Robot::DisabledInit()
 {
-
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("DisabledInit"), string("arrived"));
-#ifdef INCLUDE_DATA_TRACE
-    DataTrace::GetInstance()->Disconnect();
-#endif
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("DisabledInit"), string("end"));
 }
 

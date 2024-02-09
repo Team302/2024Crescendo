@@ -1325,7 +1325,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>1.05494</value>
+                    <value>0.947921208</value>
                   </countsPerDegree>
                 </theDistanceAngleCalcInfo>
                 <voltageRamping>
@@ -1678,7 +1678,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>6.8085</value>
+                    <value>0.14687522949254608</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -6038,7 +6038,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>2.41819</value>
+                    <value>0.4135</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -6157,14 +6157,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>50</value>
+                    <value>75</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>50</value>
+                    <value>75</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
@@ -6175,6 +6175,7 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -6217,7 +6218,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>2.41819</value>
+                    <value>0.4135</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -6336,14 +6337,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>50</value>
+                    <value>75</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>50</value>
+                    <value>75</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
@@ -6383,14 +6384,14 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.04</value>
                   </pGain>
                   <iGain>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1E-05</value>
                   </iGain>
                   <dGain>
                     <unitsFamily>none</unitsFamily>
@@ -6411,7 +6412,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.25</value>
                   </iZone>
                 </PID>
                 <peakValue>
@@ -6584,7 +6585,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>22.5</value>
+                      <value>14</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6596,7 +6597,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>22.5</value>
+                      <value>14</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6629,7 +6630,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>22.5</value>
+                      <value>30</value>
                     </target>
                     <motorName>leftClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
@@ -6641,7 +6642,7 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>22.5</value>
+                      <value>30</value>
                     </target>
                     <motorName>rightClimber</motorName>
                     <controlDataName>climberPosInch</controlDataName>
