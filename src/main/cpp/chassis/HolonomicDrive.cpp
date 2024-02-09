@@ -66,6 +66,13 @@ void HolonomicDrive::Run()
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
         auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE);
+
+        auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_SPEAKER);
+        auto isAlignWithLeftStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_LEFT_STAGE_TRAP);
+        auto isAlignWithCenterStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_CENTER_STAGE_TRAP);
+        auto isAlignWithRightStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_RIGHT_STAGE_TRAP);
+        auto isAlignWithAmpSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_AMP);
+
         auto isHoldPositionSelected = controller->IsButtonPressed(TeleopControlFunctions::HOLD_POSITION);
         auto isFaceForward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_FORWARD);
         auto isFaceBackward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_BACKWARD);
@@ -76,6 +83,26 @@ void HolonomicDrive::Run()
         if (isAlignGamePieceSelected)
         {
             AlignGamePiece(moveInfo);
+        }
+        else if (isAlignWithAmpSelected)
+        {
+            AlignToAmp(moveInfo);
+        }
+        else if (isAlignWithLeftStageSelected)
+        {
+            AlignToLeftStage(moveInfo);
+        }
+        else if (isAlignWithCenterStageSelected)
+        {
+            AlignToCenterStage(moveInfo);
+        }
+        else if (isAlignWithRightStageSelected)
+        {
+            AlignToRightStage(moveInfo);
+        }
+        else if (isAlignWithSpeakerSelected)
+        {
+            AlignToSpeaker(moveInfo);
         }
         else
         {
@@ -146,6 +173,26 @@ void HolonomicDrive::ResetPose()
 void HolonomicDrive::AlignGamePiece(ChassisMovement &moveInfo)
 {
     moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+}
+void HolonomicDrive::AlignToLeftStage(ChassisMovement &moveInfo)
+{
+    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE;
+}
+void HolonomicDrive::AlignToCenterStage(ChassisMovement &moveInfo)
+{
+    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
+}
+void HolonomicDrive::AlignToRightStage(ChassisMovement &moveInfo)
+{
+    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
+}
+void HolonomicDrive::AlignToSpeaker(ChassisMovement &moveInfo)
+{
+    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_SPEAKER;
+}
+void HolonomicDrive::AlignToAmp(ChassisMovement &moveInfo)
+{
+    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
 }
 void HolonomicDrive::HoldPosition(ChassisMovement &moveInfo)
 {
