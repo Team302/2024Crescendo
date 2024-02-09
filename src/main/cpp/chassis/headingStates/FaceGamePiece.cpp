@@ -46,7 +46,6 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             }
         }
     }
-    return false;
 }
 
 /** units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularVelocity)
