@@ -53,8 +53,10 @@ CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 									 m_timer(make_unique<Timer>()),
 									 m_maxTime(units::time::second_t(0.0)),
 									 m_isDone(false)
+{
+}
 
-										 void CyclePrimitives::Init()
+void CyclePrimitives::Init()
 {
 	m_currentPrimSlot = 0; // Reset current prim
 	m_primParams.clear();
@@ -103,7 +105,7 @@ void CyclePrimitives::GetNextPrim()
 	{
 		m_currentPrim->Init(currentPrimParam);
 
-		StateMgrHelper::SetMechanismStateFromParam(currentPrimParam);
+		CyclePrimitives::SetMechanismStateFromParam(currentPrimParam);
 
 		m_maxTime = currentPrimParam->GetTime();
 		m_timer->Reset();
@@ -140,7 +142,7 @@ void CyclePrimitives::RunDriveStop()
 	m_DriveStop->Run();
 }
 
-void CyclePrimitives::SetMechanismStateFromParam(PrimitiveParams *params)
+void CyclePrimitives::State(PrimitiveParams *params)
 {
 
 	/**
