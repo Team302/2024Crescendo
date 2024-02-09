@@ -6157,14 +6157,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>40</value>
+                    <value>75</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>40</value>
+                    <value>75</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
@@ -6337,14 +6337,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>40</value>
+                    <value>75</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>40</value>
+                    <value>75</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
@@ -6630,10 +6630,9 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>leftClimber</motorName>
-                    <controlDataName>climberPosInch</controlDataName>
+                    <controlDataName>climberPercetOut</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>rightClimber</name>
@@ -6642,10 +6641,9 @@
                       <name>Target</name>
                       <__units__>in</__units__>
                       <type>Double</type>
-                      <value>30</value>
                     </target>
                     <motorName>rightClimber</motorName>
-                    <controlDataName>climberPosInch</controlDataName>
+                    <controlDataName>climberPercetOut</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>

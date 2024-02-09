@@ -60,6 +60,15 @@ void ManualState::Run()
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, Target);
 	}*/
 
+	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL))
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
+	else
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, 0);
+
+	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE))
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
+	else
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, 0);
 	m_genState->Run();
 }
 
