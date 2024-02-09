@@ -39,7 +39,7 @@ std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(Chass
         auto fieldRelativeSpeeds = ChassisSpeeds::FromFieldRelativeSpeeds(chassisMovement.chassisSpeeds.vx,
                                                                           chassisMovement.chassisSpeeds.vy,
                                                                           chassisMovement.chassisSpeeds.omega,
-                                                                          m_chassis->GetDragonSwervePose().Rotation());
+                                                                          m_chassis->GetDragonSwervePose()->GetPose().Rotation());
 
         chassisMovement.chassisSpeeds = fieldRelativeSpeeds;
     }
