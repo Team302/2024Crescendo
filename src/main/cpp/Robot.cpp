@@ -27,8 +27,6 @@
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
 #include <AdjustableItemMgr.h>
-#include <frc/geometry/Pose3d.h>
-#include <utils\FieldConstants.h>
 
 using namespace std;
 
