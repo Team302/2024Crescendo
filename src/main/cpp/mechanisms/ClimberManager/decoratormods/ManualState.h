@@ -45,6 +45,6 @@ namespace ClimberManagerStates
 	private:
 		ClimberManagerAllStatesStateGen *m_genState;
 		ClimberManager *m_mechanism;
-		double m_currentPos;
+		double m_target = 30;
 	};
 }

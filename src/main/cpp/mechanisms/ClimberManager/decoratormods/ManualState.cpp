@@ -49,27 +49,16 @@ void ManualState::Init()
 
 void ManualState::Run()
 {
-	/*double Target = 30;
+
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("run"));
-	if ((TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
+	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
 	{
-		double delta = 3.0 * 0.02 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 3 in/s * 0.02 for 20 ms loop time * controller input
-		double Target = +delta;
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Target"), Target);
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, Target);
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, Target);
-	}*/
-
-	// Temp manual control until we can get position control working
-	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL))
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
-	else
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, 0);
-
-	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE))
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
-	else
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, 0);
+		double delta = 6.0 * 0.05 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		m_target += delta;
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
+	}
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Target"), m_target);
 	m_genState->Run();
 }
 
