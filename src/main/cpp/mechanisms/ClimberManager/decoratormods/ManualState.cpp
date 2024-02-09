@@ -45,23 +45,21 @@ void ManualState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("init"));
 	m_genState->Init();
-	m_currentPos = m_mechanism->getleftClimber()->GetCounts();
 }
 
 void ManualState::Run()
 {
+	/*double Target = 30;
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("run"));
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Count"), m_mechanism->getleftClimber()->GetCounts());
-
-	double delta = 3.0 * 0.02 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 3 in/s * 0.02 for 20 ms loop time * controller input
-	double Target = m_currentPos + delta;
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Target"), Target);
-
-	/*	Uncomment once back in posInchControl
+	if ((TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
+	{
+		double delta = 3.0 * 0.02 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 3 in/s * 0.02 for 20 ms loop time * controller input
+		double Target = +delta;
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Target"), Target);
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, Target);
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, Target);
-	*/
+	}*/
+
 	m_genState->Run();
 }
 

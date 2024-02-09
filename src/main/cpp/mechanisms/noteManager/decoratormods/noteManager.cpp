@@ -60,6 +60,8 @@
 #include "mechanisms/noteManager/decoratormods/backupManualPlaceState.h"
 
 #include "robotstate/RobotState.h"
+#include "utils/logging/Logger.h"
+#include "utils/logging/DataTrace.h"
 
 using std::string;
 using namespace noteManagerStates;
@@ -110,6 +112,7 @@ void noteManager::ResetLauncherAngle()
 void noteManager::SetCurrentState(int state, bool run)
 {
 	noteManagerGen::SetCurrentState(state, run);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Note Manager Current State"), GetCurrentStatePtr()->GetStateName());
 }
 
 void noteManager::CreateAndRegisterStates()

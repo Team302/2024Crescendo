@@ -35,9 +35,9 @@ DataTrace::DataTrace()
 {
 }
 
-void DataTrace::sendArmData(double angle, double power)
+void DataTrace::sendClimberData(double angle, double power)
 {
-    sprintf(sendBuffer, "$$armData:%.3f:%.2f:%.2f##", m_timer.Get().to<double>(), angle, power);
+    sprintf(sendBuffer, "$$Climber:%.3f:%.2f:%.2f##", m_timer.Get().to<double>(), angle, power);
     SendData();
 }
 
