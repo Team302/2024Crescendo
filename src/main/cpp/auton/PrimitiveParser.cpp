@@ -65,7 +65,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
         {"UNKNOWN", PrimitiveParams::VISION_ALIGNMENT::UNKNOWN},
         {"NOTE", PrimitiveParams::VISION_ALIGNMENT::NOTE},
         {"SPEAKER", PrimitiveParams::VISION_ALIGNMENT::SPEAKER},
-        {"APRIL_TAG", PrimitiveParams::VISION_ALIGNMENT::APRIL_TAG}};
+    };
     xml_document doc;
     xml_parse_result result = doc.load_file(fulldirfile.c_str());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "PrimitiveParser", "Original File", fulldirfile.c_str());
@@ -131,8 +131,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
 
                     std::string pathName;
                     ZoneParamsVector zones;
-                    // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
-                    // auto extenderstate = ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND;
                     // auto intakestate = IntakeStateMgr::INTAKE_STATE::HOLD;
                     // @ADDMECH Initialize your mechanism state
 
@@ -181,7 +179,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                             auto visionAlignmentItr = xmlStringToVisionAlignmentEnumMap.find(attr.value());
                             if (visionAlignmentItr != xmlStringToVisionAlignmentEnumMap.end())
                             {
-                                visionAlignmentmode = PrimitiveParams::VISION_ALIGNMENT::APRIL_TAG;
                                 visionAlignment = visionAlignmentItr->second;
                             }
                             else
@@ -189,36 +186,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                 Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML invalid attribute"), attr.name());
                                 hasError = true;
                             }
-                        }
-                        for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
-                        {
-                            if (strcmp(child.name(), "zone") == 0)
-                            {
-                                auto zone = ZoneParser::ParseXML(child); // create a zone params object
-                                zones.emplace_back(zone);                // adding to the vector
-                            }
-                        }
-
-                        if (!hasError)
-                        {
-                            paramVector.emplace_back(new PrimitiveParams(primitiveType,
-                                                                         time,
-                                                                         headingOption,
-                                                                         heading,
-                                                                         pathName,
-                                                                         visionAlignment,
-                                                                         zones
-                                                                         // vector of all zones included as part of the path
-                                                                         // can have multiple zones as part of a complex path
-                                                                         // @ADDMECH add parameter for your mechanism state
-                                                                         // armstate,
-                                                                         // extenderstate,
-                                                                         // intakestate,
-                                                                         ));
-                        }
-                        else
-                        {
-                            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML"), string("Has Error"));
                         }
                     }
                     for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
@@ -239,12 +206,12 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      pathName,
                                                                      // pipelineMode,
                                                                      zones, // vector of all zones included as part of the path
-                                                                     // can have multiple zones as part of a complex path
-                                                                     // @ADDMECH add parameter for your mechanism state
-                                                                     // armstate,
-                                                                     // extenderstate,
-                                                                     // intakestate,
-
+                                                                            // can have multiple zones as part of a complex path
+                                                                            // @ADDMECH add parameter for your mechanism state
+                                                                            // armstate,
+                                                                            // extenderstate,
+                                                                            // intakestate,
+                                                                     PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
                                                                      // Below are dummy values
                                                                      noteManagerGen::STATE_NAMES::STATE_OFF,
                                                                      ClimberManagerGen::STATE_NAMES::STATE_OFF));

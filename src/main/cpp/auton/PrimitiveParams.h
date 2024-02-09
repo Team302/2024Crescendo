@@ -40,8 +40,7 @@ public:
     {
         NOTE = DragonVision::VISION_ELEMENT::NOTE,
         SPEAKER = DragonVision::VISION_ELEMENT::SPEAKER,
-        UNKNOWN = -1,
-        APRIL_TAG
+        UNKNOWN = -1
     };
     // @ADDMECH add parameter for your mechanism state
     PrimitiveParams(
@@ -50,48 +49,47 @@ public:
         ChassisOptionEnums::HeadingOption headingOption,
         float heading,
         std::string pathName,
+        // DragonCamera::PIPELINE pipelineMode,
+        ZoneParamsVector zones, // create zones parameter of type
         VISION_ALIGNMENT visionAlignment,
-        ZoneParamsVector zones); // create zones parameter of type ZonesParamsVector
-    // DragonCamera::PIPELINE pipelineMode,
-        ZoneParamsVector zones,
         noteManagerGen::STATE_NAMES noteState,
         ClimberManagerGen::STATE_NAMES climberState); // create zones parameter of type ZonesParamsVector
 
-        PrimitiveParams() = delete;
-        virtual ~PrimitiveParams() = default; // Destructor
+    PrimitiveParams() = delete;
+    virtual ~PrimitiveParams() = default; // Destructor
 
-        // Some getters
-        PRIMITIVE_IDENTIFIER GetID() const { return m_id; };
-        units::time::second_t GetTime() const { return m_time; };
-        ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
-        float GetHeading() const { return m_heading; };
-        std::string GetPathName() const { return m_pathName; };
-        ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
-        VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
+    // Some getters
+    PRIMITIVE_IDENTIFIER GetID() const { return m_id; };
+    units::time::second_t GetTime() const { return m_time; };
+    ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
+    float GetHeading() const { return m_heading; };
+    std::string GetPathName() const { return m_pathName; };
+    ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
+    VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
 
-        // @ADDMECH Add methods to get the state mgr for mechanism
+    // @ADDMECH Add methods to get the state mgr for mechanism
 
-        // Setters
-        void SetPathName(std::string path) { m_pathName = path; }
-        void SetVisionAlignment(VISION_ALIGNMENT visionAlignment)
-        {
-            m_visionAlignment = visionAlignment;
-        }
+    // Setters
+    void SetPathName(std::string path) { m_pathName = path; }
+    void SetVisionAlignment(VISION_ALIGNMENT visionAlignment)
+    {
+        m_visionAlignment = visionAlignment;
+    }
 
-    private:
-        // Primitive Parameters
-        PRIMITIVE_IDENTIFIER m_id; // Primitive ID
-        units::time::second_t m_time;
-        ChassisOptionEnums::HeadingOption m_headingOption;
-        float m_heading;
-        std::string m_pathName;
+private:
+    // Primitive Parameters
+    PRIMITIVE_IDENTIFIER m_id; // Primitive ID
+    units::time::second_t m_time;
+    ChassisOptionEnums::HeadingOption m_headingOption;
+    float m_heading;
+    std::string m_pathName;
 
-        noteManagerGen::STATE_NAMES m_noteState;
-        ClimberManagerGen::STATE_NAMES m_climberState;
+    noteManagerGen::STATE_NAMES m_noteState;
+    ClimberManagerGen::STATE_NAMES m_climberState;
 
-        // @ADDMECH add attribute for your mechanism state
-        ZoneParamsVector m_zones;
-        VISION_ALIGNMENT m_visionAlignment;
+    // @ADDMECH add attribute for your mechanism state
+    ZoneParamsVector m_zones;
+    VISION_ALIGNMENT m_visionAlignment;
 };
 
 typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;
