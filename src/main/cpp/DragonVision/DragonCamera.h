@@ -23,7 +23,6 @@
 #include "frc/geometry/Pose3d.h"
 #include "frc/DriverStation.h"
 #include "DragonVision/DragonVisionStructs.h"
-#include "DragonVision/DragonVision.h"
 
 class DragonCamera
 {
@@ -38,8 +37,8 @@ public:
     };
 
     DragonCamera(
-        std::string cameraName,
-        PIPELINE pipeline,                     /// <I> enum for pipeline             /// <I> camera name/type
+        std::string cameraName,                /// <I> camera name/type
+        PIPELINE pipeline,                     /// <I> enum for pipeline
         units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot is positive)
         units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot is positive)
         units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot is positive)
@@ -99,7 +98,6 @@ public:
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }
-
     units::angle::degree_t GetCameraPitch() const { return m_robotCenterToCam.Rotation().Y(); }
     units::angle::degree_t GetCameraYaw() const { return m_robotCenterToCam.Rotation().Z(); }
     units::angle::degree_t GetCameraRoll() const { return m_robotCenterToCam.Rotation().X(); } // rotates around x-axis
@@ -114,7 +112,6 @@ public:
     }
 
     // Setters
-
     void SetPipeline(PIPELINE pipeline)
     {
         m_pipeline = pipeline;
@@ -130,10 +127,9 @@ public:
     virtual bool UpdatePipeline() = 0; // children will handle updating the co-processor to current m_pipeline value
 
 protected:
-    PIPELINE m_pipeline;
     frc::Pose3d m_cameraPose;
     frc::Transform3d m_robotCenterToCam;
-    // PIPELINE m_pipeline;
+    PIPELINE m_pipeline;
     std::string m_cameraName;
 
     const units::length::inch_t m_noteVerticalOffset = units::length::inch_t(0.0); // This represents the note being at the same level as center of robot
