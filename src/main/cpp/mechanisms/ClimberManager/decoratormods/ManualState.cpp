@@ -60,6 +60,7 @@ void ManualState::Run()
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, Target);
 	}*/
 
+	// Temp manual control until we can get position control working
 	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL))
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB));
 	else

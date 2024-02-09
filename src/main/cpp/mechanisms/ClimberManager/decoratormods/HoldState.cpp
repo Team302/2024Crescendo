@@ -65,10 +65,11 @@ bool HoldState::AtTarget()
 {
 	double left = m_mechanism->getleftClimber()->GetCounts();
 	double right = m_mechanism->getrightClimber()->GetCounts();
+	// Temp Logging, will need to tune PIDs again ocne they change the gear ratio
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left Counts"), left);
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Right Counts"), right);
 
-	double target = 15;
+	double target = 14.5;
 
 	return (((abs(left - target)) <= 0.5) &&
 			(abs(right - target) <= 0.5));

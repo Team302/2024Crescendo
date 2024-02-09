@@ -53,8 +53,6 @@ void InitializeState::Init()
 void InitializeState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("InitializeState"), string("run"));
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left Counts"), m_mechanism->getleftClimber()->GetCounts());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Right Counts"), m_mechanism->getrightClimber()->GetCounts());
 	m_genState->Run();
 }
 
