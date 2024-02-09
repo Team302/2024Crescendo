@@ -19,6 +19,8 @@
 
 // Team302 Includes
 #include "chassis/driveStates/FieldDrive.h"
+#include "chassis/DragonSwervePoseEstimator.h"
+#include "robotstate/RobotState.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
@@ -37,7 +39,7 @@ std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(Chass
         auto fieldRelativeSpeeds = ChassisSpeeds::FromFieldRelativeSpeeds(chassisMovement.chassisSpeeds.vx,
                                                                           chassisMovement.chassisSpeeds.vy,
                                                                           chassisMovement.chassisSpeeds.omega,
-                                                                          m_chassis->GetPose().Rotation());
+                                                                          m_chassis->GetDragonSwervePose().Rotation());
 
         chassisMovement.chassisSpeeds = fieldRelativeSpeeds;
     }

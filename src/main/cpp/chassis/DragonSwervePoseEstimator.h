@@ -127,4 +127,5 @@ private:
 
     bool m_initialized = false;
     std::string m_networkTableName;
+    SwerveChassis *m_chassis;
 };

@@ -132,7 +132,23 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                                         {0.1, 0.1, 0.1}),
                                                         m_storedYaw(m_pigeon->GetYaw().GetValueAsDouble()),
                                                         m_targetHeading(units::angle::degree_t(0.0)),
-                                                        m_networkTableName(networkTableName)
+                                                        m_networkTableName(networkTableName),
+                                                        m_poseEstimatorOdometry(new DragonSwervePoseEstimator(frontLeft,
+                                                                                                              frontRight,
+                                                                                                              backLeft,
+                                                                                                              backRight,
+
+                                                                                                              pigeon,
+                                                                                                              m_poseEstimator,
+                                                                                                              m_networkTableName)),
+                                                        m_getPose(new DragonSwervePoseEstimator(frontLeft,
+                                                                                                frontRight,
+                                                                                                backLeft,
+                                                                                                backRight,
+
+                                                                                                pigeon,
+                                                                                                m_poseEstimator,
+                                                                                                m_networkTableName))
 {
     InitStates();
     ZeroAlignSwerveModules();

@@ -38,6 +38,7 @@
 #include "chassis/SwerveModule.h"
 #include "chassis/ChassisMovement.h"
 #include "utils/logging/LoggableItem.h"
+#include "chassis/DragonSwervePoseEstimator.h"
 
 #include "ctre/phoenix6/Pigeon2.hpp"
 
@@ -112,6 +113,9 @@ public:
 
     void SetTargetHeading(units::angle::degree_t targetYaw) override;
 
+    DragonSwervePoseEstimator *GetDragonSwervePoseEstimator() const { return m_poseEstimatorOdometry; }
+    DragonSwervePoseEstimator *GetDragonSwervePose() const { return m_getPose; }
+
     void SetStoredHeading(units::angle::degree_t heading);
     units::angle::degree_t GetStoredHeading() { return m_storedYaw; };
 
@@ -164,6 +168,9 @@ private:
 
     ISwerveDriveState *m_currentDriveState;
     ISwerveDriveOrientation *m_currentOrientationState;
+
+    DragonSwervePoseEstimator *m_poseEstimatorOdometry;
+    DragonSwervePoseEstimator *m_getPose;
 
     bool m_initialized = false;
     std::string m_networkTableName;
