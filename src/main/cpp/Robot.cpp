@@ -7,6 +7,7 @@
 
 #include <string>
 
+#include "DragonVision/DragonVision.h" //debugging
 #include "auton/AutonPreviewer.h"
 #include "auton/CyclePrimitives.h"
 #include "chassis/ChassisConfig.h"
@@ -194,7 +195,15 @@ void Robot::TeleopPeriodic()
         }
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-
+    // debugging purposes
+    std::optional<VisionData> visioninfo = DragonVision::GetDragonVision()->GetVisionData(DragonVision::AMP);
+    if (visioninfo.has_value())
+    {
+       // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("AprilTag"), visioninfo.value().tagId);
+    }
+    else
+    {
+    }
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 

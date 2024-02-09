@@ -9148,7 +9148,7 @@
       <Cameras>
         <Camera
           xsi:type="PhotonCam">
-          <name>Camera_A</name>
+          <name>Launcher</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -9194,7 +9194,7 @@
         </Camera>
         <Camera
           xsi:type="PhotonCam">
-          <name>Camera_B</name>
+          <name>Placer</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
