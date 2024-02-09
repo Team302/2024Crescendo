@@ -20,8 +20,14 @@
 class FieldConstants
 {
 public:
-    FieldConstants();
-    ~FieldConstants() = default;
+    
+    static FieldConstants* GetInstance() {
+        if ( m_instance == nullptr )
+        {
+            m_instance = new FieldConstants();
+        }
+        return m_instance;
+    }
     enum FIELD_ELEMENT
     {
         BLUE_SOURCE,
@@ -40,6 +46,14 @@ public:
     frc::Pose3d GetFieldElement(FIELD_ELEMENT element);
 
 private:
+    //make a singleton
+    static FieldConstants *m_instance;
+    //make constructor private
+    FieldConstants();
+    //make singleton copy constructor private
+    FieldConstants(const FieldConstants&) = delete;
+    FieldConstants& operator= (const FieldConstants&) = delete;
+
     // blue
     const frc::Pose3d m_BlueSource = frc::Pose3d(
         units::length::meter_t(15.63), 

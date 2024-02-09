@@ -170,7 +170,6 @@ void Robot::TeleopInit()
         m_field->ResetField(); // ToDo:  Move to DriveTeamFeedback
     }
     **/
-    // m_field->GetInstance();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
 

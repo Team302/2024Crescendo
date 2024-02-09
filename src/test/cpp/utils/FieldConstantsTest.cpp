@@ -4,7 +4,7 @@
 class FieldConstantsTest : public ::testing::Test
 {
     protected:
-    FieldConstants fieldConstants = FieldConstants();
+    FieldConstants fieldConstants = FieldConstants.getInstance();
 };
 
 TEST_F(FieldConstantsTest, GetFieldElementTest)
