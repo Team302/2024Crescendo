@@ -43,6 +43,11 @@ private:
     void TurnBackward(ChassisMovement &moveInfo);
     void SlowMode(ChassisMovement &moveInfo);
     void CheckTipping(bool tippingSelected, ChassisMovement &moveInfo);
+    void AlignToSpeaker(ChassisMovement &moveInfo);
+    void AlignToAmp(ChassisMovement &moveInfo);
+    void AlignToLeftStage(ChassisMovement &moveInfo);
+    void AlignToCenterStage(ChassisMovement &moveInfo);
+    void AlignToRightStage(ChassisMovement &moveInfo);
 
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
