@@ -57,12 +57,13 @@ public:
     /// @param mode the pipeline to set the camera to
     /// @param position the physical position of the camera
     /// @return if successful or not (not currently implemented)
-    bool SetPipeline(DragonCamera::PIPELINE mode, CAMERA_POSITION position);
+    bool SetPipeline(DragonCamera::PIPELINE mode, RobotElementNames::CAMERA_USAGE position);
 
     /// @brief gets the pipeline of the camera at the chosen position
     /// @param position the physical position of the camera
     /// @return DragonCamera::PIPELINE - the currently selected pipeline
-    DragonCamera::PIPELINE GetPipeline(CAMERA_POSITION position);
+    DragonCamera::PIPELINE GetPipeline(RobotElementNames::CAMERA_USAGE position);
+
     /// @brief gets the field position of the robot (right blue driverstation origin)
     /// @return std::optional<VisionPose> - the estimated position, timestamp of estimation, and confidence as array of std devs
     std::optional<VisionPose> GetRobotPosition();
