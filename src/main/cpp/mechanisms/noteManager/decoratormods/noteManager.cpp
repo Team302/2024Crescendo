@@ -102,8 +102,6 @@ void noteManager::ResetElevator()
 {
 	if (getElevator()->IsReverseLimitSwitchClosed())
 		getElevator()->SetSelectedSensorPosition(0);
-	if (m_noteManager->getElevator()->IsReverseLimitSwitchClosed())
-		m_noteManager->getElevator()->SetSelectedSensorPosition(0);
 }
 
 void noteManager::ResetLauncherAngle()
