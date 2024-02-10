@@ -44,7 +44,7 @@ noteManagerGen::noteManagerGen() : BaseMech ( MechanismTypes::MECHANISM_TYPE::NO
 void noteManagerGen::Create()
 {
 	m_ntName = "noteManager";
-	DistanceAngleCalcStruc frontIntakeCalcStruct;
+	DistanceAngleCalcStruc frontIntakeCalcStruct;  
 	frontIntakeCalcStruct.countsPerRev = 0 ;
 	frontIntakeCalcStruct.gearRatio = 1 ;
 	frontIntakeCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
@@ -57,6 +57,7 @@ void noteManagerGen::Create()
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
+
 
 	DistanceAngleCalcStruc backIntakeCalcStruct;
 	backIntakeCalcStruct.countsPerRev = 0 ;
@@ -72,6 +73,7 @@ void noteManagerGen::Create()
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
 
+
 	DistanceAngleCalcStruc TransferCalcStruct;
 	TransferCalcStruct.countsPerRev = 0 ;
 	TransferCalcStruct.gearRatio = 1 ;
@@ -85,6 +87,7 @@ void noteManagerGen::Create()
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
+
 
 	DistanceAngleCalcStruc FeederCalcStruct;
 	FeederCalcStruct.countsPerRev = 0 ;
@@ -100,6 +103,7 @@ void noteManagerGen::Create()
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
 
+
 	DistanceAngleCalcStruc launcherTopCalcStruct;
 	launcherTopCalcStruct.countsPerRev = 0 ;
 	launcherTopCalcStruct.gearRatio = 1 ;
@@ -113,6 +117,7 @@ void noteManagerGen::Create()
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
+
 
 	DistanceAngleCalcStruc launcherBottomCalcStruct;
 	launcherBottomCalcStruct.countsPerRev = 0 ;
@@ -128,12 +133,13 @@ void noteManagerGen::Create()
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
 
+
 	DistanceAngleCalcStruc launcherAngleCalcStruct;
 	launcherAngleCalcStruct.countsPerRev = 0 ;
 	launcherAngleCalcStruct.gearRatio = 1 ;
 	launcherAngleCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	launcherAngleCalcStruct.countsPerInch = 0 ;
-	launcherAngleCalcStruct.countsPerDegree = 0.947921208 ;;
+	launcherAngleCalcStruct.countsPerDegree = 1.05494 ;;
 	launcherAngle = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
 	m_motorMap[launcherAngle->GetType()] = new BaseMechMotor ( m_ntName,
 	    launcherAngle,
@@ -141,6 +147,7 @@ void noteManagerGen::Create()
 	    nullptr,
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
+
 
 	DistanceAngleCalcStruc PlacerCalcStruct;
 	PlacerCalcStruct.countsPerRev = 0 ;
@@ -156,11 +163,12 @@ void noteManagerGen::Create()
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
 
+
 	DistanceAngleCalcStruc ElevatorCalcStruct;
 	ElevatorCalcStruct.countsPerRev = 0 ;
 	ElevatorCalcStruct.gearRatio = 1 ;
 	ElevatorCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
-	ElevatorCalcStruct.countsPerInch = 0.146875229492546 ;
+	ElevatorCalcStruct.countsPerInch = 6.8085 ;
 	ElevatorCalcStruct.countsPerDegree = 0 ;;
 	Elevator = new DragonSparkMax ( 62,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,ElevatorCalcStruct );
 	m_motorMap[Elevator->GetType()] = new BaseMechMotor ( m_ntName,
@@ -170,6 +178,11 @@ void noteManagerGen::Create()
 	    BaseMechMotor::EndOfTravelSensorOption::NONE,
 	    nullptr );
 
+
+
+
+
+
 	frontIntakeSensor = new DragonDigitalInput ( "frontIntakeSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_FRONT_INTAKE_SENSOR,1,true,units::time::second_t ( 0 ) );
 	backIntakeSensor = new DragonDigitalInput ( "backIntakeSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_BACK_INTAKE_SENSOR,2,true,units::time::second_t ( 0 ) );
 	feederSensor = new DragonDigitalInput ( "feederSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_FEEDER_SENSOR,3,true,units::time::second_t ( 0 ) );
@@ -177,6 +190,7 @@ void noteManagerGen::Create()
 	placerInSensor = new DragonDigitalInput ( "placerInSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_IN_SENSOR,5,true,units::time::second_t ( 0 ) );
 	placerMidSensor = new DragonDigitalInput ( "placerMidSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_MID_SENSOR,6,true,units::time::second_t ( 0 ) );
 	placerOutSensor = new DragonDigitalInput ( "placerOutSensor",RobotElementNames::DIGITAL_INPUT_USAGE::NOTE_MANAGER_PLACER_OUT_SENSOR,7,true,units::time::second_t ( 0 ) );
+
 
 	percentOutput = new ControlData (
 	    ControlModes::CONTROL_TYPE::PERCENT_OUTPUT, // ControlModes::CONTROL_TYPE mode
@@ -437,6 +451,11 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 		                              units::time::second_t ( units::time::second_t ( 0.1 ) ).to<double>() );
 		Elevator->SetSensorInverted ( false );
 
+
+
+
+
+
 // frontIntakeSensor : Digital inputs do not have initialization needs
 // backIntakeSensor : Digital inputs do not have initialization needs
 // feederSensor : Digital inputs do not have initialization needs
@@ -444,6 +463,7 @@ void noteManagerGen::Initialize ( RobotConfigMgr::RobotIdentifier robotFullName 
 // placerInSensor : Digital inputs do not have initialization needs
 // placerMidSensor : Digital inputs do not have initialization needs
 // placerOutSensor : Digital inputs do not have initialization needs
+
 
 // percentOutput : ControlData does not have initialization needs
 // positionInch : ControlData does not have initialization needs
@@ -486,6 +506,7 @@ void noteManagerGen::SetCurrentState ( int state, bool run )
 {
 	StateMgr::SetCurrentState ( state, run );
 }
+
 
 /// @brief  Set the control constants (e.g. PIDF values).
 /// @param [in] ControlData*                                   pid:  the control constants
@@ -572,6 +593,7 @@ bool noteManagerGen::IsAtMaxPosition ( RobotElementNames::MOTOR_CONTROLLER_USAGE
 	return false;
 }
 
+
 BaseMechMotor *noteManagerGen::GetMotorMech ( RobotElementNames::MOTOR_CONTROLLER_USAGE usage ) const
 {
 	auto itr = m_motorMap.find ( usage );
@@ -591,6 +613,7 @@ std::vector<RobotElementNames::MOTOR_CONTROLLER_USAGE> noteManagerGen::GetMotorU
 	}
 	return output;
 }
+
 
 void noteManagerGen::UpdateTarget ( RobotElementNames::SOLENOID_USAGE identifier, bool extend )
 {
@@ -620,6 +643,7 @@ bool noteManagerGen::IsAtMaxPosition ( RobotElementNames::SOLENOID_USAGE identif
 	}
 	return false;
 }
+
 
 BaseMechSolenoid *noteManagerGen::GetSolenoidMech ( RobotElementNames::SOLENOID_USAGE usage ) const
 {
@@ -682,40 +706,10 @@ void noteManagerGen::CheckForTuningEnabled()
 
 void noteManagerGen::ReadTuningParamsFromNT()
 {
-	positionInch->SetIZone ( m_table.get()->GetNumber ( "positionInch_iZone", 0 ) );
-	positionInch->SetF ( m_table.get()->GetNumber ( "positionInch_fGain", 0 ) );
-	positionInch->SetP ( m_table.get()->GetNumber ( "positionInch_pGain", 0 ) );
-	positionInch->SetI ( m_table.get()->GetNumber ( "positionInch_iGain", 0 ) );
-	positionInch->SetD ( m_table.get()->GetNumber ( "positionInch_dGain", 0 ) );
-	velocityRPS->SetIZone ( m_table.get()->GetNumber ( "velocityRPS_iZone", 0 ) );
-	velocityRPS->SetF ( m_table.get()->GetNumber ( "velocityRPS_fGain", 0 ) );
-	velocityRPS->SetP ( m_table.get()->GetNumber ( "velocityRPS_pGain", 0 ) );
-	velocityRPS->SetI ( m_table.get()->GetNumber ( "velocityRPS_iGain", 0 ) );
-	velocityRPS->SetD ( m_table.get()->GetNumber ( "velocityRPS_dGain", 0 ) );
-	posDegreeAbs->SetIZone ( m_table.get()->GetNumber ( "posDegreeAbs_iZone", 0 ) );
-	posDegreeAbs->SetF ( m_table.get()->GetNumber ( "posDegreeAbs_fGain", 0 ) );
-	posDegreeAbs->SetP ( m_table.get()->GetNumber ( "posDegreeAbs_pGain", 0 ) );
-	posDegreeAbs->SetI ( m_table.get()->GetNumber ( "posDegreeAbs_iGain", 0 ) );
-	posDegreeAbs->SetD ( m_table.get()->GetNumber ( "posDegreeAbs_dGain", 0 ) );
 
 }
 
 void noteManagerGen::PushTuningParamsToNT()
 {
-	m_table.get()->PutNumber ( "positionInch_iZone", positionInch->GetIZone() );
-	m_table.get()->PutNumber ( "positionInch_fGain", positionInch->GetF() );
-	m_table.get()->PutNumber ( "positionInch_pGain", positionInch->GetP() );
-	m_table.get()->PutNumber ( "positionInch_iGain", positionInch->GetI() );
-	m_table.get()->PutNumber ( "positionInch_dGain", positionInch->GetD() );
-	m_table.get()->PutNumber ( "velocityRPS_iZone", velocityRPS->GetIZone() );
-	m_table.get()->PutNumber ( "velocityRPS_fGain", velocityRPS->GetF() );
-	m_table.get()->PutNumber ( "velocityRPS_pGain", velocityRPS->GetP() );
-	m_table.get()->PutNumber ( "velocityRPS_iGain", velocityRPS->GetI() );
-	m_table.get()->PutNumber ( "velocityRPS_dGain", velocityRPS->GetD() );
-	m_table.get()->PutNumber ( "posDegreeAbs_iZone", posDegreeAbs->GetIZone() );
-	m_table.get()->PutNumber ( "posDegreeAbs_fGain", posDegreeAbs->GetF() );
-	m_table.get()->PutNumber ( "posDegreeAbs_pGain", posDegreeAbs->GetP() );
-	m_table.get()->PutNumber ( "posDegreeAbs_iGain", posDegreeAbs->GetI() );
-	m_table.get()->PutNumber ( "posDegreeAbs_dGain", posDegreeAbs->GetD() );
 
 }
