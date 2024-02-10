@@ -86,13 +86,13 @@ public:
     virtual std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) = 0;
 
     //  Estimating distance
-    virtual units::length::inch_t EstimateTargetXDistance() = 0;
-    virtual units::length::inch_t EstimateTargetYDistance() = 0;
-    virtual units::length::inch_t EstimateTargetZDistance() = 0;
+    virtual std::optional<units::length::inch_t> EstimateTargetXDistance() = 0;
+    virtual std::optional<units::length::inch_t> EstimateTargetYDistance() = 0;
+    virtual std::optional<units::length::inch_t> EstimateTargetZDistance() = 0;
 
-    virtual units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() = 0;
-    virtual units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() = 0;
-    virtual units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() = 0;
+    virtual std::optional<units::length::inch_t> EstimateTargetXDistance_RelToRobotCoords() = 0;
+    virtual std::optional<units::length::inch_t> EstimateTargetYDistance_RelToRobotCoords() = 0;
+    virtual std::optional<units::length::inch_t> EstimateTargetZDistance_RelToRobotCoords() = 0;
 
     virtual std::optional<VisionData> GetDataToNearestAprilTag() = 0;
 

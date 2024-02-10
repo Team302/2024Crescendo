@@ -322,7 +322,6 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance()
 
         // Get transformation from camera to target
         frc::Transform3d transform = target.GetBestCameraToTarget();
-
         return transform.X();
     }
 }
