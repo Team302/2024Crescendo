@@ -386,7 +386,7 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
     if (aprilTagID && targetPitch)
     {
         // d=(h2-h1)/tan(a1+a2)
-        units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + targetPitch);
+        units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + targetPitch.value());
 
         return estimatedTargetDistance;
     }
