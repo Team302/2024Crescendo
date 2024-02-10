@@ -54,28 +54,28 @@ public:
 
     ///@brief Gets the yaw error to the target relative to the camera
     ///@return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetYaw() = 0;
+    virtual std::optional<units::angle::degree_t> GetTargetYaw() = 0;
     /// @brief Gets the yaw error to target relative to the robot frame
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetYawRobotFrame() = 0;
+    virtual std::optional<units::angle::degree_t> GetTargetYawRobotFrame() = 0;
     /// @brief Gets the pitch error relative to the robot frame
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetPitchRobotFrame() = 0;
+    virtual std::optional<units::angle::degree_t> GetTargetPitchRobotFrame() = 0;
     /// @brief Gets the pitch of the current target
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetPitch() = 0;
+    virtual std::optional<units::angle::degree_t> GetTargetPitch() = 0;
     /// @brief returns the curent latancy of the vision pipeline
     /// @return units::time::millisecond_t
-    virtual units::time::millisecond_t GetPipelineLatency() = 0;
+    virtual std::optional<units::time::millisecond_t> GetPipelineLatency() = 0;
     /// @brief rturns the skew of the target
     /// @return units::angle::degree_t
-    virtual units::angle::degree_t GetTargetSkew() = 0;
+    virtual std::optional<units::angle::degree_t> GetTargetSkew() = 0;
     /// @brief returns the area of the "detection box"
     /// @return double
-    virtual double GetTargetArea() = 0;
+    virtual std::optional<double> GetTargetArea() = 0;
     /// @brief returns the current apriltag id
     /// @return int
-    virtual int GetAprilTagID() = 0;
+    virtual std::optional<int> GetAprilTagID() = 0;
     /// @brief returns the position of the robot
     /// @return std::optional<VisionPose>
     virtual std::optional<VisionPose> GetFieldPosition() = 0;
