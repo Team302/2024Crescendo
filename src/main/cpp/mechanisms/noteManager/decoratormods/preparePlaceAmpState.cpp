@@ -71,6 +71,6 @@ bool preparePlaceAmpState::IsTransitionCondition(bool considerGamepadTransitions
 	auto currentState = m_mechanism->GetCurrentState();
 	bool placerInSensor = m_mechanism->getplacerInSensor()->Get();
 	bool placerMidSensor = m_mechanism->getplacerMidSensor()->Get();
-	return ((placerInSensor && placerMidSensor && (m_mechanism->IsClimbMode() == false)) ||
+	return ((placerMidSensor && (m_mechanism->IsClimbMode() == false)) ||
 			((currentState == m_mechanism->STATE_PREPARE_PLACE_TRAP) && (m_mechanism->IsClimbMode() == false)));
 }

@@ -34,16 +34,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-placeAmpState::placeAmpState ( std::string stateName,
-                               int stateId,
-                               noteManagerAllStatesStateGen *generatedState,
-                               noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+placeAmpState::placeAmpState(std::string stateName,
+							 int stateId,
+							 noteManagerAllStatesStateGen *generatedState,
+							 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void placeAmpState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "placeAmpState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placeAmpState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +65,9 @@ bool placeAmpState::AtTarget()
 	return attarget;
 }
 
-bool placeAmpState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool placeAmpState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::PLACE ) && AtTarget() );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PLACE) && AtTarget());
 }
