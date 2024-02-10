@@ -199,7 +199,7 @@ void Robot::TeleopPeriodic()
     std::optional<VisionData> visioninfo = DragonVision::GetDragonVision()->GetVisionData(DragonVision::AMP);
     if (visioninfo.has_value())
     {
-       // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("AprilTag"), visioninfo.value().tagId);
+        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("AprilTag"), visioninfo.value().tagId);
     }
     else
     {
