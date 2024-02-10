@@ -60,6 +60,8 @@
 #include "mechanisms/noteManager/decoratormods/backupManualPlaceState.h"
 
 #include "robotstate/RobotState.h"
+#include "utils/logging/Logger.h"
+#include "utils/logging/DataTrace.h"
 
 using std::string;
 using namespace noteManagerStates;
@@ -90,6 +92,27 @@ noteManager::noteManager(noteManagerGen *base) : noteManagerGen(), IRobotStateCh
 void noteManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+	Cyclic();
+	ResetLauncherAngle();
+	ResetElevator();
+}
+
+void noteManager::ResetElevator()
+{
+	if (getElevator()->IsReverseLimitSwitchClosed())
+		getElevator()->SetSelectedSensorPosition(0);
+}
+
+void noteManager::ResetLauncherAngle()
+{
+	if (getlauncherAngle()->IsReverseLimitSwitchClosed())
+		getlauncherAngle()->SetSelectedSensorPosition(-26);
+}
+
+void noteManager::SetCurrentState(int state, bool run)
+{
+	noteManagerGen::SetCurrentState(state, run);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Note Manager Current State"), GetCurrentStatePtr()->GetStateName());
 }
 
 void noteManager::CreateAndRegisterStates()

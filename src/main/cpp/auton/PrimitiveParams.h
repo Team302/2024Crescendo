@@ -29,7 +29,7 @@
 #include "DragonVision/DragonVision.h"
 #include "chassis/IChassis.h"
 #include "auton/ZoneParams.h"
-// @ADDMECH include for your mechanism
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 
 // Third Party Includes
 
@@ -44,7 +44,9 @@ public:
         float heading,
         std::string pathName,
         DragonCamera::PIPELINE pipelineMode,
-        ZoneParamsVector zones); // create zones parameter of type ZonesParamsVector
+        ZoneParamsVector zones,
+        noteManagerGen::STATE_NAMES noteState,
+        ClimberManagerGen::STATE_NAMES climberState); // create zones parameter of type ZonesParamsVector
 
     PrimitiveParams() = delete;
     virtual ~PrimitiveParams() = default; // Destructor
@@ -70,6 +72,10 @@ private:
     ChassisOptionEnums::HeadingOption m_headingOption;
     float m_heading;
     std::string m_pathName;
+
+    noteManagerGen::STATE_NAMES m_noteState;
+    ClimberManagerGen::STATE_NAMES m_climberState;
+
     // @ADDMECH add attribute for your mechanism state
     DragonCamera::PIPELINE m_pipelineMode;
     ZoneParamsVector m_zones;

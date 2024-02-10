@@ -6,19 +6,12 @@
 <!ELEMENT primitive (zone*) >
 <!ATTLIST primitive 
           id                ( DO_NOTHING | HOLD_POSITION | 
-                              DRIVE_DISTANCE | DRIVE_TIME | 
-                              TURN_ANGLE_ABS | TURN_ANGLE_REL | 
-                              DRIVE_PATH_PLANNER | RESET_POSITION_PATH_PLANNER | 
-                              VISION_ALIGN | FACE_AMP | FACE_SPEAKER | 
-                              FACE_RIGHT_STAGE | FACE_LEFT_STAGE | FACE_CENTER_STAGE ) "DO_NOTHING"
+                              DRIVE_PATH_PLANNER | RESET_POSITION_PATH_PLANNER ) "DO_NOTHING"
 
 		  time				CDATA #IMPLIED
-          distance		    CDATA "0.0"
           headingOption     CDATA "MAINTAIN"
           heading           CDATA "0.0"
           pathname          CDATA #IMPLIED
-          alignmentMethod   ( ROTATE | STRAFE ) "ROTATE"
-          pipeline          ( UNKNOWN | OFF | APRIL_TAG | CONE_NODE | CONE | CUBE ) "APRIL_TAG"
 >
 
 

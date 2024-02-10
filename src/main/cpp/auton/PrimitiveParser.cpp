@@ -27,6 +27,8 @@
 #include <auton/drivePrimitives/IPrimitive.h>
 #include "utils/logging/Logger.h"
 #include <pugixml/pugixml.hpp>
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
+#include "mechanisms/MechanismTypes.h"
 using namespace std;
 using namespace pugi;
 
@@ -120,6 +122,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto distance = 0.0;
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
+                    auto noteStates = noteManagerGen::STATE_OFF;
+                    auto climberState = ClimberManagerGen::STATE_OFF;
+                    auto robotConfigMgr = RobotConfigMgr::GetInstance();
                     std::string pathName;
                     ZoneParamsVector zones;
                     // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
@@ -167,6 +172,28 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         else if (strcmp(attr.name(), "pathname") == 0)
                         {
                             pathName = attr.value();
+                        }
+                        else if (strcmp(attr.name(), "notestate") == 0)
+                        {
+                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
+                            {
+                                auto noteStateItr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
+                                if (noteStateItr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
+                                {
+                                    noteStates = noteStateItr->second;
+                                }
+                            }
+                        }
+                        else if (strcmp(attr.name(), "climberstate") == 0)
+                        {
+                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
+                            {
+                                auto climberStateItr = ClimberManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
+                                if (climberStateItr != ClimberManagerGen::stringToSTATE_NAMESEnumMap.end())
+                                {
+                                    climberState = climberStateItr->second;
+                                }
+                            }
                         }
                         else if (strcmp(attr.name(), "pipeline") == 0)
                         {
@@ -222,13 +249,16 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      heading,
                                                                      pathName,
                                                                      pipelineMode,
-                                                                     zones // vector of all zones included as part of the path
+                                                                     zones, // vector of all zones included as part of the path
                                                                      // can have multiple zones as part of a complex path
                                                                      // @ADDMECH add parameter for your mechanism state
                                                                      // armstate,
                                                                      // extenderstate,
                                                                      // intakestate,
-                                                                     ));
+
+                                                                     // Below are dummy values
+                                                                     noteStates,
+                                                                     climberState));
                     }
                     else
                     {

@@ -1303,7 +1303,7 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>1.05494</value>
+          <value>0.947921208</value>
         </countsPerDegree>
       </theDistanceAngleCalcInfo>
       <voltageRamping>
@@ -1613,6 +1613,7 @@
         </SecondaryLimitCycles>
       </currentLimits>
       <theConfigMotorSettings>
+        <inverted>Clockwise_Positive</inverted>
         <mode>Brake</mode>
       </theConfigMotorSettings>
       <RotationOffset>
@@ -1655,7 +1656,7 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>6.8085</value>
+          <value>0.14687522949254608</value>
         </countsPerInch>
         <countsPerDegree>
           <unitsFamily>none</unitsFamily>
@@ -2287,7 +2288,7 @@
         <type>Boolean</type>
         <value>false</value>
       </enableFOC>
-      <controlType>POSITION_DEGREES_ABSOLUTE</controlType>
+      <controlType>POSITION_DEGREES</controlType>
     </motorControlData>
   </stateMotorControlData>
   <states>
@@ -5618,6 +5619,13 @@
           <type>String</type>
           <value>Ready</value>
         </stringParameterConstInMechInstance>
+        <stringParameterConstInMechInstance>
+          <unitsFamily>none</unitsFamily>
+          <name>stringParameterConstInMechInstance_2</name>
+          <__units__ />
+          <type>String</type>
+          <value>backupManualPlace</value>
+        </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>
         <motorTarget>
@@ -5730,6 +5738,13 @@
           <__units__ />
           <type>String</type>
           <value>Ready</value>
+        </stringParameterConstInMechInstance>
+        <stringParameterConstInMechInstance>
+          <unitsFamily>none</unitsFamily>
+          <name>stringParameterConstInMechInstance_2</name>
+          <__units__ />
+          <type>String</type>
+          <value>backupManualLaunch</value>
         </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>

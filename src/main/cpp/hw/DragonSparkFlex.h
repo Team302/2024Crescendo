@@ -78,10 +78,10 @@ public:
     void EnableVoltageCompensation(double fullvoltage) override;
     void SetSelectedSensorPosition(double initialPosition) override;
     void EnableDisableLimitSwitches(bool enable) override;
-    double GetCountsPerRev() const override { return m_calcStruc.countsPerRev; }
+    double GetCountsPerRev() const override { return 1.0 / m_calcStruc.countsPerRev; } // calc sturc is acutally rev/count for Rev convention, returning the reciprocal
     double GetGearRatio() const override { return m_calcStruc.gearRatio; }
-    double GetCountsPerInch() const override { return m_calcStruc.countsPerInch; }
-    double GetCountsPerDegree() const override { return m_calcStruc.countsPerDegree; }
+    double GetCountsPerInch() const override { return 1.0 / m_calcStruc.countsPerInch; }     // calc sturc is acutally inch/count for Rev convention, returning the reciprocal
+    double GetCountsPerDegree() const override { return 1.0 / m_calcStruc.countsPerDegree; } // calc sturc is acutally deg/count for Rev convention, returning the reciprocal
 
 private:
     double GetRotationsWithGearNoOffset() const;
@@ -91,7 +91,10 @@ private:
     rev::SparkLimitSwitch m_reverseLimitSwitch;
     rev::SparkLimitSwitch::Type m_forwardType;
     rev::SparkLimitSwitch::Type m_reverseType;
+    CANSparkBase::ControlType m_controlType;
     double m_outputRotationOffset;
+    int m_slot;
+
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
     rev::SparkRelativeEncoder m_encoder;

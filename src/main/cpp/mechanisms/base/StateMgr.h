@@ -61,13 +61,13 @@ public:
 
     void AddToStateVector(State *state);
 
-protected:
     /// @brief  set the current state, initialize it and run it
     /// @param [in]     int - state to set
     /// @param [in]     run - true means run, false just initialize it
     /// @return void
     virtual void SetCurrentState(int state, bool run);
 
+protected:
     virtual void CheckForStateTransition();
     virtual void CheckForSensorTransitions();
     virtual void CheckForGamepadTransitions();
