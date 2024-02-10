@@ -119,7 +119,13 @@ namespace Configuration
             // remove it before comparing
             configAsString = configAsString.Replace(" encoding=\"utf-16\"", "");
 
-            if (currentFileContents.Equals(configAsString))
+            // also \r\n are generated in a different way, so just make them identical before comparing
+            configAsString = configAsString.Replace("\r\n", "\r");
+            currentFileContents = currentFileContents.Replace("\r\n", "\r");
+            configAsString = configAsString.Replace("\n", "\r");
+            currentFileContents = currentFileContents.Replace("\n", "\r");
+
+            if (!currentFileContents.Equals(configAsString))
             {
                 using (var myFileStream = new FileStream(fullFilePath, FileMode.Create))
                 {
