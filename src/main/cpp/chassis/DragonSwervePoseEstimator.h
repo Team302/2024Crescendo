@@ -76,9 +76,11 @@ public:
     void ResetPose(const frc::Pose2d &pose);
 
     /// @brief Align all of the swerve modules to point forward
-    void ZeroAlignSwerveModules();
+    void ZeroAlignSwerveModulesDSPE();
     /// @brief Sets of the motor encoders to zero
-    void SetEncodersToZero();
+    void SetEncodersToZeroDSPE();
+
+    // The DSPE functions are ones that do the same thing as the non-DSPE ones in SwerveChassis but apply to DragonSwervePoseEstimator functions like ResetPose
 
     frc::Pose2d GetPose() const;
 
@@ -127,5 +129,5 @@ private:
 
     bool m_initialized = false;
     std::string m_networkTableName;
-    SwerveChassis *m_chassis;
+    // SwerveChassis *m_chassis;
 };

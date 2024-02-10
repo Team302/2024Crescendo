@@ -36,21 +36,9 @@
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
-#include "chassis/driveStates/FieldDrive.h"
-#include "chassis/driveStates/HoldDrive.h"
-#include "chassis/driveStates/RobotDrive.h"
-#include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/headingStates/FaceAmp.h"
-#include "chassis/headingStates/FaceCenterStage.h"
-#include "chassis/headingStates/FaceGamePiece.h"
-#include "chassis/headingStates/FaceLeftStage.h"
-#include "chassis/headingStates/FaceRightStage.h"
-#include "chassis/headingStates/FaceSpeaker.h"
-#include "chassis/headingStates/IgnoreHeading.h"
-#include "chassis/headingStates/ISwerveDriveOrientation.h"
-#include "chassis/headingStates/MaintainHeading.h"
-#include "chassis/headingStates/SpecifiedHeading.h"
+
 #include "chassis/SwerveChassis.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
@@ -65,6 +53,8 @@
 #include "ctre/phoenix6/Pigeon2.hpp"
 
 using ctre::phoenix6::hardware::Pigeon2;
+using frc::Pose2d;
+using frc::Rotation2d;
 using frc::SwerveModulePosition;
 using std::string;
 
@@ -98,3 +88,44 @@ DragonSwervePoseEstimator::DragonSwervePoseEstimator(SwerveModule *frontLeft,
                                                                                                 {0.1, 0.1, 0.1}),
                                                                                 m_storedYaw(m_pigeon->GetYaw().GetValueAsDouble()),
                                                                                 m_networkTableName(networkTableName){};
+
+void DragonSwervePoseEstimator::SetEncodersToZeroDSPE()
+{
+    m_frontLeft->SetEncodersToZero();
+    m_frontRight->SetEncodersToZero();
+    m_backLeft->SetEncodersToZero();
+    m_backRight->SetEncodersToZero();
+}
+void DragonSwervePoseEstimator::ZeroAlignSwerveModulesDSPE()
+{
+    m_frontLeft->ZeroAlignModule();
+    m_frontRight->ZeroAlignModule();
+    m_backLeft->ZeroAlignModule();
+    m_backRight->ZeroAlignModule();
+}
+
+Pose2d DragonSwervePoseEstimator::GetPose() const
+{
+    return DragonSwervePoseEstimator::m_poseEstimator.GetEstimatedPosition();
+}
+/// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
+void DragonSwervePoseEstimator::UpdateOdometry()
+{
+    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
+
+    m_poseEstimator.Update(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(),
+                                                                           m_frontRight->GetPosition(),
+                                                                           m_backLeft->GetPosition(),
+                                                                           m_backRight->GetPosition()});
+}
+
+void DragonSwervePoseEstimator::ResetPose(const Pose2d &pose)
+{
+    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
+
+    SetEncodersToZeroDSPE();
+
+    ZeroAlignSwerveModulesDSPE();
+
+    m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
+}

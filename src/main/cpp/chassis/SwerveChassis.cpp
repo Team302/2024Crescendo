@@ -291,11 +291,6 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
     return state;
 }
 
-Pose2d DragonSwervePoseEstimator::GetPose() const
-{
-    return DragonSwervePoseEstimator::m_poseEstimator.GetEstimatedPosition();
-}
-
 units::angle::degree_t SwerveChassis::GetYaw() const
 {
     return m_pigeon->GetYaw().GetValue();
@@ -311,16 +306,6 @@ units::angle::degree_t SwerveChassis::GetRoll() const
     return m_pigeon->GetRoll().GetValue();
 }
 
-/// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
-void DragonSwervePoseEstimator::UpdateOdometry()
-{
-    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
-
-    m_poseEstimator.Update(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(),
-                                                                           m_frontRight->GetPosition(),
-                                                                           m_backLeft->GetPosition(),
-                                                                           m_backRight->GetPosition()});
-}
 /// @brief set all of the encoders to zero
 void SwerveChassis::SetEncodersToZero()
 {
@@ -342,17 +327,6 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
                                          m_frontRight->GetState(),
                                          m_backLeft->GetState(),
                                          m_backRight->GetState()});
-}
-
-void DragonSwervePoseEstimator::ResetPose(const Pose2d &pose)
-{
-    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
-
-    SetEncodersToZero();
-
-    ZeroAlignSwerveModules();
-
-    m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
 }
 
 void SwerveChassis::ResetYaw()

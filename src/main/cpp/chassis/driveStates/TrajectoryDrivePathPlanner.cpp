@@ -43,7 +43,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
 {
     if (m_chassis != nullptr)
     {
-        m_prevPose = m_chassis->GetPose();
+        m_prevPose = m_chassis->GetDragonSwervePose()->GetPose();
     }
 }
 
@@ -67,7 +67,7 @@ void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
         m_timer.get()->Start();
     }
 
-    m_delta = m_finalState.getTargetHolonomicPose() - m_chassis->GetPose();
+    m_delta = m_finalState.getTargetHolonomicPose() - m_chassis->GetDragonSwervePose()->GetPose();
 }
 
 std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
@@ -86,13 +86,13 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         frc::ChassisSpeeds refChassisSpeeds;
 
         // trying to use the last rotation of the path as the target
-        refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), m_desiredState);
+        refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetDragonSwervePose()->GetPose(), m_desiredState);
 
         chassisMovement.chassisSpeeds = refChassisSpeeds;
 
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "HolonomicRotation (Degs)", m_desiredState.targetHolonomicRotation.Degrees().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Omega (Rads Per Sec)", refChassisSpeeds.omega.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Odometry (Degs)", m_chassis->GetPose().Rotation().Degrees().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Odometry (Degs)", m_chassis->GetDragonSwervePose()->GetPose().Rotation().Degrees().to<double>());
 
         // Set chassisMovement speeds that will be used by RobotDrive
         return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
@@ -128,7 +128,7 @@ bool TrajectoryDrivePathPlanner::IsDone()
     if (!m_trajectoryStates.empty()) // If we have states...
     {
         // isDone = m_holonomicController.atReference();
-        isDone = IsSamePose(m_chassis->GetPose(), m_finalState.getTargetHolonomicPose(), 10.0, 1.0);
+        isDone = IsSamePose(m_chassis->GetDragonSwervePose()->GetPose(), m_finalState.getTargetHolonomicPose(), 10.0, 1.0);
     }
     else
     {

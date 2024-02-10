@@ -39,7 +39,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         }
         else
         {
-            auto currentPose = chassis->GetPose();
+            auto currentPose = chassis->GetDragonSwervePose()->GetPose();
             auto pose3d = GetAprilTagPose();
             if (pose3d)
             {

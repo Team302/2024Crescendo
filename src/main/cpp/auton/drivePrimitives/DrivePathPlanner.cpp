@@ -64,7 +64,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_ntName = string("DrivePathPlanner: ") + m_pathname;
     m_maxTime = params->GetTime();
 
-    auto pose = m_chassis->GetPose();
+    auto pose = m_chassis->GetDragonSwervePose()->GetPose();
 
     auto speed = m_chassis->GetChassisSpeeds();
 

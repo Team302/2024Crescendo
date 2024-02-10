@@ -51,7 +51,7 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             chassisMovement.chassisSpeeds.omega += correction;
         }
     }
-    chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+    chassis->SetStoredHeading(chassis->GetDragonSwervePose()->GetPose().Rotation().Degrees());
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "VxAFTER", chassisMovement.chassisSpeeds.vx.to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "VyAFTER", chassisMovement.chassisSpeeds.vy.to<double>());

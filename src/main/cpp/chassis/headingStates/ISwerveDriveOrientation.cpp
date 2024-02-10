@@ -30,7 +30,7 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {
-        currentAngle = chassis->GetPose().Rotation().Degrees();
+        currentAngle = chassis->GetDragonSwervePose()->GetPose().Rotation().Degrees();
     }
     auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(currentAngle, targetAngle));
 

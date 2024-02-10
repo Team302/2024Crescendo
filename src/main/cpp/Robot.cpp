@@ -96,7 +96,7 @@ void Robot::RobotPeriodic()
     }
     if (m_field != nullptr && m_chassis != nullptr)
     {
-        m_field->UpdateRobotPosition(m_chassis->GetPose()); // ToDo:: Move to DriveTeamFeedback (also don't assume m_field isn't a nullptr)
+        m_field->UpdateRobotPosition(m_chassis->GetDragonSwervePose()->GetPose()); // ToDo:: Move to DriveTeamFeedback (also don't assume m_field isn't a nullptr)
     }
 
     // m_tuner->ListenForUpdates();

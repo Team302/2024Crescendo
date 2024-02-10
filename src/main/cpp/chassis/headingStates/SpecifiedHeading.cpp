@@ -33,6 +33,6 @@ void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {
-        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+        chassis->SetStoredHeading(chassis->GetDragonSwervePose()->GetPose().Rotation().Degrees());
     }
 }
