@@ -102,41 +102,32 @@ namespace CoreCodeGenerator
 
                         #region Tunable Parameters
                         string allParameterReading = "";
-#if david
-                foreach (closedLoopControlParameters cLCParams in mech.closedLoopControlParameters)
-                {
-                    Type objType = cLCParams.GetType();
-
-                    PropertyInfo[] propertyInfos = objType.GetProperties();
-
-                    foreach (PropertyInfo pi in propertyInfos)
-                    {
-                        bool skip = (pi.Name == "name");
-                        if (!skip)
-                            allParameterReading += string.Format("{0}_{1} = m_table.get()->GetNumber(\"{0}_{1}\", {2});{3}", cLCParams.name, pi.Name, pi.GetValue(cLCParams), Environment.NewLine);
-                    }
-
-                }
-#endif
-                        resultString = resultString.Replace("$$_READ_TUNABLE_PARAMETERS_$$", allParameterReading);
-
                         string allParameterWriting = "";
-#if david
-                foreach (closedLoopControlParameters cLCParams in mech.closedLoopControlParameters)
-                {
-                    Type objType = cLCParams.GetType();
 
-                    PropertyInfo[] propertyInfos = objType.GetProperties();
+                        foreach (motorControlData mcd in mi.mechanism.stateMotorControlData)
+                        {
+                            if (mcd.controlType != CONTROL_TYPE.PERCENT_OUTPUT)
+                            {
+                                object obj = mcd.PID;
+                                Type objType = obj.GetType();
 
-                    foreach (PropertyInfo pi in propertyInfos)
-                    {
-                        bool skip = (pi.Name == "name");
-                        if (!skip)
-                            allParameterWriting += string.Format("{0}_{1} = m_table.get()->PutNumber(\"{0}_{1}\", {0}_{1});{2}", cLCParams.name, pi.Name, Environment.NewLine);
-                    }
+                                PropertyInfo[] propertyInfos = objType.GetProperties();
 
-                }
-#endif
+                                foreach (PropertyInfo pi in propertyInfos)
+                                {
+                                    bool skip = (pi.Name == "name");
+                                    if (!skip)
+                                    {
+                                        string setItem = pi.Name == "iZone" ? "IZone" : pi.Name.Replace("Gain", "").ToUpper();
+                                        allParameterReading += string.Format("{0}->Set{4}( m_table.get()->GetNumber(\"{0}_{1}\", {2}));{3}", mcd.name, pi.Name, pi.GetValue(obj), Environment.NewLine, setItem);
+                                        allParameterWriting += string.Format(" m_table.get()->PutNumber(\"{0}_{1}\", {0}->Get{4}());{3}", mcd.name, pi.Name, pi.GetValue(obj), Environment.NewLine, setItem);
+                                    }
+                                }
+
+                            }
+                        }
+
+                        resultString = resultString.Replace("$$_READ_TUNABLE_PARAMETERS_$$", allParameterReading);
                         resultString = resultString.Replace("$$_PUSH_TUNABLE_PARAMETERS_$$", allParameterWriting);
 
                         #endregion
@@ -185,7 +176,7 @@ namespace CoreCodeGenerator
 
                         List<string> mechElementsGetters = generateMethod(mi.mechanism, "generateDefinitionGetter").FindAll(me => !me.StartsWith("state* "));
                         resultString = resultString.Replace("$$_MECHANISM_ELEMENTS_GETTERS_$$", ListToString(mechElementsGetters));
-                        
+
                         List<string> mechElements = generateMethod(mi.mechanism, "generateDefinition").FindAll(me => !me.StartsWith("state* "));
                         resultString = resultString.Replace("$$_MECHANISM_ELEMENTS_$$", ListToString(mechElements));
                         resultString = resultString.Replace("$$_INCLUDE_FILES_$$", ListToString(generateMethod(mi.mechanism, "generateIncludes").Distinct().ToList()));

@@ -34,16 +34,16 @@ using namespace ClimberManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-autoClimbState::autoClimbState ( std::string stateName,
-                                 int stateId,
-                                 ClimberManagerAllStatesStateGen *generatedState,
-                                 ClimberManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+autoClimbState::autoClimbState(std::string stateName,
+							   int stateId,
+							   ClimberManagerAllStatesStateGen *generatedState,
+							   ClimberManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void autoClimbState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "autoClimbState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoClimbState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +65,9 @@ bool autoClimbState::AtTarget()
 	return attarget;
 }
 
-bool autoClimbState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool autoClimbState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::AUTO_CLIMB) );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB));
 }

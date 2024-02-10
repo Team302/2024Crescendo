@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<decoderDataSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <portNumber>30200</portNumber>
+  <data>
+
+	<dataTraceGroup>
+      <name>Climber</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>LeftHeight</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>RightHeight</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+       </dataItems>
+    </dataTraceGroup>
+
+	<dataTraceGroup>
+      <name>Placer</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>ElevatorHeight</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+       </dataItems>
+    </dataTraceGroup>
+	
+	<dataTraceGroup>
+      <name>Launcher</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>WheelSet1</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>WheelSet2</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Angle</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+       </dataItems>
+    </dataTraceGroup>
+  </data>
+</decoderDataSet>

@@ -47,6 +47,8 @@ public:
 	void RunCommonTasks() override;
 	void SetCurrentState(int state, bool run) override;
 	void CreateAndRegisterStates();
+	void ResetElevator();
+	void ResetLauncherAngle();
 
 	bool IsLauncherMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Launcher; }
 	bool IsPlacerMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Placer; }

@@ -40,7 +40,7 @@ DragonSparkFlex::DragonSparkFlex(int id,
                                                                             m_reverseLimitSwitch(m_spark->GetReverseLimitSwitch(m_reverseType)),
                                                                             m_calcStruc(calcStruc)
 {
-    m_spark->RestoreFactoryDefaults(true);
+    m_spark->RestoreFactoryDefaults();
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09);
@@ -58,7 +58,7 @@ double DragonSparkFlex::GetRotations()
 
 double DragonSparkFlex::GetRPS()
 {
-    return m_spark->GetEncoder(m_feedbackType).GetVelocity() / 60.0;
+    return m_encoder.GetVelocity() / 60.0;
 }
 
 RobotElementNames::MOTOR_CONTROLLER_USAGE DragonSparkFlex::GetType() const
