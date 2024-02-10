@@ -51,6 +51,7 @@ void preparePlaceAmpState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("preparePlaceAmpState"), string("run"));
 	m_genState->Run();
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Elevator"), string("Elevator Counts"), m_mechanism->getElevator()->GetCounts());
 }
 
 void preparePlaceAmpState::Exit()
@@ -69,7 +70,6 @@ bool preparePlaceAmpState::IsTransitionCondition(bool considerGamepadTransitions
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	auto currentState = m_mechanism->GetCurrentState();
-	bool placerInSensor = m_mechanism->getplacerInSensor()->Get();
 	bool placerMidSensor = m_mechanism->getplacerMidSensor()->Get();
 	return ((placerMidSensor && (m_mechanism->IsClimbMode() == false)) ||
 			((currentState == m_mechanism->STATE_PREPARE_PLACE_TRAP) && (m_mechanism->IsClimbMode() == false)));

@@ -60,8 +60,7 @@ void ReadyState::Run()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Out"), m_mechanism->getplacerOutSensor()->Get());
 
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Mode"), static_cast<double>(m_mechanism->IsPlacerMode()));
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Elevator Counts"), m_mechanism->getElevator()->GetCounts());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Angle Counts"), m_mechanism->getlauncherAngle()->GetCounts());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Elevator"), string("Elevator Counts"), m_mechanism->getElevator()->GetCounts());
 }
 
 void ReadyState::Exit()

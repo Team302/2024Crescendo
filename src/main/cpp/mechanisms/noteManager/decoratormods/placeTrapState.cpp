@@ -51,6 +51,7 @@ void placeTrapState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placeTrapState"), string("run"));
 	m_genState->Run();
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Elevator"), string("Elevator Counts"), m_mechanism->getElevator()->GetCounts());
 }
 
 void placeTrapState::Exit()

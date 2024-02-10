@@ -52,6 +52,7 @@ void placeAmpState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placeAmpState"), string("run"));
 	m_genState->Run();
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Elevator"), string("Elevator Counts"), m_mechanism->getElevator()->GetCounts());
 }
 
 void placeAmpState::Exit()
