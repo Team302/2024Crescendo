@@ -324,7 +324,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		frc::Transform3d transformToAprilTag = dataToAprilTag.value().deltaToTarget;
 		frc::Pose3d robotPose = AprilTagPose + transformToAprilTag.Inverse();
 		frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);
-		std::optional<VisionData> visionData = VisionData(transformToElement, selectedCam->GetAprilTagID());
+		std::optional<VisionData> visionData = VisionData(transformToElement, selectedCam->GetAprilTagID().value());
 		return visionData;
 	}
 

@@ -427,12 +427,13 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance()
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance()
 {
-    if (GetAprilTagID() == -1)
+
+    if (GetAprilTagID())
     {
         units::length::inch_t estimatedTargetZDistance = m_cameraPose.Z() - m_noteVerticalOffset;
         return estimatedTargetZDistance;
     }
-
+    /*
     else
     {
         auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
@@ -440,56 +441,50 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance()
 
         return units::length::inch_t(xdistance[2]);
     }
+    */
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance_RelToRobotCoords()
 {
-    if (EstimateTargetXDistance().to<double>() != -1.0)
+    if (EstimateTargetXDistance())
     {
-        units::length::inch_t targetXoffset_RF_inch = EstimateTargetXDistance() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
+        units::length::inch_t targetXoffset_RF_inch = EstimateTargetXDistance().value() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
 
         return targetXoffset_RF_inch;
     }
-    else
-        return units::length::inch_t(-1.0);
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_RelToRobotCoords()
 {
-    if (EstimateTargetYDistance().to<double>() != -1.0)
+    if (EstimateTargetYDistance())
     {
-        units::length::inch_t targetYoffset_RF_inch = EstimateTargetYDistance() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
+        units::length::inch_t targetYoffset_RF_inch = EstimateTargetYDistance().value() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
 
         return targetYoffset_RF_inch;
     }
-    else
-        return units::length::inch_t(-1.0);
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_RelToRobotCoords()
 {
-    if (EstimateTargetZDistance().to<double>() != -1.0)
+    if (EstimateTargetZDistance())
     {
-        units::length::inch_t targetZoffset_RF_inch = EstimateTargetZDistance() + GetMountingZOffset(); ///< the offset is positive if the limelight is above the center of the robot
+        units::length::inch_t targetZoffset_RF_inch = EstimateTargetZDistance().value() + GetMountingZOffset(); ///< the offset is positive if the limelight is above the center of the robot
 
         return targetZoffset_RF_inch;
     }
-    else
-        return units::length::inch_t(-1.0);
 }
 
 std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 {
-    if (GetAprilTagID() == -1)
+    if (GetAprilTagID())
     {
-        return std::nullopt;
+
+        auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
+
+        std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
+
+        frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
+        auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
+        return std::make_optional(VisionData{transform, GetAprilTagID().value()});
     }
-
-    auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
-
-    std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
-
-    frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
-    auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
-    return std::make_optional(VisionData{transform, GetAprilTagID()});
 }

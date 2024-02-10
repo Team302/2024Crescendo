@@ -33,28 +33,28 @@ public:
 
     bool HasTarget();
 
-    units::angle::degree_t GetTargetYaw();
-    units::angle::degree_t GetTargetYawRobotFrame();
+    std::optional<units::angle::degree_t> GetTargetYaw();
+    std::optional<units::angle::degree_t> GetTargetYawRobotFrame();
 
     double GetPoseAmbiguity();
 
-    units::angle::degree_t GetTargetPitchRobotFrame();
-    units::angle::degree_t GetTargetPitch();
+    std::optional<units::angle::degree_t> GetTargetPitchRobotFrame();
+    std::optional<units::angle::degree_t> GetTargetPitch();
 
-    units::time::millisecond_t GetPipelineLatency();
-    int GetAprilTagID();
-    units::angle::degree_t GetTargetSkew();
-    double GetTargetArea();
+    std::optional<units::time::millisecond_t> GetPipelineLatency();
+    std::optional<int> GetAprilTagID();
+    std::optional<units::angle::degree_t> GetTargetSkew();
+    std::optional<double> GetTargetArea();
 
     std::optional<VisionPose> GetFieldPosition();
     std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
 
-    units::length::inch_t EstimateTargetXDistance();
-    units::length::inch_t EstimateTargetYDistance();
-    units::length::inch_t EstimateTargetZDistance();
-    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords();
-    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords();
-    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords();
+    std::optional<units::length::inch_t> EstimateTargetXDistance();
+    std::optional<units::length::inch_t> EstimateTargetYDistance();
+    std::optional<units::length::inch_t> EstimateTargetZDistance();
+    std::optional<units::length::inch_t> EstimateTargetXDistance_RelToRobotCoords();
+    std::optional<units::length::inch_t> EstimateTargetYDistance_RelToRobotCoords();
+    std::optional<units::length::inch_t> EstimateTargetZDistance_RelToRobotCoords();
     bool UpdatePipeline();
 
     std::optional<VisionData> GetDataToNearestAprilTag();

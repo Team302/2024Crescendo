@@ -118,7 +118,7 @@ double DragonPhotonCam::GetPoseAmbiguity()
 
 /// @brief  get Yaw of possible target.
 /// @return units::angle::degree_t - Counter Clockwise/left for positive.
-units::angle::degree_t DragonPhotonCam::GetTargetYaw()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYaw()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
@@ -132,14 +132,11 @@ units::angle::degree_t DragonPhotonCam::GetTargetYaw()
         // return Yaw. This also multiplys it by -1 to invert to a global use in the 302 code
         return units::angle::degree_t(-1.0 * target.GetYaw());
     }
-
-    // if no tag found, return 0
-    return units::angle::degree_t(0.0);
 }
 
 /// @brief get TargetSkew of possible target.
 /// @return Skew casted as units::angle::degree_t. Counter Clockwise/left for positive.
-units::angle::degree_t DragonPhotonCam::GetTargetSkew()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetSkew()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
@@ -153,12 +150,9 @@ units::angle::degree_t DragonPhotonCam::GetTargetSkew()
         // return degree skew as units object. This would originally be a double
         return units::angle::degree_t(target.GetSkew());
     }
-
-    // if no tag found, return 0
-    return units::angle::degree_t(0.0);
 }
 
-units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYawRobotFrame()
 {
     // get latest detections
     photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
@@ -206,7 +200,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame()
     return units::angle::degree_t(-1.0);
 }
 
-units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitchRobotFrame()
 {
     // get latest detections
     photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
@@ -250,7 +244,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame()
 
 /// @brief Get Pitch to Target
 /// @return units::angle::degree_t - positive up
-units::angle::degree_t DragonPhotonCam::GetTargetPitch()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitch()
 {
     // get latest detections
     photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
@@ -264,12 +258,9 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitch()
         // return
         return units::angle::degree_t(target.GetPitch());
     }
-
-    // if it isn't found
-    return units::angle::degree_t(0.0);
 }
 
-units::time::millisecond_t DragonPhotonCam::GetPipelineLatency()
+std::optional<units::time::millisecond_t> DragonPhotonCam::GetPipelineLatency()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
@@ -280,7 +271,7 @@ units::time::millisecond_t DragonPhotonCam::GetPipelineLatency()
     return latency;
 }
 
-int DragonPhotonCam::GetAprilTagID()
+std::optional<int> DragonPhotonCam::GetAprilTagID()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
@@ -294,14 +285,11 @@ int DragonPhotonCam::GetAprilTagID()
         // return detected tag's id
         return target.GetFiducialId();
     }
-
-    // if no tag found, return -1
-    return -1;
 }
 
 /// @brief Get target area
 /// @return Double - Percentage (0-100)
-double DragonPhotonCam::GetTargetArea()
+std::optional<double> DragonPhotonCam::GetTargetArea()
 {
     // get latest detections
     photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
@@ -315,14 +303,11 @@ double DragonPhotonCam::GetTargetArea()
         // return
         return target.GetArea();
     }
-
-    // if it isn't found
-    return -1;
 }
 
 /// @brief Estimate the X distance to the detected target
 /// @return units::length::inch_t - Positive is forward
-units::length::inch_t DragonPhotonCam::EstimateTargetXDistance()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -340,13 +325,11 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance()
 
         return transform.X();
     }
-
-    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the Y distance to the detected target
 /// @return units::length::inch_t - Positive is left
-units::length::inch_t DragonPhotonCam::EstimateTargetYDistance()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -364,13 +347,11 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance()
 
         return transform.Y();
     }
-
-    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the Z distance to the detected target
 /// @return units::length::inch_t - Positive is up
-units::length::inch_t DragonPhotonCam::EstimateTargetZDistance()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -396,7 +377,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance()
 /// @brief Estimate the X distance to the detected target in relation to robot
 /// @return units::length::inch_t - Positive is forward
 
-units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -412,13 +393,11 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords(
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
     }
-
-    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the Y distance to the detected target in relation to robot
 /// @return units::length::inch_t - Positive is left
-units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -434,14 +413,12 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords(
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
     }
-
-    return units::length::inch_t(-1.0);
 }
 
 /// @brief Estimate the Z distance to the detected target in relation to robot
 /// @return units::length::inch_t - Positive is up
 
-units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -457,8 +434,6 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
     }
-
-    return units::length::inch_t(-1.0);
 }
 bool DragonPhotonCam::UpdatePipeline()
 {
@@ -480,11 +455,10 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
         frc::Translation3d translation = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)}.Translation();
 
-        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
-                                                   GetTargetPitchRobotFrame(),  // pitch
-                                                   GetTargetYawRobotFrame()};   // yaw
+        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0),        // roll
+                                                   GetTargetPitchRobotFrame().value(), // pitch
+                                                   GetTargetYawRobotFrame().value()};  // yaw
 
-        return std::make_optional(VisionData{frc::Transform3d(translation, rotation), GetAprilTagID()});
+        return std::make_optional(VisionData{frc::Transform3d(translation, rotation), GetAprilTagID().value()});
     }
-    return std::nullopt;
 }
