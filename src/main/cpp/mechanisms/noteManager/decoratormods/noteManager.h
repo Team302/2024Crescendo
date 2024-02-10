@@ -49,6 +49,8 @@ public:
 	void CreateAndRegisterStates();
 	void ResetElevator();
 	void ResetLauncherAngle();
+	units::length::meter_t GetVisionDistance();
+	bool HasVisionTarget();
 
 	bool IsLauncherMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Launcher; }
 	bool IsPlacerMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Placer; }
