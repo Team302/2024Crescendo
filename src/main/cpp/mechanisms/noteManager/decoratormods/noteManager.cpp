@@ -61,6 +61,8 @@
 #include "DragonVision/DragonVision.h"
 
 #include "robotstate/RobotState.h"
+#include "utils/logging/Logger.h"
+#include "utils/logging/DataTrace.h"
 
 using std::string;
 using namespace noteManagerStates;
@@ -91,6 +93,7 @@ noteManager::noteManager(noteManagerGen *base) : noteManagerGen(), IRobotStateCh
 void noteManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
 }
@@ -105,13 +108,14 @@ void noteManager::ResetElevator()
 
 void noteManager::ResetLauncherAngle()
 {
-	if (m_noteManager->getlauncherAngle()->IsReverseLimitSwitchClosed())
-		m_noteManager->getlauncherAngle()->SetSelectedSensorPosition(-26);
+	if (getlauncherAngle()->IsReverseLimitSwitchClosed())
+		getlauncherAngle()->SetSelectedSensorPosition(-26);
 }
 
 void noteManager::SetCurrentState(int state, bool run)
 {
 	noteManagerGen::SetCurrentState(state, run);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Note Manager Current State"), GetCurrentStatePtr()->GetStateName());
 }
 
 units::length::meter_t noteManager::GetVisionDistance()
