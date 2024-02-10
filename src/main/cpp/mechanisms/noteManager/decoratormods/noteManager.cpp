@@ -60,6 +60,8 @@
 #include "mechanisms/noteManager/decoratormods/backupManualPlaceState.h"
 
 #include "robotstate/RobotState.h"
+#include "utils/logging/Logger.h"
+#include "utils/logging/DataTrace.h"
 
 using std::string;
 using namespace noteManagerStates;
@@ -97,19 +99,20 @@ void noteManager::RunCommonTasks()
 
 void noteManager::ResetElevator()
 {
-	if (m_noteManager->getElevator()->IsReverseLimitSwitchClosed())
-		m_noteManager->getElevator()->SetSelectedSensorPosition(0);
+	if (getElevator()->IsReverseLimitSwitchClosed())
+		getElevator()->SetSelectedSensorPosition(0);
 }
 
 void noteManager::ResetLauncherAngle()
 {
-	if (m_noteManager->getlauncherAngle()->IsReverseLimitSwitchClosed())
-		m_noteManager->getlauncherAngle()->SetSelectedSensorPosition(-26);
+	if (getlauncherAngle()->IsReverseLimitSwitchClosed())
+		getlauncherAngle()->SetSelectedSensorPosition(-26);
 }
 
 void noteManager::SetCurrentState(int state, bool run)
 {
 	noteManagerGen::SetCurrentState(state, run);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Note Manager Current State"), GetCurrentStatePtr()->GetStateName());
 }
 
 void noteManager::CreateAndRegisterStates()

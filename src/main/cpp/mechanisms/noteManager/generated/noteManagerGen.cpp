@@ -133,7 +133,7 @@ void noteManagerGen::Create()
 	launcherAngleCalcStruct.gearRatio = 1 ;
 	launcherAngleCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
 	launcherAngleCalcStruct.countsPerInch = 0 ;
-	launcherAngleCalcStruct.countsPerDegree = 1.05494 ;;
+	launcherAngleCalcStruct.countsPerDegree = 0.947921208 ;;
 	launcherAngle = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
 	m_motorMap[launcherAngle->GetType()] = new BaseMechMotor ( m_ntName,
 	    launcherAngle,
@@ -160,7 +160,7 @@ void noteManagerGen::Create()
 	ElevatorCalcStruct.countsPerRev = 0 ;
 	ElevatorCalcStruct.gearRatio = 1 ;
 	ElevatorCalcStruct.diameter = units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() ;
-	ElevatorCalcStruct.countsPerInch = 6.8085 ;
+	ElevatorCalcStruct.countsPerInch = 0.146875229492546 ;
 	ElevatorCalcStruct.countsPerDegree = 0 ;;
 	Elevator = new DragonSparkMax ( 62,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,ElevatorCalcStruct );
 	m_motorMap[Elevator->GetType()] = new BaseMechMotor ( m_ntName,
