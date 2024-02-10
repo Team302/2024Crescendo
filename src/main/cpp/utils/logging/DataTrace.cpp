@@ -43,13 +43,13 @@ void DataTrace::sendClimberData(double angle, double power)
 
 void DataTrace::sendElevatorData(double ElevatorHeight)
 {
-    sprintf(sendBuffer, "$$ElevatorHeight:%.3f:%.2f##", m_timer.Get().to<double>(), ElevatorHeight);
+    sprintf(sendBuffer, "$$Placer:%.3f:%.2f##", m_timer.Get().to<double>(), ElevatorHeight);
     SendData();
 }
 
 void DataTrace::sendLauncherData(double WheelSetTop, double WheelSetBottom, double Angle)
 {
-    sprintf(sendBuffer, "$$ElevatorHeight:%.3f:%.2f:%.2f:%.2f##", m_timer.Get().to<double>(), WheelSetTop, WheelSetBottom, Angle);
+    sprintf(sendBuffer, "$$Launcher:%.3f:%.2f:%.2f:%.2f##", m_timer.Get().to<double>(), WheelSetTop, WheelSetBottom, Angle);
     SendData();
 }
 
