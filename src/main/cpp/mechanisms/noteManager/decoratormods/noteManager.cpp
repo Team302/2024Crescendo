@@ -116,12 +116,18 @@ void noteManager::SetCurrentState(int state, bool run)
 
 units::length::meter_t noteManager::GetVisionDistance()
 {
+	units::length::meter_t distance{units::length::meter_t(0)};
 	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	if (optionalVisionData)
 	{
-		frc::Transform3d deltaToTarget = optionalVisionData.value().deltaToTarget;
-		frc::Translation3d translate = deltaToTarget.Translation();
+		frc::Transform3d deltaToTarget{optionalVisionData.value().deltaToTarget};
+		frc::Translation3d translate{deltaToTarget.Translation()};
+		double x{translate.X().to<double>()};
+		double y{translate.Y().to<double>()};
+		double hypot{std::hypot(x, y)};
+		distance = units::length::meter_t(hypot);
 	}
+	return distance;
 }
 
 bool noteManager::HasVisionTarget()
@@ -131,6 +137,7 @@ bool noteManager::HasVisionTarget()
 	{
 		return true;
 	}
+	return false;
 }
 
 void noteManager::CreateAndRegisterStates()
