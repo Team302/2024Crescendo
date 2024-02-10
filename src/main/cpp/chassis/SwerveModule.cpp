@@ -42,11 +42,13 @@
 
 using namespace std;
 using namespace frc;
+
 using ctre::phoenix6::configs::CANcoderConfiguration;
 using ctre::phoenix6::configs::CANcoderConfigurator;
 using ctre::phoenix6::configs::MotorOutputConfigs;
 using ctre::phoenix6::configs::Slot0Configs;
 using ctre::phoenix6::configs::TalonFXConfiguration;
+using ctre::phoenix6::configs::VoltageConfigs;
 using ctre::phoenix6::controls::DutyCycleOut;
 using ctre::phoenix6::controls::PositionVoltage;
 using ctre::phoenix6::controls::VelocityTorqueCurrentFOC;
@@ -65,6 +67,7 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
                            int turnMotorID,
                            bool turnInverted,
                            int canCoderID,
+                           bool canCoderInverted,
                            double angleOffset) : LoggableItem(),
                                                  m_moduleID(id),
                                                  m_driveTalon(new TalonFX(driveMotorID, "Canivore")),
@@ -79,7 +82,6 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
     auto attrs = SwerveModuleConstants::GetSwerveModuleAttrs(type);
     m_wheelDiameter = attrs.wheelDiameter;
     m_maxSpeed = attrs.maxSpeed;
-    m_maxAngSpeed = attrs.maxAngSpeed;
 
     if (m_driveTalon != nullptr)
     {
@@ -92,6 +94,11 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
         motorconfig.PeakReverseDutyCycle = -1.0;
         motorconfig.DutyCycleNeutralDeadband = 0.0;
         m_driveTalon->GetConfigurator().Apply(motorconfig);
+
+        VoltageConfigs voltconfig{};
+        voltconfig.PeakForwardVoltage = 11.0;
+        voltconfig.PeakReverseVoltage = -11.0;
+        m_driveTalon->GetConfigurator().Apply(voltconfig);
     }
     if (m_turnTalon != nullptr)
     {
@@ -104,6 +111,11 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
         motorconfig.PeakReverseDutyCycle = -1.0;
         motorconfig.DutyCycleNeutralDeadband = 0.0;
         m_turnTalon->GetConfigurator().Apply(motorconfig);
+
+        VoltageConfigs voltconfig{};
+        voltconfig.PeakForwardVoltage = 10.0;
+        voltconfig.PeakReverseVoltage = -10.0;
+        m_turnTalon->GetConfigurator().Apply(voltconfig);
 
         Slot0Configs config{};
         config.kV = m_turnKf;
@@ -118,7 +130,7 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
 
         CANcoderConfiguration configs{};
         configs.MagnetSensor.MagnetOffset = angleOffset;
-        configs.MagnetSensor.SensorDirection = SensorDirectionValue::CounterClockwise_Positive;
+        configs.MagnetSensor.SensorDirection = canCoderInverted ? SensorDirectionValue::Clockwise_Positive : SensorDirectionValue::CounterClockwise_Positive;
         m_turnCancoder->GetConfigurator().Apply(configs);
     }
 
@@ -127,6 +139,8 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
         TalonFXConfiguration configs{};
         m_turnTalon->GetConfigurator().Refresh(configs);
         configs.Feedback.FeedbackRemoteSensorID = m_turnCancoder->GetDeviceID();
+        // configs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::RemoteCANcoder;
+        //  configs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::FusedCANcoder;
         configs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::SyncCANcoder;
         configs.Feedback.SensorToMechanismRatio = attrs.sensorToMechanismRatio;
         configs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;

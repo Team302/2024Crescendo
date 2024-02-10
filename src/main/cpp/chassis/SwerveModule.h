@@ -48,6 +48,7 @@ public:
                  int turnMotorID,
                  bool turnInverted,
                  int canCoderID,
+                 bool canCoderInverted,
                  double angleOffset);
 
     /// @brief Turn all of the wheel to zero degrees yaw according to the pigeon
@@ -79,7 +80,6 @@ public:
     SwerveModuleConstants::ModuleID GetModuleID() { return m_moduleID; }
     units::length::inch_t GetWheelDiameter() const { return m_wheelDiameter; }
     units::velocity::feet_per_second_t GetMaxSpeed() const { return m_maxSpeed; }
-    units::angular_velocity::degrees_per_second_t GetMaxAngularSpeed() const { return m_maxAngSpeed; }
 
     void StopMotors();
     void LogInformation() override;
@@ -98,13 +98,12 @@ private:
     ctre::phoenix6::controls::PositionTorqueCurrentFOC m_torquePosition{0_tr, 0_tps, 0_A, 1, false};
     ctre::phoenix6::controls::PositionVoltage m_voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
 
-    double m_turnKp = 0.75;
-    double m_turnKi = 0.1;
-    double m_turnKd = 0.0;
+    double m_turnKp = 20.0;
+    double m_turnKi = 5.0;
+    double m_turnKd = 1.0;
     double m_turnKf = 0.0;
     double m_turnCruiseVel = 0.0;
     double m_turnMaxAcc = 0.0;
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
     units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(16.0);
-    units::angular_velocity::degrees_per_second_t m_maxAngSpeed = units::angular_velocity::turns_per_second_t(1.0);
 };

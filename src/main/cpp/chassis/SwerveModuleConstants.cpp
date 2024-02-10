@@ -16,7 +16,6 @@
 // C++ Includes
 
 // FRC Includes
-#include "units/angular_velocity.h"
 #include "units/velocity.h"
 
 // Team 302 Includes
@@ -29,108 +28,33 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
     SwerveModuleAttributes attr;
     attr.wheelDiameter = units::length::inch_t(4.0);
 
-    attr.maxAngSpeed = units::angular_velocity::turns_per_second_t(1.0); // TODO: look up actual values and put in by type
-    attr.maxSpeed = units::velocity::feet_per_second_t(16.0);            // TODO: look up actual values and put in by type
+    attr.sensorToMechanismRatio = 1.0;
+    attr.rotorToSensorRatio = 50.0 / 7.0;
 
     switch (type)
     {
     case SDS_MK4_L1:
+    case SDS_MK4_L1_COLSON:
+    case SDS_MK4I_L1:
+    case SDS_MK4I_L1_COLSON:
         attr.driveGearRatio = 8.14;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-
+        attr.maxSpeed = units::velocity::feet_per_second_t(13.0);
         break;
 
     case SDS_MK4_L2:
+    case SDS_MK4_L2_COLSON:
+    case SDS_MK4I_L2:
+    case SDS_MK4I_L2_COLSON:
         attr.driveGearRatio = 6.75;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
+        attr.maxSpeed = units::velocity::feet_per_second_t(15.7);
         break;
 
     case SDS_MK4_L3:
-        attr.driveGearRatio = 6.12;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
-    case SDS_MK4_L4:
-        attr.driveGearRatio = 5.14;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
-    case SDS_MK4_L1_COLSON:
-        attr.driveGearRatio = 6.75;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
-    case SDS_MK4_L2_COLSON:
-        attr.driveGearRatio = 6.12;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
     case SDS_MK4_L3_COLSON:
-        attr.driveGearRatio = 5.14;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
-    case SDS_MK4_L4_COLSON:
-        attr.driveGearRatio = 8.14;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
-    case SDS_MK4I_L1:
-        attr.driveGearRatio = 8.14;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
-    case SDS_MK4I_L2:
-        attr.driveGearRatio = 6.75;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
     case SDS_MK4I_L3:
-        attr.driveGearRatio = 6.12;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
-    case SDS_MK4I_L1_COLSON:
-        attr.driveGearRatio = 8.14;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
-    case SDS_MK4I_L2_COLSON:
-        attr.driveGearRatio = 6.75;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
-        break;
-
     case SDS_MK4I_L3_COLSON:
         attr.driveGearRatio = 6.12;
-        attr.angleGearRatio = 150.0 / 7.0;
-        attr.sensorToMechanismRatio = 150.0 / 7.0;
-        attr.rotorToSensorRatio = 12.8;
+        attr.maxSpeed = units::velocity::feet_per_second_t(17.3);
         break;
 
     default:

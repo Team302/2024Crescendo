@@ -33,27 +33,31 @@ private:
 	std::string m_canbusName = std::string("Canivore");
 	const int m_leftfrontdriveID = 1;
 	const int m_leftfrontturnID = 3;
-	const double m_leftfrontOffset = 0.189208984375;
+	const double m_leftfrontOffset = 0.29541015625;
 	const bool m_leftfrontdriveInvert = false;
-	const bool m_leftfrontturnInvert = false;
+	const bool m_leftfrontturnInvert = true;
+	const bool m_leftfrontcancoderInvert = true;
 
 	const int m_leftbackdriveID = 18;
 	const int m_leftbackturnID = 16;
-	const double m_leftbackOffset = -0.382568359375;
+	const double m_leftbackOffset = -0.11328125;
 	const bool m_leftbackdriveInvert = false;
-	const bool m_leftbackturnInvert = false;
+	const bool m_leftbackturnInvert = true;
+	const bool m_leftbackcancoderInvert = true;
 
 	const int m_rightfrontdriveID = 0;
 	const int m_rightfrontturnID = 2;
-	const double m_rightfrontOffset = 0.35107421875;
+	const double m_rightfrontOffset = -0.354736328125;
 	const bool m_rightfrontdriveInvert = true;
-	const bool m_rightfrontturnInvert = false;
+	const bool m_rightfrontturnInvert = true;
+	const bool m_rightfrontcancoderInvert = true;
 
 	const int m_rightbackdriveID = 17;
 	const int m_rightbackturnID = 19;
-	const double m_rightbackOffset = -0.071044921875;
+	const double m_rightbackOffset = 0.036376953125;
 	const bool m_rightbackdriveInvert = true;
-	const bool m_rightbackturnInvert = false;
+	const bool m_rightbackturnInvert = true;
+	const bool m_rightbackcancoderInvert = true;
 
 	const units::length::inch_t m_track = units::length::inch_t(22.75);
 	const units::length::inch_t m_base = units::length::inch_t(22.75);
