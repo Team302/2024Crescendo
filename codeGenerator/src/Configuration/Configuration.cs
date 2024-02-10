@@ -102,10 +102,29 @@ namespace Configuration
         {
             preSerialize();
 
+            string fullFilePath = Path.Combine(rootPath, @"configuration.xml");
+
             var mySerializer = new XmlSerializer(typeof(toolConfiguration));
-            using (var myFileStream = new FileStream(Path.Combine(rootPath, @"configuration.xml"), FileMode.Create))
+
+            string configAsString = "";
+            using (StringWriter textWriter = new StringWriter())
             {
-                mySerializer.Serialize(myFileStream, this);
+                mySerializer.Serialize(textWriter, this);
+                configAsString = textWriter.ToString();
+            }
+
+            string currentFileContents = File.ReadAllText(fullFilePath);
+
+            // when we serialize to string somehow it adds the encoding info
+            // remove it before comparing
+            configAsString = configAsString.Replace(" encoding=\"utf-16\"", "");
+
+            if (currentFileContents.Equals(configAsString))
+            {
+                using (var myFileStream = new FileStream(fullFilePath, FileMode.Create))
+                {
+                    mySerializer.Serialize(myFileStream, this);
+                }
             }
 
             postSerialize();
