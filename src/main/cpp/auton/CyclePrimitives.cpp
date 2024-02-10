@@ -135,6 +135,8 @@ void CyclePrimitives::RunDriveStop()
 										  // ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE,
 										  // ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND,
 										  // IntakeStateMgr::INTAKE_STATE::HOLD,
+										  noteManagerGen::STATE_NAMES::STATE_OFF,
+										  ClimberManagerGen::STATE_NAMES::STATE_OFF,
 										  ZoneParamsVector());
 		m_DriveStop = m_primFactory->GetIPrimitive(params);
 		m_DriveStop->Init(params);

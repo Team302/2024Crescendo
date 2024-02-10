@@ -35,7 +35,6 @@ public:
         int ygrid1,
         int xgrid2,
         int ygrid2,
-        noteManagerGen::STATE_NAMES,
         ChassisOptionEnums::AutonChassisOptions,
         ChassisOptionEnums::AutonAvoidOptions); // declare ZoneParams public constructor with parameters xgrid1, etc.
 

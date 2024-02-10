@@ -18,6 +18,8 @@
 #include "auton/PrimitiveParams.h"
 #include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
 
 // @ADDMECH include for your mechanism state mgr
 
@@ -28,12 +30,16 @@ PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
 								 float heading,
 								 std::string pathName,
 								 DragonCamera::PIPELINE pipelineMode,
+								 noteManagerGen::STATE_NAMES noteOption,
+								 ClimberManagerGen::STATE_NAMES climberOption,
 								 ZoneParamsVector zones) : m_id(id), // Primitive ID
 														   m_time(time),
 														   m_headingOption(headingOpt),
 														   m_heading(heading),
 														   m_pathName(pathName),
-														   m_pipelineMode(pipelineMode)
+														   m_pipelineMode(pipelineMode),
+														   m_noteOption(noteOption),
+														   m_climberOption(climberOption)
 // @ADDMECH initilize state mgr attribute
 {
 }
