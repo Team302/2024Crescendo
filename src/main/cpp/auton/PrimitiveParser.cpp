@@ -28,6 +28,7 @@
 #include "utils/logging/Logger.h"
 #include <pugixml/pugixml.hpp>
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
+#include "mechanisms/MechanismTypes.h"
 using namespace std;
 using namespace pugi;
 
@@ -104,7 +105,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                 {
                                     paramVector.emplace_back(snippet);
                                 }
-                                // paramVector.insert(paramVector.end(), snippetParams.begin(), snippetParams.end());
                             }
                             else
                             {
@@ -129,10 +129,11 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto visionAlignment = PrimitiveParams::VISION_ALIGNMENT::UNKNOWN;
                     auto visionAlignmentmode = PrimitiveParams::VISION_ALIGNMENT::UNKNOWN;
 
+                    auto noteStates = noteManagerGen::STATE_OFF;
+                    auto climberState = ClimberManagerGen::STATE_OFF;
+                    auto robotConfigMgr = RobotConfigMgr::GetInstance();
                     std::string pathName;
                     ZoneParamsVector zones;
-                    // auto intakestate = IntakeStateMgr::INTAKE_STATE::HOLD;
-                    // @ADDMECH Initialize your mechanism state
 
                     for (xml_attribute attr = primitiveNode.first_attribute(); attr; attr = attr.next_attribute())
                     {
@@ -174,6 +175,28 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             pathName = attr.value();
                         }
+                        else if (strcmp(attr.name(), "notestate") == 0)
+                        {
+                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
+                            {
+                                auto noteStateItr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
+                                if (noteStateItr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
+                                {
+                                    noteStates = noteStateItr->second;
+                                }
+                            }
+                        }
+                        else if (strcmp(attr.name(), "climberstate") == 0)
+                        {
+                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
+                            {
+                                auto climberStateItr = ClimberManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
+                                if (climberStateItr != ClimberManagerGen::stringToSTATE_NAMESEnumMap.end())
+                                {
+                                    climberState = climberStateItr->second;
+                                }
+                            }
+                        }
                         else if (strcmp(attr.name(), "visionAlignment") == 0)
                         {
                             auto visionAlignmentItr = xmlStringToVisionAlignmentEnumMap.find(attr.value());
@@ -204,17 +227,12 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      headingOption,
                                                                      heading,
                                                                      pathName,
-                                                                     // pipelineMode,
                                                                      zones, // vector of all zones included as part of the path
                                                                             // can have multiple zones as part of a complex path
-                                                                            // @ADDMECH add parameter for your mechanism state
-                                                                            // armstate,
-                                                                            // extenderstate,
-                                                                            // intakestate,
                                                                      PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
                                                                      // Below are dummy values
-                                                                     noteManagerGen::STATE_NAMES::STATE_OFF,
-                                                                     ClimberManagerGen::STATE_NAMES::STATE_OFF));
+                                                                     noteStates,
+                                                                     climberState));
                     }
                     else
                     {
@@ -226,7 +244,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     }
     else
     {
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML error parsing file"), fileName);
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML error message"), result.description());
     }
 
@@ -241,10 +258,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
-        // @ADDMECH Log state data
-        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("armstate"), param->GetArmState());
-        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("extenderstate"), param->GetExtenderState());
-        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("intakestate"), param->GetIntakeState());
         slot++;
     }
 
