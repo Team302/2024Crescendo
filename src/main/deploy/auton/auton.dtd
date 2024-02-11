@@ -12,7 +12,7 @@
           headingOption     CDATA "MAINTAIN"
           heading           CDATA "0.0"
           pathname          CDATA #IMPLIED
-		  visionAligment          ( UNKNOWN | NOTE | SPEAKER ) "APRIL_TAG"
+		  visionAligment          ( UNKNOWN | NOTE | SPEAKER ) "UNKNOWN"
 >
 
 
