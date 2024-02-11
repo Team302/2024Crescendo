@@ -2639,7 +2639,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-0.1</value>
+                      <value>-0.05</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2780,10 +2780,9 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -2914,10 +2913,9 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -3048,10 +3046,9 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
