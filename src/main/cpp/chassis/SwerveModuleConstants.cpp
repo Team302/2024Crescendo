@@ -29,7 +29,7 @@ SwerveModuleAttributes SwerveModuleConstants::GetSwerveModuleAttrs(ModuleType ty
     attr.wheelDiameter = units::length::inch_t(4.0);
 
     attr.sensorToMechanismRatio = 1.0;
-    attr.rotorToSensorRatio = 50.0 / 7.0;
+    attr.rotorToSensorRatio = 150.0 / 7.0;
 
     switch (type)
     {

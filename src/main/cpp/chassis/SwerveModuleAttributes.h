@@ -32,6 +32,6 @@ struct SwerveModuleAttributes
     units::length::inch_t wheelDiameter = units::length::inch_t(4.0);
     double driveGearRatio = 1.0;
     double sensorToMechanismRatio = 1.0;
-    double rotorToSensorRatio = 50.0 / 7.0;
+    double rotorToSensorRatio = 150.0 / 7.0;
     units::velocity::feet_per_second_t maxSpeed = units::velocity::feet_per_second_t(0.0);
 };

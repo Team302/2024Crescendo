@@ -47,19 +47,17 @@ void Robot::RobotInit()
     int32_t teamNumber = frc::RobotController::GetTeamNumber();
     // Build the robot
     RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
-
     ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
     auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 
     // Get AdjustableItemMgr instance
-    m_tuner = nullptr;
+    // m_tuner = nullptr;
     // m_tuner = AdjustableItemMgr::GetInstance();
 
     m_robotState = RobotState::GetInstance();
     m_robotState->Init();
 
     m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
-
     m_holonomic = nullptr;
     if (m_chassis != nullptr)
     {
@@ -115,10 +113,10 @@ void Robot::RobotPeriodic()
 
     if (m_chassis != nullptr)
     {
-        m_chassis->GetFrontLeft()->LogInformation();
+        // m_chassis->GetFrontLeft()->LogInformation();
         m_chassis->GetFrontRight()->LogInformation();
-        m_chassis->GetBackLeft()->LogInformation();
-        m_chassis->GetBackRight()->LogInformation();
+        // m_chassis->GetBackLeft()->LogInformation();
+        // m_chassis->GetBackRight()->LogInformation();
     }
 }
 
@@ -169,13 +167,6 @@ void Robot::TeleopInit()
         {
             m_holonomic->Init();
         }
-
-        // Create chassismovement to flush out any drive options from auton
-        // ChassisMovement resetMoveInfo;
-        // resetMoveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-        // resetMoveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
-
-        // m_chassis->Drive();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
     /**
@@ -186,8 +177,7 @@ void Robot::TeleopInit()
     }
     **/
 
-    Logger::GetLogger()
-        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
 
 void Robot::TeleopPeriodic()

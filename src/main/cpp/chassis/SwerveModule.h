@@ -55,10 +55,6 @@ public:
     /// @returns void
     void ZeroAlignModule();
 
-    /// @brief Set all motor encoders to zero
-    /// @returns void
-    void SetEncodersToZero();
-
     ///@brief
     /// @returns
     double GetEncoderValues();
@@ -85,8 +81,17 @@ public:
     void LogInformation() override;
 
 private:
+    void InitDriveMotor(bool inverted);
+    void InitTurnMotorEncoder(
+        bool turnInverted,
+        bool canCoderInverted,
+        double angleOffset,
+        const SwerveModuleAttributes &attrs);
     void SetDriveSpeed(units::velocity::meters_per_second_t speed);
     void SetTurnAngle(units::angle::degree_t angle);
+    void ReadConstants();
+    frc::SwerveModuleState Optimize(const frc::SwerveModuleState &desiredState,
+                                    const frc::Rotation2d &currentAngle);
 
     SwerveModuleConstants::ModuleID m_moduleID;
     ctre::phoenix6::hardware::TalonFX *m_driveTalon;
@@ -98,9 +103,9 @@ private:
     ctre::phoenix6::controls::PositionTorqueCurrentFOC m_torquePosition{0_tr, 0_tps, 0_A, 1, false};
     ctre::phoenix6::controls::PositionVoltage m_voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
 
-    double m_turnKp = 20.0;
-    double m_turnKi = 5.0;
-    double m_turnKd = 1.0;
+    double m_turnKp = 5.0;
+    double m_turnKi = 0.0;
+    double m_turnKd = 0.0;
     double m_turnKf = 0.0;
     double m_turnCruiseVel = 0.0;
     double m_turnMaxAcc = 0.0;

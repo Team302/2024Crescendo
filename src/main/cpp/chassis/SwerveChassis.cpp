@@ -116,10 +116,6 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                         m_frontRightLocation(units::length::inch_t(22.75 / 2.0), units::length::inch_t(-22.75 / 2.0)),
                                                         m_backLeftLocation(units::length::inch_t(-22.75 / 2.0), units::length::inch_t(22.75 / 2.0)),
                                                         m_backRightLocation(units::length::inch_t(-22.75 / 2.0), units::length::inch_t(-22.75 / 2.0)),
-                                                        // m_frontLeftLocation(wheelBase / 2.0, track / 2.0),
-                                                        // m_frontRightLocation(wheelBase / 2.0, -1.0 * track / 2.0),
-                                                        // m_backLeftLocation(-1.0 * wheelBase / 2.0, track / 2.0),
-                                                        // m_backRightLocation(-1.0 * wheelBase / 2.0, -1.0 * track / 2.0),
                                                         m_kinematics(m_frontLeftLocation,
                                                                      m_frontRightLocation,
                                                                      m_backLeftLocation,
@@ -193,10 +189,6 @@ void SwerveChassis::Drive(ChassisMovement moveInfo)
     }
 }
 
-void SwerveChassis::Drive()
-{
-    // No-op for now
-}
 ISwerveDriveState *SwerveChassis::GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption)
 {
     auto itr = m_driveStateMap.find(driveOption);
@@ -305,14 +297,6 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
 }
-/// @brief set all of the encoders to zero
-void SwerveChassis::SetEncodersToZero()
-{
-    m_frontLeft->SetEncodersToZero();
-    m_frontRight->SetEncodersToZero();
-    m_backLeft->SetEncodersToZero();
-    m_backRight->SetEncodersToZero();
-}
 
 double SwerveChassis::GetEncoderValues(SwerveModule *motor)
 {
@@ -331,11 +315,7 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
 void SwerveChassis::ResetPose(const Pose2d &pose)
 {
     Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
-
-    SetEncodersToZero();
-
     ZeroAlignSwerveModules();
-
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
 }
 
