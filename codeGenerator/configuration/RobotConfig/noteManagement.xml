@@ -2595,7 +2595,7 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
-          <controlDataName>velocityRPS</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>launcherBottom</name>
@@ -2606,7 +2606,7 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
-          <controlDataName>velocityRPS</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>launcherAngle</name>
