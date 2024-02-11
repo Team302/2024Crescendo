@@ -61,8 +61,11 @@ void placeAmpState::Exit()
 
 bool placeAmpState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+
+	double elevatorPos = m_mechanism->getElevator()->GetCounts();
+	double target = 11.5;
+
+	return ((abs(elevatorPos - target) <= 0.5));
 }
 
 bool placeAmpState::IsTransitionCondition(bool considerGamepadTransitions)

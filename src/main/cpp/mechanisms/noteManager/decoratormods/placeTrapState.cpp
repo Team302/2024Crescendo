@@ -60,8 +60,10 @@ void placeTrapState::Exit()
 
 bool placeTrapState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+	double elevatorPos = m_mechanism->getElevator()->GetCounts();
+	double target = 16.5;
+
+	return ((abs(elevatorPos - target) <= 0.5));
 }
 
 bool placeTrapState::IsTransitionCondition(bool considerGamepadTransitions)

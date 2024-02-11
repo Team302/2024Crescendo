@@ -132,7 +132,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		reason = 7;
 	}
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason); // Remove logging after Note management is all verifed
 
 	return (transition);
 }
