@@ -3800,7 +3800,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>0.25</value>
+                      <value>0.5</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3812,7 +3812,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>0.25</value>
+                      <value>0.5</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>percentOutput</controlDataName>
