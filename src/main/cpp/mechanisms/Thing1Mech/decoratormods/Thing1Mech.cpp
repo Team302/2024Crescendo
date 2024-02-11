@@ -62,11 +62,6 @@ void Thing1Mech::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
 	Cyclic();
-
-#ifdef INCLUDE_DATA_TRACE
-	double x = getVortex()->GetRPS();
-	DataTrace::GetInstance()->sendArmData(x, x);
-#endif
 }
 
 void Thing1Mech::SetCurrentState(int state, bool run)
