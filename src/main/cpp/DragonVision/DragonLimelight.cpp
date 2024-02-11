@@ -47,7 +47,7 @@
 /// Description:    Create the object
 ///-----------------------------------------------------------------------------------
 DragonLimelight::DragonLimelight(
-    std::string networkTableName,           /// <I> networkTableName
+    std::string networkTableName,                /// <I> networkTableName
     DragonCamera::PIPELINE initialPipeline, /// <I> enum for pipeline
     units::length::inch_t mountingXOffset,  /// <I> x offset of cam from robot center (forward relative to robot)
     units::length::inch_t mountingYOffset,  /// <I> y offset of cam from robot center (left relative to robot)
