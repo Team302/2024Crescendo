@@ -38,9 +38,9 @@ class PrimitiveParams
 public:
     enum VISION_ALIGNMENT
     {
+        UNKNOWN = -1,
         NOTE = DragonVision::VISION_ELEMENT::NOTE,
-        SPEAKER = DragonVision::VISION_ELEMENT::SPEAKER,
-        UNKNOWN = -1
+        SPEAKER = DragonVision::VISION_ELEMENT::SPEAKER
     };
     // @ADDMECH add parameter for your mechanism state
     PrimitiveParams(
