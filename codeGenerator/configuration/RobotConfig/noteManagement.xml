@@ -1303,7 +1303,7 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0.947921208</value>
+          <value>2.352</value>
         </countsPerDegree>
       </theDistanceAngleCalcInfo>
       <voltageRamping>
@@ -2289,6 +2289,83 @@
         <value>false</value>
       </enableFOC>
       <controlType>POSITION_DEGREES</controlType>
+    </motorControlData>
+    <motorControlData>
+      <name>positionInchUp</name>
+      <PID>
+        <name>PIDFZ</name>
+        <pGain>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </pGain>
+        <iGain>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </iGain>
+        <dGain>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </dGain>
+        <fGain>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </fGain>
+        <iZone>
+          <unitsFamily>none</unitsFamily>
+          <name>doubleParameter</name>
+          <__units__ />
+          <type>Double</type>
+          <value>0</value>
+        </iZone>
+      </PID>
+      <peakValue>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </peakValue>
+      <nominalValue>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </nominalValue>
+      <maxAcceleration>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </maxAcceleration>
+      <cruiseVelocity>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </cruiseVelocity>
+      <enableFOC>
+        <unitsFamily>none</unitsFamily>
+        <name>boolParameter</name>
+        <__units__ />
+        <type>Boolean</type>
+        <value>false</value>
+      </enableFOC>
+      <controlType>POSITION_INCH</controlType>
     </motorControlData>
   </stateMotorControlData>
   <states>
@@ -4968,7 +5045,7 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
-          <controlDataName>positionInch</controlDataName>
+          <controlDataName>positionInchUp</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>Feeder</name>
@@ -5095,7 +5172,7 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
-          <controlDataName>positionInch</controlDataName>
+          <controlDataName>positionInchUp</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>Feeder</name>
@@ -5208,7 +5285,7 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
-          <controlDataName>positionInch</controlDataName>
+          <controlDataName>positionInchUp</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>Feeder</name>
@@ -5321,7 +5398,7 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
-          <controlDataName>positionInch</controlDataName>
+          <controlDataName>positionInchUp</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>Feeder</name>

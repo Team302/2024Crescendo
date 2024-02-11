@@ -324,7 +324,14 @@ namespace CoreCodeGenerator
                                             {
                                                 string motorEnumName = String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(), "").Trim().Replace("::", "_USAGE::").ToUpper());
                                                 if (targetUnitsType == "")
+                                                {
+                                                    if(mc.GetType().IsSubclassOf(typeof(SparkController)))
+                                                    {
+                                                        motorTargets.Add(String.Format("Get{0}()->get{1}()->SetControlConstants({2},*Get{0}()->get{3}())", mi.name, mc.name, mT.target.value, mT.controlDataName));
+                                                    }
+
                                                     motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
+                                                }
                                                 else
                                                     motorTargets.Add(String.Format("SetTargetControl({0}, Get{1}()->get{2}(), {5}({3}({4})))",
                                                         motorEnumName,
