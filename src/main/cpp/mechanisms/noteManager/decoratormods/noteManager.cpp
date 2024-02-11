@@ -58,6 +58,7 @@
 #include "mechanisms/noteManager/decoratormods/placerToLauncherBackState.h"
 #include "mechanisms/noteManager/decoratormods/backupManualLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/backupManualPlaceState.h"
+#include "DragonVision/DragonVision.h"
 
 #include "robotstate/RobotState.h"
 #include "utils/logging/Logger.h"
@@ -122,6 +123,31 @@ void noteManager::SetCurrentState(int state, bool run)
 {
 	noteManagerGen::SetCurrentState(state, run);
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Note Manager Current State"), GetCurrentStatePtr()->GetStateName());
+}
+
+units::length::meter_t noteManager::GetVisionDistance()
+{
+	units::length::meter_t distance{units::length::meter_t(0)};
+	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	if (optionalVisionData)
+	{
+		frc::Transform3d deltaToTarget{optionalVisionData.value().deltaToTarget};
+		frc::Translation3d translate{deltaToTarget.Translation()};
+		double x{translate.X().to<double>()};
+		double y{translate.Y().to<double>()};
+		distance = units::length::meter_t(std::hypot(x, y));
+	}
+	return distance;
+}
+
+bool noteManager::HasVisionTarget()
+{
+	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	if (optionalVisionData)
+	{
+		return true;
+	}
+	return false;
 }
 
 void noteManager::CreateAndRegisterStates()
