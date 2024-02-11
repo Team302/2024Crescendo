@@ -45,7 +45,6 @@ void preparePlaceTrapState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("preparePlaceTrapState"), string("init"));
 
 	m_genState->Init();
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Elevator"), string("Elevator Counts"), m_mechanism->getElevator()->GetCounts());
 }
 
 void preparePlaceTrapState::Run()
@@ -73,5 +72,5 @@ bool preparePlaceTrapState::IsTransitionCondition(bool considerGamepadTransition
 	bool placerMidSensor = m_mechanism->getplacerMidSensor()->Get();
 
 	return ((placerMidSensor && (m_mechanism->IsClimbMode())) ||
-			((currentState == m_mechanism->STATE_PREPARE_PLACE_TRAP) && (m_mechanism->IsClimbMode())));
+			((currentState == m_mechanism->STATE_PREPARE_PLACE_AMP) && (m_mechanism->IsClimbMode())));
 }
