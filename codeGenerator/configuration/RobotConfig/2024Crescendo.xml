@@ -192,7 +192,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -372,7 +371,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -2641,10 +2639,10 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
+                      <value>-0.1</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>

@@ -46,6 +46,8 @@ void placeAmpState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placeAmpState"), string("init"));
 
 	m_genState->Init();
+	m_target = m_mechanism->getElevator()->GetCounts();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
 }
 
 void placeAmpState::Run()
@@ -61,11 +63,7 @@ void placeAmpState::Exit()
 
 bool placeAmpState::AtTarget()
 {
-
-	double elevatorPos = m_mechanism->getElevator()->GetCounts();
-	double target = 11.5;
-
-	return ((abs(elevatorPos - target) <= 0.5));
+	return ((abs(m_mechanism->getElevator()->GetCounts() - m_target) <= 0.5));
 }
 
 bool placeAmpState::IsTransitionCondition(bool considerGamepadTransitions)
