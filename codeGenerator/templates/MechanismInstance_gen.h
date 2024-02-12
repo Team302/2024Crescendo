@@ -28,10 +28,10 @@ public:
         $$_STATE_NAMES_$$
     };
 
-    $$_MECHANISM_INSTANCE_NAME_$$Gen();
+    $$_MECHANISM_INSTANCE_NAME_$$Gen(RobotConfigMgr::RobotIdentifier activeRobotId);
 
     void Create();
-    void Initialize(RobotConfigMgr::RobotIdentifier robotFullName);
+    void Initialize();
 
     _STATE_MANAGER_START_
     /// @brief Set the control constants (e.g. PIDF values).
@@ -95,6 +95,7 @@ public:
     static std::map<std::string, STATE_NAMES> stringToSTATE_NAMESEnumMap;
 
 protected:
+    RobotConfigMgr::RobotIdentifier m_activeRobotId;
     std::string m_ntName;
     std::string m_tuningIsEnabledStr;
     bool m_tuning = false;

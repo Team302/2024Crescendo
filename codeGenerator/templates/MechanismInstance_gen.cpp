@@ -13,11 +13,12 @@ $$_GEN_NOTICE_$$
 
 $$_USING_DIRECTIVES_$$
 
-$$_MECHANISM_INSTANCE_NAME_$$Gen::$$_MECHANISM_INSTANCE_NAME_$$Gen() : BaseMech(MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_TYPE_NAME_$$, "", std::string("$$_MECHANISM_INSTANCE_NAME_$$")),
-                                                                       m_motorMap(),
-                                                                       m_solenoidMap(),
-                                                                       m_servoMap(),
-                                                                       m_stateMap()
+$$_MECHANISM_INSTANCE_NAME_$$Gen::$$_MECHANISM_INSTANCE_NAME_$$Gen(RobotConfigMgr::RobotIdentifier activeRobotId) : BaseMech(MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_TYPE_NAME_$$, "", std::string("$$_MECHANISM_INSTANCE_NAME_$$")),
+                                                                                                                    m_activeRobotId(activeRobotId),
+                                                                                                                    m_motorMap(),
+                                                                                                                    m_solenoidMap(),
+                                                                                                                    m_servoMap(),
+                                                                                                                    m_stateMap()
 {
 }
 
@@ -34,7 +35,7 @@ void $$_MECHANISM_INSTANCE_NAME_$$Gen::Create()
 std::map<std::string, $$_MECHANISM_INSTANCE_NAME_$$Gen::STATE_NAMES> $$_MECHANISM_INSTANCE_NAME_$$Gen::stringToSTATE_NAMESEnumMap{
     $$_STATE_MAP_$$};
 
-void $$_MECHANISM_INSTANCE_NAME_$$Gen::Initialize(RobotConfigMgr::RobotIdentifier robotFullName)
+void $$_MECHANISM_INSTANCE_NAME_$$Gen::Initialize()
 {
     $$_ELEMENT_INITIALIZATION_$$
 }

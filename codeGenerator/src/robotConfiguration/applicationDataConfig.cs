@@ -346,7 +346,7 @@ namespace applicationConfiguration
                             foreach (var vParam in icp)
                             {
                                 string s = pi.GetValue(vParam).ToString();
-                                if ((s != null) && (s == structureName))
+                                if ((s != null) && (s == structureName) && (vParam == v) )
                                 {
                                     MergeMechanismParametersIntoStructure(v, vParam);
                                 }
