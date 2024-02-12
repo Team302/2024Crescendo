@@ -1,0 +1,26 @@
+
+'================= Global settings ===============
+'dataTracingIsActive 1
+
+'================= General Camera settings ===============
+'ShowCameraStream 1
+'renderInfo 1
+'enableSideCamera 1
+'enableIntakeCamera 1
+
+'================= Barcode settings ===============
+'BlueBarcode_lowHue 
+'BlueBarcode_highHue 
+'RedBarcode_lowHue 
+'RedBarcode_highHue 
+'Barcode_lowSat 
+'Barcode_highSat 
+'Barcode_lowVal 
+'Barcode_highVal 
+
+'BarcodeROI_Width 
+'BarcodeROI_Height 
+'BarcodeROI_x 
+'BarcodeROI_y
+
+End

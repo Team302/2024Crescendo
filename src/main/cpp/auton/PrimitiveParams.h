@@ -29,13 +29,19 @@
 #include "DragonVision/DragonVision.h"
 #include "chassis/IChassis.h"
 #include "auton/ZoneParams.h"
-// @ADDMECH include for your mechanism
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 
 // Third Party Includes
 
 class PrimitiveParams
 {
 public:
+    enum VISION_ALIGNMENT
+    {
+        UNKNOWN = -1,
+        NOTE = DragonVision::VISION_ELEMENT::NOTE,
+        SPEAKER = DragonVision::VISION_ELEMENT::SPEAKER
+    };
     // @ADDMECH add parameter for your mechanism state
     PrimitiveParams(
         PRIMITIVE_IDENTIFIER id,
@@ -43,8 +49,11 @@ public:
         ChassisOptionEnums::HeadingOption headingOption,
         float heading,
         std::string pathName,
-        DragonCamera::PIPELINE pipelineMode,
-        ZoneParamsVector zones); // create zones parameter of type ZonesParamsVector
+        // DragonCamera::PIPELINE pipelineMode,
+        ZoneParamsVector zones, // create zones parameter of type
+        VISION_ALIGNMENT visionAlignment,
+        noteManagerGen::STATE_NAMES noteState,
+        ClimberManagerGen::STATE_NAMES climberState); // create zones parameter of type ZonesParamsVector
 
     PrimitiveParams() = delete;
     virtual ~PrimitiveParams() = default; // Destructor
@@ -55,13 +64,17 @@ public:
     ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
     float GetHeading() const { return m_heading; };
     std::string GetPathName() const { return m_pathName; };
-    DragonCamera::PIPELINE GetPipelineMode() const { return m_pipelineMode; }
-    ZoneParamsVector GetZones() const { return m_zones; } // create a GetZones() method to return the instance of zones m_zones
+    ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
+    VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
 
     // @ADDMECH Add methods to get the state mgr for mechanism
 
     // Setters
     void SetPathName(std::string path) { m_pathName = path; }
+    void SetVisionAlignment(VISION_ALIGNMENT visionAlignment)
+    {
+        m_visionAlignment = visionAlignment;
+    }
 
 private:
     // Primitive Parameters
@@ -70,9 +83,13 @@ private:
     ChassisOptionEnums::HeadingOption m_headingOption;
     float m_heading;
     std::string m_pathName;
+
+    noteManagerGen::STATE_NAMES m_noteState;
+    ClimberManagerGen::STATE_NAMES m_climberState;
+
     // @ADDMECH add attribute for your mechanism state
-    DragonCamera::PIPELINE m_pipelineMode;
     ZoneParamsVector m_zones;
+    VISION_ALIGNMENT m_visionAlignment;
 };
 
 typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;

@@ -33,6 +33,7 @@
 
 # Executables
 *.exe
+!DataTrace/*.exe
 !codeGenerator/tool/*.exe
 !codeGenerator/src/XSD_to_CSharp/*.exe
 *.out
