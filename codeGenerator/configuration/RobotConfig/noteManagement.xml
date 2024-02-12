@@ -974,14 +974,14 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>1</value>
         </peakForwardDutyCycle>
         <peakReverseDutyCycle>
           <unitsFamily>none</unitsFamily>
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>-1</value>
         </peakReverseDutyCycle>
       </theConfigMotorSettings>
       <diameter>
@@ -1246,14 +1246,14 @@
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>1</value>
         </peakForwardDutyCycle>
         <peakReverseDutyCycle>
           <unitsFamily>none</unitsFamily>
           <name>doubleParameter</name>
           <__units__ />
           <type>Double</type>
-          <value>0</value>
+          <value>-1</value>
         </peakReverseDutyCycle>
         <inverted>Clockwise_Positive</inverted>
       </theConfigMotorSettings>
