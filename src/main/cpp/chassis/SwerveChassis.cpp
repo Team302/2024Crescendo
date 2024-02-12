@@ -14,27 +14,14 @@
 //====================================================================================================================================================
 
 // C++ Includes
-#include <iostream>
-#include <map>
-#include <memory>
 #include <numbers>
 #include <cmath>
 
 // FRC includes
 #include "frc/DriverStation.h"
 #include "frc/Filesystem.h"
-#include "frc/geometry/Pose2d.h"
 #include "frc/geometry/Rotation2d.h"
-#include "frc/geometry/Transform2d.h"
-#include "frc/geometry/Translation2d.h"
-#include "frc/kinematics/ChassisSpeeds.h"
-#include "networktables/NetworkTableInstance.h"
-#include "units/acceleration.h"
-#include "units/angle.h"
 #include "units/angular_acceleration.h"
-#include "units/angular_velocity.h"
-#include "units/length.h"
-#include "units/velocity.h"
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
@@ -54,16 +41,10 @@
 #include "chassis/headingStates/MaintainHeading.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
 #include "chassis/SwerveChassis.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-#include "configs/RobotElementNames.h"
-#include "utils/AngleUtils.h"
-#include "utils/ConversionUtils.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
 
 // Third Party Includes
-#include "ctre/phoenix6/Pigeon2.hpp"
 #include "pugixml/pugixml.hpp"
 
 constexpr int LEFT_FRONT = 0;
@@ -72,44 +53,36 @@ constexpr int LEFT_BACK = 2;
 constexpr int RIGHT_BACK = 3;
 
 using std::map;
-using std::shared_ptr;
+// using std::shared_ptr;
 using std::string;
 
 using frc::ChassisSpeeds;
 using frc::Pose2d;
 using frc::Rotation2d;
 using frc::SwerveModulePosition;
-using frc::Transform2d;
+// using frc::Transform2d;
 
 using ctre::phoenix6::hardware::Pigeon2;
 
 /// @brief Construct a swerve chassis
-/// @param [in] SwerveModule*           frontleft:          front left swerve module
-/// @param [in] SwerveModule*           frontright:         front right swerve module
-/// @param [in] SwerveModule*           backleft:           back left swerve module
-/// @param [in] SwerveModule*           backright:          back right swerve module
-/// @param [in] units::length::inch_t                   wheelBase:          distance between the front and rear wheels
-/// @param [in] units::length::inch_t                   track:              distance between the left and right wheels
 SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                              SwerveModule *frontRight,
                              SwerveModule *backLeft,
                              SwerveModule *backRight,
                              Pigeon2 *pigeon,
+                             string configfilename,
                              string networkTableName) : IChassis(),
                                                         LoggableItem(),
                                                         m_frontLeft(frontLeft),
                                                         m_frontRight(frontRight),
                                                         m_backLeft(backLeft),
                                                         m_backRight(backRight),
+                                                        m_pigeon(pigeon),
                                                         m_robotDrive(nullptr),
                                                         m_flState(),
                                                         m_frState(),
                                                         m_blState(),
                                                         m_brState(),
-                                                        m_pigeon(pigeon),
-                                                        m_drive(units::velocity::meters_per_second_t(0.0)),
-                                                        m_steer(units::velocity::meters_per_second_t(0.0)),
-                                                        m_rotate(units::angular_velocity::radians_per_second_t(0.0)),
                                                         m_frontLeftLocation(units::length::inch_t(22.75 / 2.0), units::length::inch_t(22.75 / 2.0)),
                                                         m_frontRightLocation(units::length::inch_t(22.75 / 2.0), units::length::inch_t(-22.75 / 2.0)),
                                                         m_backLeftLocation(units::length::inch_t(-22.75 / 2.0), units::length::inch_t(22.75 / 2.0)),
@@ -128,7 +101,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                         m_targetHeading(units::angle::degree_t(0.0)),
                                                         m_networkTableName(networkTableName)
 {
-    ReadConstants();
+    ReadConstants(configfilename);
     InitStates();
     ZeroAlignSwerveModules();
 }
@@ -357,19 +330,19 @@ units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed(
 
 void SwerveChassis::LogInformation()
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vx"), m_drive.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vy"), m_steer.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Omega"), m_rotate.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vx"), m_drive.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vy"), m_steer.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Omega"), m_rotate.to<double>());
     auto pose = GetPose();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current x position"), pose.X().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current y position"), pose.Y().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current x position"), pose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current y position"), pose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current rotation position"), pose.Rotation().Degrees().to<double>());
 }
 
-void SwerveChassis::ReadConstants()
+void SwerveChassis::ReadConstants(string configfilename)
 {
     auto deployDir = frc::filesystem::GetDeployDirectory();
-    auto filename = deployDir + string("/") + string("swervechassis.xml");
+    auto filename = deployDir + string("/chassis/") + configfilename;
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(filename.c_str());
 
@@ -401,5 +374,9 @@ void SwerveChassis::ReadConstants()
                 }
             }
         }
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
     }
 }

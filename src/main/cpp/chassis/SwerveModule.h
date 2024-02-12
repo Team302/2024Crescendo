@@ -49,7 +49,9 @@ public:
                  bool turnInverted,
                  int canCoderID,
                  bool canCoderInverted,
-                 double angleOffset);
+                 double angleOffset,
+                 std::string configfilename,
+                 std::string networkTableName);
 
     /// @brief Turn all of the wheel to zero degrees yaw according to the pigeon
     /// @returns void
@@ -89,7 +91,7 @@ private:
         const SwerveModuleAttributes &attrs);
     void SetDriveSpeed(units::velocity::meters_per_second_t speed);
     void SetTurnAngle(units::angle::degree_t angle);
-    void ReadConstants();
+    void ReadConstants(std::string configfilename);
     frc::SwerveModuleState Optimize(const frc::SwerveModuleState &desiredState,
                                     const frc::Rotation2d &currentAngle);
 
@@ -111,4 +113,5 @@ private:
     double m_turnMaxAcc = 0.0;
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
     units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(16.0);
+    std::string m_networkTableName;
 };

@@ -45,6 +45,8 @@
 using namespace std;
 using namespace frc;
 
+using std::string;
+
 using ctre::phoenix6::configs::CANcoderConfiguration;
 using ctre::phoenix6::configs::CANcoderConfigurator;
 using ctre::phoenix6::configs::MotorOutputConfigs;
@@ -70,14 +72,17 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
                            bool turnInverted,
                            int canCoderID,
                            bool canCoderInverted,
-                           double angleOffset) : LoggableItem(),
-                                                 m_moduleID(id),
-                                                 m_driveTalon(new TalonFX(driveMotorID, "Canivore")),
-                                                 m_turnTalon(new TalonFX(turnMotorID, "Canivore")),
-                                                 m_turnCancoder(new CANcoder(canCoderID, "Canivore")),
-                                                 m_activeState()
+                           double angleOffset,
+                           string configfilename,
+                           string networkTableName) : LoggableItem(),
+                                                      m_moduleID(id),
+                                                      m_driveTalon(new TalonFX(driveMotorID, "Canivore")),
+                                                      m_turnTalon(new TalonFX(turnMotorID, "Canivore")),
+                                                      m_turnCancoder(new CANcoder(canCoderID, "Canivore")),
+                                                      m_activeState(),
+                                                      m_networkTableName(networkTableName)
 {
-    ReadConstants();
+    ReadConstants(configfilename);
 
     Rotation2d ang{units::angle::degree_t(0.0)};
     m_activeState.angle = ang;
@@ -177,10 +182,10 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     string ntSpeed = string("target speed");
     string ntSpeedOptimizedName = string("optimized target speed");
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntAngleOptimizedName, optimizedState.angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntSpeedOptimizedName, optimizedState.speed.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntAngleName, targetState.angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntSpeed, targetState.speed.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntAngleOptimizedName, optimizedState.angle.Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntSpeedOptimizedName, optimizedState.speed.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntAngleName, targetState.angle.Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntSpeed, targetState.speed.to<double>());
 
     // Set Turn Target
     // SetTurnAngle(optimizedState.angle.Degrees());
@@ -265,19 +270,19 @@ void SwerveModule::LogInformation()
     }
     auto angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     units::angle::degree_t angleDegree = angle;
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntAngleName, angleDegree.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntAngleName, angleDegree.to<double>());
 
     auto turns = m_turnTalon->GetPosition().GetValueAsDouble();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntMotorPositionName, turns);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntMotorPositionName, turns);
 
     auto rotor = m_turnTalon->GetRotorPosition().GetValueAsDouble();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), ntRotorPositionName, turns);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntRotorPositionName, rotor);
 
     Slot0Configs configs{};
     m_turnTalon->GetConfigurator().Refresh(configs);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("P"), configs.kP);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("I"), configs.kI);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("D"), configs.kD);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("P"), configs.kP);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("I"), configs.kI);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("D"), configs.kD);
 }
 
 void SwerveModule::InitDriveMotor(bool driveInverted)
@@ -333,8 +338,8 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         // fxconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::RemoteCANcoder;
         fxconfigs.Feedback.SensorToMechanismRatio = attrs.sensorToMechanismRatio;
         fxconfigs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("sensorToMechanismRatio"), attrs.sensorToMechanismRatio);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("rotorToSensorRatio"), attrs.rotorToSensorRatio);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("sensorToMechanismRatio"), attrs.sensorToMechanismRatio);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("rotorToSensorRatio"), attrs.rotorToSensorRatio);
         m_turnTalon->GetConfigurator().Apply(fxconfigs);
 
         CANcoderConfiguration ccConfigs{};
@@ -346,10 +351,10 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
     }
 }
 
-void SwerveModule::ReadConstants()
+void SwerveModule::ReadConstants(string configfilename)
 {
     auto deployDir = frc::filesystem::GetDeployDirectory();
-    auto filename = deployDir + string("/") + string("swervemodule.xml");
+    auto filename = deployDir + string("/chassis/") + configfilename;
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(filename.c_str());
 
@@ -378,6 +383,10 @@ void SwerveModule::ReadConstants()
             }
         }
     }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
+    }
 }
 
 /// @brief Given a desired swerve module state and the current angle of the swerve module, determine
@@ -397,7 +406,7 @@ SwerveModuleState SwerveModule::Optimize(const SwerveModuleState &desiredState,
     optimizedState.speed = desiredState.speed;
 
     auto delta = AngleUtils::GetDeltaAngle(currentAngle.Degrees(), optimizedState.angle.Degrees());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("delta"), delta.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("delta"), delta.to<double>());
 
     // deal with roll over issues (e.g. want to go from -180 degrees to 180 degrees or vice versa)
     // keep the current angle

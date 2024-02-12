@@ -16,7 +16,7 @@
 
 #pragma once
 #include <map>
-#include <memory>
+// #include <memory>
 #include <string>
 
 #include "frc/estimator/SwerveDrivePoseEstimator.h"
@@ -25,7 +25,6 @@
 #include "frc/kinematics/ChassisSpeeds.h"
 #include "frc/kinematics/SwerveDriveKinematics.h"
 #include "frc/kinematics/SwerveModuleState.h"
-
 #include "units/angle.h"
 #include "units/angular_velocity.h"
 #include "units/length.h"
@@ -47,18 +46,12 @@ class SwerveChassis : public IChassis, public LoggableItem
 {
 public:
     /// @brief Construct a swerve chassis
-    /// @param [in] SwerveModule*           frontleft:          front left swerve module
-    /// @param [in] SwerveModule*           frontright:         front right swerve module
-    /// @param [in] SwerveModule*           backleft:           back left swerve module
-    /// @param [in] SwerveModule*           backright:          back right swerve module
-    /// @param [in] units::length::inch_t                   wheelDiameter:      Diameter of the wheel
-    /// @param [in] units::length::inch_t                   wheelBase:          distance between the front and rear wheels
-    /// @param [in] units::length::inch_t                   track:              distance between the left and right wheels
     SwerveChassis(SwerveModule *frontLeft,
                   SwerveModule *frontRight,
                   SwerveModule *backLeft,
                   SwerveModule *backRight,
                   ctre::phoenix6::hardware::Pigeon2 *pigeon,
+                  std::string configfilename,
                   std::string networkTableName);
 
     ~SwerveChassis() noexcept override = default;
@@ -121,12 +114,13 @@ public:
 
 private:
     ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
-    void ReadConstants();
+    void ReadConstants(std::string configfilename);
 
     SwerveModule *m_frontLeft;
     SwerveModule *m_frontRight;
     SwerveModule *m_backLeft;
     SwerveModule *m_backRight;
+    ctre::phoenix6::hardware::Pigeon2 *m_pigeon;
 
     RobotDrive *m_robotDrive;
     std::map<ChassisOptionEnums::DriveStateType, ISwerveDriveState *> m_driveStateMap;
@@ -142,10 +136,9 @@ private:
     units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(17.3);
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
 
-    ctre::phoenix6::hardware::Pigeon2 *m_pigeon;
-    units::velocity::meters_per_second_t m_drive;
-    units::velocity::meters_per_second_t m_steer;
-    units::angular_velocity::radians_per_second_t m_rotate;
+    units::velocity::meters_per_second_t m_drive = units::velocity::meters_per_second_t(0.0);
+    units::velocity::meters_per_second_t m_steer = units::velocity::meters_per_second_t(0.0);
+    units::angular_velocity::radians_per_second_t m_rotate = units::angular_velocity::radians_per_second_t(0.0);
 
     static constexpr units::velocity::meters_per_second_t m_velocityDeadband = units::velocity::meters_per_second_t(0.025);
     static constexpr units::angular_velocity::radians_per_second_t m_angularDeadband = units::angular_velocity::radians_per_second_t(0.1);

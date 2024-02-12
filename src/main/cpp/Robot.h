@@ -53,6 +53,10 @@ public:
     void SimulationPeriodic() override;
 
 private:
+    void InitializeRobot();
+    void InitializeDriveteamFeedback();
+    void UpdateDriveTeamFeedback();
+
     TeleopControl *m_controller;
     SwerveChassis *m_chassis;
     CyclePrimitives *m_cyclePrims;

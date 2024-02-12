@@ -38,11 +38,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     PrimitiveParamsVector paramVector;
     auto hasError = false;
 
-    // auto deployDir = frc::filesystem::GetDeployDirectory();
-    // auto autonDir = deployDir + "/auton/";
-
-    // string fulldirfile = autonDir;
-    // fulldirfile += fileName;
     // initialize the xml string to enum maps
     map<string, PRIMITIVE_IDENTIFIER> primStringToEnumMap;
     primStringToEnumMap["DO_NOTHING"] = DO_NOTHING;
@@ -123,11 +118,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                 {
                     auto primitiveType = UNKNOWN_PRIMITIVE;
                     units::time::second_t time = units::time::second_t(15.0);
-                    auto distance = 0.0;
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
                     auto visionAlignment = PrimitiveParams::VISION_ALIGNMENT::UNKNOWN;
-                    auto visionAlignmentmode = PrimitiveParams::VISION_ALIGNMENT::UNKNOWN;
 
                     auto noteStates = noteManagerGen::STATE_OFF;
                     auto climberState = ClimberManagerGen::STATE_OFF;
@@ -229,8 +222,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      pathName,
                                                                      zones, // vector of all zones included as part of the path
                                                                             // can have multiple zones as part of a complex path
-                                                                     PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
-                                                                     // Below are dummy values
+                                                                     visionAlignment,
                                                                      noteStates,
                                                                      climberState));
                     }
