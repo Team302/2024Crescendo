@@ -34,16 +34,16 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-manualLaunchState::manualLaunchState ( std::string stateName,
-                                       int stateId,
-                                       noteManagerAllStatesStateGen *generatedState,
-                                       noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+manualLaunchState::manualLaunchState(std::string stateName,
+									 int stateId,
+									 noteManagerAllStatesStateGen *generatedState,
+									 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void manualLaunchState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "manualLaunchState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("manualLaunchState"), string("init"));
 
 	m_genState->Init();
 }
@@ -65,9 +65,9 @@ bool manualLaunchState::AtTarget()
 	return attarget;
 }
 
-bool manualLaunchState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool manualLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::MANUAL_LAUNCH ) && AtTarget());
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH));
 }

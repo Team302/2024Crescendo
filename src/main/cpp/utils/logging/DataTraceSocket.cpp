@@ -57,7 +57,7 @@ void DataTraceSocket::Connect(void)
     // note that 10.3.2.1 is the compbot radio and 10.3.2.2 is the compbot roborio
     // While this code is looking for the socket server, it will block the robot code
     // maybe we need to find a better way
-    for (int i = 180; i < 183; i++)
+    for (int i = 166; i < 167; i++)
     {
         if ((client_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
             printf("================== DataTrace Socket creation error \n");
