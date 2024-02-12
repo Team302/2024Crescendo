@@ -69,7 +69,5 @@ bool holdPlacerFrontState::IsTransitionCondition(bool considerGamepadTransitions
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	bool placerInSensor = m_mechanism->getplacerInSensor()->Get();
-	bool frontintakesensor = m_mechanism->getfrontIntakeSensor()->Get();
-
-	return (placerInSensor && frontintakesensor);
+	return (placerInSensor);
 }
