@@ -68,6 +68,6 @@ bool readyAutoLaunchState::IsTransitionCondition(bool considerGamepadTransitions
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	bool visionTargetAcquired = false; // todo this will be set with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	bool visionTargetAcquired = m_mechanism->HasVisionTarget(); // todo this will be set with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	return (visionTargetAcquired);
 }
