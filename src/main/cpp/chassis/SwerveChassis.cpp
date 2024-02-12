@@ -22,6 +22,7 @@
 
 // FRC includes
 #include "frc/DriverStation.h"
+#include "frc/Filesystem.h"
 #include "frc/geometry/Pose2d.h"
 #include "frc/geometry/Rotation2d.h"
 #include "frc/geometry/Transform2d.h"
@@ -63,6 +64,7 @@
 
 // Third Party Includes
 #include "ctre/phoenix6/Pigeon2.hpp"
+#include "pugixml/pugixml.hpp"
 
 constexpr int LEFT_FRONT = 0;
 constexpr int RIGHT_FRONT = 1;
@@ -93,8 +95,6 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                              SwerveModule *backLeft,
                              SwerveModule *backRight,
                              Pigeon2 *pigeon,
-                             units::length::inch_t wheelBase,
-                             units::length::inch_t track,
                              string networkTableName) : IChassis(),
                                                         LoggableItem(),
                                                         m_frontLeft(frontLeft),
@@ -106,8 +106,6 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                         m_frState(),
                                                         m_blState(),
                                                         m_brState(),
-                                                        m_wheelBase(wheelBase),
-                                                        m_track(track),
                                                         m_pigeon(pigeon),
                                                         m_drive(units::velocity::meters_per_second_t(0.0)),
                                                         m_steer(units::velocity::meters_per_second_t(0.0)),
@@ -130,6 +128,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                         m_targetHeading(units::angle::degree_t(0.0)),
                                                         m_networkTableName(networkTableName)
 {
+    ReadConstants();
     InitStates();
     ZeroAlignSwerveModules();
 }
@@ -342,19 +341,11 @@ void SwerveChassis::SetTargetHeading(units::angle::degree_t targetYaw)
 
 units::length::inch_t SwerveChassis::GetWheelDiameter() const
 {
-    if (m_frontLeft != nullptr)
-    {
-        return m_frontLeft->GetWheelDiameter();
-    }
-    return units::length::inch_t(0.0);
+    return m_wheelDiameter;
 }
 units::velocity::meters_per_second_t SwerveChassis::GetMaxSpeed() const
 {
-    if (m_frontLeft != nullptr)
-    {
-        return m_frontLeft->GetMaxSpeed();
-    }
-    return units::velocity::meters_per_second_t(0.0);
+    return m_maxSpeed;
 }
 units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed() const
 {
@@ -373,4 +364,42 @@ void SwerveChassis::LogInformation()
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current x position"), pose.X().to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current y position"), pose.Y().to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
+}
+
+void SwerveChassis::ReadConstants()
+{
+    auto deployDir = frc::filesystem::GetDeployDirectory();
+    auto filename = deployDir + string("/") + string("swervechassis.xml");
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(filename.c_str());
+
+    if (result)
+    {
+        pugi::xml_node parent = doc.root();
+        for (pugi::xml_node swervemod = parent.first_child(); swervemod; swervemod = swervemod.next_sibling())
+        {
+            for (pugi::xml_node control = swervemod.first_child(); swervemod; swervemod = swervemod.next_sibling())
+            {
+                for (pugi::xml_attribute attr = control.first_attribute(); attr; attr = attr.next_attribute())
+                {
+                    if (strcmp(attr.name(), "wheelbase") == 0)
+                    {
+                        m_wheelBase = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "track") == 0)
+                    {
+                        m_track = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "wheeldiameter") == 0)
+                    {
+                        m_wheelDiameter = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "maxspeed") == 0)
+                    {
+                        m_maxSpeed = units::velocity::feet_per_second_t(attr.as_double() / 12.0);
+                    }
+                }
+            }
+        }
+    }
 }

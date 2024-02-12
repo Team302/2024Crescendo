@@ -59,8 +59,6 @@ public:
                   SwerveModule *backLeft,
                   SwerveModule *backRight,
                   ctre::phoenix6::hardware::Pigeon2 *pigeon,
-                  units::length::inch_t wheelBase,
-                  units::length::inch_t track,
                   std::string networkTableName);
 
     ~SwerveChassis() noexcept override = default;
@@ -123,6 +121,7 @@ public:
 
 private:
     ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
+    void ReadConstants();
 
     SwerveModule *m_frontLeft;
     SwerveModule *m_frontRight;
@@ -138,8 +137,10 @@ private:
     frc::SwerveModuleState m_blState;
     frc::SwerveModuleState m_brState;
 
-    units::length::inch_t m_wheelBase;
-    units::length::inch_t m_track;
+    units::length::inch_t m_wheelBase = units::length::inch_t(22.75);
+    units::length::inch_t m_track = units::length::inch_t(22.75);
+    units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(17.3);
+    units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
 
     ctre::phoenix6::hardware::Pigeon2 *m_pigeon;
     units::velocity::meters_per_second_t m_drive;

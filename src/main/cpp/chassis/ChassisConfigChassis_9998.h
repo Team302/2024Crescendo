@@ -58,7 +58,4 @@ private:
 	const bool m_rightbackdriveInvert = true;
 	const bool m_rightbackturnInvert = true;
 	const bool m_rightbackcancoderInvert = true;
-
-	const units::length::inch_t m_track = units::length::inch_t(22.75);
-	const units::length::inch_t m_base = units::length::inch_t(22.75);
 };

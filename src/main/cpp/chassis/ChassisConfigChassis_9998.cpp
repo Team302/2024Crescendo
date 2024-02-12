@@ -58,8 +58,6 @@ void ChassisConfigChassis_9998::DefineChassis()
                                   m_leftBackModule,
                                   m_rightBackModule,
                                   m_pigeon2,
-                                  m_base,
-                                  m_track,
                                   string("SwerveChassis"));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ChassisConfigChassis_9998::DefineChassis"), string("end"));
 }

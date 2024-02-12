@@ -40,7 +40,7 @@
 // Third Party Includes
 #include "ctre/phoenix6/CANcoder.hpp"
 #include "ctre/phoenix6/TalonFX.hpp"
-#include <pugixml/pugixml.hpp>
+#include "pugixml/pugixml.hpp"
 
 using namespace std;
 using namespace frc;
