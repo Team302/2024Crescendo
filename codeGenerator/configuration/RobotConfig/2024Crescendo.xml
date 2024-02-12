@@ -996,14 +996,14 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1</value>
                   </peakForwardDutyCycle>
                   <peakReverseDutyCycle>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>-1</value>
                   </peakReverseDutyCycle>
                 </theConfigMotorSettings>
                 <diameter>
@@ -1268,14 +1268,14 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1</value>
                   </peakForwardDutyCycle>
                   <peakReverseDutyCycle>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>-1</value>
                   </peakReverseDutyCycle>
                   <inverted>Clockwise_Positive</inverted>
                 </theConfigMotorSettings>
@@ -6230,14 +6230,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>75</value>
+                    <value>40</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>75</value>
+                    <value>40</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
@@ -6410,14 +6410,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>75</value>
+                    <value>40</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>75</value>
+                    <value>40</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
