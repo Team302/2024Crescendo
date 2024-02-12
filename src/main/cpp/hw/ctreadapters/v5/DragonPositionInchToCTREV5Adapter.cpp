@@ -27,8 +27,11 @@
 #include "utils/ConversionUtils.h"
 
 // Third Party Includes
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/motorcontrol/ControlMode.h"
 #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
+WPI_UNIGNORE_DEPRECATED
 
 DragonPositionInchToCTREV5Adapter::DragonPositionInchToCTREV5Adapter(std::string networkTableName,
                                                                      int controllerSlot,
