@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="applicationData_Cameras.cs" />
     <Compile Include="applicationData_MotorControllers.cs" />
     <Compile Include="testApplicationData.cs" />
     <Compile Include="applicationDataConfig.cs" />

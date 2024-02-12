@@ -40,7 +40,7 @@ DragonSparkFlex::DragonSparkFlex(int id,
                                                                             m_reverseLimitSwitch(m_spark->GetReverseLimitSwitch(m_reverseType)),
                                                                             m_calcStruc(calcStruc)
 {
-    m_spark->RestoreFactoryDefaults(true);
+    m_spark->RestoreFactoryDefaults();
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09);
@@ -58,7 +58,7 @@ double DragonSparkFlex::GetRotations()
 
 double DragonSparkFlex::GetRPS()
 {
-    return m_spark->GetEncoder(m_feedbackType).GetVelocity() / 60.0;
+    return m_encoder.GetVelocity() / 60.0;
 }
 
 RobotElementNames::MOTOR_CONTROLLER_USAGE DragonSparkFlex::GetType() const
@@ -77,24 +77,28 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     m_pidController.SetI(controlInfo.GetI(), slot);
     m_pidController.SetD(controlInfo.GetD(), slot);
     m_pidController.SetFF(controlInfo.GetF(), slot);
+    m_slot = slot;
 
     switch (controlInfo.GetMode())
     {
     case ControlModes::PERCENT_OUTPUT:
         m_spark->Set(0); // init to zero just to be safe
+        m_controlType = CANSparkBase::ControlType ::kDutyCycle;
         break;
     case ControlModes::POSITION_INCH:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerInch);
+        m_controlType = CANSparkBase::ControlType::kPosition;
         break;
     case ControlModes::POSITION_DEGREES:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerDegree);
+        m_controlType = CANSparkBase::ControlType ::kPosition;
         break;
     case ControlModes::VELOCITY_RPS:
         m_pidController.SetReference(0, CANSparkFlex::ControlType::kVelocity, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerRev);
-
+        m_controlType = CANSparkBase::ControlType ::kVelocity;
         break;
 
     default:
@@ -110,7 +114,14 @@ void DragonSparkFlex::EnableCurrentLimiting(bool enabled)
 
 void DragonSparkFlex::Set(double value)
 {
-    m_spark->Set(value);
+    if (m_controlType == CANSparkBase::ControlType ::kDutyCycle)
+    {
+        m_spark->Set(value);
+    }
+    else
+    {
+        m_pidController.SetReference(value, m_controlType, m_slot);
+    }
 }
 
 void DragonSparkFlex::SetRotationOffset(double rotations)
@@ -219,7 +230,7 @@ void DragonSparkFlex::SetSelectedSensorPosition(
 
 double DragonSparkFlex::GetCounts()
 {
-    return m_spark->GetAbsoluteEncoder(rev::SparkAbsoluteEncoder::Type::kDutyCycle).GetPosition();
+    return m_encoder.GetPosition();
 }
 
 void DragonSparkFlex::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType)

@@ -46,6 +46,7 @@ void placerToLauncherBackState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placerToLauncherBackState"), string("init"));
 
 	m_genState->Init();
+	m_mechanism->getbackIntake()->EnableBrakeMode(false);
 }
 
 void placerToLauncherBackState::Run()
@@ -69,5 +70,5 @@ bool placerToLauncherBackState::IsTransitionCondition(bool considerGamepadTransi
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return (m_mechanism->isLauncherMode());
+	return (m_mechanism->IsLauncherMode());
 }

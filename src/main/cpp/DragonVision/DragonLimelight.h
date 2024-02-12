@@ -27,7 +27,6 @@
 #include "frc/geometry/Pose2d.h"
 
 // Team 302 includes
-#include "DragonVision/DragonAprilTagInfo.h"
 #include "DragonVision/DragonCamera.h"
 
 // Third Party Includes
@@ -38,6 +37,7 @@ class DragonLimelight : public DragonCamera
 public:
     enum LED_MODE
     {
+        LED_UNKNOWN = -1,
         LED_DEFAULT,
         LED_OFF,
         LED_BLINK,
@@ -46,12 +46,14 @@ public:
 
     enum CAM_MODE
     {
+        CAM_UNKNOWN = -1,
         CAM_VISION,
         CAM_DRIVER
     };
 
     enum STREAM_MODE
     {
+        STREAM_UNKNOWN = -1,
         STREAM_DEFAULT,         // side by side if two cams
         STREAM_MAIN_AND_SECOND, // Second Cam bottom right of Main Cam
         STREAM_SECOND_AND_MAIN  // Main Cam bottom right of Second Cam
@@ -59,6 +61,7 @@ public:
 
     enum SNAPSHOT_MODE
     {
+        SNAPSHOT_MODE_UNKNOWN = -1,
         SNAP_OFF,
         SNAP_ON
     };
@@ -88,34 +91,34 @@ public:
     ///-----------------------------------------------------------------------------------
     ~DragonLimelight() = default;
 
-    bool HasTarget() const;
+    bool HasTarget();
 
-    units::angle::degree_t GetTargetYaw() const;
-    units::angle::degree_t GetTargetYawRobotFrame() const;
-    units::angle::degree_t GetTargetPitch() const;
-    units::angle::degree_t GetTargetPitchRobotFrame() const;
-    double GetTargetArea() const;
-    units::angle::degree_t GetTargetSkew() const;
-    units::time::millisecond_t GetPipelineLatency() const;
-    std::vector<double> Get3DSolve() const;
-    int GetAprilTagID() const;
+    units::angle::degree_t GetTargetYaw();
+    units::angle::degree_t GetTargetYawRobotFrame();
+    units::angle::degree_t GetTargetPitch();
+    units::angle::degree_t GetTargetPitchRobotFrame();
+    double GetTargetArea();
+    units::angle::degree_t GetTargetSkew();
+    units::time::millisecond_t GetPipelineLatency();
+    std::vector<double> Get3DSolve();
+    int GetAprilTagID();
 
-    std::optional<VisionPose> GetFieldPosition() const;
-    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance) const;
+    std::optional<VisionPose> GetFieldPosition();
+    std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
 
-    std::optional<VisionPose> GetRedFieldPosition() const;
-    std::optional<VisionPose> GetBlueFieldPosition() const;
-    std::optional<VisionPose> GetOriginFieldPosition() const;
+    std::optional<VisionPose> GetRedFieldPosition();
+    std::optional<VisionPose> GetBlueFieldPosition();
+    std::optional<VisionPose> GetOriginFieldPosition();
 
-    std::optional<VisionData> GetDataToNearestApriltag();
+    std::optional<VisionData> GetDataToNearestAprilTag();
 
-    units::length::inch_t EstimateTargetXDistance() const;
-    units::length::inch_t EstimateTargetYDistance() const;
-    units::length::inch_t EstimateTargetZDistance() const;
+    units::length::inch_t EstimateTargetXDistance();
+    units::length::inch_t EstimateTargetYDistance();
+    units::length::inch_t EstimateTargetZDistance();
 
-    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords() const;
-    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords() const;
-    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords() const;
+    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords();
+    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords();
+    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords();
 
     // Setters
     void SetLEDMode(DragonLimelight::LED_MODE mode);
@@ -136,5 +139,4 @@ protected:
     std::shared_ptr<nt::NetworkTable> m_networktable;
 
 private:
-    DragonAprilTagInfo m_aprilTagInfo;
 };

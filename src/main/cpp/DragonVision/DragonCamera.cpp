@@ -34,6 +34,18 @@ DragonCamera::DragonCamera(std::string cameraName, /// <I> camera name/type
                                                                        mountingYDistance,
                                                                        mountingZDistance,
                                                                        frc::Rotation3d(roll, pitch, yaw)),
-                                                          m_robotCenterToCam(frc::Pose3d{}, m_cameraPose)
+                                                          m_robotCenterToCam(frc::Pose3d{}, m_cameraPose), // transform from center of robot to camera
+                                                          m_cameraName(cameraName)
 {
+}
+
+void DragonCamera::SetCameraPosition(units::length::inch_t mountingXOffset,
+                                     units::length::inch_t mountingYOffset,
+                                     units::length::inch_t mountingZOffset,
+                                     units::angle::degree_t pitch,
+                                     units::angle::degree_t yaw,
+                                     units::angle::degree_t roll)
+{
+    m_cameraPose = frc::Pose3d{mountingXOffset, mountingYOffset, mountingZOffset, frc::Rotation3d(roll, pitch, yaw)};
+    m_robotCenterToCam = frc::Transform3d(frc::Pose3d{}, m_cameraPose);
 }

@@ -34,18 +34,20 @@ using namespace ClimberManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-HoldState::HoldState ( std::string stateName,
-                       int stateId,
-                       ClimberManagerAllStatesStateGen *generatedState,
-                       ClimberManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+HoldState::HoldState(std::string stateName,
+					 int stateId,
+					 ClimberManagerAllStatesStateGen *generatedState,
+					 ClimberManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void HoldState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "HoldState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HoldState"), string("init"));
 
 	m_genState->Init();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, units::length::inch_t(m_mechanism->getleftClimber()->GetCounts()));
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, units::length::inch_t(m_mechanism->getrightClimber()->GetCounts()));
 }
 
 void HoldState::Run()
@@ -61,14 +63,17 @@ void HoldState::Exit()
 
 bool HoldState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+	double left = m_mechanism->getleftClimber()->GetCounts();
+	double right = m_mechanism->getrightClimber()->GetCounts();
+	double target = 14.5;
+
+	return (((abs(left - target)) <= 0.5) &&
+			(abs(right - target) <= 0.5));
 }
 
-bool HoldState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool HoldState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	auto currentstate = m_mechanism->GetCurrentState();
-	
-	return ((AtTarget() && currentstate == m_mechanism->STATE_INITIALIZE) || (!m_mechanism->isClimbMode()));
+	return ((AtTarget() && (currentstate == m_mechanism->STATE_INITIALIZE)) || (m_mechanism->IsClimbMode() == false && (currentstate != m_mechanism->STATE_INITIALIZE)));
 }

@@ -490,6 +490,19 @@ namespace applicationConfiguration
             }
         }
 
+        public static object DeepClone(object obj)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, obj);
+                ms.Position = 0;
+
+                return formatter.Deserialize(ms);
+            }
+        }
+
+
         private void saveRobotConfiguration(string fullPathName)
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();

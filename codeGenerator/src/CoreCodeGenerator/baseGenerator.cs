@@ -57,7 +57,7 @@ namespace CoreCodeGenerator
                     sb.AppendLine(string.Format("{0}", list[i]));
             }
 
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
         protected string ListToString(List<string> list)
         {
@@ -170,7 +170,25 @@ namespace CoreCodeGenerator
 
         internal string removeGenerationInfo(string input)
         {
+            string s= removeGeneratorVersionInfo(input);
+            return removeGenerationDateTimeInfo(s);
+        }
+
+        internal string removeGenerationDateTimeInfo(string input)
+        {
             int index = input.IndexOf("// Generated on");
+            if (index >= 0)
+            {
+                int nextNewLineIndex = input.IndexOf("\n", index);
+                return input.Remove(index, nextNewLineIndex - index);
+            }
+
+            return input;
+        }
+
+        internal string removeGeneratorVersionInfo(string input)
+        {
+            int index = input.IndexOf("// This file was automatically generated");
             if (index >= 0)
             {
                 int nextNewLineIndex = input.IndexOf("\n", index);

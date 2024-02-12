@@ -156,7 +156,7 @@ const TeleopControlButton extra4DPad315 = {TeleopControlMappingEnums::EXTRA4, Te
 
 robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlButton> teleopControlMapButtonMap{
     {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverXButton},
-    {TeleopControlFunctions::ALIGN_APRIL_TAG, driverYButton},
+    {TeleopControlFunctions::ALIGN_TO_SPEAKER, driverYButton},
 
     //{TeleopControlFunctions::RESET_POSITION, driverAButton},need to re assign
     //{TeleopControlFunctions::HOLD_POSITION, driverLBumper},need to re assign
@@ -235,10 +235,9 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlA
     {TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD, driverLJoystickY},
     {TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE, driverLJoystickX},
     {TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE, driverRJoystickX},
-    {TeleopControlFunctions::CLIMB_UP, driverRTrigger},
-    {TeleopControlFunctions::CLIMB_DOWN, driverLTrigger},
+    {TeleopControlFunctions::MANUAL_CLIMB, driverRJoystickY},
     {TeleopControlFunctions::MANUAL_PLACE, copilotLTrigger},
     {TeleopControlFunctions::MANUAL_FEED, copilotRTrigger},
-    {TeleopControlFunctions::LAUNCH_ANGLE, copilotRJoystickY},
-    {TeleopControlFunctions::ELEVATOR, copilotLJoystickY},
+    {TeleopControlFunctions::LAUNCH_ANGLE, copilotLJoystickY},
+    {TeleopControlFunctions::ELEVATOR, copilotRJoystickY},
 };

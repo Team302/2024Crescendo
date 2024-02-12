@@ -2,7 +2,6 @@ $$_COPYRIGHT_$$
 $$_GEN_NOTICE_$$
 
 // C++ Includes
-#include <string>
 
 // FRC Includes
 
@@ -28,29 +27,19 @@ $$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTAN
     PeriodicLooper::GetInstance()->RegisterAll(this);
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$::createAndRegisterStates()
+void $$_MECHANISM_INSTANCE_NAME_$$::RunCommonTasks()
+{
+    // This function is called once per loop before the current state Run()
+}
+
+void $$_MECHANISM_INSTANCE_NAME_$$::SetCurrentState(int state, bool run)
+{
+    $$_MECHANISM_INSTANCE_NAME_$$Gen::SetCurrentState(state, run);
+}
+
+void $$_MECHANISM_INSTANCE_NAME_$$::CreateAndRegisterStates()
 {
     $$_OBJECT_CREATION_$$
 
     $$_STATE_TRANSITION_REGISTRATION_$$
 }
-
-// todo not sure what to do with this
-/*
-bool $$_MECHANISM_INSTANCE_NAME_$$::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_$$_MECHANISM_INSTANCE_NAME_$$->IsAtMinPosition(identifier);
-}
-bool $$_MECHANISM_INSTANCE_NAME_$$::IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_$$_MECHANISM_INSTANCE_NAME_$$->IsAtMinPosition(identifier);
-}
-bool $$_MECHANISM_INSTANCE_NAME_$$::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_$$_MECHANISM_INSTANCE_NAME_$$->IsAtMaxPosition(identifier);
-}
-bool $$_MECHANISM_INSTANCE_NAME_$$::IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const
-{
-    return m_$$_MECHANISM_INSTANCE_NAME_$$->IsAtMaxPosition(identifier);
-}
-*/

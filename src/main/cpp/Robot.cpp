@@ -26,7 +26,8 @@
 #include "utils/logging/Logger.h"
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
-#include <utils/WaypointXmlParser.h>
+
+#include "utils/logging/DataTrace.h"
 
 #include <AdjustableItemMgr.h>
 
@@ -37,6 +38,8 @@ void Robot::RobotInit()
     Logger::GetLogger()->PutLoggingSelectionsOnDashboard();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("arrived"));
 
+    DataTrace::GetInstance()->Connect();
+
     m_controller = nullptr;
 
     int32_t teamNumber = frc::RobotController::GetTeamNumber();
@@ -45,9 +48,6 @@ void Robot::RobotInit()
 
     ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
     auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-
-    auto waypointParser = WaypointXmlParser::GetInstance();
-    waypointParser->ParseWaypoints();
 
     // Get AdjustableItemMgr instance
     m_tuner = nullptr;
@@ -168,7 +168,6 @@ void Robot::TeleopInit()
         m_chassis->Drive();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-
     /**
     // now in teleop, clear field of trajectories
     if (m_field != nullptr)
@@ -177,7 +176,8 @@ void Robot::TeleopInit()
     }
     **/
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
+    Logger::GetLogger()
+        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
 
 void Robot::TeleopPeriodic()
@@ -192,12 +192,12 @@ void Robot::TeleopPeriodic()
         }
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
+
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
 void Robot::DisabledInit()
 {
-
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("DisabledInit"), string("arrived"));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("DisabledInit"), string("end"));
 }

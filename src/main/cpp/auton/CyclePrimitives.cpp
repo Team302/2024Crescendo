@@ -33,6 +33,7 @@
 #include "utils/logging/Logger.h"
 #include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 
 // @ADDMECH include for your mechanism state
 
@@ -124,18 +125,21 @@ void CyclePrimitives::RunDriveStop()
 		auto time = DriverStation::GetMatchType() != DriverStation::MatchType::kNone ? DriverStation::GetMatchTime() : units::time::second_t(15.0);
 		auto params = new PrimitiveParams(DO_NOTHING, // identifier
 										  time,		  // time
-										  0.0,		  // distance
 										  ChassisOptionEnums::HeadingOption::MAINTAIN,
 										  0.0, // heading
 											   //   0.0, // start drive speed
 											   //   0.0, // end drive speed
 										  string(),
-										  DragonCamera::PIPELINE::UNKNOWN,
+										  // DragonCamera::PIPELINE::UNKNOWN,
 										  // @ADDMECH mechanism state
 										  // ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE,
 										  // ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND,
 										  // IntakeStateMgr::INTAKE_STATE::HOLD,
-										  ZoneParamsVector());
+										  ZoneParamsVector(),
+										  PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
+										  // Below are dummy values
+										  noteManagerGen::STATE_NAMES::STATE_OFF,
+										  ClimberManagerGen::STATE_NAMES::STATE_OFF);
 		m_DriveStop = m_primFactory->GetIPrimitive(params);
 		m_DriveStop->Init(params);
 	}

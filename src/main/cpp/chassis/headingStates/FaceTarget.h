@@ -16,7 +16,10 @@
 #pragma once
 #include <optional>
 
+#include "frc/apriltag/AprilTagFieldLayout.h"
+#include "frc/apriltag/AprilTagFields.h"
 #include "frc/geometry/Pose3d.h"
+#include "frc/geometry/Transform3d.h"
 
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
@@ -55,5 +58,10 @@ public:
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 protected:
-    virtual std::optional<frc::Pose3d> GetVisionTargetPose() = 0;
+    virtual std::optional<frc::Pose3d> GetAprilTagPose() = 0;
+    virtual std::optional<frc::Transform3d> GetVisionTargetTransform() = 0;
+    frc::AprilTagFieldLayout GetLayout() const { return m_layout; }
+
+private:
+    frc::AprilTagFieldLayout m_layout;
 };

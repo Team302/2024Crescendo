@@ -4,6 +4,7 @@ $$_GEN_NOTICE_$$
 #pragma once
 
 // C++ Includes
+#include <string>
 
 // FRC Includes
 
@@ -27,15 +28,9 @@ public:
     $$_MECHANISM_INSTANCE_NAME_$$() = delete;
     ~$$_MECHANISM_INSTANCE_NAME_$$() = default;
 
-    void createAndRegisterStates();
-
-    // todo not sure what to do with these
-    /*
-    bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-    bool IsAtMinPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-    bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-    bool IsAtMaxPosition(RobotElementNames::ROBOT_ELEMENT_NAMES identifier) const override;
-    */
+    void RunCommonTasks() override;
+    void SetCurrentState(int state, bool run) override;
+    void CreateAndRegisterStates();
 
 private:
     $$_MECHANISM_INSTANCE_NAME_$$Gen *m_$$_MECHANISM_INSTANCE_NAME_$$;

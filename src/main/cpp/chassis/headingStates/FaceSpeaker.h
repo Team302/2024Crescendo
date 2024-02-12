@@ -15,14 +15,19 @@
 
 #pragma once
 
-// Team302 Includes
-#include "chassis/headingStates/ISwerveDriveOrientation.h"
-#include "chassis/ChassisMovement.h"
+#include <optional>
+#include "frc/geometry/Pose3d.h"
 
-class FaceSpeaker : public ISwerveDriveOrientation
+// Team302 Includes
+#include "chassis/headingStates/FaceTarget.h"
+
+class FaceSpeaker : public FaceTarget
 {
 public:
     FaceSpeaker();
-    ~FaceSpeaker() = delete;
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+    ~FaceSpeaker() = default;
+
+protected:
+    std::optional<frc::Pose3d> GetAprilTagPose() override;
+    std::optional<frc::Transform3d> GetVisionTargetTransform() override;
 };

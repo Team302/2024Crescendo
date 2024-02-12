@@ -77,6 +77,6 @@ bool placerIntakeState::IsTransitionCondition(bool considerGamepadTransitions)
 							 (m_mechanism->getbackIntakeSensor()->Get() == false) &&
 							 (m_mechanism->getfrontIntakeSensor()->Get() == false);
 
-	return ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->isPlacerMode()) ||
+	return ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->IsPlacerMode()) ||
 			(noSensorsDetected && (currentState == static_cast<int>(m_mechanism->STATE_LAUNCHER_TO_PLACER_FRONT))));
 }
