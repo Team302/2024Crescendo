@@ -38,9 +38,7 @@ void Robot::RobotInit()
     Logger::GetLogger()->PutLoggingSelectionsOnDashboard();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("arrived"));
 
-#ifdef INCLUDE_DATA_TRACE
     DataTrace::GetInstance()->Connect();
-#endif
 
     m_controller = nullptr;
 

@@ -38,6 +38,7 @@ DataTraceSocket::DataTraceSocket() : m_timer()
 
 void DataTraceSocket::Connect(void)
 {
+#ifdef INCLUDE_DATA_TRACE
     short octets[10];
     char host[256];
     char *IP;
@@ -65,7 +66,7 @@ void DataTraceSocket::Connect(void)
             serv_addr.sin_family = AF_INET;
             serv_addr.sin_port = htons(PORT);
 
-            char ipAddressBuffer[20] = {0};
+            char ipAddressBuffer[30] = {0};
             // Convert IPv4 and IPv6 addresses from text to binary form
 
             sprintf(ipAddressBuffer, "%d.%d.%d.%d", octets[0], octets[1], octets[2], i);
@@ -90,21 +91,26 @@ void DataTraceSocket::Connect(void)
             }
         }
     }
+#endif
 }
 
 void DataTraceSocket::Disconnect(void)
 {
+#ifdef INCLUDE_DATA_TRACE
     if (client_fd >= 0)
         close(client_fd);
 
     isConnected = false;
     m_timer.Stop();
+#endif
 }
 
 void DataTraceSocket::SendData(void)
 {
+#ifdef INCLUDE_DATA_TRACE
     if (isConnected)
         send(client_fd, sendBuffer, strlen(sendBuffer), 0);
+#endif
 }
 
 void DataTraceSocket::extractIpAddress(const char *sourceString, short *ipAddress)
