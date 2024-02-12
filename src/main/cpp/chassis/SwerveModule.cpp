@@ -159,37 +159,9 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     // auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
     auto optimizedState = Optimize(targetState, currAngle);
 
-    string module;
-    if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_BACK)
-    {
-        module += string("leftback ");
-    }
-    else if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_FRONT)
-    {
-        module += string("leftfront ");
-    }
-    else if (m_moduleID == SwerveModuleConstants::ModuleID::RIGHT_BACK)
-    {
-        module += string("rightback ");
-    }
-    else
-    {
-        module += string("rightfront ");
-    }
-
-    string ntAngleName = module + string("target Angle");
-    string ntAngleOptimizedName = string("optimized target Angle");
-    string ntSpeed = string("target speed");
-    string ntSpeedOptimizedName = string("optimized target speed");
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntAngleOptimizedName, optimizedState.angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntSpeedOptimizedName, optimizedState.speed.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntAngleName, targetState.angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntSpeed, targetState.speed.to<double>());
-
     // Set Turn Target
     // SetTurnAngle(optimizedState.angle.Degrees());
-    SetTurnAngle(targetState.angle.Degrees());
+    SetTurnAngle(targetState.angle.Degrees()); // TODO - need to rework optimize
 
     // Set Drive Target
     // SetDriveSpeed(optimizedState.speed);
@@ -269,20 +241,11 @@ void SwerveModule::LogInformation()
         ntRotorPositionName += string("rightfront rotor");
     }
     auto angle = m_turnCancoder->GetAbsolutePosition().GetValue();
-    units::angle::degree_t angleDegree = angle;
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntAngleName, angleDegree.to<double>());
-
     auto turns = m_turnTalon->GetPosition().GetValueAsDouble();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntMotorPositionName, turns);
 
     auto rotor = m_turnTalon->GetRotorPosition().GetValueAsDouble();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntRotorPositionName, rotor);
-
-    Slot0Configs configs{};
-    m_turnTalon->GetConfigurator().Refresh(configs);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("P"), configs.kP);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("I"), configs.kI);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("D"), configs.kD);
 }
 
 void SwerveModule::InitDriveMotor(bool driveInverted)
@@ -338,8 +301,6 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         // fxconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::RemoteCANcoder;
         fxconfigs.Feedback.SensorToMechanismRatio = attrs.sensorToMechanismRatio;
         fxconfigs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("sensorToMechanismRatio"), attrs.sensorToMechanismRatio);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("rotorToSensorRatio"), attrs.rotorToSensorRatio);
         m_turnTalon->GetConfigurator().Apply(fxconfigs);
 
         CANcoderConfiguration ccConfigs{};
@@ -406,7 +367,6 @@ SwerveModuleState SwerveModule::Optimize(const SwerveModuleState &desiredState,
     optimizedState.speed = desiredState.speed;
 
     auto delta = AngleUtils::GetDeltaAngle(currentAngle.Degrees(), optimizedState.angle.Degrees());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("delta"), delta.to<double>());
 
     // deal with roll over issues (e.g. want to go from -180 degrees to 180 degrees or vice versa)
     // keep the current angle

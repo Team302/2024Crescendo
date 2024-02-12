@@ -36,17 +36,13 @@ void Robot::RobotInit()
     Logger::GetLogger()->PutLoggingSelectionsOnDashboard();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("arrived"));
 
-#ifdef INCLUDE_DATA_TRACE
-    DataTrace::GetInstance()->Connect();
-#endif
+    InitializeDataTracing();
 
     m_controller = nullptr;
 
     InitializeRobot();
+    InitializeAutonOptions();
     InitializeDriveteamFeedback();
-
-    // intialize auton selections
-    m_cyclePrims = new CyclePrimitives();
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("end"));
 }
@@ -183,10 +179,14 @@ void Robot::InitializeRobot()
     m_robotState->Init();
 }
 
+void Robot::InitializeAutonOptions()
+{
+    m_cyclePrims = new CyclePrimitives(); // intialize auton selections
+    m_previewer = new AutonPreviewer(m_cyclePrims);
+}
 void Robot::InitializeDriveteamFeedback()
 {
-    m_previewer = new AutonPreviewer(m_cyclePrims); // TODO:: Move to DriveTeamFeedback
-    m_field = DragonField::GetInstance();           // TODO: move to drive team feedback
+    m_field = DragonField::GetInstance(); // TODO: move to drive team feedback
 }
 
 void Robot::UpdateDriveTeamFeedback()
@@ -204,6 +204,13 @@ void Robot::UpdateDriveTeamFeedback()
     {
         feedback->UpdateFeedback();
     }
+}
+
+void Robot::InitializeDataTracing()
+{
+#ifdef INCLUDE_DATA_TRACE
+    DataTrace::GetInstance()->Connect();
+#endif
 }
 #ifndef RUNNING_FRC_TESTS
 int main()

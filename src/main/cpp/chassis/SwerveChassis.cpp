@@ -136,7 +136,7 @@ void SwerveChassis::ZeroAlignSwerveModules()
 }
 
 /// @brief Drive the chassis
-void SwerveChassis::Drive(ChassisMovement moveInfo)
+void SwerveChassis::Drive(ChassisMovement &moveInfo)
 {
     m_drive = moveInfo.chassisSpeeds.vx;
     m_steer = moveInfo.chassisSpeeds.vy;
@@ -181,7 +181,7 @@ ISwerveDriveOrientation *SwerveChassis::GetSpecifiedHeadingState(ChassisOptionEn
     return itr->second;
 }
 
-ISwerveDriveOrientation *SwerveChassis::GetHeadingState(ChassisMovement moveInfo)
+ISwerveDriveOrientation *SwerveChassis::GetHeadingState(const ChassisMovement &moveInfo)
 {
     auto itr = m_headingStateMap.find(moveInfo.headingOption);
     if (itr == m_headingStateMap.end())
@@ -190,7 +190,7 @@ ISwerveDriveOrientation *SwerveChassis::GetHeadingState(ChassisMovement moveInfo
     }
     return itr->second;
 }
-ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
+ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
 {
     auto state = GetSpecifiedDriveState(moveInfo.driveOption);
 

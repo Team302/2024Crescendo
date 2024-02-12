@@ -62,7 +62,7 @@ public:
     void ZeroAlignSwerveModules();
 
     /// @brief Drive the chassis
-    void Drive(ChassisMovement moveInfo) override;
+    void Drive(ChassisMovement &moveInfo) override;
 
     /// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
     void UpdateOdometry();
@@ -104,16 +104,16 @@ public:
     void SetTargetHeading(units::angle::degree_t targetYaw) override;
 
     void SetStoredHeading(units::angle::degree_t heading);
-    units::angle::degree_t GetStoredHeading() { return m_storedYaw; };
+    units::angle::degree_t GetStoredHeading() const { return m_storedYaw; };
 
     ISwerveDriveOrientation *GetSpecifiedHeadingState(ChassisOptionEnums::HeadingOption headingOption);
     ISwerveDriveState *GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption);
 
-    ISwerveDriveOrientation *GetHeadingState(ChassisMovement moveInfo);
     void LogInformation() override;
 
 private:
-    ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
+    ISwerveDriveOrientation *GetHeadingState(const ChassisMovement &moveInfo);
+    ISwerveDriveState *GetDriveState(ChassisMovement &moveInfo);
     void ReadConstants(std::string configfilename);
 
     SwerveModule *m_frontLeft;
