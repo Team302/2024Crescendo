@@ -208,9 +208,7 @@ void Robot::UpdateDriveTeamFeedback()
 
 void Robot::InitializeDataTracing()
 {
-#ifdef INCLUDE_DATA_TRACE
     DataTrace::GetInstance()->Connect();
-#endif
 }
 #ifndef RUNNING_FRC_TESTS
 int main()
