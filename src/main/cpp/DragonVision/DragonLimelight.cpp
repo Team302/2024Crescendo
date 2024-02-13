@@ -457,6 +457,7 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance_Re
 
         return targetXoffset_RF_inch;
     }
+    return std::nullopt;
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_RelToRobotCoords()

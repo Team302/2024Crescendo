@@ -197,10 +197,10 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 
 std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position)
 {
-	if (m_dragonCameraMap[position] != nullptr)
+	std::optional<VisionData> dataToAprilTag = m_dragonCameraMap[position]->GetDataToNearestAprilTag().value();
+	if (m_dragonCameraMap[position] != nullptr && dataToAprilTag.has_value())
 	{
-
-		return m_dragonCameraMap[position]->GetDataToNearestAprilTag().value();
+		return dataToAprilTag;
 	}
 
 	return std::nullopt;
@@ -222,11 +222,11 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	{
 		bool frontHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER_INTAKE]->HasTarget();
 		bool backHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER_INTAKE]->HasTarget();
-		if (!frontHasDetection && !backHasDetection)
+		if (!frontHasDetection && !backHasDetection) // we see no targets
 		{
 			return std::nullopt;
 		}
-		else if (frontHasDetection && backHasDetection)
+		else if (frontHasDetection && backHasDetection) // we see targets in no cameras
 		{
 			// check which note is closest to robot
 			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER_INTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER_INTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
@@ -268,31 +268,36 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT element)
 {
 	DragonCamera *selectedCam = nullptr;
-
 	int launcherTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetAprilTagID().value();
 	int placerTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetAprilTagID().value();
+	if (placerTagId && launcherTagId)
+	{
 
-	if ((!launcherTagId) && (!placerTagId)) // if we see no april tags
+		if ((!launcherTagId) && (!placerTagId)) // if we see no april tags
+		{
+			return std::nullopt;
+		}
+		else if ((launcherTagId) && (placerTagId)) // if we see april tags in both cameras
+		{
+			// confidence logic
+			double launcherAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetPoseAmbiguity();
+			double placerAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER])->GetPoseAmbiguity();
+
+			selectedCam = launcherAmbiguity <= placerAmbiguity ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]; // if launcher is less ambiguous, select it, and vice versa
+		}
+		else // one camera sees an april tag
+		{
+			if (launcherTagId)
+				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER];
+
+			else
+				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER];
+		}
+	}
+	else if (!launcherTagId && !placerTagId) // if both cameras don't see a tag, return a nullopt
 	{
 		return std::nullopt;
 	}
-	else if ((launcherTagId) && (placerTagId)) // if we see april tags in both cameras
-	{
-		// confidence logic
-		double launcherAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetPoseAmbiguity();
-		double placerAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER])->GetPoseAmbiguity();
-
-		selectedCam = launcherAmbiguity <= placerAmbiguity ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]; // if launcher is less ambiguous, select it, and vice versa
-	}
-	else // one camera sees an april tag
-	{
-		if (launcherTagId)
-			selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER];
-
-		else
-			selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER];
-	}
-
 	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 
 	// initialize selected field element to empty Pose3d
