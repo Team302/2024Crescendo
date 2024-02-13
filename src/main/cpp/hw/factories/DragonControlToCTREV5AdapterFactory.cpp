@@ -38,7 +38,10 @@
 #include "hw/ctreadapters/v5/DragonVoltageToCTREV5Adapter.h"
 
 // Third Party Includes
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
+WPI_UNIGNORE_DEPRECATED
 
 using namespace std;
 

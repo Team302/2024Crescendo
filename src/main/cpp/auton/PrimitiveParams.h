@@ -43,17 +43,15 @@ public:
         SPEAKER = DragonVision::VISION_ELEMENT::SPEAKER
     };
     // @ADDMECH add parameter for your mechanism state
-    PrimitiveParams(
-        PRIMITIVE_IDENTIFIER id,
-        units::time::second_t time,
-        ChassisOptionEnums::HeadingOption headingOption,
-        float heading,
-        std::string pathName,
-        // DragonCamera::PIPELINE pipelineMode,
-        ZoneParamsVector zones, // create zones parameter of type
-        VISION_ALIGNMENT visionAlignment,
-        noteManagerGen::STATE_NAMES noteState,
-        ClimberManagerGen::STATE_NAMES climberState); // create zones parameter of type ZonesParamsVector
+    PrimitiveParams(PRIMITIVE_IDENTIFIER id,
+                    units::time::second_t time,
+                    ChassisOptionEnums::HeadingOption headingOption,
+                    float heading,
+                    std::string pathName,
+                    ZoneParamsVector zones, // create zones parameter of type
+                    VISION_ALIGNMENT visionAlignment,
+                    noteManagerGen::STATE_NAMES noteState,
+                    ClimberManagerGen::STATE_NAMES climberState); // create zones parameter of type ZonesParamsVector
 
     PrimitiveParams() = delete;
     virtual ~PrimitiveParams() = default; // Destructor
@@ -67,14 +65,9 @@ public:
     ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
     VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
 
-    // @ADDMECH Add methods to get the state mgr for mechanism
-
     // Setters
     void SetPathName(std::string path) { m_pathName = path; }
-    void SetVisionAlignment(VISION_ALIGNMENT visionAlignment)
-    {
-        m_visionAlignment = visionAlignment;
-    }
+    void SetVisionAlignment(VISION_ALIGNMENT visionAlignment) { m_visionAlignment = visionAlignment; }
 
 private:
     // Primitive Parameters
@@ -84,12 +77,11 @@ private:
     float m_heading;
     std::string m_pathName;
 
+    VISION_ALIGNMENT m_visionAlignment;
     noteManagerGen::STATE_NAMES m_noteState;
     ClimberManagerGen::STATE_NAMES m_climberState;
 
-    // @ADDMECH add attribute for your mechanism state
     ZoneParamsVector m_zones;
-    VISION_ALIGNMENT m_visionAlignment;
 };
 
 typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;

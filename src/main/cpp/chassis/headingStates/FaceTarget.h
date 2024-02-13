@@ -24,6 +24,7 @@
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
+#include "DragonVision/DragonVision.h"
 
 class FaceTarget : public ISwerveDriveOrientation
 {
@@ -60,8 +61,5 @@ public:
 protected:
     virtual std::optional<frc::Pose3d> GetAprilTagPose() = 0;
     virtual std::optional<frc::Transform3d> GetVisionTargetTransform() = 0;
-    frc::AprilTagFieldLayout GetLayout() const { return m_layout; }
-
-private:
-    frc::AprilTagFieldLayout m_layout;
+    frc::AprilTagFieldLayout GetLayout() const { return DragonVision::GetDragonVision()->GetAprilTagLayout(); }
 };

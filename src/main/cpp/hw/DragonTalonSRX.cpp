@@ -37,9 +37,11 @@
 #include "utils/logging/Logger.h"
 
 // Third Party Includes
-#include "ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h"
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/motorcontrol/SupplyCurrentLimitConfiguration.h"
 #include "ctre/phoenix/motorcontrol/LimitSwitchType.h"
+WPI_UNIGNORE_DEPRECATED
 
 using namespace frc;
 using namespace std;
