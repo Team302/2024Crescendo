@@ -150,7 +150,7 @@ void CyclePrimitives::RunDriveStop()
 
 void CyclePrimitives::SetMechanismStateFromParam(PrimitiveParams *params)
 /*Make it so then if the parameters arent a nullptr,
-grab the mechanism and set the state mgr to set the current state(We already have an enum to set it)*/
+grab the mechanism and set the state mgr to set the current state (We already have an enum to set it)*/
 {
 	if (params != nullptr)
 	{
@@ -158,7 +158,7 @@ grab the mechanism and set the state mgr to set the current state(We already hav
 		if (sm != nullptr)
 		{
 			int state = LoggableItem()->GetCurrentState();
-			noteManagerGen::SetCurrentState(state, true);
+			StateMgr::SetCurrentState(state, true);
 		}
 	}
 	/**
