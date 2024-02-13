@@ -28,8 +28,11 @@
 #include "utils/ConversionUtils.h"
 
 // Third Party Includes
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/motorcontrol/ControlMode.h"
 #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
+WPI_UNIGNORE_DEPRECATED
 
 using ctre::phoenix6::hardware::TalonFX;
 using std::string;

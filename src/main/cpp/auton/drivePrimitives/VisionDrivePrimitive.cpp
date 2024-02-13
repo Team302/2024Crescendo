@@ -57,7 +57,6 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 
         if (m_chassis != nullptr)
         {
-            /*
             switch (m_pipelineMode)
             {
                 case DragonLimelight::PIPELINE_MODE::APRIL_TAG:

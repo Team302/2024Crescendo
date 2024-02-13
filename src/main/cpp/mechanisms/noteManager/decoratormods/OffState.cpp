@@ -44,9 +44,8 @@ OffState::OffState(std::string stateName,
 void OffState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("OffState"), string("init"));
-
 	m_genState->Init();
-	m_mechanism->getlauncherAngle()->SetSelectedSensorPosition(-51);
+	m_mechanism->getlauncherBottom()->Invert(true);
 }
 
 void OffState::Run()
