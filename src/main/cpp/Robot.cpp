@@ -197,7 +197,12 @@ void Robot::TeleopPeriodic()
     std::optional<VisionData> visioninfo = DragonVision::GetDragonVision()->GetVisionData(DragonVision::AMP);
     if (visioninfo.has_value())
     {
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("AprilTag"), visioninfo.value().tagId);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("x"), visioninfo.value().deltaToTarget.X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("Y"), visioninfo.value().deltaToTarget.Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("z"), visioninfo.value().deltaToTarget.Z().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("roll"), visioninfo.value().deltaToTarget.Rotation().X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("pitch"), visioninfo.value().deltaToTarget.Rotation().Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("yaw"), visioninfo.value().deltaToTarget.Rotation().Z().to<double>());
     }
     else
     {
