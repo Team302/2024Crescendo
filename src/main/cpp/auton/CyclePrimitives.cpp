@@ -34,6 +34,8 @@
 #include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.cpp"
 
 // @ADDMECH include for your mechanism state
 
@@ -146,9 +148,19 @@ void CyclePrimitives::RunDriveStop()
 	m_DriveStop->Run();
 }
 
-void CyclePrimitives::State(PrimitiveParams *params)
+void CyclePrimitives::SetMechanismStateFromParam(PrimitiveParams *params)
+/*Make it so then if the parameters arent a nullptr,
+grab the mechanism and set the state mgr to set the current state(We already have an enum to set it)*/
 {
-
+	if (params != nullptr)
+	{
+		StateMgr *sm = LoggableItem::GetCurrentState();
+		if (sm != nullptr)
+		{
+			int state = LoggableItem()->GetCurrentState();
+			noteManagerGen::SetCurrentState(state, true);
+		}
+	}
 	/**
 	if (params != nullptr)
 	{
