@@ -132,6 +132,8 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYaw()
         // return Yaw. This also multiplys it by -1 to invert to a global use in the 302 code
         return units::angle::degree_t(-1.0 * target.GetYaw());
     }
+    else
+        return std::nullopt;
 }
 
 /// @brief get TargetSkew of possible target.
@@ -150,6 +152,8 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetSkew()
         // return degree skew as units object. This would originally be a double
         return units::angle::degree_t(target.GetSkew());
     }
+    else
+        return std::nullopt;
 }
 
 std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYawRobotFrame()
@@ -197,7 +201,8 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYawRobotFrame()
         }
     }
 
-    return units::angle::degree_t(-1.0);
+    else
+        return std::nullopt;
 }
 
 std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitchRobotFrame()
@@ -238,8 +243,8 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitchRobotFrame(
             return pitchRobotRelative;
         }
     }
-
-    return units::angle::degree_t(-1.0);
+    else
+        return std::nullopt;
 }
 
 /// @brief Get Pitch to Target
@@ -258,6 +263,8 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitch()
         // return
         return units::angle::degree_t(target.GetPitch());
     }
+    else
+        return std::nullopt;
 }
 
 std::optional<units::time::millisecond_t> DragonPhotonCam::GetPipelineLatency()
@@ -285,6 +292,8 @@ std::optional<int> DragonPhotonCam::GetAprilTagID()
         // return detected tag's id
         return target.GetFiducialId();
     }
+    else
+        return std::nullopt;
 }
 
 /// @brief Get target area
@@ -303,6 +312,8 @@ std::optional<double> DragonPhotonCam::GetTargetArea()
         // return
         return target.GetArea();
     }
+    else
+        return std::nullopt;
 }
 
 /// @brief Estimate the X distance to the detected target
@@ -324,6 +335,8 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance()
         frc::Transform3d transform = target.GetBestCameraToTarget();
         return transform.X();
     }
+    else
+        return std::nullopt;
 }
 
 /// @brief Estimate the Y distance to the detected target
@@ -346,6 +359,8 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance()
 
         return transform.Y();
     }
+    else
+        return std::nullopt;
 }
 
 /// @brief Estimate the Z distance to the detected target
@@ -370,7 +385,8 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance()
         return transform.Z();
     }
 
-    return units::length::inch_t(-1.0);
+    else
+        return std::nullopt;
 }
 
 /// @brief Estimate the X distance to the detected target in relation to robot
@@ -392,6 +408,8 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance_Re
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
     }
+    else
+        return std::nullopt;
 }
 
 /// @brief Estimate the Y distance to the detected target in relation to robot
@@ -412,6 +430,8 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance_Re
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
     }
+    else
+        return std::nullopt;
 }
 
 /// @brief Estimate the Z distance to the detected target in relation to robot
@@ -433,6 +453,8 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance_Re
         // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
         return target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
     }
+    else
+        return std::nullopt;
 }
 bool DragonPhotonCam::UpdatePipeline()
 {
@@ -460,4 +482,6 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
         return std::make_optional(VisionData{frc::Transform3d(translation, rotation), GetAprilTagID().value()});
     }
+    else
+        return std::nullopt;
 }
