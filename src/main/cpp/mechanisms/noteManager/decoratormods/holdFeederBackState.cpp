@@ -70,6 +70,5 @@ bool holdFeederBackState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	bool feederSensor = m_mechanism->getfeederSensor()->Get();
-	bool backIntakeSensor = m_mechanism->getbackIntakeSensor()->Get();
-	return (feederSensor && backIntakeSensor);
+	return (feederSensor);
 }

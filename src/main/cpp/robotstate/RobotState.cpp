@@ -153,6 +153,12 @@ void RobotState::PublishClimbMode(TeleopControl *controller)
         if (m_climbModeButtonReleased)
         {
             m_climbMode = (m_climbMode == RobotStateChanges::ClimbModeOff) ? RobotStateChanges::ClimbModeOn : RobotStateChanges::ClimbModeOff;
+            if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+            {
+                m_scoringMode = RobotStateChanges::ScoringMode::Placer;
+                PublishStateChange(RobotStateChanges::DesiredScoringMode, m_scoringMode);
+            }
+
             PublishStateChange(RobotStateChanges::ClimbModeStatus, m_climbMode);
         }
     }
