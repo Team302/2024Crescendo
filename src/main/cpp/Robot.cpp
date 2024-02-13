@@ -117,6 +117,7 @@ void Robot::TeleopInit()
         m_holonomic->Init();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
+
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
 
