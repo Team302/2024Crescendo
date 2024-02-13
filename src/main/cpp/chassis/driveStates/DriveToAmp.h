@@ -16,7 +16,7 @@
 #pragma once
 
 // Team302 Includes
-#include <chassis/IChassis.h>
+#include <chassis/SwerveChassis.h>
 #include "DragonVision/DragonVision.h"
 
 // third party includes
@@ -34,7 +34,7 @@ public:
 private:
     frc::Pose2d m_currentPose2d;
 
-    IChassis *m_chasis;
+    SwerveChassis *m_chasis;
     DragonVision *m_dragonVision;
 
     const units::meters_per_second_t m_maxVel = 3.0_mps;

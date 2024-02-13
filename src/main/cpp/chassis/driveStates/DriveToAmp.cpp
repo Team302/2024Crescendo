@@ -38,7 +38,7 @@ pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
 
     pathplanner::PathPlannerTrajectory trajectory;
 
-    if (m_dragonVision != nullptr)
+    if (m_dragonVision != nullptr && m_chasis != nullptr)
     {
         if (allianceColor == frc::DriverStation::kBlue)
         {
@@ -60,9 +60,9 @@ pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
                 auto createPath = std::make_shared<pathplanner::PathPlannerPath>(
                     bezierPoints,
                     pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                    pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)));
+                    pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)), false);
                 createPath->preventFlipping = true;
-                // trajectory = createPath->getTrajectory();
+                trajectory = createPath->getTrajectory(m_chasis->GetChassisSpeeds(), m_currentPose2d.Rotation());
 
                 return trajectory;
             }
@@ -88,10 +88,10 @@ pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
                 auto createPath = std::make_shared<pathplanner::PathPlannerPath>(
                     bezierPoints,
                     pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                    pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)));
+                    pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)), false);
                 createPath->preventFlipping = true;
 
-                // trajectory = createPath->getTrajectory();
+                trajectory = createPath->getTrajectory(m_chasis->GetChassisSpeeds(), m_currentPose2d.Rotation());
 
                 return trajectory;
             }
