@@ -2089,7 +2089,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0.15</value>
+                    <value>0.175</value>
                   </pGain>
                   <iGain>
                     <unitsFamily>none</unitsFamily>
