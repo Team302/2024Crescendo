@@ -71,4 +71,6 @@ protected:
     // mechanisms
     virtual void DefineChassis();
     virtual void DefineMechanisms();
+
+    virtual void DefineLEDs();
 };

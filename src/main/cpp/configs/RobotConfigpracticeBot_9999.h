@@ -36,6 +36,7 @@ public:
 protected:
 	void DefineMechanisms() override;
 	void DefineVisionSensors() override;
+	void DefineLEDs() override;
 
 private:
 	noteManager* m_thenoteManager = nullptr;

@@ -24,6 +24,7 @@
 #include "configs/RobotConfigpracticeBot_9999.h"
 #include "configs/RobotElementNames.h"
 #include "DragonVision/DragonVision.h"
+#include "hw/DragonLeds.h"
 
 using std::string;
 
@@ -47,6 +48,11 @@ void RobotConfigpracticeBot_9999::DefineMechanisms()
 	m_theClimberManager->Init ( m_theClimberManager );
 	m_mechanismMap[MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER] = m_theClimberManager;
 
+}
+
+void RobotConfigpracticeBot_9999::DefineLEDs()
+{
+	DragonLeds::GetInstance()->Initialize(7,50);
 }
 
 StateMgr *RobotConfigpracticeBot_9999::GetMechanism ( MechanismTypes::MECHANISM_TYPE mechType )
