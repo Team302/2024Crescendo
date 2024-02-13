@@ -4205,13 +4205,13 @@
         <motorTarget>
           <name>launcherAngle</name>
           <target>
-            <unitsFamily>angle</unitsFamily>
+            <unitsFamily>none</unitsFamily>
             <name>Target</name>
-            <__units__>deg</__units__>
+            <__units__ />
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
-          <controlDataName>posDegreeAbs</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>
@@ -4332,13 +4332,13 @@
         <motorTarget>
           <name>launcherAngle</name>
           <target>
-            <unitsFamily>angle</unitsFamily>
+            <unitsFamily>none</unitsFamily>
             <name>Target</name>
-            <__units__>deg</__units__>
+            <__units__ />
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
-          <controlDataName>posDegreeAbs</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>
@@ -4445,13 +4445,13 @@
         <motorTarget>
           <name>launcherAngle</name>
           <target>
-            <unitsFamily>angle</unitsFamily>
+            <unitsFamily>none</unitsFamily>
             <name>Target</name>
-            <__units__>deg</__units__>
+            <__units__ />
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
-          <controlDataName>posDegreeAbs</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>
@@ -4558,13 +4558,13 @@
         <motorTarget>
           <name>launcherAngle</name>
           <target>
-            <unitsFamily>angle</unitsFamily>
+            <unitsFamily>none</unitsFamily>
             <name>Target</name>
-            <__units__>deg</__units__>
+            <__units__ />
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
-          <controlDataName>posDegreeAbs</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>
