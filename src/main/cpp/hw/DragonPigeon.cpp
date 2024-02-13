@@ -14,7 +14,11 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/sensors/PigeonIMU.h"
+WPI_UNIGNORE_DEPRECATED
+
 #include "hw/DragonPigeon.h"
 #include <memory>
 

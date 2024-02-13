@@ -16,7 +16,7 @@
 
 #pragma once
 #include <map>
-#include <memory>
+// #include <memory>
 #include <string>
 
 #include "frc/estimator/SwerveDrivePoseEstimator.h"
@@ -25,7 +25,6 @@
 #include "frc/kinematics/ChassisSpeeds.h"
 #include "frc/kinematics/SwerveDriveKinematics.h"
 #include "frc/kinematics/SwerveModuleState.h"
-
 #include "units/angle.h"
 #include "units/angular_velocity.h"
 #include "units/length.h"
@@ -47,20 +46,12 @@ class SwerveChassis : public IChassis, public LoggableItem
 {
 public:
     /// @brief Construct a swerve chassis
-    /// @param [in] SwerveModule*           frontleft:          front left swerve module
-    /// @param [in] SwerveModule*           frontright:         front right swerve module
-    /// @param [in] SwerveModule*           backleft:           back left swerve module
-    /// @param [in] SwerveModule*           backright:          back right swerve module
-    /// @param [in] units::length::inch_t                   wheelDiameter:      Diameter of the wheel
-    /// @param [in] units::length::inch_t                   wheelBase:          distance between the front and rear wheels
-    /// @param [in] units::length::inch_t                   track:              distance between the left and right wheels
     SwerveChassis(SwerveModule *frontLeft,
                   SwerveModule *frontRight,
                   SwerveModule *backLeft,
                   SwerveModule *backRight,
                   ctre::phoenix6::hardware::Pigeon2 *pigeon,
-                  units::length::inch_t wheelBase,
-                  units::length::inch_t track,
+                  std::string configfilename,
                   std::string networkTableName);
 
     ~SwerveChassis() noexcept override = default;
@@ -71,18 +62,13 @@ public:
     void ZeroAlignSwerveModules();
 
     /// @brief Drive the chassis
-    void Drive(ChassisMovement moveInfo) override;
-
-    void Drive() override;
+    void Drive(ChassisMovement &moveInfo) override;
 
     /// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
     void UpdateOdometry();
 
     /// @brief Provide the current chassis speed information
     frc::ChassisSpeeds GetChassisSpeeds() const;
-
-    /// @brief Sets of the motor encoders to zero
-    void SetEncodersToZero();
 
     /// @brief Get encoder values
     double GetEncoderValues(SwerveModule *motor);
@@ -118,21 +104,23 @@ public:
     void SetTargetHeading(units::angle::degree_t targetYaw) override;
 
     void SetStoredHeading(units::angle::degree_t heading);
-    units::angle::degree_t GetStoredHeading() { return m_storedYaw; };
+    units::angle::degree_t GetStoredHeading() const { return m_storedYaw; };
 
     ISwerveDriveOrientation *GetSpecifiedHeadingState(ChassisOptionEnums::HeadingOption headingOption);
     ISwerveDriveState *GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption);
 
-    ISwerveDriveOrientation *GetHeadingState(ChassisMovement moveInfo);
     void LogInformation() override;
 
 private:
-    ISwerveDriveState *GetDriveState(ChassisMovement moveInfo);
+    ISwerveDriveOrientation *GetHeadingState(const ChassisMovement &moveInfo);
+    ISwerveDriveState *GetDriveState(ChassisMovement &moveInfo);
+    void ReadConstants(std::string configfilename);
 
     SwerveModule *m_frontLeft;
     SwerveModule *m_frontRight;
     SwerveModule *m_backLeft;
     SwerveModule *m_backRight;
+    ctre::phoenix6::hardware::Pigeon2 *m_pigeon;
 
     RobotDrive *m_robotDrive;
     std::map<ChassisOptionEnums::DriveStateType, ISwerveDriveState *> m_driveStateMap;
@@ -143,13 +131,14 @@ private:
     frc::SwerveModuleState m_blState;
     frc::SwerveModuleState m_brState;
 
-    units::length::inch_t m_wheelBase;
-    units::length::inch_t m_track;
+    units::length::inch_t m_wheelBase = units::length::inch_t(22.75);
+    units::length::inch_t m_track = units::length::inch_t(22.75);
+    units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(17.3);
+    units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
 
-    ctre::phoenix6::hardware::Pigeon2 *m_pigeon;
-    units::velocity::meters_per_second_t m_drive;
-    units::velocity::meters_per_second_t m_steer;
-    units::angular_velocity::radians_per_second_t m_rotate;
+    units::velocity::meters_per_second_t m_drive = units::velocity::meters_per_second_t(0.0);
+    units::velocity::meters_per_second_t m_steer = units::velocity::meters_per_second_t(0.0);
+    units::angular_velocity::radians_per_second_t m_rotate = units::angular_velocity::radians_per_second_t(0.0);
 
     static constexpr units::velocity::meters_per_second_t m_velocityDeadband = units::velocity::meters_per_second_t(0.025);
     static constexpr units::angular_velocity::radians_per_second_t m_angularDeadband = units::angular_velocity::radians_per_second_t(0.1);

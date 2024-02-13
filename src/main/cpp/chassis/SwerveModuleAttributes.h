@@ -22,7 +22,6 @@
 
 // Team302 Includes
 #include "chassis/SwerveModuleConstants.h"
-#include "mechanisms/controllers/ControlData.h"
 
 // Third party includes
 
@@ -32,11 +31,7 @@ struct SwerveModuleAttributes
 {
     units::length::inch_t wheelDiameter = units::length::inch_t(4.0);
     double driveGearRatio = 1.0;
-    ControlData driveControl = ControlData();
-    double angleGearRatio = 1.0;
-    ControlData angleControl = ControlData();
     double sensorToMechanismRatio = 1.0;
-    double rotorToSensorRatio = 12.8;
+    double rotorToSensorRatio = 150.0 / 7.0;
     units::velocity::feet_per_second_t maxSpeed = units::velocity::feet_per_second_t(0.0);
-    units::angular_velocity::degrees_per_second_t maxAngSpeed = units::angular_velocity::degrees_per_second_t(0.0);
 };

@@ -27,9 +27,12 @@
 #include "utils/logging/Logger.h"
 
 // Third Party Includes
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/motorcontrol/ControlMode.h"
 #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
 #include "ctre/phoenix/ErrorCode.h"
+WPI_UNIGNORE_DEPRECATED
 
 using namespace std;
 using namespace ctre::phoenix;

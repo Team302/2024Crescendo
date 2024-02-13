@@ -28,7 +28,6 @@ using namespace pugi;
 
 ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
 {
-    ZoneParams *zone = nullptr;
     auto hasError = false;
 
     static std::map<std::string, AutonGrid::XGRID> X_xmlStringToGridEnumMap{

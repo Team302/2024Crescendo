@@ -21,7 +21,11 @@
 #include "hw/interfaces/IDragonMotorController.h"
 #include "hw/DistanceAngleCalcStruc.h"
 
-#include "ctre/phoenix/motorcontrol/RemoteSensorSource.h" // need to remove dependency on ctre
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
+#include "ctre/phoenix/motorcontrol/RemoteSensorSource.h"
+WPI_UNIGNORE_DEPRECATED
+
 #include "rev/CANSparkFlex.h"
 #include "rev/SparkLimitSwitch.h"
 
