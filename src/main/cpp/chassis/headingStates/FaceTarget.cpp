@@ -19,8 +19,7 @@
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose3d.h"
 
-FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerveDriveOrientation(headingOption),
-                                                                          m_layout(frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo))
+FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerveDriveOrientation(headingOption)
 
 {
 }

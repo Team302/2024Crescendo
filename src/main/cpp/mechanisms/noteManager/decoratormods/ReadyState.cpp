@@ -44,7 +44,6 @@ ReadyState::ReadyState(std::string stateName,
 void ReadyState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("init"));
-
 	m_genState->Init();
 }
 
@@ -52,6 +51,7 @@ void ReadyState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("run"));
 	m_genState->Run();
+	// Keeping the DIO logging until we setup both robots and confrim that switches are reliableß
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Front Intake Sensor"), m_mechanism->getfrontIntakeSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Back Intake Sensor"), m_mechanism->getbackIntakeSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Feeder Sensor"), m_mechanism->getfeederSensor()->Get());
@@ -59,8 +59,6 @@ void ReadyState::Run()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer In"), m_mechanism->getplacerInSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Mid"), m_mechanism->getplacerMidSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Out"), m_mechanism->getplacerOutSensor()->Get());
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Mode"), static_cast<double>(m_mechanism->IsPlacerMode()));
 }
 
 void ReadyState::Exit()
@@ -134,7 +132,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		reason = 7;
 	}
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason); // Remove logging after Note management is all verifed
 
 	return (transition);
 }

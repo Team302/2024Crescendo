@@ -56,17 +56,14 @@ public:
 
     /// @brief      Run chassis
     /// @returns    void
-    virtual void Drive(
-        ChassisMovement moveInfo) = 0;
-    virtual void Drive() = 0;
+    virtual void Drive(ChassisMovement &moveInfo) = 0;
 
     virtual void SetTargetHeading(units::angle::degree_t targetYaw) = 0;
 
     virtual void Initialize() = 0;
 
     virtual frc::Pose2d GetPose() const = 0;
-    virtual void ResetPose(
-        const frc::Pose2d &pose) = 0;
+    virtual void ResetPose(const frc::Pose2d &pose) = 0;
 
     virtual void UpdateOdometry() = 0;
     virtual units::length::inch_t GetWheelDiameter() const = 0;
@@ -74,7 +71,6 @@ public:
     virtual units::velocity::meters_per_second_t GetMaxSpeed() const = 0;
     virtual units::angular_velocity::radians_per_second_t GetMaxAngularSpeed() const = 0;
     virtual units::angle::degree_t GetYaw() const = 0;
-    virtual void SetEncodersToZero() = 0;
 
     IChassis() = default;
     virtual ~IChassis() = default;

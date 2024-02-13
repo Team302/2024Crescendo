@@ -43,7 +43,7 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "ArrivedAtInit", true);
 
-    m_pipelineMode = params->GetPipelineMode();
+    // m_pipelineMode = params->GetPipeline();
     m_timeout = params->GetTime();
 
     m_timer->Reset();
@@ -57,7 +57,6 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
 
         if (m_chassis != nullptr)
         {
-            /*
             switch (m_pipelineMode)
             {
                 case DragonLimelight::PIPELINE_MODE::APRIL_TAG:

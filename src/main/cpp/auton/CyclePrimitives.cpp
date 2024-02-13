@@ -131,12 +131,13 @@ void CyclePrimitives::RunDriveStop()
 											   //   0.0, // start drive speed
 											   //   0.0, // end drive speed
 										  string(),
-										  DragonCamera::PIPELINE::UNKNOWN,
+										  // DragonCamera::PIPELINE::UNKNOWN,
 										  // @ADDMECH mechanism state
 										  // ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE,
 										  // ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND,
 										  // IntakeStateMgr::INTAKE_STATE::HOLD,
 										  ZoneParamsVector(),
+										  PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
 										  // Below are dummy values
 										  noteManagerGen::STATE_NAMES::STATE_OFF,
 										  ClimberManagerGen::STATE_NAMES::STATE_OFF);

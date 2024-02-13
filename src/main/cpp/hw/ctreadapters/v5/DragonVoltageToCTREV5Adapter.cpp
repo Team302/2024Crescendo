@@ -25,8 +25,11 @@
 #include "mechanisms/controllers/ControlModes.h"
 
 // Third Party Includes
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/motorcontrol/ControlMode.h"
 #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
+WPI_UNIGNORE_DEPRECATED
 
 DragonVoltageToCTREV5Adapter::DragonVoltageToCTREV5Adapter(std::string networkTableName,
                                                            int controllerSlot,

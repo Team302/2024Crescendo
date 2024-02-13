@@ -51,10 +51,6 @@ void backupManualPlaceState::Init()
 void backupManualPlaceState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("backupManualPlaceState"), string("run"));
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("ELEVATOR"), TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR));
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Launcher Angle"), TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE));
-
 	double frontIntakeTarget = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_FRONT_INTAKE) ? 1.0 : 0.0;
 	double backIntakeTarget = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_BACK_INTAKE) ? 1.0 : 0.0;
 
