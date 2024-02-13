@@ -327,6 +327,7 @@ namespace FRCrobotCodeGen302
             this.robotTreeView.Size = new System.Drawing.Size(283, 457);
             this.robotTreeView.TabIndex = 0;
             this.robotTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.robotTreeView_AfterSelect);
+            this.robotTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.robotTreeView_KeyDown);
             // 
             // rightSideSplitContainer
             // 

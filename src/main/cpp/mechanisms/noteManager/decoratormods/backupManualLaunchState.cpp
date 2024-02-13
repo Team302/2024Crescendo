@@ -53,9 +53,6 @@ void backupManualLaunchState::Run()
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("backupManualLaunchState"), string("run"));
 	m_genState->Run();
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("ELEVATOR"), TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR));
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Launcher Angle"), TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE));
-
 	double frontIntakeTarget = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_FRONT_INTAKE) ? 1.0 : 0.0;
 	double backIntakeTarget = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_BACK_INTAKE) ? 1.0 : 0.0;
 
@@ -77,9 +74,6 @@ void backupManualLaunchState::Run()
 	{
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0.0);
 	}
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Elevator Counts"), m_mechanism->getElevator()->GetCounts());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Angle Counts"), m_mechanism->getlauncherAngle()->GetCounts());
 }
 void backupManualLaunchState::Exit()
 {

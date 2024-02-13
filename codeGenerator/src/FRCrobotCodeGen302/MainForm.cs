@@ -890,7 +890,7 @@ namespace FRCrobotCodeGen302
 
                 nodeTag nt = (nodeTag)e.Node.Tag;
 
-                if ((nt.obj.GetType() == typeof(state)) || (nt.obj.GetType() == typeof(List<state>)) )
+                if ((nt.obj.GetType() == typeof(state)) || (nt.obj.GetType() == typeof(List<state>)))
                 {
                     rightSideSplitContainer.Panel1Collapsed = false;
 
@@ -1101,7 +1101,7 @@ namespace FRCrobotCodeGen302
                             valueNumericUpDown.Minimum = nt.obj is baseElement ? Convert.ToDecimal(((baseElement)nt.obj).range.minRange) : decimal.MinValue;
                             valueNumericUpDown.Maximum = nt.obj is baseElement ? Convert.ToDecimal(((baseElement)nt.obj).range.maxRange) : decimal.MaxValue;
 
-                            valueNumericUpDown.DecimalPlaces = 5;
+                            valueNumericUpDown.DecimalPlaces = 8;
                             valueNumericUpDown.Value = Convert.ToDecimal(value);
                             showValueNumericUpDown();
                         }
@@ -1133,7 +1133,7 @@ namespace FRCrobotCodeGen302
 
         private void ShowStateTable(nodeTag nt)
         {
-            
+
             stateGridVisualization.Clear();
 
             List<state> theStates = new List<state>();
@@ -2234,6 +2234,48 @@ namespace FRCrobotCodeGen302
         {
             if (viewer != null)
                 viewer.ConnectToNetworkTables();
+        }
+
+        object copiedObjectParent = null;
+        object copiedObject = null;
+        private void robotTreeView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.C) && (e.Modifiers == Keys.Control))
+            {
+                if (lastSelectedValueNode != null)
+                {
+                    copiedObject = lastSelectedValueNode.Tag;
+                    if (lastSelectedValueNode.Parent != null)
+                        copiedObjectParent = lastSelectedValueNode.Parent.Tag;
+                }
+            }
+            else if ((e.KeyCode == Keys.V) && (e.Modifiers == Keys.Control))
+            {
+                if ((copiedObject != null) && (copiedObjectParent != null))
+                {
+                    if (nodeTag.getType(copiedObject) == typeof(ApplicationData.applicationData))
+                    {
+                        if (lastSelectedArrayNode != null)
+                        {
+                            if (lastSelectedArrayNode.Tag != null)
+                            {
+                                object theList = nodeTag.getObject(lastSelectedArrayNode.Tag);
+                                Type theListType = theList.GetType();
+                                object copy = applicationDataConfig.DeepClone(nodeTag.getObject(copiedObject));
+
+                                if (baseDataConfiguration.isACollection(theList))
+                                {
+                                    theListType.GetMethod("Add").Invoke(theList, new object[] { copy });
+                                    robotTreeView.BeginUpdate();
+                                    AddNode(lastSelectedArrayNode, copy, ((applicationData)copy).name, null);
+                                    robotTreeView.EndUpdate();
+                                    setNeedsSaving();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

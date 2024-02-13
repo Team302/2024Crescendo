@@ -31,11 +31,11 @@
       <name>Launcher</name>
       <dataItems>
         <dataTraceItem>
-          <name>WheelSet1</name>
+          <name>WheelSetTop</name>
           <type>doubleType</type>
         </dataTraceItem>
         <dataTraceItem>
-          <name>WheelSet2</name>
+          <name>WheelSetBottom</name>
           <type>doubleType</type>
         </dataTraceItem>
         <dataTraceItem>

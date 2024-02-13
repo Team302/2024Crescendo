@@ -34,18 +34,20 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-placeAmpState::placeAmpState ( std::string stateName,
-                               int stateId,
-                               noteManagerAllStatesStateGen *generatedState,
-                               noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+placeAmpState::placeAmpState(std::string stateName,
+							 int stateId,
+							 noteManagerAllStatesStateGen *generatedState,
+							 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void placeAmpState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "placeAmpState" ), string ( "init" ) );
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placeAmpState"), string("init"));
 
 	m_genState->Init();
+	m_target = m_mechanism->getElevator()->GetCounts();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
 }
 
 void placeAmpState::Run()
@@ -61,13 +63,12 @@ void placeAmpState::Exit()
 
 bool placeAmpState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+	return ((abs(m_mechanism->getElevator()->GetCounts() - m_target) <= 0.5));
 }
 
-bool placeAmpState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool placeAmpState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::PLACE ) && AtTarget() );
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PLACE) && AtTarget());
 }

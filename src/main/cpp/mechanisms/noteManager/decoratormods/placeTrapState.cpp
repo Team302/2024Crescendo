@@ -43,8 +43,9 @@ placeTrapState::placeTrapState(std::string stateName,
 void placeTrapState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placeTrapState"), string("init"));
-
 	m_genState->Init();
+	m_target = m_mechanism->getElevator()->GetCounts();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
 }
 
 void placeTrapState::Run()
@@ -60,8 +61,7 @@ void placeTrapState::Exit()
 
 bool placeTrapState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+	return ((abs(m_mechanism->getElevator()->GetCounts() - m_target) <= 0.5));
 }
 
 bool placeTrapState::IsTransitionCondition(bool considerGamepadTransitions)

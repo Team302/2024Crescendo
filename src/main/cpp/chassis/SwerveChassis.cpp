@@ -14,25 +14,14 @@
 //====================================================================================================================================================
 
 // C++ Includes
-#include <iostream>
-#include <map>
-#include <memory>
+#include <numbers>
 #include <cmath>
 
 // FRC includes
 #include "frc/DriverStation.h"
-#include "frc/geometry/Pose2d.h"
+#include "frc/Filesystem.h"
 #include "frc/geometry/Rotation2d.h"
-#include "frc/geometry/Transform2d.h"
-#include "frc/geometry/Translation2d.h"
-#include "frc/kinematics/ChassisSpeeds.h"
-#include "networktables/NetworkTableInstance.h"
-#include "units/acceleration.h"
-#include "units/angle.h"
 #include "units/angular_acceleration.h"
-#include "units/angular_velocity.h"
-#include "units/length.h"
-#include "units/velocity.h"
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
@@ -52,16 +41,11 @@
 #include "chassis/headingStates/MaintainHeading.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
 #include "chassis/SwerveChassis.h"
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-#include "configs/RobotElementNames.h"
-#include "utils/AngleUtils.h"
-#include "utils/ConversionUtils.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
 
 // Third Party Includes
-#include "ctre/phoenix6/Pigeon2.hpp"
+#include "pugixml/pugixml.hpp"
 
 constexpr int LEFT_FRONT = 0;
 constexpr int RIGHT_FRONT = 1;
@@ -69,56 +53,40 @@ constexpr int LEFT_BACK = 2;
 constexpr int RIGHT_BACK = 3;
 
 using std::map;
-using std::shared_ptr;
+// using std::shared_ptr;
 using std::string;
 
 using frc::ChassisSpeeds;
 using frc::Pose2d;
 using frc::Rotation2d;
 using frc::SwerveModulePosition;
-using frc::Transform2d;
+// using frc::Transform2d;
 
 using ctre::phoenix6::hardware::Pigeon2;
 
 /// @brief Construct a swerve chassis
-/// @param [in] SwerveModule*           frontleft:          front left swerve module
-/// @param [in] SwerveModule*           frontright:         front right swerve module
-/// @param [in] SwerveModule*           backleft:           back left swerve module
-/// @param [in] SwerveModule*           backright:          back right swerve module
-/// @param [in] units::length::inch_t                   wheelBase:          distance between the front and rear wheels
-/// @param [in] units::length::inch_t                   track:              distance between the left and right wheels
 SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                              SwerveModule *frontRight,
                              SwerveModule *backLeft,
                              SwerveModule *backRight,
                              Pigeon2 *pigeon,
-                             units::length::inch_t wheelBase,
-                             units::length::inch_t track,
+                             string configfilename,
                              string networkTableName) : IChassis(),
                                                         LoggableItem(),
                                                         m_frontLeft(frontLeft),
                                                         m_frontRight(frontRight),
                                                         m_backLeft(backLeft),
                                                         m_backRight(backRight),
+                                                        m_pigeon(pigeon),
                                                         m_robotDrive(nullptr),
                                                         m_flState(),
                                                         m_frState(),
                                                         m_blState(),
                                                         m_brState(),
-                                                        m_wheelBase(wheelBase),
-                                                        m_track(track),
-                                                        m_pigeon(pigeon),
-                                                        m_drive(units::velocity::meters_per_second_t(0.0)),
-                                                        m_steer(units::velocity::meters_per_second_t(0.0)),
-                                                        m_rotate(units::angular_velocity::radians_per_second_t(0.0)),
                                                         m_frontLeftLocation(units::length::inch_t(22.75 / 2.0), units::length::inch_t(22.75 / 2.0)),
                                                         m_frontRightLocation(units::length::inch_t(22.75 / 2.0), units::length::inch_t(-22.75 / 2.0)),
                                                         m_backLeftLocation(units::length::inch_t(-22.75 / 2.0), units::length::inch_t(22.75 / 2.0)),
                                                         m_backRightLocation(units::length::inch_t(-22.75 / 2.0), units::length::inch_t(-22.75 / 2.0)),
-                                                        // m_frontLeftLocation(wheelBase / 2.0, track / 2.0),
-                                                        // m_frontRightLocation(wheelBase / 2.0, -1.0 * track / 2.0),
-                                                        // m_backLeftLocation(-1.0 * wheelBase / 2.0, track / 2.0),
-                                                        // m_backRightLocation(-1.0 * wheelBase / 2.0, -1.0 * track / 2.0),
                                                         m_kinematics(m_frontLeftLocation,
                                                                      m_frontRightLocation,
                                                                      m_backLeftLocation,
@@ -133,6 +101,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                         m_targetHeading(units::angle::degree_t(0.0)),
                                                         m_networkTableName(networkTableName)
 {
+    ReadConstants(configfilename);
     InitStates();
     ZeroAlignSwerveModules();
 }
@@ -167,7 +136,7 @@ void SwerveChassis::ZeroAlignSwerveModules()
 }
 
 /// @brief Drive the chassis
-void SwerveChassis::Drive(ChassisMovement moveInfo)
+void SwerveChassis::Drive(ChassisMovement &moveInfo)
 {
     m_drive = moveInfo.chassisSpeeds.vx;
     m_steer = moveInfo.chassisSpeeds.vy;
@@ -192,10 +161,6 @@ void SwerveChassis::Drive(ChassisMovement moveInfo)
     }
 }
 
-void SwerveChassis::Drive()
-{
-    // No-op for now
-}
 ISwerveDriveState *SwerveChassis::GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption)
 {
     auto itr = m_driveStateMap.find(driveOption);
@@ -216,7 +181,7 @@ ISwerveDriveOrientation *SwerveChassis::GetSpecifiedHeadingState(ChassisOptionEn
     return itr->second;
 }
 
-ISwerveDriveOrientation *SwerveChassis::GetHeadingState(ChassisMovement moveInfo)
+ISwerveDriveOrientation *SwerveChassis::GetHeadingState(const ChassisMovement &moveInfo)
 {
     auto itr = m_headingStateMap.find(moveInfo.headingOption);
     if (itr == m_headingStateMap.end())
@@ -225,7 +190,7 @@ ISwerveDriveOrientation *SwerveChassis::GetHeadingState(ChassisMovement moveInfo
     }
     return itr->second;
 }
-ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement moveInfo)
+ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
 {
     auto state = GetSpecifiedDriveState(moveInfo.driveOption);
 
@@ -304,14 +269,6 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
 }
-/// @brief set all of the encoders to zero
-void SwerveChassis::SetEncodersToZero()
-{
-    m_frontLeft->SetEncodersToZero();
-    m_frontRight->SetEncodersToZero();
-    m_backLeft->SetEncodersToZero();
-    m_backRight->SetEncodersToZero();
-}
 
 double SwerveChassis::GetEncoderValues(SwerveModule *motor)
 {
@@ -330,11 +287,7 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
 void SwerveChassis::ResetPose(const Pose2d &pose)
 {
     Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
-
-    SetEncodersToZero();
-
     ZeroAlignSwerveModules();
-
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
 }
 
@@ -361,36 +314,69 @@ void SwerveChassis::SetTargetHeading(units::angle::degree_t targetYaw)
 
 units::length::inch_t SwerveChassis::GetWheelDiameter() const
 {
-    if (m_frontLeft != nullptr)
-    {
-        return m_frontLeft->GetWheelDiameter();
-    }
-    return units::length::inch_t(0.0);
+    return m_wheelDiameter;
 }
 units::velocity::meters_per_second_t SwerveChassis::GetMaxSpeed() const
 {
-    if (m_frontLeft != nullptr)
-    {
-        return m_frontLeft->GetMaxSpeed();
-    }
-    return units::velocity::meters_per_second_t(0.0);
+    return m_maxSpeed;
 }
 units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed() const
 {
-    if (m_frontLeft != nullptr)
-    {
-        return m_frontLeft->GetMaxAngularSpeed();
-    }
-    return units::angular_velocity::radians_per_second_t(0.0);
+    units::length::meter_t circumference = std::numbers::pi * m_wheelBase * .707 * 2.0;
+    auto angSpeed = units::angular_velocity::turns_per_second_t(GetMaxSpeed().to<double>() / circumference.to<double>());
+    units::angular_velocity::radians_per_second_t retval = angSpeed;
+    return retval;
 }
 
 void SwerveChassis::LogInformation()
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vx"), m_drive.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Vy"), m_steer.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("Omega"), m_rotate.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vx"), m_drive.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vy"), m_steer.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Omega"), m_rotate.to<double>());
     auto pose = GetPose();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current x position"), pose.X().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current y position"), pose.Y().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("swerve"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current x position"), pose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current y position"), pose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current rotation position"), pose.Rotation().Degrees().to<double>());
+}
+
+void SwerveChassis::ReadConstants(string configfilename)
+{
+    auto deployDir = frc::filesystem::GetDeployDirectory();
+    auto filename = deployDir + string("/chassis/") + configfilename;
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(filename.c_str());
+
+    if (result)
+    {
+        pugi::xml_node parent = doc.root();
+        for (pugi::xml_node swervemod = parent.first_child(); swervemod; swervemod = swervemod.next_sibling())
+        {
+            for (pugi::xml_node control = swervemod.first_child(); swervemod; swervemod = swervemod.next_sibling())
+            {
+                for (pugi::xml_attribute attr = control.first_attribute(); attr; attr = attr.next_attribute())
+                {
+                    if (strcmp(attr.name(), "wheelbase") == 0)
+                    {
+                        m_wheelBase = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "track") == 0)
+                    {
+                        m_track = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "wheeldiameter") == 0)
+                    {
+                        m_wheelDiameter = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "maxspeed") == 0)
+                    {
+                        m_maxSpeed = units::velocity::feet_per_second_t(attr.as_double() / 12.0);
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
+    }
 }
