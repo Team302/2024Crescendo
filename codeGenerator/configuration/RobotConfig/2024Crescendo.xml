@@ -2928,6 +2928,13 @@
                     <type>String</type>
                     <value>holdPlacer</value>
                   </stringParameterConstInMechInstance>
+                  <stringParameterConstInMechInstance>
+                    <unitsFamily>none</unitsFamily>
+                    <name>stringParameterConstInMechInstance_3</name>
+                    <__units__ />
+                    <type>String</type>
+                    <value>Expel</value>
+                  </stringParameterConstInMechInstance>
                 </transitionsTo>
                 <motorTargets>
                   <motorTarget>
@@ -5136,7 +5143,7 @@
                     <target>
                       <unitsFamily>length</unitsFamily>
                       <name>Target</name>
-                      <__units__ />
+                      <__units__>m</__units__>
                       <type>Double</type>
                     </target>
                     <motorName>Elevator</motorName>
