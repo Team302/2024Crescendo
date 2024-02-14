@@ -70,7 +70,7 @@ bool feederIntakeState::IsTransitionCondition(bool considerGamepadTransitions)
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	auto currentstate = m_mechanism->GetCurrentState();
-	bool noNoteDetected = (m_mechanism->getplacerInSensor()->Get() == false) && (m_mechanism->getfrontIntakeSensor()->Get() == false);
+	bool noNoteDetected = (m_mechanism->getfeederSensor()->Get() == false) && (m_mechanism->getfrontIntakeSensor()->Get() == false);
 
 	return ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) && m_mechanism->IsLauncherMode()) ||
 			(noNoteDetected && (currentstate == static_cast<int>(m_mechanism->STATE_PLACER_TO_LAUNCHER))));
