@@ -71,15 +71,15 @@ namespace ApplicationData
 
         [DefaultValue(0)]
         [PhysicalUnitsFamily(physicalUnit.Family.length)]
-        public intParameter mountingXOffset { get; set; }
+        public doubleParameter mountingXOffset { get; set; }
 
         [DefaultValue(0)]
         [PhysicalUnitsFamily(physicalUnit.Family.length)]
-        public intParameter mountingYOffset { get; set; }
+        public doubleParameter mountingYOffset { get; set; }
 
         [DefaultValue(0)]
         [PhysicalUnitsFamily(physicalUnit.Family.length)]
-        public intParameter mountingZOffset { get; set; }
+        public doubleParameter mountingZOffset { get; set; }
 
         [DefaultValue(0.0)]
         [PhysicalUnitsFamily(physicalUnit.Family.angle)]
