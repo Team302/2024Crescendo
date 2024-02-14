@@ -89,6 +89,8 @@ namespace CoreCodeGenerator
                   m_mechanismMap[MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_INSTANCE_NAME_UPPERCASE_$$] = m_the$$_MECHANISM_INSTANCE_NAME_$$;
                  ";
 
+            string LEDinitialization = @"DragonLeds::GetInstance()->Initialize($$_LED_PWM_ID_$$, $$_TOTAL_LED_$$);";
+
             generatorContext.clear();
             foreach (applicationData robot in theRobotConfiguration.theRobotVariants.Robots)
             {
@@ -111,13 +113,34 @@ namespace CoreCodeGenerator
 
                 sb.Clear();
                 List<string> list = new List<string>();
+                List<string> includeList = new List<string>();
                 foreach (Camera cam in robot.Cameras)
                 {
                     list.AddRange(cam.generateIndexedObjectCreation(0));
-
+                    includeList.AddRange(cam.generateIncludes());
                 }
                 resultString = resultString.Replace("$$_CAMERAS_INITIALIZATION_$$", ListToString(list).Trim());
-                resultString = resultString.Replace("$$_INCLUDE_$$", (robot.Cameras.Count > 0) ? @"#include ""DragonVision/DragonVision.h""" : "");
+
+                sb.Clear();
+                uint numberOfLeds = 0;
+                foreach (LedSegment ls in robot.LEDs.Segments)
+                    numberOfLeds += ls.Count.value;
+
+                if (numberOfLeds > 0)
+                {
+                    LEDinitialization = LEDinitialization.Replace("$$_TOTAL_LED_$$", numberOfLeds.ToString());
+                    LEDinitialization = LEDinitialization.Replace("$$_LED_PWM_ID_$$", robot.LEDs.PwmId.ToString());
+                    includeList.AddRange(robot.LEDs.generateIncludes());
+                }
+                else
+                {
+                    LEDinitialization = "";
+                }
+
+                resultString = resultString.Replace("$$_LED_INITIALIZATION_$$", LEDinitialization);
+
+                includeList = includeList.Distinct().ToList();
+                resultString = resultString.Replace("$$_INCLUDE_$$", ListToString(includeList));
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }
