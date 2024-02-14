@@ -359,7 +359,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 			// need to separate into translation and rotation calculated from distances
 			units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
-			units::angle::radian_t yaw = units::math::atan2(transformToElement.X(), transformToElement.Y());
+			units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
 
 			// rebundle into vision data with april tag thats used
 			std::optional<VisionData> visionData = VisionData(frc::Transform3d(transformToElement.Translation(),

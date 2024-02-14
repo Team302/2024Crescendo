@@ -87,7 +87,7 @@ private:
     const frc::Pose3d m_RedAmp = frc::Pose3d(
         units::length::meter_t(14.7),
         units::length::meter_t(8.2),
-        units::length::meter_t(0.0),
+        units::length::meter_t(1.36),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(-90.0)));
     const frc::Pose3d m_RedSpeaker = frc::Pose3d(
         units::length::meter_t(16.58),
