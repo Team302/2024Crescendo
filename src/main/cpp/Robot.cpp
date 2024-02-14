@@ -140,6 +140,7 @@ void Robot::TeleopPeriodic()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("roll"), visioninfo.value().deltaToTarget.Rotation().X().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("pitch"), visioninfo.value().deltaToTarget.Rotation().Y().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("yaw"), visioninfo.value().deltaToTarget.Rotation().Z().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("tag id"), visioninfo.value().tagId);
     }
     else
     {
