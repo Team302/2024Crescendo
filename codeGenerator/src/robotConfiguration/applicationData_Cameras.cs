@@ -101,6 +101,7 @@ namespace ApplicationData
     [Serializable()]
     [ImplementationName("DragonLimelight")]
     [UserIncludeFile("DragonVision/DragonLimelight.h")]
+    [UserIncludeFile("DragonVision/DragonVision.h")]
     public class Limelight : Camera
     {
         public enum ledMode
@@ -184,6 +185,7 @@ namespace ApplicationData
     [Serializable()]
     [ImplementationName("DragonPhotonCam")]
     [UserIncludeFile("DragonVision/DragonPhotonCam.h")]
+    [UserIncludeFile("DragonVision/DragonVision.h")]
     public class PhotonCam : Camera
     {
         public override List<string> generateIndexedObjectCreation(int index)
