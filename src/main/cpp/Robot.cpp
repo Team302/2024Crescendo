@@ -7,7 +7,6 @@
 
 #include <string>
 
-#include "DragonVision/DragonVision.h" //debugging
 #include "auton/AutonPreviewer.h"
 #include "auton/CyclePrimitives.h"
 #include "chassis/ChassisConfig.h"
@@ -130,21 +129,7 @@ void Robot::TeleopPeriodic()
         m_holonomic->Run();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-    // debugging purposes
-    std::optional<VisionData> visioninfo = DragonVision::GetDragonVision()->GetVisionData(DragonVision::AMP);
-    if (visioninfo.has_value())
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("x"), visioninfo.value().deltaToTarget.X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("Y"), visioninfo.value().deltaToTarget.Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("z"), visioninfo.value().deltaToTarget.Z().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("roll"), visioninfo.value().deltaToTarget.Rotation().X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("pitch"), visioninfo.value().deltaToTarget.Rotation().Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("yaw"), visioninfo.value().deltaToTarget.Rotation().Z().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Vision"), string("tag id"), visioninfo.value().tagId);
-    }
-    else
-    {
-    }
+
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 

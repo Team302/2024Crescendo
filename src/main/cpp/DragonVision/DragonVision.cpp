@@ -330,32 +330,12 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		{
 			// get translation and rotation from visiondata
 			frc::Transform3d transformToAprilTag = dataToAprilTag.value().deltaToTarget;
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("AprilTag x"), transformToAprilTag.X().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("AprilTag y"), transformToAprilTag.Y().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("AprilTag z"), transformToAprilTag.Z().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("AprilTag roll"), transformToAprilTag.Rotation().X().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("AprilTag pitch"), transformToAprilTag.Rotation().Y().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("AprilTag yaw"), transformToAprilTag.Rotation().Z().to<double>());
 
 			// translate from apriltag to robot to get robot field position
 			frc::Pose3d robotPose = aprilTagPose + transformToAprilTag.Inverse();
 
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Robot Field Pose x"), robotPose.X().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Robot Field Pose y"), robotPose.Y().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Robot Field Pose z"), robotPose.Z().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Robot Field Pose roll"), robotPose.Rotation().X().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Robot Field Pose pitch"), robotPose.Rotation().Y().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Robot Field Pose yaw"), robotPose.Rotation().Z().to<double>());
-
 			// create transformation from robot to field element
 			frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);
-
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Element x"), transformToElement.X().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Element y"), transformToElement.Y().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Element z"), transformToElement.Z().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Element roll"), transformToElement.Rotation().X().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Element pitch"), transformToElement.Rotation().Y().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, std::string("DragonVision"), std::string("Element yaw"), transformToElement.Rotation().Z().to<double>());
 
 			// need to separate into translation and rotation calculated from distances
 			units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
