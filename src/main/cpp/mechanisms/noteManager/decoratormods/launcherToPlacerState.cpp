@@ -69,5 +69,5 @@ bool launcherToPlacerState::IsTransitionCondition ( bool considerGamepadTransiti
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::EXAMPLE_MECH_FORWARD ) );
+	return ((m_mechanism->GetCurrentState() == m_mechanism->STATE_HOLD_FEEDER) && m_mechanism->IsPlacerMode() );
 }
