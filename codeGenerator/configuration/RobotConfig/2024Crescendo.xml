@@ -192,7 +192,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -372,7 +371,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -551,9 +549,7 @@
                     <value>0</value>
                   </SecondaryLimitCycles>
                 </currentLimits>
-                <theConfigMotorSettings>
-                  <mode>Brake</mode>
-                </theConfigMotorSettings>
+                <theConfigMotorSettings />
                 <RotationOffset>
                   <unitsFamily>none</unitsFamily>
                   <name>doubleParameter</name>
@@ -713,14 +709,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>50</value>
+                    <value>80</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>50</value>
+                    <value>80</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
@@ -998,14 +994,14 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1</value>
                   </peakForwardDutyCycle>
                   <peakReverseDutyCycle>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>-1</value>
                   </peakReverseDutyCycle>
                 </theConfigMotorSettings>
                 <diameter>
@@ -1270,15 +1266,16 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1</value>
                   </peakForwardDutyCycle>
                   <peakReverseDutyCycle>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>-1</value>
                   </peakReverseDutyCycle>
+                  <inverted>Clockwise_Positive</inverted>
                 </theConfigMotorSettings>
                 <diameter>
                   <unitsFamily>length</unitsFamily>
@@ -1325,7 +1322,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0.947921208</value>
+                    <value>2.352</value>
                   </countsPerDegree>
                 </theDistanceAngleCalcInfo>
                 <voltageRamping>
@@ -2090,14 +2087,14 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.3</value>
                   </pGain>
                   <iGain>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1E-05</value>
                   </iGain>
                   <dGain>
                     <unitsFamily>none</unitsFamily>
@@ -2118,7 +2115,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.5</value>
                   </iZone>
                 </PID>
                 <peakValue>
@@ -2167,7 +2164,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.1</value>
                   </pGain>
                   <iGain>
                     <unitsFamily>none</unitsFamily>
@@ -2188,7 +2185,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.1</value>
                   </fGain>
                   <iZone>
                     <unitsFamily>none</unitsFamily>
@@ -2203,7 +2200,7 @@
                   <name>doubleParameter</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>0</value>
+                  <value>1</value>
                 </peakValue>
                 <nominalValue>
                   <unitsFamily>none</unitsFamily>
@@ -2217,7 +2214,7 @@
                   <name>doubleParameter</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>0</value>
+                  <value>5</value>
                 </maxAcceleration>
                 <cruiseVelocity>
                   <unitsFamily>none</unitsFamily>
@@ -2244,14 +2241,14 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.01625</value>
                   </pGain>
                   <iGain>
                     <unitsFamily>none</unitsFamily>
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>1.006E-06</value>
                   </iGain>
                   <dGain>
                     <unitsFamily>none</unitsFamily>
@@ -2272,7 +2269,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0</value>
+                    <value>0.035</value>
                   </iZone>
                 </PID>
                 <peakValue>
@@ -2311,6 +2308,83 @@
                   <value>false</value>
                 </enableFOC>
                 <controlType>POSITION_DEGREES</controlType>
+              </motorControlData>
+              <motorControlData>
+                <name>positionInchUp</name>
+                <PID>
+                  <name>PIDFZ</name>
+                  <pGain>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0.3</value>
+                  </pGain>
+                  <iGain>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>1E-05</value>
+                  </iGain>
+                  <dGain>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </dGain>
+                  <fGain>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0</value>
+                  </fGain>
+                  <iZone>
+                    <unitsFamily>none</unitsFamily>
+                    <name>doubleParameter</name>
+                    <__units__ />
+                    <type>Double</type>
+                    <value>0.5</value>
+                  </iZone>
+                </PID>
+                <peakValue>
+                  <unitsFamily>none</unitsFamily>
+                  <name>doubleParameter</name>
+                  <__units__ />
+                  <type>Double</type>
+                  <value>0</value>
+                </peakValue>
+                <nominalValue>
+                  <unitsFamily>none</unitsFamily>
+                  <name>doubleParameter</name>
+                  <__units__ />
+                  <type>Double</type>
+                  <value>0</value>
+                </nominalValue>
+                <maxAcceleration>
+                  <unitsFamily>none</unitsFamily>
+                  <name>doubleParameter</name>
+                  <__units__ />
+                  <type>Double</type>
+                  <value>0</value>
+                </maxAcceleration>
+                <cruiseVelocity>
+                  <unitsFamily>none</unitsFamily>
+                  <name>doubleParameter</name>
+                  <__units__ />
+                  <type>Double</type>
+                  <value>0</value>
+                </cruiseVelocity>
+                <enableFOC>
+                  <unitsFamily>none</unitsFamily>
+                  <name>boolParameter</name>
+                  <__units__ />
+                  <type>Boolean</type>
+                  <value>false</value>
+                </enableFOC>
+                <controlType>POSITION_INCH</controlType>
               </motorControlData>
             </stateMotorControlData>
             <states>
@@ -2536,38 +2610,38 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
+                      <value>-0.045</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -2586,14 +2660,7 @@
                     <name>stringParameterConstInMechInstance_2</name>
                     <__units__ />
                     <type>String</type>
-                    <value>holdFeederFront</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_3</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>holdFeederBack</value>
+                    <value>holdFeeder</value>
                   </stringParameterConstInMechInstance>
                   <stringParameterConstInMechInstance>
                     <unitsFamily>none</unitsFamily>
@@ -2677,38 +2744,37 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -2811,38 +2877,37 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -2861,14 +2926,14 @@
                     <name>stringParameterConstInMechInstance_2</name>
                     <__units__ />
                     <type>String</type>
-                    <value>holdPlacerFront</value>
+                    <value>holdPlacer</value>
                   </stringParameterConstInMechInstance>
                   <stringParameterConstInMechInstance>
                     <unitsFamily>none</unitsFamily>
                     <name>stringParameterConstInMechInstance_3</name>
                     <__units__ />
                     <type>String</type>
-                    <value>holdPlacerBack</value>
+                    <value>Expel</value>
                   </stringParameterConstInMechInstance>
                 </transitionsTo>
                 <motorTargets>
@@ -2915,7 +2980,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>1</value>
+                      <value>0.5</value>
                     </target>
                     <motorName>Placer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -2945,430 +3010,42 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherBottom</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherAngle</name>
-                    <target>
-                      <unitsFamily>angle</unitsFamily>
-                      <name>Target</name>
-                      <__units__>deg</__units__>
-                      <type>Double</type>
-                      <value>-26</value>
-                    </target>
-                    <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
-                  </motorTarget>
-                </motorTargets>
-              </state>
-              <state>
-                <name>holdFeederFront</name>
-                <transitionsTo>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Ready</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_2</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>launcherToPlacerFront</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_3</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>intakeToFeeder</value>
-                  </stringParameterConstInMechInstance>
-                </transitionsTo>
-                <motorTargets>
-                  <motorTarget>
-                    <name>frontIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>frontIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>backIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>backIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Transfer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Transfer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Placer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Placer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Elevator</name>
-                    <target>
-                      <unitsFamily>length</unitsFamily>
-                      <name>Target</name>
-                      <__units__>in</__units__>
-                      <type>Double</type>
-                    </target>
-                    <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Feeder</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Feeder</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherTop</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherBottom</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherAngle</name>
-                    <target>
-                      <unitsFamily>angle</unitsFamily>
-                      <name>Target</name>
-                      <__units__>deg</__units__>
-                      <type>Double</type>
-                      <value>-26</value>
-                    </target>
-                    <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
-                  </motorTarget>
-                </motorTargets>
-              </state>
-              <state>
-                <name>holdFeederBack</name>
-                <transitionsTo>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Ready</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_2</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>intakeToFeeder</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_3</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>launcherToPlacerBack</value>
-                  </stringParameterConstInMechInstance>
-                </transitionsTo>
-                <motorTargets>
-                  <motorTarget>
-                    <name>frontIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>frontIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>backIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>backIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Transfer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Transfer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Placer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Placer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Elevator</name>
-                    <target>
-                      <unitsFamily>length</unitsFamily>
-                      <name>Target</name>
-                      <__units__>in</__units__>
-                      <type>Double</type>
-                    </target>
-                    <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Feeder</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Feeder</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherTop</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherBottom</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherAngle</name>
-                    <target>
-                      <unitsFamily>angle</unitsFamily>
-                      <name>Target</name>
-                      <__units__>deg</__units__>
-                      <type>Double</type>
-                      <value>-26</value>
-                    </target>
-                    <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
-                  </motorTarget>
-                </motorTargets>
-              </state>
-              <state>
-                <name>intakeToFeeder</name>
-                <transitionsTo>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Ready</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_2</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>holdFeeder</value>
-                  </stringParameterConstInMechInstance>
-                </transitionsTo>
-                <motorTargets>
-                  <motorTarget>
-                    <name>frontIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>frontIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>backIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>backIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Transfer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>Transfer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Placer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Placer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Elevator</name>
-                    <target>
-                      <unitsFamily>length</unitsFamily>
-                      <name>Target</name>
-                      <__units__>in</__units__>
-                      <type>Double</type>
-                    </target>
-                    <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Feeder</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
                       <type>Double</type>
                       <value>0.25</value>
                     </target>
-                    <motorName>Feeder</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherTop</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
               <state>
-                <name>launcherToPlacerFront</name>
+                <name>launcherToPlacer</name>
                 <transitionsTo>
                   <stringParameterConstInMechInstance>
                     <unitsFamily>none</unitsFamily>
@@ -3393,7 +3070,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>-1</value>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3405,6 +3082,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>-1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3458,166 +3136,37 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
-                      <__units__>rad/s</__units__>
+                      <__units__ />
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
-                      <__units__>rad/s</__units__>
+                      <__units__ />
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
-                  </motorTarget>
-                </motorTargets>
-              </state>
-              <state>
-                <name>launcherToPlacerBack</name>
-                <transitionsTo>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Ready</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_2</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>holdPlacerBack</value>
-                  </stringParameterConstInMechInstance>
-                </transitionsTo>
-                <motorTargets>
-                  <motorTarget>
-                    <name>frontIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>backIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>0.15</value>
-                    </target>
-                    <motorName>backIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Transfer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>-1</value>
-                    </target>
-                    <motorName>Transfer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Placer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>Placer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Elevator</name>
-                    <target>
-                      <unitsFamily>length</unitsFamily>
-                      <name>Target</name>
-                      <__units__>in</__units__>
-                      <type>Double</type>
-                    </target>
-                    <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Feeder</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>-1</value>
-                    </target>
-                    <motorName>Feeder</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherTop</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherBottom</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherAngle</name>
-                    <target>
-                      <unitsFamily>angle</unitsFamily>
-                      <name>Target</name>
-                      <__units__>deg</__units__>
-                      <type>Double</type>
-                      <value>-26</value>
-                    </target>
-                    <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -3652,6 +3201,13 @@
                     <type>String</type>
                     <value>Pass</value>
                   </stringParameterConstInMechInstance>
+                  <stringParameterConstInMechInstance>
+                    <unitsFamily>none</unitsFamily>
+                    <name>stringParameterConstInMechInstance_5</name>
+                    <__units__ />
+                    <type>String</type>
+                    <value>launcherToPlacer</value>
+                  </stringParameterConstInMechInstance>
                 </transitionsTo>
                 <motorTargets>
                   <motorTarget>
@@ -3723,26 +3279,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -3853,26 +3409,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.75</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.75</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -3976,26 +3532,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>60</value>
+                      <value>0.75</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>60</value>
+                      <value>0.75</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -4093,26 +3649,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -4121,7 +3677,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
+                      <value>-50</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -4210,26 +3766,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.75</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.75</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -4327,26 +3883,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>60</value>
+                      <value>0.75</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>60</value>
+                      <value>0.75</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -4457,26 +4013,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -4573,26 +4129,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -4602,400 +4158,6 @@
                       <__units__>deg</__units__>
                       <type>Double</type>
                       <value>-15</value>
-                    </target>
-                    <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
-                  </motorTarget>
-                </motorTargets>
-              </state>
-              <state>
-                <name>holdPlacerFront</name>
-                <transitionsTo>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Ready</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_2</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>intakeToPlacer</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_3</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>placerToLauncherFront</value>
-                  </stringParameterConstInMechInstance>
-                </transitionsTo>
-                <motorTargets>
-                  <motorTarget>
-                    <name>frontIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>frontIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>backIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>backIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Transfer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Transfer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Placer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Placer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Elevator</name>
-                    <target>
-                      <unitsFamily>length</unitsFamily>
-                      <name>Target</name>
-                      <__units__>in</__units__>
-                      <type>Double</type>
-                    </target>
-                    <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Feeder</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Feeder</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherTop</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherBottom</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherAngle</name>
-                    <target>
-                      <unitsFamily>angle</unitsFamily>
-                      <name>Target</name>
-                      <__units__>deg</__units__>
-                      <type>Double</type>
-                      <value>-26</value>
-                    </target>
-                    <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
-                  </motorTarget>
-                </motorTargets>
-              </state>
-              <state>
-                <name>holdPlacerBack</name>
-                <transitionsTo>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Ready</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_2</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>placerToLauncherBack</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_3</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>intakeToPlacer</value>
-                  </stringParameterConstInMechInstance>
-                </transitionsTo>
-                <motorTargets>
-                  <motorTarget>
-                    <name>frontIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>frontIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>backIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>backIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Transfer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Transfer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Placer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Placer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Elevator</name>
-                    <target>
-                      <unitsFamily>length</unitsFamily>
-                      <name>Target</name>
-                      <__units__>in</__units__>
-                      <type>Double</type>
-                    </target>
-                    <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Feeder</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Feeder</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherTop</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherBottom</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherAngle</name>
-                    <target>
-                      <unitsFamily>angle</unitsFamily>
-                      <name>Target</name>
-                      <__units__>deg</__units__>
-                      <type>Double</type>
-                      <value>-26</value>
-                    </target>
-                    <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
-                  </motorTarget>
-                </motorTargets>
-              </state>
-              <state>
-                <name>intakeToPlacer</name>
-                <transitionsTo>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Ready</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_2</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>preparePlaceAmp</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_3</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>preparePlaceTrap</value>
-                  </stringParameterConstInMechInstance>
-                </transitionsTo>
-                <motorTargets>
-                  <motorTarget>
-                    <name>frontIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>frontIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>backIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>backIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Transfer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>-1</value>
-                    </target>
-                    <motorName>Transfer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Placer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>Placer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Elevator</name>
-                    <target>
-                      <unitsFamily>length</unitsFamily>
-                      <name>Target</name>
-                      <__units__>in</__units__>
-                      <type>Double</type>
-                    </target>
-                    <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Feeder</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>Feeder</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherTop</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherBottom</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherAngle</name>
-                    <target>
-                      <unitsFamily>angle</unitsFamily>
-                      <name>Target</name>
-                      <__units__>deg</__units__>
-                      <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5082,7 +4244,7 @@
                       <value>11.5</value>
                     </target>
                     <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
+                    <controlDataName>positionInchUp</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>Feeder</name>
@@ -5098,38 +4260,37 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -5213,7 +4374,7 @@
                       <value>16.5</value>
                     </target>
                     <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
+                    <controlDataName>positionInchUp</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>Feeder</name>
@@ -5229,38 +4390,37 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -5331,7 +4491,7 @@
                       <value>11.5</value>
                     </target>
                     <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
+                    <controlDataName>positionInchUp</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>Feeder</name>
@@ -5347,38 +4507,37 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -5449,7 +4608,7 @@
                       <value>16.5</value>
                     </target>
                     <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
+                    <controlDataName>positionInchUp</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>Feeder</name>
@@ -5465,43 +4624,42 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
               <state>
-                <name>placerToLauncherFront</name>
+                <name>placerToLauncher</name>
                 <transitionsTo>
                   <stringParameterConstInMechInstance>
                     <unitsFamily>none</unitsFamily>
@@ -5585,7 +4743,6 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>-1</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -5593,165 +4750,37 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
-                      <__units__>rad/s</__units__>
+                      <__units__ />
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
-                      <__units__>rad/s</__units__>
+                      <__units__ />
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
                     <target>
-                      <unitsFamily>angle</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
-                  </motorTarget>
-                </motorTargets>
-              </state>
-              <state>
-                <name>placerToLauncherBack</name>
-                <transitionsTo>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_1</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>Ready</value>
-                  </stringParameterConstInMechInstance>
-                  <stringParameterConstInMechInstance>
-                    <unitsFamily>none</unitsFamily>
-                    <name>stringParameterConstInMechInstance_2</name>
-                    <__units__ />
-                    <type>String</type>
-                    <value>holdFeederBack</value>
-                  </stringParameterConstInMechInstance>
-                </transitionsTo>
-                <motorTargets>
-                  <motorTarget>
-                    <name>frontIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>backIntake</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                    </target>
-                    <motorName>backIntake</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Transfer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>Transfer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Placer</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>-1</value>
-                    </target>
-                    <motorName>Placer</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Elevator</name>
-                    <target>
-                      <unitsFamily>length</unitsFamily>
-                      <name>Target</name>
-                      <__units__>in</__units__>
-                      <type>Double</type>
-                    </target>
-                    <motorName>Elevator</motorName>
-                    <controlDataName>positionInch</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>Feeder</name>
-                    <target>
-                      <unitsFamily>none</unitsFamily>
-                      <name>Target</name>
-                      <__units__ />
-                      <type>Double</type>
-                      <value>1</value>
-                    </target>
-                    <motorName>Feeder</motorName>
-                    <controlDataName>percentOutput</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherTop</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherBottom</name>
-                    <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
-                      <name>Target</name>
-                      <__units__>rad/s</__units__>
-                      <type>Double</type>
-                      <value>30</value>
-                    </target>
-                    <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
-                  </motorTarget>
-                  <motorTarget>
-                    <name>launcherAngle</name>
-                    <target>
-                      <unitsFamily>angle</unitsFamily>
-                      <name>Target</name>
-                      <__units__>deg</__units__>
-                      <type>Double</type>
-                      <value>-26</value>
-                    </target>
-                    <motorName>launcherAngle</motorName>
-                    <controlDataName>posDegreeAbs</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -5843,26 +4872,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -5965,26 +4994,26 @@
                   <motorTarget>
                     <name>launcherTop</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherTop</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherBottom</name>
                     <target>
-                      <unitsFamily>angularVelocity</unitsFamily>
+                      <unitsFamily>none</unitsFamily>
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>30</value>
+                      <value>0.25</value>
                     </target>
                     <motorName>launcherBottom</motorName>
-                    <controlDataName>velocityRPS</controlDataName>
+                    <controlDataName>percentOutput</controlDataName>
                   </motorTarget>
                   <motorTarget>
                     <name>launcherAngle</name>
@@ -5996,6 +5025,135 @@
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                </motorTargets>
+              </state>
+              <state>
+                <name>holdPlacer</name>
+                <transitionsTo>
+                  <stringParameterConstInMechInstance>
+                    <unitsFamily>none</unitsFamily>
+                    <name>stringParameterConstInMechInstance_1</name>
+                    <__units__ />
+                    <type>String</type>
+                    <value>preparePlaceAmp</value>
+                  </stringParameterConstInMechInstance>
+                  <stringParameterConstInMechInstance>
+                    <unitsFamily>none</unitsFamily>
+                    <name>stringParameterConstInMechInstance_2</name>
+                    <__units__ />
+                    <type>String</type>
+                    <value>preparePlaceTrap</value>
+                  </stringParameterConstInMechInstance>
+                  <stringParameterConstInMechInstance>
+                    <unitsFamily>none</unitsFamily>
+                    <name>stringParameterConstInMechInstance_3</name>
+                    <__units__ />
+                    <type>String</type>
+                    <value>placerToLauncher</value>
+                  </stringParameterConstInMechInstance>
+                </transitionsTo>
+                <motorTargets>
+                  <motorTarget>
+                    <name>frontIntake</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                    </target>
+                    <motorName>frontIntake</motorName>
+                    <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>backIntake</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                    </target>
+                    <motorName>backIntake</motorName>
+                    <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>Transfer</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                    </target>
+                    <motorName>Transfer</motorName>
+                    <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>Feeder</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                    </target>
+                    <motorName>Feeder</motorName>
+                    <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>launcherTop</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                      <value>0.25</value>
+                    </target>
+                    <motorName>launcherTop</motorName>
+                    <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>launcherBottom</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                      <value>0.25</value>
+                    </target>
+                    <motorName>launcherBottom</motorName>
+                    <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>launcherAngle</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                    </target>
+                    <motorName>launcherAngle</motorName>
+                    <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>Placer</name>
+                    <target>
+                      <unitsFamily>none</unitsFamily>
+                      <name>Target</name>
+                      <__units__ />
+                      <type>Double</type>
+                    </target>
+                    <motorName>Placer</motorName>
+                    <controlDataName>percentOutput</controlDataName>
+                  </motorTarget>
+                  <motorTarget>
+                    <name>Elevator</name>
+                    <target>
+                      <unitsFamily>length</unitsFamily>
+                      <name>Target</name>
+                      <__units__>in</__units__>
+                      <type>Double</type>
+                    </target>
+                    <motorName>Elevator</motorName>
+                    <controlDataName>positionInch</controlDataName>
                   </motorTarget>
                 </motorTargets>
               </state>
@@ -6157,14 +5315,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>75</value>
+                    <value>40</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>75</value>
+                    <value>40</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
@@ -6337,14 +5495,14 @@
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>75</value>
+                    <value>40</value>
                   </PrimaryLimit>
                   <SecondaryLimit>
                     <unitsFamily>current</unitsFamily>
                     <name>intParameter</name>
                     <__units__>A</__units__>
                     <type>Int32</type>
-                    <value>75</value>
+                    <value>40</value>
                   </SecondaryLimit>
                   <SecondaryLimitCycles>
                     <unitsFamily>none</unitsFamily>
@@ -9127,6 +8285,129 @@
         <value>1</value>
       </robotID>
       <name>Thing</name>
+    </applicationData>
+    <applicationData>
+      <PowerDistributionPanel>
+        <name>pdp</name>
+        <canID>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>0</value>
+        </canID>
+      </PowerDistributionPanel>
+      <PneumaticControlModules />
+      <Chassis>
+        <name>chassis</name>
+        <mechanismInstances />
+        <Pigeons />
+      </Chassis>
+      <mechanismInstances />
+      <Cameras>
+        <Camera
+          xsi:type="PhotonCam">
+          <name>Launcher</name>
+          <mountingXOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingXOffset>
+          <mountingYOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingYOffset>
+          <mountingZOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingZOffset>
+          <pitch>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </pitch>
+          <yaw>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </yaw>
+          <roll>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </roll>
+        </Camera>
+        <Camera
+          xsi:type="PhotonCam">
+          <name>Placer</name>
+          <mountingXOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingXOffset>
+          <mountingYOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingYOffset>
+          <mountingZOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>uintParameter</name>
+            <__units__>m</__units__>
+            <type>UInt32</type>
+            <value>0</value>
+          </mountingZOffset>
+          <pitch>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </pitch>
+          <yaw>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>180</value>
+          </yaw>
+          <roll>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </roll>
+        </Camera>
+      </Cameras>
+      <Roborios />
+      <Leds />
+      <robotID>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>9997</value>
+      </robotID>
+      <name>ChassisBot9997</name>
     </applicationData>
   </Robots>
   <Mechanisms>

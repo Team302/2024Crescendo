@@ -27,23 +27,24 @@ using namespace std;
 
 namespace noteManagerStates
 {
-class preparePlaceTrapState : public State
-{
-public:
-	preparePlaceTrapState() = delete;
-	preparePlaceTrapState ( std::string stateName,
-	                        int stateId,
-	                        noteManagerAllStatesStateGen *generatedState,
-	                        noteManager *mech );
-	~preparePlaceTrapState() = default;
-	void Init() override;
-	void Run() override;
-	void Exit() override;
-	bool AtTarget() override;
-	bool IsTransitionCondition ( bool considerGamepadTransitions ) override;
+	class preparePlaceTrapState : public State
+	{
+	public:
+		preparePlaceTrapState() = delete;
+		preparePlaceTrapState(std::string stateName,
+							  int stateId,
+							  noteManagerAllStatesStateGen *generatedState,
+							  noteManager *mech);
+		~preparePlaceTrapState() = default;
+		void Init() override;
+		void Run() override;
+		void Exit() override;
+		bool AtTarget() override;
+		bool IsTransitionCondition(bool considerGamepadTransitions) override;
 
-private:
-	noteManagerAllStatesStateGen *m_genState;
-	noteManager *m_mechanism;
-};
+	private:
+		noteManagerAllStatesStateGen *m_genState;
+		noteManager *m_mechanism;
+		double m_target = 11.5;
+	};
 }
