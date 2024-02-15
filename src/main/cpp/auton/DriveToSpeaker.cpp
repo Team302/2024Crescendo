@@ -14,7 +14,7 @@
 //=====================================================================================================================================================
 
 // Team302 includes
-#include "chassis/driveStates/DriveToSpeaker.h"
+#include "auton/DriveToSpeaker.h"
 #include "chassis/ChassisConfigMgr.h"
 
 #include "utils/FMSData.h"
