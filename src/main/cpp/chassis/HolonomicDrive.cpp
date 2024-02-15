@@ -55,12 +55,14 @@ void HolonomicDrive::Init()
 /// @return void
 void HolonomicDrive::Run()
 {
+
     auto controller = TeleopControl::GetInstance();
     if (controller != nullptr && m_swerve != nullptr)
     {
         auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
         auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
         auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
+
         ChassisMovement moveInfo = InitChassisMovement(forward, strafe, rotate);
 
         // teleop buttons to check for mode changes

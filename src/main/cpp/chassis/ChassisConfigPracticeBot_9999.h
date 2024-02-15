@@ -30,32 +30,32 @@ protected:
 	void DefineChassis() override;
 
 private:
-	std::string m_canbusName = std::string("Canivore");
+	std::string m_canbusName = std::string("canivore");
 	const int m_leftfrontdriveID = 8;
 	const int m_leftfrontturnID = 9;
 	const double m_leftfrontOffset = 0.032470703125;
-	const bool m_leftfrontdriveInvert = true;
+	const bool m_leftfrontdriveInvert = false;
 	const bool m_leftfrontturnInvert = true;
 	const bool m_leftfrontcancoderInvert = false;
 
 	const int m_leftbackdriveID = 5;
 	const int m_leftbackturnID = 2;
 	const double m_leftbackOffset = 0.32568359375;
-	const bool m_leftbackdriveInvert = false;
+	const bool m_leftbackdriveInvert = true;
 	const bool m_leftbackturnInvert = true;
-	const bool m_leftbackcancoderInvert = true;
+	const bool m_leftbackcancoderInvert = false;
 
 	const int m_rightfrontdriveID = 6;
 	const int m_rightfrontturnID = 7;
 	const double m_rightfrontOffset = -0.42919921875;
-	const bool m_rightfrontdriveInvert = false;
-	const bool m_rightfrontturnInvert = false;
-	const bool m_rightfrontcancoderInvert = true;
+	const bool m_rightfrontdriveInvert = true;
+	const bool m_rightfrontturnInvert = true;
+	const bool m_rightfrontcancoderInvert = false;
 
 	const int m_rightbackdriveID = 4;
 	const int m_rightbackturnID = 3;
 	const double m_rightbackOffset = -0.115478515625;
-	const bool m_rightbackdriveInvert = true;
+	const bool m_rightbackdriveInvert = false;
 	const bool m_rightbackturnInvert = true;
-	const bool m_rightbackcancoderInvert = true;
+	const bool m_rightbackcancoderInvert = false;
 };
