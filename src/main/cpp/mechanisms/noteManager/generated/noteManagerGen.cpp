@@ -42,6 +42,8 @@ noteManagerGen::noteManagerGen() : BaseMech ( MechanismTypes::MECHANISM_TYPE::NO
 {
 }
 
+//static bool noteManagerGenCreated = false;
+
 void noteManagerGen::Create()
 {
 	m_ntName = "noteManager";
@@ -258,10 +260,17 @@ void noteManagerGen::Create()
 	    false  // bool enableFOC
 	);
 
+	//noteManagerGenCreated = true;
+	m_noteManagerGenCreated = true;
+
 	m_table = nt::NetworkTableInstance::GetDefault().GetTable ( m_ntName );
 	m_tuningIsEnabledStr = "Enable Tuning for " + m_ntName; // since this string is used every loop, we do not want to create the string every time
 	m_table.get()->PutBoolean ( m_tuningIsEnabledStr, m_tuning );
 }
+
+//static bool noteManagerGen::noteManagerGenCreated(){
+//	return m_noteManagerGenCreated;
+//}
 
 std::map<std::string, noteManagerGen::STATE_NAMES> noteManagerGen::stringToSTATE_NAMESEnumMap
 {

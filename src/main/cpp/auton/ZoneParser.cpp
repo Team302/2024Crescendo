@@ -120,6 +120,36 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {"VISION_DRIVE_SPEAKER", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_SPEAKER},
         {"NO_VISION", ChassisOptionEnums::AutonChassisOptions::NO_VISION},
     };
+    static std::map<std::string, noteManagerGen::STATE_NAMES> xmlStringToNOTESTATE_NAMESEnumMap{
+        {"STATE_OFF", noteManagerGen::STATE_NAMES::STATE_OFF},
+        {"STATE_READY", noteManagerGen::STATE_NAMES::STATE_READY},
+        {"STATE_FEEDER_INTAKE", noteManagerGen::STATE_NAMES::STATE_FEEDER_INTAKE},
+        {"STATE_EXPEL", noteManagerGen::STATE_NAMES::STATE_EXPEL},
+        {"STATE_PLACER_INTAKE", noteManagerGen::STATE_NAMES::STATE_PLACER_INTAKE},
+        {"STATE_HOLD_FEEDER_FRONT", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER_FRONT},
+        {"STATE_HOLD_FEEDER_BACK", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER_BACK},
+        {"STATE_INTAKE_TO_FEEDER", noteManagerGen::STATE_NAMES::STATE_INTAKE_TO_FEEDER},
+        {"STATE_LAUNCHER_TO_PLACER_FRONT", noteManagerGen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER_FRONT},
+        {"STATE_LAUNCHER_TO_PLACER_BACK", noteManagerGen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER_BACK},
+        {"STATE_HOLD_FEEDER", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER},
+        {"STATE_READY_AUTO_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_AUTO_LAUNCH},
+        {"STATE_READY_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_MANUAL_LAUNCH},
+        {"STATE_PASS", noteManagerGen::STATE_NAMES::STATE_PASS},
+        {"STATE_AUTO_LAUNCH", noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH},
+        {"STATE_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_MANUAL_LAUNCH},
+        {"STATE_READY_ODOMETRY_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_ODOMETRY_LAUNCH},
+        {"STATE_AUTO_LAUNCH_ODOMETRY", noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH_ODOMETRY},
+        {"STATE_HOLD_PLACER_FRONT", noteManagerGen::STATE_NAMES::STATE_HOLD_PLACER_FRONT},
+        {"STATE_HOLD_PLACER_BACK", noteManagerGen::STATE_NAMES::STATE_HOLD_PLACER_BACK},
+        {"STATE_INTAKE_TO_PLACER", noteManagerGen::STATE_NAMES::STATE_INTAKE_TO_PLACER},
+        {"STATE_PREPARE_PLACE_AMP", noteManagerGen::STATE_NAMES::STATE_PREPARE_PLACE_AMP},
+        {"STATE_PREPARE_PLACE_TRAP", noteManagerGen::STATE_NAMES::STATE_PREPARE_PLACE_TRAP},
+        {"STATE_PLACE_AMP", noteManagerGen::STATE_NAMES::STATE_PLACE_AMP},
+        {"STATE_PLACE_TRAP", noteManagerGen::STATE_NAMES::STATE_PLACE_TRAP},
+        {"STATE_PLACER_TO_LAUNCHER_FRONT", noteManagerGen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER_FRONT},
+        {"STATE_PLACER_TO_LAUNCHER_BACK", noteManagerGen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER_BACK},
+        {"STATE_BACKUP_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_LAUNCH},
+        {"NOTE_MANAGER_BACKUP_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_PLACE}};
     static std::map<std::string, ChassisOptionEnums::AutonAvoidOptions> xmlStringToAvoidOptionEnumMap{
         {"PODIUM", ChassisOptionEnums::AutonAvoidOptions::PODIUM},
         {"ROBOT_COLLISION", ChassisOptionEnums::AutonAvoidOptions::ROBOT_COLLISION},
@@ -132,6 +162,7 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
     AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
     AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
     ChassisOptionEnums::AutonChassisOptions chassisChosenOption = ChassisOptionEnums::AutonChassisOptions::NO_VISION;
+    noteManagerGen::STATE_NAMES noteChosenOption = noteManagerGen::STATE_NAMES::STATE_OFF;
     ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION;
 
     // looping through the zone xml attributes to define the location of a given zone (based on 2 sets grid coordinates)
@@ -187,6 +218,18 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
                 hasError = true;
             }
         }
+        else if (strcmp(attr.name(), "noteOption") == 0)
+        {
+            auto itr = xmlStringToNOTESTATE_NAMESEnumMap.find(attr.value());
+            if (itr != xmlStringToNOTESTATE_NAMESEnumMap.end())
+            {
+                noteChosenOption = itr->second;
+            }
+            else
+            {
+                hasError = true;
+            }
+        }
         else if (strcmp(attr.name(), "chassisOption") == 0)
         {
             auto itr = xmlStringToChassisOptionEnumMap.find(attr.value());
@@ -219,6 +262,7 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
                                ygrid1,
                                xgrid2,
                                ygrid2,
+                               noteChosenOption,
                                chassisChosenOption,
                                avoidChosenOption));
     }

@@ -27,11 +27,15 @@ ZoneParams::ZoneParams(
 	int ygrid1,
 	int xgrid2,
 	int ygrid2,
-	ChassisOptionEnums::AutonChassisOptions,
-	ChassisOptionEnums::AutonAvoidOptions) : m_xgrid1(xgrid1),
-											 m_ygrid1(ygrid1),
-											 m_xgrid2(xgrid2),
-											 m_ygrid2(ygrid2)
+	noteManagerGen::STATE_NAMES noteoption,
+	ChassisOptionEnums::AutonChassisOptions autonchassisoption,
+	ChassisOptionEnums::AutonAvoidOptions autonavoidoption) : m_xgrid1(xgrid1),
+															  m_ygrid1(ygrid1),
+															  m_xgrid2(xgrid2),
+															  m_ygrid2(ygrid2),
+															  m_noteoption(noteoption),
+															  m_chassisoption(autonchassisoption),
+															  m_avoidoption(autonavoidoption)
 // @ADDMECH initilize state mgr attribute
 {
 }

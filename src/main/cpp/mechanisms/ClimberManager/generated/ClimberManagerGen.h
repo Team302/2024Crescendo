@@ -49,6 +49,8 @@ public:
 
 	ClimberManagerGen();
 
+	static bool climberCreated;
+
 	void Create();
 	void Initialize ( RobotConfigMgr::RobotIdentifier robotFullName );
 

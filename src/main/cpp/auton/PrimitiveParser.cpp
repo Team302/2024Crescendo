@@ -234,26 +234,32 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                             }
                             else if (strcmp(attr.name(), "climberOption") == 0)
                             {
-                                auto itr = xmlStringToCLIMBERSTATE_NAMESEnumMap.find(attr.value());
-                                if (itr != xmlStringToCLIMBERSTATE_NAMESEnumMap.end())
+                                if (ClimberManagerGen::climberCreated == true)
                                 {
-                                    climberChosenOption = itr->second;
-                                }
-                                else
-                                {
-                                    hasError = true;
+                                    auto itr = xmlStringToCLIMBERSTATE_NAMESEnumMap.find(attr.value());
+                                    if (itr != xmlStringToCLIMBERSTATE_NAMESEnumMap.end())
+                                    {
+                                        climberChosenOption = itr->second;
+                                    }
+                                    else
+                                    {
+                                        hasError = true;
+                                    }
                                 }
                             }
                             else if (strcmp(attr.name(), "noteOption") == 0)
                             {
-                                auto itr = xmlStringToNOTESTATE_NAMESEnumMap.find(attr.value());
-                                if (itr != xmlStringToNOTESTATE_NAMESEnumMap.end())
+                                if (noteManagerGen::m_noteManagerGenCreated == true)
                                 {
-                                    noteChosenOption = itr->second;
-                                }
-                                else
-                                {
-                                    hasError = true;
+                                    auto itr = xmlStringToNOTESTATE_NAMESEnumMap.find(attr.value());
+                                    if (itr != xmlStringToNOTESTATE_NAMESEnumMap.end())
+                                    {
+                                        noteChosenOption = itr->second;
+                                    }
+                                    else
+                                    {
+                                        hasError = true;
+                                    }
                                 }
                             }
 

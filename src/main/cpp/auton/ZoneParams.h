@@ -35,8 +35,9 @@ public:
         int ygrid1,
         int xgrid2,
         int ygrid2,
-        ChassisOptionEnums::AutonChassisOptions,
-        ChassisOptionEnums::AutonAvoidOptions); // declare ZoneParams public constructor with parameters xgrid1, etc.
+        noteManagerGen::STATE_NAMES noteoption,
+        ChassisOptionEnums::AutonChassisOptions autonchassisoption,
+        ChassisOptionEnums::AutonAvoidOptions autonavoidoption); // declare ZoneParams public constructor with parameters xgrid1, etc.
 
     ZoneParams() = delete;
     ~ZoneParams() = default; // Destructor

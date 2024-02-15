@@ -76,8 +76,12 @@ public:
 
 	noteManagerGen();
 
+	//static bool noteManagerGenCreated;
+
 	void Create();
 	void Initialize ( RobotConfigMgr::RobotIdentifier robotFullName );
+
+	static bool noteManagerGenCreated();
 
 
 	/// @brief Set the control constants (e.g. PIDF values).
@@ -194,6 +198,8 @@ private:
 	ControlData* positionInch;
 	ControlData* velocityRPS;
 	ControlData* posDegreeAbs;
+
+	bool m_noteManagerGenCreated;
 
 	void CheckForTuningEnabled();
 	void ReadTuningParamsFromNT();
