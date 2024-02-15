@@ -97,7 +97,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                                         frc::Pose2d(),
                                                                         {0.1, 0.1, 0.1},
                                                                         {0.1, 0.1, 0.1}),
-                                                        m_storedYaw(m_pigeon->GetYaw().GetValueAsDouble()),
+                                                        m_storedYaw(m_pigeon->GetYaw().GetValue()),
                                                         m_targetHeading(units::angle::degree_t(0.0)),
                                                         m_networkTableName(networkTableName)
 {
@@ -286,14 +286,14 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
 
 void SwerveChassis::ResetPose(const Pose2d &pose)
 {
-    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
+    Rotation2d rot2d{GetYaw()};
     ZeroAlignSwerveModules();
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
 }
 
 void SwerveChassis::ResetYaw()
 {
-    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
+    Rotation2d rot2d{GetYaw()};
 
     frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
 
