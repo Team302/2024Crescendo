@@ -6,6 +6,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>frontIntake</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -185,6 +186,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>backIntake</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -364,6 +366,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>Transfer</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -541,6 +544,7 @@
     <MotorController
       xsi:type="SparkFlex">
       <name>Feeder</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -721,6 +725,7 @@
     <MotorController
       xsi:type="TalonFX">
       <name>launcherTop</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -993,6 +998,7 @@
     <MotorController
       xsi:type="TalonFX">
       <name>launcherBottom</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -1266,6 +1272,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>launcherAngle</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -1446,6 +1453,7 @@
     <MotorController
       xsi:type="SparkFlex">
       <name>Placer</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -1626,6 +1634,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>Elevator</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>

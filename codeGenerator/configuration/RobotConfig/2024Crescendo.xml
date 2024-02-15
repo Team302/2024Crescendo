@@ -28,6 +28,7 @@
               <MotorController
                 xsi:type="SparkMax">
                 <name>frontIntake</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -207,6 +208,7 @@
               <MotorController
                 xsi:type="SparkMax">
                 <name>backIntake</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -386,6 +388,7 @@
               <MotorController
                 xsi:type="SparkMax">
                 <name>Transfer</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -563,6 +566,7 @@
               <MotorController
                 xsi:type="SparkFlex">
                 <name>Feeder</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -743,6 +747,7 @@
               <MotorController
                 xsi:type="TalonFX">
                 <name>launcherTop</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -1015,6 +1020,7 @@
               <MotorController
                 xsi:type="TalonFX">
                 <name>launcherBottom</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -1288,6 +1294,7 @@
               <MotorController
                 xsi:type="SparkMax">
                 <name>launcherAngle</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -1468,6 +1475,7 @@
               <MotorController
                 xsi:type="SparkFlex">
                 <name>Placer</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -1648,6 +1656,7 @@
               <MotorController
                 xsi:type="SparkMax">
                 <name>Elevator</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -5169,6 +5178,7 @@
               <MotorController
                 xsi:type="SparkMax">
                 <name>leftClimber</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -5349,6 +5359,7 @@
               <MotorController
                 xsi:type="SparkMax">
                 <name>rightClimber</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -5897,7 +5908,7 @@
       <Cameras>
         <Camera
           xsi:type="Limelight">
-          <name>PlacerIntake</name>
+          <name>P_Intake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -5989,7 +6000,7 @@
         </Camera>
         <Camera
           xsi:type="Limelight">
-          <name>LauncherIntake</name>
+          <name>L_Intake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -6081,7 +6092,17 @@
         </Camera>
       </Cameras>
       <Roborios />
-      <Leds />
+      <LEDs>
+        <name>Led</name>
+        <PwmId>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>0</value>
+        </PwmId>
+        <Segments />
+      </LEDs>
       <robotID>
         <unitsFamily>none</unitsFamily>
         <name>uintParameter</name>
@@ -6118,6 +6139,7 @@
               <MotorController
                 xsi:type="TalonSRX">
                 <name>BackLeftMotor</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -6316,6 +6338,7 @@
               <MotorController
                 xsi:type="TalonSRX">
                 <name>RightBackMotor</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -6514,6 +6537,7 @@
               <MotorController
                 xsi:type="TalonSRX">
                 <name>LeftFrontMotor</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -6712,6 +6736,7 @@
               <MotorController
                 xsi:type="TalonSRX">
                 <name>RightFrontMotor</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -6910,6 +6935,7 @@
               <MotorController
                 xsi:type="TalonFX">
                 <name>Flacon</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -7182,6 +7208,7 @@
               <MotorController
                 xsi:type="SparkMax">
                 <name>Neo550</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -7359,6 +7386,7 @@
               <MotorController
                 xsi:type="SparkFlex">
                 <name>Vortex</name>
+                <ControllerEnabled>Yes</ControllerEnabled>
                 <theDistanceAngleCalcInfo>
                   <countsPerRev>
                     <unitsFamily>none</unitsFamily>
@@ -8276,7 +8304,17 @@
       </mechanismInstances>
       <Cameras />
       <Roborios />
-      <Leds />
+      <LEDs>
+        <name>Led</name>
+        <PwmId>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>0</value>
+        </PwmId>
+        <Segments />
+      </LEDs>
       <robotID>
         <unitsFamily>none</unitsFamily>
         <name>uintParameter</name>
@@ -8399,7 +8437,17 @@
         </Camera>
       </Cameras>
       <Roborios />
-      <Leds />
+      <LEDs>
+        <name>Led</name>
+        <PwmId>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>0</value>
+        </PwmId>
+        <Segments />
+      </LEDs>
       <robotID>
         <unitsFamily>none</unitsFamily>
         <name>uintParameter</name>
