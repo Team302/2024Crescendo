@@ -34,7 +34,7 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
                                  units::angle::degree_t pitch,
                                  units::angle::degree_t yaw,
                                  units::angle::degree_t roll) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                                                                m_name(name)
+                                                                m_camera(new photon::PhotonCamera(std::string_view(name.c_str())))
 
 {
     SetPipeline(initialPipeline);
@@ -42,13 +42,13 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 
 bool DragonPhotonCam::HasTarget()
 {
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
     return result.HasTargets();
 }
 std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -102,7 +102,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition(frc::DriverStation::
 double DragonPhotonCam::GetPoseAmbiguity()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -121,7 +121,7 @@ double DragonPhotonCam::GetPoseAmbiguity()
 units::angle::degree_t DragonPhotonCam::GetTargetYaw()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -142,7 +142,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetYaw()
 units::angle::degree_t DragonPhotonCam::GetTargetSkew()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -161,7 +161,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetSkew()
 units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame()
 {
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -196,11 +196,8 @@ units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame()
             // transform to get from cam to target
             frc::Transform3d camToTarget = target.GetBestCameraToTarget();
 
-            // Get the translation component from cam to target
-            frc::Translation3d camToTargetTranslation = camToTarget.Translation();
-
             // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t yawRobotRelative = units::math::atan2(m_cameraPose.Y() + camToTargetTranslation.Y(), m_cameraPose.X() + camToTargetTranslation.X());
+            units::angle::radian_t yawRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).Y(), frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).X());
 
             return yawRobotRelative;
         }
@@ -212,7 +209,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame()
 units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame()
 {
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -241,11 +238,8 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame()
             // transform to get from cam to target
             frc::Transform3d camToTarget = target.GetBestCameraToTarget();
 
-            // Get the translation component from cam to target
-            frc::Translation3d camToTargetTranslation = camToTarget.Translation();
-
             // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t pitchRobotRelative = units::math::atan2(m_cameraPose.Z() + camToTargetTranslation.Z(), m_cameraPose.X() + camToTargetTranslation.X());
+            units::angle::radian_t pitchRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).Z(), frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).X());
 
             return pitchRobotRelative;
         }
@@ -259,7 +253,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame()
 units::angle::degree_t DragonPhotonCam::GetTargetPitch()
 {
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -278,7 +272,7 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitch()
 units::time::millisecond_t DragonPhotonCam::GetPipelineLatency()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // get the total latency
     units::second_t latency = result.GetLatency();
@@ -289,7 +283,7 @@ units::time::millisecond_t DragonPhotonCam::GetPipelineLatency()
 int DragonPhotonCam::GetAprilTagID()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -310,7 +304,7 @@ int DragonPhotonCam::GetAprilTagID()
 double DragonPhotonCam::GetTargetArea()
 {
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -333,7 +327,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance()
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -357,7 +351,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance()
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -381,7 +375,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance()
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -407,7 +401,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords(
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -429,7 +423,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords(
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -452,7 +446,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -468,14 +462,14 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
 }
 bool DragonPhotonCam::UpdatePipeline()
 {
-    photon::PhotonCamera{m_name}.SetPipelineIndex(static_cast<int>(m_pipeline));
+    m_camera->SetPipelineIndex(static_cast<int>(m_pipeline));
     return false;
 }
 
 std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     if (result.HasTargets())
     {
@@ -484,7 +478,13 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
         frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
 
-        return std::make_optional(VisionData{camToTargetTransform, GetAprilTagID()});
+        frc::Translation3d translation = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)}.Translation();
+
+        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
+                                                   GetTargetPitchRobotFrame(),  // pitch
+                                                   GetTargetYawRobotFrame()};   // yaw
+
+        return std::make_optional(VisionData{frc::Transform3d(translation, rotation), GetAprilTagID()});
     }
     return std::nullopt;
 }

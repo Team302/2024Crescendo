@@ -22,7 +22,11 @@
 #include "hw/interfaces/IDragonMotorController.h"
 #include "hw/DistanceAngleCalcStruc.h"
 
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/motorcontrol/RemoteSensorSource.h" // need to remove dependency on ctre
+WPI_UNIGNORE_DEPRECATED
+
 #include "rev/CANSparkMax.h"
 #include "rev/SparkLimitSwitch.h"
 
@@ -81,10 +85,10 @@ public:
     void EnableVoltageCompensation(double fullvoltage) override;
     void SetSelectedSensorPosition(double initialPosition) override;
     void EnableDisableLimitSwitches(bool enable) override;
-    double GetCountsPerRev() const override { return m_calcStruc.countsPerRev; }
+    double GetCountsPerRev() const override { return 1.0 / m_calcStruc.countsPerRev; } // calc sturc is acutally rev/count for Rev convention, returning the reciprocal
     double GetGearRatio() const override { return m_calcStruc.gearRatio; }
-    double GetCountsPerInch() const override { return m_calcStruc.countsPerInch; }
-    double GetCountsPerDegree() const override { return m_calcStruc.countsPerDegree; }
+    double GetCountsPerInch() const override { return 1.0 / m_calcStruc.countsPerInch; }     // calc sturc is acutally rev/count for Rev convention, returning the reciprocal
+    double GetCountsPerDegree() const override { return 1.0 / m_calcStruc.countsPerDegree; } // calc sturc is acutally rev/count for Rev convention, returning the reciprocal
 
 private:
     double GetRotationsWithGearNoOffset() const;

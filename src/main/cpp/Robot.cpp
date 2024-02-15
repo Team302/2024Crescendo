@@ -15,58 +15,34 @@
 #include "chassis/SwerveChassis.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
-#include <driveteamfeedback/DriverFeedback.h>
-#include <PeriodicLooper.h>
-#include <Robot.h>
-#include <robotstate/RobotState.h>
+#include "driveteamfeedback/DriverFeedback.h"
+#include "PeriodicLooper.h"
+#include "Robot.h"
+#include "robotstate/RobotState.h"
 #include "teleopcontrol/TeleopControl.h"
-#include <utils/DragonField.h>
-#include <utils/FMSData.h>
+#include "utils/DragonField.h"
+// #include <utils/FMSData.h>
 #include <utils/logging/LoggableItemMgr.h>
 #include "utils/logging/Logger.h"
 #include <utils/logging/LoggerData.h>
 #include <utils/logging/LoggerEnums.h>
 
-#include <AdjustableItemMgr.h>
+#include "utils/logging/DataTrace.h"
 
-using namespace std;
+using std::string;
 
 void Robot::RobotInit()
 {
     Logger::GetLogger()->PutLoggingSelectionsOnDashboard();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("arrived"));
 
+    InitializeDataTracing();
+
     m_controller = nullptr;
 
-    int32_t teamNumber = frc::RobotController::GetTeamNumber();
-    // Build the robot
-    RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
-
-    ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
-    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-
-    // Get AdjustableItemMgr instance
-    m_tuner = nullptr;
-    // m_tuner = AdjustableItemMgr::GetInstance();
-
-    m_robotState = RobotState::GetInstance();
-    m_robotState->Init();
-
-    m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
-
-    m_holonomic = nullptr;
-    if (m_chassis != nullptr)
-    {
-        m_holonomic = new HolonomicDrive();
-    }
-    if (m_holonomic != nullptr)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("have holonomic"), string("arrived"));
-    }
-
-    m_cyclePrims = new CyclePrimitives();
-    m_previewer = new AutonPreviewer(m_cyclePrims); // TODO:: Move to DriveTeamFeedback
-    m_field = DragonField::GetInstance();           // TODO: move to drive team feedback
+    InitializeRobot();
+    InitializeAutonOptions();
+    InitializeDriveteamFeedback();
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("end"));
 }
@@ -89,23 +65,7 @@ void Robot::RobotPeriodic()
         m_robotState->Run();
     }
 
-    // ToDo:: Move to DriveTeamFeedback
-    if (m_previewer != nullptr)
-    {
-        m_previewer->CheckCurrentAuton();
-    }
-    if (m_field != nullptr && m_chassis != nullptr)
-    {
-        m_field->UpdateRobotPosition(m_chassis->GetPose()); // ToDo:: Move to DriveTeamFeedback (also don't assume m_field isn't a nullptr)
-    }
-
-    // m_tuner->ListenForUpdates();
-
-    auto feedback = DriverFeedback::GetInstance();
-    if (feedback != nullptr)
-    {
-        feedback->UpdateFeedback();
-    }
+    UpdateDriveTeamFeedback();
 }
 
 /**
@@ -133,11 +93,14 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("AutonomousPeriodic"), string("arrived"));
+
     if (m_cyclePrims != nullptr)
     {
         m_cyclePrims->Run();
     }
     PeriodicLooper::GetInstance()->AutonRunCurrentState();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("AutonomousPeriodic"), string("end"));
 }
 
 void Robot::TeleopInit()
@@ -149,65 +112,29 @@ void Robot::TeleopInit()
         m_controller = TeleopControl::GetInstance();
     }
 
-    if (m_chassis != nullptr && m_controller != nullptr)
+    if (m_chassis != nullptr && m_controller != nullptr && m_holonomic != nullptr)
     {
-        if (m_holonomic != nullptr)
-        {
-            m_holonomic->Init();
-        }
-
-        // Create chassismovement to flush out any drive options from auton
-        ChassisMovement resetMoveInfo;
-        resetMoveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-        resetMoveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
-
-        m_chassis->Drive();
+        m_holonomic->Init();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
-    /**
-    // now in teleop, clear field of trajectories
-    if (m_field != nullptr)
-    {
-        m_field->ResetField(); // ToDo:  Move to DriveTeamFeedback
-    }
-    **/
-
-    Logger::GetLogger()
-        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
 }
 
 void Robot::TeleopPeriodic()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("arrived"));
-    if (m_chassis != nullptr && m_controller != nullptr)
+    if (m_chassis != nullptr && m_controller != nullptr && m_holonomic != nullptr)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("HolonomicRun"), string("arrived"));
-        if (m_holonomic != nullptr)
-        {
-            m_holonomic->Run();
-        }
+        m_holonomic->Run();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
-    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHER);
-    if (optionalVisionData)
-    {
-        VisionData visionData = optionalVisionData.value();
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("X dist"), visionData.deltaToTarget.X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("Y dist"), visionData.deltaToTarget.Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("Z dist"), visionData.deltaToTarget.Z().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("roll"), visionData.deltaToTarget.Rotation().X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("pitch"), visionData.deltaToTarget.Rotation().Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("yaw"), visionData.deltaToTarget.Rotation().Z().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vision Debugging"), string("april tag ID"), visionData.tagId);
-    }
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
 void Robot::DisabledInit()
 {
-
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("DisabledInit"), string("arrived"));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("DisabledInit"), string("end"));
 }
@@ -235,6 +162,55 @@ void Robot::SimulationPeriodic()
     PeriodicLooper::GetInstance()->SimulationRunCurrentState();
 }
 
+void Robot::InitializeRobot()
+{
+    int32_t teamNumber = frc::RobotController::GetTeamNumber();
+    RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
+    ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
+    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+
+    m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
+    m_holonomic = nullptr;
+    if (m_chassis != nullptr)
+    {
+        m_holonomic = new HolonomicDrive();
+    }
+
+    m_robotState = RobotState::GetInstance();
+    m_robotState->Init();
+}
+
+void Robot::InitializeAutonOptions()
+{
+    m_cyclePrims = new CyclePrimitives(); // intialize auton selections
+    m_previewer = new AutonPreviewer(m_cyclePrims);
+}
+void Robot::InitializeDriveteamFeedback()
+{
+    m_field = DragonField::GetInstance(); // TODO: move to drive team feedback
+}
+
+void Robot::UpdateDriveTeamFeedback()
+{
+    if (m_previewer != nullptr)
+    {
+        m_previewer->CheckCurrentAuton();
+    }
+    if (m_field != nullptr && m_chassis != nullptr)
+    {
+        m_field->UpdateRobotPosition(m_chassis->GetPose()); // ToDo:: Move to DriveTeamFeedback (also don't assume m_field isn't a nullptr)
+    }
+    auto feedback = DriverFeedback::GetInstance();
+    if (feedback != nullptr)
+    {
+        feedback->UpdateFeedback();
+    }
+}
+
+void Robot::InitializeDataTracing()
+{
+    DataTrace::GetInstance()->Connect();
+}
 #ifndef RUNNING_FRC_TESTS
 int main()
 {

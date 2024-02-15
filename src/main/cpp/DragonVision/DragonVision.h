@@ -25,10 +25,12 @@
 // PhotonVision Includes
 #include "photon/PhotonPoseEstimator.h"
 
+// Team 302 Includes
 #include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonCamera.h"
 
 #include "configs/RobotElementNames.h"
+#include "utils/FieldConstants.h"
 
 class DragonCamera;
 class DragonVision
@@ -83,6 +85,8 @@ public:
     /// @param position the physical position of the camera
     void AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USAGE position);
 
+    DragonCamera *GetCamera(RobotElementNames::CAMERA_USAGE position) { return m_dragonCameraMap[position]; }
+
     static frc::AprilTagFieldLayout m_aprilTagLayout;
 
 private:
@@ -96,9 +100,9 @@ private:
 
     static DragonVision *m_dragonVision;
 
-    DragonCamera *m_dragonCamera;
-
     std::map<RobotElementNames::CAMERA_USAGE, DragonCamera *> m_dragonCameraMap;
 
     std::vector<photon::PhotonPoseEstimator> m_poseEstimators = std::vector<photon::PhotonPoseEstimator>();
+
+    FieldConstants *m_constants;
 };

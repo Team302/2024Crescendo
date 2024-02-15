@@ -29,9 +29,12 @@
 #include "mechanisms/controllers/ControlModes.h"
 
 // Third Party Includes
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
 #include "ctre/phoenix/ErrorCode.h"
 #include "ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h"
 #include "ctre/phoenix/motorcontrol/RemoteSensorSource.h"
+WPI_UNIGNORE_DEPRECATED
 
 class DragonTalonSRX : public IDragonMotorController
 {

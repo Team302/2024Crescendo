@@ -32,6 +32,9 @@
 #include "mechanisms/ClimberManager/decoratormods/HoldState.h"
 
 #include "robotstate/RobotState.h"
+#include "utils/logging/Logger.h"
+
+#include "utils/logging/DataTrace.h"
 
 using std::string;
 using namespace ClimberManagerStates;
@@ -60,6 +63,14 @@ ClimberManager::ClimberManager(ClimberManagerGen *base) : ClimberManagerGen(), I
 void ClimberManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Climber Current State"), GetCurrentStatePtr()->GetStateName());
+	Cyclic();
+
+#ifdef INCLUDE_DATA_TRACE
+	double left = getleftClimber()->GetCounts();
+	double right = getrightClimber()->GetCounts();
+	DataTrace::GetInstance()->sendClimberData(left, right);
+#endif
 }
 
 void ClimberManager::SetCurrentState(int state, bool run)

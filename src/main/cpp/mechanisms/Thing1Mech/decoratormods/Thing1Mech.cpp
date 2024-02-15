@@ -37,6 +37,8 @@
 
 #include "robotstate/RobotState.h"
 
+#include "utils/logging/DataTrace.h"
+
 using std::string;
 using namespace Thing1MechStates;
 
@@ -59,6 +61,7 @@ Thing1Mech::Thing1Mech(Thing1MechGen *base) : Thing1MechGen(), IRobotStateChange
 void Thing1Mech::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+	Cyclic();
 }
 
 void Thing1Mech::SetCurrentState(int state, bool run)
