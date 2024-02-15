@@ -135,7 +135,7 @@ void DragonTalonFX::ConfigMotorSettings(InvertedValue inverted,
 										double peakForwardDutyCycle,
 										double peakReverseDutyCycle)
 {
-	m_inverted = inverted == InvertedValue::CounterClockwise_Positive;
+	m_inverted = inverted == InvertedValue::Clockwise_Positive;
 	MotorOutputConfigs motorconfig{};
 	motorconfig.Inverted = inverted;
 	motorconfig.NeutralMode = mode;

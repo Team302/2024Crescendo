@@ -50,6 +50,12 @@ void preparePlaceAmpState::Init()
 void preparePlaceAmpState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("preparePlaceAmpState"), string("run"));
+	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
+	{
+		double delta = 6.0 * 0.05 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		m_target += delta;
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
+	}
 	m_genState->Run();
 }
 
@@ -69,7 +75,7 @@ bool preparePlaceAmpState::IsTransitionCondition(bool considerGamepadTransitions
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	auto currentState = m_mechanism->GetCurrentState();
-	bool placerMidSensor = m_mechanism->getplacerMidSensor()->Get();
-	return ((placerMidSensor && (m_mechanism->IsClimbMode() == false)) ||
+
+	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE) && (m_mechanism->IsClimbMode() == false)) ||
 			((currentState == m_mechanism->STATE_PREPARE_PLACE_TRAP) && (m_mechanism->IsClimbMode() == false)));
 }

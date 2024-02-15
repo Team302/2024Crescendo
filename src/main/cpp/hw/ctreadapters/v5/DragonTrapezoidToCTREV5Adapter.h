@@ -24,7 +24,10 @@
 #include "hw/ctreadapters/v5/DragonControlToCTREV5Adapter.h"
 
 // Third Party Includes
-#include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
+#include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
+WPI_UNIGNORE_DEPRECATED
 
 namespace ctre
 {

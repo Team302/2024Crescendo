@@ -25,10 +25,12 @@
 // PhotonVision Includes
 #include "photon/PhotonPoseEstimator.h"
 
+// Team 302 Includes
 #include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonCamera.h"
 
 #include "configs/RobotElementNames.h"
+#include "utils/FieldConstants.h"
 
 class DragonCamera;
 class DragonVision
@@ -98,9 +100,9 @@ private:
 
     static DragonVision *m_dragonVision;
 
-    DragonCamera *m_dragonCamera;
-
     std::map<RobotElementNames::CAMERA_USAGE, DragonCamera *> m_dragonCameraMap;
 
     std::vector<photon::PhotonPoseEstimator> m_poseEstimators = std::vector<photon::PhotonPoseEstimator>();
+
+    FieldConstants *m_constants;
 };

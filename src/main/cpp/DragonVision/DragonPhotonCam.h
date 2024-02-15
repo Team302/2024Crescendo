@@ -12,8 +12,11 @@
 /// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 /// OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+#pragma once
 
 #include <string>
+
+#include "photon/PhotonCamera.h"
 
 #include "DragonVision/DragonCamera.h"
 
@@ -60,5 +63,5 @@ public:
     std::optional<VisionData> GetDataToNearestAprilTag();
 
 private:
-    std::string m_name = ""; // camera name
+    photon::PhotonCamera *m_camera;
 };

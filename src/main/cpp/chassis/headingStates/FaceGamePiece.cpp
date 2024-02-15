@@ -47,3 +47,18 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         }
     }
 }
+
+/** units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularVelocity)
+ { 
+
+      double sign = angularVelocity.to<double>() < 0 ? -1 : 1;
+
+      if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
+          angularVelocity = units::angular_velocity::radians_per_second_t(m_minimumOmega_radps * sign);
+
+      if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
+          angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
+
+      return angularVelocity;
+ 
+}**/
