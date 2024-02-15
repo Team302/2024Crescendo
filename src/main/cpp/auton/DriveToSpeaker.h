@@ -10,11 +10,6 @@ std::vector<frc::Pose2d> poses{
     frc::Pose2d(5.0_m, 3.0_m, frc::Rotation2d(90_deg))};
 std::vector<frc::Translation2d> bezierPoints = PathPlannerPath::bezierFromPoses(poses);
 
-std::vector<frc::Translation2d> PathPlannerPath::bezierFromPoses(std::vector<frc::Pose2d> poses)
-{
-    pathplanner::PathPlannerPath(td::vector<frc::Translation2d> bezierPoints, PathConstraints constraints, GoalEndState goalEndState, bool reversed = false)
-}
-
 // Create the path using the bezier points created above
 // We make a shared pointer here since the path following commands require a shared pointer
 auto path = std::make_shared<PathPlannerPath>(
@@ -23,5 +18,12 @@ auto path = std::make_shared<PathPlannerPath>(
     GoalEndState(0.0_mps, frc::Rotation2d(-90_deg))                        // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
 );
 
+std::vector<frc::Translation2d> PathPlannerPath::bezierFromPoses(std::vector<frc::Pose2d> poses)
+{
+    pathplanner::PathPlannerPath(td::vector<frc::Translation2d> bezierPoints, PathConstraints constraints, GoalEndState goalEndState, bool reversed = false);
+}
+
+auto trajectory = path->getTrajectory(speed, pose.Rotation());
+
 // Prevent the path from being flipped if the coordinates are already correct
-path->preventFlipping = true;
+bool flip = path->preventFlipping = true;
