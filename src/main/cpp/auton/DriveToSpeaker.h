@@ -1,29 +1,42 @@
-#include <pathplanner/lib/path/PathPlannerPath.h>
+//====================================================================================================================================================
+// Copyright 2024 Lake Orion Robotics FIRST Team 302
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+// OR OTHER DEALINGS IN THE SOFTWARE.
+//====================================================================================================================================================
 
-using namespace pathplanner;
+// Team302 Includes
+#include <chassis/SwerveChassis.h>
+#include "DragonVision/DragonVision.h"
 
-// Create a vector of bezier points from poses. Each pose represents one waypoint.
-// The rotation component of the pose should be the direction of travel. Do not use holonomic rotation.
-std::vector<frc::Pose2d> poses{
-    frc::Pose2d(1.0_m, 1.0_m, frc::Rotation2d(0_deg)),
-    frc::Pose2d(3.0_m, 1.0_m, frc::Rotation2d(0_deg)),
-    frc::Pose2d(5.0_m, 3.0_m, frc::Rotation2d(90_deg))};
-std::vector<frc::Translation2d> bezierPoints = PathPlannerPath::bezierFromPoses(poses);
+// third party includes
+#include "pathplanner/lib/path/PathPlannerTrajectory.h"
+#include "pathplanner/lib/path/PathPlannerPath.h"
 
-// Create the path using the bezier points created above
-// We make a shared pointer here since the path following commands require a shared pointer
-auto path = std::make_shared<PathPlannerPath>(
-    bezierPoints,
-    PathConstraints(3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq), // The constraints for this path. If using a differential drivetrain, the angular constraints have no effect.
-    GoalEndState(0.0_mps, frc::Rotation2d(-90_deg))                        // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
-);
-
-std::vector<frc::Translation2d> PathPlannerPath::bezierFromPoses(std::vector<frc::Pose2d> poses)
+class DriveToSpeaker
 {
-    pathplanner::PathPlannerPath(td::vector<frc::Translation2d> bezierPoints, PathConstraints constraints, GoalEndState goalEndState, bool reversed = false);
-}
+    DriveToSpeaker();
+    ~DriveToSpeaker() = default;
 
-auto trajectory = path->getTrajectory(speed, pose.Rotation());
+public:
+    pathplanner::PathPlannerTrajectory CreateDriveToSpeakerPath();
 
-// Prevent the path from being flipped if the coordinates are already correct
-bool flip = path->preventFlipping = true;
+private:
+    frc::Pose2d m_currentPose2d;
+
+    SwerveChassis *m_chasis;
+    DragonVision *m_dragonVision;
+
+    const units::meters_per_second_t m_maxVel = 3.0_mps;
+    const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;
+    const units::radians_per_second_t m_maxAngularVel = 360_deg_per_s;
+    const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
+};
