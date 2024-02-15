@@ -120,7 +120,8 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 	}
 	else if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) == false) &&
 			 ((frontIntakeSensor == false) && (backIntakeSensor == false)) &&
-			 ((currentState == static_cast<int>(m_mechanism->STATE_PLACER_INTAKE)) || (currentState == static_cast<int>(m_mechanism->STATE_FEEDER_INTAKE))))
+			 (((currentState == static_cast<int>(m_mechanism->STATE_PLACER_INTAKE)) && ((placerInSensor == false) && (placerMidSensor == false))) ||
+			  ((currentState == static_cast<int>(m_mechanism->STATE_FEEDER_INTAKE)) && ((launcherSensor == false) && (feederSensor == false)))))
 	{
 		transition = true;
 		reason = 6;
