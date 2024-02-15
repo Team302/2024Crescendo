@@ -177,7 +177,7 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 		units::length::inch_t launcherDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->EstimateTargetXDistance_RelToRobotCoords().value();
 		units::length::inch_t placerDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->EstimateTargetXDistance_RelToRobotCoords().value();
 
-		selectedCam = units::math::abs(launcherDistance) <= units::math::abs(placerDistance) ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]; // if front is less ambiguous, select it, and vice versa
+		selectedCam = units::math::abs(launcherDistance) <= units::math::abs(placerDistance) ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]; // if launcher is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
@@ -220,13 +220,13 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		break;
 	case VISION_ELEMENT::NOTE:
 	{
-		bool frontHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->HasTarget();
-		bool backHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::P_INTAKE]->HasTarget();
-		if (!frontHasDetection && !backHasDetection)
+		bool launcherHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->HasTarget();
+		bool placerHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::P_INTAKE]->HasTarget();
+		if (!launcherHasDetection && !placerHasDetection)
 		{
 			return std::nullopt;
 		}
-		else if (frontHasDetection && backHasDetection) // we see targets in no cameras
+		else if (launcherHasDetection && placerHasDetection) // we see targets in no cameras
 		{
 			// check which note is closest to robot
 			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
@@ -236,7 +236,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		}
 		else
 		{
-			if (frontHasDetection)
+			if (launcherHasDetection)
 				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE];
 			else
 				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::P_INTAKE];
