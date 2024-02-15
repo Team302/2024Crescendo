@@ -396,13 +396,13 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 	if (!estimatedPoses.empty())
 	{
 		if (estimatedPoses.size() == 1)
-			return std::make_optional(estimatedPoses[0]);
+			return estimatedPoses[0];
 		else
 		{
 			double firstAmbiguity = estimatedPoses[0].visionMeasurementStdDevs[0];
 			double secondAmbiguity = estimatedPoses[1].visionMeasurementStdDevs[0];
 
-			return firstAmbiguity < secondAmbiguity ? std::make_optional(estimatedPoses[0]) : std::make_optional(estimatedPoses[1]);
+			return firstAmbiguity < secondAmbiguity ? estimatedPoses[0] : estimatedPoses[1];
 		}
 	}
 
