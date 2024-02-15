@@ -34,7 +34,7 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
                                  units::angle::degree_t pitch,
                                  units::angle::degree_t yaw,
                                  units::angle::degree_t roll) : DragonCamera(name, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                                                                m_name(name)
+                                                                m_camera(new photon::PhotonCamera(std::string_view(name.c_str())))
 
 {
     SetPipeline(initialPipeline);
@@ -42,13 +42,13 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
 
 bool DragonPhotonCam::HasTarget()
 {
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
     return result.HasTargets();
 }
 std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -102,7 +102,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition(frc::DriverStation::
 double DragonPhotonCam::GetPoseAmbiguity()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -121,7 +121,7 @@ double DragonPhotonCam::GetPoseAmbiguity()
 std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYaw()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -141,7 +141,7 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYaw()
 std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetSkew()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -159,7 +159,7 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetSkew()
 std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYawRobotFrame()
 {
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -208,7 +208,7 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYawRobotFrame()
 std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitchRobotFrame()
 {
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -252,7 +252,7 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitchRobotFrame(
 std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitch()
 {
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -270,7 +270,7 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitch()
 std::optional<units::time::millisecond_t> DragonPhotonCam::GetPipelineLatency()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // get the total latency
     units::second_t latency = result.GetLatency();
@@ -281,7 +281,7 @@ std::optional<units::time::millisecond_t> DragonPhotonCam::GetPipelineLatency()
 std::optional<int> DragonPhotonCam::GetAprilTagID()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check if we have detections
     if (result.HasTargets())
@@ -301,7 +301,7 @@ std::optional<int> DragonPhotonCam::GetAprilTagID()
 std::optional<double> DragonPhotonCam::GetTargetArea()
 {
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -323,7 +323,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance()
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -346,7 +346,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance()
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -370,7 +370,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance()
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -397,7 +397,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance_Re
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -419,7 +419,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance_Re
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -442,7 +442,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance_Re
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
     // get latest detections
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     // check for detections
     if (result.HasTargets())
@@ -458,14 +458,14 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance_Re
 }
 bool DragonPhotonCam::UpdatePipeline()
 {
-    photon::PhotonCamera{m_name}.SetPipelineIndex(static_cast<int>(m_pipeline));
+    m_camera->SetPipelineIndex(static_cast<int>(m_pipeline));
     return false;
 }
 
 std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 {
     // get latest detections from co-processor
-    photon::PhotonPipelineResult result = photon::PhotonCamera{m_name}.GetLatestResult();
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
 
     if (result.HasTargets())
     {

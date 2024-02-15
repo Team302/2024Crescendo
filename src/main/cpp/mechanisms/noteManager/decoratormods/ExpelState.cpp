@@ -45,12 +45,16 @@ void ExpelState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ExpelState"), string("init"));
 	m_genState->Init();
-	m_mechanism->getTransfer()->EnableBrakeMode(false);
 }
 
 void ExpelState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ExpelState"), string("run"));
+	if (m_mechanism->IsLauncherMode())
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, -1.0);
+	else
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 1.0);
+
 	m_genState->Run();
 }
 

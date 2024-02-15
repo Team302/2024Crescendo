@@ -73,7 +73,7 @@ void RobotConfigpracticeBot_9999::DefineVisionSensors()
 	                                     DragonLimelight::CAM_MODE::CAM_VISION, //CAM_MODE camMode,
 	                                     DragonLimelight::STREAM_MODE::STREAM_DEFAULT, //STREAM_MODE streamMode,
 	                                     DragonLimelight::SNAPSHOT_MODE::SNAP_OFF ); //SNAPSHOT_MODE snapMode);
-	DragonVision::GetDragonVision()->AddCamera ( PlacerIntake, RobotElementNames::CAMERA_USAGE::PLACER_INTAKE );
+	DragonVision::GetDragonVision()->AddCamera ( PlacerIntake, RobotElementNames::CAMERA_USAGE::P_INTAKE );
 
 	Placer = new DragonPhotonCam ( "Placer", //std::string name,                      /// <I> - network table name
 	                               DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
@@ -97,7 +97,7 @@ void RobotConfigpracticeBot_9999::DefineVisionSensors()
 	                                       DragonLimelight::CAM_MODE::CAM_VISION, //CAM_MODE camMode,
 	                                       DragonLimelight::STREAM_MODE::STREAM_DEFAULT, //STREAM_MODE streamMode,
 	                                       DragonLimelight::SNAPSHOT_MODE::SNAP_OFF ); //SNAPSHOT_MODE snapMode);
-	DragonVision::GetDragonVision()->AddCamera ( LauncherIntake, RobotElementNames::CAMERA_USAGE::LAUNCHER_INTAKE );
+	DragonVision::GetDragonVision()->AddCamera ( LauncherIntake, RobotElementNames::CAMERA_USAGE::L_INTAKE );
 
 	Launcher = new DragonPhotonCam ( "Launcher", //std::string name,                      /// <I> - network table name
 	                                 DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline

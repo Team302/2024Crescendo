@@ -20,14 +20,7 @@
 class FieldConstants
 {
 public:
-    
-    static FieldConstants* GetInstance() {
-        if ( m_instance == nullptr )
-        {
-            m_instance = new FieldConstants();
-        }
-        return m_instance;
-    }
+    static FieldConstants *GetInstance();
     enum FIELD_ELEMENT
     {
         BLUE_SOURCE,
@@ -46,75 +39,75 @@ public:
     frc::Pose3d GetFieldElement(FIELD_ELEMENT element);
 
 private:
-    //make a singleton
+    // make a singleton
     static FieldConstants *m_instance;
-    //make constructor private
+    // make constructor private
     FieldConstants();
-    //make singleton copy constructor private
-    FieldConstants(const FieldConstants&) = delete;
-    FieldConstants& operator= (const FieldConstants&) = delete;
+    // make singleton copy constructor private
+    FieldConstants(const FieldConstants &) = delete;
+    FieldConstants &operator=(const FieldConstants &) = delete;
 
     // blue
     const frc::Pose3d m_BlueSource = frc::Pose3d(
-        units::length::meter_t(15.63), 
-        units::length::meter_t(0.565), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(15.63),
+        units::length::meter_t(0.565),
+        units::length::meter_t(1.36),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(120)));
     const frc::Pose3d m_BlueAmp = frc::Pose3d(
-        units::length::meter_t(1.84), 
-        units::length::meter_t(8.2), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(1.84),
+        units::length::meter_t(8.2),
+        units::length::meter_t(1.36),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(-90.0)));
     const frc::Pose3d m_BlueSpeaker = frc::Pose3d(
-        units::length::meter_t(-.04), 
-        units::length::meter_t(5.55), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(-.04),
+        units::length::meter_t(5.55),
+        units::length::meter_t(1.45),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(0.0)));
     const frc::Pose3d m_BlueCenterStage = frc::Pose3d(
-        units::length::meter_t(5.32), 
-        units::length::meter_t(4.11), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(5.32),
+        units::length::meter_t(4.11),
+        units::length::meter_t(1.32),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(0.0)));
     const frc::Pose3d m_BlueRightStage = frc::Pose3d(
-        units::length::meter_t(4.64), 
-        units::length::meter_t(3.71), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(4.64),
+        units::length::meter_t(3.71),
+        units::length::meter_t(1.32),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(120.0)));
     const frc::Pose3d m_BlueLeftStage = frc::Pose3d(
-        units::length::meter_t(4.64), 
-        units::length::meter_t(4.5), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(4.64),
+        units::length::meter_t(4.5),
+        units::length::meter_t(1.32),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(120.0)));
     // red
     const frc::Pose3d m_RedSource = frc::Pose3d(
-        units::length::meter_t(.91), 
-        units::length::meter_t(.565), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(.91),
+        units::length::meter_t(.565),
+        units::length::meter_t(1.36),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(60.0)));
     const frc::Pose3d m_RedAmp = frc::Pose3d(
-        units::length::meter_t(14.7), 
-        units::length::meter_t(8.2), 
-        units::length::meter_t(0, 0), 
+        units::length::meter_t(14.7),
+        units::length::meter_t(8.2),
+        units::length::meter_t(1.36),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(-90.0)));
     const frc::Pose3d m_RedSpeaker = frc::Pose3d(
-        units::length::meter_t(16.58), 
-        units::length::meter_t(5.55), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(16.58),
+        units::length::meter_t(5.55),
+        units::length::meter_t(1.45),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(180.0)));
     const frc::Pose3d m_RedCenterStage = frc::Pose3d(
-        units::length::meter_t(11.22), 
-        units::length::meter_t(4.11), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(11.22),
+        units::length::meter_t(4.11),
+        units::length::meter_t(1.32),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(180.0)));
     const frc::Pose3d m_RedRightStage = frc::Pose3d(
-        units::length::meter_t(11.9), 
-        units::length::meter_t(3.71), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(11.9),
+        units::length::meter_t(3.71),
+        units::length::meter_t(1.32),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(0.0)));
     const frc::Pose3d m_RedLeftStage = frc::Pose3d(
-        units::length::meter_t(11.9), 
-        units::length::meter_t(4.5), 
-        units::length::meter_t(0.0), 
+        units::length::meter_t(11.9),
+        units::length::meter_t(4.5),
+        units::length::meter_t(1.32),
         frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(60.0)));
     std::map<FIELD_ELEMENT, frc::Pose3d> fieldConstantsPoseMap;
 };
