@@ -35,7 +35,6 @@
 #include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
-#include "mechanisms/noteManager/generated/noteManagerGen.cpp"
 #include "mechanisms/MechanismTypes.h"
 
 // @ADDMECH include for your mechanism state
@@ -158,8 +157,8 @@ grab the mechanism and set the state mgr to set the current state (We already ha
 		StateMgr *ns = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
 		if (ns != nullptr)
 		{
-			int noteState = ns->GetCurrentState();
-			ns->SetCurrentState(noteState, true);
+
+			ns->SetCurrentState(static_cast(, true));
 		}
 
 		StateMgr *cs = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
