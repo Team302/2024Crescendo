@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<swervechassis xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <attributes
+    wheelbase="22.5"
+    track="22.5"
+    wheeldiameter="4.0" 
+    maxspeed="207.6"/>
+</swervechassis>
