@@ -13,9 +13,10 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include <frc/geometry/Rotation2d.h>
-#include <frc/geometry/Pose2d.h>
-#include <math.h>
+#include <string>
+
+#include "frc/geometry/Rotation2d.h"
+#include "frc/geometry/Pose2d.h"
 
 // Team302 Includes
 #include "chassis/driveStates/FieldDrive.h"
@@ -24,6 +25,8 @@
 #include "utils/logging/Logger.h"
 
 using frc::ChassisSpeeds;
+using frc::Rotation2d;
+using std::string;
 
 FieldDrive::FieldDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                  m_robotDrive(robotDrive)
@@ -34,12 +37,17 @@ std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(Chass
 {
     if (m_chassis != nullptr)
     {
+        auto rot2d = Rotation2d(m_chassis->GetYaw());
         auto fieldRelativeSpeeds = ChassisSpeeds::FromFieldRelativeSpeeds(chassisMovement.chassisSpeeds.vx,
                                                                           chassisMovement.chassisSpeeds.vy,
                                                                           chassisMovement.chassisSpeeds.omega,
-                                                                          m_chassis->GetPose().Rotation());
+                                                                          rot2d);
 
-        chassisMovement.chassisSpeeds = fieldRelativeSpeeds;
+        chassisMovement.chassisSpeeds = frc::ChassisSpeeds::Discretize(fieldRelativeSpeeds, units::time::millisecond_t(20.0));
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("FieldDrive"), string("chassis"), string("nullptr"));
     }
 
     return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);

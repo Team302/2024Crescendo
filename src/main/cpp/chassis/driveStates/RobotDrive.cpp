@@ -65,7 +65,12 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Vy", chassisMovement.chassisSpeeds.vy.to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Omega", chassisMovement.chassisSpeeds.omega.to<double>());
 
-    wpi::array<frc::SwerveModuleState, 4> states = m_chassis->GetKinematics().ToSwerveModuleStates(chassisMovement.chassisSpeeds, chassisMovement.centerOfRotationOffset + m_centerOfRotation);
+    auto speeds = frc::ChassisSpeeds::Discretize(chassisMovement.chassisSpeeds, units::time::millisecond_t(20.0));
+    wpi::array<frc::SwerveModuleState, 4>
+        states = m_chassis->GetKinematics().ToSwerveModuleStates(speeds, chassisMovement.centerOfRotationOffset + m_centerOfRotation);
+
+    m_chassis->GetKinematics().DesaturateWheelSpeeds(&states, m_chassis->GetMaxSpeed());
+
     return {states[0], states[1], states[2], states[3]};
 }
 

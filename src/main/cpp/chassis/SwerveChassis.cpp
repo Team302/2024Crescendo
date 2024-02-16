@@ -110,11 +110,12 @@ void SwerveChassis::InitStates()
 {
     m_robotDrive = new RobotDrive(this);
 
-    m_driveStateMap[ChassisOptionEnums::FIELD_DRIVE] = new FieldDrive(m_robotDrive);
-    m_driveStateMap[ChassisOptionEnums::HOLD_DRIVE] = new HoldDrive();
-    m_driveStateMap[ChassisOptionEnums::ROBOT_DRIVE] = m_robotDrive;
-    m_driveStateMap[ChassisOptionEnums::STOP_DRIVE] = new StopDrive(m_robotDrive);
-    m_driveStateMap[ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER] = new TrajectoryDrivePathPlanner(m_robotDrive);
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::FIELD_DRIVE] = new FieldDrive(m_robotDrive);
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::HOLD_DRIVE] = new HoldDrive();
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::ROBOT_DRIVE] = m_robotDrive;
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::STOP_DRIVE] = new StopDrive(m_robotDrive);
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER] = new TrajectoryDrivePathPlanner(m_robotDrive);
+
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] = new SpecifiedHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE] = new FaceGamePiece();
@@ -154,6 +155,7 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     if (m_currentDriveState != nullptr)
     {
         auto states = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
+
         m_frontLeft->SetDesiredState(states[LEFT_FRONT]);
         m_frontRight->SetDesiredState(states[RIGHT_FRONT]);
         m_backLeft->SetDesiredState(states[LEFT_BACK]);
