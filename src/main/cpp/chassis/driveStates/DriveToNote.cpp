@@ -16,3 +16,20 @@
 // FRC Includes
 
 // Team302 Includes
+#include "DragonVision/DragonVision.h"
+#include "chassis/driveStates/DriveToNote.h"
+
+DriveToNote *DriveToNote::m_instance = nullptr;
+DriveToNote *DriveToNote::getInstance()
+{
+    if (DriveToNote::m_instance == nullptr)
+    {
+        DriveToNote::m_instance = new DriveToNote();
+    }
+    return DriveToNote::m_instance;
+}
+
+void DriveToNote::Init()
+{
+    DriveToNote *dtnvisiondata = DriveToNote::getInstance();
+}

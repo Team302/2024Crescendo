@@ -15,6 +15,9 @@
 
 #pragma once
 
+// C++ Includes
+#include <vector>
+
 // FRC Includes
 
 // Team302 Includes
@@ -22,4 +25,16 @@
 
 class DriveToNote
 {
+public:
+    DriveToNote()
+    {
+    }
+    DriveToNote() = delete;
+    ~DriveToNote() = default;
+
+    void Init();
+    static DriveToNote *getInstance();
+
+private:
+    static DriveToNote *m_instance;
 };
