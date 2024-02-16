@@ -335,6 +335,8 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         ccConfigs.MagnetSensor.MagnetOffset = angleOffset;
         ccConfigs.MagnetSensor.SensorDirection = canCoderInverted ? SensorDirectionValue::Clockwise_Positive : SensorDirectionValue::CounterClockwise_Positive;
         m_turnCancoder->GetConfigurator().Apply(ccConfigs);
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModuleDEBUG", to_string(m_turnCancoder->GetDeviceID()), angleOffset);
     }
 }
 
