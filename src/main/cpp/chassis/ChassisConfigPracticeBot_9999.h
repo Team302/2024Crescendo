@@ -34,7 +34,7 @@ private:
 	const int m_leftfrontdriveID = 8;
 	const int m_leftfrontturnID = 9;
 	const double m_leftfrontOffset = -0.475585;
-	const bool m_leftfrontdriveInvert = true;
+	const bool m_leftfrontdriveInvert = false;
 	const bool m_leftfrontturnInvert = true;
 	const bool m_leftfrontcancoderInvert = false;
 
@@ -47,7 +47,7 @@ private:
 
 	const int m_rightfrontdriveID = 6;
 	const int m_rightfrontturnID = 7;
-	const double m_rightfrontOffset = 0.1574707;
+	const double m_rightfrontOffset = -0.48681640625;
 	const bool m_rightfrontdriveInvert = true;
 	const bool m_rightfrontturnInvert = false;
 	const bool m_rightfrontcancoderInvert = false;
