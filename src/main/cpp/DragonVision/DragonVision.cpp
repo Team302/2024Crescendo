@@ -91,8 +91,8 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 
 std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_ELEMENT element)
 {
-	int launcherTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetAprilTagID().value();
-	int placerTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetAprilTagID().value();
+	std::optional<int> launcherTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetAprilTagID();
+	std::optional<int> placerTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetAprilTagID();
 
 	// get alliance color from FMSData
 	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
@@ -150,11 +150,11 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_EL
 	}
 	if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherTagId) != tagIdsToCheck.end())
 	{
-		return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag().value(); // launcherTagId is for stage id
+		return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag(); // launcherTagId is for stage id
 	}
 	else if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerTagId) != tagIdsToCheck.end())
 	{
-		return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag().value(); // placerTagId is for stage id
+		return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag(); // placerTagId is for stage id
 	}
 
 	// tag doesnt matter or no tag
@@ -189,7 +189,7 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 
 	if (selectedCam != nullptr)
 	{
-		return selectedCam->GetDataToNearestAprilTag().value();
+		return selectedCam->GetDataToNearestAprilTag();
 	}
 
 	return std::nullopt;
@@ -318,53 +318,47 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		break;
 	}
 
-	// optional of the April Tag's 3D pose
-	std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID().value());
-
-	// get valid value of optionalAprilTagPose
-	if (optionalAprilTagPose)
+	// double check selectedCam is not nullptr
+	if (selectedCam != nullptr)
 	{
-		// get the actual pose of the april tag from the optional
-		frc::Pose3d aprilTagPose = optionalAprilTagPose.value();
+		// optional of the April Tag's 3D pose
+		std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID().value());
 
-		// get the optional of the translation and rotation to the apriltag
-		std::optional<VisionData> dataToAprilTag = selectedCam->GetDataToNearestAprilTag();
-
-		// if we have data, get the translation and rotation to apriltag
-		if (dataToAprilTag)
+		// get valid value of optionalAprilTagPose
+		if (optionalAprilTagPose)
 		{
-			// get translation and rotation from visiondata
-			frc::Transform3d transformToAprilTag = dataToAprilTag.value().deltaToTarget;
+			// get the actual pose of the april tag from the optional
+			frc::Pose3d aprilTagPose = optionalAprilTagPose.value();
 
-			// translate from apriltag to robot to get robot field position
-			frc::Pose3d robotPose = aprilTagPose + transformToAprilTag.Inverse();
+			// get the optional of the translation and rotation to the apriltag
+			std::optional<VisionData> dataToAprilTag = selectedCam->GetDataToNearestAprilTag();
 
-			// create transformation from robot to field element
-			frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);
+			// if we have data, get the translation and rotation to apriltag
+			if (dataToAprilTag)
+			{
+				// get translation and rotation from visiondata
+				frc::Transform3d transformToAprilTag = dataToAprilTag.value().deltaToTarget;
 
-			// need to separate into translation and rotation calculated from distances
-			units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
-			units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
+				// translate from apriltag to robot to get robot field position
+				frc::Pose3d robotPose = aprilTagPose + transformToAprilTag.Inverse();
 
-			// rebundle into vision data with april tag thats used
-			std::optional<VisionData> visionData = VisionData(frc::Transform3d(transformToElement.Translation(),
-																			   frc::Rotation3d(units::angle::degree_t(0.0), pitch, yaw)), // roll is 0, pitch and yaw are calculated
-															  selectedCam->GetAprilTagID().value());
-			return visionData;
+				// create transformation from robot to field element
+				frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);
+
+				// need to separate into translation and rotation calculated from distances
+				units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
+				units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
+
+				// rebundle into vision data with april tag thats used
+				std::optional<VisionData> visionData = VisionData(frc::Transform3d(transformToElement.Translation(),
+																				   frc::Rotation3d(units::angle::degree_t(0.0), pitch, yaw)), // roll is 0, pitch and yaw are calculated
+																  selectedCam->GetAprilTagID().value());
+				return visionData;
+			}
 		}
 	}
 
 	return std::nullopt;
-
-	// make 2 pose 3ds and implement in transform3d.
-	// https: // github.wpilib.org/allwpilib/docs/release/cpp/classfrc_1_1_transform3d.html#a31810c15a05d3a2a8981462c88d965e4
-
-	// determine color of field element based on alliance color
-	// get the field pose of the specified element, will use FieldConstants file that isn't created
-	// get pose3d of detected april tag, use VisionData GetDataToNearestAprilTag();
-	// get the translation from april tag to field element
-	// use measurements from robot to april tag to calculate distances to field element
-	// return vision data with translation3d and detected tag
 }
 
 std::optional<VisionPose> DragonVision::GetRobotPosition()
@@ -401,13 +395,13 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 	if (!estimatedPoses.empty())
 	{
 		if (estimatedPoses.size() == 1)
-			return std::make_optional(estimatedPoses[0]);
+			return estimatedPoses[0];
 		else
 		{
 			double firstAmbiguity = estimatedPoses[0].visionMeasurementStdDevs[0];
 			double secondAmbiguity = estimatedPoses[1].visionMeasurementStdDevs[0];
 
-			return firstAmbiguity < secondAmbiguity ? std::make_optional(estimatedPoses[0]) : std::make_optional(estimatedPoses[1]);
+			return firstAmbiguity < secondAmbiguity ? estimatedPoses[0] : estimatedPoses[1];
 		}
 	}
 
