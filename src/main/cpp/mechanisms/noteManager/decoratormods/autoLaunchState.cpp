@@ -34,18 +34,18 @@ using namespace noteManagerStates;
 
 /// @class ExampleForwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-autoLaunchState::autoLaunchState ( std::string stateName,
-                                   int stateId,
-                                   noteManagerAllStatesStateGen *generatedState,
-                                   noteManager *mech ) : State ( stateName, stateId ), m_genState ( generatedState ), m_mechanism ( mech )
+autoLaunchState::autoLaunchState(std::string stateName,
+								 int stateId,
+								 noteManagerAllStatesStateGen *generatedState,
+								 noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
 {
 }
 
 void autoLaunchState::Init()
 {
-	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "ArrivedAt" ), string ( "autoLaunchState" ), string ( "init" ) );
-
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoLaunchState"), string("init"));
 	m_genState->Init();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->getlauncherAngle()->GetCounts());
 }
 
 void autoLaunchState::Run()
@@ -65,9 +65,9 @@ bool autoLaunchState::AtTarget()
 	return attarget;
 }
 
-bool autoLaunchState::IsTransitionCondition ( bool considerGamepadTransitions )
+bool autoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return ( considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed ( TeleopControlFunctions::AUTO_LAUNCH) && AtTarget());
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH) && AtTarget());
 }
