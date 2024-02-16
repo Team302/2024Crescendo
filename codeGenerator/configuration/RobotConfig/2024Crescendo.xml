@@ -3307,7 +3307,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-15</value>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3437,7 +3437,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-15</value>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3560,7 +3560,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-10</value>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -3911,7 +3911,7 @@
                       <name>Target</name>
                       <__units__>deg</__units__>
                       <type>Double</type>
-                      <value>-10</value>
+                      <value>-26</value>
                     </target>
                     <motorName>launcherAngle</motorName>
                     <controlDataName>posDegreeAbs</controlDataName>
@@ -5897,7 +5897,7 @@
       <Cameras>
         <Camera
           xsi:type="Limelight">
-          <name>PlacerIntake</name>
+          <name>P_Intake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -5989,7 +5989,7 @@
         </Camera>
         <Camera
           xsi:type="Limelight">
-          <name>LauncherIntake</name>
+          <name>L_Intake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
