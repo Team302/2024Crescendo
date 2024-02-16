@@ -128,6 +128,7 @@ void Robot::TeleopPeriodic()
         m_holonomic->Run();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
+
     auto vision = DragonVision::GetDragonVision();
     std::optional<VisionData> visiondata = vision->GetVisionData(DragonVision::VISION_ELEMENT::STAGE);
     if (visiondata)
@@ -135,9 +136,9 @@ void Robot::TeleopPeriodic()
         auto visiondata1 = visiondata.value();
         frc::Transform3d transform = visiondata1.deltaToTarget;
         double mult = 180 / 3.14;
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Xdist"), (transform.X().to<double>()));
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Ydist"), (transform.Y().to<double>()));
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Zdist"), (transform.Z().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Xdist"), (transform.X().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Ydist"), (transform.Y().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Zdist"), (transform.Z().to<double>()));
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Yang"), (transform.Rotation().X().to<double>() * mult));
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Xang"), (transform.Rotation().Y().to<double>() * mult));
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ANotCharlieDebug"), string("Zang"), (transform.Rotation().Z().to<double>() * mult));

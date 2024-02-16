@@ -8325,16 +8325,16 @@
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>19</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>0</value>
+            <value>-30</value>
           </pitch>
           <yaw>
             <unitsFamily>angle</unitsFamily>
