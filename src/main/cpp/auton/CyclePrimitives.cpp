@@ -36,6 +36,7 @@
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.cpp"
+#include "mechanisms/MechanismTypes.h"
 
 // @ADDMECH include for your mechanism state
 
@@ -154,13 +155,21 @@ grab the mechanism and set the state mgr to set the current state (We already ha
 {
 	if (params != nullptr)
 	{
-		StateMgr *sm = LoggableItem::GetCurrentState();
-		if (sm != nullptr)
+		StateMgr *ns = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+		if (ns != nullptr)
 		{
-			int state = LoggableItem()->GetCurrentState();
-			StateMgr::SetCurrentState(state, true);
+			int noteState = ns->GetCurrentState();
+			ns->SetCurrentState(noteState, true);
+		}
+
+		StateMgr *cs = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
+		if (cs != nullptr)
+		{
+			int climberState = cs->GetCurrentState();
+			cs->SetCurrentState(climberState, true);
 		}
 	}
+
 	/**
 	if (params != nullptr)
 	{
