@@ -95,8 +95,6 @@ SwerveModule::SwerveModule(string canbusname,
 
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
-
-    LogInformation();
 }
 
 /// @brief Get the encoder values
@@ -110,9 +108,7 @@ double SwerveModule::GetEncoderValues()
 /// @returns void
 void SwerveModule::ZeroAlignModule()
 {
-    // Desired State
     SetTurnAngle(units::degree_t(0));
-    LogInformation();
 }
 
 /// @brief Get the current state of the module (speed of the wheel and angle of the wheel)
@@ -165,8 +161,6 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
 
     // Set Drive Target
     SetDriveSpeed(optimizedState.speed);
-
-    LogInformation();
 }
 
 /// @brief Run the swerve module at the same speed and angle
@@ -198,33 +192,6 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
     PositionVoltage voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
     m_activeState.angle = targetAngle;
     m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
-
-    string ntAngleName;
-    string ntCCAngle;
-    if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_BACK)
-    {
-        ntAngleName += string("leftback target Angle");
-        ntCCAngle += string("leftback CC angle");
-    }
-    else if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_FRONT)
-    {
-        ntAngleName += string("leftfront target Angle");
-        ntCCAngle += string("leftfront CC angle");
-    }
-    else if (m_moduleID == SwerveModuleConstants::ModuleID::RIGHT_BACK)
-    {
-        ntAngleName += string("rightback target Angle");
-        ntCCAngle += string("rightback CC angle");
-    }
-    else
-    {
-        ntAngleName += string("rightfront target Angle");
-        ntCCAngle += string("rightfront CC angle");
-    }
-    units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntAngleName, targetAngle.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntCCAngle, angle.to<double>());
 }
 
 /// @brief stop the drive and turn motors
@@ -335,8 +302,6 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         ccConfigs.MagnetSensor.MagnetOffset = angleOffset;
         ccConfigs.MagnetSensor.SensorDirection = canCoderInverted ? SensorDirectionValue::Clockwise_Positive : SensorDirectionValue::CounterClockwise_Positive;
         m_turnCancoder->GetConfigurator().Apply(ccConfigs);
-
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModuleDEBUG", to_string(m_turnCancoder->GetDeviceID()), angleOffset);
     }
 }
 
@@ -374,7 +339,7 @@ void SwerveModule::ReadConstants(string configfilename)
     }
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_networkTableName, string("Config File not found"), configfilename);
     }
 }
 

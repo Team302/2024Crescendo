@@ -50,7 +50,7 @@ RobotDrive::RobotDrive(SwerveChassis *chassis) : ISwerveDriveState::ISwerveDrive
     }
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("RobotDrive"), string("Chassis"), string("nullptr"));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("RobotDrive"), string("Chassis"), string("nullptr"));
     }
 }
 
@@ -60,10 +60,6 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
     {
         AntiTip::DecideTipCorrection(chassisMovement, m_maxspeed);
     }
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Vx", chassisMovement.chassisSpeeds.vx.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Vy", chassisMovement.chassisSpeeds.vy.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Omega", chassisMovement.chassisSpeeds.omega.to<double>());
 
     auto speeds = frc::ChassisSpeeds::Discretize(chassisMovement.chassisSpeeds, units::time::millisecond_t(20.0));
     wpi::array<frc::SwerveModuleState, 4>

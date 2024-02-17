@@ -41,7 +41,6 @@ using namespace frc;
 HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
                                    m_swerve(ChassisConfigMgr::GetInstance()->GetCurrentConfig() != nullptr ? ChassisConfigMgr::GetInstance()->GetCurrentConfig()->GetSwerveChassis() : nullptr),
                                    m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
-                                   //m_previousDriveState(ChassisOptionEnums::DriveStateType::ROBOT_DRIVE),
                                    m_checkTippingLatch(false)
 {
     Init();
@@ -131,10 +130,10 @@ void HolonomicDrive::Run()
             }
             else
             {
-                if ((abs(forward) > 0.05 || abs(strafe) > 0.05 || abs(rotate) > 0.05))
+                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05))
                 {
                     m_previousDriveState = m_moveInfo.driveOption;
-                    // m_moveInfo.driveOption = m_moveInfo.noMovementOption == ChassisOptionEnums::NoMovementOption::HOLD_POSITION ? ChassisOptionEnums::driveOption::HOLD_DRIVE : ChassisOptionEnums::driveOption::STOP_DRIVE;
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
                 }
             }
@@ -150,7 +149,7 @@ void HolonomicDrive::Run()
     }
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("Run"), string("nullptr"));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("HolonomicDrive"), string("Run"), string("nullptr"));
     }
 }
 
