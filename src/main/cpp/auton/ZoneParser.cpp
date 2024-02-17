@@ -119,27 +119,6 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         {"VISION_DRIVE_SPEAKER", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_SPEAKER},
         {"NO_VISION", ChassisOptionEnums::AutonChassisOptions::NO_VISION},
     };
-    static std::map<std::string, noteManagerGen::STATE_NAMES> xmlStringToNOTESTATE_NAMESEnumMap{
-        {"STATE_OFF", noteManagerGen::STATE_NAMES::STATE_OFF},
-        {"STATE_READY", noteManagerGen::STATE_NAMES::STATE_READY},
-        {"STATE_FEEDER_INTAKE", noteManagerGen::STATE_NAMES::STATE_FEEDER_INTAKE},
-        {"STATE_EXPEL", noteManagerGen::STATE_NAMES::STATE_EXPEL},
-        {"STATE_PLACER_INTAKE", noteManagerGen::STATE_NAMES::STATE_PLACER_INTAKE},
-        {"STATE_HOLD_FEEDER", noteManagerGen::STATE_NAMES::STATE_HOLD_FEEDER},
-        {"STATE_READY_AUTO_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_AUTO_LAUNCH},
-        {"STATE_READY_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_MANUAL_LAUNCH},
-        {"STATE_PASS", noteManagerGen::STATE_NAMES::STATE_PASS},
-        {"STATE_AUTO_LAUNCH", noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH},
-        {"STATE_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_MANUAL_LAUNCH},
-        {"STATE_READY_ODOMETRY_LAUNCH", noteManagerGen::STATE_NAMES::STATE_READY_ODOMETRY_LAUNCH},
-        {"STATE_AUTO_LAUNCH_ODOMETRY", noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH_ODOMETRY},
-        {"STATE_PREPARE_PLACE_AMP", noteManagerGen::STATE_NAMES::STATE_PREPARE_PLACE_AMP},
-        {"STATE_PREPARE_PLACE_TRAP", noteManagerGen::STATE_NAMES::STATE_PREPARE_PLACE_TRAP},
-        {"STATE_PLACE_AMP", noteManagerGen::STATE_NAMES::STATE_PLACE_AMP},
-        {"STATE_PLACE_TRAP", noteManagerGen::STATE_NAMES::STATE_PLACE_TRAP},
-
-        {"STATE_BACKUP_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_LAUNCH},
-        {"NOTE_MANAGER_BACKUP_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_PLACE}};
     static std::map<std::string, ChassisOptionEnums::AutonAvoidOptions> xmlStringToAvoidOptionEnumMap{
         {"PODIUM", ChassisOptionEnums::AutonAvoidOptions::PODIUM},
         {"ROBOT_COLLISION", ChassisOptionEnums::AutonAvoidOptions::ROBOT_COLLISION},
@@ -210,8 +189,8 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
         }
         else if (strcmp(attr.name(), "noteOption") == 0)
         {
-            auto itr = xmlStringToNOTESTATE_NAMESEnumMap.find(attr.value());
-            if (itr != xmlStringToNOTESTATE_NAMESEnumMap.end())
+            auto itr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
+            if (itr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
             {
                 noteChosenOption = itr->second;
             }

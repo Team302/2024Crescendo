@@ -69,8 +69,6 @@ public:
 
 	noteManagerGen();
 
-	//static bool noteManagerGenCreated;
-
 	void Create();
 	void Initialize ( RobotConfigMgr::RobotIdentifier robotFullName );
 
@@ -189,8 +187,6 @@ private:
 	ControlData* velocityRPS;
 	ControlData* posDegreeAbs;
 	ControlData* positionInchUp;
-
-	bool m_noteManagerGenCreated;
 
 	void CheckForTuningEnabled();
 	void ReadTuningParamsFromNT();

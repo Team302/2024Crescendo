@@ -32,7 +32,6 @@ ClimberManagerGen::ClimberManagerGen() : BaseMech ( MechanismTypes::MECHANISM_TY
 	m_stateMap()
 {
 }
-static bool climberCreated = false;
 
 void ClimberManagerGen::Create()
 {
@@ -101,7 +100,6 @@ void ClimberManagerGen::Create()
 	m_table = nt::NetworkTableInstance::GetDefault().GetTable ( m_ntName );
 	m_tuningIsEnabledStr = "Enable Tuning for " + m_ntName; // since this string is used every loop, we do not want to create the string every time
 	m_table.get()->PutBoolean ( m_tuningIsEnabledStr, m_tuning );
-	climberCreated = true;
 }
 
 std::map<std::string, ClimberManagerGen::STATE_NAMES> ClimberManagerGen::stringToSTATE_NAMESEnumMap
