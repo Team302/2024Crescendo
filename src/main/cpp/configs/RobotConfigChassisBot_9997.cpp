@@ -21,18 +21,18 @@
 #include "PeriodicLooper.h"
 #include "utils/logging/Logger.h"
 #include "configs/RobotConfigMgr.h"
-#include "configs/RobotConfigChassisBot_99979997.h"
+#include "configs/RobotConfigChassisBot_9997.h"
 #include "configs/RobotElementNames.h"
 #include "DragonVision/DragonVision.h"
 
 using std::string;
 
-void RobotConfigChassisBot_99979997::DefineMechanisms()
+void RobotConfigChassisBot_9997::DefineMechanisms()
 {
 
 }
 
-StateMgr *RobotConfigChassisBot_99979997::GetMechanism ( MechanismTypes::MECHANISM_TYPE mechType )
+StateMgr *RobotConfigChassisBot_9997::GetMechanism ( MechanismTypes::MECHANISM_TYPE mechType )
 {
 	auto itr = m_mechanismMap.find ( mechType );
 	if ( itr != m_mechanismMap.end() )
@@ -42,7 +42,7 @@ StateMgr *RobotConfigChassisBot_99979997::GetMechanism ( MechanismTypes::MECHANI
 	return nullptr;
 }
 
-void RobotConfigChassisBot_99979997::DefineVisionSensors()
+void RobotConfigChassisBot_9997::DefineVisionSensors()
 {
 	Launcher = new DragonPhotonCam ( "Launcher", //std::string name,                      /// <I> - network table name
 	                                 DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline

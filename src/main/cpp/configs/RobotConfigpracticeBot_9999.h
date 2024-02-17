@@ -43,8 +43,8 @@ private:
 
 	std::unordered_map<MechanismTypes::MECHANISM_TYPE, StateMgr *> m_mechanismMap;
 
-	DragonLimelight* P_INTAKE;
+	DragonLimelight* PINTAKE;
 	DragonPhotonCam* Placer;
-	DragonLimelight* L_INTAKE;
+	DragonLimelight* LINTAKE;
 	DragonPhotonCam* Launcher;
 };

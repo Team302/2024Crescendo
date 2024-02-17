@@ -23,11 +23,11 @@
 #include "DragonVision/DragonPhotonCam.h"
 #include "DragonVision/DragonLimelight.h"
 
-class RobotConfigChassisBot_99979997 : public RobotConfig
+class RobotConfigChassisBot_9997 : public RobotConfig
 {
 public:
-	RobotConfigChassisBot_99979997() = default;
-	~RobotConfigChassisBot_99979997() = default;
+	RobotConfigChassisBot_9997() = default;
+	~RobotConfigChassisBot_9997() = default;
 
 	StateMgr *GetMechanism ( MechanismTypes::MECHANISM_TYPE mechType );
 
