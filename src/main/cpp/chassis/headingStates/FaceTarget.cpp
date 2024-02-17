@@ -20,7 +20,6 @@
 #include "frc/geometry/Pose3d.h"
 
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerveDriveOrientation(headingOption)
-
 {
 }
 

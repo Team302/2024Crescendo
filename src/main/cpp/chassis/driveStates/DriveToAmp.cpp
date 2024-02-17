@@ -16,16 +16,17 @@
 // Team302 includes
 #include "chassis/driveStates/DriveToAmp.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "chassis/headingStates/FaceTarget.h"
 
 #include "utils/FMSData.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerPath.h"
 
-DriveToAmp::DriveToAmp() : m_chasis(nullptr)
+DriveToAmp::DriveToAmp() : m_chassis(nullptr)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chasis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     m_dragonVision = DragonVision::GetDragonVision();
 }
 
@@ -33,13 +34,13 @@ pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
 {
     frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 
-    m_currentPose2d = m_chasis->GetPose();
-    m_dragonVision = DragonVision::GetDragonVision();
-
     pathplanner::PathPlannerTrajectory trajectory;
 
-    if (m_dragonVision != nullptr && m_chasis != nullptr)
+    if (m_dragonVision != nullptr && m_chassis != nullptr)
     {
+        auto currentPose2d = m_chassis->GetPose();
+        m_dragonVision = DragonVision::GetDragonVision();
+
         if (allianceColor == frc::DriverStation::kBlue)
         {
             auto data = m_dragonVision->GetVisionData(DragonVision::VISION_ELEMENT::AMP);
@@ -50,7 +51,7 @@ pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
                 auto aprilTagDistance = frc::Pose2d(aprilTagTransform3d.value().X(), aprilTagTransform3d.value().Y(), frc::Rotation2d(180_deg));
 
                 std::vector<frc::Pose2d> poses{
-                    m_currentPose2d,
+                    currentPose2d,
                     frc::Pose2d(aprilTagDistance.X(), (aprilTagDistance.Y() - 1.0_m), aprilTagDistance.Rotation()),
                     aprilTagDistance,
                 };
@@ -62,7 +63,7 @@ pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
                     pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
                     pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)), false);
                 createPath->preventFlipping = true;
-                trajectory = createPath->getTrajectory(m_chasis->GetChassisSpeeds(), m_currentPose2d.Rotation());
+                trajectory = createPath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
 
                 return trajectory;
             }
@@ -78,7 +79,7 @@ pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
                 auto aprilTagDistance = frc::Pose2d(aprilTagTransform3d.value().X(), aprilTagTransform3d.value().Y(), frc::Rotation2d(180_deg));
 
                 std::vector<frc::Pose2d> poses{
-                    m_currentPose2d,
+                    currentPose2d,
                     frc::Pose2d(aprilTagDistance.X(), (aprilTagDistance.Y() - 1.0_m), aprilTagDistance.Rotation()),
                     aprilTagDistance,
                 };
@@ -91,11 +92,36 @@ pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
                     pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)), false);
                 createPath->preventFlipping = true;
 
-                trajectory = createPath->getTrajectory(m_chasis->GetChassisSpeeds(), m_currentPose2d.Rotation());
+                trajectory = createPath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
 
                 return trajectory;
             }
         }
     }
     return trajectory;
+}
+std::optional<frc::Pose2d> DriveToAmp::GetAprilTagPose2d(frc::Pose2d chassisPose)
+{
+    frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
+    auto aprilTag = allianceColor == frc::DriverStation::kBlue ? FaceTarget::BLUE_AMP : FaceTarget::RED_AMP;
+    if (m_dragonVision != nullptr)
+    {
+        auto data = m_dragonVision->GetVisionData(DragonVision::VISION_ELEMENT::AMP);
+        if (data)
+        {
+            auto visionAprilTagTransform3d = data.value().deltaToTarget;
+            auto chassisPose3d = frc::Pose3d(chassisPose);
+            auto visionAprilTagPose3d = chassisPose3d.TransformBy(visionAprilTagTransform3d);
+            return visionAprilTagPose3d.ToPose2d();
+        }
+        else
+        {
+            auto AprilTagPose3d = DragonVision::GetAprilTagLayout().GetTagPose(aprilTag).value();
+            return AprilTagPose3d.ToPose2d();
+        }
+    }
+    else
+    {
+        return std::nullopt;
+    }
 }

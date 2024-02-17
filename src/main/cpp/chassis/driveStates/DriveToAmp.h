@@ -32,9 +32,9 @@ public:
     pathplanner::PathPlannerTrajectory CreateDriveToAmpPath();
 
 private:
-    frc::Pose2d m_currentPose2d;
+    std::optional<frc::Pose2d> GetAprilTagPose2d(frc::Pose2d chassisPose);
 
-    SwerveChassis *m_chasis;
+    SwerveChassis *m_chassis;
     DragonVision *m_dragonVision;
 
     const units::meters_per_second_t m_maxVel = 3.0_mps;
