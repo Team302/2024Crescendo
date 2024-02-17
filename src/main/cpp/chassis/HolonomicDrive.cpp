@@ -40,7 +40,8 @@ using namespace frc;
 /// @brief initialize the object and validate the necessary items are not nullptrs
 HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
                                    m_swerve(ChassisConfigMgr::GetInstance()->GetCurrentConfig() != nullptr ? ChassisConfigMgr::GetInstance()->GetCurrentConfig()->GetSwerveChassis() : nullptr),
-                                   m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
+                                   //    m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
+                                   m_previousDriveState(ChassisOptionEnums::DriveStateType::ROBOT_DRIVE),
                                    m_checkTippingLatch(false)
 {
 }
@@ -55,12 +56,14 @@ void HolonomicDrive::Init()
 /// @return void
 void HolonomicDrive::Run()
 {
+
     auto controller = TeleopControl::GetInstance();
     if (controller != nullptr && m_swerve != nullptr)
     {
         auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
         auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
         auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
+
         ChassisMovement moveInfo = InitChassisMovement(forward, strafe, rotate);
 
         // teleop buttons to check for mode changes
@@ -128,7 +131,8 @@ void HolonomicDrive::Run()
             {
                 if ((abs(forward) > 0.05 || abs(strafe) > 0.05 || abs(rotate) > 0.05))
                 {
-                    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    // moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
                     m_previousDriveState = moveInfo.driveOption;
                 }
             }
@@ -153,7 +157,8 @@ ChassisMovement HolonomicDrive::InitChassisMovement(double forwardScale,
                                                     double rotateScale)
 {
     ChassisMovement moveInfo;
-    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+    // moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
     moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
     moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
 

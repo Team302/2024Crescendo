@@ -41,7 +41,8 @@ class SwerveModule : public LoggableItem
 {
 public:
     /// @brief Constructs a Swerve Module.  This is assuming 2 TalonFX (Falcons) with a CanCoder for the turn angle
-    SwerveModule(SwerveModuleConstants::ModuleID id,
+    SwerveModule(std::string canbusname,
+                 SwerveModuleConstants::ModuleID id,
                  SwerveModuleConstants::ModuleType type,
                  int driveMotorID,
                  bool driveInverted,
