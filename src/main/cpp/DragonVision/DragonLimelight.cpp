@@ -75,7 +75,8 @@ std::optional<int> DragonLimelight::GetAprilTagID()
     auto nt = m_networktable.get();
     if (nt != nullptr)
     {
-        int aprilTagInt = int(round(nt->GetNumber("tid", -1)));
+        double value = nt->GetNumber("tid", -1);
+        int aprilTagInt = static_cast<int>(value + (value > 0 ? 0.5 : -0.5));
         return aprilTagInt;
     }
     else
@@ -281,8 +282,8 @@ std::optional<double> DragonLimelight::GetTargetArea()
     {
         return nt->GetNumber("ta", 0.0);
     }
-    else
-        return std::nullopt;
+
+    return std::nullopt;
 }
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetSkew()
@@ -292,8 +293,8 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetSkew()
     {
         return units::angle::degree_t(m_networktable->GetNumber("ts", 0.0));
     }
-    else
-        return std::nullopt;
+
+    return std::nullopt;
 }
 
 std::optional<units::time::millisecond_t> DragonLimelight::GetPipelineLatency()
@@ -393,14 +394,22 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
 
     units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
     std::optional<units::angle::degree_t> targetPitch = GetTargetPitch();
-    std::optional<int>
-        aprilTagID = GetAprilTagID();
-    if (aprilTagID && targetPitch)
+    std::optional<int> aprilTagID = GetAprilTagID();
+    if (!aprilTagID)
     {
         // d=(h2-h1)/tan(a1+a2)
-        units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + targetPitch.value());
+        double tangent = units::math::tan(mountingAngle + targetPitch.value());
 
-        return estimatedTargetDistance;
+        if (abs(tangent) < 0.01)
+        {
+            return std::nullopt;
+        }
+        else
+        {
+            units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / tangent;
+
+            return estimatedTargetDistance;
+        }
     }
 
     else

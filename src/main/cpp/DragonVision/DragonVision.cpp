@@ -198,7 +198,7 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position)
 {
 	std::optional<VisionData> dataToAprilTag = m_dragonCameraMap[position]->GetDataToNearestAprilTag();
-	if (m_dragonCameraMap[position] != nullptr && dataToAprilTag.has_value())
+	if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value())
 	{
 		return dataToAprilTag;
 	}
@@ -226,7 +226,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		{
 			return std::nullopt;
 		}
-		else if (launcherHasDetection && placerHasDetection) // we see targets in no cameras
+		else if (launcherHasDetection && placerHasDetection) // we see targets in both cameras
 		{
 			// check which note is closest to robot
 			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
