@@ -2736,7 +2736,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>0.25</value>
+                      <value>0.5</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -6039,7 +6039,7 @@
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>0</value>
           </mountingXOffset>
@@ -6062,7 +6062,7 @@
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>0</value>
+            <value>22</value>
           </pitch>
           <yaw>
             <unitsFamily>angle</unitsFamily>
