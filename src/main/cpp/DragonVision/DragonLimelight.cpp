@@ -230,7 +230,7 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
         units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + GetMountingYOffset();    // the offset is positive if the limelight is to the left of the center of the robot
         units::length::inch_t targetDistanceRobotFrame = targetXdistance.value() + GetMountingXOffset(); // the offset is negative if the limelight is behind the center of the robot
 
-        units::angle::radian_t angleOffset = units::angle::radian_t(atan((targetHorizOffsetRobotFrame / targetDistanceRobotFrame).to<double>()));
+        units::angle::radian_t angleOffset = units::math::atan2(targetHorizOffsetRobotFrame, targetDistanceRobotFrame);
         return angleOffset;
     }
     else
