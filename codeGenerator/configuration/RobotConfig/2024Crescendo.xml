@@ -3703,6 +3703,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3714,6 +3715,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3725,6 +3727,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3820,6 +3823,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>frontIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3831,6 +3835,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>backIntake</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3842,6 +3847,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
+                      <value>1</value>
                     </target>
                     <motorName>Transfer</motorName>
                     <controlDataName>percentOutput</controlDataName>
