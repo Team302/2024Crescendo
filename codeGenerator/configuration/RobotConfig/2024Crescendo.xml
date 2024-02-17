@@ -2736,7 +2736,7 @@
                       <name>Target</name>
                       <__units__ />
                       <type>Double</type>
-                      <value>0.5</value>
+                      <value>0.35</value>
                     </target>
                     <motorName>Feeder</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3536,7 +3536,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>0.75</value>
+                      <value>0.9</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3548,7 +3548,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>0.75</value>
+                      <value>0.9</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3887,7 +3887,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>0.75</value>
+                      <value>0.9</value>
                     </target>
                     <motorName>launcherTop</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -3899,7 +3899,7 @@
                       <name>Target</name>
                       <__units__>rad/s</__units__>
                       <type>Double</type>
-                      <value>0.75</value>
+                      <value>0.9</value>
                     </target>
                     <motorName>launcherBottom</motorName>
                     <controlDataName>percentOutput</controlDataName>
@@ -6041,28 +6041,28 @@
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>7.31</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>9.614</value>
           </mountingYOffset>
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>22.931</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>22</value>
+            <value>5</value>
           </pitch>
           <yaw>
             <unitsFamily>angle</unitsFamily>
