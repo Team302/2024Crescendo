@@ -64,6 +64,7 @@ using ctre::phoenix6::signals::InvertedValue;
 using ctre::phoenix6::signals::NeutralModeValue;
 using ctre::phoenix6::signals::SensorDirectionValue;
 
+//==================================================================================
 SwerveModule::SwerveModule(string canbusname,
                            SwerveModuleConstants::ModuleID id,
                            SwerveModuleConstants::ModuleType type,
@@ -97,6 +98,7 @@ SwerveModule::SwerveModule(string canbusname,
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
 }
 
+//==================================================================================
 /// @brief Get the encoder values
 /// @returns double - the integrated sensor position
 double SwerveModule::GetEncoderValues()
@@ -104,6 +106,7 @@ double SwerveModule::GetEncoderValues()
     return m_driveTalon->GetPosition().GetValueAsDouble() * 2048;
 }
 
+//==================================================================================
 /// @brief Turn all of the wheel to zero degrees yaw according to the pigeon
 /// @returns void
 void SwerveModule::ZeroAlignModule()
@@ -111,6 +114,7 @@ void SwerveModule::ZeroAlignModule()
     SetTurnAngle(units::degree_t(0));
 }
 
+//==================================================================================
 /// @brief Get the current state of the module (speed of the wheel and angle of the wheel)
 /// @returns SwerveModuleState
 SwerveModuleState SwerveModule::GetState() const
@@ -129,6 +133,7 @@ SwerveModuleState SwerveModule::GetState() const
     return state;
 }
 
+//==================================================================================
 /// @brief Get the current position of the swerve module (distance and rotation)
 /// @return frc::SwerveModulePosition - current position
 frc::SwerveModulePosition SwerveModule::GetPosition() const
@@ -142,6 +147,7 @@ frc::SwerveModulePosition SwerveModule::GetPosition() const
             currAngle};                                // angle of the swerve module from sensor
 }
 
+//==================================================================================
 /// @brief Set the current state of the module (speed of the wheel and angle of the wheel)
 /// @param [in] const SwerveModuleState& targetState:   state to set the module to
 /// @returns void
@@ -163,6 +169,7 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     SetDriveSpeed(optimizedState.speed);
 }
 
+//==================================================================================
 /// @brief Run the swerve module at the same speed and angle
 /// @returns void
 void SwerveModule::RunCurrentState()
@@ -170,6 +177,7 @@ void SwerveModule::RunCurrentState()
     SetDriveSpeed(m_activeState.speed);
 }
 
+//==================================================================================
 /// @brief run the drive motor at a specified speed
 /// @param [in] speed to drive the drive wheel as
 /// @returns void
@@ -184,6 +192,7 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
     m_driveTalon->SetControl(out);
 }
 
+//==================================================================================
 /// @brief Turn the swerve module to a specified angle
 /// @param [in] units::angle::degree_t the target angle to turn the wheel to
 /// @returns void
@@ -194,6 +203,7 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
     m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
 }
 
+//==================================================================================
 /// @brief stop the drive and turn motors
 /// @return void
 void SwerveModule::StopMotors()
@@ -201,6 +211,7 @@ void SwerveModule::StopMotors()
     // TODO: add method to stop motor and do it for both turn and drive motors
 }
 
+//==================================================================================
 void SwerveModule::LogInformation()
 {
     string ntAngleName;
@@ -237,6 +248,7 @@ void SwerveModule::LogInformation()
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntRotorPositionName, rotor);
 }
 
+//==================================================================================
 void SwerveModule::InitDriveMotor(bool driveInverted)
 {
     if (m_driveTalon != nullptr)
@@ -260,6 +272,7 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
     }
 }
 
+//==================================================================================
 void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
                                         bool canCoderInverted,
                                         double angleOffset,
@@ -305,6 +318,7 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
     }
 }
 
+//==================================================================================
 void SwerveModule::ReadConstants(string configfilename)
 {
     auto deployDir = frc::filesystem::GetDeployDirectory();
@@ -343,6 +357,7 @@ void SwerveModule::ReadConstants(string configfilename)
     }
 }
 
+//==================================================================================
 /// @brief Given a desired swerve module state and the current angle of the swerve module, determine
 ///        if the changing the desired swerve module angle by 180 degrees is a smaller turn or not.
 ///        If it is, return a state that has that angle and the reversed speed.  Otherwise, return the
@@ -359,6 +374,7 @@ SwerveModuleState SwerveModule::Optimize(const SwerveModuleState &desiredState,
     optimizedState.angle = desiredState.angle;
     optimizedState.speed = desiredState.speed;
 
+    // TODO:  remove this to test/fix Optimize
     return optimizedState;
 
     auto delta = AngleUtils::GetDeltaAngle(currentAngle.Degrees(), optimizedState.angle.Degrees());
