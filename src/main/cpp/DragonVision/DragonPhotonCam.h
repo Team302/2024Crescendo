@@ -16,6 +16,8 @@
 
 #include <string>
 
+#include "photon/PhotonCamera.h"
+
 #include "DragonVision/DragonCamera.h"
 
 class DragonPhotonCam : public DragonCamera
@@ -61,5 +63,5 @@ public:
     std::optional<VisionData> GetDataToNearestAprilTag();
 
 private:
-    std::string m_name = ""; // camera name
+    photon::PhotonCamera *m_camera;
 };

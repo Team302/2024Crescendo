@@ -14,6 +14,16 @@
 //====================================================================================================================================================
 #include "FieldConstants.h"
 
+FieldConstants *FieldConstants::m_instance = nullptr;
+FieldConstants *FieldConstants::GetInstance()
+{
+    if (FieldConstants::m_instance == nullptr)
+    {
+        FieldConstants::m_instance = new FieldConstants();
+    }
+    return FieldConstants::m_instance;
+}
+
 FieldConstants::FieldConstants()
 {
     fieldConstantsPoseMap[FIELD_ELEMENT::BLUE_CENTER_STAGE] = m_BlueCenterStage;

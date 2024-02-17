@@ -75,8 +75,7 @@ bool preparePlaceTrapState::IsTransitionCondition(bool considerGamepadTransition
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	auto currentState = m_mechanism->GetCurrentState();
-	bool placerMidSensor = m_mechanism->getplacerMidSensor()->Get();
 
-	return ((placerMidSensor && (m_mechanism->IsClimbMode())) ||
+	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE) && (m_mechanism->IsClimbMode())) ||
 			((currentState == m_mechanism->STATE_PREPARE_PLACE_AMP) && (m_mechanism->IsClimbMode())));
 }
