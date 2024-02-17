@@ -119,11 +119,21 @@ void noteManager::SetCurrentState(int state, bool run)
 units::length::meter_t noteManager::GetVisionDistance()
 {
 	units::length::meter_t distance{units::length::meter_t(0)};
-	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHER); // debugging for now
+	// ->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	if (optionalVisionData)
 	{
 		frc::Transform3d deltaToTarget{optionalVisionData.value().deltaToTarget};
 		frc::Translation3d translate{deltaToTarget.Translation()};
+
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance X meter"), deltaToTarget.X().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance Y meter"), deltaToTarget.Y().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance Z meter"), deltaToTarget.Z().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance roll deg"), deltaToTarget.Rotation().X().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance pitch deg"), deltaToTarget.Rotation().Y().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance yaw deg"), deltaToTarget.Rotation().Z().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance april tag"), optionalVisionData.value().tagId);
+
 		distance = units::math::hypot(translate.X(), translate.Y());
 	}
 	return distance;
