@@ -35,23 +35,25 @@ public:
     bool AtTarget() override;
 
 private:
-    ChassisMovement InitChassisMovement(double forwardScale, double strafeScale, double rotateScale);
+    void InitChassisMovement();
+    void InitSpeeds(double forwardScale, double strafeScale, double rotateScale);
     void ResetPose();
-    void AlignGamePiece(ChassisMovement &moveInfo);
-    void HoldPosition(ChassisMovement &moveInfo);
-    void TurnForward(ChassisMovement &moveInfo);
-    void TurnBackward(ChassisMovement &moveInfo);
-    void SlowMode(ChassisMovement &moveInfo);
-    void CheckTipping(bool tippingSelected, ChassisMovement &moveInfo);
-    void AlignToSpeaker(ChassisMovement &moveInfo);
-    void AlignToAmp(ChassisMovement &moveInfo);
-    void AlignToLeftStage(ChassisMovement &moveInfo);
-    void AlignToCenterStage(ChassisMovement &moveInfo);
-    void AlignToRightStage(ChassisMovement &moveInfo);
+    void AlignGamePiece();
+    void HoldPosition();
+    void TurnForward();
+    void TurnBackward();
+    void SlowMode();
+    void CheckTipping(bool tippingSelected);
+    void AlignToSpeaker();
+    void AlignToAmp();
+    void AlignToLeftStage();
+    void AlignToCenterStage();
+    void AlignToRightStage();
 
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
     const double m_slowModeMultiplier = 0.5;
     bool m_CheckTipping = false;
     bool m_checkTippingLatch = false;
+    ChassisMovement m_moveInfo;
 };
