@@ -5901,7 +5901,7 @@
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>-13.136</value>
           </mountingXOffset>
@@ -5915,7 +5915,7 @@
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>18.397</value>
           </mountingZOffset>
@@ -5924,14 +5924,14 @@
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>0</value>
+            <value>-25</value>
           </pitch>
           <yaw>
             <unitsFamily>angle</unitsFamily>
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>5</value>
+            <value>0</value>
           </yaw>
           <roll>
             <unitsFamily>angle</unitsFamily>
@@ -5961,7 +5961,7 @@
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>21.607</value>
           </mountingZOffset>
@@ -5993,7 +5993,7 @@
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>11.76</value>
           </mountingXOffset>
@@ -6007,7 +6007,7 @@
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>12.128</value>
           </mountingZOffset>
@@ -6039,21 +6039,21 @@
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>7.31</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>9.614</value>
           </mountingYOffset>
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
             <value>22.931</value>
           </mountingZOffset>
