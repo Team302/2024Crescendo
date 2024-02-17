@@ -79,8 +79,8 @@ std::optional<int> DragonLimelight::GetAprilTagID()
         int aprilTagInt = static_cast<int>(value + (value > 0 ? 0.5 : -0.5));
         return aprilTagInt;
     }
-    else
-        return std::nullopt;
+
+    return std::nullopt;
 }
 
 std::optional<VisionPose> DragonLimelight::GetFieldPosition()
@@ -111,12 +111,10 @@ std::optional<VisionPose> DragonLimelight::GetRedFieldPosition()
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(redPosition[3]), units::angle::degree_t(redPosition[4]), units::angle::degree_t(redPosition[5])};
 
-        return std::make_optional(VisionPose{frc::Pose3d{units::meter_t(redPosition[0]), units::meter_t(redPosition[1]), units::meter_t(redPosition[2]), rotation}, timestamp});
+        return VisionPose{frc::Pose3d{units::meter_t(redPosition[0]), units::meter_t(redPosition[1]), units::meter_t(redPosition[2]), rotation}, timestamp};
     }
-    else
-    {
-        return std::nullopt;
-    }
+
+    return std::nullopt;
 }
 
 std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition()
@@ -130,12 +128,10 @@ std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition()
         units::time::millisecond_t timestamp = currentTime - units::millisecond_t(position[6] / 1000.0);
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
-        return std::make_optional(VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp});
+        return VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp};
     }
-    else
-    {
-        return std::nullopt;
-    }
+
+    return std::nullopt;
 }
 
 std::optional<VisionPose> DragonLimelight::GetOriginFieldPosition()
@@ -151,12 +147,10 @@ std::optional<VisionPose> DragonLimelight::GetOriginFieldPosition()
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
 
-        return std::make_optional(VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp});
+        return VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp};
     }
-    else
-    {
-        return std::nullopt;
-    }
+
+    return std::nullopt;
 }
 
 std::vector<double> DragonLimelight::Get3DSolve()
@@ -234,8 +228,8 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
         units::angle::radian_t angleOffset = units::math::atan2(targetHorizOffsetRobotFrame, targetDistanceRobotFrame);
         return angleOffset;
     }
-    else
-        return std::nullopt;
+
+    return std::nullopt;
 }
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitch()
@@ -271,8 +265,8 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitchRobotFrame(
         units::angle::degree_t targetPitchToRobot = units::angle::degree_t(atan2(targetZDistance.value().to<double>(), targetXDistance.value().to<double>()));
         return targetPitchToRobot;
     }
-    else
-        return std::nullopt;
+
+    return std::nullopt;
 }
 
 std::optional<double> DragonLimelight::GetTargetArea()
@@ -304,8 +298,8 @@ std::optional<units::time::millisecond_t> DragonLimelight::GetPipelineLatency()
     {
         return units::time::second_t(nt->GetNumber("tl", 0.0));
     }
-    else
-        return std::nullopt;
+
+    return std::nullopt;
 }
 
 void DragonLimelight::SetLEDMode(DragonLimelight::LED_MODE mode)
@@ -477,8 +471,8 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_Re
 
         return targetYoffset_RF_inch;
     }
-    else
-        return std::nullopt;
+
+    return std::nullopt;
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_RelToRobotCoords()
@@ -489,8 +483,8 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_Re
 
         return targetZoffset_RF_inch;
     }
-    else
-        return std::nullopt;
+
+    return std::nullopt;
 }
 
 std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
@@ -504,8 +498,7 @@ std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 
         frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
         auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
-        return std::make_optional(VisionData{transform, GetAprilTagID().value()});
+        return VisionData{transform, GetAprilTagID().value()};
     }
-    else
-        return std::nullopt;
+    return std::nullopt;
 }
