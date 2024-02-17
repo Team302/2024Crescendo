@@ -28,8 +28,13 @@ DriveToNote *DriveToNote::getInstance()
     }
     return DriveToNote::m_instance;
 }
+auto vision = DragonVision::GetDragonVision();
 
 void DriveToNote::Init()
 {
     DriveToNote *dtnvisiondata = DriveToNote::getInstance();
+    if (vision != nullptr)
+    {
+        auto visiondata = vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
+        }
 }
