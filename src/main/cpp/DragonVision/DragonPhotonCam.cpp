@@ -74,7 +74,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
             // Final pose = Robot (field relative)
             frc::Pose3d fieldRelPose = fieldRelativeTagPose + camToTargetTransform.Inverse() + m_robotCenterToCam.Inverse();
 
-            units::time::millisecond_t timestamp = frc::Timer::GetFPGATimestamp();
+            units::time::millisecond_t timestamp = frc::Timer::GetFPGATimestamp() - result.GetLatency();
 
             // Get the pose ambiguity from PhotonVision
             double ambiguity = target.GetPoseAmbiguity();
