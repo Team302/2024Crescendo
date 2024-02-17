@@ -7,6 +7,7 @@ void DragonVisionStructLogger::logVisionData( const std::string& loggerName, con
     {
         frc::Transform3d testTransform = optVisionData.value().deltaToTarget;
         logTransform3d(loggerName, testTransform);
+        logRotation3d(loggerName, testTransform.Rotation());
     }
     else
     {
@@ -32,9 +33,12 @@ void DragonVisionStructLogger::logTranslation3d(const std::string &loggerName, c
 
 void DragonVisionStructLogger::logRotation3d(const std::string &loggerName, const frc::Rotation3d rotation3d)
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("x:Roll"), std::to_string(rotation3d.X().to<double>()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("y:Pitch"), std::to_string(rotation3d.Y().to<double>()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("z:Yaw"), std::to_string(rotation3d.Z().to<double>()));
+    units::angle::degree_t roll = rotation3d.X();
+    units::angle::degree_t pitch = rotation3d.Y();
+    units::angle::degree_t yaw = rotation3d.Z();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("x:Roll"), std::to_string(roll.to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("y:Pitch"), std::to_string(pitch.to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("z:Yaw"), std::to_string(yaw.to<double>()));
 }
 
 void DragonVisionStructLogger::logDragonCamera(const std::string &loggerName, const DragonCamera &camera){

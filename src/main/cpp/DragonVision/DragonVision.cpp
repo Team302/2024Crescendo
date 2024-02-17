@@ -223,9 +223,18 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		break;
 	case VISION_ELEMENT::NOTE:
 	{
-		// what happens if one of these is null?
-		bool lintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->HasTarget();
-		bool pintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->HasTarget();
+		bool lintakeHasDetection = false;
+		bool pintakeHasDetection = false;
+		//make sure cameras are set
+		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE] != nullptr)
+		{
+			lintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->HasTarget();
+		}
+		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE] != nullptr)
+		{
+			pintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->HasTarget();
+		}
+
 		if (!lintakeHasDetection && !pintakeHasDetection)
 		{
 			return std::nullopt;
@@ -257,12 +266,9 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	{
 		// create translation using 3 estimated distances
 		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->EstimateTargetXDistance_RelToRobotCoords(), selectedCam->EstimateTargetYDistance_RelToRobotCoords(), selectedCam->EstimateTargetZDistance_RelToRobotCoords());
-		DragonVisionStructLogger::logDragonCamera("selectedCam", *selectedCam);
-		DragonVisionStructLogger::logTranslation3d("translationToNote", translationToNote);
 
 		// create rotation3d with pitch and yaw (don't have access to roll)
 		frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame(), selectedCam->GetTargetYawRobotFrame());
-		DragonVisionStructLogger::logRotation3d("rotationToNote", rotationToNote);
 
 		// return VisionData with new translation and rotation
 		return std::optional<VisionData>{frc::Transform3d(translationToNote, rotationToNote)};
@@ -410,7 +416,10 @@ DragonCamera::PIPELINE DragonVision::GetPipeline(RobotElementNames::CAMERA_USAGE
 
 void DragonVision::testAndLogVisionData()
 {
-	std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::PLACER_NOTE);
-	DragonVisionStructLogger::logVisionData("VisionData", testData);
+	if (true){
+		std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
+		DragonVisionStructLogger::logVisionData("VisionData", testData);
+	}
+	
 
 }
