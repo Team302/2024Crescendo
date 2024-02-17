@@ -72,5 +72,5 @@ bool holdFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 	auto currentstate = m_mechanism->GetCurrentState();
 	bool visionTargetAcquired = m_mechanism->HasVisionTarget(); // todo be set later with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 
-	return ((feederSensor && launcherSensor) || (currentstate == m_genState->GetnoteManager()->STATE_READY_AUTO_LAUNCH && visionTargetAcquired == false));
+	return ((feederSensor && launcherSensor && (currentstate == m_mechanism->STATE_FEEDER_INTAKE)) || ((currentstate == m_mechanism->STATE_READY_AUTO_LAUNCH) && visionTargetAcquired == false));
 }

@@ -124,9 +124,7 @@ units::length::meter_t noteManager::GetVisionDistance()
 	{
 		frc::Transform3d deltaToTarget{optionalVisionData.value().deltaToTarget};
 		frc::Translation3d translate{deltaToTarget.Translation()};
-		double x{translate.X().to<double>()};
-		double y{translate.Y().to<double>()};
-		distance = units::length::meter_t(std::hypot(x, y));
+		distance = units::math::hypot(translate.X(), translate.Y());
 	}
 	return distance;
 }
