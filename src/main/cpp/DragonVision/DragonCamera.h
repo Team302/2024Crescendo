@@ -98,12 +98,12 @@ public:
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }
-    units::angle::degree_t GetCameraPitch() const { return m_robotCenterToCam.Rotation().Y(); }
-    units::angle::degree_t GetCameraYaw() const { return m_robotCenterToCam.Rotation().Z(); }
-    units::angle::degree_t GetCameraRoll() const { return m_robotCenterToCam.Rotation().X(); } // rotates around x-axis
-    units::length::inch_t GetMountingXOffset() const { return m_robotCenterToCam.X(); }
-    units::length::inch_t GetMountingYOffset() const { return m_robotCenterToCam.Y(); }
-    units::length::inch_t GetMountingZOffset() const { return m_robotCenterToCam.Z(); }
+    units::angle::degree_t GetCameraPitch() const { return m_cameraPose.Rotation().Y(); }
+    units::angle::degree_t GetCameraYaw() const { return m_cameraPose.Rotation().Z(); }
+    units::angle::degree_t GetCameraRoll() const { return m_cameraPose.Rotation().X(); } // rotates around x-axis
+    units::length::inch_t GetMountingXOffset() const { return m_cameraPose.X(); }
+    units::length::inch_t GetMountingYOffset() const { return m_cameraPose.Y(); }
+    units::length::inch_t GetMountingZOffset() const { return m_cameraPose.Z(); }
     std::string GetCameraName() const { return m_cameraName; }
 
     frc::Transform3d GetTransformFromRobotCenter() const

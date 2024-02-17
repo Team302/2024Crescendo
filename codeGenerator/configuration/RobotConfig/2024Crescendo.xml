@@ -8399,7 +8399,7 @@
         </Camera>
         <Camera
           xsi:type="Limelight">
-          <name>PINTAKE</name>
+          <name>pintake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>doubleParameter</name>
@@ -8440,7 +8440,7 @@
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>0</value>
+            <value>180</value>
           </roll>
         </Camera>
       </Cameras>

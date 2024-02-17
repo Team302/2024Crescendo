@@ -59,7 +59,7 @@ DragonLimelight::DragonLimelight(
     CAM_MODE camMode,
     STREAM_MODE streamMode,
     SNAPSHOT_MODE snapMode) : DragonCamera(networkTableName, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(networkTableName.c_str()))
+                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(std::string("limelight-" + networkTableName)))
 {
     SetPipeline(initialPipeline);
     SetLEDMode(ledMode);
@@ -384,7 +384,7 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance()
 {
     units::length::meter_t mountingHeight = m_cameraPose.Z();
 
-    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
+    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Y();
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("EstimateTargetXDistance"), std::string("GetAprilTagID()"), GetAprilTagID());
     if (GetAprilTagID() == -1)
