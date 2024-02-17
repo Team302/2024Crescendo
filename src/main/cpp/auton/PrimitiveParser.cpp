@@ -24,6 +24,8 @@
 #include <auton/PrimitiveParser.h>
 #include <auton/ZoneParams.h>
 #include <auton/ZoneParser.h>
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include <auton/drivePrimitives/IPrimitive.h>
 #include "utils/logging/Logger.h"
 #include <pugixml/pugixml.hpp>
