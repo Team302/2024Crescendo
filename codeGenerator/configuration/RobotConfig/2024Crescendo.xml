@@ -5897,7 +5897,7 @@
       <Cameras>
         <Camera
           xsi:type="Limelight">
-          <name>PlacerIntake</name>
+          <name>P_INTAKE</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -5989,7 +5989,7 @@
         </Camera>
         <Camera
           xsi:type="Limelight">
-          <name>LauncherIntake</name>
+          <name>L_INTAKE</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -8388,6 +8388,52 @@
             <__units__>deg</__units__>
             <type>Double</type>
             <value>180</value>
+          </yaw>
+          <roll>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </roll>
+        </Camera>
+        <Camera
+          xsi:type="Limelight">
+          <name>PINTAKE</name>
+          <mountingXOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>m</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </mountingXOffset>
+          <mountingYOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>m</__units__>
+            <type>Double</type>
+            <value>0.185</value>
+          </mountingYOffset>
+          <mountingZOffset>
+            <unitsFamily>length</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>m</__units__>
+            <type>Double</type>
+            <value>0.57</value>
+          </mountingZOffset>
+          <pitch>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
+          </pitch>
+          <yaw>
+            <unitsFamily>angle</unitsFamily>
+            <name>doubleParameter</name>
+            <__units__>deg</__units__>
+            <type>Double</type>
+            <value>0</value>
           </yaw>
           <roll>
             <unitsFamily>angle</unitsFamily>
