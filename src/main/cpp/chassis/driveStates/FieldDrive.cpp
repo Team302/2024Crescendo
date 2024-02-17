@@ -38,12 +38,12 @@ std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(Chass
     if (m_chassis != nullptr)
     {
         auto rot2d = Rotation2d(m_chassis->GetYaw());
-        auto fieldRelativeSpeeds = ChassisSpeeds::FromFieldRelativeSpeeds(chassisMovement.chassisSpeeds.vx,
-                                                                          chassisMovement.chassisSpeeds.vy,
-                                                                          chassisMovement.chassisSpeeds.omega,
-                                                                          rot2d);
+        chassisMovement.chassisSpeeds = ChassisSpeeds::FromFieldRelativeSpeeds(chassisMovement.chassisSpeeds.vx,
+                                                                               chassisMovement.chassisSpeeds.vy,
+                                                                               chassisMovement.chassisSpeeds.omega,
+                                                                               rot2d);
 
-        chassisMovement.chassisSpeeds = frc::ChassisSpeeds::Discretize(fieldRelativeSpeeds, units::time::millisecond_t(20.0));
+        // chassisMovement.chassisSpeeds = frc::ChassisSpeeds::Discretize(fieldRelativeSpeeds, units::time::millisecond_t(20.0));
     }
     else
     {

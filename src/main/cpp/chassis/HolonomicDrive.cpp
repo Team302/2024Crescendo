@@ -130,11 +130,14 @@ void HolonomicDrive::Run()
             }
             else
             {
-                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05))
+                if (m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER)
                 {
-                    m_previousDriveState = m_moveInfo.driveOption;
-                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
+                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05))
+                    {
+                        m_previousDriveState = m_moveInfo.driveOption;
+                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
+                    }
                 }
             }
         }
