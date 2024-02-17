@@ -386,8 +386,11 @@ units::length::inch_t DragonLimelight::EstimateTargetXDistance()
 
     units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
 
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("EstimateTargetXDistance"), std::string("GetAprilTagID()"), GetAprilTagID());
     if (GetAprilTagID() == -1)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("EstimateTargetXDistance"), std::string("m_noteVerticalOffset"), m_noteVerticalOffset.to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("EstimateTargetXDistance"), std::string("GetTargetPitch"), GetTargetPitch().to<double>());
         // d=(h2-h1)/tan(a1+a2)
         units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / units::math::tan(mountingAngle + GetTargetPitch());
 
