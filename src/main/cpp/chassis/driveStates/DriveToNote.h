@@ -19,6 +19,8 @@
 #include <vector>
 
 // FRC Includes
+#include <frc/geometry/Rotation3d.h>
+#include <frc/geometry/Rotation2d.h>
 
 // Team302 Includes
 #include "chassis/driveStates/RobotDrive.h"
@@ -34,6 +36,7 @@ public:
 
     void Init();
     static DriveToNote *getInstance();
+    static units::angle::degree_t getNoteDirection();
 
 private:
     static DriveToNote *m_instance;

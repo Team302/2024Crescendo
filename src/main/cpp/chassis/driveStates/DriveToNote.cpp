@@ -14,10 +14,13 @@
 //=====================================================================================================================================================
 
 // FRC Includes
+#include <frc/geometry/Rotation3d.h>
+#include <frc/geometry/Rotation2d.h>
 
 // Team302 Includes
 #include "DragonVision/DragonVision.h"
 #include "chassis/driveStates/DriveToNote.h"
+#include "DragonVision/DragonVisionStructs.h"
 
 DriveToNote *DriveToNote::m_instance = nullptr;
 DriveToNote *DriveToNote::getInstance()
@@ -28,13 +31,26 @@ DriveToNote *DriveToNote::getInstance()
     }
     return DriveToNote::m_instance;
 }
-auto vision = DragonVision::GetDragonVision();
+auto visiondata = DragonVision::GetDragonVision();
+
+static units::angle::degree_t getNoteDirection()
+{
+    if (visiondata != nullptr)
+    {
+        auto notedata = visiondata->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
+        if (notedata)
+        {
+            frc::Transform3d notetransform = notedata.value().deltaToTarget;
+            frc::Rotation3d notedirection3d = notetransform.Rotation();
+            frc::Rotation2d notedirection2d = notedirection3d.ToRotation2d();
+            units::angle::degree_t notedirectiondegrees = notedirection2d.Degrees();
+            return notedirectiondegrees;
+        }
+    }
+}
 
 void DriveToNote::Init()
 {
     DriveToNote *dtnvisiondata = DriveToNote::getInstance();
-    if (vision != nullptr)
-    {
-        auto visiondata = vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
-        }
+    units::angle::degree_t currentnotedirection = dtnvisiondata->getNoteDirection();
 }
