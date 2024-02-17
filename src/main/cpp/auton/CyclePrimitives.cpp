@@ -156,24 +156,17 @@ grab the mechanism and set the state mgr to set the current state (We already ha
 {
 	if (params != nullptr)
 	{
-		StateMgr *ns = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+		PrimitiveParams *ns = PrimitiveParams::GetNoteState();
 
-		for (xml_attribute attr = zonenode.first_attribute(); attr; attr = attr.next_attribute())
+		if (ns != nullptr)
 		{
-			auto itr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
-			if (itr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
-			{
+		}
 
-				noteManagerGen::stringToSTATE_NAMESEnumMap = itr->second;
-			}
-			ns->SetCurrentState(static_cast(attr.value(), true));
-
-			StateMgr *cs = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
-			if (cs != nullptr)
-			{
-				int climberState = cs->GetCurrentState();
-				cs->SetCurrentState(climberState, true);
-			}
+		StateMgr *cs = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
+		if (cs != nullptr)
+		{
+			int climberState = cs->GetCurrentState();
+			cs->SetCurrentState(climberState, true);
 		}
 	}
 
