@@ -52,6 +52,8 @@ public:
     std::optional<VisionPose> GetFieldPosition();
     std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
 
+    std::optional<VisionPose> GetMultiTagEstimate();
+
     units::length::inch_t EstimateTargetXDistance();
     units::length::inch_t EstimateTargetYDistance();
     units::length::inch_t EstimateTargetZDistance();
