@@ -93,15 +93,16 @@ public:
 
     bool HasTarget();
 
-    units::angle::degree_t GetTargetYaw();
-    units::angle::degree_t GetTargetYawRobotFrame();
-    units::angle::degree_t GetTargetPitch();
-    units::angle::degree_t GetTargetPitchRobotFrame();
-    double GetTargetArea();
-    units::angle::degree_t GetTargetSkew();
-    units::time::millisecond_t GetPipelineLatency();
+    std::optional<units::angle::degree_t> GetTargetYaw();
+    std::optional<units::angle::degree_t> GetTargetYawRobotFrame();
+    std::optional<units::angle::degree_t> GetTargetPitch();
+    std::optional<units::angle::degree_t> GetTargetPitchRobotFrame();
+    std::optional<double> GetTargetArea();
+    std::optional<units::angle::degree_t> GetTargetSkew();
+    std::optional<units::time::millisecond_t> GetPipelineLatency();
+    std::optional<int> GetAprilTagID();
+
     std::vector<double> Get3DSolve();
-    int GetAprilTagID();
 
     std::optional<VisionPose> GetFieldPosition();
     std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
@@ -112,13 +113,13 @@ public:
 
     std::optional<VisionData> GetDataToNearestAprilTag();
 
-    units::length::inch_t EstimateTargetXDistance();
-    units::length::inch_t EstimateTargetYDistance();
-    units::length::inch_t EstimateTargetZDistance();
+    std::optional<units::length::inch_t> EstimateTargetXDistance();
+    std::optional<units::length::inch_t> EstimateTargetYDistance();
+    std::optional<units::length::inch_t> EstimateTargetZDistance();
 
-    units::length::inch_t EstimateTargetXDistance_RelToRobotCoords();
-    units::length::inch_t EstimateTargetYDistance_RelToRobotCoords();
-    units::length::inch_t EstimateTargetZDistance_RelToRobotCoords();
+    std::optional<units::length::inch_t> EstimateTargetXDistance_RelToRobotCoords();
+    std::optional<units::length::inch_t> EstimateTargetYDistance_RelToRobotCoords();
+    std::optional<units::length::inch_t> EstimateTargetZDistance_RelToRobotCoords();
 
     // Setters
     void SetLEDMode(DragonLimelight::LED_MODE mode);
@@ -137,6 +138,4 @@ protected:
     units::angle::degree_t GetTy() const;
 
     std::shared_ptr<nt::NetworkTable> m_networktable;
-
-private:
 };

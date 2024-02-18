@@ -2,19 +2,19 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname= "BlueAmpWing2Center0.path"/>
+    <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "BlueAmpWing2Center0"/>
 
-<snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStop.xml"/>
 
-<primitive id = "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing2Center0.path"/>
+    <primitive id = "DRIVE_PATH_PLANNER"
+                pathname= "BlueAmpWing2Center0"/>
 
-<snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStop.xml"/>
 
-<!--Zones to shoot:
-V9-X11
--->
+    <!--Zones to shoot:
+    V9-X11
+    -->
 
 
 </auton>
