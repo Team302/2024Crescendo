@@ -29,8 +29,7 @@ public:
 
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 
-    void Init(
-        ChassisMovement &chassisMovement) override;
+    void Init(ChassisMovement &chassisMovement) override;
 
 private:
     RobotDrive *m_robotDrive;

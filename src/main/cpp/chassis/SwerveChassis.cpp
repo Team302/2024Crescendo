@@ -204,9 +204,10 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
     auto state = GetSpecifiedDriveState(moveInfo.driveOption);
 
     auto isHoldDrive = moveInfo.driveOption == ChassisOptionEnums::HOLD_DRIVE;
+    auto isStopDrive = moveInfo.driveOption == ChassisOptionEnums::STOP_DRIVE;
     auto hasTrajectory = moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER;
 
-    if (!hasTrajectory && !isHoldDrive &&
+    if (!hasTrajectory && !isHoldDrive && !isStopDrive &&
         (units::math::abs(moveInfo.chassisSpeeds.vx) < m_velocityDeadband) &&
         (units::math::abs(moveInfo.chassisSpeeds.vy) < m_velocityDeadband) &&
         (units::math::abs(moveInfo.chassisSpeeds.omega) < m_angularDeadband))

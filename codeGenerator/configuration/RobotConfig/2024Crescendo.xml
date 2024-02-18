@@ -5903,13 +5903,13 @@
       <Cameras>
         <Camera
           xsi:type="Limelight">
-          <name>P_Intake</name>
+          <name>PIntake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>-13.136</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
@@ -5921,16 +5921,16 @@
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>18.397</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>0</value>
+            <value>-25</value>
           </pitch>
           <yaw>
             <unitsFamily>angle</unitsFamily>
@@ -5953,9 +5953,9 @@
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>-13.402</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
@@ -5967,16 +5967,16 @@
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>21.607</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>0</value>
+            <value>19.3</value>
           </pitch>
           <yaw>
             <unitsFamily>angle</unitsFamily>
@@ -5995,13 +5995,13 @@
         </Camera>
         <Camera
           xsi:type="Limelight">
-          <name>L_Intake</name>
+          <name>LIntake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>11.76</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
@@ -6013,16 +6013,16 @@
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>12.128</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>0</value>
+            <value>-30</value>
           </pitch>
           <yaw>
             <unitsFamily>angle</unitsFamily>
@@ -6047,21 +6047,21 @@
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>-2</value>
+            <value>7.31</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>-8.5</value>
+            <value>9.614</value>
           </mountingYOffset>
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>26</value>
+            <value>22.931</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>

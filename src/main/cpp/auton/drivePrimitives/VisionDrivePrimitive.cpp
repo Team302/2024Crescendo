@@ -29,7 +29,8 @@
 #include "utils/logging/Logger.h"
 #include <iostream>
 
-VisionDrivePrimitive::VisionDrivePrimitive() : m_chassis(nullptr),
+VisionDrivePrimitive::VisionDrivePrimitive() : IPrimitive(),
+                                               m_chassis(nullptr),
                                                m_headingOption(ChassisOptionEnums::HeadingOption::MAINTAIN),
                                                m_ntName("VisionDrivePrimitive"),
                                                m_timer(new frc::Timer()),
