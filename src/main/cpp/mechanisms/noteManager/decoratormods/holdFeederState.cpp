@@ -51,6 +51,7 @@ void holdFeederState::Init()
 void holdFeederState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederState"), string("run"));
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("holdFeederState "), m_mechanism->HasVisionTarget() ? "Has vision target" : "Does not have vision target");
 	m_genState->Run();
 }
 

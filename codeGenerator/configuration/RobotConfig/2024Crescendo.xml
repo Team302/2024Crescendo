@@ -6079,7 +6079,7 @@
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>5</value>
+            <value>0</value>
           </pitch>
           <yaw>
             <unitsFamily>angle</unitsFamily>
