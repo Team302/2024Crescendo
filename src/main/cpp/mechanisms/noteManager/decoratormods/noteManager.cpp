@@ -123,6 +123,14 @@ units::length::meter_t noteManager::GetVisionDistance()
 	if (optionalVisionData)
 	{
 		frc::Translation3d translate{optionalVisionData.value().translationToTarget};
+		frc::Transform3d transform{optionalVisionData.value().transformToTarget};
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance X meter"), transform.X().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance Y meter"), transform.Y().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance Z meter"), transform.Z().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance roll deg"), transform.Rotation().X().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance pitch deg"), transform.Rotation().Y().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance yaw deg"), transform.Rotation().Z().to<double>());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance april tag"), optionalVisionData.value().tagId);
 		double x{translate.X().to<double>()};
 		double y{translate.Y().to<double>()};
 		distance = units::length::meter_t(std::hypot(x, y));
