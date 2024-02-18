@@ -87,7 +87,24 @@ namespace CoreCodeGenerator
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$", ToUnderscoreCase(mi.name).ToUpper());
-                        resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(generateMethod(mi, "generateIndexedObjectCreation"), ";"));
+
+                        List<string> createCode = new List<string>
+                        {
+                            "if(false){}"
+                        };
+
+                        foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
+                        {
+                            mechanismInstance mis = r.mechanismInstances.Find(m => m.name == mi.name);
+                            if (mis != null)
+                            {
+                                createCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == m_activeRobotId)", ToUnderscoreDigit(ToUnderscoreCase(r.getFullRobotName())).ToUpper()));
+                                createCode.Add("{");
+                                createCode.AddRange(generateMethod(mis, "generateIndexedObjectCreation"));
+                                createCode.Add("}");
+                            }
+                        }
+                        resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(createCode));
 
                         List<string> theUsings = generateMethod(mi, "generateUsings").Distinct().ToList();
                         resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";").Trim());

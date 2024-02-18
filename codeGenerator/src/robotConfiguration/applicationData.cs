@@ -858,7 +858,7 @@ namespace ApplicationData
 
         public override List<string> generateIndexedObjectCreation(int index)
         {
-            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}))",
+            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}));",
                                             name,
                                             getImplementationName(),
                                             utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
@@ -1537,7 +1537,7 @@ namespace ApplicationData
                                                             {12}, // double peakValue
                                                             {13}, // double nominalValue
                                                             {14}  // bool enableFOC
-                )",
+                );",
             name,
                 getImplementationName(),
                 controlTypeStr,
