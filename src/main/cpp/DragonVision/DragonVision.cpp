@@ -414,12 +414,14 @@ DragonCamera::PIPELINE DragonVision::GetPipeline(RobotElementNames::CAMERA_USAGE
 	return m_dragonCameraMap[position]->GetPipeline();
 }
 
+/*****************
+ * testAndLogVisionData:  Test and log the vision data
+ * add this line to teleopPeriodic to test and log vision data
+ *
+ *     DragonVision::GetDragonVision()->testAndLogVisionData();
+ */
 void DragonVision::testAndLogVisionData()
 {
-	if (true){
-		std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
-		DragonVisionStructLogger::logVisionData("VisionData", testData);
-	}
-	
-
+	std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
+	DragonVisionStructLogger::logVisionData("VisionData", testData);
 }
