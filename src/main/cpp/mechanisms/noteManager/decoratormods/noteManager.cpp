@@ -176,9 +176,9 @@ double noteManager::GetRequiredLaunchAngle()
 
 bool noteManager::autoLaunchReady()
 {
-	if (HasVisionTarget())
+	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	if (optionalVisionData.has_value())
 	{
-		std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 		VisionData visionData = optionalVisionData.value();
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance Y"), visionData.transformToTarget.Y().to<double>());
 		if (visionData.transformToTarget.Y().to<double>() <= 0.5 && GetVisionDistance().to<double>() <= 3.0)
