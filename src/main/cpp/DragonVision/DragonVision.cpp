@@ -332,6 +332,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
 		frc::Rotation3d rotation = frc::Rotation3d(roll, pitch, yaw);
 
+		// rebundle into vision data with april tag thats used
 		return VisionData{transformToElement, transformToElement.Translation(), rotation, -1};
 	}
 
