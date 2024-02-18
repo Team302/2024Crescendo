@@ -45,7 +45,8 @@ using namespace frc;
 //========================================================================================================
 
 /// @brief constructor that creates/initializes the object
-DriveStop::DriveStop() : m_maxTime(units::time::second_t(0.0)),
+DriveStop::DriveStop() : IPrimitive(),
+						 m_maxTime(units::time::second_t(0.0)),
 						 m_currentTime(0.0),
 						 m_chassis(nullptr),
 						 m_timer(make_unique<Timer>())
