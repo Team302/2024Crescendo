@@ -120,7 +120,7 @@ void CyclePrimitives::GetNextPrim()
 		{
 			m_currentPrim->Init(currentPrimParam);
 
-			StateMgrHelper::SetMechanismStateFromParam(currentPrimParam);
+			SetMechanismStatesFromParam(currentPrimParam);
 
 			m_maxTime = currentPrimParam->GetTime();
 			m_timer->Reset();
@@ -155,42 +155,20 @@ void CyclePrimitives::RunDriveStop()
 	m_driveStop->Run();
 }
 
-void CyclePrimitives::SetMechanismStateFromParam(PrimitiveParams *params)
-/*Make it so then if the parameters arent a nullptr,
-grab the mechanism and set the state mgr to set the current state (We already have an enum to set it)*/
+void CyclePrimitives::SetMechanismStatesFromParam(PrimitiveParams *params)
 {
 	if (params != nullptr)
 	{
-		PrimitiveParams *ns = PrimitiveParams::GetNoteState();
-
-		if (ns != nullptr)
+		auto noteMgr = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+		if (noteMgr != nullptr && params->IsNoteStateChanging())
 		{
+			noteMgr->SetCurrentState(params->GetNoteState(), true);
 		}
 
-		StateMgr *cs = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
-		if (cs != nullptr)
+		auto climbMgr = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
+		if (climbMgr != nullptr && params->IsClimberStateChanging())
 		{
-			int climberState = cs->GetCurrentState();
-			cs->SetCurrentState(climberState, true);
-		}
-	}
-
-	/**
-	if (params != nullptr)
-	{
-		for (auto i = MechanismTypes::MECHANISM_TYPE::UNKNOWN_MECHANISM + 1; i < MechanismTypes::MECHANISM_TYPE::MAX_MECHANISM_TYPES; ++i)
-		{
-			auto mech = MechanismFactory::GetMechanismFactory()->GetMechanism(static_cast<MechanismTypes::MECHANISM_TYPE>(i));
-			auto stateMgr = mech != nullptr ? mech->GetStateMgr() : nullptr;
-			if (stateMgr != nullptr)
-			{
-				auto stateID = stateMgr->GetCurrentStateParam(params);
-				if (stateID > -1)
-				{
-					stateMgr->SetCurrentState(stateID, true);
-				}
-			}
+			noteMgr->SetCurrentState(params->GetClimberState(), true);
 		}
 	}
-	**/
 }
