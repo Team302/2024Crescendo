@@ -29,12 +29,6 @@ StopDrive::StopDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis
 std::array<frc::SwerveModuleState, 4> StopDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 
 {
-    if (chassisMovement.checkTipping)
-    {
-        AntiTip::CorrectForTipping(chassisMovement, m_maxspeed); // TODO:  can we remove this; robot drive handles this
-        return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
-    }
-
     return {*m_flState, *m_frState, *m_blState, *m_brState};
 }
 

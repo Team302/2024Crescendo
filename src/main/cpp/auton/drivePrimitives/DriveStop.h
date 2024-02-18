@@ -24,7 +24,7 @@
 
 // Team 302 includes
 #include "auton/drivePrimitives/IPrimitive.h"
-#include "chassis/IChassis.h"
+#include "chassis/SwerveChassis.h"
 
 // Third Party Includes
 
@@ -66,7 +66,7 @@ public:
 private:
 	units::time::second_t m_maxTime;	 // Target time
 	float m_currentTime; // Time since init
-	IChassis *m_chassis;
+	SwerveChassis *m_chassis;
 	std::unique_ptr<frc::Timer> m_timer;
 	double m_heading;
 };
