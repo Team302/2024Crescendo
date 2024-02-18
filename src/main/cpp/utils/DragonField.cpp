@@ -13,11 +13,16 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include <string>
+
 // FRC Includes
-#include <frc/smartdashboard/SmartDashboard.h>
+#include "frc/smartdashboard/SmartDashboard.h"
 
 // Team 302 Includes
-#include <utils/DragonField.h>
+#include "utils/DragonField.h"
+#include "utils/logging/Logger.h"
+
+using std::string;
 
 DragonField *DragonField::m_instance = nullptr;
 
@@ -38,6 +43,10 @@ DragonField::DragonField() : m_field(),
 
 void DragonField::UpdateRobotPosition(frc::Pose2d robotPose)
 {
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonField"), string("Pose X "), robotPose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonField"), string("Pose Y "), robotPose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("DragonField"), string("Pose Omega "), robotPose.Rotation().Degrees().to<double>());
+
     m_field.SetRobotPose(robotPose);
 }
 

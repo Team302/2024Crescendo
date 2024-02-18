@@ -18,41 +18,40 @@
 #include <string>
 
 // Team 302 includes
+#include "auton/drivePrimitives/IPrimitive.h"
 #include "auton/drivePrimitives/ResetPositionPathPlanner.h"
 #include "auton/PrimitiveParams.h"
-#include "auton/drivePrimitives/IPrimitive.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "chassis/SwerveChassis.h"
 #include "utils/logging/Logger.h"
-#include "DragonVision/DragonVision.h"
 
 // Third Party Includes
-#include "pathplanner/lib/path/PathPlannerTrajectory.h"
+//#include "pathplanner/lib/path/PathPlannerTrajectory.h"
 #include "pathplanner/lib/path/PathPlannerPath.h"
 
 using namespace std;
 using namespace frc;
 using namespace pathplanner;
 
-ResetPositionPathPlanner::ResetPositionPathPlanner() : m_chassis()
+ResetPositionPathPlanner::ResetPositionPathPlanner() : IPrimitive()
 {
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 
-void ResetPositionPathPlanner::Init(PrimitiveParams *params)
+void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 {
-    // TODO:  things have been obsoleted in 2024, so we need to re-work this
-    // m_trajectory = pathplanner::PathPlanner::loadPath(params->GetPathName(), pathplanner::PathConstraints(4.5_mps, 2.75_mps_sq));
-    // m_chassis->ResetPose(m_trajectory.getInitialHolonomicPose());
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Reset Position PathPlanner"), string("Auton Info: ResetPosX"), m_chassis->GetPose().X().to<double>());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Reset Position PathPlanner"), string("Auton Info: ResetPosY"), m_chassis->GetPose().Y().to<double>());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Reset Position PathPlanner"), string("Auton Info: ResetPosRot"), m_chassis->GetPose().Rotation().Degrees().to<double>());
-
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Reset Position PathPlanner"), string("Auton Info: InitialPoseX"), m_trajectory.getInitialHolonomicPose().X().to<double>());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Reset Position PathPlanner"), string("Auton Info: InitialPoseY"), m_trajectory.getInitialHolonomicPose().Y().to<double>());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Reset Position PathPlanner"), string("Auton Info: InitialPoseOmega"), m_trajectory.getInitialHolonomicPose().Rotation().Degrees().to<double>());
+    if (chassis != nullptr)
+    {
+        auto path = PathPlannerPath::fromPathFile(param->GetPathName());
+        if (path.get() != nullptr)
+        {
+            auto pose = path.get()->getPreviewStartingHolonomicPose();
+            chassis->ResetPose(pose);
+        }
+    }
 }
 
 void ResetPositionPathPlanner::Run()

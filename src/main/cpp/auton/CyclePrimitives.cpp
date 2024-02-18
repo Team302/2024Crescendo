@@ -157,15 +157,16 @@ void CyclePrimitives::RunDriveStop()
 
 void CyclePrimitives::SetMechanismStatesFromParam(PrimitiveParams *params)
 {
-	if (params != nullptr)
+	auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+	if (params != nullptr && config != nullptr)
 	{
-		auto noteMgr = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+		auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
 		if (noteMgr != nullptr && params->IsNoteStateChanging())
 		{
 			noteMgr->SetCurrentState(params->GetNoteState(), true);
 		}
 
-		auto climbMgr = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
+		auto climbMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
 		if (climbMgr != nullptr && params->IsClimberStateChanging())
 		{
 			noteMgr->SetCurrentState(params->GetClimberState(), true);
