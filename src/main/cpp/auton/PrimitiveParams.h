@@ -52,7 +52,9 @@ public:
                     std::string pathName,
                     ZoneParamsVector zones, // create zones parameter of type
                     VISION_ALIGNMENT visionAlignment,
+                    bool changeNoteState,
                     noteManagerGen::STATE_NAMES noteState,
+                    bool changeClimberState,
                     ClimberManagerGen::STATE_NAMES climberState); // create zones parameter of type ZonesParamsVector
 
     PrimitiveParams() = delete;
@@ -80,7 +82,9 @@ private:
     std::string m_pathName;
 
     VISION_ALIGNMENT m_visionAlignment;
+    bool m_changeNoteState;
     noteManagerGen::STATE_NAMES m_noteState;
+    bool m_changeClimberState;
     ClimberManagerGen::STATE_NAMES m_climberState;
 
     ZoneParamsVector m_zones;

@@ -16,21 +16,20 @@
 #include <map>
 #include <string>
 
-#include <frc/Filesystem.h>
+#include "frc/Filesystem.h"
 
-#include <auton/AutonSelector.h>
-#include <auton/PrimitiveEnums.h>
-#include <auton/PrimitiveParams.h>
-#include <auton/PrimitiveParser.h>
-#include <auton/ZoneParams.h>
-#include <auton/ZoneParser.h>
-#include "mechanisms/noteManager/generated/noteManagerGen.h"
+#include "auton/PrimitiveParams.h"
+#include "auton/PrimitiveParser.h"
+#include "auton/ZoneParams.h"
+#include "auton/ZoneParser.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
-#include <auton/drivePrimitives/IPrimitive.h>
-#include "utils/logging/Logger.h"
-#include <pugixml/pugixml.hpp>
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/MechanismTypes.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
+#include "utils/logging/Logger.h"
+
+#include <pugixml/pugixml.hpp>
+
 using namespace std;
 using namespace pugi;
 
@@ -126,7 +125,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     auto visionAlignment = PrimitiveParams::VISION_ALIGNMENT::UNKNOWN;
 
                     auto noteStates = noteManagerGen::STATE_OFF;
+                    bool changeNoteState = false;
                     auto climberState = ClimberManagerGen::STATE_OFF;
+                    bool changeClimberState = false;
                     auto robotConfigMgr = RobotConfigMgr::GetInstance();
                     std::string pathName;
                     ZoneParamsVector zones;
@@ -183,6 +184,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                 if (noteStateItr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
                                 {
                                     noteStates = noteStateItr->second;
+                                    changeNoteState = true;
                                 }
                             }
                         }
@@ -194,6 +196,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                 if (climberStateItr != ClimberManagerGen::stringToSTATE_NAMESEnumMap.end())
                                 {
                                     climberState = climberStateItr->second;
+                                    changeClimberState = true;
                                 }
                             }
                         }
@@ -217,12 +220,14 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
 
                         for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
                         {
-                            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("child"), child.name());
 
-                            if (strcmp(child.name(), "zone") == 0)
+                            for (xml_attribute attr = child.first_attribute(); attr; attr = attr.next_attribute())
                             {
-                                auto zone = ZoneParser::ParseXML(child); // create a zone params object
-                                zones.emplace_back(zone);                // adding to the vector
+                                if (strcmp(attr.name(), "filename") == 0)
+                                {
+                                    auto zone = ZoneParser::ParseXML(attr.value());
+                                    zones.emplace_back(zone);
+                                }
                             }
                         }
                     }
@@ -237,7 +242,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      zones, // vector of all zones included as part of the path
                                                                             // can have multiple zones as part of a complex path
                                                                      visionAlignment,
+                                                                     changeNoteState,
                                                                      noteStates,
+                                                                     changeClimberState,
                                                                      climberState));
                     }
                     else

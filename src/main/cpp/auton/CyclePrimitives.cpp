@@ -142,7 +142,9 @@ void CyclePrimitives::RunDriveStop()
 										  string(), // pathname
 										  ZoneParamsVector(),
 										  PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
+										  false,
 										  noteManagerGen::STATE_NAMES::STATE_OFF,
+										  false,
 										  ClimberManagerGen::STATE_NAMES::STATE_OFF);
 		m_driveStop = m_primFactory->GetIPrimitive(params);
 		m_driveStop->Init(params);
