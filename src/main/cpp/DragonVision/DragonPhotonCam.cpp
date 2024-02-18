@@ -472,13 +472,13 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
         frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
 
-        frc::Translation3d translation = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)}.Translation();
+        frc::Transform3d robotToTargetTransform = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)};
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0),        // roll
                                                    GetTargetPitchRobotFrame().value(), // pitch
                                                    GetTargetYawRobotFrame().value()};  // yaw
 
-        return VisionData{frc::Transform3d(translation, rotation), GetAprilTagID().value()};
+        return VisionData{robotToTargetTransform, robotToTargetTransform.Translation(), rotation, target.fiducialId};
     }
 
     return std::nullopt;

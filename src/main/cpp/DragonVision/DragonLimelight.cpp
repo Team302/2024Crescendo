@@ -34,6 +34,7 @@
 // Team 302 includes
 #include "DragonVision/DragonLimelight.h"
 #include "utils/logging/Logger.h"
+#include "DragonVision/DragonVision.h"
 
 // Third Party Includes
 
@@ -491,14 +492,15 @@ std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 {
     if (GetAprilTagID())
     {
-
         auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
 
         std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
 
         frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
         auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
-        return VisionData{transform, GetAprilTagID().value()};
+
+        return VisionData{transform, transform.Translation(), rotation, GetAprilTagID().value()};
     }
+
     return std::nullopt;
 }
