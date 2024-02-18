@@ -33,6 +33,7 @@ class AutonSelector;
 class IPrimitive;
 class PrimitiveFactory;
 class PrimitiveParams;
+class SwerveChassis;
 
 class CyclePrimitives : public State
 {
@@ -61,5 +62,6 @@ private:
 	std::unique_ptr<frc::Timer> m_timer;
 	units::time::second_t m_maxTime;
 	bool m_isDone;
+	SwerveChassis* m_chassis;
 	static void SetMechanismStatesFromParam(PrimitiveParams *params);
 };

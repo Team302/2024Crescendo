@@ -128,7 +128,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     bool changeNoteState = false;
                     auto climberState = ClimberManagerGen::STATE_OFF;
                     bool changeClimberState = false;
-                    auto robotConfigMgr = RobotConfigMgr::GetInstance();
+                    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
                     std::string pathName;
                     ZoneParamsVector zones;
 
@@ -178,7 +178,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         }
                         else if (strcmp(attr.name(), "notestate") == 0)
                         {
-                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
+                            if (config != nullptr && config->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
                             {
                                 auto noteStateItr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
                                 if (noteStateItr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
@@ -190,7 +190,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         }
                         else if (strcmp(attr.name(), "climberstate") == 0)
                         {
-                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
+                            if (config != nullptr && config->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
                             {
                                 auto climberStateItr = ClimberManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
                                 if (climberStateItr != ClimberManagerGen::stringToSTATE_NAMESEnumMap.end())
