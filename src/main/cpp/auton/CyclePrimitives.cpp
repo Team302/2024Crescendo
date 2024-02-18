@@ -36,8 +36,6 @@
 #include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 
-// @ADDMECH include for your mechanism state
-
 // Third Party Includes
 
 using frc::DriverStation;
@@ -50,7 +48,7 @@ CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 									 m_currentPrimSlot(0),
 									 m_currentPrim(nullptr),
 									 m_primFactory(PrimitiveFactory::GetInstance()),
-									 m_DriveStop(nullptr),
+									 m_driveStop(nullptr),
 									 m_autonSelector(new AutonSelector()),
 									 m_timer(make_unique<Timer>()),
 									 m_maxTime(units::time::second_t(0.0)),
@@ -60,20 +58,29 @@ CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 
 void CyclePrimitives::Init()
 {
-	m_currentPrimSlot = 0; // Reset current prim
 	m_primParams.clear();
+	m_currentPrimSlot = 0; // Reset current prim
+	m_currentPrim = nullptr;
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("About to parse XML file "), m_autonSelector->GetSelectedAutoFile().c_str());
 
 	m_primParams = PrimitiveParser::ParseXML(m_autonSelector->GetSelectedAutoFile());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("nPrims"), double(m_primParams.size()));
+
 	if (!m_primParams.empty())
 	{
 		GetNextPrim();
 	}
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("end init"), m_autonSelector->GetSelectedAutoFile().c_str());
 }
 
 void CyclePrimitives::Run()
 {
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Arrived at "), string("run"));
 	if (m_currentPrim != nullptr)
 	{
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("CurrentPrim "), string("run"));
 		m_currentPrim->Run();
 		if (m_currentPrim->IsDone())
 		{
@@ -82,6 +89,7 @@ void CyclePrimitives::Run()
 	}
 	else
 	{
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("CurrentPrim "), string("done"));
 		m_isDone = true;
 		m_primParams.clear();  // clear the primitive params vector
 		m_currentPrimSlot = 0; // Reset current prim slot
@@ -100,49 +108,44 @@ bool CyclePrimitives::AtTarget()
 
 void CyclePrimitives::GetNextPrim()
 {
-	PrimitiveParams *currentPrimParam = (m_currentPrimSlot < (int)m_primParams.size()) ? m_primParams[m_currentPrimSlot] : nullptr;
-
-	m_currentPrim = (currentPrimParam != nullptr) ? m_primFactory->GetIPrimitive(currentPrimParam) : nullptr;
-	if (m_currentPrim != nullptr)
+	if (!m_primParams.empty())
 	{
-		m_currentPrim->Init(currentPrimParam);
+		PrimitiveParams *currentPrimParam = (m_currentPrimSlot < (int)m_primParams.size()) ? m_primParams[m_currentPrimSlot] : nullptr;
 
-		StateMgrHelper::SetMechanismStateFromParam(currentPrimParam);
+		m_currentPrim = (currentPrimParam != nullptr) ? m_primFactory->GetIPrimitive(currentPrimParam) : nullptr;
+		if (m_currentPrim != nullptr)
+		{
+			m_currentPrim->Init(currentPrimParam);
 
-		m_maxTime = currentPrimParam->GetTime();
-		m_timer->Reset();
-		m_timer->Start();
+			StateMgrHelper::SetMechanismStateFromParam(currentPrimParam);
+
+			m_maxTime = currentPrimParam->GetTime();
+			m_timer->Reset();
+			m_timer->Start();
+		}
+
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Current Prim "), m_currentPrimSlot);
+
+		m_currentPrimSlot++;
 	}
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Current Prim "), m_currentPrimSlot);
-
-	m_currentPrimSlot++;
 }
 
 void CyclePrimitives::RunDriveStop()
 {
-	if (m_DriveStop == nullptr)
+	if (m_driveStop == nullptr)
 	{
 		auto time = DriverStation::GetMatchType() != DriverStation::MatchType::kNone ? DriverStation::GetMatchTime() : units::time::second_t(15.0);
 		auto params = new PrimitiveParams(DO_NOTHING, // identifier
 										  time,		  // time
 										  ChassisOptionEnums::HeadingOption::MAINTAIN,
-										  0.0, // heading
-											   //   0.0, // start drive speed
-											   //   0.0, // end drive speed
-										  string(),
-										  // DragonCamera::PIPELINE::UNKNOWN,
-										  // @ADDMECH mechanism state
-										  // ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE,
-										  // ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND,
-										  // IntakeStateMgr::INTAKE_STATE::HOLD,
+										  0.0,		// heading
+										  string(), // pathname
 										  ZoneParamsVector(),
 										  PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
-										  // Below are dummy values
 										  noteManagerGen::STATE_NAMES::STATE_OFF,
 										  ClimberManagerGen::STATE_NAMES::STATE_OFF);
-		m_DriveStop = m_primFactory->GetIPrimitive(params);
-		m_DriveStop->Init(params);
+		m_driveStop = m_primFactory->GetIPrimitive(params);
+		m_driveStop->Init(params);
 	}
-	m_DriveStop->Run();
+	m_driveStop->Run();
 }
