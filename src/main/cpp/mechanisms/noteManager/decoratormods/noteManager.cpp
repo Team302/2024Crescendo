@@ -161,14 +161,33 @@ double noteManager::GetRequiredLaunchAngle()
 		distanceFromTarget = GetVisionDistance().to<double>();
 		if (distanceFromTarget < 1.5)
 		{
-			launchAngle = -22;
+			launchAngle = -24;
 		}
 		else
 		{
-			distanceFromTarget = 6.72 - (27.1 * distanceFromTarget) + (2.85 * distanceFromTarget) * distanceFromTarget;
+			launchAngle = 6.72 + (-27.1 * distanceFromTarget) + (2.85 * distanceFromTarget * distanceFromTarget);
 		}
 	}
+	if (launchAngle > -10.0)
+	{
+		launchAngle = -10.0;
+	}
 	return launchAngle;
+}
+
+bool noteManager::autoLaunchReady()
+{
+	if (HasVisionTarget())
+	{
+		std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+		VisionData visionData = optionalVisionData.value();
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance Y"), visionData.transformToTarget.Y().to<double>());
+		if (visionData.transformToTarget.Y().to<double>() <= 0.5 && GetVisionDistance().to<double>() <= 3.0)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void noteManager::CreateAndRegisterStates()
