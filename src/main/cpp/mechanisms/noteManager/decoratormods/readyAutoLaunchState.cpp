@@ -43,13 +43,24 @@ readyAutoLaunchState::readyAutoLaunchState(std::string stateName,
 void readyAutoLaunchState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyAutoLaunchState"), string("init"));
-
 	m_genState->Init();
 }
 
 void readyAutoLaunchState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyAutoLaunchState"), string("run"));
+	// Adding ability to control launcher Angel temporarily for tuning
+	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
+	{
+		double delta = 3.0 * 0.05 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)); // changing by 6 deg/s * 0.05 for 20 ms loop time * controller input
+		m_target += delta;
+	}
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_target);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), m_mechanism->getlauncherAngle()->GetCounts());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Target"), m_target);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Wheel Speed"), m_mechanism->getlauncherTop()->GetRPS());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance"), m_mechanism->GetVisionDistance().to<double>());
+
 	m_genState->Run();
 }
 
@@ -68,6 +79,6 @@ bool readyAutoLaunchState::IsTransitionCondition(bool considerGamepadTransitions
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	bool visionTargetAcquired = false; // m_mechanism->HasVisionTarget(); // todo this will be set with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	bool visionTargetAcquired = m_mechanism->HasVisionTarget(); // todo this will be set with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	return (visionTargetAcquired);
 }
