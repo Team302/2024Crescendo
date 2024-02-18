@@ -8461,7 +8461,7 @@
         <type>UInt32</type>
         <value>9997</value>
       </robotID>
-      <name>ChassisBot9997</name>
+      <name>ChassisBot</name>
     </applicationData>
   </Robots>
   <Mechanisms>
