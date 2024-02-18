@@ -74,7 +74,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
             // Final pose = Robot (field relative)
             frc::Pose3d fieldRelPose = fieldRelativeTagPose + camToTargetTransform.Inverse() + m_robotCenterToCam.Inverse();
 
-            units::time::millisecond_t timestamp = frc::Timer::GetFPGATimestamp();
+            units::time::millisecond_t timestamp = frc::Timer::GetFPGATimestamp() - result.GetLatency();
 
             // Get the pose ambiguity from PhotonVision
             double ambiguity = target.GetPoseAmbiguity();
@@ -478,13 +478,13 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
         frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
 
-        frc::Translation3d translation = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)}.Translation();
+        frc::Transform3d robotToTargetTransform = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)};
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
                                                    GetTargetPitchRobotFrame(),  // pitch
                                                    GetTargetYawRobotFrame()};   // yaw
 
-        return std::make_optional(VisionData{frc::Transform3d(translation, rotation), GetAprilTagID()});
+        return std::make_optional(VisionData{robotToTargetTransform, robotToTargetTransform.Translation(), rotation, GetAprilTagID()});
     }
     return std::nullopt;
 }

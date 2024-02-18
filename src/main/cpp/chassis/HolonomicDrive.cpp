@@ -40,16 +40,17 @@ using namespace frc;
 /// @brief initialize the object and validate the necessary items are not nullptrs
 HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
                                    m_swerve(ChassisConfigMgr::GetInstance()->GetCurrentConfig() != nullptr ? ChassisConfigMgr::GetInstance()->GetCurrentConfig()->GetSwerveChassis() : nullptr),
-                                   //    m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
-                                   m_previousDriveState(ChassisOptionEnums::DriveStateType::ROBOT_DRIVE),
+                                   m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
                                    m_checkTippingLatch(false)
 {
+    Init();
 }
 
 /// @brief initialize the profiles for the various gamepad inputs
 /// @return void
 void HolonomicDrive::Init()
 {
+    InitChassisMovement();
 }
 
 /// @brief calculate the output for the wheels on the chassis from the throttle and steer components
@@ -64,7 +65,7 @@ void HolonomicDrive::Run()
         auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
         auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
 
-        ChassisMovement moveInfo = InitChassisMovement(forward, strafe, rotate);
+        InitSpeeds(forward, strafe, rotate);
 
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
@@ -85,27 +86,27 @@ void HolonomicDrive::Run()
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
         {
-            AlignGamePiece(moveInfo);
+            AlignGamePiece();
         }
         else if (isAlignWithAmpSelected)
         {
-            AlignToAmp(moveInfo);
+            AlignToAmp();
         }
         else if (isAlignWithLeftStageSelected)
         {
-            AlignToLeftStage(moveInfo);
+            AlignToLeftStage();
         }
         else if (isAlignWithCenterStageSelected)
         {
-            AlignToCenterStage(moveInfo);
+            AlignToCenterStage();
         }
         else if (isAlignWithRightStageSelected)
         {
-            AlignToRightStage(moveInfo);
+            AlignToRightStage();
         }
         else if (isAlignWithSpeakerSelected)
         {
-            AlignToSpeaker(moveInfo);
+            AlignToSpeaker();
         }
         else
         {
@@ -116,127 +117,137 @@ void HolonomicDrive::Run()
             }
             else if (isFaceForward)
             {
-                TurnForward(moveInfo);
+                TurnForward();
             }
             else if (isFaceBackward)
             {
-                TurnBackward(moveInfo);
+                TurnBackward();
             }
             // Switch Drive Modes
             if (isHoldPositionSelected)
             {
-                HoldPosition(moveInfo);
+                HoldPosition();
             }
             else
             {
-                if ((abs(forward) > 0.05 || abs(strafe) > 0.05 || abs(rotate) > 0.05))
+                if (m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER)
                 {
-                    // moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
-                    m_previousDriveState = moveInfo.driveOption;
+                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05))
+                    {
+                        m_previousDriveState = m_moveInfo.driveOption;
+                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
+                    }
                 }
             }
         }
 
         if (isSlowMode)
         {
-            SlowMode(moveInfo);
+            SlowMode();
         }
 
-        CheckTipping(checkTipping, moveInfo);
-        m_swerve->Drive(moveInfo);
+        CheckTipping(checkTipping);
+        m_swerve->Drive(m_moveInfo);
     }
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("HolonomicDrive"), string("Run"), string("nullptr"));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("HolonomicDrive"), string("Run"), string("nullptr"));
     }
 }
 
-ChassisMovement HolonomicDrive::InitChassisMovement(double forwardScale,
-                                                    double strafeScale,
-                                                    double rotateScale)
+void HolonomicDrive::InitChassisMovement()
 {
-    ChassisMovement moveInfo;
-    // moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
-    moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+    m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+    m_moveInfo.pathplannerTrajectory = pathplanner::PathPlannerTrajectory();
+    m_moveInfo.centerOfRotationOffset = frc::Translation2d();
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+    m_moveInfo.noMovementOption = ChassisOptionEnums::NoMovementOption::STOP;
+    m_moveInfo.yawAngle = units::angle::degree_t(0.0);
+    m_moveInfo.checkTipping = false;
+    m_moveInfo.tippingTolerance = units::angle::degree_t(5.0);
+    m_moveInfo.tippingCorrection = -0.1;
+}
 
+void HolonomicDrive::InitSpeeds(double forwardScale,
+                                double strafeScale,
+                                double rotateScale)
+{
     auto maxSpeed = m_swerve->GetMaxSpeed();
     auto maxAngSpeed = m_swerve->GetMaxAngularSpeed();
-    moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed;
-    moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed;
-    moveInfo.chassisSpeeds.omega = rotateScale * maxAngSpeed;
-
-    return moveInfo;
+    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed;
+    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed;
+    m_moveInfo.chassisSpeeds.omega = rotateScale * maxAngSpeed;
 }
 
 void HolonomicDrive::ResetPose()
 {
     m_swerve->ResetYaw();
 }
-void HolonomicDrive::AlignGamePiece(ChassisMovement &moveInfo)
+void HolonomicDrive::AlignGamePiece()
 {
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
 }
-void HolonomicDrive::AlignToLeftStage(ChassisMovement &moveInfo)
+void HolonomicDrive::AlignToLeftStage()
 {
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE;
 }
-void HolonomicDrive::AlignToCenterStage(ChassisMovement &moveInfo)
+void HolonomicDrive::AlignToCenterStage()
 {
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
 }
-void HolonomicDrive::AlignToRightStage(ChassisMovement &moveInfo)
+void HolonomicDrive::AlignToRightStage()
 {
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
 }
-void HolonomicDrive::AlignToSpeaker(ChassisMovement &moveInfo)
+void HolonomicDrive::AlignToSpeaker()
 {
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_SPEAKER;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_SPEAKER;
 }
-void HolonomicDrive::AlignToAmp(ChassisMovement &moveInfo)
+void HolonomicDrive::AlignToAmp()
 {
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
 }
-void HolonomicDrive::HoldPosition(ChassisMovement &moveInfo)
+void HolonomicDrive::HoldPosition()
 {
-    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
-    m_previousDriveState = moveInfo.driveOption;
+    m_previousDriveState = m_moveInfo.driveOption;
+    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
 }
-void HolonomicDrive::TurnForward(ChassisMovement &moveInfo)
+void HolonomicDrive::TurnForward()
 {
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
     {
-        moveInfo.yawAngle = units::angle::degree_t(0.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(0.0);
     }
     else
     {
-        moveInfo.yawAngle = units::angle::degree_t(180.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(180.0);
     }
 }
-void HolonomicDrive::TurnBackward(ChassisMovement &moveInfo)
+void HolonomicDrive::TurnBackward()
 {
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
 
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
     {
-        moveInfo.yawAngle = units::angle::degree_t(180.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(180.0);
     }
     else
     {
-        moveInfo.yawAngle = units::angle::degree_t(0.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(0.0);
     }
 }
-void HolonomicDrive::SlowMode(ChassisMovement &moveInfo)
+void HolonomicDrive::SlowMode()
 {
-    moveInfo.chassisSpeeds.vx *= m_slowModeMultiplier;
-    moveInfo.chassisSpeeds.vy *= m_slowModeMultiplier;
-    moveInfo.chassisSpeeds.omega *= m_slowModeMultiplier;
+    m_moveInfo.chassisSpeeds.vx *= m_slowModeMultiplier;
+    m_moveInfo.chassisSpeeds.vy *= m_slowModeMultiplier;
+    m_moveInfo.chassisSpeeds.omega *= m_slowModeMultiplier;
 }
 
-void HolonomicDrive::CheckTipping(bool isSelected, ChassisMovement &moveInfo)
+void HolonomicDrive::CheckTipping(bool isSelected)
 {
     if (isSelected)
     {
@@ -250,7 +261,7 @@ void HolonomicDrive::CheckTipping(bool isSelected, ChassisMovement &moveInfo)
     {
         m_checkTippingLatch = false;
     }
-    moveInfo.checkTipping = m_CheckTipping;
+    m_moveInfo.checkTipping = m_CheckTipping;
 }
 void HolonomicDrive::Exit()
 {
