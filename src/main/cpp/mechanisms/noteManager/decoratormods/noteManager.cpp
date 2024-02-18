@@ -122,8 +122,7 @@ units::length::meter_t noteManager::GetVisionDistance()
 	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	if (optionalVisionData)
 	{
-		frc::Transform3d deltaToTarget{optionalVisionData.value().deltaToTarget};
-		frc::Translation3d translate{deltaToTarget.Translation()};
+		frc::Translation3d translate{optionalVisionData.value().translationToTarget};
 		double x{translate.X().to<double>()};
 		double y{translate.Y().to<double>()};
 		distance = units::length::meter_t(std::hypot(x, y));

@@ -84,10 +84,10 @@ void RobotConfigpracticeBot_9999::DefineVisionSensors()
 
 	Placer = new DragonPhotonCam ( "Placer", //std::string name,                      /// <I> - network table name
 	                               DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
-	                               units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+	                               units::length::inch_t ( units::length::inch_t ( -13.402 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
 	                               units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
-	                               units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
-	                               units::angle::degree_t ( units::angle::degree_t ( 0 ) ), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
+	                               units::length::inch_t ( units::length::inch_t ( 21.607 ) ), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+	                               units::angle::degree_t ( units::angle::degree_t ( 19.3 ) ), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
 	                               units::angle::degree_t ( units::angle::degree_t ( 0 ) ), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
 	                               units::angle::degree_t ( units::angle::degree_t ( 0 ) ) ); //units::angle::degree_t roll,           /// <I> - Roll of camera
 	DragonVision::GetDragonVision()->AddCamera ( Placer, RobotElementNames::CAMERA_USAGE::PLACER );
@@ -108,10 +108,10 @@ void RobotConfigpracticeBot_9999::DefineVisionSensors()
 
 	Launcher = new DragonPhotonCam ( "Launcher", //std::string name,                      /// <I> - network table name
 	                                 DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
-	                                 units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
-	                                 units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
-	                                 units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
-	                                 units::angle::degree_t ( units::angle::degree_t ( 0 ) ), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
+	                                 units::length::inch_t ( units::length::inch_t ( 7.31 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+	                                 units::length::inch_t ( units::length::inch_t ( 9.614 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+	                                 units::length::inch_t ( units::length::inch_t ( 22.931 ) ), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+	                                 units::angle::degree_t ( units::angle::degree_t ( 5 ) ), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
 	                                 units::angle::degree_t ( units::angle::degree_t ( 0 ) ), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
 	                                 units::angle::degree_t ( units::angle::degree_t ( 0 ) ) ); //units::angle::degree_t roll,           /// <I> - Roll of camera
 	DragonVision::GetDragonVision()->AddCamera ( Launcher, RobotElementNames::CAMERA_USAGE::LAUNCHER );
