@@ -26,6 +26,8 @@
 #include "auton/drivePrimitives/DriveStop.h"
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "auton/PrimitiveParams.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/ChassisConfig.h"
 #include "chassis/ChassisMovement.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
@@ -48,8 +50,8 @@ DriveStop::DriveStop() : m_maxTime(units::time::second_t(0.0)),
 						 m_chassis(nullptr),
 						 m_timer(make_unique<Timer>())
 {
-	auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-	m_chassis = config != nullptr ? config->GetIChassis() : nullptr;
+	auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+	m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 }
 
 /// @brief initialize this usage of the primitive
@@ -70,6 +72,7 @@ void DriveStop::Run()
 	if (m_chassis != nullptr)
 	{
 		ChassisMovement moveInfo;
+		moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
 		moveInfo.chassisSpeeds.vx = 0_mps;
 		moveInfo.chassisSpeeds.vy = 0_mps;
 		moveInfo.chassisSpeeds.omega = units::degrees_per_second_t(0.0);
