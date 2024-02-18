@@ -69,6 +69,12 @@ public:
     ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
     VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
 
+    bool IsNoteStateChanging() const { return m_changeNoteState; }
+    noteManagerGen::STATE_NAMES GetNoteState() const { return m_noteState; }
+
+    bool IsClimberStateChanging() const { return m_changeClimberState; }
+    ClimberManagerGen::STATE_NAMES GetClimberState() const { return m_climberState; }
+
     // Setters
     void SetPathName(std::string path) { m_pathName = path; }
     void SetVisionAlignment(VISION_ALIGNMENT visionAlignment) { m_visionAlignment = visionAlignment; }

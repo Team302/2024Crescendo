@@ -31,10 +31,11 @@
 #include "auton/PrimitiveParser.h"
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "utils/logging/Logger.h"
-#include "mechanisms/StateMgrHelper.h"
 #include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
+#include "mechanisms/MechanismTypes.h"
 
 // Third Party Includes
 
@@ -42,6 +43,8 @@ using frc::DriverStation;
 using frc::Timer;
 using std::make_unique;
 using std::string;
+#include <pugixml/pugixml.hpp>
+using namespace pugi;
 
 CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 									 m_primParams(),
@@ -117,7 +120,7 @@ void CyclePrimitives::GetNextPrim()
 		{
 			m_currentPrim->Init(currentPrimParam);
 
-			StateMgrHelper::SetMechanismStateFromParam(currentPrimParam);
+			SetMechanismStatesFromParam(currentPrimParam);
 
 			m_maxTime = currentPrimParam->GetTime();
 			m_timer->Reset();
@@ -150,4 +153,22 @@ void CyclePrimitives::RunDriveStop()
 		m_driveStop->Init(params);
 	}
 	m_driveStop->Run();
+}
+
+void CyclePrimitives::SetMechanismStatesFromParam(PrimitiveParams *params)
+{
+	if (params != nullptr)
+	{
+		auto noteMgr = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+		if (noteMgr != nullptr && params->IsNoteStateChanging())
+		{
+			noteMgr->SetCurrentState(params->GetNoteState(), true);
+		}
+
+		auto climbMgr = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
+		if (climbMgr != nullptr && params->IsClimberStateChanging())
+		{
+			noteMgr->SetCurrentState(params->GetClimberState(), true);
+		}
+	}
 }
