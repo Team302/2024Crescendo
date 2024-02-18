@@ -147,6 +147,9 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_EL
 			tagIdsToCheck.emplace_back(13);
 		}
 		break;
+	default:
+		return std::nullopt;
+		break;
 	}
 	if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherTagId) != tagIdsToCheck.end())
 	{
@@ -258,7 +261,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame(), selectedCam->GetTargetYawRobotFrame());
 
 		// return VisionData with new translation and rotation
-		return std::optional<VisionData>{frc::Transform3d(translationToNote, rotationToNote)};
+		return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote};
 	}
 
 	// if we don't have a selected cam
@@ -329,7 +332,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		if (dataToAprilTag)
 		{
 			// get translation and rotation from visiondata
-			frc::Transform3d transformToAprilTag = dataToAprilTag.value().deltaToTarget;
+			frc::Transform3d transformToAprilTag = dataToAprilTag.value().transformToTarget;
 
 			// translate from apriltag to robot to get robot field position
 			frc::Pose3d robotPose = aprilTagPose + transformToAprilTag.Inverse();
@@ -342,8 +345,9 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 			units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
 
 			// rebundle into vision data with april tag thats used
-			std::optional<VisionData> visionData = VisionData(frc::Transform3d(transformToElement.Translation(),
-																			   frc::Rotation3d(units::angle::degree_t(0.0), pitch, yaw)), // roll is 0, pitch and yaw are calculated
+			std::optional<VisionData> visionData = VisionData(transformToElement,
+															  transformToElement.Translation(),
+															  frc::Rotation3d(units::angle::degree_t(0.0), pitch, yaw), // roll is 0, pitch and yaw are calculated
 															  selectedCam->GetAprilTagID());
 			return visionData;
 		}
