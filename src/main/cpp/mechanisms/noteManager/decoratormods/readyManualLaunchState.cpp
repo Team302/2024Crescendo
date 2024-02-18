@@ -26,7 +26,7 @@
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
 #include "utils/logging/Logger.h"
-
+#include "DragonVision/DragonVision.h"
 // Third Party Includes
 
 using namespace std;

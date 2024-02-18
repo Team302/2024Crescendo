@@ -124,13 +124,6 @@ units::length::meter_t noteManager::GetVisionDistance()
 	{
 		frc::Translation3d translate{optionalVisionData.value().translationToTarget};
 		frc::Transform3d transform{optionalVisionData.value().transformToTarget};
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance X meter"), transform.X().to<double>());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance Y meter"), transform.Y().to<double>());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance Z meter"), transform.Z().to<double>());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance roll deg"), transform.Rotation().X().to<double>());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance pitch deg"), transform.Rotation().Y().to<double>());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance yaw deg"), transform.Rotation().Z().to<double>());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LAUNCHERDEBUGGING"), string("Vision Distance april tag"), optionalVisionData.value().tagId);
 		double x{translate.X().to<double>()};
 		double y{translate.Y().to<double>()};
 		distance = units::length::meter_t(std::hypot(x, y));
@@ -156,6 +149,26 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
 	else if (change == RobotStateChanges::GameState)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
+}
+
+double noteManager::GetRequiredLaunchAngle()
+{
+	double distanceFromTarget = 1.1;
+	double launchAngle = -51.0;
+
+	if (HasVisionTarget())
+	{
+		distanceFromTarget = GetVisionDistance().to<double>();
+		if (distanceFromTarget < 1.5)
+		{
+			launchAngle = -22;
+		}
+		else
+		{
+			distanceFromTarget = 6.72 - (27.1 * distanceFromTarget) + (2.85 * distanceFromTarget) * distanceFromTarget;
+		}
+	}
+	return launchAngle;
 }
 
 void noteManager::CreateAndRegisterStates()
