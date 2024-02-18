@@ -151,13 +151,20 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_EL
 		return std::nullopt;
 		break;
 	}
-	if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherTagId) != tagIdsToCheck.end())
+
+	if (launcherTagId)
 	{
-		return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag(); // launcherTagId is for stage id
+		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherTagId.value()) != tagIdsToCheck.end())
+		{
+			return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag(); // launcherTagId is for stage id
+		}
 	}
-	else if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerTagId) != tagIdsToCheck.end())
+	else if (placerTagId)
 	{
-		return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag(); // placerTagId is for stage id
+		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerTagId.value()) != tagIdsToCheck.end())
+		{
+			return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag(); // placerTagId is for stage id
+		}
 	}
 
 	// tag doesnt matter or no tag
