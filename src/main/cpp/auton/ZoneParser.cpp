@@ -149,6 +149,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
             AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
             AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
             ChassisOptionEnums::AutonChassisOptions chassisChosenOption = ChassisOptionEnums::AutonChassisOptions::NO_VISION;
+            bool isNoteStateChanging = false;
             noteManagerGen::STATE_NAMES noteChosenOption = noteManagerGen::STATE_NAMES::STATE_OFF;
             ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION;
 
@@ -211,6 +212,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                     if (itr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
                     {
                         noteChosenOption = itr->second;
+                        bool isNoteStateChanging = false;
                     }
                     else
                     {
@@ -249,6 +251,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                                        ygrid1,
                                        xgrid2,
                                        ygrid2,
+                                       isNoteStateChanging,
                                        noteChosenOption,
                                        chassisChosenOption,
                                        avoidChosenOption));

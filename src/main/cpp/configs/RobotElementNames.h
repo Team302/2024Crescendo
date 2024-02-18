@@ -38,9 +38,9 @@ public:
 	enum CAMERA_USAGE
 	{
 		UNKNOWN_CAMERA = -1,
-		P_INTAKE,
+		PINTAKE,
 		PLACER,
-		L_INTAKE,
+		LINTAKE,
 		LAUNCHER,
 		MAX_CAMERA
 	};
