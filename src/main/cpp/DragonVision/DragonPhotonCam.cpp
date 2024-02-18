@@ -87,7 +87,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
             visionStdMeasurements[1] += ambiguity;
             visionStdMeasurements[2] += ambiguity;
 
-            return std::make_optional(VisionPose(fieldRelPose, timestamp, visionStdMeasurements));
+            return VisionPose(fieldRelPose, timestamp, visionStdMeasurements);
         }
     }
 
@@ -147,7 +147,7 @@ double DragonPhotonCam::GetPoseAmbiguity()
 
 /// @brief  get Yaw of possible target.
 /// @return units::angle::degree_t - Counter Clockwise/left for positive.
-units::angle::degree_t DragonPhotonCam::GetTargetYaw()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYaw()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -162,13 +162,12 @@ units::angle::degree_t DragonPhotonCam::GetTargetYaw()
         return units::angle::degree_t(-1.0 * target.GetYaw());
     }
 
-    // if no tag found, return 0
-    return units::angle::degree_t(0.0);
+    return std::nullopt;
 }
 
 /// @brief get TargetSkew of possible target.
 /// @return Skew casted as units::angle::degree_t. Counter Clockwise/left for positive.
-units::angle::degree_t DragonPhotonCam::GetTargetSkew()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetSkew()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -183,11 +182,10 @@ units::angle::degree_t DragonPhotonCam::GetTargetSkew()
         return units::angle::degree_t(target.GetSkew());
     }
 
-    // if no tag found, return 0
-    return units::angle::degree_t(0.0);
+    return std::nullopt;
 }
 
-units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYawRobotFrame()
 {
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -232,10 +230,10 @@ units::angle::degree_t DragonPhotonCam::GetTargetYawRobotFrame()
         }
     }
 
-    return units::angle::degree_t(-1.0);
+    return std::nullopt;
 }
 
-units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitchRobotFrame()
 {
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -274,12 +272,12 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitchRobotFrame()
         }
     }
 
-    return units::angle::degree_t(-1.0);
+    return std::nullopt;
 }
 
 /// @brief Get Pitch to Target
 /// @return units::angle::degree_t - positive up
-units::angle::degree_t DragonPhotonCam::GetTargetPitch()
+std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitch()
 {
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -294,11 +292,10 @@ units::angle::degree_t DragonPhotonCam::GetTargetPitch()
         return units::angle::degree_t(target.GetPitch());
     }
 
-    // if it isn't found
-    return units::angle::degree_t(0.0);
+    return std::nullopt;
 }
 
-units::time::millisecond_t DragonPhotonCam::GetPipelineLatency()
+std::optional<units::time::millisecond_t> DragonPhotonCam::GetPipelineLatency()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -309,7 +306,7 @@ units::time::millisecond_t DragonPhotonCam::GetPipelineLatency()
     return latency;
 }
 
-int DragonPhotonCam::GetAprilTagID()
+std::optional<int> DragonPhotonCam::GetAprilTagID()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -324,13 +321,12 @@ int DragonPhotonCam::GetAprilTagID()
         return target.GetFiducialId();
     }
 
-    // if no tag found, return -1
-    return -1;
+    return std::nullopt;
 }
 
 /// @brief Get target area
 /// @return Double - Percentage (0-100)
-double DragonPhotonCam::GetTargetArea()
+std::optional<double> DragonPhotonCam::GetTargetArea()
 {
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
@@ -345,13 +341,12 @@ double DragonPhotonCam::GetTargetArea()
         return target.GetArea();
     }
 
-    // if it isn't found
-    return -1;
+    return std::nullopt;
 }
 
 /// @brief Estimate the X distance to the detected target
 /// @return units::length::inch_t - Positive is forward
-units::length::inch_t DragonPhotonCam::EstimateTargetXDistance()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -366,16 +361,15 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance()
 
         // Get transformation from camera to target
         frc::Transform3d transform = target.GetBestCameraToTarget();
-
         return transform.X();
     }
 
-    return units::length::inch_t(-1.0);
+    return std::nullopt;
 }
 
 /// @brief Estimate the Y distance to the detected target
 /// @return units::length::inch_t - Positive is left
-units::length::inch_t DragonPhotonCam::EstimateTargetYDistance()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -394,12 +388,12 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance()
         return transform.Y();
     }
 
-    return units::length::inch_t(-1.0);
+    return std::nullopt;
 }
 
 /// @brief Estimate the Z distance to the detected target
 /// @return units::length::inch_t - Positive is up
-units::length::inch_t DragonPhotonCam::EstimateTargetZDistance()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -419,13 +413,13 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance()
         return transform.Z();
     }
 
-    return units::length::inch_t(-1.0);
+    return std::nullopt;
 }
 
 /// @brief Estimate the X distance to the detected target in relation to robot
 /// @return units::length::inch_t - Positive is forward
 
-units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -442,12 +436,12 @@ units::length::inch_t DragonPhotonCam::EstimateTargetXDistance_RelToRobotCoords(
         return target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
     }
 
-    return units::length::inch_t(-1.0);
+    return std::nullopt;
 }
 
 /// @brief Estimate the Y distance to the detected target in relation to robot
 /// @return units::length::inch_t - Positive is left
-units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -464,13 +458,13 @@ units::length::inch_t DragonPhotonCam::EstimateTargetYDistance_RelToRobotCoords(
         return target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
     }
 
-    return units::length::inch_t(-1.0);
+    return std::nullopt;
 }
 
 /// @brief Estimate the Z distance to the detected target in relation to robot
 /// @return units::length::inch_t - Positive is up
 
-units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords()
+std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords()
 {
     ///@TODO: May have problems when Multi-tag is enabled, data may not come through
 
@@ -487,7 +481,7 @@ units::length::inch_t DragonPhotonCam::EstimateTargetZDistance_RelToRobotCoords(
         return target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
     }
 
-    return units::length::inch_t(-1.0);
+    return std::nullopt;
 }
 bool DragonPhotonCam::UpdatePipeline()
 {
@@ -509,11 +503,12 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
         frc::Transform3d robotToTargetTransform = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)};
 
-        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
-                                                   GetTargetPitchRobotFrame(),  // pitch
-                                                   GetTargetYawRobotFrame()};   // yaw
+        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0),        // roll
+                                                   GetTargetPitchRobotFrame().value(), // pitch
+                                                   GetTargetYawRobotFrame().value()};  // yaw
 
         return VisionData{robotToTargetTransform, robotToTargetTransform.Translation(), rotation, target.GetFiducialId()};
     }
+
     return std::nullopt;
 }
