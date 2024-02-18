@@ -59,6 +59,8 @@ public:
 	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
+	double GetRequiredLaunchAngle();
+	bool autoLaunchReady();
 
 private:
 	noteManagerGen *m_noteManager;

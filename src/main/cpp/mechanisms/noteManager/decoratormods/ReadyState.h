@@ -19,6 +19,8 @@
 #pragma once
 #include <string>
 
+#include "frc/Timer.h"
+
 #include "State.h"
 #include "mechanisms/noteManager/decoratormods/noteManager.h"
 #include "mechanisms/noteManager/generated/noteManagerAllStatesStateGen.h"
@@ -27,23 +29,25 @@ using namespace std;
 
 namespace noteManagerStates
 {
-class ReadyState : public State
-{
-public:
-	ReadyState() = delete;
-	ReadyState ( std::string stateName,
-	             int stateId,
-	             noteManagerAllStatesStateGen *generatedState,
-	             noteManager *mech );
-	~ReadyState() = default;
-	void Init() override;
-	void Run() override;
-	void Exit() override;
-	bool AtTarget() override;
-	bool IsTransitionCondition ( bool considerGamepadTransitions ) override;
+	class ReadyState : public State
+	{
+	public:
+		ReadyState() = delete;
+		ReadyState(std::string stateName,
+				   int stateId,
+				   noteManagerAllStatesStateGen *generatedState,
+				   noteManager *mech);
+		~ReadyState() = default;
+		void Init() override;
+		void Run() override;
+		void Exit() override;
+		bool AtTarget() override;
+		bool IsTransitionCondition(bool considerGamepadTransitions) override;
 
-private:
-	noteManagerAllStatesStateGen *m_genState;
-	noteManager *m_mechanism;
-};
+	private:
+		noteManagerAllStatesStateGen *m_genState;
+		noteManager *m_mechanism;
+
+		frc::Timer *m_launchTimer;
+	};
 }

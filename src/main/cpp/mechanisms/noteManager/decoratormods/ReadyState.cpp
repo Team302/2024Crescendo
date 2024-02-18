@@ -37,7 +37,7 @@ using namespace noteManagerStates;
 ReadyState::ReadyState(std::string stateName,
 					   int stateId,
 					   noteManagerAllStatesStateGen *generatedState,
-					   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech)
+					   noteManager *mech) : State(stateName, stateId), m_genState(generatedState), m_mechanism(mech), m_launchTimer(new frc::Timer())
 {
 }
 
@@ -107,7 +107,13 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 			 (feederSensor == false) &&
 			 ((currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH_ODOMETRY))))
 	{
-		transition = true;
+		m_launchTimer->Start();
+		if (m_launchTimer->Get().to<double>() > 0.5)
+		{
+			transition = true;
+			m_launchTimer->Stop();
+			m_launchTimer->Reset();
+		}
 		reason = 4;
 	}
 	else if ((placerInSensor == false) &&

@@ -150,6 +150,45 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
+double noteManager::GetRequiredLaunchAngle()
+{
+	double distanceFromTarget = 1.1;
+	double launchAngle = -51.0;
+
+	if (HasVisionTarget())
+	{
+		distanceFromTarget = GetVisionDistance().to<double>();
+		if (distanceFromTarget < 1.5)
+		{
+			launchAngle = -24;
+		}
+		else
+		{
+			launchAngle = 6.72 + (-27.1 * distanceFromTarget) + (2.85 * distanceFromTarget * distanceFromTarget);
+		}
+	}
+	if (launchAngle > -10.0)
+	{
+		launchAngle = -10.0;
+	}
+	return launchAngle;
+}
+
+bool noteManager::autoLaunchReady()
+{
+	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	if (optionalVisionData.has_value())
+	{
+		VisionData visionData = optionalVisionData.value();
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance Y"), visionData.transformToTarget.Y().to<double>());
+		if (visionData.transformToTarget.Y().to<double>() <= 0.5 && GetVisionDistance().to<double>() <= 3.0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void noteManager::CreateAndRegisterStates()
 {
 	OffState *OffStateInst = new OffState(string("Off"), 0, new noteManagerAllStatesStateGen(string("Off"), 0, this), this);

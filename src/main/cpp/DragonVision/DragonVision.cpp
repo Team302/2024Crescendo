@@ -230,8 +230,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		break;
 	case VISION_ELEMENT::NOTE:
 	{
-		bool launcherHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->HasTarget();
-		bool placerHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::P_INTAKE]->HasTarget();
+		bool launcherHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->HasTarget();
+		bool placerHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->HasTarget();
 		if (!launcherHasDetection && !placerHasDetection)
 		{
 			return std::nullopt;
@@ -239,17 +239,17 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		else if (launcherHasDetection && placerHasDetection) // we see targets in both cameras
 		{
 			// check which note is closest to robot
-			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
-			frc::Translation2d translationPlacer = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::P_INTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::P_INTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
+			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
+			frc::Translation2d translationPlacer = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
 
-			selectedCam = units::math::abs(translationLauncher.Norm()) < units::math::abs(translationPlacer.Norm()) ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::P_INTAKE];
+			selectedCam = units::math::abs(translationLauncher.Norm()) < units::math::abs(translationPlacer.Norm()) ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE];
 		}
 		else
 		{
 			if (launcherHasDetection)
-				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::L_INTAKE];
+				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE];
 			else
-				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::P_INTAKE];
+				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE];
 		}
 	}
 	break;
