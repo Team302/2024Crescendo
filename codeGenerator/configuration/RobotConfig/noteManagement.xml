@@ -584,7 +584,7 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>0.25</value>
+          <value>0</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
