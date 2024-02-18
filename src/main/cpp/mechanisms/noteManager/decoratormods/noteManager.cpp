@@ -123,7 +123,6 @@ units::length::meter_t noteManager::GetVisionDistance()
 	if (optionalVisionData)
 	{
 		frc::Translation3d translate{optionalVisionData.value().translationToTarget};
-		frc::Transform3d transform{optionalVisionData.value().transformToTarget};
 		double x{translate.X().to<double>()};
 		double y{translate.Y().to<double>()};
 		distance = units::length::meter_t(std::hypot(x, y));
