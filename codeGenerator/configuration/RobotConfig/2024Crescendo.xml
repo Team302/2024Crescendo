@@ -5914,7 +5914,7 @@
       <Cameras>
         <Camera
           xsi:type="Limelight">
-          <name>P_Intake</name>
+          <name>PIntake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -6006,7 +6006,7 @@
         </Camera>
         <Camera
           xsi:type="Limelight">
-          <name>L_Intake</name>
+          <name>LIntake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -6058,21 +6058,21 @@
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>-2</value>
+            <value>7.31</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>-8.5</value>
+            <value>9.614</value>
           </mountingYOffset>
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>26</value>
+            <value>22.931</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
