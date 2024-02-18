@@ -28,6 +28,8 @@ struct VisionPose
 
 struct VisionData
 {
-    frc::Transform3d deltaToTarget = frc::Transform3d{}; // from robot center
-    int tagId = -1; //if we don't have april tag data, use null id
+    frc::Transform3d transformToTarget = frc::Transform3d{}; // from robot center
+    frc::Translation3d translationToTarget = frc::Translation3d{};
+    frc::Rotation3d rotationToTarget = frc::Rotation3d{};
+    int tagId = -1; // if we don't have april tag data, use null id
 };

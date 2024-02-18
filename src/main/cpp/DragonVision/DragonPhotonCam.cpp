@@ -99,6 +99,35 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition(frc::DriverStation::
     return GetFieldPosition();
 }
 
+std::optional<VisionPose> DragonPhotonCam::GetMultiTagEstimate()
+{
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+    if (result.MultiTagResult().result.isPresent)
+    {
+        // field to camera transform
+        frc::Transform3d transform = result.MultiTagResult().result.best;
+
+        frc::Pose3d robotPose = frc::Pose3d{} + (transform + m_robotCenterToCam.Inverse());
+
+        units::time::millisecond_t timestamp = frc::Timer::GetFPGATimestamp() - result.GetLatency();
+
+        // Get the default values for std deviations
+        wpi::array<double, 3> visionStdMeasurements = VisionPose{}.visionMeasurementStdDevs;
+
+        // Get the pose ambiguity from PhotonVision
+        double ambiguity = result.MultiTagResult().result.ambiguity;
+
+        // Add ambiguity to those default values, may want to multiply by some factor to decrease our confidence depending on ambiguity
+        visionStdMeasurements[0] += ambiguity;
+        visionStdMeasurements[1] += ambiguity;
+        visionStdMeasurements[2] += ambiguity;
+
+        return VisionPose(robotPose, timestamp, visionStdMeasurements);
+    }
+
+    return std::nullopt;
+}
+
 double DragonPhotonCam::GetPoseAmbiguity()
 {
     // get latest detections from co-processor
@@ -478,13 +507,13 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
         frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
 
-        frc::Translation3d translation = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)}.Translation();
+        frc::Transform3d robotToTargetTransform = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)};
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
                                                    GetTargetPitchRobotFrame(),  // pitch
                                                    GetTargetYawRobotFrame()};   // yaw
 
-        return std::make_optional(VisionData{frc::Transform3d(translation, rotation), GetAprilTagID()});
+        return VisionData{robotToTargetTransform, robotToTargetTransform.Translation(), rotation, target.GetFiducialId()};
     }
     return std::nullopt;
 }
