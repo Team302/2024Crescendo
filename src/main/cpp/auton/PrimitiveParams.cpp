@@ -18,6 +18,8 @@
 #include "auton/PrimitiveParams.h"
 #include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
 
 // @ADDMECH include for your mechanism state mgr
 

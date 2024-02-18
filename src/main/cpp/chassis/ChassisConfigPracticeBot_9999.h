@@ -13,36 +13,49 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-// Team302 Includes
-#include "chassis/headingStates/MaintainHeading.h"
-#include "chassis/ChassisOptionEnums.h"
+#pragma once
 #include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
 
-/// DEBUGGING
-#include "utils/logging/Logger.h"
+#include "units/length.h"
+#include "ctre/phoenix6/Pigeon2.hpp"
 
-MaintainHeading::MaintainHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::MAINTAIN)
+class ChassisConfigPracticeBot_9999 : public ChassisConfig
 {
-}
+public:
+	ChassisConfigPracticeBot_9999() = default;
+	~ChassisConfigPracticeBot_9999() = default;
 
-void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
-{
-    units::angular_velocity::degrees_per_second_t correction = units::angular_velocity::degrees_per_second_t(0.0);
+protected:
+	void DefinePigeon() override;
+	void DefineChassis() override;
 
-    units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+private:
+	std::string m_canbusName = std::string("canivore");
+	const int m_leftfrontdriveID = 8;
+	const int m_leftfrontturnID = 9;
+	const double m_leftfrontOffset = -0.475585;
+	const bool m_leftfrontdriveInvert = false;
+	const bool m_leftfrontturnInvert = true;
+	const bool m_leftfrontcancoderInvert = false;
 
-    if (std::abs(rot.to<double>()) < 0.1)
-    {
-        chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-        if (abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0 || abs(chassisMovement.chassisSpeeds.vy.to<double>() > 0.0))
-        {
-            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainHeadingControl);
+	const int m_leftbackdriveID = 5;
+	const int m_leftbackturnID = 2;
+	const double m_leftbackOffset = -0.099853515625;
+	const bool m_leftbackdriveInvert = true;
+	const bool m_leftbackturnInvert = false;
+	const bool m_leftbackcancoderInvert = false;
 
-            chassisMovement.chassisSpeeds.omega += correction;
-        }
-    }
-    chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
-}
+	const int m_rightfrontdriveID = 6;
+	const int m_rightfrontturnID = 7;
+	const double m_rightfrontOffset = -0.48681640625;
+	const bool m_rightfrontdriveInvert = true;
+	const bool m_rightfrontturnInvert = false;
+	const bool m_rightfrontcancoderInvert = false;
+
+	const int m_rightbackdriveID = 4;
+	const int m_rightbackturnID = 3;
+	const double m_rightbackOffset = 0.375488;
+	const bool m_rightbackdriveInvert = false;
+	const bool m_rightbackturnInvert = true;
+	const bool m_rightbackcancoderInvert = false;
+};
