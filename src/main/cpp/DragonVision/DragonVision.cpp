@@ -360,9 +360,9 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 				return visionData;
 			}
 		}
-
-		return std::nullopt;
 	}
+
+	return std::nullopt;
 }
 
 std::optional<VisionPose> DragonVision::GetRobotPosition()

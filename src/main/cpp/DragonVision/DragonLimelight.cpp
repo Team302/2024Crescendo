@@ -283,7 +283,6 @@ std::optional<double> DragonLimelight::GetTargetArea()
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetSkew()
 {
-    auto nt = m_networktable.get();
     if (m_networktable != nullptr)
     {
         return units::angle::degree_t(m_networktable->GetNumber("ts", 0.0));
