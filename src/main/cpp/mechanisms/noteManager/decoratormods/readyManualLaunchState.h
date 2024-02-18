@@ -27,23 +27,23 @@ using namespace std;
 
 namespace noteManagerStates
 {
-class readyManualLaunchState : public State
-{
-public:
-	readyManualLaunchState() = delete;
-	readyManualLaunchState ( std::string stateName,
-	                         int stateId,
-	                         noteManagerAllStatesStateGen *generatedState,
-	                         noteManager *mech );
-	~readyManualLaunchState() = default;
-	void Init() override;
-	void Run() override;
-	void Exit() override;
-	bool AtTarget() override;
-	bool IsTransitionCondition ( bool considerGamepadTransitions ) override;
+	class readyManualLaunchState : public State
+	{
+	public:
+		readyManualLaunchState() = delete;
+		readyManualLaunchState(std::string stateName,
+							   int stateId,
+							   noteManagerAllStatesStateGen *generatedState,
+							   noteManager *mech);
+		~readyManualLaunchState() = default;
+		void Init() override;
+		void Run() override;
+		void Exit() override;
+		bool AtTarget() override;
+		bool IsTransitionCondition(bool considerGamepadTransitions) override;
 
-private:
-	noteManagerAllStatesStateGen *m_genState;
-	noteManager *m_mechanism;
-};
+	private:
+		noteManagerAllStatesStateGen *m_genState;
+		noteManager *m_mechanism;
+	};
 }
