@@ -52,11 +52,13 @@ void ManualState::Run()
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("run"));
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
 	{
-		double delta = 6.0 * 0.05 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		double delta = 6.0 * 0.03 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
 		m_target += delta;
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
 	}
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left Counts"), m_mechanism->getleftClimber()->GetCounts());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Right Counts"), m_mechanism->getrightClimber()->GetCounts());
 	m_genState->Run();
 }
 
