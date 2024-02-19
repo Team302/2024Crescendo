@@ -13,38 +13,16 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include "frc/apriltag/AprilTagFieldLayout.h"
-#include "frc/apriltag/AprilTagFields.h"
-#include "frc/DriverStation.h"
-#include "utils/FMSData.h"
-
 // Team302 Includes
-#include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceCenterStage.h"
-#include "utils/FMSData.h"
-#include "DragonVision/DragonVision.h"
 #include "chassis/headingStates/FaceTarget.h"
+#include "DragonVision/DragonVision.h"
 
 FaceCenterStage::FaceCenterStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE)
 {
 }
 
-std::optional<frc::Pose3d> FaceCenterStage::GetAprilTagPose()
+DragonVision::VISION_ELEMENT FaceCenterStage::GetVisionElement() const
 {
-    int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::BLUE_STAGE_CENTER : FaceTarget::RED_STAGE_CENTER);
-    return frc::LoadAprilTagLayoutField(frc::AprilTagField::k2024Crescendo).GetTagPose(aprilTag);
-}
-
-std::optional<frc::Transform3d> FaceCenterStage::GetVisionTargetTransform()
-{
-    auto vision = DragonVision::GetDragonVision();
-    if (vision != nullptr)
-    {
-        auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::CENTER_STAGE);
-        if (data)
-        {
-            return std::optional<frc::Transform3d>(data.value().transformToTarget);
-        }
-    }
-    return std::nullopt;
+    return DragonVision::VISION_ELEMENT::CENTER_STAGE;
 }
