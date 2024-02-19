@@ -184,7 +184,7 @@ namespace CoreCodeGenerator
                             enumList.Add(String.Format("STATE_{0}", ToUnderscoreCase(s.name).ToUpper()));
                         }
 
-                        resultString = resultString.Replace("$$_STATE_NAMES_$$", ListToString(enumList, ", "));
+                        resultString = resultString.Replace("$$_STATE_NAMES_$$", ListToString(enumList, ", ").TrimEnd(new char[] {',', ' '}));
 
                         filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), true);
                         copyrightAndGenNoticeAndSave(filePathName, resultString);
