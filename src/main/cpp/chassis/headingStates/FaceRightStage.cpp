@@ -13,36 +13,17 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include <optional>
 
 // Team302 Includes
-#include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceRightStage.h"
 #include "chassis/headingStates/FaceTarget.h"
-#include "utils/FMSData.h"
-#include "frc/apriltag/AprilTagFields.h"
 #include "DragonVision/DragonVision.h"
 
 FaceRightStage::FaceRightStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE)
 {
 }
 
-std::optional<frc::Pose3d> FaceRightStage::GetAprilTagPose()
+DragonVision::VISION_ELEMENT FaceRightStage::GetVisionElement() const
 {
-    int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::BLUE_STAGE_RIGHT : FaceTarget::RED_STAGE_RIGHT);
-    return GetLayout().GetTagPose(aprilTag);
-}
-
-std::optional<frc::Transform3d> FaceRightStage::GetVisionTargetTransform()
-{
-    auto vision = DragonVision::GetDragonVision();
-    if (vision != nullptr)
-    {
-        auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::RIGHT_STAGE);
-        if (data)
-        {
-            return std::optional<frc::Transform3d>(data.value().transformToTarget);
-        }
-    }
-    return std::nullopt;
+    return DragonVision::VISION_ELEMENT::RIGHT_STAGE;
 }

@@ -14,32 +14,15 @@
 //====================================================================================================================================================
 
 // Team302 Includes
-#include "chassis/ChassisOptionEnums.h"
 #include "chassis/headingStates/FaceAmp.h"
+#include "chassis/headingStates/FaceTarget.h"
 #include "DragonVision/DragonVision.h"
-#include "utils/FMSData.h"
 
 FaceAmp::FaceAmp() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_AMP)
 {
 }
 
-std::optional<frc::Pose3d> FaceAmp::GetAprilTagPose()
+DragonVision::VISION_ELEMENT FaceAmp::GetVisionElement() const
 {
-    // change the aprilTag variable to use the AprilTagIDs enum
-    int aprilTag = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue ? FaceTarget::BLUE_AMP : FaceTarget::RED_AMP);
-    return DragonVision::GetAprilTagLayout().GetTagPose(aprilTag);
-}
-
-std::optional<frc::Transform3d> FaceAmp::GetVisionTargetTransform()
-{
-    auto vision = DragonVision::GetDragonVision();
-    if (vision != nullptr)
-    {
-        auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::AMP);
-        if (data)
-        {
-            return std::optional<frc::Transform3d>(data.value().transformToTarget);
-        }
-    }
-    return std::nullopt;
+    return DragonVision::VISION_ELEMENT::AMP;
 }
