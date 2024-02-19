@@ -30,8 +30,8 @@ public:
 
     $$_MECHANISM_INSTANCE_NAME_$$Gen(RobotConfigMgr::RobotIdentifier activeRobotId);
 
-    void Create();
-    void Initialize();
+    $$_CREATE_FUNCTIONS_$$
+    $$_INITIALZATION_FUNCTIONS_$$
 
     _STATE_MANAGER_START_
     /// @brief Set the control constants (e.g. PIDF values).

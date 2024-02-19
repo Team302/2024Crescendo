@@ -83,28 +83,16 @@ namespace CoreCodeGenerator
                             resultString = Remove(resultString, "_STATE_MANAGER_START_", "_STATE_MANAGER_END_");
                         #endregion
 
+                        string createFunctionDeclarations;
+                        resultString = resultString.Replace("$$_CREATE_FUNCTIONS_$$", GenerateCreateFunctions(mi, out createFunctionDeclarations));
+                        string initializationFunctionDeclarations;
+                        resultString = resultString.Replace("$$_INITIALZATION_FUNCTIONS_$$", GenerateInitializationFunctions(mi, out initializationFunctionDeclarations));
+
                         resultString = resultString.Replace("$$_MECHANISM_TYPE_NAME_$$", ToUnderscoreCase(mi.name).ToUpper());
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_UPPER_CASE_$$", ToUnderscoreCase(mi.name).ToUpper());
 
-                        List<string> createCode = new List<string>
-                        {
-                            "if(false){}"
-                        };
-
-                        foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
-                        {
-                            mechanismInstance mis = r.mechanismInstances.Find(m => m.name == mi.name);
-                            if (mis != null)
-                            {
-                                createCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == m_activeRobotId)", ToUnderscoreDigit(ToUnderscoreCase(r.getFullRobotName())).ToUpper()));
-                                createCode.Add("{");
-                                createCode.AddRange(generateMethod(mis, "generateIndexedObjectCreation"));
-                                createCode.Add("}");
-                            }
-                        }
-                        resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(createCode));
 
                         List<string> theUsings = generateMethod(mi, "generateUsings").Distinct().ToList();
                         resultString = resultString.Replace("$$_USING_DIRECTIVES_$$", ListToString(theUsings, ";").Trim());
@@ -150,23 +138,7 @@ namespace CoreCodeGenerator
 
                         #endregion
 
-                        List<string> initCode = new List<string>
-                        {
-                            "if(false){}"
-                        };
 
-                        foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
-                        {
-                            mechanismInstance mis = r.mechanismInstances.Find(m => m.name == mi.name);
-                            if (mis != null)
-                            {
-                                initCode.Add(string.Format("else if(RobotConfigMgr::RobotIdentifier::{0} == m_activeRobotId)", ToUnderscoreDigit(ToUnderscoreCase(r.getFullRobotName())).ToUpper()));
-                                initCode.Add("{");
-                                initCode.AddRange(generateMethod(mis, "generateInitialization"));
-                                initCode.Add("}");
-                            }
-                        }
-                        resultString = resultString.Replace("$$_ELEMENT_INITIALIZATION_$$", ListToString(initCode));
 
                         filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), true);
                         copyrightAndGenNoticeAndSave(filePathName, resultString);
@@ -187,6 +159,9 @@ namespace CoreCodeGenerator
                         else
                             resultString = Remove(resultString, "_STATE_MANAGER_START_", "_STATE_MANAGER_END_");
                         #endregion
+
+                        resultString = resultString.Replace("$$_CREATE_FUNCTIONS_$$", createFunctionDeclarations);
+                        resultString = resultString.Replace("$$_INITIALZATION_FUNCTIONS_$$", initializationFunctionDeclarations);
 
                         resultString = resultString.Replace("$$_MECHANISM_NAME_$$", mi.mechanism.name);
                         resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
@@ -343,7 +318,7 @@ namespace CoreCodeGenerator
                                                 string motorEnumName = String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(), "").Trim().Replace("::", "_USAGE::").ToUpper());
                                                 if (targetUnitsType == "")
                                                 {
-                                                    if(mc.GetType().IsSubclassOf(typeof(SparkController)))
+                                                    if (mc.GetType().IsSubclassOf(typeof(SparkController)))
                                                     {
                                                         motorTargets.Add(String.Format("Get{0}()->get{1}()->SetControlConstants({2},*Get{0}()->get{3}())", mi.name, mc.name, mT.target.value, mT.controlDataName));
                                                     }
@@ -569,6 +544,76 @@ namespace CoreCodeGenerator
                 }
             }
         }
+
+        private string GenerateCreateFunctions(mechanismInstance mi, out string functionDeclarations)
+        {
+            string createFunctionTemplate =
+                            @"void $$_MECHANISM_INSTANCE_NAME_$$Gen::Create$$_ROBOT_ID_$$()
+                                {
+                                    m_ntName = ""$$_MECHANISM_INSTANCE_NAME_$$"";
+                                    $$_OBJECT_CREATION_$$
+
+                                    m_table = nt::NetworkTableInstance::GetDefault().GetTable(m_ntName);
+                                    m_tuningIsEnabledStr = ""Enable Tuning for "" + m_ntName; // since this string is used every loop, we do not want to create the string every time
+                                    m_table.get()->PutBoolean(m_tuningIsEnabledStr, m_tuning);
+                                }";
+
+            string createFunctionDeclarationTemplate = "void Create$$_ROBOT_ID_$$()";
+
+            List<string> createCode = new List<string>();
+            List<string> createDeclarationCode = new List<string>();
+            foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
+            {
+                mechanismInstance mis = r.mechanismInstances.Find(m => m.name == mi.name);
+                if (mis != null)
+                {
+                    string temp = createFunctionTemplate;
+                    temp = temp.Replace("$$_OBJECT_CREATION_$$", ListToString(generateMethod(mis, "generateIndexedObjectCreation")));
+                    temp = temp.Replace("$$_ROBOT_ID_$$", r.getFullRobotName());
+                    createCode.Add(temp);
+
+                    string tempDecl = createFunctionDeclarationTemplate;
+                    createDeclarationCode.Add(tempDecl.Replace("$$_ROBOT_ID_$$", r.getFullRobotName()));
+                }
+            }
+
+            functionDeclarations = ListToString(createDeclarationCode, ";");
+
+            return ListToString(createCode, Environment.NewLine);
+        }
+
+        private string GenerateInitializationFunctions(mechanismInstance mi, out string functionDeclarations)
+        {
+            string createFunctionTemplate =
+                            @"void $$_MECHANISM_INSTANCE_NAME_$$Gen::Initialize$$_ROBOT_ID_$$()
+                                {
+                                    $$_ELEMENT_INITIALIZATION_$$
+                                }";
+
+            string createFunctionDeclarationTemplate = "void Initialize$$_ROBOT_ID_$$()";
+
+            List<string> createCode = new List<string>();
+            List<string> initDeclarationCode = new List<string>();
+            foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
+            {
+                mechanismInstance mis = r.mechanismInstances.Find(m => m.name == mi.name);
+                if (mis != null)
+                {
+                    string temp = createFunctionTemplate;
+                    temp = temp.Replace("$$_ELEMENT_INITIALIZATION_$$", ListToString(generateMethod(mis, "generateInitialization")));
+                    temp = temp.Replace("$$_ROBOT_ID_$$", r.getFullRobotName());
+                    createCode.Add(temp);
+
+                    string tempDecl = createFunctionDeclarationTemplate;
+                    initDeclarationCode.Add(tempDecl.Replace("$$_ROBOT_ID_$$", r.getFullRobotName()));
+                }
+            }
+
+            functionDeclarations = ListToString(initDeclarationCode, ";");
+
+            return ListToString(createCode, Environment.NewLine);
+        }
+
 
         internal string getIncludePath(string mechanismName, bool generated)
         {

@@ -22,23 +22,12 @@ $$_MECHANISM_INSTANCE_NAME_$$Gen::$$_MECHANISM_INSTANCE_NAME_$$Gen(RobotConfigMg
 {
 }
 
-void $$_MECHANISM_INSTANCE_NAME_$$Gen::Create()
-{
-    m_ntName = "$$_MECHANISM_INSTANCE_NAME_$$";
-    $$_OBJECT_CREATION_$$
-
-    m_table = nt::NetworkTableInstance::GetDefault().GetTable(m_ntName);
-    m_tuningIsEnabledStr = "Enable Tuning for " + m_ntName; // since this string is used every loop, we do not want to create the string every time
-    m_table.get()->PutBoolean(m_tuningIsEnabledStr, m_tuning);
-}
-
 std::map<std::string, $$_MECHANISM_INSTANCE_NAME_$$Gen::STATE_NAMES> $$_MECHANISM_INSTANCE_NAME_$$Gen::stringToSTATE_NAMESEnumMap{
     $$_STATE_MAP_$$};
 
-void $$_MECHANISM_INSTANCE_NAME_$$Gen::Initialize()
-{
-    $$_ELEMENT_INITIALIZATION_$$
-}
+$$_CREATE_FUNCTIONS_$$
+
+$$_INITIALZATION_FUNCTIONS_$$
 
 void $$_MECHANISM_INSTANCE_NAME_$$Gen::SetCurrentState(int state, bool run)
 {
