@@ -45,6 +45,7 @@ void holdFeederState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederState"), string("init"));
 
 	m_genState->Init();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->getlauncherAngle()->GetCounts());
 }
 
 void holdFeederState::Run()
@@ -70,7 +71,7 @@ bool holdFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 	bool feederSensor = m_mechanism->getfeederSensor()->Get();
 	bool launcherSensor = m_mechanism->getlauncherSensor()->Get();
 	auto currentstate = m_mechanism->GetCurrentState();
-	bool visionTargetAcquired = false; // m_mechanism->HasVisionTarget(); // todo be set later with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+	bool visionTargetAcquired = m_mechanism->HasVisionTarget(); // todo be set later with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 
-	return ((feederSensor && launcherSensor) || (currentstate == m_genState->GetnoteManager()->STATE_READY_AUTO_LAUNCH && visionTargetAcquired == false));
+	return ((feederSensor && launcherSensor && (currentstate == m_mechanism->STATE_FEEDER_INTAKE)) || ((currentstate == m_mechanism->STATE_READY_AUTO_LAUNCH) && visionTargetAcquired == false));
 }

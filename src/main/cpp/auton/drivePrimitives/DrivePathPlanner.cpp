@@ -46,7 +46,8 @@ using namespace frc;
 
 using namespace wpi::math;
 
-DrivePathPlanner::DrivePathPlanner() : m_chassis(nullptr),
+DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
+                                       m_chassis(nullptr),
                                        m_timer(make_unique<Timer>()),
                                        m_trajectory(),
                                        m_pathname(),

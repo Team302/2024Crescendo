@@ -159,8 +159,7 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     // finally, get the value between -90 and 90
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
-    // auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
-    auto optimizedState = Optimize(targetState, currAngle);
+    auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
 
     // Set Turn Target
     SetTurnAngle(optimizedState.angle.Degrees());
@@ -354,53 +353,5 @@ void SwerveModule::ReadConstants(string configfilename)
     else
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_networkTableName, string("Config File not found"), configfilename);
-    }
-}
-
-//==================================================================================
-/// @brief Given a desired swerve module state and the current angle of the swerve module, determine
-///        if the changing the desired swerve module angle by 180 degrees is a smaller turn or not.
-///        If it is, return a state that has that angle and the reversed speed.  Otherwise, return the
-///        original desired state.
-/// Note:  the following was taken from the WPI code and tweaked because we were seeing some weird
-///        reversals that we believe was due to not using a tolerance
-/// @param [in] const SwerveModuleState& desired state of the swerve module
-/// @param [in] const Rotation2d& current angle of the swerve module
-/// @returns SwerveModuleState optimized swerve module state
-SwerveModuleState SwerveModule::Optimize(const SwerveModuleState &desiredState,
-                                         const Rotation2d &currentAngle)
-{
-    SwerveModuleState optimizedState;
-    optimizedState.angle = desiredState.angle;
-    optimizedState.speed = desiredState.speed;
-
-    // TODO:  remove this to test/fix Optimize
-    return optimizedState;
-
-    auto delta = AngleUtils::GetDeltaAngle(currentAngle.Degrees(), optimizedState.angle.Degrees());
-
-    // deal with roll over issues (e.g. want to go from -180 degrees to 180 degrees or vice versa)
-    // keep the current angle
-    if ((units::math::abs(delta) > 359_deg))
-    {
-        optimizedState.angle = currentAngle.Degrees();
-    }
-    // if delta is > 90 degrees or < -90 degrees, we can turn the wheel the otherway and
-    // reverse the wheel direction (negate speed)
-    // if the delta is > 90 degrees, rotate the module the opposite direction and negate the speed
-    else if ((units::math::abs(delta)) > 90_deg)
-    {
-        optimizedState.speed *= -1.0;
-        optimizedState.angle = optimizedState.angle + Rotation2d{180_deg};
-    }
-
-    // if the delta is > 90 degrees, rotate the opposite way and reverse the wheel
-    if ((units::math::abs(delta) - 90_deg) > 0.1_deg)
-    {
-        return {-desiredState.speed, desiredState.angle + Rotation2d{180_deg}};
-    }
-    else
-    {
-        return {desiredState.speed, desiredState.angle};
     }
 }
