@@ -64,7 +64,7 @@ void RobotConfigChassisBot_9997::DefineVisionSensors()
 	                               units::angle::degree_t ( units::angle::degree_t ( 0 ) ) ); //units::angle::degree_t roll,           /// <I> - Roll of camera
 	DragonVision::GetDragonVision()->AddCamera ( Placer, RobotElementNames::CAMERA_USAGE::PLACER );
 
-	pintake = new DragonLimelight ( "pintake", //std::string name,                      /// <I> - network table name
+	PIntake = new DragonLimelight ( "pintake", //std::string name,                      /// <I> - network table name
 	                                DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
 	                                units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
 	                                units::length::inch_t ( units::length::meter_t ( 0.185 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
@@ -76,5 +76,5 @@ void RobotConfigChassisBot_9997::DefineVisionSensors()
 	                                DragonLimelight::CAM_MODE::CAM_VISION, //CAM_MODE camMode,
 	                                DragonLimelight::STREAM_MODE::STREAM_DEFAULT, //STREAM_MODE streamMode,
 	                                DragonLimelight::SNAPSHOT_MODE::SNAP_OFF ); //SNAPSHOT_MODE snapMode);
-	DragonVision::GetDragonVision()->AddCamera ( pintake, RobotElementNames::CAMERA_USAGE::PINTAKE );
+	DragonVision::GetDragonVision()->AddCamera ( PIntake, RobotElementNames::CAMERA_USAGE::PINTAKE );
 }

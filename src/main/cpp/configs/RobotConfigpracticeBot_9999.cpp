@@ -61,7 +61,7 @@ StateMgr *RobotConfigpracticeBot_9999::GetMechanism ( MechanismTypes::MECHANISM_
 
 void RobotConfigpracticeBot_9999::DefineVisionSensors()
 {
-	PIntake = new DragonLimelight ( "PINTAKE", //std::string name,                      /// <I> - network table name
+	PIntake = new DragonLimelight ( "pintake", //std::string name,                      /// <I> - network table name
 	                                DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
 	                                units::length::inch_t ( units::length::inch_t ( -13.136 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
 	                                units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
@@ -85,7 +85,7 @@ void RobotConfigpracticeBot_9999::DefineVisionSensors()
 	                               units::angle::degree_t ( units::angle::degree_t ( 0 ) ) ); //units::angle::degree_t roll,           /// <I> - Roll of camera
 	DragonVision::GetDragonVision()->AddCamera ( Placer, RobotElementNames::CAMERA_USAGE::PLACER );
 
-	LIntake = new DragonLimelight ( "LINTAKE", //std::string name,                      /// <I> - network table name
+	LIntake = new DragonLimelight ( "lintake", //std::string name,                      /// <I> - network table name
 	                                DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
 	                                units::length::inch_t ( units::length::inch_t ( 11.76 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
 	                                units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)

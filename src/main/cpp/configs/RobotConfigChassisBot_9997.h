@@ -41,5 +41,5 @@ private:
 
 	DragonPhotonCam* Launcher;
 	DragonPhotonCam* Placer;
-	DragonLimelight* pintake;
+	DragonLimelight* PIntake;
 };
