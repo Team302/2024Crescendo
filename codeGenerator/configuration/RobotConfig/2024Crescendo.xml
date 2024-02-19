@@ -1459,7 +1459,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -1821,7 +1820,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -10277,7 +10275,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -10639,7 +10636,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -11021,7 +11017,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>5</value>
+                  <value>6</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -11045,7 +11041,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>6</value>
+                  <value>5</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -11141,7 +11137,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>3</value>
+                  <value>2</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
@@ -11165,7 +11161,7 @@
                   <name>uintParameter</name>
                   <__units__ />
                   <type>UInt32</type>
-                  <value>2</value>
+                  <value>3</value>
                 </digitalId>
                 <reversed>
                   <unitsFamily>none</unitsFamily>
