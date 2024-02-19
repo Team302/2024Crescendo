@@ -15,9 +15,6 @@
 
 #pragma once
 
-#include <optional>
-#include "frc/geometry/Pose3d.h"
-
 // Team302 Includes
 #include "chassis/headingStates/FaceTarget.h"
 
@@ -28,6 +25,5 @@ public:
     ~FaceSpeaker() = default;
 
 protected:
-    std::optional<frc::Pose3d> GetAprilTagPose() override;
-    std::optional<frc::Transform3d> GetVisionTargetTransform() override;
+    DragonVision::VISION_ELEMENT GetVisionElement() const override;
 };
