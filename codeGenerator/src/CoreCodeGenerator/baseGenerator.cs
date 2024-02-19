@@ -52,8 +52,13 @@ namespace CoreCodeGenerator
             {
                 list[i] = list[i].Trim();
                 if (!string.IsNullOrWhiteSpace(list[i]))
-                    sb.AppendLine(string.Format("{0}{1}", list[i], delimeter));
-                else if(!discardWhiteSpaceStrings)
+                {
+                    if ( (list[i].EndsWith(delimeter)) || ((delimeter == ";") && list[i].EndsWith("}")))
+                        sb.AppendLine(list[i]);
+                    else
+                        sb.AppendLine(string.Format("{0}{1}", list[i], delimeter));
+                }
+                else if (!discardWhiteSpaceStrings)
                     sb.AppendLine(string.Format("{0}", list[i]));
             }
 
@@ -116,7 +121,8 @@ namespace CoreCodeGenerator
 
             contents = contents.Replace("$$_COPYRIGHT_$$", copyright);
             contents = contents.Replace("$$_GEN_NOTICE_$$", generationString);
-            contents = theToolConfiguration.EditorFormattingDisable.Trim() + Environment.NewLine + contents.TrimStart();
+            if(!doNotWriteIfExists)
+                contents = theToolConfiguration.EditorFormattingDisable.Trim() + Environment.NewLine + contents.TrimStart();
 
             contents = astyle.AStyleCaller.beautify(contents, null);
 
@@ -170,7 +176,7 @@ namespace CoreCodeGenerator
 
         internal string removeGenerationInfo(string input)
         {
-            string s= removeGeneratorVersionInfo(input);
+            string s = removeGeneratorVersionInfo(input);
             return removeGenerationDateTimeInfo(s);
         }
 
@@ -219,7 +225,7 @@ namespace CoreCodeGenerator
         {
             str = string.Concat(str.Select((x, i) => i > 0 && char.IsDigit(x) && char.IsLetter(str[i - 1]) ? "_" + x.ToString() : x.ToString()));
 
-            return string.Concat(str.Select((x, i) => i > 0 && x=='_' && str[i - 1]=='_' ? "" : x.ToString()));
+            return string.Concat(str.Select((x, i) => i > 0 && x == '_' && str[i - 1] == '_' ? "" : x.ToString()));
         }
 
         internal string Remove(string original, string firstTag, string secondTag)
@@ -251,6 +257,6 @@ namespace CoreCodeGenerator
 
             return original;
         }
-        
+
     }
 }

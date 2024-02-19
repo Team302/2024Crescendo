@@ -21,7 +21,7 @@
 #include "PeriodicLooper.h"
 #include "utils/logging/Logger.h"
 #include "configs/RobotConfigMgr.h"
-#include "configs/RobotConfigpracticeBot_9999.h"
+#include "configs/RobotConfigCompBot_302.h"
 #include "configs/RobotElementNames.h"
 #include "DragonVision/DragonLimelight.h"
 #include "DragonVision/DragonVision.h"
@@ -29,34 +29,34 @@
 
 using std::string;
 
-void RobotConfigpracticeBot_9999::DefineMechanisms()
+void RobotConfigCompBot_302::DefineMechanisms()
 {
 	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing mechanism" ), string ( "noteManager" ), "" );
-	noteManagerGen* noteManagerGenMech = new noteManagerGen ( RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999 );
-	m_thenoteManager = new noteManager ( noteManagerGenMech, RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999 );
-	m_thenoteManager->CreatepracticeBot9999();
-	m_thenoteManager->InitializepracticeBot9999();
+	noteManagerGen* noteManagerGenMech = new noteManagerGen ( RobotConfigMgr::RobotIdentifier::COMP_BOT_302 );
+	m_thenoteManager = new noteManager ( noteManagerGenMech, RobotConfigMgr::RobotIdentifier::COMP_BOT_302 );
+	m_thenoteManager->CreateCompBot302();
+	m_thenoteManager->InitializeCompBot302();
 	m_thenoteManager->CreateAndRegisterStates();
 	m_thenoteManager->Init ( m_thenoteManager );
 	m_mechanismMap[MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER] = m_thenoteManager;
 
 	Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing mechanism" ), string ( "ClimberManager" ), "" );
-	ClimberManagerGen* ClimberManagerGenMech = new ClimberManagerGen ( RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999 );
-	m_theClimberManager = new ClimberManager ( ClimberManagerGenMech, RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999 );
-	m_theClimberManager->CreatepracticeBot9999();
-	m_theClimberManager->InitializepracticeBot9999();
+	ClimberManagerGen* ClimberManagerGenMech = new ClimberManagerGen ( RobotConfigMgr::RobotIdentifier::COMP_BOT_302 );
+	m_theClimberManager = new ClimberManager ( ClimberManagerGenMech, RobotConfigMgr::RobotIdentifier::COMP_BOT_302 );
+	m_theClimberManager->CreateCompBot302();
+	m_theClimberManager->InitializeCompBot302();
 	m_theClimberManager->CreateAndRegisterStates();
 	m_theClimberManager->Init ( m_theClimberManager );
 	m_mechanismMap[MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER] = m_theClimberManager;
 }
 
-void RobotConfigpracticeBot_9999::DefineLEDs()
+void RobotConfigCompBot_302::DefineLEDs()
 {
 
 
 }
 
-StateMgr *RobotConfigpracticeBot_9999::GetMechanism ( MechanismTypes::MECHANISM_TYPE mechType )
+StateMgr *RobotConfigCompBot_302::GetMechanism ( MechanismTypes::MECHANISM_TYPE mechType )
 {
 	auto itr = m_mechanismMap.find ( mechType );
 	if ( itr != m_mechanismMap.end() )
@@ -66,9 +66,9 @@ StateMgr *RobotConfigpracticeBot_9999::GetMechanism ( MechanismTypes::MECHANISM_
 	return nullptr;
 }
 
-void RobotConfigpracticeBot_9999::DefineVisionSensors()
+void RobotConfigCompBot_302::DefineVisionSensors()
 {
-	PIntake = new DragonLimelight ( "pintake", //std::string name,                      /// <I> - network table name
+	PIntake = new DragonLimelight ( "PIntake", //std::string name,                      /// <I> - network table name
 	                                DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
 	                                units::length::inch_t ( units::length::inch_t ( -13.136 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
 	                                units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
@@ -92,7 +92,7 @@ void RobotConfigpracticeBot_9999::DefineVisionSensors()
 	                               units::angle::degree_t ( units::angle::degree_t ( 0 ) ) ); //units::angle::degree_t roll,           /// <I> - Roll of camera
 	DragonVision::GetDragonVision()->AddCamera ( Placer, RobotElementNames::CAMERA_USAGE::PLACER );
 
-	LIntake = new DragonLimelight ( "lintake", //std::string name,                      /// <I> - network table name
+	LIntake = new DragonLimelight ( "LIntake", //std::string name,                      /// <I> - network table name
 	                                DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
 	                                units::length::inch_t ( units::length::inch_t ( 11.76 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
 	                                units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)

@@ -345,8 +345,12 @@ namespace applicationConfiguration
 
                             foreach (var vParam in icp)
                             {
+                                bool match = true;
+                                if(v.GetType().IsSubclassOf(typeof(MotorController))) // this is that when there are multiple motoControllers with the same name, we match by controller type
+                                    match = ((MotorController)v).motorControllerType == ((MotorController)vParam).motorControllerType;
+
                                 string s = pi.GetValue(vParam).ToString();
-                                if ((s != null) && (s == structureName))
+                                if ((s != null) && (s == structureName) && match )
                                 {
                                     MergeMechanismParametersIntoStructure(v, vParam);
                                 }
