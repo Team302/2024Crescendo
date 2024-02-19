@@ -23,6 +23,7 @@
 #include "mechanisms/noteManager/decoratormods/noteManager.h"
 #include "mechanisms/ClimberManager/decoratormods/ClimberManager.h"
 #include "DragonVision/DragonLimelight.h"
+#include "DragonVision/DragonVision.h"
 #include "DragonVision/DragonPhotonCam.h"
 
 class RobotConfigpracticeBot_9999 : public RobotConfig
@@ -36,6 +37,7 @@ public:
 protected:
 	void DefineMechanisms() override;
 	void DefineVisionSensors() override;
+	void DefineLEDs() override;
 
 private:
 	noteManager* m_thenoteManager = nullptr;

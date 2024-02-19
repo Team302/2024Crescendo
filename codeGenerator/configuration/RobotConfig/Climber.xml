@@ -6,6 +6,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>leftClimber</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -186,6 +187,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>rightClimber</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
