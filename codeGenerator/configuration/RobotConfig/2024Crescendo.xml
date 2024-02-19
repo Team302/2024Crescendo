@@ -10275,6 +10275,7 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -10499,7 +10500,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0.14687522949254608</value>
+                    <value>0.18452194564</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -10636,6 +10637,7 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -14382,7 +14384,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0.4135</value>
+                    <value>0.09996319</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -14519,7 +14521,6 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
-                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
@@ -14563,7 +14564,7 @@
                     <name>doubleParameter</name>
                     <__units__ />
                     <type>Double</type>
-                    <value>0.4135</value>
+                    <value>0.09996319</value>
                   </countsPerInch>
                   <countsPerDegree>
                     <unitsFamily>none</unitsFamily>
@@ -14700,6 +14701,7 @@
                   </SecondaryLimitCycles>
                 </currentLimits>
                 <theConfigMotorSettings>
+                  <inverted>Clockwise_Positive</inverted>
                   <mode>Brake</mode>
                 </theConfigMotorSettings>
                 <RotationOffset>
