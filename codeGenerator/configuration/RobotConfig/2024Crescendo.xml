@@ -6270,7 +6270,7 @@
       <Cameras>
         <Camera
           xsi:type="Limelight">
-          <name>PINTAKE</name>
+          <name>PIntake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
@@ -6362,7 +6362,6 @@
         </Camera>
         <Camera
           xsi:type="Limelight">
-          <name>LINTAKE</name>
           <name>LIntake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
@@ -8800,7 +8799,7 @@
         </Camera>
         <Camera
           xsi:type="Limelight">
-          <name>pintake</name>
+          <name>PIntake</name>
           <mountingXOffset>
             <unitsFamily>length</unitsFamily>
             <name>doubleParameter</name>
