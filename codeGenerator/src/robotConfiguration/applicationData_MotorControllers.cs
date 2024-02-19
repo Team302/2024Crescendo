@@ -351,6 +351,7 @@ namespace ApplicationData
                 sb.AppendLine(string.Format("IDragonMotorController* get{0}() const", name) );
                 sb.AppendLine("{");
                 sb.AppendLine(temp);
+                sb.AppendLine("return nullptr;");
                 sb.AppendLine("}");
 
                 
