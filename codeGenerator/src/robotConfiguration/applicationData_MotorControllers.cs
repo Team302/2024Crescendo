@@ -484,7 +484,6 @@ namespace ApplicationData
             public doubleParameter peakReverseDutyCycle { get; set; }
 
             [DefaultValue(InvertedValue.CounterClockwise_Positive)]
-            [ConstantInMechInstance]
             public InvertedValue inverted { get; set; }
 
             [DefaultValue(NeutralModeValue.Coast)]
@@ -910,7 +909,6 @@ namespace ApplicationData
         public class ConfigMotorSettings_SRX : baseDataClass
         {
             [DefaultValue(InvertedValue.CounterClockwise_Positive)]
-            [ConstantInMechInstance]
             public InvertedValue inverted { get; set; }
 
             [DefaultValue(NeutralModeValue.Coast)]
@@ -1193,7 +1191,6 @@ namespace ApplicationData
         public class ConfigMotorSettings_SparkController : baseDataClass
         {
             [DefaultValue(InvertedValue.CounterClockwise_Positive)]
-            [ConstantInMechInstance]
             public InvertedValue inverted { get; set; }
 
             [DefaultValue(NeutralModeValue.Coast)]
