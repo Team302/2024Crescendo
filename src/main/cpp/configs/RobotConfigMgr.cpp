@@ -24,10 +24,7 @@
 #include "configs/RobotConfigpracticeBot_9999.h"
 #include "configs/RobotConfigThing_1.h"
 #include "configs/RobotConfigChassisBot_9997.h"
-<<<<<<< HEAD
-=======
 #include "configs/RobotConfigCompBot_302.h"
->>>>>>> main
 
 using namespace std;
 
@@ -60,13 +57,10 @@ void RobotConfigMgr::InitRobot ( RobotIdentifier id )
 	case RobotIdentifier::CHASSIS_BOT_9997:
 		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing robot " ), string ( "CHASSIS_BOT_9997" ), string ( "" ) );
 		m_config = new RobotConfigChassisBot_9997();
-<<<<<<< HEAD
-=======
 		break;
 	case RobotIdentifier::COMP_BOT_302:
 		Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( "Initializing robot " ), string ( "COMP_BOT_302" ), string ( "" ) );
 		m_config = new RobotConfigCompBot_302();
->>>>>>> main
 		break;
 
 	default:

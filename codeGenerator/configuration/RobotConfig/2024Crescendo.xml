@@ -8865,8 +8865,6 @@
         <value>9997</value>
       </robotID>
       <name>ChassisBot</name>
-<<<<<<< HEAD
-=======
     </applicationData>
     <applicationData>
       <PowerDistributionPanel>
@@ -15340,7 +15338,6 @@
         <value>302</value>
       </robotID>
       <name>CompBot</name>
->>>>>>> main
     </applicationData>
   </Robots>
   <Mechanisms>

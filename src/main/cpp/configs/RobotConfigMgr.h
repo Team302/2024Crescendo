@@ -29,11 +29,7 @@ public:
 		PRACTICE_BOT_9999 = 9999,
 		THING_1 = 1,
 		CHASSIS_BOT_9997 = 9997,
-<<<<<<< HEAD
-=======
 		COMP_BOT_302 = 302,
->>>>>>> main
-
 		MAX_ROBOT_IDENTIFIERS
 	};
 
