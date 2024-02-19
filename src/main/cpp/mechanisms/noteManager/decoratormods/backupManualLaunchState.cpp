@@ -65,6 +65,7 @@ void backupManualLaunchState::Run()
 
 	/// DEBUGGING
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Angle"), m_mechanism->getlauncherAngle()->GetCounts());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("backupManual"), string("Elevator"), m_mechanism->getElevator()->GetCounts());
 
 	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_FRONT_INTAKE) ||
 		TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::BACKUP_BACK_INTAKE) ||
