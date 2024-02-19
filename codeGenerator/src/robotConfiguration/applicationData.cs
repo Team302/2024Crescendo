@@ -187,7 +187,7 @@ namespace ApplicationData
 
         [DataDescription("A robot can contain multiple LED setups")]
 
-        public List<led> Leds { get; set; }
+        public Led LEDs { get; set; }
 
         [DefaultValue(1u)]
         [Range(typeof(uint), "1", "9999")]
@@ -858,7 +858,7 @@ namespace ApplicationData
 
         public override List<string> generateIndexedObjectCreation(int index)
         {
-            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}))",
+            string creation = string.Format("{0} = new {1}(\"{0}\",RobotElementNames::{2},{3},{4},{5}({6}));",
                                             name,
                                             getImplementationName(),
                                             utilities.ListToString(generateElementNames()).ToUpper().Replace("::", "_USAGE::"),
@@ -1194,21 +1194,6 @@ namespace ApplicationData
 
 
     [Serializable()]
-    public class led : baseRobotElementClass
-    {
-        [DefaultValue(0u)]
-        [Range(typeof(uint), "0", "19")]
-        public uintParameter Id { get; set; }
-
-        [DefaultValue(0u)]
-        public uintParameter count { get; set; }
-
-        public led()
-        {
-        }
-    }
-
-    [Serializable()]
     public class talontach : baseRobotElementClass
     {
         [DefaultValue(0u)]
@@ -1356,6 +1341,21 @@ namespace ApplicationData
 
             return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) && char.IsLower(str[i - 1]) ? "_" + x.ToString() : x.ToString())).ToLower();
         }
+
+        protected string ListToString(List<string> list, string delimeter, bool discardWhiteSpaceStrings)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = list[i].Trim();
+                if (!string.IsNullOrWhiteSpace(list[i]))
+                    sb.AppendLine(string.Format("{0}{1}", list[i], delimeter));
+                else if (!discardWhiteSpaceStrings)
+                    sb.AppendLine(string.Format("{0}", list[i]));
+            }
+
+            return sb.ToString().Trim();
+        }
     }
 
     [Serializable]
@@ -1398,6 +1398,7 @@ namespace ApplicationData
         public static mechanismInstance theMechanismInstance { get; set; }
         public static int stateIndex { get; set; }
         public static applicationData theRobot { get; set; }
+        public static topLevelAppDataElement theRobotVariants { get; set; }
         public static toolConfiguration theGeneratorConfig { get; set; }
 
         public static void clear()
@@ -1536,7 +1537,7 @@ namespace ApplicationData
                                                             {12}, // double peakValue
                                                             {13}, // double nominalValue
                                                             {14}  // bool enableFOC
-                )",
+                );",
             name,
                 getImplementationName(),
                 controlTypeStr,
