@@ -10828,7 +10828,7 @@
                   <value>1</value>
                 </RotationOffset>
                 <motorBrushType>kBrushless</motorBrushType>
-                <sensorType>kNoSensor</sensorType>
+                <sensorType>kHallSensor</sensorType>
               </MotorController>
               <MotorController
                 xsi:type="SparkFlex">
@@ -11006,7 +11006,7 @@
                   <value>1</value>
                 </RotationOffset>
                 <motorBrushType>kBrushless</motorBrushType>
-                <sensorType>kNoSensor</sensorType>
+                <sensorType>kHallSensor</sensorType>
               </MotorController>
             </MotorControllers>
             <closedLoopControlParameters />
