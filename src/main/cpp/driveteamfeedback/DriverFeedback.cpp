@@ -22,6 +22,7 @@
 #include <networktables/NetworkTableInstance.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableEntry.h>
+#include <driveteamfeedback/LEDStates.h>
 
 #include "teleopcontrol/TeleopControl.h"
 
@@ -47,6 +48,20 @@ void DriverFeedback::UpdateLEDStates()
 {
     // reset controller rumble
     // TeleopControl::GetInstance()->SetRumble(0, false, false);
+    /*
+       if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+       {
+           m_LEDStates->SolidColorPattern(DragonLeds::RED);
+       }
+       else if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+       {
+           m_LEDStates->SolidColorPattern(DragonLeds::GREEN);
+       }
+       else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
+       {
+           m_LEDStates->SolidColorPattern(DragonLeds::WHITE);
+       }
+       */
 }
 
 void DriverFeedback::ResetRequests(void)
@@ -55,9 +70,19 @@ void DriverFeedback::ResetRequests(void)
 
 DriverFeedback::DriverFeedback() : IRobotStateChangeSubscriber()
 {
+
+    RobotState *RobotStates = RobotState::GetInstance();
+
+    RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
+    RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 }
 void DriverFeedback::Update(RobotStateChanges::StateChange change, int value)
 {
+    if (RobotStateChanges::StateChange::ClimbModeStatus == change)
+        m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
+
+    else if (RobotStateChanges::StateChange::DesiredScoringMode == change)
+        m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
 }
 
 void DriverFeedback::CheckControllers()

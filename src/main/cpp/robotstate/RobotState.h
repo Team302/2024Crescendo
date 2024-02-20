@@ -17,11 +17,10 @@
 #pragma once
 #include <vector>
 
-#include <frc/DriverStation.h>
+#include "frc/DriverStation.h"
+#include "robotstate/RobotStateChanges.h"
 
-#include <robotstate/RobotStateChanges.h>
-
-class IChassis;
+class SwerveChassis;
 class IRobotStateChangeSubscriber;
 class RobotStateChangeBroker;
 class TeleopControl;
@@ -43,7 +42,7 @@ private:
     RobotState();
     ~RobotState();
 
-    IChassis *m_chassis;
+    SwerveChassis *m_chassis;
     std::vector<RobotStateChangeBroker *> m_brokers;
     RobotStateChanges::ScoringMode m_scoringMode;
     RobotStateChanges::ClimbMode m_climbMode;

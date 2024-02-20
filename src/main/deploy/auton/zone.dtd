@@ -1,0 +1,41 @@
+<!ELEMENT auton (zone) >
+
+<!ELEMENT zone EMPTY >
+<!ATTLIST zone
+    ygrid1             		(  Y_1 |  Y_2 |  Y_3 |  Y_4 |  Y_5 |  Y_6 |  Y_7 |  Y_8 |  Y_9 | 
+							  Y_10 | Y_11 | Y_12 | Y_13 | Y_14 | Y_15 | Y_16 | Y_17 | Y_18 | Y_19 | 
+                              Y_20 | Y_21 | Y_22 | Y_23 | Y_24 | Y_25 | Y_26 | Y_27 | Y_28 | Y_29 | 
+                              Y_30 | Y_31 | Y_32 | Y_33 | Y_34 | Y_35 | Y_36 | Y_37 | Y_38 | Y_39 | 
+                              Y_40 | Y_41 | Y_42 | Y_43 | Y_44 | Y_45 | Y_46 | Y_47 | Y_48 | Y_49 | 
+                              Y_50 | Y_51 | Y_52 | Y_53 | Y_54 ) "Y_1"
+    xgrid1             		(  X_A | X_B | X_C | X_D | X_E | X_F | X_G | X_H | X_I | X_J | 
+                               X_K | X_L | X_M | X_N | X_O | X_P | X_Q | X_R | X_S | X_T | 
+                               X_U | X_V | X_W | X_X | X_Y | X_Z | X_AA ) "X_A"
+    ygrid2             		(  Y_1 |  Y_2 |  Y_3 |  Y_4 |  Y_5 |  Y_6 |  Y_7 |  Y_8 |  Y_9 | 
+							  Y_10 | Y_11 | Y_12 | Y_13 | Y_14 | Y_15 | Y_16 | Y_17 | Y_18 | Y_19 | 
+                              Y_20 | Y_21 | Y_22 | Y_23 | Y_24 | Y_25 | Y_26 | Y_27 | Y_28 | Y_29 | 
+                              Y_30 | Y_31 | Y_32 | Y_33 | Y_34 | Y_35 | Y_36 | Y_37 | Y_38 | Y_39 | 
+                              Y_40 | Y_41 | Y_42 | Y_43 | Y_44 | Y_45 | Y_46 | Y_47 | Y_48 | Y_49 | 
+                              Y_50 | Y_51 | Y_52 | Y_53 | Y_54 ) "Y_1"
+    xgrid2             		(  X_A | X_B | X_C | X_D | X_E | X_F | X_G | X_H | X_I | X_J | 
+                               X_K | X_L | X_M | X_N | X_O | X_P | X_Q | X_R | X_S | X_T | 
+                               X_U | X_V | X_W | X_X | X_Y | X_Z | X_AA ) "X_A"
+    noteOption        		( STATE_OFF | STATE_READY | STATE_FEEDER_INTAKE | 
+		                      STATE_EXPEL | STATE_PLACER_INTAKE | STATE_HOLD_FEEDER_FRONT | 
+		                      STATE_HOLD_FEEDER_BACK | STATE_INTAKE_TO_FEEDER | 
+							  STATE_LAUNCHER_TO_PLACER_FRONT | STATE_LAUNCHER_TO_PLACER_BACK | 
+							  STATE_HOLD_FEEDER | STATE_READY_AUTO_LAUNCH | 
+		                      STATE_READY_MANUAL_LAUNCH | STATE_PASS | STATE_AUTO_LAUNCH | 
+							  STATE_MANUAL_LAUNCH | STATE_READY_ODOMETRY_LAUNCH | 
+							  STATE_AUTO_LAUNCH_ODOMETRY | STATE_HOLD_PLACER_FRONT | 
+		                      STATE_HOLD_PLACER_BACK | STATE_INTAKE_TO_PLACER | STATE_PREPARE_PLACE_AMP | 
+		                      STATE_PREPARE_PLACE_TRAP | STATE_PLACE_AMP | 
+							  STATE_PLACE_TRAP | STATE_PLACER_TO_LAUNCHER_FRONT | 
+		                      STATE_PLACER_TO_LAUNCHER_BACK | STATE_BACKUP_MANUAL_LAUNCH | 
+							  STATE_BACKUP_MANUAL_PLACE ) "STATE_OFF"    
+    chassisOption           ( VISION_DRIVE_NOTE | VISION_DRIVE_SPEAKER | NO_VISION ) "NO_VISION"
+    avoidOption             ( PODIUM | ROBOT_COLLISION | NO_AVOID_OPTION ) "NO_AVOID_OPTION"
+    
+>
+
+

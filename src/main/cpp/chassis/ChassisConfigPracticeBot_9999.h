@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -15,25 +14,48 @@
 //====================================================================================================================================================
 
 #pragma once
+#include "chassis/ChassisConfig.h"
 
-#include <mechanisms/StateStruc.h>
+#include "units/length.h"
+#include "ctre/phoenix6/Pigeon2.hpp"
 
-class BaseMech;
-class MechanismTargetData;
-class PrimitiveParams;
-
-class StateMgrHelper
+class ChassisConfigPracticeBot_9999 : public ChassisConfig
 {
 public:
-    static void InitStateMgrs();
-    static void RunCurrentMechanismStates();
-    static void SetMechanismStateFromParam(
-        PrimitiveParams *params);
-    static void SetCheckGamepadInputsForStateTransitions(
-        bool check);
+	ChassisConfigPracticeBot_9999() = default;
+	~ChassisConfigPracticeBot_9999() = default;
 
-    static State *CreateState(
-        BaseMech *mech,
-        StateStruc &stateInfo,
-        MechanismTargetData *targetData);
+protected:
+	void DefinePigeon() override;
+	void DefineChassis() override;
+
+private:
+	std::string m_canbusName = std::string("canivore");
+	const int m_leftfrontdriveID = 8;
+	const int m_leftfrontturnID = 9;
+	const double m_leftfrontOffset = -0.475585;
+	const bool m_leftfrontdriveInvert = false;
+	const bool m_leftfrontturnInvert = true;
+	const bool m_leftfrontcancoderInvert = false;
+
+	const int m_leftbackdriveID = 5;
+	const int m_leftbackturnID = 2;
+	const double m_leftbackOffset = -0.099853515625;
+	const bool m_leftbackdriveInvert = true;
+	const bool m_leftbackturnInvert = false;
+	const bool m_leftbackcancoderInvert = false;
+
+	const int m_rightfrontdriveID = 6;
+	const int m_rightfrontturnID = 7;
+	const double m_rightfrontOffset = -0.48681640625;
+	const bool m_rightfrontdriveInvert = true;
+	const bool m_rightfrontturnInvert = false;
+	const bool m_rightfrontcancoderInvert = false;
+
+	const int m_rightbackdriveID = 4;
+	const int m_rightbackturnID = 3;
+	const double m_rightbackOffset = 0.375488;
+	const bool m_rightbackdriveInvert = false;
+	const bool m_rightbackturnInvert = true;
+	const bool m_rightbackcancoderInvert = false;
 };

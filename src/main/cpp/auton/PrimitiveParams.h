@@ -30,6 +30,8 @@
 #include "chassis/IChassis.h"
 #include "auton/ZoneParams.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
+// @ADDMECH include for your mechanism
 
 // Third Party Includes
 
@@ -50,7 +52,9 @@ public:
                     std::string pathName,
                     ZoneParamsVector zones, // create zones parameter of type
                     VISION_ALIGNMENT visionAlignment,
+                    bool changeNoteState,
                     noteManagerGen::STATE_NAMES noteState,
+                    bool changeClimberState,
                     ClimberManagerGen::STATE_NAMES climberState); // create zones parameter of type ZonesParamsVector
 
     PrimitiveParams() = delete;
@@ -65,6 +69,12 @@ public:
     ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
     VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
 
+    bool IsNoteStateChanging() const { return m_changeNoteState; }
+    noteManagerGen::STATE_NAMES GetNoteState() const { return m_noteState; }
+
+    bool IsClimberStateChanging() const { return m_changeClimberState; }
+    ClimberManagerGen::STATE_NAMES GetClimberState() const { return m_climberState; }
+
     // Setters
     void SetPathName(std::string path) { m_pathName = path; }
     void SetVisionAlignment(VISION_ALIGNMENT visionAlignment) { m_visionAlignment = visionAlignment; }
@@ -78,7 +88,9 @@ private:
     std::string m_pathName;
 
     VISION_ALIGNMENT m_visionAlignment;
+    bool m_changeNoteState;
     noteManagerGen::STATE_NAMES m_noteState;
+    bool m_changeClimberState;
     ClimberManagerGen::STATE_NAMES m_climberState;
 
     ZoneParamsVector m_zones;

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+
+<auton>
+    <primitive id="DO_NOTHING"
+               noteOption="STATE_AUTO_LAUNCH"
+               time="0.5"/>
+</auton>

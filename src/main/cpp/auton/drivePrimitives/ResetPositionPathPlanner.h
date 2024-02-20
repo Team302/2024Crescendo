@@ -18,29 +18,20 @@
 // C++ Includes
 
 // Third party includes
-#include "pathplanner/lib/path/PathPlannerTrajectory.h"
 
 // Team 302 Includes
-#include <auton/drivePrimitives/IPrimitive.h>
+#include "auton/drivePrimitives/IPrimitive.h"
 
 // Forward Declares
-class IChassis;
 class PrimitiveParams;
 
 class ResetPositionPathPlanner : public IPrimitive
 {
 public:
     ResetPositionPathPlanner();
-
     virtual ~ResetPositionPathPlanner() = default;
 
-    void Init(PrimitiveParams *params) override;
-
+    void Init(PrimitiveParams *param) override;
     void Run() override;
-
     bool IsDone() override;
-
-private:
-    IChassis *m_chassis;
-    pathplanner::PathPlannerTrajectory m_trajectory;
 };

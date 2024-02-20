@@ -41,7 +41,8 @@ class SwerveModule : public LoggableItem
 {
 public:
     /// @brief Constructs a Swerve Module.  This is assuming 2 TalonFX (Falcons) with a CanCoder for the turn angle
-    SwerveModule(SwerveModuleConstants::ModuleID id,
+    SwerveModule(std::string canbusname,
+                 SwerveModuleConstants::ModuleID id,
                  SwerveModuleConstants::ModuleType type,
                  int driveMotorID,
                  bool driveInverted,
@@ -92,8 +93,6 @@ private:
     void SetDriveSpeed(units::velocity::meters_per_second_t speed);
     void SetTurnAngle(units::angle::degree_t angle);
     void ReadConstants(std::string configfilename);
-    frc::SwerveModuleState Optimize(const frc::SwerveModuleState &desiredState,
-                                    const frc::Rotation2d &currentAngle);
 
     SwerveModuleConstants::ModuleID m_moduleID;
     ctre::phoenix6::hardware::TalonFX *m_driveTalon;

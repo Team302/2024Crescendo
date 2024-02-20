@@ -13,18 +13,36 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include <string>
+
 // FRC Includes
-#include <frc/Filesystem.h>
-#include <frc/trajectory/TrajectoryUtil.h>
+#include "frc/Filesystem.h"
+#include "frc/trajectory/TrajectoryUtil.h"
+#include "frc/geometry/Pose2d.h"
+#include "frc/geometry/Rotation2d.h"
+#include "frc/kinematics/ChassisSpeeds.h"
+#include "frc/trajectory/Trajectory.h"
+#include "units/angle.h"
+#include "units/angular_velocity.h"
+#include "units/velocity.h"
 
 // Team302 Includes
-#include <auton/AutonPreviewer.h>
-#include <auton/AutonSelector.h>
+#include "auton/AutonPreviewer.h"
+#include "auton/AutonSelector.h"
+#include "auton/PrimitiveEnums.h"
+#include "auton/PrimitiveParams.h"
+#include "auton/PrimitiveParser.h"
+#include "utils/logging/Logger.h"
 
 // Thirdparty includes
-#include <pugixml/pugixml.hpp>
+#include "pathplanner/lib/path/PathPlannerTrajectory.h"
+#include "pathplanner/lib/path/PathPlannerPath.h"
 
-using namespace pugi;
+using namespace pathplanner;
+using frc::ChassisSpeeds;
+using frc::Rotation2d;
+using frc::Trajectory;
+using std::string;
 
 AutonPreviewer::AutonPreviewer(CyclePrimitives *cyclePrims) : m_selector(cyclePrims->GetAutonSelector()),
                                                               m_prevChoice(""),
@@ -42,10 +60,9 @@ void AutonPreviewer::CheckCurrentAuton()
     }
 }
 
-//
 void AutonPreviewer::PopulateField()
 {
-    std::vector<frc::Trajectory> trajectories = GetTrajectories();
+    auto trajectories = GetTrajectories();
     m_field->ResetField();
     for (unsigned int i = 0; i < trajectories.size(); i++)
     {
@@ -55,45 +72,47 @@ void AutonPreviewer::PopulateField()
 
 std::vector<frc::Trajectory> AutonPreviewer::GetTrajectories()
 {
-    std::string filename = m_selector->GetSelectedAutoFile();
 
-    std::vector<std::string> trajectoryPaths;
     std::vector<frc::Trajectory> trajectories;
 
-    auto autonFile = frc::filesystem::GetDeployDirectory() + "/auton/" + filename;
+    ChassisSpeeds speeds;
+    speeds.vx = units::velocity::feet_per_second_t(0.0);
+    speeds.vy = units::velocity::feet_per_second_t(0.0);
+    speeds.omega = units::angular_velocity::degrees_per_second_t(0.0);
 
-    // Parse the xml file to get all the trajectory paths
-    xml_document doc;
-    xml_parse_result result = doc.load_file(autonFile.c_str());
+    Rotation2d heading(units::angle::degree_t(0.0));
 
-    if (result)
+    auto params = PrimitiveParser::ParseXML(m_selector->GetSelectedAutoFile());
+    for (auto param : params)
     {
-        xml_node auton = doc.root();
-        for (xml_node node = auton.first_child(); node; node = node.next_sibling())
+        std::vector<Trajectory::State> states;
+
+        if (param->GetID() == PRIMITIVE_IDENTIFIER::DRIVE_PATH_PLANNER)
         {
-            for (xml_node primitiveNode = node.first_child(); primitiveNode; primitiveNode = primitiveNode.next_sibling())
+            auto pathname = param->GetPathName();
+            auto path = PathPlannerPath::fromPathFile(pathname);
+            if (path.get() != nullptr)
             {
-                if (strcmp(primitiveNode.name(), "primitive") == 0)
+                auto pptrajectory = path.get()->getTrajectory(speeds, heading);
+                auto endstate = pptrajectory.getEndState();
+                heading = endstate.heading;
+                speeds.vx = endstate.velocity * heading.Cos();
+                speeds.vy = endstate.velocity * heading.Sin();
+
+                auto ppstates = pptrajectory.getStates();
+                for (auto ppstate : ppstates)
                 {
-                    for (xml_attribute attr = primitiveNode.first_attribute(); attr; attr = attr.next_attribute())
-                    {
-                        if (strcmp(attr.name(), "pathname") == 0)
-                        {
-                            trajectoryPaths.emplace_back(attr.value());
-                        }
-                    }
+                    Trajectory::State state;
+                    state.t = ppstate.time;
+                    state.acceleration = ppstate.acceleration;
+                    state.velocity = ppstate.velocity;
+                    state.pose = ppstate.getTargetHolonomicPose();
+                    state.curvature = ppstate.curvature;
+
+                    states.emplace_back(state);
                 }
             }
         }
     }
-
-    // Now that we have the paths, convert from JSON to frc::Trajectory and
-    auto pathDir = frc::filesystem::GetDeployDirectory() + "/paths/output/";
-
-    for (std::string path : trajectoryPaths)
-    {
-        trajectories.emplace_back(frc::TrajectoryUtil::FromPathweaverJson(pathDir + path));
-    }
-
     return trajectories;
 }
