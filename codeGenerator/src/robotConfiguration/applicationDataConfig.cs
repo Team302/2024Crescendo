@@ -61,7 +61,7 @@ namespace applicationConfiguration
                 theRobotVariants = (topLevelAppDataElement)mySerializer.Deserialize(myFileStream);
             }
 
-            foreach (string robotFile in  theRobotVariants.robotFiles)
+            foreach (string robotFile in theRobotVariants.robotFiles)
             {
                 string robotFullPath = Path.Combine(Path.GetDirectoryName(fullPathName), "robots", robotFile);
 
@@ -205,8 +205,8 @@ namespace applicationConfiguration
                             {
                                 beObj.isTunable = attributes.Find(a => a.GetType() == typeof(TunableParameterAttribute)) != null;
                                 beObj.isConstantInMechInstance = attributes.Find(a => a.GetType() == typeof(ConstantInMechInstanceAttribute)) != null;
-                                beObj.isConstant = (attributes.Find(a => a.GetType() == typeof(ConstantAttribute)) != null); 
-                                
+                                beObj.isConstant = (attributes.Find(a => a.GetType() == typeof(ConstantAttribute)) != null);
+
 
                                 PhysicalUnitsFamilyAttribute phyUnitsFamilyAttr = (PhysicalUnitsFamilyAttribute)attributes.Find(a => a.GetType() == typeof(PhysicalUnitsFamilyAttribute));
                                 if (phyUnitsFamilyAttr != null)
@@ -358,11 +358,11 @@ namespace applicationConfiguration
                             foreach (var vParam in icp)
                             {
                                 bool match = true;
-                                if(v.GetType().IsSubclassOf(typeof(MotorController))) // this is that when there are multiple motoControllers with the same name, we match by controller type
+                                if (v.GetType().IsSubclassOf(typeof(MotorController))) // this is that when there are multiple motoControllers with the same name, we match by controller type
                                     match = ((MotorController)v).motorControllerType == ((MotorController)vParam).motorControllerType;
 
                                 string s = pi.GetValue(vParam).ToString();
-                                if ((s != null) && (s == structureName) && match )
+                                if ((s != null) && (s == structureName) && match)
                                 {
                                     MergeMechanismParametersIntoStructure(v, vParam);
                                 }
@@ -410,11 +410,11 @@ namespace applicationConfiguration
                                 }
                             }
                         }
-                    //    PropertyInfo pi = propertyInfos.ToList().Find(p => p.Name == "value");
-                    //    if (pi != null)
-                    //    {
-                    //        pi.SetValue(structureSource, pi.GetValue(parametersSource));
-                    //    }
+                        //    PropertyInfo pi = propertyInfos.ToList().Find(p => p.Name == "value");
+                        //    if (pi != null)
+                        //    {
+                        //        pi.SetValue(structureSource, pi.GetValue(parametersSource));
+                        //    }
                     }
                     else if ((objType.FullName == "System.String") || (objType.FullName == "System.DateTime"))
                     {
@@ -550,20 +550,32 @@ namespace applicationConfiguration
             foreach (applicationData robot in theRobotVariants.Robots)
             {
                 string robotConfigFileFolder = Path.Combine(Path.GetDirectoryName(fullPathName), "robots");
-                
-                if(!Directory.Exists(robotConfigFileFolder))
+
+                if (!Directory.Exists(robotConfigFileFolder))
                     Directory.CreateDirectory(robotConfigFileFolder);
 
                 string robotFullPath = Path.Combine(robotConfigFileFolder, robot.getFullRobotName() + ".xml");
 
-                addProgress("Writing robot file " + robotFullPath);
                 try
                 {
-                    using (XmlWriter mechtw = XmlWriter.Create(robotFullPath, xmlWriterSettings))
+                    var theRobotSerializer = new XmlSerializer(typeof(applicationData));
+
+                    string configAsString = "";
+                    using (StringWriter textWriter = new StringWriter())
                     {
-                        var mechSerializer = new XmlSerializer(typeof(applicationData));
-                        mechSerializer.Serialize(mechtw, robot);
+                        theRobotSerializer.Serialize(textWriter, robot);
+                        configAsString = textWriter.ToString();
+                        configAsString = configAsString.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "<?xml version=\"1.0\"?>");
                     }
+
+                    string currentConfigAsString = File.Exists(robotFullPath) ? File.ReadAllText(robotFullPath) : "";
+                    if (configAsString != currentConfigAsString)
+                    {
+                        addProgress("Writing robot file " + robotFullPath);
+                        File.WriteAllText(robotFullPath, configAsString);
+                    }
+                    else
+                        addProgress("Did not write robot file " + robotFullPath + " because it did not change");
                 }
                 catch (Exception ex)
                 {
@@ -592,7 +604,7 @@ namespace applicationConfiguration
                         temp.name = mech.name;
                         temp.GUID = mech.GUID;
                         theRobotVariants.Mechanisms.Add(temp);
-                        break; 
+                        break;
                     }
                 }
 
