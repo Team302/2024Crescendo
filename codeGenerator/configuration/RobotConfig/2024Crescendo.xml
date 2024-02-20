@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <topLevelAppDataElement xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Robots>
     <applicationData>
@@ -8795,52 +8794,6 @@
             <__units__>deg</__units__>
             <type>Double</type>
             <value>0</value>
-          </roll>
-        </Camera>
-        <Camera
-          xsi:type="Limelight">
-          <name>PIntake</name>
-          <mountingXOffset>
-            <unitsFamily>length</unitsFamily>
-            <name>doubleParameter</name>
-            <__units__>m</__units__>
-            <type>Double</type>
-            <value>0</value>
-          </mountingXOffset>
-          <mountingYOffset>
-            <unitsFamily>length</unitsFamily>
-            <name>doubleParameter</name>
-            <__units__>m</__units__>
-            <type>Double</type>
-            <value>0.185</value>
-          </mountingYOffset>
-          <mountingZOffset>
-            <unitsFamily>length</unitsFamily>
-            <name>doubleParameter</name>
-            <__units__>m</__units__>
-            <type>Double</type>
-            <value>0.57</value>
-          </mountingZOffset>
-          <pitch>
-            <unitsFamily>angle</unitsFamily>
-            <name>doubleParameter</name>
-            <__units__>deg</__units__>
-            <type>Double</type>
-            <value>0</value>
-          </pitch>
-          <yaw>
-            <unitsFamily>angle</unitsFamily>
-            <name>doubleParameter</name>
-            <__units__>deg</__units__>
-            <type>Double</type>
-            <value>0</value>
-          </yaw>
-          <roll>
-            <unitsFamily>angle</unitsFamily>
-            <name>doubleParameter</name>
-            <__units__>deg</__units__>
-            <type>Double</type>
-            <value>180</value>
           </roll>
         </Camera>
       </Cameras>
