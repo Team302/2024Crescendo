@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+    <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "BlueWideWing0Center1"/>
+
+    <snippet file = "ShootWhenStop.xml"/>
+
+    <primitive id = "DRIVE_PATH_PLANNER"
+                pathname= "BlueWideWing0Center1"/>
+
+    <snippet file= "ShootWhenStop.xml"/>
+    <!--Shoots the ring into the speaker- we're already across the line so we are done-->
+    <!--Launching zones:
+    t12-p16  bottom ring 
+    e26-B29-->
+</auton>
