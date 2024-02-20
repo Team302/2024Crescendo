@@ -134,6 +134,8 @@ namespace ApplicationData
     [Serializable()]
     public class topLevelAppDataElement
     {
+        public List<string> robotFiles = new List<string>();
+
         [DataDescription("The robot definitions")]
         public List<applicationData> Robots { get; set; }
 
@@ -152,6 +154,7 @@ namespace ApplicationData
 
         public topLevelAppDataElement()
         {
+
             helperFunctions.initializeNullProperties(this);
             helperFunctions.initializeDefaultValues(this);
         }

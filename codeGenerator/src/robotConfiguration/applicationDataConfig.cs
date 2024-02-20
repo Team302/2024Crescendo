@@ -61,6 +61,18 @@ namespace applicationConfiguration
                 theRobotVariants = (topLevelAppDataElement)mySerializer.Deserialize(myFileStream);
             }
 
+            foreach (string robotFile in  theRobotVariants.robotFiles)
+            {
+                string robotFullPath = Path.Combine(Path.GetDirectoryName(fullPathName), "robots", robotFile);
+
+                addProgress("Loading robot configuration " + robotFullPath);
+                mySerializer = new XmlSerializer(typeof(applicationData));
+                using (var myFileStream = new FileStream(robotFullPath, FileMode.Open))
+                {
+                    theRobotVariants.Robots.Add((applicationData)mySerializer.Deserialize(myFileStream));
+                }
+            }
+
             for (int m = 0; m < theRobotVariants.Mechanisms.Count; m++)
             {
                 string mechanismFullPath = Path.Combine(Path.GetDirectoryName(fullPathName), theRobotVariants.Mechanisms[m].name + ".xml");
@@ -513,7 +525,7 @@ namespace applicationConfiguration
             xmlWriterSettings.NewLineOnAttributes = true;
             xmlWriterSettings.Indent = true;
 
-
+            // first write the mechanism files
             foreach (mechanism mech in theRobotVariants.Mechanisms)
             {
                 string mechanismFullPath = Path.Combine(Path.GetDirectoryName(fullPathName), mech.name + ".xml");
@@ -533,6 +545,33 @@ namespace applicationConfiguration
                     addProgress(ex.ToString());
                 }
             }
+
+            // then write the robot files
+            foreach (applicationData robot in theRobotVariants.Robots)
+            {
+                string robotConfigFileFolder = Path.Combine(Path.GetDirectoryName(fullPathName), "robots");
+                
+                if(!Directory.Exists(robotConfigFileFolder))
+                    Directory.CreateDirectory(robotConfigFileFolder);
+
+                string robotFullPath = Path.Combine(robotConfigFileFolder, robot.getFullRobotName() + ".xml");
+
+                addProgress("Writing robot file " + robotFullPath);
+                try
+                {
+                    using (XmlWriter mechtw = XmlWriter.Create(robotFullPath, xmlWriterSettings))
+                    {
+                        var mechSerializer = new XmlSerializer(typeof(applicationData));
+                        mechSerializer.Serialize(mechtw, robot);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    addProgress("Problem encountered while writing robot file " + robotFullPath);
+                    addProgress(ex.ToString());
+                }
+            }
+
 
             // after saving the mechanisms into separate files, clear the list of mechanisms, except for the name
             // so that the mechanism xml is blank in the robot config file...will not lead to conflicts when  multiple people change
@@ -559,6 +598,17 @@ namespace applicationConfiguration
 
             }
 
+            // copy the robots to a temporary list
+            theRobotVariants.robotFiles.Clear();
+            List<applicationData> tempRobotList = new List<applicationData>();
+            foreach (applicationData robot in theRobotVariants.Robots)
+            {
+                tempRobotList.Add(robot);
+                theRobotVariants.robotFiles.Add(robot.getFullRobotName() + ".xml");
+            }
+
+            theRobotVariants.Robots.Clear();
+
             var robotSerializer = new XmlSerializer(typeof(topLevelAppDataElement));
             XmlWriter tw = XmlWriter.Create(fullPathName, xmlWriterSettings);
             robotSerializer.Serialize(tw, theRobotVariants);
@@ -567,9 +617,16 @@ namespace applicationConfiguration
 
             theRobotVariants.Mechanisms.Clear();
 
+            // add back the mechanisms
             foreach (mechanism mech in tempList)
             {
                 theRobotVariants.Mechanisms.Add(mech);
+            }
+
+            // add back the robots
+            foreach (applicationData robot in tempRobotList)
+            {
+                theRobotVariants.Robots.Add(robot);
             }
         }
     }
