@@ -181,7 +181,7 @@ bool noteManager::autoLaunchReady()
 	{
 		VisionData visionData = optionalVisionData.value();
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance Y"), visionData.transformToTarget.Y().to<double>());
-		if (visionData.transformToTarget.Y().to<double>() <= 0.5 && GetVisionDistance().to<double>() <= 3.0)
+		if (visionData.transformToTarget.Y().to<double>() <= 0.5 && GetVisionDistance().to<double>() <= 3.5)
 		{
 			return true;
 		}
