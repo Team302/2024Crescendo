@@ -128,7 +128,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     bool changeNoteState = false;
                     auto climberState = ClimberManagerGen::STATE_OFF;
                     bool changeClimberState = false;
-                    auto robotConfigMgr = RobotConfigMgr::GetInstance();
+                    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
                     std::string pathName;
                     ZoneParamsVector zones;
 
@@ -176,9 +176,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             pathName = attr.value();
                         }
-                        else if (strcmp(attr.name(), "notestate") == 0)
+                        else if (strcmp(attr.name(), "noteOption") == 0)
                         {
-                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
+                            if (config != nullptr && config->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
                             {
                                 auto noteStateItr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
                                 if (noteStateItr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
@@ -188,9 +188,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                 }
                             }
                         }
-                        else if (strcmp(attr.name(), "climberstate") == 0)
+                        else if (strcmp(attr.name(), "climberOption") == 0)
                         {
-                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
+                            if (config != nullptr && config->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
                             {
                                 auto climberStateItr = ClimberManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
                                 if (climberStateItr != ClimberManagerGen::stringToSTATE_NAMESEnumMap.end())
@@ -277,6 +277,13 @@ void PrimitiveParser::Print(PrimitiveParamsVector paramVector)
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("vision alignment"), param->GetVisionAlignment());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("note change"), param->IsNoteStateChanging() ? string("true") : string("false"));
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("note state"), param->GetNoteState());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("climber change"), param->IsClimberStateChanging() ? string("true") : string("false"));
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("climber state"), param->GetClimberState());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("num zones"), (double)param->GetZones().size());
+
         slot++;
     }
 }

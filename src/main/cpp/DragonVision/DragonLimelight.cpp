@@ -60,7 +60,7 @@ DragonLimelight::DragonLimelight(
     CAM_MODE camMode,
     STREAM_MODE streamMode,
     SNAPSHOT_MODE snapMode) : DragonCamera(networkTableName, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(networkTableName.c_str()))
+                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(std::string(networkTableName)))
 {
     SetPipeline(initialPipeline);
     SetLEDMode(ledMode);

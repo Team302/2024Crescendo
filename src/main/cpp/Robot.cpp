@@ -130,7 +130,8 @@ void Robot::TeleopPeriodic()
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
+    Logger::GetLogger()
+        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
 void Robot::DisabledInit()
@@ -168,7 +169,6 @@ void Robot::InitializeRobot()
     RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
     ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
     auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-
     m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
     m_holonomic = nullptr;
     if (m_chassis != nullptr)

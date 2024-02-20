@@ -103,6 +103,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
     ReadConstants(configfilename);
     InitStates();
     ZeroAlignSwerveModules();
+    ResetYaw();
 }
 
 //==================================================================================
@@ -312,15 +313,7 @@ void SwerveChassis::ResetPose(const Pose2d &pose)
 //==================================================================================
 void SwerveChassis::ResetYaw()
 {
-    Rotation2d rot2d{GetYaw()};
-
-    frc::DriverStation::Alliance alliance = FMSData::GetInstance()->GetAllianceColor();
-
-    // Need to check if this should be 90 / 270 instead of 0 / 180
-    auto angle = alliance == frc::DriverStation::Alliance::kBlue ? units::angle::degree_t(0.0) : units::angle::degree_t(180.0);
-    MountPoseConfigs config{};
-    config.MountPoseYaw = angle.to<double>();
-    m_pigeon->GetConfigurator().Apply(config);
+    m_pigeon->Reset();
     ZeroAlignSwerveModules();
 }
 

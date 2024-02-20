@@ -44,5 +44,6 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             chassisMovement.chassisSpeeds.omega += correction;
         }
     }
-    chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+    else
+        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
 }

@@ -23,6 +23,7 @@
 #include "frc/Timer.h"
 
 // Team 302 includes
+#include "auton/AutonGrid.h"
 #include "auton/AutonSelector.h"
 #include "auton/CyclePrimitives.h"
 #include "auton/PrimitiveEnums.h"
@@ -32,6 +33,8 @@
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "utils/logging/Logger.h"
 #include "chassis/IChassis.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
@@ -55,8 +58,11 @@ CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 									 m_autonSelector(new AutonSelector()),
 									 m_timer(make_unique<Timer>()),
 									 m_maxTime(units::time::second_t(0.0)),
-									 m_isDone(false)
+									 m_isDone(false),
+									 m_chassis()
 {
+	auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+	m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
 }
 
 void CyclePrimitives::Init()
@@ -85,6 +91,49 @@ void CyclePrimitives::Run()
 	{
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("CurrentPrim "), string("run"));
 		m_currentPrim->Run();
+
+		if (m_chassis != nullptr)
+		{
+			auto params = (m_currentPrimSlot < (int)m_primParams.size()) ? m_primParams[m_currentPrimSlot] : nullptr;
+			if (params != nullptr)
+			{
+				auto zones = params->GetZones();
+				if (!zones.empty())
+				{
+					for (auto zone : zones)
+					{
+						auto isInZone = AutonGrid::GetInstance()->IsPoseInZone(zone->GetXGrid1(),
+																			   zone->GetXGrid2(),
+																			   zone->GetYGrid1(),
+																			   zone->GetYGrid2(),
+																			   m_chassis->GetPose());
+						if (isInZone)
+						{
+							auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+							if (config != nullptr && zone->IsNoteStateChanging())
+							{
+								auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+								if (noteMgr != nullptr)
+								{
+									noteMgr->SetCurrentState(zone->GetNoteOption(), true);
+								}
+							}
+
+							if (zone->GetChassisOption() != ChassisOptionEnums::AutonChassisOptions::NO_VISION)
+							{
+								// TODO:  plug in vision drive options
+							}
+
+							if (zone->GetAvoidOption() != ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION)
+							{
+								// TODO:  plug in avoid options
+							}
+						}
+					}
+				}
+			}
+		}
+
 		if (m_currentPrim->IsDone())
 		{
 			GetNextPrim();

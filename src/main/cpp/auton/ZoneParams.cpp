@@ -22,20 +22,20 @@
 // @ADDMECH include for your mechanism state mgr
 
 // @ADDMECH mechanism state for mech as parameter
-ZoneParams::ZoneParams(
-	int xgrid1,
-	int ygrid1,
-	int xgrid2,
-	int ygrid2,
-	noteManagerGen::STATE_NAMES noteoption,
-	ChassisOptionEnums::AutonChassisOptions autonchassisoption,
-	ChassisOptionEnums::AutonAvoidOptions autonavoidoption) : m_xgrid1(xgrid1),
-															  m_ygrid1(ygrid1),
-															  m_xgrid2(xgrid2),
-															  m_ygrid2(ygrid2),
-															  m_noteoption(noteoption),
-															  m_chassisoption(autonchassisoption),
-															  m_avoidoption(autonavoidoption)
-// @ADDMECH initilize state mgr attribute
+ZoneParams::ZoneParams(AutonGrid::XGRID xgrid1,
+					   AutonGrid::YGRID ygrid1,
+					   AutonGrid::XGRID xgrid2,
+					   AutonGrid::YGRID ygrid2,
+					   bool isNoteStateChanging,
+					   noteManagerGen::STATE_NAMES noteoption,
+					   ChassisOptionEnums::AutonChassisOptions autonchassisoption,
+					   ChassisOptionEnums::AutonAvoidOptions autonavoidoption) : m_xgrid1(xgrid1),
+																				 m_ygrid1(ygrid1),
+																				 m_xgrid2(xgrid2),
+																				 m_ygrid2(ygrid2),
+																				 m_isNoteStateChanging(isNoteStateChanging),
+																				 m_noteoption(noteoption),
+																				 m_chassisoption(autonchassisoption),
+																				 m_avoidoption(autonavoidoption)
 {
 }
