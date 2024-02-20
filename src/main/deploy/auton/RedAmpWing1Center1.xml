@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id = "RESET_POSITION_PATH_PLANNER"
+pathname= "BlueAmpWing1Center1.path"/>
+
+<snippet file = "ShootWhenStop.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+pathname = "BlueAmpWing1Center1.path"/>
+
+
+<!--Zones to launch:
+G11-D9 (Launches there two different times: in the middle and at the very end)-->
+
+
+</auton>
