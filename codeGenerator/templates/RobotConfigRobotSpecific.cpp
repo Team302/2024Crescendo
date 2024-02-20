@@ -12,8 +12,13 @@ $$_INCLUDE_$$
 
 using std::string;
 
-void RobotConfig$$_ROBOT_NAME_$$::DefineMechanisms(){
+void RobotConfig$$_ROBOT_NAME_$$::DefineMechanisms()
+{
     $$_MECHANISMS_INITIALIZATION_$$
+}
+
+void RobotConfig$$_ROBOT_NAME_$$::DefineLEDs(){
+    $$_LED_INITIALIZATION_$$
 
 }
 

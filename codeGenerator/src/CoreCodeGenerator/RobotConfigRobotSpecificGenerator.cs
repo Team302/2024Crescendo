@@ -77,10 +77,10 @@ namespace CoreCodeGenerator
 
             string mechInstDef =
                 @"Logger::GetLogger()->LogData ( LOGGER_LEVEL::PRINT, string ( ""Initializing mechanism"" ), string ( ""$$_MECHANISM_INSTANCE_NAME_$$"" ), """" );
-                  $$_MECHANISM_INSTANCE_NAME_$$Gen* $$_MECHANISM_INSTANCE_NAME_$$GenMech = new $$_MECHANISM_INSTANCE_NAME_$$Gen();
-                  m_the$$_MECHANISM_INSTANCE_NAME_$$ = new $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$GenMech);
-                  m_the$$_MECHANISM_INSTANCE_NAME_$$->Create();
-                  m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize(RobotConfigMgr::RobotIdentifier::$$_ROBOT_ENUM_NAME_$$);
+                  $$_MECHANISM_INSTANCE_NAME_$$Gen* $$_MECHANISM_INSTANCE_NAME_$$GenMech = new $$_MECHANISM_INSTANCE_NAME_$$Gen(RobotConfigMgr::RobotIdentifier::$$_ROBOT_ENUM_NAME_$$);
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$ = new $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$GenMech, RobotConfigMgr::RobotIdentifier::$$_ROBOT_ENUM_NAME_$$);
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$->Create$$_ROBOT_FULL_NAME_$$();
+                  m_the$$_MECHANISM_INSTANCE_NAME_$$->Initialize$$_ROBOT_FULL_NAME_$$();
                   m_the$$_MECHANISM_INSTANCE_NAME_$$->CreateAndRegisterStates();
                   ";
 
@@ -88,6 +88,8 @@ namespace CoreCodeGenerator
                 @"m_the$$_MECHANISM_INSTANCE_NAME_$$->Init(m_the$$_MECHANISM_INSTANCE_NAME_$$);
                   m_mechanismMap[MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_INSTANCE_NAME_UPPERCASE_$$] = m_the$$_MECHANISM_INSTANCE_NAME_$$;
                  ";
+
+            string LEDinitialization = @"DragonLeds::GetInstance()->Initialize($$_LED_PWM_ID_$$, $$_TOTAL_LED_$$);";
 
             generatorContext.clear();
             foreach (applicationData robot in theRobotConfiguration.theRobotVariants.Robots)
@@ -106,18 +108,40 @@ namespace CoreCodeGenerator
                 }
 
                 resultString = template.Replace("$$_MECHANISMS_INITIALIZATION_$$", sb.ToString().Trim());
+                resultString = resultString.Replace("$$_ROBOT_FULL_NAME_$$", robot.getFullRobotName());
                 resultString = resultString.Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName()));
                 resultString = resultString.Replace("$$_ROBOT_ENUM_NAME_$$", ToUnderscoreDigit(ToUnderscoreCase(robot.getFullRobotName())).ToUpper());
 
                 sb.Clear();
                 List<string> list = new List<string>();
+                List<string> includeList = new List<string>();
                 foreach (Camera cam in robot.Cameras)
                 {
                     list.AddRange(cam.generateIndexedObjectCreation(0));
-
+                    includeList.AddRange(cam.generateIncludes());
                 }
                 resultString = resultString.Replace("$$_CAMERAS_INITIALIZATION_$$", ListToString(list).Trim());
-                resultString = resultString.Replace("$$_INCLUDE_$$", (robot.Cameras.Count > 0) ? @"#include ""DragonVision/DragonVision.h""" : "");
+
+                sb.Clear();
+                uint numberOfLeds = 0;
+                foreach (LedSegment ls in robot.LEDs.Segments)
+                    numberOfLeds += ls.Count.value;
+
+                if (numberOfLeds > 0)
+                {
+                    LEDinitialization = LEDinitialization.Replace("$$_TOTAL_LED_$$", numberOfLeds.ToString());
+                    LEDinitialization = LEDinitialization.Replace("$$_LED_PWM_ID_$$", robot.LEDs.PwmId.ToString());
+                    includeList.AddRange(robot.LEDs.generateIncludes());
+                }
+                else
+                {
+                    LEDinitialization = "";
+                }
+
+                resultString = resultString.Replace("$$_LED_INITIALIZATION_$$", LEDinitialization);
+
+                includeList = includeList.Distinct().ToList();
+                resultString = resultString.Replace("$$_INCLUDE_$$", ListToString(includeList));
 
                 copyrightAndGenNoticeAndSave(getOutputFileFullPath(cdf.outputFilePathName).Replace("$$_ROBOT_NAME_$$", ToUnderscoreDigit(robot.getFullRobotName())), resultString);
             }

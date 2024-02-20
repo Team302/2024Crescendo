@@ -16,17 +16,20 @@
 #include <map>
 #include <string>
 
-#include "auton/AutonGrid.h"
-#include "mechanisms/noteManager/generated/noteManagerGen.h"
+#include "frc/Filesystem.h"
 
-#include <auton/ZoneParams.h>
-#include <auton/ZoneParser.h>
+#include "auton/AutonGrid.h"
+#include "auton/ZoneParams.h"
+#include "auton/ZoneParser.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
 #include "utils/logging/Logger.h"
-#include <pugixml/pugixml.hpp>
+
+#include "pugixml/pugixml.hpp"
+
 using namespace std;
 using namespace pugi;
 
-ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
+ZoneParams *ZoneParser::ParseXML(string fulldirfile)
 {
     auto hasError = false;
 
@@ -126,117 +129,136 @@ ZoneParams *ZoneParser::ParseXML(xml_node zonenode)
 
     };
 
-    AutonGrid::XGRID xgrid1 = AutonGrid::XGRID::NO_VALUE;
-    AutonGrid::YGRID ygrid1 = AutonGrid::YGRID::NONE;
-    AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
-    AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
-    ChassisOptionEnums::AutonChassisOptions chassisChosenOption = ChassisOptionEnums::AutonChassisOptions::NO_VISION;
-    noteManagerGen::STATE_NAMES noteChosenOption = noteManagerGen::STATE_NAMES::STATE_OFF;
-    ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION;
+    auto deployDir = frc::filesystem::GetDeployDirectory();
+    auto zonedir = deployDir + "/auton/zones/";
 
-    // looping through the zone xml attributes to define the location of a given zone (based on 2 sets grid coordinates)
+    string updfulldirfile = zonedir;
+    updfulldirfile += fulldirfile;
 
-    for (xml_attribute attr = zonenode.first_attribute(); attr; attr = attr.next_attribute())
+    xml_document doc;
+    xml_parse_result result = doc.load_file(updfulldirfile.c_str());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "PrimitiveParser", "updated File", updfulldirfile.c_str());
+    if (result)
     {
+        xml_node auton = doc.root();
+        for (xml_node zonenode = auton.first_child(); zonenode; zonenode = zonenode.next_sibling())
+        {
 
-        if (strcmp(attr.name(), "xgrid1") == 0)
-        {
-            auto itr = X_xmlStringToGridEnumMap.find(attr.value());
-            if (itr != X_xmlStringToGridEnumMap.end())
+            AutonGrid::XGRID xgrid1 = AutonGrid::XGRID::NO_VALUE;
+            AutonGrid::YGRID ygrid1 = AutonGrid::YGRID::NONE;
+            AutonGrid::XGRID xgrid2 = AutonGrid::XGRID::NO_VALUE;
+            AutonGrid::YGRID ygrid2 = AutonGrid::YGRID::NONE;
+            ChassisOptionEnums::AutonChassisOptions chassisChosenOption = ChassisOptionEnums::AutonChassisOptions::NO_VISION;
+            bool isNoteStateChanging = false;
+            noteManagerGen::STATE_NAMES noteChosenOption = noteManagerGen::STATE_NAMES::STATE_OFF;
+            ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION;
+
+            // looping through the zone xml attributes to define the location of a given zone (based on 2 sets grid coordinates)
+
+            for (xml_attribute attr = zonenode.first_attribute(); attr; attr = attr.next_attribute())
             {
-                xgrid1 = itr->second;
+
+                if (strcmp(attr.name(), "xgrid1") == 0)
+                {
+                    auto itr = X_xmlStringToGridEnumMap.find(attr.value());
+                    if (itr != X_xmlStringToGridEnumMap.end())
+                    {
+                        xgrid1 = itr->second;
+                    }
+                    else
+                    {
+                        hasError = true;
+                    }
+                }
+                else if (strcmp(attr.name(), "ygrid1") == 0)
+                {
+                    auto itr = Y_xmlStringToGridEnumMap.find(attr.value());
+                    if (itr != Y_xmlStringToGridEnumMap.end())
+                    {
+                        ygrid1 = itr->second;
+                    }
+                    else
+                    {
+                        hasError = true;
+                    }
+                }
+                else if (strcmp(attr.name(), "xgrid2") == 0)
+                {
+                    auto itr = X_xmlStringToGridEnumMap.find(attr.value());
+                    if (itr != X_xmlStringToGridEnumMap.end())
+                    {
+                        xgrid2 = itr->second;
+                    }
+                    else
+                    {
+                        hasError = true;
+                    }
+                }
+                else if (strcmp(attr.name(), "ygrid2") == 0)
+                {
+                    auto itr = Y_xmlStringToGridEnumMap.find(attr.value());
+                    if (itr != Y_xmlStringToGridEnumMap.end())
+                    {
+                        ygrid2 = itr->second;
+                    }
+                    else
+                    {
+                        hasError = true;
+                    }
+                }
+                else if (strcmp(attr.name(), "noteOption") == 0)
+                {
+                    auto itr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
+                    if (itr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
+                    {
+                        noteChosenOption = itr->second;
+                        bool isNoteStateChanging = false;
+                    }
+                    else
+                    {
+                        hasError = true;
+                    }
+                }
+                else if (strcmp(attr.name(), "chassisOption") == 0)
+                {
+                    auto itr = xmlStringToChassisOptionEnumMap.find(attr.value());
+                    if (itr != xmlStringToChassisOptionEnumMap.end())
+                    {
+                        chassisChosenOption = itr->second;
+                    }
+                    else
+                    {
+                        hasError = true;
+                    }
+                }
+                else if (strcmp(attr.name(), "avoidOption") == 0)
+                {
+                    auto itr = xmlStringToAvoidOptionEnumMap.find(attr.value());
+                    if (itr != xmlStringToAvoidOptionEnumMap.end())
+                    {
+                        avoidChosenOption = itr->second;
+                    }
+                    else
+                    {
+                        hasError = true;
+                    }
+                }
             }
-            else
+
+            if (!hasError) // if no error returns the zone parameters
             {
-                hasError = true;
+                return (new ZoneParams(xgrid1,
+                                       ygrid1,
+                                       xgrid2,
+                                       ygrid2,
+                                       isNoteStateChanging,
+                                       noteChosenOption,
+                                       chassisChosenOption,
+                                       avoidChosenOption));
             }
-        }
-        else if (strcmp(attr.name(), "ygrid1") == 0)
-        {
-            auto itr = Y_xmlStringToGridEnumMap.find(attr.value());
-            if (itr != Y_xmlStringToGridEnumMap.end())
-            {
-                ygrid1 = itr->second;
-            }
-            else
-            {
-                hasError = true;
-            }
-        }
-        else if (strcmp(attr.name(), "xgrid2") == 0)
-        {
-            auto itr = X_xmlStringToGridEnumMap.find(attr.value());
-            if (itr != X_xmlStringToGridEnumMap.end())
-            {
-                xgrid2 = itr->second;
-            }
-            else
-            {
-                hasError = true;
-            }
-        }
-        else if (strcmp(attr.name(), "ygrid2") == 0)
-        {
-            auto itr = Y_xmlStringToGridEnumMap.find(attr.value());
-            if (itr != Y_xmlStringToGridEnumMap.end())
-            {
-                ygrid2 = itr->second;
-            }
-            else
-            {
-                hasError = true;
-            }
-        }
-        else if (strcmp(attr.name(), "noteOption") == 0)
-        {
-            auto itr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
-            if (itr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
-            {
-                noteChosenOption = itr->second;
-            }
-            else
-            {
-                hasError = true;
-            }
-        }
-        else if (strcmp(attr.name(), "chassisOption") == 0)
-        {
-            auto itr = xmlStringToChassisOptionEnumMap.find(attr.value());
-            if (itr != xmlStringToChassisOptionEnumMap.end())
-            {
-                chassisChosenOption = itr->second;
-            }
-            else
-            {
-                hasError = true;
-            }
-        }
-        else if (strcmp(attr.name(), "avoidOption") == 0)
-        {
-            auto itr = xmlStringToAvoidOptionEnumMap.find(attr.value());
-            if (itr != xmlStringToAvoidOptionEnumMap.end())
-            {
-                avoidChosenOption = itr->second;
-            }
-            else
-            {
-                hasError = true;
-            }
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("ZoneParser"), string("ParseXML"), string("Has Error"));
         }
     }
-
-    if (!hasError) // if no error returns the zone parameters
-    {
-        return (new ZoneParams(xgrid1,
-                               ygrid1,
-                               xgrid2,
-                               ygrid2,
-                               noteChosenOption,
-                               chassisChosenOption,
-                               avoidChosenOption));
-    }
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("ZoneParser"), string("ParseXML"), string("Has Error"));
-
     return nullptr; // if error, return nullptr
 }

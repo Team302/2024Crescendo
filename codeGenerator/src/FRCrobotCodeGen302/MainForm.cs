@@ -518,7 +518,13 @@ namespace FRCrobotCodeGen302
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Something went wrong. See below. \r\n\r\n" + ex.Message, "Code generator error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string messageAddon = "";
+                if(ex.InnerException != null)
+                {
+                    if (ex.InnerException.InnerException != null)
+                        messageAddon = ex.InnerException.InnerException.ToString();
+                }
+                MessageBox.Show("Something went wrong. See below. \r\n\r\n" + ex.Message + "\r\n\r\n" + messageAddon, "Code generator error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void cleanButton_Click(object sender, EventArgs e)

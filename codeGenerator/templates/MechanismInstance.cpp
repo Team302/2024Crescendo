@@ -21,8 +21,8 @@ using namespace $$_MECHANISM_INSTANCE_NAME_$$States;
 /// @param otherMotor Same as previous
 /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
 /// Additional actuators and sensors are also in this list.
-$$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$Gen *base) : $$_MECHANISM_INSTANCE_NAME_$$Gen(),
-                                                                                                       m_$$_MECHANISM_INSTANCE_NAME_$$(base)
+$$_MECHANISM_INSTANCE_NAME_$$::$$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$Gen *base, RobotConfigMgr::RobotIdentifier activeRobotId) : $$_MECHANISM_INSTANCE_NAME_$$Gen(activeRobotId),
+                                                                                                                                                      m_$$_MECHANISM_INSTANCE_NAME_$$(base)
 {
     PeriodicLooper::GetInstance()->RegisterAll(this);
 }

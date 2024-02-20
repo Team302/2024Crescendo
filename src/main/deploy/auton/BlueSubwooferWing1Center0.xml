@@ -2,20 +2,16 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname="BlueSubwooferWing1Center0.path"/>
-<!--Reseting our position-->
+    <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname="BlueSubwooferWing1Center0"/>
 
-<snippet file= "ShootWhenStop.xml"/>
-<!--We're stopping and Launching to start-->
+    <snippet file= "ShootWhenStop.xml"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname="BlueSubwooferWing1Center0.path"/>
-<!--Go forward as the path says-->
+    <primitive id= "DRIVE_PATH_PLANNER"
+            pathname="BlueSubwooferWing1Center0">
+            <zone filename="BlueIntakeWingNote2.xml"/>
+    </primitive>
 
-<snippet file= "ShootWhenStop.xml"/>
-<!--Launch the ring into the speaker-->
-
-
+    <snippet file= "ShootWhenStop.xml"/>
 
 </auton>
