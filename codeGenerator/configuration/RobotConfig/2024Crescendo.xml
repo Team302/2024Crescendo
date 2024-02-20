@@ -8771,9 +8771,9 @@
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>19</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
@@ -8787,7 +8787,7 @@
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>180</value>
+            <value>0</value>
           </yaw>
           <roll>
             <unitsFamily>angle</unitsFamily>
@@ -15186,21 +15186,21 @@
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>11.76</value>
+            <value>11.653</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>6.5</value>
           </mountingYOffset>
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>12.128</value>
+            <value>11.7</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
@@ -15232,7 +15232,7 @@
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>7.31</value>
+            <value>7.4</value>
           </mountingXOffset>
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
@@ -15246,7 +15246,7 @@
             <name>uintParameter</name>
             <__units__>in</__units__>
             <type>UInt32</type>
-            <value>22.931</value>
+            <value>23.772</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>

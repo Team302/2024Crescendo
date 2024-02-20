@@ -332,7 +332,7 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 	}*/
 
 	std::optional<VisionPose> launcherMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetMultiTagEstimate();
-	std::optional<VisionPose> placerMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetMultiTagEstimate();
+	std::optional<VisionPose> placerMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER])->GetMultiTagEstimate();
 	std::optional<VisionPose> selectedPose = std::nullopt;
 
 	if (launcherMultiTag && placerMultiTag)
