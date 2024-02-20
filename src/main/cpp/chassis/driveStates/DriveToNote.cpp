@@ -44,10 +44,10 @@ DriveToNote *DriveToNote::getInstance()
     }
     return DriveToNote::m_instance;
 }
-auto visiondata = DragonVision::GetDragonVision();
 
-static units::angle::degree_t getNoteDirection()
+units::angle::degree_t DriveToNote::getNoteDirection()
 {
+    auto visiondata = DragonVision::GetDragonVision();
     if (visiondata != nullptr)
     {
         auto notedata = visiondata->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
@@ -65,6 +65,7 @@ static units::angle::degree_t getNoteDirection()
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 {
     DriveToNote *dtnvisiondata = DriveToNote::getInstance();
+    auto visiondata = DragonVision::GetDragonVision();
     auto notedata = visiondata->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
 
     frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
