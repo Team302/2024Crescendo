@@ -21,6 +21,7 @@
 #include "mechanisms/MechanismTypes.h"
 #include "mechanisms/base/StateMgr.h"
 #include "DragonVision/DragonPhotonCam.h"
+#include "DragonVision/DragonLimelight.h"
 #include "DragonVision/DragonVision.h"
 
 class RobotConfigChassisBot_9997 : public RobotConfig
@@ -43,4 +44,5 @@ private:
 
 	DragonPhotonCam* Launcher;
 	DragonPhotonCam* Placer;
+	DragonLimelight* PIntake;
 };

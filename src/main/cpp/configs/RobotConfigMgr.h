@@ -30,7 +30,6 @@ public:
 		THING_1 = 1,
 		CHASSIS_BOT_9997 = 9997,
 		COMP_BOT_302 = 302,
-
 		MAX_ROBOT_IDENTIFIERS
 	};
 
