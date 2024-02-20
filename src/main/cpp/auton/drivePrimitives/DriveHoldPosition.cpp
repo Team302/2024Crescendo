@@ -34,7 +34,8 @@
 using namespace std;
 using namespace frc;
 
-DriveHoldPosition::DriveHoldPosition() : m_chassis(nullptr),
+DriveHoldPosition::DriveHoldPosition() : IPrimitive(),
+										 m_chassis(nullptr),
 										 m_timeRemaining(units::time::second_t(0.0)) // Value will be changed in init
 {
 	auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();

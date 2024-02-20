@@ -17,17 +17,16 @@
 #pragma once
 
 // C++ Includes
+#include <string>
 
 // FRC includes
 
 // Team 302 includes
-#include <auton/PrimitiveParams.h>
 
 // Third Party Includes
-#include <pugixml/pugixml.hpp>
 
 class ZoneParser
 {
 public:
-    static ZoneParams *ParseXML(pugi::xml_node zonenode); // declare a new xml_node called zonenode for the zone element
+    static ZoneParams *ParseXML(std::string fulldirfile); // declare a new xml_node called zonenode for the zone element
 };

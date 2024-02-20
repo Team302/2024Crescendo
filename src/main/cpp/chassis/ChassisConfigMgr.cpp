@@ -50,13 +50,13 @@ void ChassisConfigMgr::InitChassis(RobotConfigMgr::RobotIdentifier id)
 		break;
 
 	default:
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Skipping chassis initialization because of unknown robot id "), string(""), id);
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("Skipping chassis initialization because of unknown robot id "), string(""), id);
 		break;
 	}
 
 	if (m_config != nullptr)
 	{
 		m_config->BuildChassis();
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Initialization completed for robot "), string(""), id);
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Initialization completed for robot "), string(""), id);
 	}
 }

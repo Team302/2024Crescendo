@@ -6,6 +6,7 @@
     <MotorController
       xsi:type="TalonSRX">
       <name>BackLeftMotor</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -204,6 +205,7 @@
     <MotorController
       xsi:type="TalonSRX">
       <name>RightBackMotor</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -402,6 +404,7 @@
     <MotorController
       xsi:type="TalonSRX">
       <name>LeftFrontMotor</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -600,6 +603,7 @@
     <MotorController
       xsi:type="TalonSRX">
       <name>RightFrontMotor</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -798,6 +802,7 @@
     <MotorController
       xsi:type="TalonFX">
       <name>Flacon</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -1070,6 +1075,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>Neo550</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -1247,6 +1253,7 @@
     <MotorController
       xsi:type="SparkFlex">
       <name>Vortex</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>

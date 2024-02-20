@@ -13,11 +13,15 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include <string>
+
 // FRC Includes
-#include <frc/smartdashboard/SmartDashboard.h>
+#include "frc/smartdashboard/SmartDashboard.h"
 
 // Team 302 Includes
-#include <utils/DragonField.h>
+#include "utils/DragonField.h"
+
+using std::string;
 
 DragonField *DragonField::m_instance = nullptr;
 

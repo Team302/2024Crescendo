@@ -13,39 +13,37 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include <tuple>
+
 // Team302 Includes
+#include "chassis/DragonDriveTargetFinder.h"
 #include "chassis/headingStates/FaceAmp.h"
-#include <chassis/ChassisConfigMgr.h>
+#include "chassis/ChassisConfigMgr.h"
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose3d.h"
 
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerveDriveOrientation(headingOption)
-
 {
 }
 
 void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    if (chassis != nullptr)
+    auto finder = DragonDriveTargetFinder::GetInstance();
+    if (finder != nullptr)
     {
-        auto target = GetVisionTargetTransform();
-        if (target)
-        {
-            auto rotation = target.value().Rotation().Angle();
-            chassis->SetStoredHeading(rotation);
-        }
-        else
-        {
-            auto currentPose = chassis->GetPose();
-            auto pose3d = GetAprilTagPose();
-            if (pose3d)
-            {
-                auto targetPose = pose3d.value().ToPose2d();
+        auto info = finder->GetPose(GetVisionElement());
+        auto type = get<0>(info);
+        auto targetPose = get<1>(info);
 
+        if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+        {
+            auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+            auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+            if (chassis != nullptr)
+            {
+                auto currentPose = chassis->GetPose();
                 auto trans = currentPose - targetPose;
-                chassis->SetStoredHeading(trans.Rotation().Degrees());
+                DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, trans.Rotation().Degrees(), m_kp);
             }
         }
     }

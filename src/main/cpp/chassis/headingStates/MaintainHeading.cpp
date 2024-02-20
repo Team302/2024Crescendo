@@ -31,18 +31,11 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::angular_velocity::degrees_per_second_t correction = units::angular_velocity::degrees_per_second_t(0.0);
 
     units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "VxBEFORE", chassisMovement.chassisSpeeds.vx.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "VyBEFORE", chassisMovement.chassisSpeeds.vy.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "OmegaBEFORE", chassisMovement.chassisSpeeds.omega.to<double>());
-
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 
     if (std::abs(rot.to<double>()) < 0.1)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "HitIf", true);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "HitElse", false);
         chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
         if (abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0 || abs(chassisMovement.chassisSpeeds.vy.to<double>() > 0.0))
         {
@@ -51,9 +44,6 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             chassisMovement.chassisSpeeds.omega += correction;
         }
     }
-    chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "VxAFTER", chassisMovement.chassisSpeeds.vx.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "VyAFTER", chassisMovement.chassisSpeeds.vy.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Maintain", "OmegaAFTER", chassisMovement.chassisSpeeds.omega.to<double>());
+    else
+        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
 }

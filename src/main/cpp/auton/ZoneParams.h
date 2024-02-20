@@ -22,6 +22,7 @@
 // FRC includes
 
 // Team 302 includes
+#include "auton/AutonGrid.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
 
@@ -30,25 +31,36 @@
 class ZoneParams
 {
 public:
-    ZoneParams(
-        int xgrid1,
-        int ygrid1,
-        int xgrid2,
-        int ygrid2,
-        noteManagerGen::STATE_NAMES,
-        ChassisOptionEnums::AutonChassisOptions,
-        ChassisOptionEnums::AutonAvoidOptions); // declare ZoneParams public constructor with parameters xgrid1, etc.
+    ZoneParams(AutonGrid::XGRID xgrid1,
+               AutonGrid::YGRID ygrid1,
+               AutonGrid::XGRID xgrid2,
+               AutonGrid::YGRID ygrid2,
+               bool isNoteStateChanging,
+               noteManagerGen::STATE_NAMES noteoption,
+               ChassisOptionEnums::AutonChassisOptions autonchassisoption,
+               ChassisOptionEnums::AutonAvoidOptions autonavoidoption); // declare ZoneParams public constructor with parameters xgrid1, etc.
 
     ZoneParams() = delete;
     ~ZoneParams() = default; // Destructor
+
+    AutonGrid::XGRID GetXGrid1() const { return m_xgrid1; }
+    AutonGrid::XGRID GetXGrid2() const { return m_xgrid2; }
+    AutonGrid::YGRID GetYGrid1() const { return m_ygrid1; }
+    AutonGrid::YGRID GetYGrid2() const { return m_ygrid2; }
+    bool IsNoteStateChanging() const { return m_isNoteStateChanging; }
+    noteManagerGen::STATE_NAMES GetNoteOption() const { return m_noteoption; }
+    ChassisOptionEnums::AutonChassisOptions GetChassisOption() const { return m_chassisoption; }
+    ChassisOptionEnums::AutonAvoidOptions GetAvoidOption() const { return m_avoidoption; }
+
 private:
-    int m_xgrid1;
-    int m_ygrid1;
-    int m_xgrid2;
-    int m_ygrid2;
-    int m_noteoption;
-    int m_chassisoption;
-    int m_avoidoption; // instances of said parameters
+    AutonGrid::XGRID m_xgrid1;
+    AutonGrid::YGRID m_ygrid1;
+    AutonGrid::XGRID m_xgrid2;
+    AutonGrid::YGRID m_ygrid2;
+    bool m_isNoteStateChanging;
+    noteManagerGen::STATE_NAMES m_noteoption;
+    ChassisOptionEnums::AutonChassisOptions m_chassisoption;
+    ChassisOptionEnums::AutonAvoidOptions m_avoidoption; // instances of said parameters
 };
 
 typedef std::vector<ZoneParams *> ZoneParamsVector; // create typedef ZoneParamsVector
