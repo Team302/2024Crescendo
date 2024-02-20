@@ -129,7 +129,17 @@ void Robot::TeleopPeriodic()
         m_holonomic->Run();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
-
+    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetDataToNearestAprilTag(RobotElementNames::LAUNCHER);
+    if (optionalVisionData)
+    {
+        VisionData visionData = optionalVisionData.value();
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Anotcharliedebug"), string("X"), double(visionData.transformToTarget.X().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Anotcharliedebug"), string("Y"), double(visionData.transformToTarget.Y().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Anotcharliedebug"), string("Z"), double(visionData.transformToTarget.Z().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Anotcharliedebug"), string("roll"), double(visionData.transformToTarget.Rotation().X().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Anotcharliedebug"), string("pitch"), double(visionData.transformToTarget.Rotation().Y().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Anotcharliedebug"), string("yaw"), double(visionData.transformToTarget.Rotation().Z().to<double>()));
+    }
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
