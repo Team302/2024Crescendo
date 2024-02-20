@@ -2821,7 +2821,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                 </target>
                 <motorName>launcherTop</motorName>
@@ -2832,7 +2832,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                 </target>
                 <motorName>launcherBottom</motorName>
@@ -3488,7 +3488,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                   <value>0.25</value>
                 </target>
@@ -3500,7 +3500,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                   <value>0.25</value>
                 </target>
@@ -5108,7 +5108,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                   <value>0.25</value>
                 </target>
@@ -5120,7 +5120,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                   <value>0.25</value>
                 </target>
@@ -5459,7 +5459,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                   <value>0.25</value>
                 </target>
@@ -5471,7 +5471,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                   <value>0.25</value>
                 </target>

@@ -2516,7 +2516,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0</value>
+                <value>0.0005</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -2823,7 +2823,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                 </target>
                 <motorName>launcherTop</motorName>
@@ -2834,7 +2834,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                 </target>
                 <motorName>launcherBottom</motorName>
