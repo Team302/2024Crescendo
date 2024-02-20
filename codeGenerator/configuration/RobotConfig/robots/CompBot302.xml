@@ -1001,7 +1001,6 @@
                 <type>Double</type>
                 <value>-1</value>
               </peakReverseDutyCycle>
-              <inverted>Clockwise_Positive</inverted>
             </theConfigMotorSettings>
             <diameter>
               <unitsFamily>length</unitsFamily>

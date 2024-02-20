@@ -903,7 +903,7 @@ void noteManagerGen::InitializeCompBot302()
 
 	launcherTopDragonSparkFlex->SetRemoteSensor ( 0,
 	        ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
-	launcherTopDragonSparkFlex->Invert ( true );
+	launcherTopDragonSparkFlex->Invert ( false );
 	launcherTopDragonSparkFlex->EnableBrakeMode ( false );
 	launcherTopDragonSparkFlex->SetSmartCurrentLimiting ( 50 );
 	launcherTopDragonSparkFlex->SetSecondaryCurrentLimiting ( 50, 0 );
