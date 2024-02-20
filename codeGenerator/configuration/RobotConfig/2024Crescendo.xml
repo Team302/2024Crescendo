@@ -8370,16 +8370,16 @@
           <mountingYOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>4.25</value>
           </mountingYOffset>
           <mountingZOffset>
             <unitsFamily>length</unitsFamily>
             <name>uintParameter</name>
-            <__units__>m</__units__>
+            <__units__>in</__units__>
             <type>UInt32</type>
-            <value>0</value>
+            <value>18.5</value>
           </mountingZOffset>
           <pitch>
             <unitsFamily>angle</unitsFamily>
@@ -8393,7 +8393,7 @@
             <name>doubleParameter</name>
             <__units__>deg</__units__>
             <type>Double</type>
-            <value>180</value>
+            <value>0</value>
           </yaw>
           <roll>
             <unitsFamily>angle</unitsFamily>
