@@ -70,4 +70,18 @@ void RobotConfigChassisBot_9997::DefineVisionSensors()
 	                               units::angle::degree_t ( units::angle::degree_t ( 180 ) ), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
 	                               units::angle::degree_t ( units::angle::degree_t ( 0 ) ) ); //units::angle::degree_t roll,           /// <I> - Roll of camera
 	DragonVision::GetDragonVision()->AddCamera ( Placer, RobotElementNames::CAMERA_USAGE::PLACER );
+
+	PIntake = new DragonLimelight ( "limelight-pintake", //std::string name,                      /// <I> - network table name
+	                                DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
+	                                units::length::inch_t ( units::length::meter_t ( 0 ) ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+	                                units::length::inch_t ( units::length::meter_t ( 0.185 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+	                                units::length::inch_t ( units::length::meter_t ( 0.57 ) ), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+	                                units::angle::degree_t ( units::angle::degree_t ( 0 ) ), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
+	                                units::angle::degree_t ( units::angle::degree_t ( 0 ) ), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
+	                                units::angle::degree_t ( units::angle::degree_t ( 180 ) ), //units::angle::degree_t roll,           /// <I> - Roll of camera
+	                                DragonLimelight::LED_MODE::LED_OFF, //LED_MODE ledMode,
+	                                DragonLimelight::CAM_MODE::CAM_VISION, //CAM_MODE camMode,
+	                                DragonLimelight::STREAM_MODE::STREAM_DEFAULT, //STREAM_MODE streamMode,
+	                                DragonLimelight::SNAPSHOT_MODE::SNAP_OFF ); //SNAPSHOT_MODE snapMode);
+	DragonVision::GetDragonVision()->AddCamera ( PIntake, RobotElementNames::CAMERA_USAGE::PINTAKE );
 }
