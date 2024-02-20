@@ -46,12 +46,15 @@ void autoLaunchState::Init()
 
 	m_genState->Init();
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->getlauncherAngle()->GetCounts());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherTop()->GetRPS()).to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherBottom()->GetRPS()).to<double>());
 }
 
 void autoLaunchState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoLaunchState"), string("run"));
-	m_genState->Run();
+	if (units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherBottom()->GetRPS()).to<double>() > 80.0 && units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherTop()->GetRPS()).to<double>())
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 1);
 }
 
 void autoLaunchState::Exit()
@@ -69,5 +72,5 @@ bool autoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH) && m_mechanism->autoLaunchReady()); //&& AtTarget());
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH)); // && m_mechanism->autoLaunchReady());
 }
