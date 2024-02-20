@@ -1830,7 +1830,7 @@
                 <name>intParameter</name>
                 <__units__ />
                 <type>Int32</type>
-                <value>0</value>
+                <value>1</value>
               </countsPerRev>
               <gearRatio>
                 <unitsFamily>none</unitsFamily>
@@ -2009,7 +2009,7 @@
                 <name>intParameter</name>
                 <__units__ />
                 <type>Int32</type>
-                <value>0</value>
+                <value>1</value>
               </countsPerRev>
               <gearRatio>
                 <unitsFamily>none</unitsFamily>
@@ -2516,7 +2516,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.1</value>
+                <value>1</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -2537,7 +2537,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.1</value>
+                <value>0.25</value>
               </fGain>
               <iZone>
                 <unitsFamily>none</unitsFamily>
@@ -2566,7 +2566,7 @@
               <name>doubleParameter</name>
               <__units__ />
               <type>Double</type>
-              <value>5</value>
+              <value>0</value>
             </maxAcceleration>
             <cruiseVelocity>
               <unitsFamily>none</unitsFamily>
@@ -2966,10 +2966,10 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>0.25</value>
+                  <value>15</value>
                 </target>
                 <motorName>launcherTop</motorName>
-                <controlDataName>percentOutput</controlDataName>
+                <controlDataName>velocityRPS</controlDataName>
               </motorTarget>
               <motorTarget>
                 <name>launcherBottom</name>
@@ -2978,10 +2978,10 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>0.25</value>
+                  <value>15</value>
                 </target>
                 <motorName>launcherBottom</motorName>
-                <controlDataName>percentOutput</controlDataName>
+                <controlDataName>velocityRPS</controlDataName>
               </motorTarget>
               <motorTarget>
                 <name>launcherAngle</name>
@@ -5237,7 +5237,7 @@
                   <value>0.25</value>
                 </target>
                 <motorName>launcherTop</motorName>
-                <controlDataName>percentOutput</controlDataName>
+                <controlDataName>velocityRPS</controlDataName>
               </motorTarget>
               <motorTarget>
                 <name>launcherBottom</name>
@@ -5249,7 +5249,7 @@
                   <value>0.25</value>
                 </target>
                 <motorName>launcherBottom</motorName>
-                <controlDataName>percentOutput</controlDataName>
+                <controlDataName>velocityRPS</controlDataName>
               </motorTarget>
               <motorTarget>
                 <name>launcherAngle</name>
