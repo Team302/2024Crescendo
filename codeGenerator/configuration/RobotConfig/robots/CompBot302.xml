@@ -1987,7 +1987,9 @@
                 <value>0</value>
               </SecondaryLimitCycles>
             </currentLimits>
-            <theConfigMotorSettings />
+            <theConfigMotorSettings>
+              <inverted>Clockwise_Positive</inverted>
+            </theConfigMotorSettings>
             <RotationOffset>
               <unitsFamily>none</unitsFamily>
               <name>doubleParameter</name>
