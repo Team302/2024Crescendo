@@ -34,6 +34,7 @@
 #include "chassis/IChassis.h"
 #include "utils/logging/Logger.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
+#include "utils/FMSData.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
@@ -70,6 +71,12 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     auto speed = m_chassis->GetChassisSpeeds();
 
     auto path = PathPlannerPath::fromPathFile(m_pathname);
+
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+    {
+        path.get()->flipPath();
+    }
+
     if (path.get() != nullptr)
     {
         m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());

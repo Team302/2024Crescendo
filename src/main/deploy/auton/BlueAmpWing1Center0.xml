@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_PATH_PLANNER"
+pathname = "BlueAmpWing1Center0.path"/>
+
+<snippet file= "ShootWhenStop.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+pathname = "BlueAmpWing1Center0.path"/>
+
+<snippet file = "ShootWhenStop.xml"/>
+
+<!--Don't need launching zones, as when it begins and when the path ends we launch-->
+
+</auton>
