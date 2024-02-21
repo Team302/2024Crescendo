@@ -14,11 +14,12 @@
 //=====================================================================================================================================================
 
 // C++ Includes
+#include <tuple>
 
 // FRC Includes
-#include <frc/geometry/Rotation3d.h>
 #include <frc/geometry/Rotation2d.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
+#include <frc/geometry/Pose2d.h>
 
 // Team302 Includes
 #include "DragonVision/DragonVision.h"
@@ -27,6 +28,7 @@
 #include "chassis/driveStates/DriveToNote.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVisionStructs.h"
+#include "chassis/DragonDriveTargetFinder.h"
 
 using namespace pathplanner;
 
@@ -45,20 +47,19 @@ DriveToNote *DriveToNote::getInstance()
     return DriveToNote::m_instance;
 }
 
-units::angle::degree_t DriveToNote::getNoteDirection()
+units::angle::degree_t DriveToNote::GetNoteDirection()
 {
-    auto visiondata = DragonVision::GetDragonVision();
-    if (visiondata != nullptr)
+    auto finder = DragonDriveTargetFinder::GetInstance();
+
+    auto info = finder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+    auto type = get<0>(info);
+    auto targetNotePose = get<1>(info);
+
+    if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
     {
-        auto notedata = visiondata->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
-        if (notedata)
-        {
-            auto notetransform = notedata.value().deltaToTarget;
-            frc::Rotation3d notedirection3d = notetransform.Rotation();
-            frc::Rotation2d notedirection2d = notedirection3d.ToRotation2d();
-            units::angle::degree_t notedirectiondegrees = notedirection2d.Degrees();
-            return notedirectiondegrees;
-        }
+        auto noteRotation = targetNotePose.Rotation();
+        units::angle::degree_t notedirectiondegrees = noteRotation.Degrees();
+        return notedirectiondegrees;
     }
 }
 
@@ -68,21 +69,26 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
     auto visiondata = DragonVision::GetDragonVision();
     auto notedata = visiondata->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
 
+    auto finder = DragonDriveTargetFinder::GetInstance();
+
+    auto info = finder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+    auto type = get<0>(info);
+    auto targetNotePose = get<1>(info);
+
     frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 
     pathplanner::PathPlannerTrajectory trajectory;
 
-    if (visiondata != nullptr && m_chassis != nullptr)
+    if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND && m_chassis != nullptr)
     {
         auto currentPose2d = m_chassis->GetPose();
 
         if (allianceColor == frc::DriverStation::kBlue)
         {
-            units::angle::degree_t currentnotedirection = dtnvisiondata->getNoteDirection();
+            units::angle::degree_t currentnotedirection = dtnvisiondata->GetNoteDirection();
             if (currentnotedirection)
             {
-                auto notetransform = notedata.value().deltaToTarget;
-                auto noteDistance = frc::Pose2d(notetransform.X(), notetransform.Y(), frc::Rotation2d(currentnotedirection));
+                auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), frc::Rotation2d(currentnotedirection));
                 std::vector<frc::Pose2d> poses{
                     currentPose2d,
                     noteDistance};
@@ -97,13 +103,12 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
                 return trajectory;
             }
         }
-        else if (allianceColor == frc::DriverStation::kBlue)
+        else if (allianceColor == frc::DriverStation::kRed)
         {
-            units::angle::degree_t currentnotedirection = dtnvisiondata->getNoteDirection();
+            units::angle::degree_t currentnotedirection = dtnvisiondata->GetNoteDirection();
             if (currentnotedirection)
             {
-                auto notetransform = notedata.value().deltaToTarget;
-                auto noteDistance = frc::Pose2d(notetransform.X(), notetransform.Y(), frc::Rotation2d(currentnotedirection));
+                auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), frc::Rotation2d(currentnotedirection));
                 std::vector<frc::Pose2d> poses{
                     currentPose2d,
                     noteDistance};

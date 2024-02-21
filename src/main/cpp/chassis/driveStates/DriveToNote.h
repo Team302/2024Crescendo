@@ -35,7 +35,7 @@ public:
     ~DriveToNote() = default;
 
     static DriveToNote *getInstance();
-    static units::angle::degree_t getNoteDirection();
+    static units::angle::degree_t GetNoteDirection();
     pathplanner::PathPlannerTrajectory CreateDriveToNote();
 
 private:
