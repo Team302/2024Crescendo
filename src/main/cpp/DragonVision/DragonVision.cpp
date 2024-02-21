@@ -24,8 +24,9 @@
 #include "DragonVision/DragonVision.h"
 #include "DragonVision/DragonPhotonCam.h"
 #include "utils/FMSData.h"
-#include "utils/logging/Logger.h"
+#include "DragonVision/DragonVisionStructLogger.h"
 
+#include <string>
 // Third Party Includes
 
 DragonVision *DragonVision::m_dragonVision = nullptr;
@@ -223,33 +224,49 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	switch (element)
 	{
 	case VISION_ELEMENT::PLACER_NOTE:
-		selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER];
+		selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE];
 		break;
 	case VISION_ELEMENT::LAUNCHER_NOTE:
-		selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER];
+		selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE];
 		break;
 	case VISION_ELEMENT::NOTE:
 	{
-		bool launcherHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->HasTarget();
-		bool placerHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->HasTarget();
-		if (!launcherHasDetection && !placerHasDetection)
+		bool lintakeHasDetection = false;
+		bool pintakeHasDetection = false;
+		//make sure cameras are set
+		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE] != nullptr)
+		{
+			lintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->HasTarget();
+		}
+		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE] != nullptr)
+		{
+			pintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->HasTarget();
+		}
+
+		if (!lintakeHasDetection && !pintakeHasDetection)
 		{
 			return std::nullopt;
 		}
-		else if (launcherHasDetection && placerHasDetection) // we see targets in both cameras
+		else if (lintakeHasDetection && pintakeHasDetection)
 		{
-			// check which note is closest to robot
-			frc::Translation2d translationLauncher = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
-			frc::Translation2d translationPlacer = frc::Translation2d(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value(), m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value());
+			// check which note is closest to robot.. and handle std optional
+			units::length::meter_t lintakeXDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value();
+			units::length::meter_t lintakeYDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value();
+			frc::Translation2d translationLauncher = frc::Translation2d(lintakeXDistance, lintakeYDistance);
+
+			units::length::meter_t pintakeXDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value();
+			units::length::meter_t pintakeYDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value();
+			frc::Translation2d translationPlacer = frc::Translation2d(pintakeXDistance, pintakeYDistance);
 
 			selectedCam = units::math::abs(translationLauncher.Norm()) < units::math::abs(translationPlacer.Norm()) ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE];
 		}
 		else
 		{
-			if (launcherHasDetection)
+			if (lintakeHasDetection)
 				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE];
 			else
 				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE];
+
 		}
 	}
 	break;
@@ -496,4 +513,16 @@ bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, RobotElementNames::C
 DragonCamera::PIPELINE DragonVision::GetPipeline(RobotElementNames::CAMERA_USAGE position)
 {
 	return m_dragonCameraMap[position]->GetPipeline();
+}
+
+/*****************
+ * testAndLogVisionData:  Test and log the vision data
+ * add this line to teleopPeriodic to test and log vision data
+ *
+ *     DragonVision::GetDragonVision()->testAndLogVisionData();
+ */
+void DragonVision::testAndLogVisionData()
+{
+	std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
+	DragonVisionStructLogger::logVisionData("VisionData", testData);
 }

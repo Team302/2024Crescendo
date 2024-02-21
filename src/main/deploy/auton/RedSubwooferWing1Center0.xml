@@ -9,9 +9,13 @@
 
     <primitive id= "DRIVE_PATH_PLANNER"
             pathname="BlueSubwooferWing1Center0">
-            <zone filename="BlueIntakeWingNote2.xml"/>
-    </primitive>
+            
+            <zone filename = "RedIntakeWingNote1.xml"/>
+
+            </primitive>
 
     <snippet file= "ShootWhenStop.xml"/>
+
+<!--No need for launching zones as we are launching at the very beginning and at the end-->
 
 </auton>

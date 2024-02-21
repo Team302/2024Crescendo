@@ -89,6 +89,8 @@ public:
 
     static frc::AprilTagFieldLayout m_aprilTagLayout;
 
+    void testAndLogVisionData();
+
 private:
     DragonVision();
     ~DragonVision() = default;
