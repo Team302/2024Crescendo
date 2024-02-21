@@ -18,6 +18,7 @@
 #include "chassis/ChassisConfigMgr.h"
 
 #include "utils/FMSData.h"
+#include "chassis\DragonDriveTargetFinder.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerPath.h"
@@ -35,6 +36,7 @@ pathplanner::PathPlannerTrajectory DriveToLeftStage::CreateDriveToLeftStagePath(
 
     auto m_currentPose2d = m_chassis->GetPose();
     m_dragonVision = DragonVision::GetDragonVision();
+    auto targetfinder = DragonDriveTargetFinder::GetInstance();
 
     pathplanner::PathPlannerTrajectory trajectory;
 
@@ -42,59 +44,51 @@ pathplanner::PathPlannerTrajectory DriveToLeftStage::CreateDriveToLeftStagePath(
     {
         if (allianceColor == frc::DriverStation::kBlue)
         {
-            auto data = m_dragonVision->GetVisionData(DragonVision::VISION_ELEMENT::LEFT_STAGE);
+            auto info = targetfinder->GetPose(DragonVision::VISION_ELEMENT::LEFT_STAGE);
 
-            if (data)
-            {
-                auto aprilTagTransform3d = std::optional<frc::Transform3d>(data.value().deltaToTarget);
-                auto aprilTagDistance = frc::Pose2d(aprilTagTransform3d.value().X(), aprilTagTransform3d.value().Y(), frc::Rotation2d(180_deg));
+            auto targetPose = get<1>(info);
 
-                std::vector<frc::Pose2d> poses{
-                    m_currentPose2d,
-                    frc::Pose2d(aprilTagDistance.X(), (aprilTagDistance.Y() - 1.0_m), aprilTagDistance.Rotation()),
-                    aprilTagDistance,
-                };
+            std::vector<frc::Pose2d> poses{
+                m_currentPose2d,
+                frc::Pose2d(targetPose.X(), (targetPose.Y() - 1.0_m), targetPose.Rotation()),
+                targetPose,
+            };
 
-                std::vector<frc::Translation2d> bezierPoints = pathplanner::PathPlannerPath::bezierFromPoses(poses);
+            std::vector<frc::Translation2d> bezierPoints = pathplanner::PathPlannerPath::bezierFromPoses(poses);
 
-                auto createPath = std::make_shared<pathplanner::PathPlannerPath>(
-                    bezierPoints,
-                    pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                    pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)), false);
-                createPath->preventFlipping = true;
-                trajectory = createPath->getTrajectory(m_chassis->GetChassisSpeeds(), m_currentPose2d.Rotation());
+            auto createPath = std::make_shared<pathplanner::PathPlannerPath>(
+                bezierPoints,
+                pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+                pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)), false);
+            createPath->preventFlipping = true;
+            trajectory = createPath->getTrajectory(m_chassis->GetChassisSpeeds(), m_currentPose2d.Rotation());
 
-                return trajectory;
-            }
+            return trajectory;
         }
         else if (allianceColor == frc::DriverStation::kRed)
         {
 
-            auto data = m_dragonVision->GetVisionData(DragonVision::VISION_ELEMENT::LEFT_STAGE);
+            auto info = targetfinder->GetPose(DragonVision::VISION_ELEMENT::LEFT_STAGE);
 
-            if (data)
-            {
-                auto aprilTagTransform3d = std::optional<frc::Transform3d>(data.value().deltaToTarget);
-                auto aprilTagDistance = frc::Pose2d(aprilTagTransform3d.value().X(), aprilTagTransform3d.value().Y(), frc::Rotation2d(180_deg));
+            auto targetPose = get<1>(info);
 
-                std::vector<frc::Pose2d> poses{
-                    m_currentPose2d,
-                    frc::Pose2d(aprilTagDistance.X(), (aprilTagDistance.Y() - 1.0_m), aprilTagDistance.Rotation()),
-                    aprilTagDistance,
-                };
+            std::vector<frc::Pose2d> poses{
+                m_currentPose2d,
+                frc::Pose2d(targetPose.X(), (targetPose.Y() - 1.0_m), targetPose.Rotation()),
+                targetPose,
+            };
 
-                std::vector<frc::Translation2d> bezierPoints = pathplanner::PathPlannerPath::bezierFromPoses(poses);
+            std::vector<frc::Translation2d> bezierPoints = pathplanner::PathPlannerPath::bezierFromPoses(poses);
 
-                auto createPath = std::make_shared<pathplanner::PathPlannerPath>(
-                    bezierPoints,
-                    pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                    pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)), false);
-                createPath->preventFlipping = true;
+            auto createPath = std::make_shared<pathplanner::PathPlannerPath>(
+                bezierPoints,
+                pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+                pathplanner::GoalEndState(0.0_mps, frc::Rotation2d(180_deg)), false);
+            createPath->preventFlipping = true;
 
-                trajectory = createPath->getTrajectory(m_chassis->GetChassisSpeeds(), m_currentPose2d.Rotation());
+            trajectory = createPath->getTrajectory(m_chassis->GetChassisSpeeds(), m_currentPose2d.Rotation());
 
-                return trajectory;
-            }
+            return trajectory;
         }
     }
     return trajectory;
