@@ -28,7 +28,6 @@
 #include "utils/FMSData.h"
 
 // Third Party Includes
-// #include "pathplanner/lib/path/PathPlannerTrajectory.h"
 #include "pathplanner/lib/path/PathPlannerPath.h"
 
 using namespace std;
@@ -50,6 +49,7 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 
         if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
         {
+            path.reset(path.get());
             path.get()->flipPath();
         }
 
