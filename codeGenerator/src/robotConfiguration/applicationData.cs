@@ -1610,7 +1610,6 @@ namespace ApplicationData
         [DataDescription("The name of the motor that this target applies to")]
         public string motorName { get; set; }
 
-        [ConstantInMechInstance]
         [DataDescription("The name of the control data to use in order to reach this target")]
         public string controlDataName { get; set; }
 
@@ -1657,7 +1656,7 @@ namespace ApplicationData
 
                 if (generatorContext.singleStateGenFile)
                 {
-                    creation = string.Format("{0}State* {0}StateInst = new {0}State(string(\"{0}\"), {2}, new {1}AllStatesStateGen(string(\"{0}\"), {2}, this), this)",
+                    creation = string.Format("{0}State* {0}StateInst = new {0}State(string(\"{0}\"), {2}, new {1}AllStatesStateGen(m_activeRobotId, string(\"{0}\"), {2}, this), this)",
                     name,
                     generatorContext.theMechanismInstance.name,
                     index);
