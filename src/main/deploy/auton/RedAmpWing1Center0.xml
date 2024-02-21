@@ -10,15 +10,8 @@ pathname = "BlueAmpWing1Center0"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname = "BlueAmpWing1Center0">
 <zone filename = "RedIntakeWingNote1.xml"/>
-<zone ygrid1="Y_5"
-            xgrid1="X_H"
-            ygrid2="Y_3"
-            xgrid2="X_F"
-            noteOption="STATE_AUTO_LAUNCH"/>
 </primitive>
 
-<!--Only launches at the beginning and the end-->
-
-<!--H5-3F-->
+<!--Only launches at the beginning and end, no need for zones to launch during the path runthrough-->
 
 </auton>
