@@ -20,6 +20,7 @@
 // Team302 Includes
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/ChassisMovement.h"
+#include "chassis/LogChassisMovement.h"
 #include "utils/logging/Logger.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
 
@@ -33,7 +34,6 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                                        units::velocity::feet_per_second_t(15.0),
                                                                                                        units::length::meter_t(0.5),
                                                                                                        units::time::second_t(0.02)),
-                                                                                 m_desiredState(),
                                                                                  m_trajectoryStates(),
                                                                                  m_prevPose(),
                                                                                  m_wasMoving(false),
@@ -41,32 +41,22 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_whyDone("Trajectory isn't finished/Error")
 
 {
-    if (m_chassis != nullptr)
-    {
-        m_prevPose = m_chassis->GetPose();
-    }
+    m_prevPose = m_chassis != nullptr ? m_chassis->GetPose() : Pose2d();
 }
 
 void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
 {
-    // m_holonomicController.setTolerance(frc::Pose2d{units::length::meter_t(0.1), units::length::meter_t(0.1), frc::Rotation2d(units::angle::degree_t(2.0))});
-    // Clear m_trajectoryStates in case it holds onto a previous trajectory
     m_trajectoryStates.clear();
 
     m_trajectory = chassisMovement.pathplannerTrajectory;
     m_trajectoryStates = m_trajectory.getStates();
-
-    if (!m_trajectoryStates.empty()) // only go if path name found
+    if (!m_trajectoryStates.empty())
     {
-        // Desired state is first state in trajectory
-        m_desiredState = m_trajectoryStates.front(); // m_desiredState is the first state, or starting position
-
         m_finalState = m_trajectoryStates.back();
 
         m_timer.get()->Reset(); // Restarts and starts timer
         m_timer.get()->Start();
     }
-
     m_delta = m_finalState.getTargetHolonomicPose() - m_chassis->GetPose();
 }
 
@@ -79,23 +69,9 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             Init(chassisMovement);
         }
 
-        // calculate where we are and where we want to be
-        CalcCurrentAndDesiredStates();
-
-        // Use the controller to calculate the chassis speeds for getting there
-        frc::ChassisSpeeds refChassisSpeeds;
-
-        // trying to use the last rotation of the path as the target
-        refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), m_desiredState);
-
+        auto desiredState = m_trajectory.sample(units::time::second_t(m_timer.get()->Get()));
+        auto refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
         chassisMovement.chassisSpeeds = refChassisSpeeds;
-
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "HolonomicRotation (Degs)", m_desiredState.targetHolonomicRotation.Degrees().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Omega (Rads Per Sec)", refChassisSpeeds.omega.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Trajectory Drive Path Planner", "Yaw Odometry (Degs)", m_chassis->GetPose().Rotation().Degrees().to<double>());
-
-        // Set chassisMovement speeds that will be used by RobotDrive
-        return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
     }
     else // If we don't have states to run, don't move the robot
     {
@@ -104,20 +80,11 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         speeds.vx = 0_mps;
         speeds.vy = 0_mps;
         speeds.omega = units::angular_velocity::radians_per_second_t(0);
-
-        // Set chassisMovement speeds that will be used by RobotDrive
         chassisMovement.chassisSpeeds = speeds;
-
-        return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
     }
-}
 
-void TrajectoryDrivePathPlanner::CalcCurrentAndDesiredStates()
-{
-    // Get current time
-    auto sampleTime = units::time::second_t(m_timer.get()->Get());
-    // Set desired state to the state at current time
-    m_desiredState = m_trajectory.sample(sampleTime);
+    LogChassisMovement::Print(chassisMovement);
+    return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
 bool TrajectoryDrivePathPlanner::IsDone()
@@ -154,15 +121,6 @@ bool TrajectoryDrivePathPlanner::IsSamePose(frc::Pose2d currentPose, frc::Pose2d
     double dDeltaX = abs(dPrevPosX - dCurPosX);
     double dDeltaY = abs(dPrevPosY - dCurPosY);
     double dDeltaRot = abs(dPrevPosRot - dCurPosRot);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dCurPosX", dCurPosX);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dCurPosY", dCurPosY);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dCurPosRot", dCurPosRot);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dPrevPosX", dPrevPosX);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dPrevPosY", dPrevPosY);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dPrevPosRot", dPrevPosRot);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dDeltaX", dDeltaX);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dDeltaY", dDeltaY);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "dDeltaRot", dDeltaRot);
 
     //  If Position of X or Y has moved since last scan..  Using Delta X/Y
     return ((dDeltaX <= xyTolerance) && (dDeltaY <= xyTolerance) && (dDeltaRot <= rotTolerance));

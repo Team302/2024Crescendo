@@ -1,3 +1,4 @@
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -15,43 +16,14 @@
 
 #pragma once
 
-// FRC Includes
-#include "frc/Timer.h"
+#include "chassis/ChassisMovement.h"
 
-// Team302 Includes
-#include "chassis/driveStates/RobotDrive.h"
-#include "chassis/SwerveChassis.h"
-
-// Third party includes
-#include "pathplanner/lib/path/PathPlannerTrajectory.h"
-#include "pathplanner/lib/controllers/PPHolonomicDriveController.h"
-
-class TrajectoryDrivePathPlanner : public RobotDrive
+class LogChassisMovement
 {
 public:
-    TrajectoryDrivePathPlanner(RobotDrive *robotDrive);
-
-    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
-        ChassisMovement &chassisMovement) override;
-
-    void Init(
-        ChassisMovement &chassisMovement) override;
-
-    std::string WhyDone() const { return m_whyDone; };
-    bool IsDone();
+    static void Print(ChassisMovement &moveinfo);
 
 private:
-    bool IsSamePose(frc::Pose2d currentPose, frc::Pose2d previousPose, double xyTolerance, double rotTolerance);
-
-    pathplanner::PathPlannerTrajectory m_trajectory;
-    RobotDrive *m_robotDrive;
-    pathplanner::PPHolonomicDriveController m_holonomicController;
-    std::vector<pathplanner::PathPlannerTrajectory::State> m_trajectoryStates;
-    pathplanner::PathPlannerTrajectory::State m_finalState;
-    frc::Pose2d m_prevPose;
-    bool m_wasMoving;
-    frc::Transform2d m_delta;
-    std::unique_ptr<frc::Timer> m_timer;
-
-    std::string m_whyDone;
+    LogChassisMovement() = delete;
+    ~LogChassisMovement() = delete;
 };
