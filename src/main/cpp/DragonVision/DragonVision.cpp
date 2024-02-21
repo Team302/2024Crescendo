@@ -297,13 +297,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		break;
 	}
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("VISION"), std::string("Called multitag"), false);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("VISION"), std::string("Called singletag"), false);
-
 	std::optional<VisionData> multiTagEstimate = MultiTagToElement(fieldElementPose);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("VISION"), std::string("Called multitag"), true);
 	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("VISION"), std::string("Called singletag"), true);
 	if (multiTagEstimate)
 	{
 		return multiTagEstimate;
