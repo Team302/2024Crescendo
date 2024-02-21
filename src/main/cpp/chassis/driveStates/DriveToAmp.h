@@ -18,6 +18,7 @@
 // Team302 Includes
 #include <chassis/SwerveChassis.h>
 #include "DragonVision/DragonVision.h"
+#include "chassis/DragonDriveTargetFinder.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
@@ -32,13 +33,17 @@ public:
     pathplanner::PathPlannerTrajectory CreateDriveToAmpPath();
 
 private:
-    std::optional<frc::Pose2d> GetAprilTagPose2d(frc::Pose2d chassisPose);
+    pathplanner::PathPlannerTrajectory DriveToAmpBlue(frc::Pose2d currentPose2d, frc::Pose2d targetPose2d);
+    pathplanner::PathPlannerTrajectory DriveToAmpRed(frc::Pose2d currentPose2d, frc::Pose2d targetPose2d);
 
     SwerveChassis *m_chassis;
     DragonVision *m_dragonVision;
+    DragonDriveTargetFinder *m_dragonDriveTargetFinder;
 
     const units::meters_per_second_t m_maxVel = 3.0_mps;
     const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;
     const units::radians_per_second_t m_maxAngularVel = 360_deg_per_s;
     const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
+
+    pathplanner::PathPlannerTrajectory m_trajectory;
 };
