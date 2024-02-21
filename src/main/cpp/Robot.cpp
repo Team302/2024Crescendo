@@ -129,9 +129,19 @@ void Robot::TeleopPeriodic()
         m_holonomic->Run();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
+    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
+    if (optionalVisionData)
+    {
 
-    Logger::GetLogger()
-        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
+        VisionData visiondata = optionalVisionData.value();
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("NotCharliedebug"), string("X"), visiondata.transformToTarget.X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("NotCharliedebug"), string("Y"), visiondata.transformToTarget.Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("NotCharliedebug"), string("Z"), visiondata.transformToTarget.Z().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("NotCharliedebug"), string("roll"), visiondata.transformToTarget.Rotation().X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("NotCharliedebug"), string("pitch"), visiondata.transformToTarget.Rotation().Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("NotCharliedebug"), string("yaw"), visiondata.transformToTarget.Rotation().Z().to<double>());
+    }
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
 void Robot::DisabledInit()
