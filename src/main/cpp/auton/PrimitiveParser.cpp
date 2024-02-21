@@ -176,7 +176,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             pathName = attr.value();
                         }
-                        else if (strcmp(attr.name(), "notestate") == 0)
+                        else if (strcmp(attr.name(), "noteOption") == 0)
                         {
                             if (config != nullptr && config->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
                             {
@@ -188,7 +188,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                 }
                             }
                         }
-                        else if (strcmp(attr.name(), "climberstate") == 0)
+                        else if (strcmp(attr.name(), "climberOption") == 0)
                         {
                             if (config != nullptr && config->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
                             {
@@ -277,6 +277,13 @@ void PrimitiveParser::Print(PrimitiveParamsVector paramVector)
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("vision alignment"), param->GetVisionAlignment());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("note change"), param->IsNoteStateChanging() ? string("true") : string("false"));
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("note state"), param->GetNoteState());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("climber change"), param->IsClimberStateChanging() ? string("true") : string("false"));
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("climber state"), param->GetClimberState());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("num zones"), (double)param->GetZones().size());
+
         slot++;
     }
 }
