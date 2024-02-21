@@ -35,5 +35,14 @@ public:
     ~DriveToRightStage() = default;
 
     static DriveToRightStage *GetInstance();
-    pathplanner::PathPlannerTrajectory CreateDriveToNote();
+    pathplanner::PathPlannerTrajectory CreateDriveToRightStage();
+
+private:
+    SwerveChassis *m_chassis;
+    static DriveToRightStage *m_instance;
+
+    const units::meters_per_second_t m_maxVel = 3.0_mps;
+    const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;
+    const units::radians_per_second_t m_maxAngularVel = 360_deg_per_s;
+    const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
 };
