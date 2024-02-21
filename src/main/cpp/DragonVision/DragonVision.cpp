@@ -233,7 +233,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	{
 		bool lintakeHasDetection = false;
 		bool pintakeHasDetection = false;
-		//make sure cameras are set
+		// make sure cameras are set
 		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE] != nullptr)
 		{
 			lintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->HasTarget();
@@ -266,7 +266,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE];
 			else
 				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE];
-
 		}
 	}
 	break;
@@ -330,21 +329,18 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPose)
 {
-	// MULTITAG
-	// std::optional<VisionPose> launcherMultiTag = std::nullopt;
-	// std::optional<VisionPose> placerMultiTag = std::nullopt;
-	/*if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] != nullptr)
+	std::optional<VisionPose> launcherMultiTag = std::nullopt;
+	if (dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]) != nullptr)
 	{
 		launcherMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetMultiTagEstimate();
 	}
 
-	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
+	std::optional<VisionPose> placerMultiTag = std::nullopt;
+	if (dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]) != nullptr)
 	{
-		placerMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetMultiTagEstimate();
-	}*/
+		placerMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER])->GetMultiTagEstimate();
+	}
 
-	std::optional<VisionPose> launcherMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetMultiTagEstimate();
-	std::optional<VisionPose> placerMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER])->GetMultiTagEstimate();
 	std::optional<VisionPose> selectedPose = std::nullopt;
 
 	if (launcherMultiTag && placerMultiTag)
