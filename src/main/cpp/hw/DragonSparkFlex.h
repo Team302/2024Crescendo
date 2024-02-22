@@ -91,19 +91,19 @@ private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
     rev::CANSparkFlex *m_spark;
-    rev::SparkLimitSwitch m_forwardLimitSwitch;
-    rev::SparkLimitSwitch m_reverseLimitSwitch;
-    rev::SparkLimitSwitch::Type m_forwardType;
-    rev::SparkLimitSwitch::Type m_reverseType;
-    CANSparkBase::ControlType m_controlType;
     double m_outputRotationOffset;
-    int m_slot;
-
     RobotElementNames::MOTOR_CONTROLLER_USAGE m_deviceType;
     rev::SparkRelativeEncoder::Type m_feedbackType;
+    rev::SparkLimitSwitch::Type m_forwardType;
+    rev::SparkLimitSwitch::Type m_reverseType;
     rev::SparkRelativeEncoder m_encoder;
     rev::SparkPIDController m_pidController;
+    rev::SparkLimitSwitch m_forwardLimitSwitch;
+    rev::SparkLimitSwitch m_reverseLimitSwitch;
     DistanceAngleCalcStruc m_calcStruc;
+
+    CANSparkBase::ControlType m_controlType;
+    int m_slot;
 
     rev::CANSparkFlex *GetSparkFlex();
 };
