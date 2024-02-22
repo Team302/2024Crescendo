@@ -26,7 +26,7 @@ struct DistanceAngleCalcStruc
 
     constexpr static double countsPerTolerance = 0.1;
 
-    DistanceAngleCalcStruc() : countsPerRev(0),
+    DistanceAngleCalcStruc() : countsPerRev(1.0),
                                gearRatio(1.0),
                                diameter(1.0),
                                countsPerInch(0.0),

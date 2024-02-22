@@ -19,9 +19,10 @@ using namespace $$_MECHANISM_INSTANCE_NAME_$$States;
 
 /// @class $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
-$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen::$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen(string stateName,
+$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen::$$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen(RobotConfigMgr::RobotIdentifier m_ActiveRobotId,
+                                                                                               string stateName,
                                                                                                int stateId,
-                                                                                               $$_MECHANISM_INSTANCE_NAME_$$Gen *mech) : $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen(stateName, stateId, mech)
+                                                                                               $$_MECHANISM_INSTANCE_NAME_$$Gen *mech) : $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen(stateName, stateId, mech), m_RobotId(m_ActiveRobotId)
 {
 }
 
@@ -49,3 +50,5 @@ bool $$_MECHANISM_INSTANCE_NAME_$$AllStatesStateGen::AtTarget()
 {
     return $$_MECHANISM_INSTANCE_NAME_$$BaseStateGen::AtTarget();
 }
+
+$$_SET_TARGET_CONTROL_FUNCTIONS_$$

@@ -100,7 +100,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
         break;
     case ControlModes::VELOCITY_RPS:
         m_pidController.SetReference(0, CANSparkMax::ControlType::kVelocity, slot);
-        m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerRev);
+        m_encoder.SetVelocityConversionFactor(m_calcStruc.countsPerRev);
         m_controlType = CANSparkBase::ControlType::kVelocity;
         break;
 
