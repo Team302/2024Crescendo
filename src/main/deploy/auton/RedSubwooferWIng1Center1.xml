@@ -11,12 +11,9 @@
         <primitive id= "DRIVE_PATH_PLANNER"
                     pathname= "BlueSubwooferWing1Center1">
             <zone filename="RedIntakeWingNote2.xml"/>
+            <zone filename = "RedLaunchingZoneWingNote2.xml"/>
             <zone filename="RedIntakeCenterNote1.xml"/>
-        </primitive>
-        <!--In the zone: 
-        (to Launch) Q9-S11
-        (to Launch) Q9-S11
-        -->
+            <zone filename = "RedLaunchingZoneWingNote2.xml"/>
 
 
 </auton>
