@@ -8,7 +8,13 @@
     <snippet file= "ShootWhenStop.xml"/>
 
     <primitive id = "DRIVE_PATH_PLANNER"
-                pathname= "BlueAmpWing2Center0"/>
+                pathname= "BlueAmpWing2Center0">
+                
+                <zone filename="BlueIntakeWingNote1.xml"/>
+                <zone filename="BlueIntakeWingNote2.xml"/>
+
+                <zone filename = "BlueLaunchingZoneAmpNote1.xml"/>
+</primitive>
 
     <snippet file= "ShootWhenStop.xml"/>
 
