@@ -49,8 +49,7 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 
         if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
         {
-            path.reset(path.get());
-            path.get()->flipPath();
+            path = path.get()->flipPath();
         }
 
         if (path.get() != nullptr)
