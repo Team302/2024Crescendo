@@ -26,6 +26,7 @@
 #include "chassis/SwerveChassis.h"
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/driveStates/DriveToRightStage.h"
+#include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVisionStructs.h"
 #include "chassis/DragonDriveTargetFinder.h"
@@ -69,8 +70,13 @@ pathplanner::PathPlannerTrajectory DriveToRightStage::CreateDriveToRightStage()
             if (rightStagePoseDegrees)
             {
                 auto rightStagePoseDistance = frc::Pose2d(targetRightStagePose.X(), targetRightStagePose.Y(), rightStagePoseDegrees);
+                units::length::meter_t offsetX = targetRightStagePose.X() + units::length::meter_t(1);
+                units::length::meter_t offsetY = targetRightStagePose.Y() + units::length::meter_t(1);
+                auto offsetPoseDistanceFromCenterLine = frc::Pose2d(offsetX, offsetY, frc::Rotation2d(180_deg));
+
                 std::vector<frc::Pose2d> poses{
                     currentPose2d,
+                    offsetPoseDistanceFromCenterLine,
                     rightStagePoseDistance};
                 std::vector<frc::Translation2d> rightstagebezierPoints = PathPlannerPath::bezierFromPoses(poses);
                 auto rightstagepath = std::make_shared<PathPlannerPath>(
@@ -90,8 +96,12 @@ pathplanner::PathPlannerTrajectory DriveToRightStage::CreateDriveToRightStage()
             if (rightStagePoseDegrees)
             {
                 auto rightStagePoseDistance = frc::Pose2d(targetRightStagePose.X(), targetRightStagePose.Y(), rightStagePoseDegrees);
+                units::length::meter_t offsetX = targetRightStagePose.X() - units::length::meter_t(1);
+                units::length::meter_t offsetY = targetRightStagePose.Y() - units::length::meter_t(1.5);
+                auto offsetPoseDistanceFromCenterLine = frc::Pose2d(offsetX, offsetY, frc::Rotation2d(180_deg));
                 std::vector<frc::Pose2d> poses{
                     currentPose2d,
+                    offsetPoseDistanceFromCenterLine,
                     rightStagePoseDistance};
                 std::vector<frc::Translation2d> rightstagebezierPoints = PathPlannerPath::bezierFromPoses(poses);
                 auto rightstagepath = std::make_shared<PathPlannerPath>(
