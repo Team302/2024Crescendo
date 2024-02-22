@@ -89,8 +89,8 @@ void noteManager::RunCommonTasks()
 	ResetElevator();
 
 #ifdef INCLUDE_DATA_TRACE
-	double wheelSetTop = getlauncherTop()->GetCounts();
-	double wheelSetBottom = getlauncherBottom()->GetCounts();
+	double wheelSetTop = getlauncherTop()->GetRPS();
+	double wheelSetBottom = getlauncherBottom()->GetRPS();
 	double angle = getlauncherAngle()->GetCounts();
 	double elevator = getElevator()->GetCounts();
 	DataTrace::GetInstance()->sendElevatorData(elevator);
