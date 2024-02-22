@@ -17,59 +17,62 @@
 #include "chassis/driveStates/DriveToAmp.h"
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/DragonDriveTargetFinder.h"
+#include "pathplanner/lib/path/PathPlannerTrajectory.h"
+#include "chassis/driveStates/RobotDrive.h"
+#include "chassis/ChassisMovement.h"
 
 #include "utils/FMSData.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerPath.h"
 
-DriveToAmp::DriveToAmp() : m_chassis(nullptr)
+DriveToAmp::DriveToAmp(RobotDrive *robotDrive,
+                       TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner) : TrajectoryDrivePathPlanner(robotDrive),
+                                                                                 m_chassis(nullptr)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     m_dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
+    m_trajectoryDrivePathPlanner = trajectoryDrivePathPlanner;
 }
 
-pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpPath()
+void DriveToAmp::Init(ChassisMovement &chassisMovement)
 {
-    frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
-
     if (m_chassis != nullptr)
     {
         auto currentPose2d = m_chassis->GetPose();
         auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::AMP);
         auto type = get<0>(aprilTagInfo);
-        auto targetPose2d = get<1>(aprilTagInfo);
+        m_targetPose2d = get<1>(aprilTagInfo);
 
-        if (allianceColor == frc::DriverStation::kBlue)
+        if (type == DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED)
         {
-            if (type == DragonDriveTargetFinder::NOT_FOUND)
-            {
-                m_trajectory = DriveToAmpBlue(currentPose2d, targetPose2d);
-            }
-            else if (type != DragonDriveTargetFinder::NOT_FOUND)
-            {
-                m_trajectory = DriveToAmpBlue(currentPose2d, targetPose2d);
-            }
-            return m_trajectory;
+            m_trajectory = CreateDriveToAmpTrajectory(currentPose2d, m_targetPose2d);
         }
-        else if (allianceColor == frc::DriverStation::kRed)
+        else if (type != DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
         {
-            if (type == DragonDriveTargetFinder::NOT_FOUND)
-            {
-                m_trajectory = DriveToAmpRed(currentPose2d, targetPose2d);
-            }
-            else if (type != DragonDriveTargetFinder::NOT_FOUND)
-            {
-                m_trajectory = DriveToAmpRed(currentPose2d, targetPose2d);
-            }
-            return m_trajectory;
+            m_trajectory = CreateDriveToAmpTrajectory(currentPose2d, m_targetPose2d);
         }
     }
-    return m_trajectory;
 }
 
-pathplanner::PathPlannerTrajectory DriveToAmp::DriveToAmpBlue(frc::Pose2d currentPose2d, frc::Pose2d targetPose2d)
+std::array<frc::SwerveModuleState, 4> DriveToAmp::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
+{
+    m_oldTargetPose2d = m_targetPose2d;
+    auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::AMP);
+    m_targetPose2d = get<1>(aprilTagInfo);
+    m_makeTrajectory = m_targetPose2d != m_oldTargetPose2d;
+
+    if (m_makeTrajectory)
+    {
+        Init(chassisMovement);
+    }
+
+    chassisMovement.pathplannerTrajectory = m_trajectory;
+    return m_trajectoryDrivePathPlanner->UpdateSwerveModuleStates(chassisMovement);
+}
+
+pathplanner::PathPlannerTrajectory DriveToAmp::CreateDriveToAmpTrajectory(frc::Pose2d currentPose2d, frc::Pose2d targetPose2d)
 {
     pathplanner::PathPlannerTrajectory trajectory;
 
@@ -78,7 +81,6 @@ pathplanner::PathPlannerTrajectory DriveToAmp::DriveToAmpBlue(frc::Pose2d curren
         frc::Pose2d(targetPose2d.X(), (targetPose2d.Y() - 1.0_m), targetPose2d.Rotation()),
         targetPose2d,
     };
-
     std::vector<frc::Translation2d> bezierPoints = pathplanner::PathPlannerPath::bezierFromPoses(poses);
 
     auto createPath = std::make_shared<pathplanner::PathPlannerPath>(
@@ -86,28 +88,6 @@ pathplanner::PathPlannerTrajectory DriveToAmp::DriveToAmpBlue(frc::Pose2d curren
         pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
         pathplanner::GoalEndState(0.0_mps, targetPose2d.Rotation(), false));
     createPath->preventFlipping = true;
-    trajectory = createPath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-
-    return trajectory;
-}
-pathplanner::PathPlannerTrajectory DriveToAmp::DriveToAmpRed(frc::Pose2d currentPose2d, frc::Pose2d targetPose2d)
-{
-
-    pathplanner::PathPlannerTrajectory trajectory;
-    std::vector<frc::Pose2d> poses{
-        currentPose2d,
-        frc::Pose2d(targetPose2d.X(), (targetPose2d.Y() - 1.0_m), targetPose2d.Rotation()),
-        targetPose2d,
-    };
-
-    std::vector<frc::Translation2d> bezierPoints = pathplanner::PathPlannerPath::bezierFromPoses(poses);
-
-    auto createPath = std::make_shared<pathplanner::PathPlannerPath>(
-        bezierPoints,
-        pathplanner::PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-        pathplanner::GoalEndState(0.0_mps, targetPose2d.Rotation(), false));
-    createPath->preventFlipping = true;
-
     trajectory = createPath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
 
     return trajectory;
