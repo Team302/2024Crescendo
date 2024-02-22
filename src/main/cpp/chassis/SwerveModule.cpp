@@ -199,7 +199,7 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
     PositionVoltage voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
     m_activeState.angle = targetAngle;
-    m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
+    //    m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
 }
 
 //==================================================================================

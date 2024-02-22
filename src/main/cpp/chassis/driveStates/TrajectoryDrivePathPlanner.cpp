@@ -29,8 +29,8 @@ using frc::Pose2d;
 TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
-                                                                                 m_holonomicController(pathplanner::PIDConstants(0.75, 0.0, 0.0),
-                                                                                                       pathplanner::PIDConstants(0.75, 0.0, 0.0),
+                                                                                 m_holonomicController(pathplanner::PIDConstants(10.75, 0.0, 0.0),
+                                                                                                       pathplanner::PIDConstants(10.75, 0.0, 0.0),
                                                                                                        units::velocity::feet_per_second_t(15.0),
                                                                                                        units::length::meter_t(0.5),
                                                                                                        units::time::second_t(0.02)),
@@ -83,7 +83,7 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         chassisMovement.chassisSpeeds = speeds;
     }
 
-    LogChassisMovement::Print(chassisMovement);
+    // LogChassisMovement::Print(chassisMovement);
     return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
