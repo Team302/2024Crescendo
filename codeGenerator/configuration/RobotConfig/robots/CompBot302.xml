@@ -2516,7 +2516,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.0004</value>
+                <value>1E-05</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -2537,7 +2537,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.0855</value>
+                <value>0.0001</value>
               </fGain>
               <iZone>
                 <unitsFamily>none</unitsFamily>
