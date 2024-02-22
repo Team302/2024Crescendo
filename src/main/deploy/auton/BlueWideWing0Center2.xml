@@ -2,17 +2,18 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-    <primitive id= "RESET_POSITION_PATH_PLANNER"
-                pathname= "BlueWideWing0Center2"/>
+        <primitive id= "RESET_POSITION_PATH_PLANNER"
+                    pathname= "BlueWideWing0Center2"/>
 
-    <snippet file = "ShootWhenStop.xml"/>
+                    <zone filename = "StartingLaunchingRedWideWing0Center2.xml"/>
 
-    <primitive id = "DRIVE_PATH_PLANNER"
-                pathname= "BlueWideWing0Center2"/>
+        <primitive id= "DRIVE_PATH_PLANNER"
+                    pathname= "BlueWideWing0Center2">
+            <zone filename = "RedLaunchingZoneWingNote2.xml"/>
+            <zone filename="RedIntakeCenterNote5.xml"/>
+            <zone filename= "LaunchingBlueWideWing0Center3and2.xml"/>
+            <zone filename="BlueIntakeCenterNote4.xml"/>
+            <zone filename= "LaunchingBlueWideWing0Center3and2.xml"/>
 
-    <snippet file= "ShootWhenStop.xml"/>
-    <!--Shoots the ring into the speaker- we're already across the line so we are done-->
-    <!--shoot zone t12 and p16  bottom ring e26 and B29  2nd to bottom ring g28 and j25-->
-    <!--return to shoot zone twice (once per note from center)-->
 
 </auton>
