@@ -2516,7 +2516,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>6E-05</value>
+                <value>0.0002</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -2537,7 +2537,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.065</value>
+                <value>0.1</value>
               </fGain>
               <iZone>
                 <unitsFamily>none</unitsFamily>
@@ -5233,7 +5233,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>21</value>
+                  <value>85</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -5245,7 +5245,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>21</value>
+                  <value>85</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>velocityRPS</controlDataName>
