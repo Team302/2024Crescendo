@@ -91,6 +91,7 @@ namespace ApplicationData
             FALCON500,
             NEOMOTOR,
             NEO500MOTOR,
+            VORTEX,
             CIMMOTOR,
             MINICIMMOTOR,
             BAGMOTOR,
@@ -115,24 +116,19 @@ namespace ApplicationData
         public class DistanceAngleCalcStruc : baseDataClass
         {
             [DefaultValue(0)]
-            [ConstantInMechInstance]
             public intParameter countsPerRev { get; set; }
 
             [DefaultValue(1.0)]
-            [ConstantInMechInstance]
             public doubleParameter gearRatio { get; set; }
 
             [DefaultValue(1.0)]
-            [ConstantInMechInstance]
             [PhysicalUnitsFamily(physicalUnit.Family.length)]
             public doubleParameter diameter { get; set; }
 
             [DefaultValue(0)]
-            [ConstantInMechInstance]
             public doubleParameter countsPerInch { get; set; }
 
             [DefaultValue(0)]
-            [ConstantInMechInstance]
             public doubleParameter countsPerDegree { get; set; }
 
             public DistanceAngleCalcStruc()
@@ -488,7 +484,6 @@ namespace ApplicationData
             public doubleParameter peakReverseDutyCycle { get; set; }
 
             [DefaultValue(InvertedValue.CounterClockwise_Positive)]
-            [ConstantInMechInstance]
             public InvertedValue inverted { get; set; }
 
             [DefaultValue(NeutralModeValue.Coast)]
@@ -914,7 +909,6 @@ namespace ApplicationData
         public class ConfigMotorSettings_SRX : baseDataClass
         {
             [DefaultValue(InvertedValue.CounterClockwise_Positive)]
-            [ConstantInMechInstance]
             public InvertedValue inverted { get; set; }
 
             [DefaultValue(NeutralModeValue.Coast)]
@@ -1197,7 +1191,6 @@ namespace ApplicationData
         public class ConfigMotorSettings_SparkController : baseDataClass
         {
             [DefaultValue(InvertedValue.CounterClockwise_Positive)]
-            [ConstantInMechInstance]
             public InvertedValue inverted { get; set; }
 
             [DefaultValue(NeutralModeValue.Coast)]
