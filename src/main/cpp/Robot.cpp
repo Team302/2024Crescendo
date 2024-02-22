@@ -66,18 +66,6 @@ void Robot::RobotPeriodic()
     }
 
     UpdateDriveTeamFeedback();
-
-    std::optional<VisionData> testData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
-    if (testData)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("VISION"), string("HasTarget"), true);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("VISION"), string("X (m)"), testData.value().translationToTarget.X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("VISION"), string("Y (m)"), testData.value().translationToTarget.Y().to<double>());
-    }
-    else
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("VISION"), string("HasTarget"), false);
-    }
 }
 
 /**

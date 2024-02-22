@@ -29,9 +29,6 @@
 #include <string>
 // Third Party Includes
 
-/// DEBUGGING
-#include "utils/logging/Logger.h"
-
 DragonVision *DragonVision::m_dragonVision = nullptr;
 DragonVision *DragonVision::GetDragonVision()
 {
@@ -333,33 +330,22 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPose)
 {
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("LauncherCastExists"), false);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("PlacerCastExists"), false);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("LauncherMultiTagExists"), false);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("PlacerMultiTagExists"), false);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("BothMultiTags"), false);
-
 	std::optional<VisionPose> launcherMultiTag = std::nullopt;
 	if (dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]) != nullptr)
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("LauncherCastExists"), true);
 		launcherMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetMultiTagEstimate();
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("LauncherMultiTagExists"), launcherMultiTag.has_value());
 	}
 
 	std::optional<VisionPose> placerMultiTag = std::nullopt;
 	if (dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]) != nullptr)
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("PlacerCastExists"), true);
 		placerMultiTag = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER])->GetMultiTagEstimate();
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("PlacerMultiTagExists"), placerMultiTag.has_value());
 	}
 
 	std::optional<VisionPose> selectedPose = std::nullopt;
 
 	if (launcherMultiTag && placerMultiTag)
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("BothMultiTags"), true);
 		double launcherAmbiguity = launcherMultiTag.value().visionMeasurementStdDevs[0];
 		double placerAmbiguity = placerMultiTag.value().visionMeasurementStdDevs[0];
 
@@ -367,7 +353,6 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 	}
 	else if (!launcherMultiTag && !placerMultiTag)
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("NeitherMultiTags"), true);
 		return std::nullopt;
 	}
 	else
@@ -375,19 +360,16 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 		if (launcherMultiTag)
 		{
 			selectedPose = launcherMultiTag.value();
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("LauncehrMultiTagOnly"), true);
 		}
 
 		else if (placerMultiTag)
 		{
 			selectedPose = placerMultiTag.value();
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("PlacerMultiTagOnly"), true);
 		}
 	}
 
 	if (selectedPose)
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MultiTag"), std::string("SelectedPoseExists"), true);
 		// calculate transform to fieldElement as difference between robot pose and field element pose
 		frc::Transform3d transformToElement = frc::Transform3d{selectedPose.value().estimatedPose, elementPose};
 
@@ -413,12 +395,10 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 
 	if ((!launcherTagId) && (!placerTagId)) // if we see no april tags
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("BothNull"), true);
 		return std::nullopt;
 	}
 	else if ((launcherTagId) && (placerTagId)) // if we see april tags in both cameras
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("BothSee"), true);
 		// confidence logic for single tag
 		double launcherAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetPoseAmbiguity();
 		double placerAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER])->GetPoseAmbiguity();
@@ -430,31 +410,26 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 		if (launcherTagId)
 		{
 			selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER];
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("UsingLauncher"), true);
 		}
 
 		else if (placerTagId)
 		{
 			selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER];
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("UsingPlacer"), true);
 		}
 	}
 
 	if (selectedCam != nullptr)
 	{
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("SelectedCamExists"), true);
 		// get the optional of the translation and rotation to the apriltag
 		std::optional<VisionData> dataToAprilTag = selectedCam->GetDataToNearestAprilTag();
 		if (dataToAprilTag)
 		{
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("DataToAprilTagExists"), true);
 			// optional of the April Tag's 3D pose
 			std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(dataToAprilTag.value().tagId);
 
 			// get valid value of optionalAprilTagPose
 			if (optionalAprilTagPose)
 			{
-				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("AprilTagPoseExists"), true);
 				// get the actual pose of the april tag from the optional
 				frc::Pose3d aprilTagPose = optionalAprilTagPose.value();
 
@@ -477,13 +452,11 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 																  transformToElement.Translation(),
 																  frc::Rotation3d(roll, pitch, yaw), // roll is 0, pitch and yaw are calculated
 																  dataToAprilTag.value().tagId);
-				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("ReturningNullopt"), false);
 				return visionData;
 			}
 		}
 	}
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("SingleTag"), std::string("ReturningNullopt"), true);
 	return std::nullopt;
 }
 
