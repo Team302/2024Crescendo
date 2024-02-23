@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "zone.dtd">
+<auton>
+
+      <zone ygrid1="Y_7"
+            xgrid1="X_S"
+            ygrid2="Y_9"
+            xgrid2="X_U"
+            noteOption="STATE_AUTO_LAUNCH"/>
+
+            <!--Generally any file with an amp in it
+            Zone: 7S-9U
+            In front of and between wing note 2 and 3-->
+
+</auton>

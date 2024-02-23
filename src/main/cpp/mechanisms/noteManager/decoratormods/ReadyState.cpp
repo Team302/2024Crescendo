@@ -59,8 +59,8 @@ void ReadyState::Run()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer In"), m_mechanism->getplacerInSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Mid"), m_mechanism->getplacerMidSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Out"), m_mechanism->getplacerOutSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherTop()->GetRPS()).to<double>());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherBottom()->GetRPS()).to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>());
 }
 
 void ReadyState::Exit()
