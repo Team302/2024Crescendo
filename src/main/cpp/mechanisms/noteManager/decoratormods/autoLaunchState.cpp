@@ -43,9 +43,9 @@ autoLaunchState::autoLaunchState(std::string stateName,
 void autoLaunchState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoLaunchState"), string("init"));
-
 	m_genState->Init();
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->getlauncherAngle()->GetCounts() && m_mechanism->autoLaunchReady());
+	m_targetAngle = m_mechanism->getlauncherAngle()->GetCounts();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_targetAngle);
 }
 
 void autoLaunchState::Run()
@@ -54,8 +54,16 @@ void autoLaunchState::Run()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>());
 
-	if (units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherBottom()->GetRPS()).to<double>() > 80.0 && units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherTop()->GetRPS()).to<double>())
+	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
+	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
+
+	if ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed))
+	{
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 1);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, 1);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE, 1);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 1);
+	}
 }
 
 void autoLaunchState::Exit()
