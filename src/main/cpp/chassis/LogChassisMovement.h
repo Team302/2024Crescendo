@@ -1,3 +1,4 @@
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -15,25 +16,14 @@
 
 #pragma once
 
-// C++ Includes
-#include <array>
+#include "chassis/ChassisMovement.h"
 
-// Team302 Includes
-#include "chassis/driveStates/ISwerveDriveState.h"
-
-class HoldDrive : public ISwerveDriveState
+class LogChassisMovement
 {
 public:
-    HoldDrive();
-    ~HoldDrive();
-
-    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
-
-    void Init(ChassisMovement &chassisMovement) override;
+    static void Print(ChassisMovement &moveinfo);
 
 private:
-    frc::SwerveModuleState *m_flState = new frc::SwerveModuleState();
-    frc::SwerveModuleState *m_frState = new frc::SwerveModuleState();
-    frc::SwerveModuleState *m_blState = new frc::SwerveModuleState();
-    frc::SwerveModuleState *m_brState = new frc::SwerveModuleState();
+    LogChassisMovement() = delete;
+    ~LogChassisMovement() = delete;
 };
