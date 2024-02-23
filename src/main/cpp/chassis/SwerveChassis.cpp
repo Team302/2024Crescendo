@@ -25,7 +25,6 @@
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
-#include "chassis/LogChassisMovement.h"
 #include "chassis/driveStates/FieldDrive.h"
 #include "chassis/driveStates/HoldDrive.h"
 #include "chassis/driveStates/RobotDrive.h"
@@ -158,8 +157,6 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_currentDriveState = GetDriveState(moveInfo);
     if (m_currentDriveState != nullptr)
     {
-        // LogChassisMovement::Print(moveInfo);
-
         auto states = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
 
         m_frontLeft->SetDesiredState(states[LEFT_FRONT]);

@@ -20,7 +20,6 @@
 // Team302 Includes
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/ChassisMovement.h"
-#include "chassis/LogChassisMovement.h"
 #include "utils/logging/Logger.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
 
@@ -29,6 +28,7 @@ using frc::Pose2d;
 TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
+                                                                                 // TODO need to tune this also update radius as it is probably wrong
                                                                                  m_holonomicController(pathplanner::PIDConstants(0.0, 0.0, 0.0),
                                                                                                        pathplanner::PIDConstants(0.0, 0.0, 0.0),
                                                                                                        units::velocity::feet_per_second_t(15.0),
@@ -79,7 +79,6 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
 
         auto refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
         chassisMovement.chassisSpeeds = refChassisSpeeds;
-        // LogChassisMovement::Print(chassisMovement);
     }
     else // If we don't have states to run, don't move the robot
     {

@@ -26,7 +26,6 @@
 #include "chassis/ChassisMovement.h"
 #include "chassis/driveStates/AntiTip.h"
 #include "chassis/driveStates/RobotDrive.h"
-#include "chassis/LogChassisMovement.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
 
@@ -56,7 +55,6 @@ RobotDrive::RobotDrive(SwerveChassis *chassis) : ISwerveDriveState::ISwerveDrive
 
 std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
-    // LogChassisMovement::Print(chassisMovement);
     if (chassisMovement.checkTipping)
     {
         AntiTip::DecideTipCorrection(chassisMovement, m_maxspeed);
@@ -66,16 +64,6 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
     wpi::array<frc::SwerveModuleState, 4> states = m_chassis->GetKinematics().ToSwerveModuleStates(speeds, chassisMovement.centerOfRotationOffset + m_centerOfRotation);
 
     m_chassis->GetKinematics().DesaturateWheelSpeeds(&states, m_chassis->GetMaxSpeed());
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("RobotDrive"), string("state0 angle"), states[0].angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("RobotDrive"), string("state0 drive"), states[0].speed.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("RobotDrive"), string("state1 angle"), states[1].angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("RobotDrive"), string("state1 drive"), states[1].speed.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("RobotDrive"), string("state2 angle"), states[2].angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("RobotDrive"), string("state2 drive"), states[2].speed.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("RobotDrive"), string("state3 angle"), states[3].angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("RobotDrive"), string("state3 drive"), states[3].speed.to<double>());
-
     return {states[0], states[1], states[2], states[3]};
 }
 
