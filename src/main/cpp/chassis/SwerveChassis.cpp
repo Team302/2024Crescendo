@@ -158,8 +158,7 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_currentDriveState = GetDriveState(moveInfo);
     if (m_currentDriveState != nullptr)
     {
-
-        LogChassisMovement::Print(moveInfo);
+        // LogChassisMovement::Print(moveInfo);
 
         auto states = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
 

@@ -23,6 +23,7 @@
 #include "chassis/SwerveChassis.h"
 
 // Third party includes
+#include "pathplanner/lib/path/PathPlannerPath.h"
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
 #include "pathplanner/lib/controllers/PPHolonomicDriveController.h"
 
@@ -43,6 +44,8 @@ public:
 private:
     bool IsSamePose(frc::Pose2d currentPose, frc::Pose2d previousPose, double xyTolerance, double rotTolerance);
 
+    void LogPose(frc::Pose2d pose) const;
+    void LogState(pathplanner::PathPlannerTrajectory::State state) const;
     pathplanner::PathPlannerTrajectory m_trajectory;
     RobotDrive *m_robotDrive;
     pathplanner::PPHolonomicDriveController m_holonomicController;
