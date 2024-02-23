@@ -89,8 +89,8 @@ void noteManager::RunCommonTasks()
 	ResetElevator();
 
 #ifdef INCLUDE_DATA_TRACE
-	double wheelSetTop = getlauncherTop()->GetCounts();
-	double wheelSetBottom = getlauncherBottom()->GetCounts();
+	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
+	double wheelSetBottom = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60)).to<double>();
 	double angle = getlauncherAngle()->GetCounts();
 	double elevator = getElevator()->GetCounts();
 	DataTrace::GetInstance()->sendElevatorData(elevator);
@@ -107,7 +107,7 @@ void noteManager::ResetElevator()
 void noteManager::ResetLauncherAngle()
 {
 	if (getlauncherAngle()->IsReverseLimitSwitchClosed())
-		getlauncherAngle()->SetSelectedSensorPosition(-51);
+		getlauncherAngle()->SetSelectedSensorPosition(0);
 }
 
 void noteManager::SetCurrentState(int state, bool run)
@@ -125,6 +125,8 @@ units::length::meter_t noteManager::GetVisionDistance()
 		frc::Translation3d translate{optionalVisionData.value().translationToTarget};
 		double x{translate.X().to<double>()};
 		double y{translate.Y().to<double>()};
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("X"), x);
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Y"), y);
 		distance = units::length::meter_t(std::hypot(x, y));
 	}
 	return distance;
@@ -152,24 +154,18 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 
 double noteManager::GetRequiredLaunchAngle()
 {
-	double distanceFromTarget = 1.1;
-	double launchAngle = -51.0;
+	double distanceFromTarget = 3.5;
+	double launchAngle = 0;
 
 	if (HasVisionTarget())
 	{
 		distanceFromTarget = GetVisionDistance().to<double>();
-		if (distanceFromTarget < 1.5)
-		{
-			launchAngle = -24;
-		}
-		else
-		{
-			launchAngle = 6.72 + (-27.1 * distanceFromTarget) + (2.85 * distanceFromTarget * distanceFromTarget);
-		}
+
+		launchAngle = 79.9 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
 	}
-	if (launchAngle > -10.0)
+	if (launchAngle > 40)
 	{
-		launchAngle = -10.0;
+		launchAngle = 40;
 	}
 	return launchAngle;
 }
