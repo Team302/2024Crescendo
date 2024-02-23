@@ -130,7 +130,8 @@ void Robot::TeleopPeriodic()
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
+    Logger::GetLogger()
+        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
 void Robot::DisabledInit()

@@ -145,7 +145,7 @@ namespace ApplicationData
 
         public override List<string> generateIndexedObjectCreation(int index)
         {
-            string creation = string.Format(@"{0} = new {1} ( ""{0}"", //std::string name,                      /// <I> - network table name
+            string creation = string.Format(@"{0} = new {1} ( ""limelight-{19}"", //std::string name,                      /// <I> - network table name
                                                             DragonCamera::PIPELINE::{2}, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
                                                             units::length::inch_t({4}({3})), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
                                                             units::length::inch_t({6}({5})), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
@@ -175,7 +175,8 @@ namespace ApplicationData
                                             LedMode.ToString(),
                                             CamMode.ToString(),
                                             StreamMode.ToString(),
-                                            SnapshotMode.ToString()
+                                            SnapshotMode.ToString(),
+                                            name.ToLower()
                                             );
             string addCamera = string.Format(@"DragonVision::GetDragonVision()->AddCamera({0}, RobotElementNames::CAMERA_USAGE::{1});",name,ToUnderscoreCase( name).ToUpper());
             return new List<string> { creation, addCamera, Environment.NewLine };
