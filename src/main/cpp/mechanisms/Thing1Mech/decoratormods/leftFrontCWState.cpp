@@ -53,7 +53,8 @@ void leftFrontCWState::Run()
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("leftFrontCWState"), string("run"));
 
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_LEFT_FRONT_MOTOR, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE));
-
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX, units::angular_velocity::revolutions_per_minute_t(units::angular_velocity::radians_per_second_t(10)));
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Vortex"), string("Speed"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getVortex()->GetRPS())).to<double>());
 	m_genState->Run();
 }
 
