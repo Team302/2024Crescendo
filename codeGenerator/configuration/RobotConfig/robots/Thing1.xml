@@ -1273,7 +1273,7 @@
                 <name>intParameter</name>
                 <__units__ />
                 <type>Int32</type>
-                <value>0</value>
+                <value>1</value>
               </countsPerRev>
               <gearRatio>
                 <unitsFamily>none</unitsFamily>
@@ -1534,7 +1534,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.1</value>
+                <value>0.001</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
