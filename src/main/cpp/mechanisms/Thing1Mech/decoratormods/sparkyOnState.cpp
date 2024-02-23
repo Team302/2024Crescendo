@@ -51,7 +51,7 @@ void sparkyOnState::Init()
 void sparkyOnState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("sparkyOnState"), string("run"));
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE));
+	// m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE));
 
 	m_genState->Run();
 }

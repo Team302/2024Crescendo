@@ -18,9 +18,9 @@
 #include <string>
 #include <vector>
 
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-#include "chassis/IChassis.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/SwerveChassis.h"
 #include "robotstate/RobotStateChangeBroker.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "utils/DragonField.h"
@@ -67,8 +67,8 @@ RobotState::~RobotState()
 
 void RobotState::Init()
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chassis = config != nullptr ? config->GetIChassis() : nullptr;
+    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
 }
 
 void RobotState::Run()

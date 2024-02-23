@@ -2,19 +2,25 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname= "BlueSubwooferWing1Center1.path"/>
+        <primitive id= "RESET_POSITION_PATH_PLANNER"
+                    pathname= "BlueSubwooferWing1Center1"/>
 
 
-<snippet file= "ShootWhenStop.xml"/>
+        <snippet file= "ShootWhenStop.xml"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueSubwooferWing1Center1.path"/>
+        <primitive id= "DRIVE_PATH_PLANNER"
+                    pathname= "BlueSubwooferWing1Center1">
 
-<!--In the zone: 
-(to Launch) Q9-S11
-(to Launch) Q9-S11
--->
+            <zone filename="BlueIntakeCenterNote1.xml"/>
+            <zone filename="BlueIntakeWingNote2.xml"/>
+
+                <zone filename = "BlueLaunchingZoneWingNote2.xml"/>
+        </primitive>
+
+        <!--In the zone: 
+        (to Launch) Q9-S11
+        (to Launch) Q9-S11
+        -->
 
 
 </auton>

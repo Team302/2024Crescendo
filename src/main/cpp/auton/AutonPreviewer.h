@@ -18,11 +18,11 @@
 #include <string>
 
 // FRC Includes
-#include <frc/trajectory/Trajectory.h>
+#include "frc/trajectory/Trajectory.h"
 
 // Team 302 Includes
-#include <utils/DragonField.h>
-#include <auton/CyclePrimitives.h>
+#include "utils/DragonField.h"
+#include "auton/CyclePrimitives.h"
 
 class AutonPreviewer
 {

@@ -18,6 +18,7 @@ public:
 protected:
     void DefineMechanisms() override;
     void DefineVisionSensors() override;
+    void DefineLEDs() override;
 
 private:
     $$_MECHANISM_PTR_DECLARATIONS_$$
