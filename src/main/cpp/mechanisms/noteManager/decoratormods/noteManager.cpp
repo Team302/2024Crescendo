@@ -123,11 +123,8 @@ units::length::meter_t noteManager::GetVisionDistance()
 	if (optionalVisionData)
 	{
 		frc::Translation3d translate{optionalVisionData.value().translationToTarget};
-		double x{translate.X().to<double>()};
-		double y{translate.Y().to<double>()};
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("X"), x);
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Y"), y);
-		distance = units::length::meter_t(std::hypot(x, y));
+		distance = optionalVisionData.value().translationToTarget.X();
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("X"), optionalVisionData.value().translationToTarget.X().to<double>());
 	}
 	return distance;
 }
@@ -161,11 +158,11 @@ double noteManager::GetRequiredLaunchAngle()
 	{
 		distanceFromTarget = GetVisionDistance().to<double>();
 
-		launchAngle = 79.9 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
+		launchAngle = 80.0 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
 	}
 	if (launchAngle > 40)
 	{
-		launchAngle = 40;
+		launchAngle = 0;
 	}
 	return launchAngle;
 }
@@ -176,7 +173,6 @@ bool noteManager::autoLaunchReady()
 	if (optionalVisionData.has_value())
 	{
 		VisionData visionData = optionalVisionData.value();
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance Y"), visionData.transformToTarget.Y().to<double>());
 		if (visionData.transformToTarget.Y().to<double>() <= 0.5 && GetVisionDistance().to<double>() <= 3.5)
 		{
 			return true;
