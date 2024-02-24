@@ -511,7 +511,7 @@ namespace CoreCodeGenerator
                             resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(includeList, ""));
 
                             filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), true);
-                            copyrightAndGenNoticeAndSave(filePathName, resultString, true);
+                            copyrightAndGenNoticeAndSave(filePathName, resultString, false);
                             #endregion
 
 
