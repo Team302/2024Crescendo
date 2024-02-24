@@ -207,7 +207,7 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 /// @return void
 void SwerveModule::StopMotors()
 {
-    // TODO: add method to stop motor and do it for both turn and drive motors
+    SetDriveSpeed(0_mps);
 }
 
 //==================================================================================
