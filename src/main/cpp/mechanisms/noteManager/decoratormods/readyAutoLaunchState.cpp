@@ -58,9 +58,6 @@ void readyAutoLaunchState::Run()
 	}
 	m_target = m_mechanism->GetRequiredLaunchAngle();
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_target);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), m_mechanism->getlauncherAngle()->GetCounts());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Target"), m_target);
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance"), m_mechanism->GetVisionDistance().to<double>());
 
 	m_genState->Run();
 }

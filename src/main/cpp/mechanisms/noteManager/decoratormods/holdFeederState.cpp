@@ -51,7 +51,6 @@ void holdFeederState::Init()
 void holdFeederState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederState"), string("run"));
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), m_mechanism->getlauncherAngle()->GetCounts());
 	m_genState->Run();
 }
 
