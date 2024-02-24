@@ -1534,7 +1534,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>1E-05</value>
+                <value>1.5E-05</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
