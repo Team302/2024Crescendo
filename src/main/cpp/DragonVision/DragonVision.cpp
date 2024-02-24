@@ -520,6 +520,7 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 				counter++;
 			}
 
+			// get the average ambiguity and add as standard deviation
 			visionStdMeasurements[0] += (ambiguity / counter);
 			visionStdMeasurements[1] += (ambiguity / counter);
 			visionStdMeasurements[2] += (ambiguity / counter);
