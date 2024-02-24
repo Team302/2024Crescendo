@@ -48,20 +48,19 @@ void DriverFeedback::UpdateLEDStates()
 {
     // reset controller rumble
     // TeleopControl::GetInstance()->SetRumble(0, false, false);
-    /*
-       if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
-       {
-           m_LEDStates->SolidColorPattern(DragonLeds::RED);
-       }
-       else if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
-       {
-           m_LEDStates->SolidColorPattern(DragonLeds::GREEN);
-       }
-       else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
-       {
-           m_LEDStates->SolidColorPattern(DragonLeds::WHITE);
-       }
-       */
+
+    if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+    {
+        m_LEDStates->SolidColorPattern(DragonLeds::RED);
+    }
+    else if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+    {
+        m_LEDStates->SolidColorPattern(DragonLeds::GREEN);
+    }
+    else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
+    {
+        m_LEDStates->SolidColorPattern(DragonLeds::WHITE);
+    }
 }
 
 void DriverFeedback::ResetRequests(void)
