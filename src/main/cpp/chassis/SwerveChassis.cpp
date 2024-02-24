@@ -164,6 +164,9 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
         m_backLeft->SetDesiredState(states[LEFT_BACK]);
         m_backRight->SetDesiredState(states[RIGHT_BACK]);
     }
+
+    LogInformation();
+
     UpdateOdometry();
 }
 

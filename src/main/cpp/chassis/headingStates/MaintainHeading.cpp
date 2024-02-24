@@ -33,6 +33,7 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Current Rotation (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
 
     if (std::abs(rot.to<double>()) < 0.1)
     {
@@ -42,8 +43,12 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainHeadingControl);
 
             chassisMovement.chassisSpeeds.omega += correction;
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Correction (dps)", correction.to<double>());
         }
     }
     else
+    {
         chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Stored Heading (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
+    }
 }
