@@ -12,6 +12,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+#include <math.h>
+#include <string>
 
 #include "frc/geometry/Pose2d.h"
 #include "frc/controller/PIDController.h"
@@ -24,21 +26,23 @@
 #include "chassis/headingStates/SpecifiedHeading.h"
 
 using frc::Pose2d;
+using std::string;
 
 TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_holonomicController(pathplanner::PIDConstants(0.0, 0.0, 0.0),
-                                                                                                       pathplanner::PIDConstants(0.0, 0.0, 0.0),
-                                                                                                       units::velocity::feet_per_second_t(15.0),
-                                                                                                       units::length::meter_t(0.5),
+                                                                                 m_holonomicController(pathplanner::PIDConstants(4.0, 1.25, 0.0),
+                                                                                                       pathplanner::PIDConstants(3.0, 1.0, 0.0),
+                                                                                                       robotDrive->GetChassis()->GetMaxSpeed(),
+                                                                                                       units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                        units::time::second_t(0.02)),
                                                                                  m_trajectoryStates(),
                                                                                  m_prevPose(),
                                                                                  m_wasMoving(false),
                                                                                  m_timer(std::make_unique<frc::Timer>()),
-                                                                                 m_whyDone("Trajectory isn't finished/Error")
+                                                                                 m_whyDone("Trajectory isn't finished/Error"),
+                                                                                 m_totalTrajectoryTime(units::time::second_t(0.0))
 
 {
     m_prevPose = m_chassis != nullptr ? m_chassis->GetPose() : Pose2d();
@@ -49,6 +53,7 @@ void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
     m_trajectoryStates.clear();
 
     m_trajectory = chassisMovement.pathplannerTrajectory;
+    m_totalTrajectoryTime = m_trajectory.getTotalTime();
     m_trajectoryStates = m_trajectory.getStates();
     if (!m_trajectoryStates.empty())
     {
@@ -98,16 +103,21 @@ bool TrajectoryDrivePathPlanner::IsDone()
 
     bool isDone = false;
 
+    auto currentPose = m_chassis != nullptr ? m_chassis->GetPose() : Pose2d();
     if (!m_trajectoryStates.empty()) // If we have states...
     {
-        // isDone = m_holonomicController.atReference();
-        isDone = IsSamePose(m_chassis->GetPose(), m_finalState.getTargetHolonomicPose(), 10.0, 1.0);
+        auto currentTime = m_timer.get()->Get();
+        if ((currentTime) / m_totalTrajectoryTime > 0.9)
+        {
+            // isDone = m_holonomicController.atReference();
+            isDone = IsSamePose(currentPose, m_finalState.getTargetHolonomicPose(), 10.0, 1.0);
+        }
     }
     else
     {
         m_whyDone = "No states in trajectory";
         isDone = true;
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner", "why done", m_whyDone);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "", "why done", m_whyDone);
     }
 
     return isDone;
