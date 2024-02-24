@@ -58,10 +58,23 @@ void DriveToCenterStage::Init(ChassisMovement &chassisMovement)
 
 frc::Pose2d DriveToCenterStage::GetOffset()
 {
-    DragonVision::VISION_ELEMENT chosenZone = DragonVision::CENTER_STAGE;
+    auto currentPose2d = m_chassis->GetPose();
+
     auto topZonePointOne = frc::Pose2d(units::length::meter_t(3.34), units::length::meter_t(6.87), 90_deg);
     auto topZonePointTwo = frc::Pose2d(units::length::meter_t(5.95), units::length::meter_t(6.87), 90_deg);
     auto topZonePointThree = frc::Pose2d(units::length::meter_t(3.34), units::length::meter_t(5.56), 90_deg);
+
+    auto bottomZonePointOne = frc::Pose2d(units::length::meter_t(2.68), units::length::meter_t(3.52), 90_deg);
+    auto bottomZonePointTwo = frc::Pose2d(units::length::meter_t(4.82), units::length::meter_t(3.52), 90_deg);
+    auto bottomZonePointThree = frc::Pose2d(units::length::meter_t(2.68), units::length::meter_t(1.73), 90_deg);
+    if (topZonePointOne.X() < currentPose2d.X() & currentPose2d.X() < topZonePointTwo.X() & currentPose2d.Y() < topZonePointOne.Y() & topZonePointThree.Y() < currentPose2d.Y())
+    {
+        DragonVision::VISION_ELEMENT currentZoneTag = DragonVision::LEFT_STAGE;
+    }
+    else if (bottomZonePointOne.X() < currentPose2d.X() & currentPose2d.X() < bottomZonePointTwo.X() & currentPose2d.Y() < bottomZonePointOne.Y() & bottomZonePointThree.Y() < currentPose2d.Y())
+    {
+        DragonVision::VISION_ELEMENT currentZoneTag = DragonVision::RIGHT_STAGE;
+    }
 }
 
 std::array<frc::SwerveModuleState, 4> DriveToCenterStage::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
