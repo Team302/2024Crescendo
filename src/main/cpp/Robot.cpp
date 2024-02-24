@@ -29,9 +29,6 @@
 
 #include "utils/logging/DataTrace.h"
 
-/// DEBUG
-#include "DragonVision/DragonVisionStructLogger.h"
-
 using std::string;
 
 void Robot::RobotInit()
@@ -69,12 +66,6 @@ void Robot::RobotPeriodic()
     }
 
     UpdateDriveTeamFeedback();
-
-    std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
-    if (optionalVisionData)
-    {
-        DragonVisionStructLogger::logVisionData("VISION DEBUGGING", optionalVisionData);
-    }
 }
 
 /**
