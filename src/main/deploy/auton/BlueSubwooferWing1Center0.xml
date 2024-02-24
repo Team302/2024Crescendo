@@ -9,11 +9,12 @@
 
     <primitive id= "DRIVE_PATH_PLANNER"
             pathname="BlueSubwooferWing1Center0"
-            time = "4.0">
+            time = "4.0"
+            noteOption= "STATE_FEEDER_INTAKE">
 
 
 
-            <zone filename="BlueIntakeWingNote2.xml"/>
+           <!-- <zone filename="BlueIntakeWingNote2.xml"/>-->
 
     </primitive>
 
