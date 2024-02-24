@@ -59,6 +59,9 @@ void DriveToCenterStage::Init(ChassisMovement &chassisMovement)
 frc::Pose2d DriveToCenterStage::GetOffset()
 {
     auto currentPose2d = m_chassis->GetPose();
+    DragonVision::VISION_ELEMENT currentZoneTag = DragonVision::NEAREST_APRILTAG;
+    units::length::meter_t yoffset = units::length::meter_t(0);
+    units::length::meter_t xoffset = units::length::meter_t(0);
 
     auto topZonePointOne = frc::Pose2d(units::length::meter_t(3.34), units::length::meter_t(6.87), 90_deg);
     auto topZonePointTwo = frc::Pose2d(units::length::meter_t(5.95), units::length::meter_t(6.87), 90_deg);
@@ -67,14 +70,44 @@ frc::Pose2d DriveToCenterStage::GetOffset()
     auto bottomZonePointOne = frc::Pose2d(units::length::meter_t(2.68), units::length::meter_t(3.52), 90_deg);
     auto bottomZonePointTwo = frc::Pose2d(units::length::meter_t(4.82), units::length::meter_t(3.52), 90_deg);
     auto bottomZonePointThree = frc::Pose2d(units::length::meter_t(2.68), units::length::meter_t(1.73), 90_deg);
+
+    auto centerZonePointOne = frc::Pose2d(units::length::meter_t(6.44), units::length::meter_t(7.44), 90_deg);
+    auto centerZonePointTwo = frc::Pose2d(units::length::meter_t(7.56), units::length::meter_t(7.44), 90_deg);
+    auto centerZonePointThree = frc::Pose2d(units::length::meter_t(6.44), units::length::meter_t(0.8), 90_deg);
     if (topZonePointOne.X() < currentPose2d.X() & currentPose2d.X() < topZonePointTwo.X() & currentPose2d.Y() < topZonePointOne.Y() & topZonePointThree.Y() < currentPose2d.Y())
     {
-        DragonVision::VISION_ELEMENT currentZoneTag = DragonVision::LEFT_STAGE;
+        currentZoneTag = DragonVision::LEFT_STAGE;
+        yoffset = units::length::meter_t(2.05);
     }
     else if (bottomZonePointOne.X() < currentPose2d.X() & currentPose2d.X() < bottomZonePointTwo.X() & currentPose2d.Y() < bottomZonePointOne.Y() & bottomZonePointThree.Y() < currentPose2d.Y())
     {
         DragonVision::VISION_ELEMENT currentZoneTag = DragonVision::RIGHT_STAGE;
+        yoffset = units::length::meter_t(-2.05);
     }
+    else if (centerZonePointOne.X() < currentPose2d.X() & currentPose2d.X() < centerZonePointTwo.X() & currentPose2d.Y() < centerZonePointOne.Y() & centerZonePointThree.Y() < currentPose2d.Y())
+    {
+        DragonVision::VISION_ELEMENT currentZoneTag = DragonVision::CENTER_STAGE;
+        xoffset = units::length::meter_t(1.47);
+    }
+    auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(currentZoneTag);
+    auto type = get<0>(aprilTagInfo);
+    m_targetPose2d = get<1>(aprilTagInfo);
+    auto offsetWaypoint = frc::Pose2d(m_targetPose2d.X(), m_targetPose2d.Y(), m_targetPose2d.Rotation());
+
+    if (currentZoneTag == DragonVision::LEFT_STAGE)
+    {
+        auto offsetWaypoint = frc::Pose2d(m_targetPose2d.X(), m_targetPose2d.Y() + yoffset, m_targetPose2d.Rotation());
+    }
+    if (currentZoneTag == DragonVision::RIGHT_STAGE)
+    {
+        auto offsetWaypoint = frc::Pose2d(m_targetPose2d.X(), m_targetPose2d.Y() + yoffset, m_targetPose2d.Rotation());
+    }
+    if (currentZoneTag == DragonVision::CENTER_STAGE)
+    {
+        auto offsetWaypoint = frc::Pose2d(m_targetPose2d.X() + xoffset, m_targetPose2d.Y(), m_targetPose2d.Rotation());
+    }
+
+    return offsetWaypoint;
 }
 
 std::array<frc::SwerveModuleState, 4> DriveToCenterStage::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
