@@ -57,4 +57,5 @@ private:
     std::unique_ptr<frc::Timer> m_timer;
 
     std::string m_whyDone;
+    units::time::second_t m_totalTrajectoryTime;
 };
