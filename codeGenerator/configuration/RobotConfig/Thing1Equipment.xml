@@ -1657,7 +1657,7 @@
             <type>Double</type>
           </target>
           <motorName>Vortex</motorName>
-          <controlDataName>percentControlData</controlDataName>
+          <controlDataName>speedControlData</controlDataName>
         </motorTarget>
         <motorTarget>
           <name>LeftFrontMotor</name>

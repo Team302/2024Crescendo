@@ -122,7 +122,7 @@ private:
     MotorTargetType m_targetType;
     double m_target;
     units::angle::degree_t m_targetAngle;
-    units::angular_velocity::degrees_per_second_t m_targetAngularVelocity;
+    units::angular_velocity::revolutions_per_minute_t m_targetAngularVelocity;
     units::length::inch_t m_targetPosition;
     units::velocity::feet_per_second_t m_targetVelocity;
 };
