@@ -122,7 +122,6 @@ void DragonSparkFlex::Set(double value)
     else if (m_controlType == rev::CANSparkFlex::ControlType::kVelocity)
     {
         m_pidController.SetReference(value * 60, m_controlType, m_slot);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("Vortex"), std::string("Target"), value * 60);
     }
     else
     {

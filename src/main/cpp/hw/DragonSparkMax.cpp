@@ -121,6 +121,10 @@ void DragonSparkMax::Set(double value)
     {
         m_spark->Set(value);
     }
+    else if (m_controlType == rev::CANSparkMax::ControlType::kVelocity)
+    {
+        m_pidController.SetReference(value * 60, m_controlType, m_slot);
+    }
     else
     {
         m_pidController.SetReference(value, m_controlType, m_slot);
