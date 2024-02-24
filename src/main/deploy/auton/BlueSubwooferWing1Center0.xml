@@ -19,6 +19,8 @@
 
     <snippet file= "ShootWhenStop.xml"/>
 
+    <primitive id= "DO_NOTHING"/>
+
     <!--No need for launching zones, as we are launching before and after-->
 
 </auton>
