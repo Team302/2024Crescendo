@@ -69,7 +69,7 @@ void DragonVision::AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USA
 
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 {
-	if (element == VISION_ELEMENT::NOTE || element == VISION_ELEMENT::LAUNCHER_NOTE || element == VISION_ELEMENT::PLACER_NOTE) // if we want to detect a note
+	if ((element == VISION_ELEMENT::NOTE) || (element == VISION_ELEMENT::LAUNCHER_NOTE) || (element == VISION_ELEMENT::PLACER_NOTE)) // if we want to detect a note
 	{
 		return GetVisionDataFromNote(element);
 	}
@@ -77,7 +77,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	{
 		return GetVisionDataToNearestTag();
 	}
-	else if (element == VISION_ELEMENT::STAGE || element == VISION_ELEMENT::CENTER_STAGE || element == VISION_ELEMENT::LEFT_STAGE || element == VISION_ELEMENT::RIGHT_STAGE)
+	else if ((element == VISION_ELEMENT::STAGE) || (element == VISION_ELEMENT::CENTER_STAGE) || (element == VISION_ELEMENT::LEFT_STAGE) || (element == VISION_ELEMENT::RIGHT_STAGE))
 	{
 		return GetVisionDataToNearestStageTag(element);
 	}
@@ -308,37 +308,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 
 std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT element)
 {
-	DragonCamera *selectedCam = nullptr;
-	std::optional<int> launcherTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetAprilTagID();
-	std::optional<int> placerTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetAprilTagID();
-	if (placerTagId && launcherTagId)
-	{
-
-		if ((!launcherTagId) && (!placerTagId)) // if we see no april tags
-		{
-			return std::nullopt;
-		}
-		else if ((launcherTagId) && (placerTagId)) // if we see april tags in both cameras
-		{
-			// confidence logic
-			double launcherAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER])->GetPoseAmbiguity();
-			double placerAmbiguity = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER])->GetPoseAmbiguity();
-
-			selectedCam = launcherAmbiguity <= placerAmbiguity ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]; // if launcher is less ambiguous, select it, and vice versa
-		}
-		else // one camera sees an april tag
-		{
-			if (launcherTagId)
-				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER];
-
-			else
-				selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER];
-		}
-	}
-	else if (!launcherTagId && !placerTagId) // if both cameras don't see a tag, return a nullopt
-	{
-		return std::nullopt;
-	}
 	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 
 	// initialize selected field element to empty Pose3d
@@ -346,16 +315,16 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	switch (element)
 	{
 	case VISION_ELEMENT::SPEAKER:
-		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{m_constants->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SPEAKER)} /*load red speaker*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SPEAKER)}; /*load blue speaker*/
+		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SPEAKER)} /*load red speaker*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SPEAKER)}; /*load blue speaker*/
 		break;
 	case VISION_ELEMENT::AMP:
-		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{m_constants->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_AMP)} /*load red amp*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_AMP)}; /*load blue amp*/
+		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_AMP)} /*load red amp*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_AMP)}; /*load blue amp*/
 		break;
 	case VISION_ELEMENT::SOURCE:
-		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{m_constants->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SOURCE)} /*load red source*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SOURCE)};
+		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SOURCE)} /*load red source*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SOURCE)}; /*load blue source*/
 		break;
 	default:
-		// no-op
+		return std::nullopt;
 		break;
 	}
 

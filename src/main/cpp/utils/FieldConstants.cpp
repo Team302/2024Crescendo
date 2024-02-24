@@ -35,6 +35,7 @@ FieldConstants::FieldConstants()
     fieldConstantsPoseMap[RED_AMP] = m_RedAmp;
     fieldConstantsPoseMap[RED_CENTER_STAGE] = m_RedCenterStage;
     fieldConstantsPoseMap[RED_LEFT_STAGE] = m_RedLeftStage;
+    fieldConstantsPoseMap[RED_RIGHT_STAGE] = m_RedRightStage;
     fieldConstantsPoseMap[RED_SPEAKER] = m_RedSpeaker;
     fieldConstantsPoseMap[RED_SOURCE] = m_RedSource;
 }
