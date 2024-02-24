@@ -11,7 +11,6 @@ void DragonVisionStructLogger::logVisionData( const std::string& loggerName, con
 {
     if (optVisionData)
     {
-        frc::Transform3d testTransform = optVisionData.value().transformToTarget;
         logTransform3d(loggerName, optVisionData.value().transformToTarget);
         logTranslation3d(loggerName, optVisionData.value().translationToTarget);
         logRotation3d(loggerName, optVisionData.value().rotationToTarget);
