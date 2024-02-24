@@ -511,15 +511,18 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 			// returned result
 
 			double ambiguity = 0.0;
+			double counter = 0.0;
 			wpi::array<double, 3> visionStdMeasurements = VisionPose{}.visionMeasurementStdDevs;
 
 			for (auto target : estimation.value().targetsUsed)
 			{
 				ambiguity += target.GetPoseAmbiguity();
-				visionStdMeasurements[0] += ambiguity;
-				visionStdMeasurements[1] += ambiguity;
-				visionStdMeasurements[2] += ambiguity;
+				counter++;
 			}
+
+			visionStdMeasurements[0] += (ambiguity / counter);
+			visionStdMeasurements[1] += (ambiguity / counter);
+			visionStdMeasurements[2] += (ambiguity / counter);
 
 			estimatedPoses.emplace_back(VisionPose{estimatedPose, currentTime - timestamp, visionStdMeasurements});
 		}
