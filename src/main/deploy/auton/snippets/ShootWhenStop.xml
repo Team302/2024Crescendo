@@ -3,6 +3,9 @@
 
 <auton>
     <primitive id="DO_NOTHING"
-               noteOption="STATE_AUTO_LAUNCH"
+               noteOption="STATE_READY_MANUAL_LAUNCH"
+               time="0.5"/>
+ <primitive id="DO_NOTHING"
+               noteOption="STATE_MANUAL_LAUNCH"
                time="0.5"/>
 </auton>
