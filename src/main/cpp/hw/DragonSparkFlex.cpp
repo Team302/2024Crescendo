@@ -18,7 +18,7 @@
 #include "mechanisms/controllers/ControlData.h"
 
 #include "frc/smartdashboard/SmartDashboard.h"
-#include "utils/logging/Logger.h"
+
 using rev::CANSparkFlex;
 
 DragonSparkFlex::DragonSparkFlex(int id,
