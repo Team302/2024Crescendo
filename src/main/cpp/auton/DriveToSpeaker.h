@@ -13,30 +13,46 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#pragma once
+
 // Team302 Includes
 #include <chassis/SwerveChassis.h>
 #include "DragonVision/DragonVision.h"
+#include "chassis/DragonDriveTargetFinder.h"
+#include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
+#include "chassis/driveStates/RobotDrive.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
 #include "pathplanner/lib/path/PathPlannerPath.h"
+#include "chassis/ChassisMovement.h"
 
-class DriveToSpeaker
+class DriveToSpeaker : public TrajectoryDrivePathPlanner
 {
-    DriveToSpeaker();
-    ~DriveToSpeaker() = default;
-
 public:
-    pathplanner::PathPlannerTrajectory CreateDriveToSpeakerPath();
+    DriveToSpeaker(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
+
+    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
+        ChassisMovement &chassisMovement) override;
+
+    void Init(ChassisMovement &chassisMovement) override;
 
 private:
-    frc::Pose2d m_currentPose2d;
+    pathplanner::PathPlannerTrajectory CreateDriveToSpeakerTrajectory(frc::Pose2d currentPose2d, frc::Pose2d targetPose2d);
 
-    SwerveChassis *m_chasis;
+    SwerveChassis *m_chassis;
     DragonVision *m_dragonVision;
+    DragonDriveTargetFinder *m_dragonDriveTargetFinder;
+    TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
 
     const units::meters_per_second_t m_maxVel = 3.0_mps;
     const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;
     const units::radians_per_second_t m_maxAngularVel = 360_deg_per_s;
     const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
+
+    pathplanner::PathPlannerTrajectory m_trajectory;
+    frc::Pose2d m_targetPose2d;
+    frc::Pose2d m_oldTargetPose2d = frc::Pose2d();
+
+    bool m_makeTrajectory;
 };
