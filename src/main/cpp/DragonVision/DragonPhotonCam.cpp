@@ -506,11 +506,7 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
         std::optional<units::angle::degree_t> pitch = GetTargetPitchRobotFrame();
         std::optional<units::angle::degree_t> yaw = GetTargetYawRobotFrame();
 
-        if (!pitch || !yaw)
-        {
-            return std::nullopt;
-        }
-        else
+        if (pitch && yaw)
         {
             frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
                                                        pitch.value(),               // pitch
