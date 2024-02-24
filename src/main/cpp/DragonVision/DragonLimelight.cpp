@@ -462,9 +462,10 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance()
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance_RelToRobotCoords()
 {
-    if (EstimateTargetXDistance())
+    std::optional<units::length::inch_t> xDistance = EstimateTargetXDistance();
+    if (xDistance)
     {
-        units::length::inch_t targetXoffset_RF_inch = EstimateTargetXDistance().value() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
+        units::length::inch_t targetXoffset_RF_inch = xDistance.value() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
 
         return targetXoffset_RF_inch;
     }
@@ -474,9 +475,10 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance_Re
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_RelToRobotCoords()
 {
-    if (EstimateTargetYDistance())
+    std::optional<units::length::inch_t> yDistance = EstimateTargetYDistance();
+    if (yDistance)
     {
-        units::length::inch_t targetYoffset_RF_inch = EstimateTargetYDistance().value() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
+        units::length::inch_t targetYoffset_RF_inch = yDistance.value() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
 
         return targetYoffset_RF_inch;
     }
@@ -486,9 +488,10 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_Re
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_RelToRobotCoords()
 {
-    if (EstimateTargetZDistance())
+    std::optional<units::length::inch_t> zDistance = EstimateTargetZDistance();
+    if (zDistance)
     {
-        units::length::inch_t targetZoffset_RF_inch = EstimateTargetZDistance().value() + GetMountingZOffset(); ///< the offset is positive if the limelight is above the center of the robot
+        units::length::inch_t targetZoffset_RF_inch = zDistance.value() + GetMountingZOffset(); ///< the offset is positive if the limelight is above the center of the robot
 
         return targetZoffset_RF_inch;
     }
@@ -498,7 +501,8 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_Re
 
 std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 {
-    if (GetAprilTagID())
+    std::optional<int> tagId = GetAprilTagID();
+    if (tagId)
     {
         auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
 
@@ -507,7 +511,7 @@ std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
         frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
         auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
 
-        return VisionData{transform, transform.Translation(), rotation, GetAprilTagID().value()};
+        return VisionData{transform, transform.Translation(), rotation, tagId.value()};
     }
 
     return std::nullopt;

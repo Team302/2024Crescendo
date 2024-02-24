@@ -92,8 +92,18 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 
 std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_ELEMENT element)
 {
-	std::optional<int> launcherTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetAprilTagID();
-	std::optional<int> placerTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetAprilTagID();
+	std::optional<VisionData> launcherData = std::nullopt;
+	std::optional<VisionData> placerData = std::nullopt;
+
+	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] != nullptr)
+	{
+		launcherData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
+	}
+
+	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
+	{
+		placerData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
+	}
 
 	// get alliance color from FMSData
 	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
@@ -153,18 +163,18 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_EL
 		break;
 	}
 
-	if (launcherTagId)
+	if (launcherData)
 	{
-		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherTagId.value()) != tagIdsToCheck.end())
+		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherData.value().tagId) != tagIdsToCheck.end())
 		{
-			return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag(); // launcherTagId is for stage id
+			return launcherData;
 		}
 	}
-	else if (placerTagId)
+	else if (placerData)
 	{
-		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerTagId.value()) != tagIdsToCheck.end())
+		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerData.value().tagId) != tagIdsToCheck.end())
 		{
-			return m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag(); // placerTagId is for stage id
+			return placerData;
 		}
 	}
 
@@ -174,33 +184,38 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_EL
 
 std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 {
-	DragonCamera *selectedCam = nullptr;
-	std::optional<int> launcherTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetAprilTagID();
-	std::optional<int> placerTagId = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetAprilTagID();
+	std::optional<VisionData> selectedData = std::nullopt;
+	std::optional<VisionData> launcherData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
+	std::optional<VisionData> placerData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
 
-	if ((!launcherTagId) && (!placerTagId)) // if we see no april tags
+	if ((!launcherData) && (!placerData)) // if we see no april tags
 	{
 		return std::nullopt;
 	}
-	else if ((launcherTagId) && (placerTagId)) // if we see april tags in both cameras
+	else if ((launcherData) && (placerData)) // if we see april tags in both cameras
 	{
 		// distance logic
-		units::length::inch_t launcherDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->EstimateTargetXDistance_RelToRobotCoords().value();
-		units::length::inch_t placerDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->EstimateTargetXDistance_RelToRobotCoords().value();
+		units::length::inch_t launcherDistance = launcherData.value().translationToTarget.X();
+		units::length::inch_t placerDistance = placerData.value().translationToTarget.X();
 
-		selectedCam = units::math::abs(launcherDistance) <= units::math::abs(placerDistance) ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]; // if launcher is less ambiguous, select it, and vice versa
+		selectedData = units::math::abs(launcherDistance) <= units::math::abs(placerDistance) ? launcherData : placerData; // if launcher is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
-		if (launcherTagId)
-			selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER];
-		else
-			selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER];
+		if (launcherData)
+		{
+
+			selectedData = launcherData;
+		}
+		else if (placerData)
+		{
+			selectedData = placerData;
+		}
 	}
 
-	if (selectedCam != nullptr)
+	if (selectedData)
 	{
-		return selectedCam->GetDataToNearestAprilTag();
+		return selectedData;
 	}
 
 	return std::nullopt;
@@ -406,15 +421,15 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 		// calculate transform to fieldElement as difference between robot pose and field element pose
 		frc::Transform3d transformToElement = frc::Transform3d{selectedPose.value().estimatedPose, elementPose};
 
-			// calculate rotation3d for angles from robot center, not transformation
-			units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
-			units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
-			units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
-			frc::Rotation3d rotation = frc::Rotation3d(roll, pitch, yaw);
+		// calculate rotation3d for angles from robot center, not transformation
+		units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
+		units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
+		units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
+		frc::Rotation3d rotation = frc::Rotation3d(roll, pitch, yaw);
 
-			// rebundle into vision data with april tag thats used
-			return VisionData{transformToElement, transformToElement.Translation(), rotation, -1};
-		}
+		// rebundle into vision data with april tag thats used
+		return VisionData{transformToElement, transformToElement.Translation(), rotation, -1};
+	}
 
 	return std::nullopt;
 }
