@@ -344,19 +344,67 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		break;
 	}
 
-	// double check selectedCam is not nullptr
-	if (selectedCam != nullptr)
+	std::optional<VisionData> multiTagEstimate = MultiTagToElement(fieldElementPose);
+	if (multiTagEstimate)
 	{
+		return multiTagEstimate;
+	}
 
-		// check for a more accurate multitag estimate
-		std::optional<VisionPose> multitagPose = static_cast<DragonPhotonCam *>(selectedCam)->GetMultiTagEstimate();
-		if (multitagPose)
+	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose);
+	if (singleTagEstimate)
+	{
+		return singleTagEstimate;
+	}
+
+	return std::nullopt;
+}
+
+std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPose)
+{
+	std::optional<VisionPose> launcherMultiTag = std::nullopt;
+	DragonPhotonCam *launcherPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]);
+	if (launcherPhotonCam != nullptr)
+	{
+		launcherMultiTag = launcherPhotonCam->GetMultiTagEstimate();
+	}
+
+	std::optional<VisionPose> placerMultiTag = std::nullopt;
+	DragonPhotonCam *placerPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]);
+	if (placerPhotonCam != nullptr)
+	{
+		placerMultiTag = placerPhotonCam->GetMultiTagEstimate();
+	}
+
+	std::optional<VisionPose> selectedPose = std::nullopt;
+
+	if (launcherMultiTag && placerMultiTag)
+	{
+		double launcherAmbiguity = launcherMultiTag.value().visionMeasurementStdDevs[0];
+		double placerAmbiguity = placerMultiTag.value().visionMeasurementStdDevs[0];
+
+		selectedPose = launcherAmbiguity <= placerAmbiguity ? launcherMultiTag.value() : placerMultiTag.value(); // if launcher is less ambiguous, select it, and vice versa
+	}
+	else if (!launcherMultiTag && !placerMultiTag)
+	{
+		return std::nullopt;
+	}
+	else
+	{
+		if (launcherMultiTag)
 		{
-			// get robot pose from multitag estimate
-			frc::Pose3d robotPose = multitagPose.value().estimatedPose;
+			selectedPose = launcherMultiTag.value();
+		}
 
-			// calculate transform to fieldElement as difference between robot pose and field element pose
-			frc::Transform3d transformToElement = frc::Transform3d{robotPose, fieldElementPose};
+		else if (placerMultiTag)
+		{
+			selectedPose = placerMultiTag.value();
+		}
+	}
+
+	if (selectedPose)
+	{
+		// calculate transform to fieldElement as difference between robot pose and field element pose
+		frc::Transform3d transformToElement = frc::Transform3d{selectedPose.value().estimatedPose, elementPose};
 
 			// calculate rotation3d for angles from robot center, not transformation
 			units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
@@ -368,47 +416,94 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 			return VisionData{transformToElement, transformToElement.Translation(), rotation, -1};
 		}
 
+	return std::nullopt;
+}
+
+std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose)
+{
+	std::optional<VisionData> launcherAprilTagData = std::nullopt;
+	std::optional<VisionData> placerAprilTagData = std::nullopt;
+	std::optional<VisionData> selectedData = std::nullopt;
+
+	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] != nullptr)
+	{
 		// get the optional of the translation and rotation to the apriltag
-		std::optional<VisionData> dataToAprilTag = selectedCam->GetDataToNearestAprilTag();
+		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
+	}
 
-		if (dataToAprilTag)
+	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
+	{
+		// get the optional of the translation and rotation to the apriltag
+		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
+	}
+
+	if ((!launcherAprilTagData) && (!placerAprilTagData)) // if we see no april tags
+	{
+		return std::nullopt;
+	}
+	else if ((launcherAprilTagData) && (placerAprilTagData)) // if we see april tags in both cameras
+	{
+		// confidence logic for single tag
+		double launcherAmbiguity = 100.0;
+		DragonPhotonCam *launcherPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]);
+		if (launcherPhotonCam != nullptr)
 		{
-			// optional of the April Tag's 3D pose
-			std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(dataToAprilTag.value().tagId);
+			launcherAmbiguity = launcherPhotonCam->GetPoseAmbiguity();
+		}
 
-			if (optionalAprilTagPose)
-			{
-				// optional of the April Tag's 3D pose
-				std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(selectedCam->GetAprilTagID().value());
+		double placerAmbiguity = 100.0;
+		DragonPhotonCam *placerPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]);
+		if (placerPhotonCam != nullptr)
+		{
+			placerAmbiguity = placerPhotonCam->GetPoseAmbiguity();
+		}
 
-				// get valid value of optionalAprilTagPose
-				if (optionalAprilTagPose)
-				{
-					// get the actual pose of the april tag from the optional
-					frc::Pose3d aprilTagPose = optionalAprilTagPose.value();
+		selectedData = launcherAmbiguity <= placerAmbiguity ? launcherAprilTagData : placerAprilTagData; // if launcher is less ambiguous, select it, and vice versa
+	}
+	else // one camera sees an april tag
+	{
+		if (launcherAprilTagData)
+		{
+			selectedData = launcherAprilTagData;
+		}
 
-					// get translation and rotation from visiondata
-					frc::Transform3d transformToAprilTag = dataToAprilTag.value().transformToTarget;
+		else if (placerAprilTagData)
+		{
+			selectedData = placerAprilTagData;
+		}
+	}
 
-					// translate from apriltag to robot to get robot field position
-					frc::Pose3d robotPose = aprilTagPose + transformToAprilTag.Inverse();
+	if (selectedData)
+	{
+		// optional of the April Tag's 3D pose
+		std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(selectedData.value().tagId);
 
-					// create transformation from robot to field element
-					frc::Transform3d transformToElement = frc::Transform3d(robotPose, fieldElementPose);
+		// get valid value of optionalAprilTagPose
+		if (optionalAprilTagPose)
+		{
+			// get the actual pose of the april tag from the optional
+			frc::Pose3d aprilTagPose = optionalAprilTagPose.value();
 
-					// calculate rotation3d for angles from robot center, not transformation
-					units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
-					units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
-					units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
+			// get translation and rotation from visiondata
+			frc::Transform3d transformToAprilTag = selectedData.value().transformToTarget;
 
-					// rebundle into vision data with april tag thats used
-					std::optional<VisionData> visionData = VisionData(transformToElement,
-																	  transformToElement.Translation(),
-																	  frc::Rotation3d(roll, pitch, yaw), // roll is 0, pitch and yaw are calculated
-																	  dataToAprilTag.value().tagId);
-					return visionData;
-				}
-			}
+			// translate from apriltag to robot to get robot field position
+			frc::Pose3d robotPose = aprilTagPose + transformToAprilTag.Inverse();
+
+			// create transformation from robot to field element
+			frc::Transform3d transformToElement = frc::Transform3d(robotPose, elementPose);
+
+			// calculate rotation3d for angles from robot center, not transformation
+			units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
+			units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
+			units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
+
+			// rebundle into vision data with april tag thats used
+			std::optional<VisionData> visionData = VisionData(transformToElement,
+															  transformToElement.Translation(),
+															  frc::Rotation3d(roll, pitch, yaw), // roll is 0, pitch and yaw are calculated
+															  selectedData.value().tagId);
+			return visionData;
 		}
 	}
 
