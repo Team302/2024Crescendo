@@ -16,7 +16,6 @@
 // C++ Includes
 #include <string>
 #include <vector>
-#include <cmath>
 
 // FRC includes
 #include "networktables/NetworkTableInstance.h"
@@ -197,19 +196,19 @@ units::angle::degree_t DragonLimelight::GetTy() const
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetYaw()
 {
-    if (abs(GetCameraRoll().to<double>()) < 1.0)
+    if (std::abs(GetCameraRoll().to<double>()) < 1.0)
     {
         return -1.0 * GetTx();
     }
-    else if (abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
+    else if (std::abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
     {
         return GetTy();
     }
-    else if (abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
+    else if (std::abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
     {
         return GetTx();
     }
-    else if (abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
+    else if (std::abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
     {
         return -1.0 * GetTy();
     }
@@ -239,19 +238,19 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitch()
 {
     
-    if (abs(GetCameraRoll().to<double>()) < 1.0)
+    if (std::abs(GetCameraRoll().to<double>()) < 1.0)
     {
         return GetTy();
     }
-    else if (abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
+    else if (std::abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
     {
         return GetTx();
     }
-    else if (abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
+    else if (std::abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
     {
         return -1.0 * GetTy();
     }
-    else if (abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
+    else if (std::abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
     {
         return -1.0 * GetTx();
     }
@@ -388,35 +387,30 @@ void DragonLimelight::PrintValues()
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
 {
-    units::length::meter_t mountingHeight = m_cameraPose.Z();
+    units::length::meter_t mountingHeight{m_cameraPose.Z()};
 
-    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
-    std::optional<units::angle::degree_t> targetPitch = GetTargetPitch();
-    std::optional<int> aprilTagID = GetAprilTagID();
-    if (!aprilTagID.has_value())
+    //units::angle::degree_t mountingAngle{m_cameraPose.Rotation().Z()};
+    std::optional<units::angle::radian_t> targetPitch{GetTargetPitch()};
+    std::optional<int> aprilTagID{GetAprilTagID()};
+    if (!aprilTagID.has_value() && targetPitch.has_value())
     {
         // d=(h2-h1)/tan(a1+a2)
-        double tangent{0};
-        std::optional<units::angle::degree_t> targetPitch = GetTargetPitch();
-        if (targetPitch.has_value()){
-            tangent = units::math::tan(m_cameraPose.Rotation().Y() + targetPitch.value());
-        } else {
-            return std::nullopt;
-        }
+        double tangent{units::math::tan(m_cameraPose.Rotation().Y() + targetPitch.value())};
 
-        if (abs(tangent) < 0.01)
+        if (std::abs(tangent) < 0.01)
         {
             return std::nullopt;
         }
         else
         {
-            units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / tangent;
+            std::optional<units::length::inch_t> estimatedTargetDistance{(m_noteVerticalOffset - mountingHeight) / tangent};
             return estimatedTargetDistance;
         }
     }
 
     else
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("LL"), std::string("EstimateTargetXDistance"), std::string("UNEXPECTED"));
         auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
@@ -464,15 +458,9 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance()
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance_RelToRobotCoords()
 {
     std::optional<units::length::inch_t> optionalTargetXDistance = EstimateTargetXDistance();
-    if (optionalTargetXDistance)
+    if (optionalTargetXDistance.has_value())
     {
-        units::length::inch_t targetXoffset_RF_inch{0.0};
-        try {
-            targetXoffset_RF_inch = optionalTargetXDistance.value() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
-            //Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("LL"), std::string("EstimateTargetXDistance_RelToRobotCoords"), targetXoffset_RF_inch.to<double>());
-        } catch (std::bad_optional_access &e) {
-            //Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("LL"), std::string("EstimateTargetXDistance_RelToRobotCoords-exception"), e.what());
-        }
+        std::optional<units::length::inch_t> targetXoffset_RF_inch = optionalTargetXDistance.value() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
         return targetXoffset_RF_inch;
     }
     return std::nullopt;
@@ -483,7 +471,6 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_Re
     if (EstimateTargetYDistance())
     {
         units::length::inch_t targetYoffset_RF_inch = EstimateTargetYDistance().value() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
-        //Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("LL"), std::string("EstimateTargetYDistance_RelToRobotCoords"), targetYoffset_RF_inch.to<double>());
         return targetYoffset_RF_inch;
     }
 
@@ -495,7 +482,6 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_Re
     if (EstimateTargetZDistance())
     {
         units::length::inch_t targetZoffset_RF_inch = EstimateTargetZDistance().value() + GetMountingZOffset(); ///< the offset is positive if the limelight is above the center of the robot
-        //Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("LL"), std::string("EstimateTargetZDistance_RelToRobotCoords"), targetZoffset_RF_inch.to<double>());
         return targetZoffset_RF_inch;
     }
 

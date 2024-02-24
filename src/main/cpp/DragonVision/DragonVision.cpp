@@ -221,46 +221,36 @@ std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNam
 std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT element)
 {
 	DragonCamera *selectedCam = nullptr;
-	//std::string loggerName = "getVisionDataFromNote";
 
 	switch (element)
 	{
 	case VISION_ELEMENT::PLACER_NOTE:
 		selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE];
-		//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("placer_note"));
 		break;
 	case VISION_ELEMENT::LAUNCHER_NOTE:
 		selectedCam = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE];
-		//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("launcher_note"));
 		break;
 	case VISION_ELEMENT::NOTE:
 	{
-		//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("note"));
 		bool lintakeHasDetection = false;
 		bool pintakeHasDetection = false;
 		//make sure cameras are set
 		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE] != nullptr)
 		{
-			//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("lintake target"));
 			lintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->HasTarget();
-			//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), lintakeHasDetection);
 		}
 
 		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE] != nullptr)
 		{
-			//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("pintake target"));
 			pintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->HasTarget();
-			//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), pintakeHasDetection);
 		}
 
 		if (!lintakeHasDetection && !pintakeHasDetection)
 		{
-			//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("no detect"));
 			return std::nullopt;
 		}
 		else if (lintakeHasDetection && pintakeHasDetection)
 		{
-			//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("both detect"));
 			// check which note is closest to robot.. and handle std optional
 			//if one of these is optional, we should not return vision data
 			units::length::meter_t lintakeXDistance{0};
@@ -301,17 +291,26 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		break;
 	}
 
-	//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("selectedCam"));
 	// double check selectedCam is not nullptr
 	if (selectedCam != nullptr)
 	{
-		//Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("VisionElement"), std::string("transforming"));
 		// create translation using 3 estimated distances
-		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->EstimateTargetXDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetYDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetZDistance_RelToRobotCoords().value());
-		//DragonVisionStructLogger().logTranslation3d(std::string("translationToNote"),translationToNote);
+		std::optional<units::length::inch_t> xreloptional{selectedCam->EstimateTargetXDistance_RelToRobotCoords()};
+		std::optional<units::length::inch_t> yreloptional{selectedCam->EstimateTargetYDistance_RelToRobotCoords()};
+		std::optional<units::length::inch_t> zreloptional{selectedCam->EstimateTargetZDistance_RelToRobotCoords()};
+
+		if (!xreloptional.has_value() || !yreloptional.has_value() || !zreloptional.has_value())
+		{
+			return std::nullopt;
+		}
+
+		
+
+		frc::Translation3d translationToNote = frc::Translation3d(xreloptional.value(), yreloptional.value(), zreloptional.value());
 
 		// create rotation3d with pitch and yaw (don't have access to roll)
 		frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame().value(), selectedCam->GetTargetYawRobotFrame().value());
+
 
 		// return VisionData with new translation and rotation
 		return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote};

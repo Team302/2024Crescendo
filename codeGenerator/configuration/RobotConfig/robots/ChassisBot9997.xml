@@ -129,14 +129,14 @@
         <name>doubleParameter</name>
         <__units__>m</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>0.45</value>
       </mountingZOffset>
       <pitch>
         <unitsFamily>angle</unitsFamily>
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>16</value>
       </pitch>
       <yaw>
         <unitsFamily>angle</unitsFamily>
