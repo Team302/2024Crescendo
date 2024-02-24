@@ -84,19 +84,19 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     switch (controlInfo.GetMode())
     {
     case ControlModes::PERCENT_OUTPUT:
-        m_controlType = rev::CANSparkMax::ControlType::kDutyCycle;
+        m_controlType = CANSparkBase::ControlType::kDutyCycle;
         break;
     case ControlModes::POSITION_INCH:
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerInch);
-        m_controlType = rev::CANSparkMax::ControlType::kPosition;
+        m_controlType = CANSparkBase::ControlType::kPosition;
         break;
     case ControlModes::POSITION_DEGREES:
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerDegree);
-        m_controlType = rev::CANSparkMax::ControlType ::kPosition;
+        m_controlType = CANSparkBase::ControlType ::kPosition;
         break;
     case ControlModes::VELOCITY_RPS:
         m_encoder.SetVelocityConversionFactor(m_calcStruc.countsPerRev);
-        m_controlType = rev::CANSparkMax::ControlType::kVelocity;
+        m_controlType = CANSparkBase::ControlType::kVelocity;
         break;
 
     default:
@@ -112,11 +112,11 @@ void DragonSparkMax::EnableCurrentLimiting(bool enabled)
 
 void DragonSparkMax::Set(double value)
 {
-    if (m_controlType == rev::CANSparkMax::ControlType::kDutyCycle)
+    if (m_controlType == CANSparkBase::ControlType::kDutyCycle)
     {
         m_spark->Set(value);
     }
-    else if (m_controlType == rev::CANSparkMax::ControlType::kVelocity)
+    else if (m_controlType == CANSparkBase::ControlType::kVelocity)
     {
         m_pidController.SetReference(value * 60, m_controlType, m_slot);
     }
