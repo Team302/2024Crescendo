@@ -16,19 +16,20 @@
 #include <map>
 #include <string>
 
-#include <frc/Filesystem.h>
+#include "frc/Filesystem.h"
 
-#include <auton/AutonSelector.h>
-#include <auton/PrimitiveEnums.h>
-#include <auton/PrimitiveParams.h>
-#include <auton/PrimitiveParser.h>
-#include <auton/ZoneParams.h>
-#include <auton/ZoneParser.h>
-#include <auton/drivePrimitives/IPrimitive.h>
-#include "utils/logging/Logger.h"
-#include <pugixml/pugixml.hpp>
+#include "auton/PrimitiveParams.h"
+#include "auton/PrimitiveParser.h"
+#include "auton/ZoneParams.h"
+#include "auton/ZoneParser.h"
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/MechanismTypes.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
+#include "utils/logging/Logger.h"
+
+#include <pugixml/pugixml.hpp>
+
 using namespace std;
 using namespace pugi;
 
@@ -38,11 +39,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     PrimitiveParamsVector paramVector;
     auto hasError = false;
 
-    // auto deployDir = frc::filesystem::GetDeployDirectory();
-    // auto autonDir = deployDir + "/auton/";
-
-    // string fulldirfile = autonDir;
-    // fulldirfile += fileName;
     // initialize the xml string to enum maps
     map<string, PRIMITIVE_IDENTIFIER> primStringToEnumMap;
     primStringToEnumMap["DO_NOTHING"] = DO_NOTHING;
@@ -62,6 +58,11 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     headingOptionMap["FACE_RIGHT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
     headingOptionMap["FACE_CENTER_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
 
+    map<string, PrimitiveParams::VISION_ALIGNMENT> xmlStringToVisionAlignmentEnumMap{
+        {"UNKNOWN", PrimitiveParams::VISION_ALIGNMENT::UNKNOWN},
+        {"NOTE", PrimitiveParams::VISION_ALIGNMENT::NOTE},
+        {"SPEAKER", PrimitiveParams::VISION_ALIGNMENT::SPEAKER},
+    };
     xml_document doc;
     xml_parse_result result = doc.load_file(fulldirfile.c_str());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "PrimitiveParser", "Original File", fulldirfile.c_str());
@@ -92,19 +93,19 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     {
                         if (strcmp(attr.name(), "file") == 0)
                         {
-                            auto filename = string(attr.value());
+                            auto filename = string("snippets/") + string(attr.value());
                             auto snippetParams = ParseXML(filename);
                             if (!snippetParams.empty())
                             {
+                                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("snippet has parms"), (double)snippetParams.size());
                                 for (auto snippet : snippetParams)
                                 {
                                     paramVector.emplace_back(snippet);
                                 }
-                                // paramVector.insert(paramVector.end(), snippetParams.begin(), snippetParams.end());
                             }
                             else
                             {
-                                Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("snippet had no params"), attr.value());
+                                Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("snippet had no params"), filename.c_str());
                                 hasError = true;
                             }
                         }
@@ -119,22 +120,24 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                 {
                     auto primitiveType = UNKNOWN_PRIMITIVE;
                     units::time::second_t time = units::time::second_t(15.0);
-                    auto distance = 0.0;
                     auto headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
                     auto heading = 0.0;
+                    auto visionAlignment = PrimitiveParams::VISION_ALIGNMENT::UNKNOWN;
+
                     auto noteStates = noteManagerGen::STATE_OFF;
+                    bool changeNoteState = false;
                     auto climberState = ClimberManagerGen::STATE_OFF;
-                    auto robotConfigMgr = RobotConfigMgr::GetInstance();
+                    bool changeClimberState = false;
+                    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
                     std::string pathName;
                     ZoneParamsVector zones;
-                    // auto armstate = ArmStateMgr::ARM_STATE::HOLD_POSITION_ROTATE;
-                    // auto extenderstate = ExtenderStateMgr::EXTENDER_STATE::HOLD_POSITION_EXTEND;
-                    // auto intakestate = IntakeStateMgr::INTAKE_STATE::HOLD;
-                    auto pipelineMode = DragonCamera::PIPELINE::UNKNOWN;
 
-                    // @ADDMECH Initialize your mechanism state
+                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("About to parse primitive"), (double)paramVector.size());
+
                     for (xml_attribute attr = primitiveNode.first_attribute(); attr; attr = attr.next_attribute())
                     {
+                        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("attr"), attr.name());
+                        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("value"), attr.value());
                         if (strcmp(attr.name(), "id") == 0)
                         {
                             auto paramStringToEnumItr = primStringToEnumMap.find(attr.value());
@@ -173,71 +176,59 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         {
                             pathName = attr.value();
                         }
-                        else if (strcmp(attr.name(), "notestate") == 0)
+                        else if (strcmp(attr.name(), "noteOption") == 0)
                         {
-                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
+                            if (config != nullptr && config->GetMechanism(MechanismTypes::NOTE_MANAGER) != nullptr)
                             {
                                 auto noteStateItr = noteManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
                                 if (noteStateItr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
                                 {
                                     noteStates = noteStateItr->second;
+                                    changeNoteState = true;
                                 }
                             }
                         }
-                        else if (strcmp(attr.name(), "climberstate") == 0)
+                        else if (strcmp(attr.name(), "climberOption") == 0)
                         {
-                            if (robotConfigMgr->GetCurrentConfig()->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
+                            if (config != nullptr && config->GetMechanism(MechanismTypes::CLIMBER_MANAGER) != nullptr)
                             {
                                 auto climberStateItr = ClimberManagerGen::stringToSTATE_NAMESEnumMap.find(attr.value());
                                 if (climberStateItr != ClimberManagerGen::stringToSTATE_NAMESEnumMap.end())
                                 {
                                     climberState = climberStateItr->second;
+                                    changeClimberState = true;
                                 }
                             }
                         }
-                        else if (strcmp(attr.name(), "pipeline") == 0)
+                        else if (strcmp(attr.name(), "visionAlignment") == 0)
                         {
-                            if (strcmp(attr.value(), "UNKNOWN") == 0)
+                            auto visionAlignmentItr = xmlStringToVisionAlignmentEnumMap.find(attr.value());
+                            if (visionAlignmentItr != xmlStringToVisionAlignmentEnumMap.end())
                             {
-                                pipelineMode = DragonCamera::PIPELINE::UNKNOWN;
+                                visionAlignment = visionAlignmentItr->second;
                             }
-                            else if (strcmp(attr.value(), "OFF") == 0)
-                            {
-                                pipelineMode = DragonCamera::PIPELINE::OFF;
-                            }
-                            else if (strcmp(attr.value(), "APRIL_TAG") == 0)
-                            {
-                                pipelineMode = DragonCamera::PIPELINE::APRIL_TAG;
-                            }
-                            else if (strcmp(attr.value(), "MACHINE_LEARNING") == 0)
-                            {
-                                pipelineMode = DragonCamera::PIPELINE::MACHINE_LEARNING;
-                            }
-                            else if (strcmp(attr.value(), "COLOR_THRESHOLD") == 0)
-                            {
-                                pipelineMode = DragonCamera::PIPELINE::COLOR_THRESHOLD;
-                            }
-
                             else
                             {
-                                Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("PrimitiveParser::ParseXML invalid pipeline mode"), attr.value());
+                                Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML invalid attribute"), attr.name());
                                 hasError = true;
                             }
                         }
-
-                        // @ADDMECH add case for your mechanism state to get the statemgr / state
-                        else
-                        {
-                            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML invalid attribute"), attr.name());
-                            hasError = true;
-                        }
                     }
-                    for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
+
+                    if (!hasError)
                     {
-                        if (strcmp(child.name(), "zone") == 0)
+
+                        for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
                         {
-                            auto zone = ZoneParser::ParseXML(child); // create a zone params object
-                            zones.emplace_back(zone);                // adding to the vector
+
+                            for (xml_attribute attr = child.first_attribute(); attr; attr = attr.next_attribute())
+                            {
+                                if (strcmp(attr.name(), "filename") == 0)
+                                {
+                                    auto zone = ZoneParser::ParseXML(attr.value());
+                                    zones.emplace_back(zone);
+                                }
+                            }
                         }
                     }
 
@@ -248,16 +239,12 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      headingOption,
                                                                      heading,
                                                                      pathName,
-                                                                     pipelineMode,
                                                                      zones, // vector of all zones included as part of the path
-                                                                     // can have multiple zones as part of a complex path
-                                                                     // @ADDMECH add parameter for your mechanism state
-                                                                     // armstate,
-                                                                     // extenderstate,
-                                                                     // intakestate,
-
-                                                                     // Below are dummy values
+                                                                            // can have multiple zones as part of a complex path
+                                                                     visionAlignment,
+                                                                     changeNoteState,
                                                                      noteStates,
+                                                                     changeClimberState,
                                                                      climberState));
                     }
                     else
@@ -270,11 +257,16 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     }
     else
     {
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML error parsing file"), fileName);
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML error message"), result.description());
     }
 
-    std::string path;
+    Print(paramVector);
+
+    return paramVector;
+}
+
+void PrimitiveParser::Print(PrimitiveParamsVector paramVector)
+{
     auto slot = 0;
     for (auto param : paramVector)
     {
@@ -285,13 +277,13 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
-        // @ADDMECH Log state data
-        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("armstate"), param->GetArmState());
-        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("extenderstate"), param->GetExtenderState());
-        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("intakestate"), param->GetIntakeState());
-        // logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("PIPELINE_MODE"), param->GetIntakeState());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("vision alignment"), param->GetVisionAlignment());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("note change"), param->IsNoteStateChanging() ? string("true") : string("false"));
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("note state"), param->GetNoteState());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("climber change"), param->IsClimberStateChanging() ? string("true") : string("false"));
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("climber state"), param->GetClimberState());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("num zones"), (double)param->GetZones().size());
+
         slot++;
     }
-
-    return paramVector;
 }

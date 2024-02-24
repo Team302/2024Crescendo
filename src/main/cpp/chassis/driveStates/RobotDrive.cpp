@@ -21,12 +21,11 @@
 #include "units/angle.h"
 
 // Team302 Includes
-
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "chassis/ChassisMovement.h"
 #include "chassis/driveStates/AntiTip.h"
 #include "chassis/driveStates/RobotDrive.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
 
@@ -50,7 +49,7 @@ RobotDrive::RobotDrive(SwerveChassis *chassis) : ISwerveDriveState::ISwerveDrive
     }
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("RobotDrive"), string("Chassis"), string("nullptr"));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("RobotDrive"), string("Chassis"), string("nullptr"));
     }
 }
 
@@ -61,11 +60,10 @@ std::array<frc::SwerveModuleState, 4> RobotDrive::UpdateSwerveModuleStates(Chass
         AntiTip::DecideTipCorrection(chassisMovement, m_maxspeed);
     }
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Vx", chassisMovement.chassisSpeeds.vx.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Vy", chassisMovement.chassisSpeeds.vy.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "RobotDrive", "Omega", chassisMovement.chassisSpeeds.omega.to<double>());
+    auto speeds = frc::ChassisSpeeds::Discretize(chassisMovement.chassisSpeeds, units::time::millisecond_t(20.0));
+    wpi::array<frc::SwerveModuleState, 4> states = m_chassis->GetKinematics().ToSwerveModuleStates(speeds, chassisMovement.centerOfRotationOffset + m_centerOfRotation);
 
-    wpi::array<frc::SwerveModuleState, 4> states = m_chassis->GetKinematics().ToSwerveModuleStates(chassisMovement.chassisSpeeds, chassisMovement.centerOfRotationOffset + m_centerOfRotation);
+    m_chassis->GetKinematics().DesaturateWheelSpeeds(&states, m_chassis->GetMaxSpeed());
     return {states[0], states[1], states[2], states[3]};
 }
 

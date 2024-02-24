@@ -25,10 +25,12 @@
 // PhotonVision Includes
 #include "photon/PhotonPoseEstimator.h"
 
+// Team 302 Includes
 #include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonCamera.h"
 
 #include "configs/RobotElementNames.h"
+#include "utils/FieldConstants.h"
 
 class DragonCamera;
 class DragonVision
@@ -87,6 +89,8 @@ public:
 
     static frc::AprilTagFieldLayout m_aprilTagLayout;
 
+    void testAndLogVisionData();
+
 private:
     DragonVision();
     ~DragonVision() = default;
@@ -96,9 +100,10 @@ private:
     std::optional<VisionData> GetVisionDataToNearestTag();
     std::optional<VisionData> GetVisionDataToNearestStageTag(VISION_ELEMENT element);
 
-    static DragonVision *m_dragonVision;
+    std::optional<VisionData> MultiTagToElement(frc::Pose3d elementPose);
+    std::optional<VisionData> SingleTagToElement(frc::Pose3d elementPose);
 
-    DragonCamera *m_dragonCamera;
+    static DragonVision *m_dragonVision;
 
     std::map<RobotElementNames::CAMERA_USAGE, DragonCamera *> m_dragonCameraMap;
 

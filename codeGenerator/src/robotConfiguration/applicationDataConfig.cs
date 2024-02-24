@@ -61,6 +61,18 @@ namespace applicationConfiguration
                 theRobotVariants = (topLevelAppDataElement)mySerializer.Deserialize(myFileStream);
             }
 
+            foreach (string robotFile in theRobotVariants.robotFiles)
+            {
+                string robotFullPath = Path.Combine(Path.GetDirectoryName(fullPathName), "robots", robotFile);
+
+                addProgress("Loading robot configuration " + robotFullPath);
+                mySerializer = new XmlSerializer(typeof(applicationData));
+                using (var myFileStream = new FileStream(robotFullPath, FileMode.Open))
+                {
+                    theRobotVariants.Robots.Add((applicationData)mySerializer.Deserialize(myFileStream));
+                }
+            }
+
             for (int m = 0; m < theRobotVariants.Mechanisms.Count; m++)
             {
                 string mechanismFullPath = Path.Combine(Path.GetDirectoryName(fullPathName), theRobotVariants.Mechanisms[m].name + ".xml");
@@ -193,8 +205,8 @@ namespace applicationConfiguration
                             {
                                 beObj.isTunable = attributes.Find(a => a.GetType() == typeof(TunableParameterAttribute)) != null;
                                 beObj.isConstantInMechInstance = attributes.Find(a => a.GetType() == typeof(ConstantInMechInstanceAttribute)) != null;
-                                beObj.isConstant = (attributes.Find(a => a.GetType() == typeof(ConstantAttribute)) != null); 
-                                
+                                beObj.isConstant = (attributes.Find(a => a.GetType() == typeof(ConstantAttribute)) != null);
+
 
                                 PhysicalUnitsFamilyAttribute phyUnitsFamilyAttr = (PhysicalUnitsFamilyAttribute)attributes.Find(a => a.GetType() == typeof(PhysicalUnitsFamilyAttribute));
                                 if (phyUnitsFamilyAttr != null)
@@ -345,8 +357,12 @@ namespace applicationConfiguration
 
                             foreach (var vParam in icp)
                             {
+                                bool match = true;
+                                if (v.GetType().IsSubclassOf(typeof(MotorController))) // this is that when there are multiple motoControllers with the same name, we match by controller type
+                                    match = ((MotorController)v).motorControllerType == ((MotorController)vParam).motorControllerType;
+
                                 string s = pi.GetValue(vParam).ToString();
-                                if ((s != null) && (s == structureName))
+                                if ((s != null) && (s == structureName) && match)
                                 {
                                     MergeMechanismParametersIntoStructure(v, vParam);
                                 }
@@ -394,11 +410,11 @@ namespace applicationConfiguration
                                 }
                             }
                         }
-                    //    PropertyInfo pi = propertyInfos.ToList().Find(p => p.Name == "value");
-                    //    if (pi != null)
-                    //    {
-                    //        pi.SetValue(structureSource, pi.GetValue(parametersSource));
-                    //    }
+                        //    PropertyInfo pi = propertyInfos.ToList().Find(p => p.Name == "value");
+                        //    if (pi != null)
+                        //    {
+                        //        pi.SetValue(structureSource, pi.GetValue(parametersSource));
+                        //    }
                     }
                     else if ((objType.FullName == "System.String") || (objType.FullName == "System.DateTime"))
                     {
@@ -490,13 +506,26 @@ namespace applicationConfiguration
             }
         }
 
+        public static object DeepClone(object obj)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, obj);
+                ms.Position = 0;
+
+                return formatter.Deserialize(ms);
+            }
+        }
+
+
         private void saveRobotConfiguration(string fullPathName)
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
             xmlWriterSettings.NewLineOnAttributes = true;
             xmlWriterSettings.Indent = true;
 
-
+            // first write the mechanism files
             foreach (mechanism mech in theRobotVariants.Mechanisms)
             {
                 string mechanismFullPath = Path.Combine(Path.GetDirectoryName(fullPathName), mech.name + ".xml");
@@ -517,6 +546,45 @@ namespace applicationConfiguration
                 }
             }
 
+            // then write the robot files
+            foreach (applicationData robot in theRobotVariants.Robots)
+            {
+                string robotConfigFileFolder = Path.Combine(Path.GetDirectoryName(fullPathName), "robots");
+
+                if (!Directory.Exists(robotConfigFileFolder))
+                    Directory.CreateDirectory(robotConfigFileFolder);
+
+                string robotFullPath = Path.Combine(robotConfigFileFolder, robot.getFullRobotName() + ".xml");
+
+                try
+                {
+                    var theRobotSerializer = new XmlSerializer(typeof(applicationData));
+
+                    string configAsString = "";
+                    using (StringWriter textWriter = new StringWriter())
+                    {
+                        theRobotSerializer.Serialize(textWriter, robot);
+                        configAsString = textWriter.ToString();
+                        configAsString = configAsString.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "<?xml version=\"1.0\"?>");
+                    }
+
+                    string currentConfigAsString = File.Exists(robotFullPath) ? File.ReadAllText(robotFullPath) : "";
+                    if (configAsString != currentConfigAsString)
+                    {
+                        addProgress("Writing robot file " + robotFullPath);
+                        File.WriteAllText(robotFullPath, configAsString);
+                    }
+                    else
+                        addProgress("Did not write robot file " + robotFullPath + " because it did not change");
+                }
+                catch (Exception ex)
+                {
+                    addProgress("Problem encountered while writing robot file " + robotFullPath);
+                    addProgress(ex.ToString());
+                }
+            }
+
+
             // after saving the mechanisms into separate files, clear the list of mechanisms, except for the name
             // so that the mechanism xml is blank in the robot config file...will not lead to conflicts when  multiple people change
             // different mechanisms. Restore the list after saving to xml
@@ -536,11 +604,22 @@ namespace applicationConfiguration
                         temp.name = mech.name;
                         temp.GUID = mech.GUID;
                         theRobotVariants.Mechanisms.Add(temp);
-                        break; 
+                        break;
                     }
                 }
 
             }
+
+            // copy the robots to a temporary list
+            theRobotVariants.robotFiles.Clear();
+            List<applicationData> tempRobotList = new List<applicationData>();
+            foreach (applicationData robot in theRobotVariants.Robots)
+            {
+                tempRobotList.Add(robot);
+                theRobotVariants.robotFiles.Add(robot.getFullRobotName() + ".xml");
+            }
+
+            theRobotVariants.Robots.Clear();
 
             var robotSerializer = new XmlSerializer(typeof(topLevelAppDataElement));
             XmlWriter tw = XmlWriter.Create(fullPathName, xmlWriterSettings);
@@ -550,9 +629,16 @@ namespace applicationConfiguration
 
             theRobotVariants.Mechanisms.Clear();
 
+            // add back the mechanisms
             foreach (mechanism mech in tempList)
             {
                 theRobotVariants.Mechanisms.Add(mech);
+            }
+
+            // add back the robots
+            foreach (applicationData robot in tempRobotList)
+            {
+                theRobotVariants.Robots.Add(robot);
             }
         }
     }

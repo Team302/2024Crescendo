@@ -51,4 +51,6 @@ private:
     int m_controllerCounter = 0;
 
     static DriverFeedback *m_instance;
+    RobotStateChanges::ScoringMode m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
+    RobotStateChanges::ClimbMode m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 };

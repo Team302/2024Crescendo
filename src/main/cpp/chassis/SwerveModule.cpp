@@ -20,6 +20,7 @@
 #include <string>
 
 // FRC includes
+#include "frc/Filesystem.h"
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
@@ -39,40 +40,52 @@
 // Third Party Includes
 #include "ctre/phoenix6/CANcoder.hpp"
 #include "ctre/phoenix6/TalonFX.hpp"
+#include "pugixml/pugixml.hpp"
 
 using namespace std;
 using namespace frc;
-using ctre::phoenix6::configs::MotorOutputConfigs;
-using ctre::phoenix6::hardware::CANcoder;
-using ctre::phoenix6::hardware::TalonFX;
-using ctre::phoenix6::signals::AbsoluteSensorRangeValue;
-using ctre::phoenix6::signals::InvertedValue;
-using ctre::phoenix6::signals::NeutralModeValue;
+
+using std::string;
 
 using ctre::phoenix6::configs::CANcoderConfiguration;
 using ctre::phoenix6::configs::CANcoderConfigurator;
+using ctre::phoenix6::configs::MotorOutputConfigs;
 using ctre::phoenix6::configs::Slot0Configs;
 using ctre::phoenix6::configs::TalonFXConfiguration;
+using ctre::phoenix6::configs::VoltageConfigs;
 using ctre::phoenix6::controls::DutyCycleOut;
+using ctre::phoenix6::controls::PositionVoltage;
 using ctre::phoenix6::controls::VelocityTorqueCurrentFOC;
 using ctre::phoenix6::hardware::CANcoder;
+using ctre::phoenix6::hardware::TalonFX;
 using ctre::phoenix6::signals::AbsoluteSensorRangeValue;
 using ctre::phoenix6::signals::FeedbackSensorSourceValue;
+using ctre::phoenix6::signals::InvertedValue;
+using ctre::phoenix6::signals::NeutralModeValue;
 using ctre::phoenix6::signals::SensorDirectionValue;
 
-SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
+//==================================================================================
+SwerveModule::SwerveModule(string canbusname,
+                           SwerveModuleConstants::ModuleID id,
                            SwerveModuleConstants::ModuleType type,
                            int driveMotorID,
                            bool driveInverted,
                            int turnMotorID,
                            bool turnInverted,
                            int canCoderID,
-                           double angleOffset) : m_moduleID(id),
-                                                 m_driveTalon(new TalonFX(driveMotorID, "Canivore")),
-                                                 m_turnTalon(new TalonFX(turnMotorID, "Canivore")),
-                                                 m_turnCancoder(new CANcoder(canCoderID, "Canivore")),
-                                                 m_activeState()
+                           bool canCoderInverted,
+                           double angleOffset,
+                           string configfilename,
+                           string networkTableName) : LoggableItem(),
+                                                      m_moduleID(id),
+                                                      m_driveTalon(new TalonFX(driveMotorID, canbusname)),
+                                                      m_turnTalon(new TalonFX(turnMotorID, canbusname)),
+                                                      m_turnCancoder(new CANcoder(canCoderID, canbusname)),
+                                                      m_activeState(),
+                                                      m_networkTableName(networkTableName)
 {
+    ReadConstants(configfilename);
+
     Rotation2d ang{units::angle::degree_t(0.0)};
     m_activeState.angle = ang;
     m_activeState.speed = 0_mps;
@@ -80,69 +93,12 @@ SwerveModule::SwerveModule(SwerveModuleConstants::ModuleID id,
     auto attrs = SwerveModuleConstants::GetSwerveModuleAttrs(type);
     m_wheelDiameter = attrs.wheelDiameter;
     m_maxSpeed = attrs.maxSpeed;
-    m_maxAngSpeed = attrs.maxAngSpeed;
 
-    if (m_driveTalon != nullptr)
-    {
-        MotorOutputConfigs motorconfig{};
-        motorconfig.Inverted = driveInverted ? InvertedValue::CounterClockwise_Positive : InvertedValue::Clockwise_Positive;
-        motorconfig.NeutralMode = NeutralModeValue::Brake;
-        motorconfig.PeakForwardDutyCycle = 1.0;
-        motorconfig.PeakReverseDutyCycle = -1.0;
-        motorconfig.DutyCycleNeutralDeadband = 0.0;
-        m_driveTalon->GetConfigurator().Apply(motorconfig);
-
-        Slot0Configs config{};
-        config.kV = attrs.driveControl.GetF();
-        config.kP = attrs.driveControl.GetP();
-        config.kI = attrs.driveControl.GetI();
-        config.kD = attrs.driveControl.GetD();
-        m_driveTalon->GetConfigurator().Apply(config, 50_ms);
-    }
-    if (m_turnTalon != nullptr)
-    {
-        MotorOutputConfigs motorconfig{};
-        motorconfig.Inverted = driveInverted ? InvertedValue::CounterClockwise_Positive : InvertedValue::Clockwise_Positive;
-        motorconfig.NeutralMode = NeutralModeValue::Brake;
-        motorconfig.PeakForwardDutyCycle = 1.0;
-        motorconfig.PeakReverseDutyCycle = -1.0;
-        motorconfig.DutyCycleNeutralDeadband = 0.0;
-        m_turnTalon->GetConfigurator().Apply(motorconfig);
-
-        Slot0Configs config{};
-        config.kV = attrs.angleControl.GetF();
-        config.kP = attrs.angleControl.GetP();
-        config.kI = attrs.angleControl.GetI();
-        config.kD = attrs.angleControl.GetD();
-        m_turnTalon->GetConfigurator().Apply(config, 50_ms);
-    }
-    if (m_turnCancoder != nullptr)
-    {
-        CANcoderConfiguration configs{};
-        configs.MagnetSensor.MagnetOffset = angleOffset;
-        configs.MagnetSensor.SensorDirection = SensorDirectionValue::CounterClockwise_Positive;
-        m_turnCancoder->GetConfigurator().Apply(configs);
-    }
-
-    if (m_turnTalon != nullptr && m_turnCancoder != nullptr)
-    {
-        TalonFXConfiguration configs{};
-        m_turnTalon->GetConfigurator().Refresh(configs);
-        configs.Feedback.FeedbackRemoteSensorID = m_turnCancoder->GetDeviceID();
-        configs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::SyncCANcoder;
-        configs.Feedback.SensorToMechanismRatio = attrs.sensorToMechanismRatio;
-        configs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
-        m_turnTalon->GetConfigurator().Apply(configs);
-    }
+    InitDriveMotor(driveInverted);
+    InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
 }
 
-/// @brief Set all motor encoders to zero
-/// @brief void
-void SwerveModule::SetEncodersToZero()
-{
-    // Add method to set position to 0 and add to drive motor
-}
-
+//==================================================================================
 /// @brief Get the encoder values
 /// @returns double - the integrated sensor position
 double SwerveModule::GetEncoderValues()
@@ -150,14 +106,15 @@ double SwerveModule::GetEncoderValues()
     return m_driveTalon->GetPosition().GetValueAsDouble() * 2048;
 }
 
+//==================================================================================
 /// @brief Turn all of the wheel to zero degrees yaw according to the pigeon
 /// @returns void
 void SwerveModule::ZeroAlignModule()
 {
-    // Desired State
     SetTurnAngle(units::degree_t(0));
 }
 
+//==================================================================================
 /// @brief Get the current state of the module (speed of the wheel and angle of the wheel)
 /// @returns SwerveModuleState
 SwerveModuleState SwerveModule::GetState() const
@@ -176,6 +133,7 @@ SwerveModuleState SwerveModule::GetState() const
     return state;
 }
 
+//==================================================================================
 /// @brief Get the current position of the swerve module (distance and rotation)
 /// @return frc::SwerveModulePosition - current position
 frc::SwerveModulePosition SwerveModule::GetPosition() const
@@ -189,6 +147,7 @@ frc::SwerveModulePosition SwerveModule::GetPosition() const
             currAngle};                                // angle of the swerve module from sensor
 }
 
+//==================================================================================
 /// @brief Set the current state of the module (speed of the wheel and angle of the wheel)
 /// @param [in] const SwerveModuleState& targetState:   state to set the module to
 /// @returns void
@@ -202,9 +161,6 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     Rotation2d currAngle = Rotation2d(angle);
     auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("module"), string("angle"), optimizedState.angle.Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("module"), string("speed"), optimizedState.speed.to<double>());
-
     // Set Turn Target
     SetTurnAngle(optimizedState.angle.Degrees());
 
@@ -212,6 +168,7 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     SetDriveSpeed(optimizedState.speed);
 }
 
+//==================================================================================
 /// @brief Run the swerve module at the same speed and angle
 /// @returns void
 void SwerveModule::RunCurrentState()
@@ -219,6 +176,7 @@ void SwerveModule::RunCurrentState()
     SetDriveSpeed(m_activeState.speed);
 }
 
+//==================================================================================
 /// @brief run the drive motor at a specified speed
 /// @param [in] speed to drive the drive wheel as
 /// @returns void
@@ -231,24 +189,169 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
     auto percent = driveTarget / m_maxSpeed.to<double>();
     DutyCycleOut out{percent};
     m_driveTalon->SetControl(out);
-    // VelocityTorqueCurrentFOC out{units::angular_velocity::turns_per_second_t(driveTarget)};
-    // out.Slot = 0;
-    // m_driveTalon->SetControl(out);
 }
 
+//==================================================================================
 /// @brief Turn the swerve module to a specified angle
 /// @param [in] units::angle::degree_t the target angle to turn the wheel to
 /// @returns void
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
+    PositionVoltage voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
     m_activeState.angle = targetAngle;
-    m_turnTalon->SetControl(m_voltagePosition.WithPosition(targetAngle));
-    // m_turnTalon->SetControl(m_torquePosition.WithPosition(targetAngle));
+    m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
 }
 
+//==================================================================================
 /// @brief stop the drive and turn motors
 /// @return void
 void SwerveModule::StopMotors()
 {
     // TODO: add method to stop motor and do it for both turn and drive motors
+}
+
+//==================================================================================
+void SwerveModule::LogInformation()
+{
+    string ntAngleName;
+    string ntMotorPositionName;
+    string ntRotorPositionName;
+    if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_BACK)
+    {
+        ntAngleName += string("leftback Angle");
+        ntMotorPositionName += string("leftback turns");
+        ntRotorPositionName += string("leftback rotor");
+    }
+    else if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_FRONT)
+    {
+        ntAngleName += string("leftfront Angle");
+        ntMotorPositionName += string("leftfront turns");
+        ntRotorPositionName += string("leftfront rotor");
+    }
+    else if (m_moduleID == SwerveModuleConstants::ModuleID::RIGHT_BACK)
+    {
+        ntAngleName += string("rightback Angle");
+        ntMotorPositionName += string("rightback turns");
+        ntRotorPositionName += string("rightback rotor");
+    }
+    else
+    {
+        ntAngleName += string("rightfront Angle");
+        ntMotorPositionName += string("rightfront turns");
+        ntRotorPositionName += string("rightfront rotor");
+    }
+    auto turns = m_turnTalon->GetPosition().GetValueAsDouble();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntMotorPositionName, turns);
+
+    auto rotor = m_turnTalon->GetRotorPosition().GetValueAsDouble();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntRotorPositionName, rotor);
+}
+
+//==================================================================================
+void SwerveModule::InitDriveMotor(bool driveInverted)
+{
+    if (m_driveTalon != nullptr)
+    {
+        m_driveTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
+
+        MotorOutputConfigs motorconfig{};
+        motorconfig.Inverted = driveInverted ? InvertedValue::Clockwise_Positive : InvertedValue::CounterClockwise_Positive;
+        motorconfig.NeutralMode = NeutralModeValue::Brake;
+        motorconfig.PeakForwardDutyCycle = 1.0;
+        motorconfig.PeakReverseDutyCycle = -1.0;
+        motorconfig.DutyCycleNeutralDeadband = 0.0;
+        m_driveTalon->GetConfigurator().Apply(motorconfig);
+
+        VoltageConfigs voltconfig{};
+        voltconfig.PeakForwardVoltage = 11.0;
+        voltconfig.PeakReverseVoltage = -11.0;
+        m_driveTalon->GetConfigurator().Apply(voltconfig);
+
+        m_driveTalon->SetInverted(driveInverted);
+    }
+}
+
+//==================================================================================
+void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
+                                        bool canCoderInverted,
+                                        double angleOffset,
+                                        const SwerveModuleAttributes &attrs)
+{
+    if (m_turnTalon != nullptr && m_turnCancoder != nullptr)
+    {
+        m_turnTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
+
+        TalonFXConfiguration fxconfigs{};
+        m_turnTalon->GetConfigurator().Refresh(fxconfigs);
+
+        fxconfigs.MotorOutput.Inverted = turnInverted ? InvertedValue::Clockwise_Positive : InvertedValue::Clockwise_Positive;
+        fxconfigs.MotorOutput.NeutralMode = NeutralModeValue::Brake;
+        fxconfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
+        fxconfigs.MotorOutput.PeakReverseDutyCycle = -1.0;
+        fxconfigs.MotorOutput.DutyCycleNeutralDeadband = 0.0;
+
+        fxconfigs.Voltage.PeakForwardVoltage = 10.0;
+        fxconfigs.Voltage.PeakReverseVoltage = -10.0;
+
+        fxconfigs.Slot0.kP = m_turnKp;
+        fxconfigs.Slot0.kI = m_turnKi;
+        fxconfigs.Slot0.kD = m_turnKd;
+
+        fxconfigs.ClosedLoopGeneral.ContinuousWrap = true;
+
+        fxconfigs.Feedback.FeedbackRemoteSensorID = m_turnCancoder->GetDeviceID();
+        // fxconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::SyncCANcoder;
+        fxconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::RemoteCANcoder;
+        fxconfigs.Feedback.SensorToMechanismRatio = attrs.sensorToMechanismRatio;
+        fxconfigs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
+        m_turnTalon->GetConfigurator().Apply(fxconfigs);
+
+        m_turnTalon->SetInverted(turnInverted);
+
+        CANcoderConfiguration ccConfigs{};
+        m_turnCancoder->GetConfigurator().Apply(ccConfigs); // Apply Factory Defaults
+
+        ccConfigs.MagnetSensor.MagnetOffset = angleOffset;
+        ccConfigs.MagnetSensor.SensorDirection = canCoderInverted ? SensorDirectionValue::Clockwise_Positive : SensorDirectionValue::CounterClockwise_Positive;
+        m_turnCancoder->GetConfigurator().Apply(ccConfigs);
+    }
+}
+
+//==================================================================================
+void SwerveModule::ReadConstants(string configfilename)
+{
+    auto deployDir = frc::filesystem::GetDeployDirectory();
+    auto filename = deployDir + string("/chassis/") + configfilename;
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(filename.c_str());
+
+    if (result)
+    {
+        pugi::xml_node parent = doc.root();
+        for (pugi::xml_node swervemod = parent.first_child(); swervemod; swervemod = swervemod.next_sibling())
+        {
+            for (pugi::xml_node control = swervemod.first_child(); swervemod; swervemod = swervemod.next_sibling())
+            {
+                for (pugi::xml_attribute attr = control.first_attribute(); attr; attr = attr.next_attribute())
+                {
+                    if (strcmp(attr.name(), "proportional") == 0)
+                    {
+                        m_turnKp = attr.as_double();
+                    }
+                    else if (strcmp(attr.name(), "integral") == 0)
+                    {
+                        m_turnKi = attr.as_double();
+                    }
+                    else if (strcmp(attr.name(), "derivative") == 0)
+                    {
+                        m_turnKd = attr.as_double();
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_networkTableName, string("Config File not found"), configfilename);
+    }
 }

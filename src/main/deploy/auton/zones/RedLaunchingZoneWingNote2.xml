@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "zone.dtd">
+<auton>
+
+      <zone ygrid1="Y_11"
+            xgrid1="X_K"
+            ygrid2="Y_9"
+            xgrid2="X_I"
+            noteOption="STATE_AUTO_LAUNCH"/>
+
+            <!--Generally any file with an amp in it
+            Zone: K11-I9-->
+
+</auton>

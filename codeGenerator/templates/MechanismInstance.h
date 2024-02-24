@@ -24,7 +24,7 @@ public:
     /// @param otherMotor Same as previous
     /// @param solenoid Solenoid in the mechanism - code generator should probably use the usage for the variable name
     /// Additional actuators and sensors are also in this list.
-    $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$Gen *generatedMech);
+    $$_MECHANISM_INSTANCE_NAME_$$($$_MECHANISM_INSTANCE_NAME_$$Gen *generatedMech, RobotConfigMgr::RobotIdentifier activeRobotId);
     $$_MECHANISM_INSTANCE_NAME_$$() = delete;
     ~$$_MECHANISM_INSTANCE_NAME_$$() = default;
 

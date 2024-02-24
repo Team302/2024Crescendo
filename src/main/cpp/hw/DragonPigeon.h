@@ -16,9 +16,11 @@
 
 #pragma once
 #include <memory>
-#include <ctre/phoenix/sensors/WPI_PigeonIMU.h>
-#include <ctre/phoenix/sensors/WPI_Pigeon2.h>
-#include <ctre/Phoenix.h>
+
+#include "wpi/deprecated.h"
+WPI_IGNORE_DEPRECATED
+#include "ctre/phoenix/sensors/WPI_PigeonIMU.h"
+WPI_UNIGNORE_DEPRECATED
 
 #include "configs/RobotElementNames.h"
 #include "hw/interfaces/IDragonPigeon.h"

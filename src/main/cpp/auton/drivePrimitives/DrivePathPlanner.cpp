@@ -46,7 +46,8 @@ using namespace frc;
 
 using namespace wpi::math;
 
-DrivePathPlanner::DrivePathPlanner() : m_chassis(nullptr),
+DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
+                                       m_chassis(nullptr),
                                        m_timer(make_unique<Timer>()),
                                        m_trajectory(),
                                        m_pathname(),
@@ -80,7 +81,6 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
 }
 void DrivePathPlanner::Run()
 {
-
     ChassisMovement moveInfo;
     moveInfo.driveOption = ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER;
     moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;

@@ -131,17 +131,18 @@ string AutonSelector::GetNumofPiecesinautonCenter()
 //---------------------------------------------------------------------
 void AutonSelector::PutChoicesOnDashboard()
 {
-
 	m_startposchooser.AddOption("Amp", "Amp");
-	m_startposchooser.AddOption("SubWoofer", "SubWoofer");
+	m_startposchooser.AddOption("Subwoofer", "Subwoofer");
 	m_startposchooser.AddOption("Podium", "Podium");
 	m_startposchooser.AddOption("Wide", "Wide");
+	m_startposchooser.SetDefaultOption("Subwoofer", "Subwoofer");
 	frc::SmartDashboard::PutData("StartPos", &m_startposchooser);
 
 	m_numofgamepiecewing.AddOption("0", "Wing0");
 	m_numofgamepiecewing.AddOption("1", "Wing1");
 	m_numofgamepiecewing.AddOption("2", "Wing2");
 	m_numofgamepiecewing.AddOption("3", "Wing3");
+	m_numofgamepiecewing.SetDefaultOption("1", "Wing1");
 	frc::SmartDashboard::PutData("NumofWingpcs", &m_numofgamepiecewing);
 
 	m_numofgamepiececenter.AddOption("0", "Center0");
@@ -150,5 +151,6 @@ void AutonSelector::PutChoicesOnDashboard()
 	m_numofgamepiececenter.AddOption("3", "Center3");
 	m_numofgamepiececenter.AddOption("4", "Center4");
 	m_numofgamepiececenter.AddOption("5", "Center5");
+	m_numofgamepiececenter.SetDefaultOption("0", "Center0");
 	frc::SmartDashboard::PutData("NumofCenterpcs", &m_numofgamepiececenter);
 }

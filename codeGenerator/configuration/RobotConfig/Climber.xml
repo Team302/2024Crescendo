@@ -6,6 +6,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>leftClimber</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -152,14 +153,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>75</value>
+          <value>40</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>75</value>
+          <value>40</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>
@@ -186,6 +187,7 @@
     <MotorController
       xsi:type="SparkMax">
       <name>rightClimber</name>
+      <ControllerEnabled>Yes</ControllerEnabled>
       <theDistanceAngleCalcInfo>
         <countsPerRev>
           <unitsFamily>none</unitsFamily>
@@ -332,14 +334,14 @@
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>75</value>
+          <value>40</value>
         </PrimaryLimit>
         <SecondaryLimit>
           <unitsFamily>current</unitsFamily>
           <name>intParameter</name>
           <__units__>A</__units__>
           <type>Int32</type>
-          <value>75</value>
+          <value>40</value>
         </SecondaryLimit>
         <SecondaryLimitCycles>
           <unitsFamily>none</unitsFamily>

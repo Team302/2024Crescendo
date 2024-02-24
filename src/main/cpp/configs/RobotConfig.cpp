@@ -89,6 +89,10 @@ void RobotConfig::DefineMechanisms()
 {
 }
 
+void RobotConfig::DefineLEDs()
+{
+}
+
 SwerveChassis *RobotConfig::GetSwerveChassis() const
 {
     return nullptr;

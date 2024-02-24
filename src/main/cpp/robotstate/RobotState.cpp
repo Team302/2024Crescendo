@@ -18,9 +18,9 @@
 #include <string>
 #include <vector>
 
-#include "configs/RobotConfig.h"
-#include "configs/RobotConfigMgr.h"
-#include "chassis/IChassis.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/SwerveChassis.h"
 #include "robotstate/RobotStateChangeBroker.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "utils/DragonField.h"
@@ -67,8 +67,8 @@ RobotState::~RobotState()
 
 void RobotState::Init()
 {
-    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chassis = config != nullptr ? config->GetIChassis() : nullptr;
+    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
 }
 
 void RobotState::Run()
@@ -153,6 +153,12 @@ void RobotState::PublishClimbMode(TeleopControl *controller)
         if (m_climbModeButtonReleased)
         {
             m_climbMode = (m_climbMode == RobotStateChanges::ClimbModeOff) ? RobotStateChanges::ClimbModeOn : RobotStateChanges::ClimbModeOff;
+            if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+            {
+                m_scoringMode = RobotStateChanges::ScoringMode::Placer;
+                PublishStateChange(RobotStateChanges::DesiredScoringMode, m_scoringMode);
+            }
+
             PublishStateChange(RobotStateChanges::ClimbModeStatus, m_climbMode);
         }
     }
