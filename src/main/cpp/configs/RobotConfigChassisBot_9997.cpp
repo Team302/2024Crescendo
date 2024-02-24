@@ -78,7 +78,7 @@ void RobotConfigChassisBot_9997::DefineVisionSensors()
 	                                units::length::inch_t ( units::length::meter_t ( 0.2 ) ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
 	                                units::length::inch_t ( units::length::meter_t ( 0.45 ) ), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
 	                                units::angle::degree_t ( units::angle::degree_t ( 16 ) ), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
-	                                units::angle::degree_t ( units::angle::degree_t ( 0 ) ), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
+	                                units::angle::degree_t ( units::angle::degree_t ( 180 ) ), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
 	                                units::angle::degree_t ( units::angle::degree_t ( 0 ) ), //units::angle::degree_t roll,           /// <I> - Roll of camera
 	                                DragonLimelight::LED_MODE::LED_OFF, //LED_MODE ledMode,
 	                                DragonLimelight::CAM_MODE::CAM_VISION, //CAM_MODE camMode,
