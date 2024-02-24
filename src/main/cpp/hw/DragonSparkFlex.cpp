@@ -18,7 +18,6 @@
 #include "mechanisms/controllers/ControlData.h"
 
 #include "frc/smartdashboard/SmartDashboard.h"
-#include "utils/logging/Logger.h"
 using rev::CANSparkFlex;
 
 DragonSparkFlex::DragonSparkFlex(int id,
@@ -83,21 +82,17 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     switch (controlInfo.GetMode())
     {
     case ControlModes::PERCENT_OUTPUT:
-        // m_spark->Set(0); // init to zero just to be safe
         m_controlType = rev::CANSparkFlex::ControlType ::kDutyCycle;
         break;
     case ControlModes::POSITION_INCH:
-        //  m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerInch);
         m_controlType = rev::CANSparkFlex::ControlType::kPosition;
         break;
     case ControlModes::POSITION_DEGREES:
-        //   m_pidController.SetReference(0, CANSparkFlex::ControlType::kPosition, slot);
         m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerDegree);
         m_controlType = rev::CANSparkFlex::ControlType ::kPosition;
         break;
     case ControlModes::VELOCITY_RPS:
-        // m_pidController.SetReference(0, CANSparkFlex::ControlType::kVelocity, slot);
         m_encoder.SetVelocityConversionFactor(m_calcStruc.countsPerRev);
         m_controlType = rev::CANSparkFlex::ControlType::kVelocity;
         break;
