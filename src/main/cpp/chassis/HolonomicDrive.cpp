@@ -180,6 +180,11 @@ void HolonomicDrive::InitSpeeds(double forwardScale,
     m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed;
     m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed;
     m_moveInfo.chassisSpeeds.omega = rotateScale * maxAngSpeed;
+
+    if ((abs(forwardScale) > 0.0) || (abs(strafeScale) > 0.0) || (abs(rotateScale) > 0.0))
+    {
+        m_moveInfo.pathplannerTrajectory = pathplanner::PathPlannerTrajectory();
+    }
 }
 
 void HolonomicDrive::ResetPose()
