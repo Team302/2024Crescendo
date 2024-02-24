@@ -1534,7 +1534,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.001</value>
+                <value>1E-05</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -1555,7 +1555,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0</value>
+                <value>0.000125</value>
               </fGain>
               <iZone>
                 <unitsFamily>none</unitsFamily>
@@ -1667,7 +1667,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>10</value>
+                  <value>132</value>
                 </target>
                 <motorName>Vortex</motorName>
                 <controlDataName>speedControlData</controlDataName>
