@@ -400,9 +400,9 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
         std::optional<units::angle::degree_t> targetPitch = GetTargetPitch();
         if (targetPitch.has_value()){
             tangent = units::math::tan(m_cameraPose.Rotation().Y() + targetPitch.value());
+        } else {
+            return std::nullopt;
         }
-        //Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("LL"), std::string("EstimateTargetXDistance-targetPitch"), targetPitch.value().to<double>());
-        //Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("LL"), std::string("EstimateTargetXDistance-tangent"), tangent);
 
         if (abs(tangent) < 0.01)
         {
@@ -411,14 +411,12 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
         else
         {
             units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / tangent;
-
             return estimatedTargetDistance;
         }
     }
 
     else
     {
-        //Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("LL"), std::string("EstimateTargetXDistance"), std::string("apriltag"));
         auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
