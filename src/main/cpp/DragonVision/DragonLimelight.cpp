@@ -389,13 +389,13 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
 {
     units::length::meter_t mountingHeight{m_cameraPose.Z()};
 
-    //units::angle::degree_t mountingAngle{m_cameraPose.Rotation().Z()};
-    std::optional<units::angle::radian_t> targetPitch{GetTargetPitch()};
+    units::angle::degree_t mountingAngle{m_cameraPose.Rotation().Z()};
+    std::optional<units::angle::degree_t> targetPitch{GetTargetPitch()};
     std::optional<int> aprilTagID{GetAprilTagID()};
     if (!aprilTagID.has_value() && targetPitch.has_value())
     {
         // d=(h2-h1)/tan(a1+a2)
-        double tangent{units::math::tan(m_cameraPose.Rotation().Y() + targetPitch.value())};
+        double tangent{units::math::tan(mountingAngle+ targetPitch.value())};
 
         if (std::abs(tangent) < 0.01)
         {
