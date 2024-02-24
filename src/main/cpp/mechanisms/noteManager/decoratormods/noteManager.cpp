@@ -158,7 +158,7 @@ double noteManager::GetRequiredLaunchAngle()
 	{
 		distanceFromTarget = GetVisionDistance().to<double>();
 
-		launchAngle = 81.0 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
+		launchAngle = 80.0 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
 	}
 	if (launchAngle > 40)
 	{
