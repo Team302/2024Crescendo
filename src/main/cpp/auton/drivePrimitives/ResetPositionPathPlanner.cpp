@@ -26,6 +26,7 @@
 #include "chassis/SwerveChassis.h"
 #include "DragonVision/DragonVision.h"
 #include "utils/logging/Logger.h"
+#include "utils/FMSData.h"
 
 // Third Party Includes
 #include "pathplanner/lib/path/PathPlannerPath.h"
@@ -55,11 +56,12 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
         else
         {
             auto path = PathPlannerPath::fromPathFile(param->GetPathName());
-            if (path.get() != nullptr)
+            if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
             {
-                auto pose = path.get()->getPreviewStartingHolonomicPose();
-                chassis->ResetPose(pose);
+                path = path.get()->flipPath();
             }
+            auto pose = path.get()->getPreviewStartingHolonomicPose();
+            chassis->ResetPose(pose);
         }
     }
 }
