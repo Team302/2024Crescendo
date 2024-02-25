@@ -2,9 +2,11 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
     <primitive id= "RESET_POSITION_PATH_PLANNER"
-                pathname="BlueDefault"/>
+                pathname="square"/>
+<!--                pathname="BlueDefault"/ -->
 
     <primitive id= "DRIVE_PATH_PLANNER"
-            pathname="BlueDefault">
+            pathname="square">
+<!--          pathname="BlueDefault" -->
     </primitive>
 </auton>
