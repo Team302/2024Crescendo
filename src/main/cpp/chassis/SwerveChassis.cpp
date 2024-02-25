@@ -40,6 +40,7 @@
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/headingStates/MaintainHeading.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
+#include "chassis/LogChassisMovement.h"
 #include "chassis/SwerveChassis.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
@@ -104,6 +105,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
     InitStates();
     ZeroAlignSwerveModules();
     ResetYaw();
+    ResetPose(frc::Pose2d());
 }
 
 //==================================================================================
@@ -164,7 +166,7 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
         m_backLeft->SetDesiredState(states[LEFT_BACK]);
         m_backRight->SetDesiredState(states[RIGHT_BACK]);
     }
-
+    LogChassisMovement::Print(moveInfo);
     LogInformation();
 
     UpdateOdometry();
@@ -320,11 +322,9 @@ void SwerveChassis::ResetPose(const Pose2d &pose)
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
 }
 //=================================================================================
-void SwerveChassis::SetYaw()
+void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
 {
-    ResetYaw();
-    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
-        m_pigeon->SetYaw(units::angle::degree_t(180.0));
+    m_pigeon->SetYaw(newYaw);
 }
 
 //==================================================================================
