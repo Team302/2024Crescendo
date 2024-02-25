@@ -239,19 +239,20 @@ namespace CoreCodeGenerator
                                 StringBuilder setTargetFunctionDefinitions = new StringBuilder();
                                 foreach (applicationData r in theRobotConfiguration.theRobotVariants.Robots)
                                 {
+                                    mechanismInstance theMi = r.mechanismInstances.Find(m => m.mechanism.GUID == mi.mechanism.GUID);
                                     //if this mechanism exists in this robot
-                                    if (r.mechanismInstances.Exists(m => m.mechanism.GUID == mi.mechanism.GUID))
+                                    if (theMi != null)
                                     {
                                         StringBuilder stateTargets = new StringBuilder();
-                                        foreach (state s in mi.mechanism.states)
+                                        foreach (state s in theMi.mechanism.states)
                                         {
                                             List<string> motorTargets = new List<string>();
                                             foreach (motorTarget mT in s.motorTargets)
                                             {
                                                 // find the corresponding motor control Data link
-                                                motorControlData mcd = mi.mechanism.stateMotorControlData.Find(cd => cd.name == mT.controlDataName);
+                                                motorControlData mcd = theMi.mechanism.stateMotorControlData.Find(cd => cd.name == mT.controlDataName);
                                                 if (mcd == null)
-                                                    addProgress(string.Format("In mechanism {0}, cannot find a Motor control data called {1}, referenced in state {2}", mi.name, mT.controlDataName, s.name));
+                                                    addProgress(string.Format("In mechanism {0}, cannot find a Motor control data called {1}, referenced in state {2}", theMi.name, mT.controlDataName, s.name));
                                                 else
                                                 {
                                                     //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, double percentOutput);
@@ -274,10 +275,10 @@ namespace CoreCodeGenerator
                                                     else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { targetUnitsType = "units::length::inch_t"; }
                                                     else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { targetUnitsType = "units::angle::degree_t"; }
 
-                                                    MotorController mc = mi.mechanism.MotorControllers.Find(m => m.name == mT.motorName);
+                                                    MotorController mc = theMi.mechanism.MotorControllers.Find(m => m.name == mT.motorName);
                                                     if (mc == null)
                                                     {
-                                                        addProgress(string.Format("In mechanism {0}, cannot find a Motor controller called {1}, referenced in state {2}, target {3}", mi.name, mT.motorName, s.name, mT.name));
+                                                        addProgress(string.Format("In mechanism {0}, cannot find a Motor controller called {1}, referenced in state {2}, target {3}", theMi.name, mT.motorName, s.name, mT.name));
                                                     }
                                                     else
                                                     {
@@ -286,7 +287,7 @@ namespace CoreCodeGenerator
                                                         {
                                                             if (mc.GetType().IsSubclassOf(typeof(SparkController)))
                                                             {
-                                                                motorTargets.Add(String.Format("Get{0}()->get{1}()->SetControlConstants({2},*Get{0}()->get{3}())", mi.name, mc.name, 0 /*slot number fixed to 0*/, mT.controlDataName));
+                                                                motorTargets.Add(String.Format("Get{0}()->get{1}()->SetControlConstants({2},*Get{0}()->get{3}())", theMi.name, mc.name, 0 /*slot number fixed to 0*/, mT.controlDataName));
                                                             }
 
                                                             motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
@@ -294,7 +295,7 @@ namespace CoreCodeGenerator
                                                         else
                                                             motorTargets.Add(String.Format("SetTargetControl({0}, Get{1}()->get{2}(), {5}({3}({4})))",
                                                                 motorEnumName,
-                                                                mi.name,
+                                                                theMi.name,
                                                                 mcd.name,
                                                                 generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mT.target.physicalUnits),
                                                                 mT.target.value,
@@ -314,7 +315,7 @@ namespace CoreCodeGenerator
 
                                         setTargetFunctionDeclerations.AppendLine(String.Format("void Init{0}();", r.getFullRobotName()));
 
-                                        setTargetFunctionDefinitions.AppendLine(String.Format("void {0}AllStatesStateGen::Init{1}()", mi.name, r.getFullRobotName()));
+                                        setTargetFunctionDefinitions.AppendLine(String.Format("void {0}AllStatesStateGen::Init{1}()", theMi.name, r.getFullRobotName()));
                                         setTargetFunctionDefinitions.AppendLine("{");
                                         setTargetFunctionDefinitions.AppendLine(stateTargets.ToString().Trim().Substring(5));
                                         setTargetFunctionDefinitions.AppendLine("}");
@@ -468,6 +469,21 @@ namespace CoreCodeGenerator
 
                             resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
 
+                            List<string> includeList = generateMethod(mi, "generateIncludes").Distinct().ToList();
+                            resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(includeList, ""));
+
+                            filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), false);
+                            copyrightAndGenNoticeAndSave(filePathName, resultString, true);
+                            #endregion
+
+                            #region Generate fixed decorator Cpp File
+                            cdf = theToolConfiguration.getTemplateInfo("MechanismInstance_decorated_cpp");
+                            template = loadTemplate(cdf.templateFilePathName);
+
+                            resultString = template;
+
+                            resultString = resultString.Replace("$$_MECHANISM_INSTANCE_NAME_$$", mi.name);
+
                             List<string> stateTransitions = new List<string>();
                             List<string> statesCreation = new List<string>();
                             int stateIndex = 0;
@@ -491,12 +507,13 @@ namespace CoreCodeGenerator
                             resultString = resultString.Replace("$$_OBJECT_CREATION_$$", ListToString(statesCreation, ";"));
                             resultString = resultString.Replace("$$_STATE_TRANSITION_REGISTRATION_$$", ListToString(stateTransitions, ";"));
 
-                            List<string> includeList = generateMethod(mi, "generateIncludes").Distinct().ToList();
+                            includeList = generateMethod(mi, "generateIncludes").Distinct().ToList();
                             resultString = resultString.Replace("$$_STATE_CLASSES_INCLUDES_$$", ListToString(includeList, ""));
 
-                            filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), false);
-                            copyrightAndGenNoticeAndSave(filePathName, resultString, true);
+                            filePathName = getMechanismFullFilePathName(mechanismName, cdf.outputFilePathName.Replace("MECHANISM_INSTANCE_NAME", mechanismName), true);
+                            copyrightAndGenNoticeAndSave(filePathName, resultString, false);
                             #endregion
+
 
                             #region Generate H File
                             cdf = theToolConfiguration.getTemplateInfo("MechanismInstance_h");
