@@ -3,7 +3,7 @@
 <auton>
 
 <primitive id= "RESET_PATH_PLANNER"
-pathname = "BlueAmpWing1Center0.path"/>
+pathname = "BlueAmpWing1Center0"/>
 
 <snippet file= "ShootWhenStop.xml"/>
 
