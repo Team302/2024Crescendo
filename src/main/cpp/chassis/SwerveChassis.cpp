@@ -146,8 +146,6 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
 
-    // LogInformation();
-
     m_currentOrientationState = GetHeadingState(moveInfo);
     if (m_currentOrientationState != nullptr)
     {
@@ -164,8 +162,6 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
         m_backLeft->SetDesiredState(states[LEFT_BACK]);
         m_backRight->SetDesiredState(states[RIGHT_BACK]);
     }
-
-    LogInformation();
 
     UpdateOdometry();
 }
@@ -288,7 +284,6 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_frontRight->GetPosition(),
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
-    LogInformation();
 }
 
 //==================================================================================
@@ -310,13 +305,9 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
 //==================================================================================
 void SwerveChassis::ResetPose(const Pose2d &pose)
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Target Pos Deg"), pose.Rotation().Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Target Pos X"), pose.X().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Target Pos Y"), pose.Y().to<double>());
-    LogInformation();
     ZeroAlignSwerveModules();
     Rotation2d rot2d{GetYaw()};
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Reset Pos Yaw"), rot2d.Degrees().to<double>());
+
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
 }
 //=================================================================================
