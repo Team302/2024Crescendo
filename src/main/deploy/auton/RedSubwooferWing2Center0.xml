@@ -10,7 +10,11 @@
     <primitive id= "DRIVE_PATH_PLANNER"
             pathname="BlueSubwooferWing1Center0">
 
-        <zone filename="BlueIntakeWingNote2.xml"/>
+            <zone filename="RedLaunchingZoneAmpNote2.xml"/>
+
+
+            <zone filename="RedIntakeWingNote1.xml"/>
+            <zone filename="RedIntakeWingNote2.xml"/>
 
     </primitive>
 

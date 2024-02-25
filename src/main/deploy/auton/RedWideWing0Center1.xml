@@ -10,12 +10,11 @@
     <primitive id = "DRIVE_PATH_PLANNER"
                 pathname= "BlueWideWing0Center1">
 
-      <zone filename="BlueIntakeCenterNote5.xml"/>
+      <zone filename="RedIntakeCenterNote5.xml"/>
 
 
-</primitive>
+                </primitive>
 
     <snippet file= "ShootWhenStop.xml"/>
-    <!--Shoots the ring into the speaker at the very beginning-->
-    <!--Launches at the very end, so we put the launch snippet at the end-->
+    <!--Shoots the ring into the speaker with the preload and the intaken note- we're already across the line so we are done-->
 </auton>

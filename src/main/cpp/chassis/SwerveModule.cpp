@@ -139,7 +139,7 @@ SwerveModuleState SwerveModule::GetState() const
 frc::SwerveModulePosition SwerveModule::GetPosition() const
 {
     double rotations = 0.0;
-    rotations = m_driveTalon->GetPosition().GetValueAsDouble();
+    rotations = m_driveTalon->GetPosition().GetValueAsDouble() / 6.12;
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
 
