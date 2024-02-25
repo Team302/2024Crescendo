@@ -79,7 +79,7 @@ public:
 
     /// @brief Reset yaw to 0 or 180 degrees depending on alliance
     void ResetYaw();
-    void SetYaw();
+    void SetYaw(units::angle::degree_t newYaw);
     
     units::length::inch_t GetWheelDiameter() const override;
     units::length::inch_t GetWheelBase() const { return m_wheelBase; }
