@@ -67,52 +67,47 @@ pathplanner::PathPlannerTrajectory DriveToRightStage::CreateDriveToRightStage()
         {
             auto rightStagePoseRotation = targetRightStagePose.Rotation();
             units::angle::degree_t rightStagePoseDegrees = rightStagePoseRotation.Degrees();
-            if (rightStagePoseDegrees)
-            {
-                auto rightStagePoseDistance = frc::Pose2d(targetRightStagePose.X(), targetRightStagePose.Y(), rightStagePoseDegrees);
-                units::length::meter_t offsetX = targetRightStagePose.X() + units::length::meter_t(1);
-                units::length::meter_t offsetY = targetRightStagePose.Y() + units::length::meter_t(1);
-                auto offsetPoseDistanceFromCenterLine = frc::Pose2d(offsetX, offsetY, frc::Rotation2d(180_deg));
+            auto rightStagePoseDistance = frc::Pose2d(targetRightStagePose.X(), targetRightStagePose.Y(), rightStagePoseDegrees);
+            units::length::meter_t offsetX = targetRightStagePose.X() + units::length::meter_t(1);
+            units::length::meter_t offsetY = targetRightStagePose.Y() + units::length::meter_t(1);
+            auto offsetPoseDistanceFromCenterLine = frc::Pose2d(offsetX, offsetY, frc::Rotation2d(180_deg));
 
-                std::vector<frc::Pose2d> poses{
-                    currentPose2d,
-                    offsetPoseDistanceFromCenterLine,
-                    rightStagePoseDistance};
-                std::vector<frc::Translation2d> rightstagebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-                auto rightstagepath = std::make_shared<PathPlannerPath>(
-                    rightstagebezierPoints,
-                    PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                    GoalEndState(0.0_mps, rightStagePoseDegrees));
-                rightstagepath->preventFlipping = true;
-                trajectory = rightstagepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+            std::vector<frc::Pose2d> poses{
+                currentPose2d,
+                offsetPoseDistanceFromCenterLine,
+                rightStagePoseDistance};
+            std::vector<frc::Translation2d> rightstagebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+            auto rightstagepath = std::make_shared<PathPlannerPath>(
+                rightstagebezierPoints,
+                PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+                GoalEndState(0.0_mps, rightStagePoseDegrees));
+            rightstagepath->preventFlipping = true;
+            trajectory = rightstagepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
 
-                return trajectory;
-            }
+            return trajectory;
         }
         if (allianceColor == frc::DriverStation::kRed)
         {
             auto rightStagePoseRotation = targetRightStagePose.Rotation();
             units::angle::degree_t rightStagePoseDegrees = rightStagePoseRotation.Degrees();
-            if (rightStagePoseDegrees)
-            {
-                auto rightStagePoseDistance = frc::Pose2d(targetRightStagePose.X(), targetRightStagePose.Y(), rightStagePoseDegrees);
-                units::length::meter_t offsetX = targetRightStagePose.X() - units::length::meter_t(1);
-                units::length::meter_t offsetY = targetRightStagePose.Y() - units::length::meter_t(1.5);
-                auto offsetPoseDistanceFromCenterLine = frc::Pose2d(offsetX, offsetY, frc::Rotation2d(180_deg));
-                std::vector<frc::Pose2d> poses{
-                    currentPose2d,
-                    offsetPoseDistanceFromCenterLine,
-                    rightStagePoseDistance};
-                std::vector<frc::Translation2d> rightstagebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-                auto rightstagepath = std::make_shared<PathPlannerPath>(
-                    rightstagebezierPoints,
-                    PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                    GoalEndState(0.0_mps, rightStagePoseDegrees));
-                rightstagepath->preventFlipping = true;
-                trajectory = rightstagepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
 
-                return trajectory;
-            }
+            auto rightStagePoseDistance = frc::Pose2d(targetRightStagePose.X(), targetRightStagePose.Y(), rightStagePoseDegrees);
+            units::length::meter_t offsetX = targetRightStagePose.X() - units::length::meter_t(1);
+            units::length::meter_t offsetY = targetRightStagePose.Y() - units::length::meter_t(1.5);
+            auto offsetPoseDistanceFromCenterLine = frc::Pose2d(offsetX, offsetY, frc::Rotation2d(180_deg));
+            std::vector<frc::Pose2d> poses{
+                currentPose2d,
+                offsetPoseDistanceFromCenterLine,
+                rightStagePoseDistance};
+            std::vector<frc::Translation2d> rightstagebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+            auto rightstagepath = std::make_shared<PathPlannerPath>(
+                rightstagebezierPoints,
+                PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+                GoalEndState(0.0_mps, rightStagePoseDegrees));
+            rightstagepath->preventFlipping = true;
+            trajectory = rightstagepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+
+            return trajectory;
         }
     }
 }
