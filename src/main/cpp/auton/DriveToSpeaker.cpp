@@ -45,11 +45,7 @@ void DriveToSpeaker::Init(ChassisMovement &chassisMovement)
         auto type = get<0>(aprilTagInfo);
         m_targetPose2d = get<1>(aprilTagInfo);
 
-        if (type == DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED)
-        {
-            m_trajectory = CreateDriveToSpeakerTrajectory(currentPose2d, m_targetPose2d);
-        }
-        else if (type != DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
+        if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
             m_trajectory = CreateDriveToSpeakerTrajectory(currentPose2d, m_targetPose2d);
         }
