@@ -197,6 +197,10 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 /// @returns void
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
+    // TODO when zeroing the modules are off by one or more turns?
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current angle"), units::angle::degree_t(m_turnCancoder->GetAbsolutePosition().GetValue()).to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("target angle"), targetAngle.to<double>());
+
     PositionVoltage voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
     m_activeState.angle = targetAngle;
     m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
@@ -207,7 +211,7 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 /// @return void
 void SwerveModule::StopMotors()
 {
-    // TODO: add method to stop motor and do it for both turn and drive motors
+    SetDriveSpeed(0_mps);
 }
 
 //==================================================================================
@@ -313,6 +317,8 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
 
         ccConfigs.MagnetSensor.MagnetOffset = angleOffset;
         ccConfigs.MagnetSensor.SensorDirection = canCoderInverted ? SensorDirectionValue::Clockwise_Positive : SensorDirectionValue::CounterClockwise_Positive;
+        ccConfigs.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue::Signed_PlusMinusHalf;
+
         m_turnCancoder->GetConfigurator().Apply(ccConfigs);
     }
 }
