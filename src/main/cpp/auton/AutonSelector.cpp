@@ -151,6 +151,6 @@ void AutonSelector::PutChoicesOnDashboard()
 	m_numofgamepiececenter.AddOption("3", "Center3");
 	m_numofgamepiececenter.AddOption("4", "Center4");
 	m_numofgamepiececenter.AddOption("5", "Center5");
-	m_numofgamepiecewing.SetDefaultOption("0", "Center0");
+	m_numofgamepiececenter.SetDefaultOption("0", "Center0");
 	frc::SmartDashboard::PutData("NumofCenterpcs", &m_numofgamepiececenter);
 }

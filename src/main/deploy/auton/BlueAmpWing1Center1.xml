@@ -8,16 +8,19 @@
 <snippet file = "ShootWhenStop.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-        pathname = "BlueAmpWing1Center1">
-        <zone filename = "BlueIntakeWingNote1.xml"/>
+pathname = "BlueAmpWing1Center1">
 
+            <zone filename="BlueIntakeWingNote2.xml"/>
+            <zone filename="BlueIntakeCenterNote1.xml"/>
+
+            <zone filename = "BlueLaunchingZoneAmpNote1.xml"/>
+
+</primitive>
 <snippet file = "ShootWhenStop.xml"/>
 
-<primitive id = "DRIVE_PATH_PLANNER"
-         pathname = "BlueAmpWing1Center1">
-         <zone filename = "BlueIntakeCenterNote1.xml"/>
 
-<snippet file = "ShootWhenStop.xml"/>
+<!--Zones to launch:
+V9-X11 (Launches there two different times: in the middle and at the very end)-->
+
 
 </auton>
-
