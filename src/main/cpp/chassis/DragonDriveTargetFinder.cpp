@@ -122,7 +122,7 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
             // {
             auto correction = ISwerveDriveOrientation::CalcHeadingCorrection(chassis->GetStoredHeading(), kp);
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "FaceSpeakerCorrection (degpersec)", correction.to<double>());
-            chassisMovement.chassisSpeeds.omega -= correction; //+=
+            chassisMovement.chassisSpeeds.omega += correction;
             // }
         }
         chassis->SetStoredHeading(target);
