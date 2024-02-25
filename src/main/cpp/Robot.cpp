@@ -124,7 +124,7 @@ void Robot::TeleopInit()
         auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
         if (noteMgr != nullptr)
         {
-            noteMgr->SetCurrentState(noteManagerGen::STATE_NAMES::STATE_READY_AUTO_LAUNCH, true);
+            noteMgr->SetCurrentState(noteManagerGen::STATE_NAMES::STATE_READY, true);
         }
     }
 
