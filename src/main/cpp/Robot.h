@@ -18,6 +18,7 @@
 
 #include <frc/TimedRobot.h>
 #include <DragonVision/DragonVision.h>
+#include "AutomatedSystemTest/AutomatedSystemTest.h"
 
 class ArcadeDrive;
 class CyclePrimitives;
@@ -74,4 +75,5 @@ private:
     RobotState *m_robotState;
     SomeMech *m_someMech;
     RobotDefinition *m_robot;
+    AutomatedSystemTest *m_systemTest;
 };

@@ -145,6 +145,7 @@ void Robot::DisabledPeriodic()
 
 void Robot::TestInit()
 {
+    m_systemTest->RunAllTests();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TestInit"), string("arrived"));
 }
 
