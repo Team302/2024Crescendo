@@ -100,12 +100,11 @@ private:
     std::optional<VisionData> GetVisionDataToNearestTag();
     std::optional<VisionData> GetVisionDataToNearestStageTag(VISION_ELEMENT element);
 
-    std::optional<VisionData> MultiTagToElement(frc::Pose3d elementPose);
-    std::optional<VisionData> SingleTagToElement(frc::Pose3d elementPose);
-
     static DragonVision *m_dragonVision;
 
     std::map<RobotElementNames::CAMERA_USAGE, DragonCamera *> m_dragonCameraMap;
 
     std::vector<photon::PhotonPoseEstimator> m_poseEstimators = std::vector<photon::PhotonPoseEstimator>();
+
+    FieldConstants *m_constants;
 };

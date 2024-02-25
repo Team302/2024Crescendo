@@ -146,7 +146,7 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
 
-    // LogInformation();
+    LogInformation();
 
     m_currentOrientationState = GetHeadingState(moveInfo);
     if (m_currentOrientationState != nullptr)
@@ -164,7 +164,6 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
         m_backLeft->SetDesiredState(states[LEFT_BACK]);
         m_backRight->SetDesiredState(states[RIGHT_BACK]);
     }
-    UpdateOdometry();
 }
 
 //==================================================================================
@@ -285,7 +284,6 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_frontRight->GetPosition(),
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
-    LogInformation();
 }
 
 //==================================================================================

@@ -1667,8 +1667,6 @@ namespace FRCrobotCodeGen302
 
                     if (addedItems)
                     {
-                        robotTreeView.BeginUpdate();
-                        
                         string nodeName = lastSelectedArrayNode.Text;
                         lastSelectedArrayNode.Remove();
                         AddNode((TreeNode)m.theTreeNode, states, nodeName, null);
@@ -1676,8 +1674,6 @@ namespace FRCrobotCodeGen302
                         mechanism theMechanism;
                         if (isPartOfAMechanismTemplate(lastSelectedArrayNode, out theMechanism))
                             updateMechInstancesFromMechTemplate(theMechanism);
-
-                        robotTreeView.EndUpdate();
 
                         setNeedsSaving();
                     }

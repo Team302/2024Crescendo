@@ -1273,7 +1273,7 @@
                 <name>intParameter</name>
                 <__units__ />
                 <type>Int32</type>
-                <value>1</value>
+                <value>0</value>
               </countsPerRev>
               <gearRatio>
                 <unitsFamily>none</unitsFamily>
@@ -1534,7 +1534,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>1.5E-05</value>
+                <value>0</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -1555,7 +1555,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.000125</value>
+                <value>0</value>
               </fGain>
               <iZone>
                 <unitsFamily>none</unitsFamily>
@@ -1665,12 +1665,11 @@
                 <target>
                   <unitsFamily>none</unitsFamily>
                   <name>Target</name>
-                  <__units__>rad/s</__units__>
+                  <__units__ />
                   <type>Double</type>
-                  <value>132</value>
                 </target>
                 <motorName>Vortex</motorName>
-                <controlDataName>speedControlData</controlDataName>
+                <controlDataName>percentControlData</controlDataName>
               </motorTarget>
               <motorTarget>
                 <name>LeftFrontMotor</name>

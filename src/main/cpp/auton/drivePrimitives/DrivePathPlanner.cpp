@@ -81,6 +81,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
 }
 void DrivePathPlanner::Run()
 {
+
     ChassisMovement moveInfo;
     moveInfo.driveOption = ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER;
     moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
