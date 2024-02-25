@@ -44,5 +44,7 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
+		double m_targetSpeed = 525;
+		double m_targetAngle = 0;
 	};
 }
