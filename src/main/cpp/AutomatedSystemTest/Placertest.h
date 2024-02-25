@@ -15,19 +15,6 @@
 
 #pragma once
 
-#include "LauncherTest.h"
-#include "Placertest.h"
-#include "SwerveTest.h"
-class AutomatedSystemTest
+class Placertest
 {
-    AutomatedSystemTest() = default;
-    ~AutomatedSystemTest() = default;
-
-public:
-    void RunAllTests();
-
-private:
-    Placertest *Placertest;
-    LauncherTest *LauncherTest;
-    SwerveTest *SwerveTest;
 };
