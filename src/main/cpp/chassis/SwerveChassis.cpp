@@ -310,8 +310,13 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
 //==================================================================================
 void SwerveChassis::ResetPose(const Pose2d &pose)
 {
-    ResetYaw();
     Rotation2d rot2d{GetYaw()};
+    ZeroAlignSwerveModules();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Reset Pos Yaw"), rot2d.Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Target Pos Deg"), pose.Rotation().Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Target Pos X"), pose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Target Pos Y"), pose.Y().to<double>());
+
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
 }
 
