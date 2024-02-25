@@ -38,17 +38,18 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     if (std::abs(rot.to<double>()) < 0.1)
     {
         chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-        if (abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0 || abs(chassisMovement.chassisSpeeds.vy.to<double>() > 0.0))
+        if ((abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0) || (abs(chassisMovement.chassisSpeeds.vy.to<double>()) > 0.0))
         {
             correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainHeadingControl);
 
             chassisMovement.chassisSpeeds.omega += correction;
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Correction (dps)", correction.to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Stored Heading (deg)", chassis->GetStoredHeading().to<double>());
         }
     }
     else
     {
         chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Stored Heading (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Setting Stored Heading (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
     }
 }

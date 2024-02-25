@@ -96,7 +96,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                                         frc::Pose2d(),
                                                                         {0.1, 0.1, 0.1},
                                                                         {0.1, 0.1, 0.1}),
-                                                        m_storedYaw(m_pigeon->GetYaw().GetValue()),
+                                                        m_storedYaw(units::angle::degree_t(0.0)),
                                                         m_targetHeading(units::angle::degree_t(0.0)),
                                                         m_networkTableName(networkTableName)
 {
