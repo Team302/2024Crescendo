@@ -9,7 +9,8 @@
 <snippet file= "ShootWhenStop.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-pathname = "BlueAmpWing1Center0"/>
+pathname = "BlueAmpWing1Center0"
+noteOption = "STATE_FEEDER_INTAKE"/>
 
 <snippet file = "ShootWhenStop.xml"/>
 
