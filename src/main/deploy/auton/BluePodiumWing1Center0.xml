@@ -3,15 +3,13 @@
 <auton>
 
 <primitive id = "RESET_POSITION_PATH_PLANNER"
-pathname= "BluePodiumWing1Center0.path"/>
+           pathname= "BluePodiumWing1Center0"/>
 
 <snippet file = "ShootWhenStop.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname = "BluePodiumWing1Center0.path">
-
-<zone filename="BlueIntakeZoneWingNote3"/>
-
+          pathname = "BluePodiumWing1Center0">
+      <zone filename="BlueIntakeZoneWingNote3"/>
 </primitive>
 
 <snippet file = "ShootWhenStop.xml"/>
