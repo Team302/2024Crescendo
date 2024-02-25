@@ -51,16 +51,8 @@ void ReadyState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("run"));
 	m_genState->Run();
-	// Keeping the DIO logging until we setup both robots and confrim that switches are reliableß
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Front Intake Sensor"), m_mechanism->getfrontIntakeSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Back Intake Sensor"), m_mechanism->getbackIntakeSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Feeder Sensor"), m_mechanism->getfeederSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Launcher Sensor"), m_mechanism->getlauncherSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer In"), m_mechanism->getplacerInSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Mid"), m_mechanism->getplacerMidSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Placer Out"), m_mechanism->getplacerOutSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherTop()->GetRPS()).to<double>());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherBottom()->GetRPS()).to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>());
 }
 
 void ReadyState::Exit()
@@ -110,7 +102,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 			 ((currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH_ODOMETRY))))
 	{
 		m_launchTimer->Start();
-		if (m_launchTimer->Get().to<double>() > 0.5)
+		if (m_launchTimer->Get().to<double>() > 0.25)
 		{
 			transition = true;
 			m_launchTimer->Stop();

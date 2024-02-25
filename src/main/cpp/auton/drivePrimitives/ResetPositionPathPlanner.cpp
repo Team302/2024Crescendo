@@ -25,9 +25,9 @@
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/SwerveChassis.h"
 #include "utils/logging/Logger.h"
+#include "utils/FMSData.h"
 
 // Third Party Includes
-//#include "pathplanner/lib/path/PathPlannerTrajectory.h"
 #include "pathplanner/lib/path/PathPlannerPath.h"
 
 using namespace std;
@@ -46,6 +46,12 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
     if (chassis != nullptr)
     {
         auto path = PathPlannerPath::fromPathFile(param->GetPathName());
+
+        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+        {
+            path = path.get()->flipPath();
+        }
+
         if (path.get() != nullptr)
         {
             auto pose = path.get()->getPreviewStartingHolonomicPose();

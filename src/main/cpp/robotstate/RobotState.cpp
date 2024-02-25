@@ -74,10 +74,12 @@ void RobotState::Init()
 void RobotState::Run()
 {
     PublishGameStateChanges();
+    /** move to swervechassis
     if (m_chassis != nullptr)
     {
         m_chassis->UpdateOdometry();
     }
+    **/
 
     if (DriverStation::IsTeleopEnabled())
     {
