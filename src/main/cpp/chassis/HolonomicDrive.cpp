@@ -183,8 +183,9 @@ void HolonomicDrive::InitSpeeds(double forwardScale,
 {
     auto maxSpeed = m_swerve->GetMaxSpeed();
     auto maxAngSpeed = m_swerve->GetMaxAngularSpeed();
-    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed;
-    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed;
+    auto scale = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 1.0 : -1.0;
+    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed * scale;
+    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed * scale;
     m_moveInfo.chassisSpeeds.omega = rotateScale * maxAngSpeed;
 
     if ((abs(forwardScale) > 0.0) || (abs(strafeScale) > 0.0) || (abs(rotateScale) > 0.0))
