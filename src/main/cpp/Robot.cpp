@@ -129,9 +129,9 @@ void Robot::TeleopPeriodic()
         m_holonomic->Run();
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
+    DragonVision::GetDragonVision()->testAndLogVisionData();
 
-    Logger::GetLogger()
-        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
 void Robot::DisabledInit()
