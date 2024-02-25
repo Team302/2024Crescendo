@@ -197,33 +197,37 @@ units::angle::degree_t DragonLimelight::GetTy() const
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetYaw()
 {
-    if (std::abs(GetCameraRoll().to<double>()) < 1.0)
-    {
-        return -1.0 * GetTx();
-    }
-    else if (std::abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
-    {
-        return GetTy();
-    }
-    else if (std::abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
-    {
-        return GetTx();
-    }
-    else if (std::abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
-    {
-        return -1.0 * GetTy();
-    }
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("get target yaw"), std::string("reached"));
+    // if (std::abs(GetCameraRoll().to<double>()) < 1.0)
+    // {
+    //     return -1.0 * GetTx();
+    // }
+    // else if (std::abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
+    // {
+    //     return GetTy();
+    // }
+    // else if (std::abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
+    // {
+    //     return GetTx();
+    // }
+    // else if (std::abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
+    // {
+    //     return -1.0 * GetTy();
+    // }
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTx();
 }
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 {
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("get target yaw robot frame"), std::string("reached"));
     // Get the horizontal angle to the target and convert to radians
     std::optional<units::angle::radian_t> limelightFrameHorizAngleRad = GetTargetYaw();
     std::optional<units::length::inch_t> targetXdistance = EstimateTargetXDistance();
     if (limelightFrameHorizAngleRad && targetXdistance)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("get target yaw robot frame targetxdistance not null"), std::string("reached"));
+
         units::length::inch_t targetHorizOffset = targetXdistance.value() * tan(limelightFrameHorizAngleRad.value().to<double>());
 
         units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + GetMountingYOffset();    // the offset is positive if the limelight is to the left of the center of the robot
@@ -395,12 +399,18 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
     std::optional<int> aprilTagID = GetAprilTagID();
     if (!aprilTagID)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("estimate target x dist"), std::string("not apritag"));
+
         if (targetPitch)
         {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("targetpitch is not opt"), std::string("true"));
+
             double tangent = units::math::tan(mountingAngle + targetPitch.value());
 
             if (abs(tangent) < 0.01)
             {
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("tan is less than .01"), std::string("true"));
+                // tan is frequently (mabey always) less than .01 here
                 return std::nullopt;
             }
             else
@@ -519,20 +529,3 @@ std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 
     return std::nullopt;
 }
-
-// std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
-// {
-//     if (GetAprilTagID())
-//     {
-//         auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
-
-//         std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
-
-//         frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
-//         auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
-
-//         return VisionData{transform, transform.Translation(), rotation, GetAprilTagID().value()};
-//     }
-
-//     return std::nullopt;
-// }
