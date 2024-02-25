@@ -43,7 +43,7 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    chassis->SetYaw();
+    // chassis->SetYaw();
 
     if (chassis != nullptr)
     {
