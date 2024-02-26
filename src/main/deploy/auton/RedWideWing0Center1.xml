@@ -6,7 +6,7 @@
                 pathname= "BlueWideWing0Center1"
                 noteOption="STATE_HOLD_FEEDER"/>
 
-    <snippet file = "ShootWhenStop.xml"/>
+    <snippet file = "ShootWhenStopManual.xml"/>
 
     <primitive id = "DRIVE_PATH_PLANNER"
                 pathname= "BlueWideWing0Center1">
@@ -16,6 +16,6 @@
 
                 </primitive>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
     <!--Shoots the ring into the speaker with the preload and the intaken note- we're already across the line so we are done-->
 </auton>
