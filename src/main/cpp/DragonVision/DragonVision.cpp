@@ -27,7 +27,6 @@
 #include "DragonVision/DragonVisionStructLogger.h"
 #include "utils/logging/Logger.h"
 
-#include <string>
 // Third Party Includes
 
 DragonVision *DragonVision::m_dragonVision = nullptr;
@@ -556,6 +555,7 @@ DragonCamera::PIPELINE DragonVision::GetPipeline(RobotElementNames::CAMERA_USAGE
  */
 void DragonVision::testAndLogVisionData()
 {
+
 	try {
 		std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
 		DragonVisionStructLogger::logVisionData("VisionData", testData);
