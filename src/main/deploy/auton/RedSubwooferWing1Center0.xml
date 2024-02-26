@@ -6,7 +6,7 @@
                 pathname="BlueSubwooferWing1Center0"
                 noteOption="STATE_HOLD_FEEDER"/>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
 
     <primitive id= "DRIVE_PATH_PLANNER"
             pathname="BlueSubwooferWing1Center0">
@@ -15,7 +15,7 @@
 
             </primitive>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
 
 <!--No need for launching zones as we are launching at the very beginning and at the end-->
 
