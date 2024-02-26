@@ -45,15 +45,12 @@ void DriveToAmp::Init(ChassisMovement &chassisMovement)
         auto type = get<0>(aprilTagInfo);
         m_targetPose2d = get<1>(aprilTagInfo);
 
-        if (type == DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED)
+        if (type == DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED ||
+            type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
         {
             m_trajectory = CreateDriveToAmpTrajectory(currentPose2d, m_targetPose2d);
         }
-        else if (type != DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
-        {
-            m_trajectory = CreateDriveToAmpTrajectory(currentPose2d, m_targetPose2d);
         }
-    }
 }
 
 std::array<frc::SwerveModuleState, 4> DriveToAmp::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
@@ -61,9 +58,8 @@ std::array<frc::SwerveModuleState, 4> DriveToAmp::UpdateSwerveModuleStates(Chass
     m_oldTargetPose2d = m_targetPose2d;
     auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::AMP);
     m_targetPose2d = get<1>(aprilTagInfo);
-    m_makeTrajectory = m_targetPose2d != m_oldTargetPose2d;
 
-    if (m_makeTrajectory)
+    if (m_targetPose2d != m_oldTargetPose2d)
     {
         Init(chassisMovement);
     }
