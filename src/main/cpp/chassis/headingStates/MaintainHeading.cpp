@@ -39,20 +39,20 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     {
         chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Setting Stored Heading (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
+        if (units::angle::degree_t(abs(chassis->GetPose().Rotation().Degrees().to<double>())) < units::angle::degree_t(10.0))
+            chassis->SetStoredHeading(units::angle::degree_t(0.0));
+        else if (chassis->GetPose().Rotation().Degrees() < units::angle::degree_t(100.0) && chassis->GetPose().Rotation().Degrees() > units::angle::degree_t(80.0))
+            chassis->SetStoredHeading(units::angle::degree_t(90.0));
+        else if (chassis->GetPose().Rotation().Degrees() > units::angle::degree_t(-100.0) && chassis->GetPose().Rotation().Degrees() < units::angle::degree_t(-80.0))
+            chassis->SetStoredHeading(units::angle::degree_t(-90));
+        else if (units::angle::degree_t(abs(chassis->GetPose().Rotation().Degrees().to<double>())) > units::angle::degree_t(165.0))
+            chassis->SetStoredHeading(units::angle::degree_t(180.0));
     }
     else
     {
         chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
         if ((abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0) || (abs(chassisMovement.chassisSpeeds.vy.to<double>()) > 0.0))
         {
-            if (abs(chassis->GetStoredHeading()) < units::angle::degree_t(5.0))
-                chassis->SetStoredHeading(units::angle::degree_t(0));
-            else if (chassis->GetStoredHeading() < units::angle::degree_t(95) && chassis->GetStoredHeading() > units::angle::degree_t(85))
-                chassis->SetStoredHeading(units::angle::degree_t(90));
-            else if (chassis->GetStoredHeading() > units::angle::degree_t(-95) && chassis->GetStoredHeading() < units::angle::degree_t(-85))
-                chassis->SetStoredHeading(units::angle::degree_t(-90));
-            else if (abs(chassis->GetStoredHeading()) > units::angle::degree_t(175.0))
-                chassis->SetStoredHeading(units::angle::degree_t(180));
 
             correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainHeadingControl);
             chassisMovement.chassisSpeeds.omega += correction;
