@@ -3,13 +3,20 @@
 <auton>
 
         <primitive id= "RESET_POSITION_PATH_PLANNER"
-                    pathname= "BlueSubwooferWing1Center1"/>
+                    pathname= "BlueSubwooferWing1Center1"
+                noteOption="STATE_HOLD_FEEDER"/>
 
 
         <snippet file= "ShootWhenStop.xml"/>
 
         <primitive id= "DRIVE_PATH_PLANNER"
-                    pathname= "BlueSubwooferWing1Center1"/>
+                    pathname= "BlueSubwooferWing1Center1">
+
+            <zone filename="BlueIntakeCenterNote1.xml"/>
+            <zone filename="BlueIntakeWingNote2.xml"/>
+
+                <zone filename = "BlueLaunchingZoneWingNote2.xml"/>
+        </primitive>
 
         <!--In the zone: 
         (to Launch) Q9-S11

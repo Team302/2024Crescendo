@@ -70,7 +70,8 @@ void HolonomicDrive::Run()
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
         auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE);
-        auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_SPEAKER);
+
+        auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
         auto isAlignWithLeftStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_LEFT_STAGE_TRAP);
         auto isAlignWithCenterStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_CENTER_STAGE_TRAP);
         auto isAlignWithRightStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_RIGHT_STAGE_TRAP);
@@ -128,10 +129,10 @@ void HolonomicDrive::Run()
             }
             else
             {
-                if (m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER)
+                if ((m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER))
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05))
+                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.001) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
                     {
                         m_previousDriveState = m_moveInfo.driveOption;
                         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
@@ -145,7 +146,13 @@ void HolonomicDrive::Run()
             SlowMode();
         }
 
+        if (units::math::abs(m_moveInfo.chassisSpeeds.omega).to<double>() > 0.03)
+        {
+            m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+        }
+
         CheckTipping(checkTipping);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Heading Option", m_moveInfo.headingOption);
         m_swerve->Drive(m_moveInfo);
     }
     else
@@ -175,9 +182,15 @@ void HolonomicDrive::InitSpeeds(double forwardScale,
 {
     auto maxSpeed = m_swerve->GetMaxSpeed();
     auto maxAngSpeed = m_swerve->GetMaxAngularSpeed();
-    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed;
-    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed;
+    // auto scale = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 1.0 : -1.0;
+    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed * -1.0;
+    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed * -1.0;
     m_moveInfo.chassisSpeeds.omega = rotateScale * maxAngSpeed;
+
+    if ((abs(forwardScale) > 0.0) || (abs(strafeScale) > 0.0) || (abs(rotateScale) > 0.0))
+    {
+        m_moveInfo.pathplannerTrajectory = pathplanner::PathPlannerTrajectory();
+    }
 }
 
 void HolonomicDrive::ResetPose()
