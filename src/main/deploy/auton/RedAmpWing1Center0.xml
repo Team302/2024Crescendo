@@ -2,10 +2,11 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<snippet file = "ShootWhenStop.xml"/>
-
 <primitive id = "RESET_POSITION_PATH_PLANNER"
-pathname = "BlueAmpWing1Center0"/>
+            pathname = "BlueAmpWing1Center0"
+                noteOption="STATE_HOLD_FEEDER"/>
+
+<snippet file = "ShootWhenStop.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname = "BlueAmpWing1Center0">

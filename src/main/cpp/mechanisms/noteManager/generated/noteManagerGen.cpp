@@ -340,10 +340,10 @@ void noteManagerGen::CreateCompBot302()
 	    ControlModes::CONTROL_TYPE::PERCENT_OUTPUT, // ControlModes::CONTROL_TYPE mode
 	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
 	    "velocityRPSLaunch", // std::string indentifier
-	    0, // double proportional
+	    6E-06, // double proportional
 	    0, // double integral
 	    0, // double derivative
-	    0.0001825, // double feedforward
+	    0.00019, // double feedforward
 	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
 	    0, // double integralZone
 	    0, // double maxAcceleration

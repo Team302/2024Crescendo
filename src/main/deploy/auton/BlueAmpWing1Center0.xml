@@ -3,12 +3,17 @@
 <auton>
 
 <primitive id= "RESET_PATH_PLANNER"
-pathname = "BlueAmpWing1Center0"/>
+            pathname = "BlueAmpWing1Center0"
+            noteOption="STATE_HOLD_FEEDER"/>
 
 <snippet file= "ShootWhenStop.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-pathname = "BlueAmpWing1Center0"/>
+pathname = "BlueAmpWing1Center0"
+noteOption = "STATE_FEEDER_INTAKE"/>
+
+<primitive id = "DO_NOTHING"
+noteOption = "STATE_READY_AUTO_LAUNCH"/>
 
 <snippet file = "ShootWhenStop.xml"/>
 
