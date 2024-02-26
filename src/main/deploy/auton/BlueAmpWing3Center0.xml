@@ -3,18 +3,29 @@
 <auton>
 
     <primitive id = "RESET_POSITION_PATH_PLANNER"
-                pathname= "BlueAmpWing3Center0"/>
+                pathname= "BlueAmpWing3Center0"
+                noteOption="STATE_HOLD_FEEDER"/>
 
     <snippet file= "ShootWhenStop.xml"/>
 
     <primitive id= "DRIVE_PATH_PLANNER"
-                pathname= "BlueAmpWing3Center0"/>
+                pathname= "BlueAmpWing3Center0">
+                
+             <zone filename="BlueIntakeWingNote1.xml"/>
+            <zone filename="BlueIntakeWingNote2.xml"/>
+            <zone filename="BlueIntakeWingNote3.xml"/>
+
+                <zone filename = "BlueLaunchingZoneAmpNote1.xml"/>
+                <zone filename = "BlueLaunchingZoneWingNote2.xml"/>
+                <zone filename = "BlueLaunchingZoneWingNote3.xml"/>
+
+</primitive>
 
     <snippet file= "ShootWhenStop.xml"/>
 
     <!--Launching zones: 
     V9-X11
-    Q7-S9
+    Q9-S11
     M8-O10-->
 
 </auton>
