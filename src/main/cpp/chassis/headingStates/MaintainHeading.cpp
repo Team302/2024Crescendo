@@ -45,11 +45,17 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
         if ((abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0) || (abs(chassisMovement.chassisSpeeds.vy.to<double>()) > 0.0))
         {
-            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainHeadingControl);
+            if (abs(chassis->GetStoredHeading()) < units::angle::degree_t(5.0))
+                chassis->SetStoredHeading(units::angle::degree_t(0));
+            else if (chassis->GetStoredHeading() < units::angle::degree_t(95) && chassis->GetStoredHeading() > units::angle::degree_t(85))
+                chassis->SetStoredHeading(units::angle::degree_t(90));
+            else if (chassis->GetStoredHeading() > units::angle::degree_t(-95) && chassis->GetStoredHeading() < units::angle::degree_t(-85))
+                chassis->SetStoredHeading(units::angle::degree_t(-90));
+            else if (abs(chassis->GetStoredHeading()) > units::angle::degree_t(175.0))
+                chassis->SetStoredHeading(units::angle::degree_t(180));
 
+            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainHeadingControl);
             chassisMovement.chassisSpeeds.omega += correction;
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Correction (dps)", correction.to<double>());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Stored Heading (deg)", chassis->GetStoredHeading().to<double>());
         }
     }
 }
