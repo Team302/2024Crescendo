@@ -198,22 +198,23 @@ units::angle::degree_t DragonLimelight::GetTy() const
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetYaw()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("get target yaw"), std::string("reached"));
-    // if (std::abs(GetCameraRoll().to<double>()) < 1.0)
-    // {
-    //     return -1.0 * GetTx();
-    // }
-    // else if (std::abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
-    // {
-    //     return GetTy();
-    // }
-    // else if (std::abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
-    // {
-    //     return GetTx();
-    // }
-    // else if (std::abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
-    // {
-    //     return -1.0 * GetTy();
-    // }
+    if (std::abs(GetCameraRoll().to<double>()) < 1.0)
+    {
+        return -1.0 * GetTx();
+    }
+    else if (std::abs(GetCameraRoll().to<double>() - 90.0) < 1.0)
+    {
+        return GetTy();
+    }
+    else if (std::abs(GetCameraRoll().to<double>() - 180.0) < 1.0)
+    {
+        return GetTx();
+    }
+    else if (std::abs(GetCameraRoll().to<double>() - 270.0) < 1.0)
+    {
+        return -1.0 * GetTy();
+    }
+    // uncommenting this block might fix issue
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTx();
 }
@@ -242,7 +243,10 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitch()
 {
-
+    if (GetCameraRoll().to<double>() != 0)
+    {
+        return GetTy();
+    }
     if (std::abs(GetCameraRoll().to<double>()) < 1.0)
     {
         return GetTy();
@@ -406,10 +410,12 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("targetpitch is not opt"), std::string("true"));
 
             double tangent = units::math::tan(mountingAngle + targetPitch.value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("tangent"), tangent);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("mountangle"), mountingAngle.to<double>());
 
-            if (abs(tangent) < 0.01)
+            if (tangent == 0)
             {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("tan is less than .01"), std::string("true"));
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("tan is 0"), std::string("true"));
                 // tan is frequently (mabey always) less than .01 here
                 return std::nullopt;
             }
