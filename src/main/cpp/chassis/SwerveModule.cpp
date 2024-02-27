@@ -139,7 +139,7 @@ SwerveModuleState SwerveModule::GetState() const
 frc::SwerveModulePosition SwerveModule::GetPosition() const
 {
     double rotations = 0.0;
-    rotations = m_driveTalon->GetPosition().GetValueAsDouble();
+    rotations = m_driveTalon->GetPosition().GetValueAsDouble() / 6.12;
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
 
@@ -207,7 +207,7 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 /// @return void
 void SwerveModule::StopMotors()
 {
-    // TODO: add method to stop motor and do it for both turn and drive motors
+    SetDriveSpeed(0_mps);
 }
 
 //==================================================================================
@@ -313,6 +313,8 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
 
         ccConfigs.MagnetSensor.MagnetOffset = angleOffset;
         ccConfigs.MagnetSensor.SensorDirection = canCoderInverted ? SensorDirectionValue::Clockwise_Positive : SensorDirectionValue::CounterClockwise_Positive;
+        ccConfigs.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue::Signed_PlusMinusHalf;
+
         m_turnCancoder->GetConfigurator().Apply(ccConfigs);
     }
 }

@@ -181,6 +181,11 @@
       <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME.cpp</outputFilePathName>
     </codeTemplateFile>
     <codeTemplateFile>
+      <name>MechanismInstance_decorated_cpp</name>
+      <templateFilePathName>..\..\templates\MechanismInstance_decorated.cpp</templateFilePathName>
+      <outputFilePathName>mechanisms\MECHANISM_INSTANCE_NAME_decorated.cpp</outputFilePathName>
+    </codeTemplateFile>
+    <codeTemplateFile>
       <name>RobotConfigMgr_h</name>
       <templateFilePathName>..\..\templates\RobotConfigMgr.h</templateFilePathName>
       <outputFilePathName>configs\RobotConfigMgr.h</outputFilePathName>

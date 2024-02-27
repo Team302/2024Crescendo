@@ -16,6 +16,7 @@
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
 #include "driveteamfeedback/DriverFeedback.h"
+#include "mechanisms/noteManager/generated/noteManagerGen.h"
 #include "PeriodicLooper.h"
 #include "Robot.h"
 #include "robotstate/RobotState.h"
@@ -116,6 +117,17 @@ void Robot::TeleopInit()
     {
         m_holonomic->Init();
     }
+
+    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    if (config != nullptr)
+    {
+        auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+        if (noteMgr != nullptr)
+        {
+            noteMgr->SetCurrentState(noteManagerGen::STATE_NAMES::STATE_READY, true);
+        }
+    }
+
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("end"));
@@ -130,7 +142,8 @@ void Robot::TeleopPeriodic()
     }
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
+    Logger::GetLogger()
+        ->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
 }
 
 void Robot::DisabledInit()
