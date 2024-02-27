@@ -111,6 +111,7 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
                                             units::angle::degree_t target,
                                             double kp)
 {
+    chassis->SetStoredHeading(target);
     if (chassis != nullptr)
     {
         units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
@@ -125,6 +126,5 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
             chassisMovement.chassisSpeeds.omega += correction;
             // }
         }
-        chassis->SetStoredHeading(target);
     }
 }
