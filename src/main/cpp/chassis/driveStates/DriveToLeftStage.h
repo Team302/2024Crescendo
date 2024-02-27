@@ -21,23 +21,39 @@
 #include "auton/PrimitiveParams.h"
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "chassis/SwerveChassis.h"
+#include "chassis/DragonDriveTargetFinder.h"
+#include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
+#include "chassis/driveStates/RobotDrive.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
+#include "pathplanner/lib/path/PathPlannerPath.h"
+#include "chassis/ChassisMovement.h"
 
-class DriveToLeftStage
+class DriveToLeftStage : public TrajectoryDrivePathPlanner
 {
 public:
-    DriveToLeftStage();
+    DriveToLeftStage(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
     ~DriveToLeftStage() = default;
 
-    pathplanner::PathPlannerTrajectory CreateDriveToLeftStagePath();
+    pathplanner::PathPlannerTrajectory CreateDriveToLeftStagePath(frc::Pose2d currentPose2d, frc::Pose2d targetPose2d);
+
+    void Init(ChassisMovement &chassisMovement) override;
+
+    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
+        ChassisMovement &chassisMovement) override;
 
 private:
     frc::Pose2d GetAprilTagPose2d();
 
     SwerveChassis *m_chassis;
     DragonVision *m_dragonVision;
+    DragonDriveTargetFinder *m_dragonDriveTargetFinder;
+    TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
+
+    pathplanner::PathPlannerTrajectory m_trajectory;
+    frc::Pose2d m_targetPose2d;
+    frc::Pose2d m_oldTargetPose2d = frc::Pose2d();
 
     const units::meters_per_second_t m_maxVel = 3.0_mps;
     const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;
