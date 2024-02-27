@@ -39,5 +39,5 @@ protected:
     virtual DragonVision::VISION_ELEMENT GetVisionElement() const = 0;
 
 private:
-    const double m_kp = 2.0;
+    const double m_kp = 6.0;
 };
