@@ -21,6 +21,8 @@
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 
+#include "utils/logging/Logger.h"
+
 StopDrive::StopDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                m_robotDrive(robotDrive)
 {
@@ -42,6 +44,7 @@ void StopDrive::Init(ChassisMovement &chassisMovement)
         {
             auto currState = module->GetState();
             m_flState->angle = currState.angle;
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "StopDrive", "fl", currState.angle.Degrees().to<double>());
         }
 
         module = m_chassis->GetFrontRight();
@@ -49,6 +52,7 @@ void StopDrive::Init(ChassisMovement &chassisMovement)
         {
             auto currState = module->GetState();
             m_frState->angle = currState.angle;
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "StopDrive", "fr", currState.angle.Degrees().to<double>());
         }
 
         module = m_chassis->GetBackLeft();
@@ -56,6 +60,7 @@ void StopDrive::Init(ChassisMovement &chassisMovement)
         {
             auto currState = module->GetState();
             m_blState->angle = currState.angle;
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "StopDrive", "bl", currState.angle.Degrees().to<double>());
         }
 
         module = m_chassis->GetBackRight();
@@ -63,6 +68,7 @@ void StopDrive::Init(ChassisMovement &chassisMovement)
         {
             auto currState = module->GetState();
             m_brState->angle = currState.angle;
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "StopDrive", "br", currState.angle.Degrees().to<double>());
         }
     }
 

@@ -2,7 +2,7 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 
 <auton>
-    <primitive id="DO_NOTHING"
+ <primitive id="DO_NOTHING"
                noteOption="STATE_AUTO_LAUNCH"
-               time="0.5"/>
+               time="2.0"/>
 </auton>

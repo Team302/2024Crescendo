@@ -25,6 +25,9 @@
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "utils/FMSData.h"
 
+/// DEBUGGING
+#include "utils/logging/Logger.h"
+
 using frc::Pose2d;
 using frc::Pose3d;
 using std::make_tuple;
@@ -114,12 +117,13 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
         if (std::abs(rot.to<double>()) < 0.1)
         {
             chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-            if (abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0 ||
-                abs(chassisMovement.chassisSpeeds.vy.to<double>() > 0.0))
-            {
-                auto correction = ISwerveDriveOrientation::CalcHeadingCorrection(chassis->GetStoredHeading(), kp);
-                chassisMovement.chassisSpeeds.omega += correction;
-            }
+            // if (abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0 ||
+            //     abs(chassisMovement.chassisSpeeds.vy.to<double>() > 0.0))
+            // {
+            auto correction = ISwerveDriveOrientation::CalcHeadingCorrection(chassis->GetStoredHeading(), kp);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "FaceSpeakerCorrection (degpersec)", correction.to<double>());
+            chassisMovement.chassisSpeeds.omega += correction;
+            // }
         }
         chassis->SetStoredHeading(target);
     }

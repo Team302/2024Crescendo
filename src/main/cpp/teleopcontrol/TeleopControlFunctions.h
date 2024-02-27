@@ -37,8 +37,6 @@ public:
         SLOW_MODE,
         AUTO_TURN_FORWARD,
         AUTO_TURN_BACKWARD,
-        // Standish raw vision
-        ALIGN_TO_SPEAKER,
         ALIGN_TO_AMP,
         ALIGN_TO_CENTER_STAGE_TRAP,
         ALIGN_TO_LEFT_STAGE_TRAP,

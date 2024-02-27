@@ -30,6 +30,7 @@ void ChassisConfigCompBot_302::DefinePigeon()
     MountPoseConfigs config{};
     config.MountPoseYaw = 90;
     m_pigeon2->GetConfigurator().Apply(config);
+    m_pigeon2->Reset();
 }
 
 void ChassisConfigCompBot_302::DefineChassis()

@@ -19,6 +19,8 @@
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 
+#include "utils/logging/Logger.h"
+
 SpecifiedHeading::SpecifiedHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE),
                                        m_targetAngle(units::angle::degree_t(0.0))
 {
@@ -27,6 +29,8 @@ SpecifiedHeading::SpecifiedHeading() : ISwerveDriveOrientation(ChassisOptionEnum
 void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     m_targetAngle = chassisMovement.yawAngle;
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner Pose2d", "Target Angle Specified", m_targetAngle.to<double>());
+
     chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(m_targetAngle, m_kPGoalHeadingControl);
 
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();

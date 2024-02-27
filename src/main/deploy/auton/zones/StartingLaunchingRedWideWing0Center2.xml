@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "zone.dtd">
+
+<auton>
+      <zone ygrid1="Y_42"
+            xgrid1="X_L"
+            ygrid2="Y_45"
+            xgrid2="X_I" 
+            noteOption="STATE_AUTO_LAUNCH"/>
+</auton>

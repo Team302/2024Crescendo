@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+        <primitive id= "RESET_POSITION_PATH_PLANNER"
+                    pathname= "BlueWideWing0Center3"/>
+
+                    <zone filename = "StartingLaunchingBlueWideWing0Center3.xml"/>
+
+        <primitive id= "DRIVE_PATH_PLANNER"
+                    pathname= "BlueWideWing0Center3">
+            <zone filename = "BlueLaunchingZoneWingNote2.xml"/>
+            <zone filename="BlueIntakeCenterNote5.xml"/>
+            <zone filename= "LaunchingBlueWideWing0Center3and2.xml"/>
+            <zone filename="BlueIntakeCenterNote4.xml"/>
+            <zone filename= "LaunchingBlueWideWing0Center3and2.xml"/>
+            <zone filename="BlueIntakeCenterNote3.xml"/>
+            <zone filename= "LaunchingBlueWideWing0Center3and2.xml"/>
+
+
+</auton>

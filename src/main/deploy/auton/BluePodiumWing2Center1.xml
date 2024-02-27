@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+        <primitive id= "RESET_POSITION_PATH_PLANNER"
+                    pathname= "BluePodiumWing2Center0"
+                noteOption="STATE_HOLD_FEEDER"/>
+
+        <snippet file= "ShootWhenStopManual.xml"/>
+
+        <primitive id= "DRIVE_PATH_PLANNER"
+                    pathname = "BluePodiumWing2Center0">
+                    
+            <zone filename="BlueIntakeWingNote2.xml"/>
+            <zone filename="BlueIntakeWingNote3.xml"/>
+            <zone filename = "BlueIntakeCenterNote2.xml"/>
+
+                <zone filename = "BlueLaunchingZoneWingNote2.5.xml"/>
+                <zone filename = "BlueLaunchingZoneWingNote2.xml"/>
+
+
+                    </primitive>
+
+        <snippet file= "ShootWhenStopManual.xml"/>
+
+        <!--Zone to launch: 7S-9U-->
+
+</auton>

@@ -22,6 +22,10 @@
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose3d.h"
 
+/// DEBUGGING
+#include "utils/logging/Logger.h"
+#include "DragonVision/DragonVisionStructLogger.h"
+
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerveDriveOrientation(headingOption)
 {
 }
@@ -34,8 +38,22 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         auto info = finder->GetPose(GetVisionElement());
         auto type = get<0>(info);
         auto targetPose = get<1>(info);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "FaceSpeakerX", targetPose.X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "FaceSpeakerY", targetPose.Y().to<double>());
 
-        if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+        std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(GetVisionElement());
+        if (testVisionData)
+        {
+            auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+            auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+            if (chassis != nullptr)
+            {
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "TransRotation (deg)", units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>());
+                DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, testVisionData.value().rotationToTarget.Z(), m_kp);
+            }
+        }
+
+        /*if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
@@ -43,8 +61,9 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             {
                 auto currentPose = chassis->GetPose();
                 auto trans = currentPose - targetPose;
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "TransRotation (deg)", trans.Rotation().Degrees().to<double>());
                 DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, trans.Rotation().Degrees(), m_kp);
             }
-        }
+        }*/
     }
 }

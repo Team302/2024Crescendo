@@ -95,8 +95,11 @@ std::array<int, 3> DragonLeds::getColorValues(Colors c)
 
 void DragonLeds::commitLedData()
 {
-    std::span ledSpan{m_ledBuffer.data(), m_ledBuffer.size()};
-    m_addressibleLeds->SetData(ledSpan);
+    if (m_ledBuffer.size() > 0)
+    {
+        std::span ledSpan{m_ledBuffer.data(), m_ledBuffer.size()};
+        m_addressibleLeds->SetData(ledSpan);
+    }
 }
 
 void DragonLeds::setBufferAllLEDsColor(std::array<int, 3> color)
