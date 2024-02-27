@@ -3,17 +3,22 @@
 <auton>
 
 <primitive id = "RESET_POSITION_PATH_PLANNER"
-           pathname= "BluePodiumWing1Center0"/>
+           pathname= "BluePodiumWing1Center1"
+           noteOption="STATE_HOLD_FEEDER"/>
 
-<snippet file = "ShootWhenStop.xml"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-          pathname = "BluePodiumWing1Center0">
-      <zone filename="BlueIntakeZoneWingNote3"/>
+<snippet file = "ShootWhenStopManual.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+            pathname= "BluePodiumWing1Center1"
+            time = "7.0"
+            noteOption = "STATE_FEEDER_INTAKE">
+
 </primitive>
 
-<snippet file = "ShootWhenStop.xml"/>
 
-<!--All launching zones in this autonomous path are before we start the path and after the path cycles through, so we are okay-->
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id = "DO_NOTHING"/>
 
 </auton>
