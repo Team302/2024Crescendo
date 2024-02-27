@@ -11,10 +11,14 @@
 
 <primitive id = "DRIVE_PATH_PLANNER"
             pathname= "BluePodiumWing1Center1"
-            time = "7.0">
+            time = "7.0"
+            noteOption = "STATE_FEEDER_INTAKE">
 
 </primitive>
 
+
 <snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id = "DO_NOTHING"/>
 
 </auton>
