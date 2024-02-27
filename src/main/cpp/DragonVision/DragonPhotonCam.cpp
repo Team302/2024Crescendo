@@ -350,18 +350,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance_Re
 
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-        // get the most accurate data according to contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        return target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
-    }
-
-    return std::nullopt;
+    return DragonPhotonCalculator::EstimateTargetXDistance_RelToRobotCoords(m_robotCenterToCam, result);
 }
 
 /// @brief Estimate the Y distance to the detected target in relation to robot
@@ -372,18 +361,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance_Re
 
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-        // get the most accurate data according to contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        return target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
-    }
-
-    return std::nullopt;
+    return DragonPhotonCalculator::EstimateTargetYDistance_RelToRobotCoords(m_robotCenterToCam, result);
 }
 
 /// @brief Estimate the Z distance to the detected target in relation to robot
@@ -395,19 +373,9 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance_Re
 
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-        // get the most accurate data according to contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        return target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
-    }
-
-    return std::nullopt;
+    return DragonPhotonCalculator::EstimateTargetZDistance_RelToRobotCoords(m_robotCenterToCam, result);
 }
+
 bool DragonPhotonCam::UpdatePipeline()
 {
     m_camera->SetPipelineIndex(static_cast<int>(m_pipeline));

@@ -5,6 +5,56 @@ units::length::meter_t DragonPhotonCalculator::GetElementVerticalOffset()
     return units::length::inch_t(0.0);
 }
 
+std::optional<units::length::inch_t> DragonPhotonCalculator::EstimateTargetXDistance_RelToRobotCoords(frc::Transform3d robotCenterToCamTransform, photon::PhotonPipelineResult result)
+{
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+
+    // check for detections
+    if (result.HasTargets())
+    {
+        // get the most accurate data according to contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
+        return target.GetBestCameraToTarget().X() + robotCenterToCamTransform.X();
+    }
+
+    return std::nullopt;
+}
+
+std::optional<units::length::inch_t> DragonPhotonCalculator::EstimateTargetYDistance_RelToRobotCoords(frc::Transform3d robotCenterToCamTransform, photon::PhotonPipelineResult result)
+{
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+    // check for detections
+    if (result.HasTargets())
+    {
+        // get the most accurate data according to contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
+        return target.GetBestCameraToTarget().Y() + robotCenterToCamTransform.Y();
+    }
+
+    return std::nullopt;
+}
+
+std::optional<units::length::inch_t> DragonPhotonCalculator::EstimateTargetZDistance_RelToRobotCoords(frc::Transform3d robotCenterToCamTransform, photon::PhotonPipelineResult result)
+{
+    ///@TODO: May have problems when Multi-tag is enabled, data may not come through
+
+    // check for detections
+    if (result.HasTargets())
+    {
+        // get the most accurate data according to contour ranking
+        photon::PhotonTrackedTarget target = result.GetBestTarget();
+
+        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
+        return target.GetBestCameraToTarget().Z() + robotCenterToCamTransform.Z();
+    }
+
+    return std::nullopt;
+}
+
 std::optional<units::angle::degree_t> DragonPhotonCalculator::GetTargetPitchRobotFrame(frc::Pose3d cameraPose, photon::PhotonPipelineResult result)
 {
 
