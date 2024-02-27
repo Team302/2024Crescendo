@@ -53,22 +53,23 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
         auto chassis = chassisConfig->GetSwerveChassis();
 
         auto vision = DragonVision::GetDragonVision();
-        /*if (vision != nullptr)
+        if (vision != nullptr)
         {
             auto data = vision->GetVisionData(item);
             if (data)
             {
-                auto currentPose{Pose3d(chassis->GetPose())};
-                auto trans3d = data.value().transformToTarget;
-                auto targetPose = currentPose + trans3d;
-                auto pose2d = targetPose.ToPose2d();
+                // auto currentPose{Pose3d(chassis->GetPose())};
+                // auto trans3d = data.value().transformToTarget;
+                // auto targetPose = currentPose + trans3d;
+                auto targetPose = data.ToPose2d();
 
                 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, pose2d);
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, targetPose);
 
                 return targetInfo;
             }
-        }*/
+        }
+        * /
     }
 
     int aprilTag = -1;

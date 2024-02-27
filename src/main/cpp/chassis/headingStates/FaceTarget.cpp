@@ -41,7 +41,6 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Speaker X", targetPose.X().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Speaker Y", targetPose.Y().to<double>());
 
-        /*
         std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(GetVisionElement());
         if (testVisionData)
         {
@@ -49,10 +48,15 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             if (chassis != nullptr)
             {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "TransRotation (deg)", units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>());
-                DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, testVisionData.value().rotationToTarget.Z(), m_kp);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Z Rotation (deg)", units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Y Rotation (deg)", units::angle::degree_t(testVisionData.value().rotationToTarget.X()).to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "X Rotation (deg)", units::angle::degree_t(testVisionData.value().rotationToTarget.Y()).to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision X", testVisionData.value().X().to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Y", testVisionData.value().Y().to<double>());
+
+                // DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, testVisionData.value().rotationToTarget.Z(), m_kp);
             }
-        }*/
+        }
 
         // if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         //{
@@ -72,7 +76,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "correction (deg)", correction.to<double>());
 
             DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, correction, m_kp);
-            //}
         }
+        // }
     }
 }
