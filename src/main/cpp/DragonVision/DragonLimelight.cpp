@@ -197,7 +197,6 @@ units::angle::degree_t DragonLimelight::GetTy() const
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetYaw()
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("get target yaw"), std::string("reached"));
     if (std::abs(GetCameraRoll().to<double>()) < 1.0)
     {
         return -1.0 * GetTx();
@@ -221,20 +220,24 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYaw()
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("get target yaw robot frame"), std::string("reached"));
     // Get the horizontal angle to the target and convert to radians
     std::optional<units::angle::radian_t> limelightFrameHorizAngleRad = GetTargetYaw();
     std::optional<units::length::inch_t> targetXdistance = EstimateTargetXDistance();
     if (limelightFrameHorizAngleRad && targetXdistance)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("get target yaw robot frame targetxdistance not null"), std::string("reached"));
-
         units::length::inch_t targetHorizOffset = targetXdistance.value() * tan(limelightFrameHorizAngleRad.value().to<double>());
 
         units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + GetMountingYOffset();    // the offset is positive if the limelight is to the left of the center of the robot
         units::length::inch_t targetDistanceRobotFrame = targetXdistance.value() + GetMountingXOffset(); // the offset is negative if the limelight is behind the center of the robot
 
         units::angle::radian_t angleOffset = units::math::atan2(targetHorizOffsetRobotFrame, targetDistanceRobotFrame);
+        if (GetTy().to<double>() < 0)
+        {
+            double angleOffsetdouble = angleOffset.to<double>();
+            angleOffsetdouble += 3.14159265;
+            units::angle::radian_t angleoffsetrad(angleOffsetdouble);
+            return angleoffsetrad;
+        }
         return angleOffset;
     }
 
@@ -243,10 +246,6 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitch()
 {
-    if (GetCameraRoll().to<double>() != 0)
-    {
-        return GetTy();
-    }
     if (std::abs(GetCameraRoll().to<double>()) < 1.0)
     {
         return GetTy();
@@ -263,7 +262,7 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitch()
     {
         return -1.0 * GetTx();
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTy();
 }
 
@@ -274,7 +273,6 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitchRobotFrame(
 
     if (targetXDistance && targetZDistance)
     {
-
         units::angle::degree_t targetPitchToRobot = units::angle::degree_t(atan2(targetZDistance.value().to<double>(), targetXDistance.value().to<double>()));
         return targetPitchToRobot;
     }
@@ -403,20 +401,11 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
     std::optional<int> aprilTagID = GetAprilTagID();
     if (!aprilTagID)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("estimate target x dist"), std::string("not apritag"));
-
         if (targetPitch)
         {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("targetpitch is not opt"), std::string("true"));
-
             double tangent = units::math::tan(mountingAngle + targetPitch.value());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("tangent"), tangent);
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("mountangle"), mountingAngle.to<double>());
-
             if (tangent == 0)
             {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("tan is 0"), std::string("true"));
-                // tan is frequently (mabey always) less than .01 here
                 return std::nullopt;
             }
             else

@@ -515,7 +515,7 @@ void DragonVision::testAndLogVisionData()
 {
 	try
 	{
-		std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
+		std::optional<VisionData> testData = GetVisionData(VISION_ELEMENT::NOTE);
 		DragonVisionStructLogger::logVisionData("VisionData", testData);
 	}
 	catch (std::bad_optional_access &boa)
