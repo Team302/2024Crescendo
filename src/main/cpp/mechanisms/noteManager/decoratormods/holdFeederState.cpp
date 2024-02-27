@@ -71,7 +71,7 @@ bool holdFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 	bool feederSensor = m_mechanism->getfeederSensor()->Get();
 	bool launcherSensor = m_mechanism->getlauncherSensor()->Get();
 	auto currentstate = m_mechanism->GetCurrentState();
-	bool visionTargetAcquired = m_mechanism->HasVisionTarget();
+	bool visionTargetAcquired = false; // m_mechanism->HasVisionTarget();
 
 	return ((feederSensor && launcherSensor && (currentstate == m_mechanism->STATE_FEEDER_INTAKE)) || ((currentstate == m_mechanism->STATE_READY_AUTO_LAUNCH) && visionTargetAcquired == false));
 }

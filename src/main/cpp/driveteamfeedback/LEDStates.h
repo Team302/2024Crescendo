@@ -40,6 +40,8 @@ private:
     int loopThroughIndividualLEDs = -1;
     int colorLoop = 0;
     int timer;
+    bool switchColor = false;
+    std::array<int, 3U> color = m_LEDstring->getColorValues(DragonLeds::BLACK);
     static LEDStates *m_instance;
 
     const int blinkPatternPeriod = 10;

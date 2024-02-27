@@ -1972,14 +1972,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>50</value>
+                <value>30</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>50</value>
+                <value>30</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
@@ -2149,14 +2149,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>50</value>
+                <value>30</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>50</value>
+                <value>30</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
@@ -2593,14 +2593,14 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.01625</value>
+                <value>0.04</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>1.006E-06</value>
+                <value>5E-06</value>
               </iGain>
               <dGain>
                 <unitsFamily>none</unitsFamily>
@@ -2621,7 +2621,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.035</value>
+                <value>0.5</value>
               </iZone>
             </PID>
             <peakValue>
@@ -3971,7 +3971,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0.75</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -3983,7 +3983,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0.75</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4327,7 +4327,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0.75</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4339,7 +4339,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0.75</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4351,7 +4351,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>26</value>
+                  <value>32.5</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>posDegreeAbs</controlDataName>

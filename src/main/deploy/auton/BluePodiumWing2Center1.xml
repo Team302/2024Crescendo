@@ -3,9 +3,10 @@
 <auton>
 
         <primitive id= "RESET_POSITION_PATH_PLANNER"
-                    pathname= "BluePodiumWing2Center0"/>
+                    pathname= "BluePodiumWing2Center0"
+                noteOption="STATE_HOLD_FEEDER"/>
 
-        <snippet file= "ShootWhenStop.xml"/>
+        <snippet file= "ShootWhenStopManual.xml"/>
 
         <primitive id= "DRIVE_PATH_PLANNER"
                     pathname = "BluePodiumWing2Center0">
@@ -20,7 +21,7 @@
 
                     </primitive>
 
-        <snippet file= "ShootWhenStop.xml"/>
+        <snippet file= "ShootWhenStopManual.xml"/>
 
         <!--Zone to launch: 7S-9U-->
 
