@@ -146,7 +146,7 @@ void HolonomicDrive::Run()
             SlowMode();
         }
 
-        if (units::math::abs(m_moveInfo.chassisSpeeds.omega).to<double>() > 0.1)
+        if (rotate > 0.1)
         {
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
         }
