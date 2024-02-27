@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+        <primitive id= "RESET_POSITION_PATH_PLANNER"
+                    pathname= "BlueSubwooferWing1Center1"
+                noteOption="STATE_HOLD_FEEDER"/>
+
+
+        <snippet file= "ShootWhenStopManual.xml"/>
+
+        <primitive id= "DRIVE_PATH_PLANNER"
+                    pathname= "BlueSubwooferWing1Center1">
+            <zone filename="RedIntakeWingNote2.xml"/>
+            <zone filename = "RedLaunchingZoneWingNote2.xml"/>
+            <zone filename="RedIntakeCenterNote1.xml"/>
+            <zone filename = "RedLaunchingZoneWingNote2.xml"/>
+
+
+</auton>

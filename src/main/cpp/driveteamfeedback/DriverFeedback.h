@@ -42,6 +42,9 @@ private:
     bool m_AutonomousEnabled = false;
     bool m_TeleopEnabled = false;
 
+    DragonLeds::Colors oldState = DragonLeds::WHITE;
+    DragonLeds::Colors currentState = DragonLeds::BLACK;
+
     enum DriverFeedbackStates
     {
         NONE
