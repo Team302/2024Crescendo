@@ -6520,9 +6520,50 @@
       <name>uintParameter</name>
       <__units__ />
       <type>UInt32</type>
-      <value>0</value>
+      <value>9</value>
     </PwmId>
-    <Segments />
+    <Segments>
+      <LedSegment>
+        <name>PlacerLeft</name>
+        <Count>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>18</value>
+        </Count>
+      </LedSegment>
+      <LedSegment>
+        <name>PlacerRight</name>
+        <Count>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>18</value>
+        </Count>
+      </LedSegment>
+      <LedSegment>
+        <name>LauncherLeft</name>
+        <Count>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>12</value>
+        </Count>
+      </LedSegment>
+      <LedSegment>
+        <name>LauncherRight</name>
+        <Count>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>12</value>
+        </Count>
+      </LedSegment>
+    </Segments>
   </LEDs>
   <robotID>
     <unitsFamily>none</unitsFamily>

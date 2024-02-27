@@ -599,12 +599,12 @@ void noteManagerGen::CreatepracticeBot9999()
 	    ControlModes::CONTROL_TYPE::POSITION_DEGREES, // ControlModes::CONTROL_TYPE mode
 	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
 	    "posDegreeAbs", // std::string indentifier
-	    0.01625, // double proportional
-	    1.006E-06, // double integral
+	    0.04, // double proportional
+	    5E-06, // double integral
 	    0, // double derivative
 	    0, // double feedforward
 	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
-	    0.035, // double integralZone
+	    0.5, // double integralZone
 	    0, // double maxAcceleration
 	    0, // double cruiseVelocity
 	    0, // double peakValue
