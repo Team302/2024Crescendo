@@ -17,6 +17,7 @@ pathname = "BlueAmpWing1Center1">
             <zone filename = "BlueLaunchingZoneAmpNote1.xml"/>
 
 </primitive>
+<snippet file = "ShootWhenStop.xml"/>
 
 
 <!--Zones to launch:
