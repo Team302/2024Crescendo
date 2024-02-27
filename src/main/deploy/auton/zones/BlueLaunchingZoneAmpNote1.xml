@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "zone.dtd">
+<auton>
+
+      <zone ygrid1="Y_9"
+            xgrid1="X_V"
+            ygrid2="Y_11"
+            xgrid2="X_X"
+            noteOption="STATE_AUTO_LAUNCH"/>
+
+            <!--Launch in the files BlueAmpWing1Center1
+            BlueAmpWing2Center0
+            BlueAmpWing3Center0
+            BlueAmpWing3Center1
+            BlueAmpWing3Center0
+            Generally any file with an amp in it
+            Zone: V9-X11-->
+
+</auton>
