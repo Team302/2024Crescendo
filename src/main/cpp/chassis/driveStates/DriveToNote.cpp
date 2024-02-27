@@ -75,53 +75,28 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
     auto type = get<0>(info);
     auto targetNotePose = get<1>(info);
 
-    frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
-
     pathplanner::PathPlannerTrajectory trajectory;
 
     if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND && m_chassis != nullptr)
     {
         auto currentPose2d = m_chassis->GetPose();
 
-        if (allianceColor == frc::DriverStation::kBlue)
+        units::angle::degree_t currentnotedirection = dtnvisiondata->GetNoteDirection();
+        if (currentnotedirection)
         {
-            units::angle::degree_t currentnotedirection = dtnvisiondata->GetNoteDirection();
-            if (currentnotedirection)
-            {
-                auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), frc::Rotation2d(currentnotedirection));
-                std::vector<frc::Pose2d> poses{
-                    currentPose2d,
-                    noteDistance};
-                std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-                auto notepath = std::make_shared<PathPlannerPath>(
-                    notebezierPoints,
-                    PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                    GoalEndState(0.0_mps, currentnotedirection));
-                notepath->preventFlipping = true;
-                trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+            auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), frc::Rotation2d(currentnotedirection));
+            std::vector<frc::Pose2d> poses{
+                currentPose2d,
+                noteDistance};
+            std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+            auto notepath = std::make_shared<PathPlannerPath>(
+                notebezierPoints,
+                PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+                GoalEndState(0.0_mps, currentnotedirection));
+            notepath->preventFlipping = true;
+            trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
 
-                return trajectory;
-            }
-        }
-        else if (allianceColor == frc::DriverStation::kRed)
-        {
-            units::angle::degree_t currentnotedirection = dtnvisiondata->GetNoteDirection();
-            if (currentnotedirection)
-            {
-                auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), frc::Rotation2d(currentnotedirection));
-                std::vector<frc::Pose2d> poses{
-                    currentPose2d,
-                    noteDistance};
-                std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-                auto notepath = std::make_shared<PathPlannerPath>(
-                    notebezierPoints,
-                    PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                    GoalEndState(0.0_mps, currentnotedirection));
-                notepath->preventFlipping = true;
-                trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-
-                return trajectory;
-            }
+            return trajectory;
         }
     }
 }
