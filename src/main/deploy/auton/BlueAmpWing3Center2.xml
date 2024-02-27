@@ -6,7 +6,7 @@
                 pathname= "BlueAmpWing3Center2
                 noteOption="STATE_HOLD_FEEDER""/>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
 
     <primitive id= "DRIVE_PATH_PLANNER"
                 pathname= "BlueAmpWing3Center2">
@@ -23,7 +23,7 @@
 
 </primitive>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
 
     <!--Launching zones: 
     V9-X11

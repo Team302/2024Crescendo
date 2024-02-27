@@ -131,12 +131,12 @@ units::length::meter_t noteManager::GetVisionDistance()
 
 bool noteManager::HasVisionTarget()
 {
+	return false;
 	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	if (optionalVisionData)
 	{
 		return true;
 	}
-	return false;
 }
 
 void noteManager::Update(RobotStateChanges::StateChange change, int value)
@@ -169,6 +169,7 @@ double noteManager::GetRequiredLaunchAngle()
 
 bool noteManager::autoLaunchReady()
 {
+	return false;
 	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	if (optionalVisionData.has_value())
 	{
@@ -178,5 +179,4 @@ bool noteManager::autoLaunchReady()
 			return true;
 		}
 	}
-	return false;
 }
