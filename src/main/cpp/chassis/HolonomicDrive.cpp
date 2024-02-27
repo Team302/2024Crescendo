@@ -75,7 +75,7 @@ void HolonomicDrive::Run()
         auto isAlignWithLeftStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_LEFT_STAGE_TRAP);
         auto isAlignWithCenterStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_CENTER_STAGE_TRAP);
         auto isAlignWithRightStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_RIGHT_STAGE_TRAP);
-        auto isAlignWithAmpSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_AMP);
+        auto isAlignWithAmpSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_AMP);
         auto isHoldPositionSelected = controller->IsButtonPressed(TeleopControlFunctions::HOLD_POSITION);
         auto isFaceForward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_FORWARD);
         auto isFaceBackward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_BACKWARD);
@@ -146,7 +146,7 @@ void HolonomicDrive::Run()
             SlowMode();
         }
 
-        if (units::math::abs(m_moveInfo.chassisSpeeds.omega).to<double>() > 0.03)
+        if (units::math::abs(m_moveInfo.chassisSpeeds.omega).to<double>() > 0.1)
         {
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
         }
@@ -219,7 +219,9 @@ void HolonomicDrive::AlignToSpeaker()
 }
 void HolonomicDrive::AlignToAmp()
 {
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
+    // m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
+    m_moveInfo.yawAngle = units::angle::degree_t(90.0);
 }
 void HolonomicDrive::HoldPosition()
 {
