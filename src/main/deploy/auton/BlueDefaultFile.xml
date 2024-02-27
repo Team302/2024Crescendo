@@ -2,10 +2,8 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
     <primitive id= "RESET_POSITION_PATH_PLANNER"
-                pathname="SquareForward"
-                noteOption="STATE_HOLD_FEEDER"/>
-    <primitive id= "DRIVE_PATH_PLANNER"
-                pathname="SquareForward">
+                pathname="BlueSubwooferWing1Center0"
+                />
     </primitive> 
 
 <!--                pathname="BlueDefault"/ 
