@@ -10,11 +10,8 @@
 <snippet file = "ShootWhenStopManual.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-pathname= "BluePodiumWing1Center1"
-time = "7.0">
-
-                <zone filename = "BlueIntakeWingNote2.xml"/>
-
+            pathname= "BluePodiumWing1Center1"
+            time = "7.0">
 
 </primitive>
 

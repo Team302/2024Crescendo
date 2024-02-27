@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -17,64 +16,33 @@
 #pragma once
 
 // C++ Includes
+#include <vector>
 
-// FRC includes
+// FRC Includes
+#include <frc/geometry/Rotation3d.h>
+#include <frc/geometry/Rotation2d.h>
 
-// Team 302 includes
+// Team302 Includes
+#include "chassis/driveStates/RobotDrive.h"
+#include "chassis/SwerveChassis.h"
+#include "DragonVision/DragonVision.h"
+#include "utils/FMSData.h"
 
-class TeleopControlFunctions
+class DriveToRightStage
 {
 public:
-    enum FUNCTION
-    {
-        UNKNOWN_FUNCTION,
-        ROBOT_ORIENTED_DRIVE,
-        HOLONOMIC_DRIVE_FORWARD,
-        HOLONOMIC_DRIVE_ROTATE,
-        HOLONOMIC_DRIVE_STRAFE,
-        RESET_POSITION,
-        HOLD_POSITION,
-        SLOW_MODE,
-        AUTO_TURN_FORWARD,
-        AUTO_TURN_BACKWARD,
-        ALIGN_TO_AMP,
-        ALIGN_TO_CENTER_STAGE_TRAP,
-        ALIGN_TO_LEFT_STAGE_TRAP,
-        ALIGN_TO_RIGHT_STAGE_TRAP,
-        ALIGN_FLOOR_GAME_PIECE,
-        // Scoring states
-        DEBUG_INC_P,
-        DEBUG_DEC_P,
-        DEBUG_INC_I,
-        DEBUG_DEC_I, // Scoring states
-        // tip correction controls
-        TIPCORRECTION_TOGGLE,
-        // Example Mechanism
-        EXAMPLE_MECH_FORWARD,
-        EXAMPLE_MECH_REVERSE,
-        // Cresendo Modes
-        CLIMB_MODE,
-        MANUAL_MODE,
-        SCORING_MODE,
+    DriveToRightStage();
+    ~DriveToRightStage() = default;
 
-        READY,
-        INTAKE,
-        EXPEL,
-        AUTO_LAUNCH,
-        MANUAL_LAUNCH,
-        PASS,
-        PREP_PLACE,
-        PLACE,
-        AUTO_SPEAKER,
-        AUTO_AMP,
-        AUTO_STAGE,
-        MANUAL_CLIMB,
-        BACKUP_FRONT_INTAKE,
-        BACKUP_BACK_INTAKE,
-        MANUAL_PLACE,
-        MANUAL_FEED,
-        LAUNCH_ANGLE,
-        ELEVATOR,
-        AUTO_CLIMB,
-    };
+    static DriveToRightStage *GetInstance();
+    pathplanner::PathPlannerTrajectory CreateDriveToRightStage();
+
+private:
+    SwerveChassis *m_chassis;
+    static DriveToRightStage *m_instance;
+
+    const units::meters_per_second_t m_maxVel = 3.0_mps;
+    const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;
+    const units::radians_per_second_t m_maxAngularVel = 360_deg_per_s;
+    const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
 };
