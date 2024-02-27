@@ -64,7 +64,7 @@ bool manualLaunchState::AtTarget()
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
 
-	if ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 3.0) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed))
+	if ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed))
 		attarget = true;
 
 	return (attarget);
