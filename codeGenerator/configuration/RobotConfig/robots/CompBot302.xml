@@ -1867,14 +1867,14 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0</value>
+                <value>0.1</value>
               </openLoopRampTime>
               <closedLoopRampTime>
                 <unitsFamily>time</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0</value>
+                <value>0.1</value>
               </closedLoopRampTime>
               <enableClosedLoop>
                 <unitsFamily>none</unitsFamily>
@@ -1970,14 +1970,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>30</value>
+                <value>80</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>30</value>
+                <value>80</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
@@ -2053,7 +2053,7 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0</value>
+                <value>0.1</value>
               </closedLoopRampTime>
               <enableClosedLoop>
                 <unitsFamily>none</unitsFamily>
@@ -2149,14 +2149,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>30</value>
+                <value>80</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>30</value>
+                <value>80</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
