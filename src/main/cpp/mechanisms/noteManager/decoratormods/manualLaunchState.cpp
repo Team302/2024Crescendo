@@ -60,13 +60,17 @@ void manualLaunchState::Exit()
 
 bool manualLaunchState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+	bool attarget = false;
+	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
+	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
+
+	if ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed))
+		attarget = true;
+
+	return (attarget);
 }
 
 bool manualLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
-	// To get the current state use m_mechanism->GetCurrentState()
-
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH)); // todo add AtTarget
+	return (AtTarget());
 }

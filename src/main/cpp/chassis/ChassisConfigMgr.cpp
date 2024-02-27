@@ -18,6 +18,7 @@
 #include "utils/logging/Logger.h"
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigCompBot_302.h"
 #include "chassis/ChassisConfigChassis_9998.h"
 #include "chassis/ChassisConfigPracticeBot_9999.h"
 
@@ -41,6 +42,10 @@ void ChassisConfigMgr::InitChassis(RobotConfigMgr::RobotIdentifier id)
 {
 	switch (id)
 	{
+	case RobotConfigMgr::RobotIdentifier::COMP_BOT_302:
+		m_config = new ChassisConfigCompBot_302();
+		break;
+
 	case RobotConfigMgr::RobotIdentifier::CHASSISBOT_9998:
 		m_config = new ChassisConfigChassis_9998();
 		break;
