@@ -49,6 +49,7 @@ using std::string;
 
 using ctre::phoenix6::configs::CANcoderConfiguration;
 using ctre::phoenix6::configs::CANcoderConfigurator;
+using ctre::phoenix6::configs::CurrentLimitsConfigs;
 using ctre::phoenix6::configs::MotorOutputConfigs;
 using ctre::phoenix6::configs::Slot0Configs;
 using ctre::phoenix6::configs::TalonFXConfiguration;
@@ -261,6 +262,16 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         motorconfig.PeakReverseDutyCycle = -1.0;
         motorconfig.DutyCycleNeutralDeadband = 0.0;
         m_driveTalon->GetConfigurator().Apply(motorconfig);
+
+        CurrentLimitsConfigs currconfig{};
+        currconfig.StatorCurrentLimit = 80.0;
+        currconfig.StatorCurrentLimitEnable = true;
+
+        // currconfig.SupplyCurrentLimit = 40.0;
+        // currconfig.SupplyCurrentLimitEnable = true;
+        // currconfig.SupplyCurrentThreshold = 30.0;
+        // currconfig.SupplyTimeThreshold = 0.25;
+        m_driveTalon->GetConfigurator().Apply(currconfig);
 
         VoltageConfigs voltconfig{};
         voltconfig.PeakForwardVoltage = 11.0;
