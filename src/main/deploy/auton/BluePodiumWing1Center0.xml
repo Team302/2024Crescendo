@@ -10,7 +10,7 @@
 <snippet file = "ShootWhenStopManual.xml"/>
 
 <primitive id = "DRIVE_PATH_PLANNER"
-            pathname= "BluePodiumWing1Center1"
+            pathname= "BluePodiumWing1Center0"
             time = "7.0"
             noteOption = "STATE_FEEDER_INTAKE">
 
