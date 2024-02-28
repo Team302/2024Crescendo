@@ -38,22 +38,25 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         auto info = finder->GetPose(GetVisionElement());
         auto type = get<0>(info);
         auto targetPose = get<1>(info);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Speaker X", targetPose.X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Speaker Y", targetPose.Y().to<double>());
 
         std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(GetVisionElement());
         if (testVisionData)
         {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             if (chassis != nullptr)
             {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Z Rotation (deg)", units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Y Rotation (deg)", units::angle::degree_t(testVisionData.value().rotationToTarget.X()).to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "X Rotation (deg)", units::angle::degree_t(testVisionData.value().rotationToTarget.Y()).to<double>());
+                auto visionTanslationX = testVisionData.value().translationToTarget.X();
+                auto visionTanslationY = testVisionData.value().translationToTarget.Y();
+
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision X", targetPose.X().to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Y", targetPose.Y().to<double>());
                 // DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, testVisionData.value().rotationToTarget.Z(), m_kp);
             }
         }
+        else
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
 
         // if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         //{
