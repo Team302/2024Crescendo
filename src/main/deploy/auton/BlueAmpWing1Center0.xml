@@ -10,7 +10,8 @@
 
 <primitive id = "DRIVE_PATH_PLANNER"
 pathname = "BlueAmpWing1Center0"
-noteOption = "STATE_FEEDER_INTAKE"/>
+noteOption = "STATE_FEEDER_INTAKE"
+time = "10.0"/>
 
 <snippet file = "ShootWhenStopManual.xml"/>
 
