@@ -46,6 +46,7 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 
     if (chassis != nullptr)
     {
+        /**
         auto vision = DragonVision::GetDragonVision();
         auto position = vision->GetRobotPosition();
         if (position)
@@ -55,14 +56,15 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
         }
         else
         {
-            auto path = PathPlannerPath::fromPathFile(param->GetPathName());
-            if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
-            {
-                path = path.get()->flipPath();
-            }
-            auto pose = path.get()->getPreviewStartingHolonomicPose();
-            chassis->ResetPose(pose);
+            **/
+        auto path = PathPlannerPath::fromPathFile(param->GetPathName());
+        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+        {
+            path = path.get()->flipPath();
         }
+        auto pose = path.get()->getPreviewStartingHolonomicPose();
+        chassis->ResetPose(pose);
+        //}
     }
 }
 
