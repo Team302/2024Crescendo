@@ -228,9 +228,10 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
     if (targetXdistance && targetYdistance)
     {
         units::angle::radian_t angleOffset = units::math::atan2(targetXdistance.value(), targetYdistance.value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("returning an opt in limelight"), std::string("reached"));
         return angleOffset;
     }
-
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("gettargteyawrobotframe"), std::string("returning null"));
     return std::nullopt;
 }
 

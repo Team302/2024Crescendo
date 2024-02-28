@@ -6,21 +6,22 @@
  * Description: Logs the vision data to the logger
  * Parameters: const std::string& loggerName, const std::optional<VisionData> optVisionData
  * Returns: void
-*/
-void DragonVisionStructLogger::logVisionData( const std::string& loggerName, const std::optional<VisionData> optVisionData)
+ */
+void DragonVisionStructLogger::logVisionData(const std::string &loggerName, const std::optional<VisionData> optVisionData)
 {
     if (optVisionData)
     {
-        frc::Transform3d testTransform = optVisionData.value().transformToTarget;
-        logTransform3d(loggerName, optVisionData.value().transformToTarget);
-        logTranslation3d(loggerName, optVisionData.value().translationToTarget);
+        // frc::Transform3d testTransform = optVisionData.value().transformToTarget;
+        // logTransform3d(loggerName, optVisionData.value().transformToTarget);
+        // logTranslation3d(loggerName, optVisionData.value().translationToTarget);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("logrotaion3d"), std::string("reached"));
+
         logRotation3d(loggerName, optVisionData.value().rotationToTarget);
     }
     else
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, loggerName, std::string("ERROR"), std::string("No vision data found"));
     }
-
 }
 
 /*******************
@@ -28,14 +29,13 @@ void DragonVisionStructLogger::logVisionData( const std::string& loggerName, con
  * Description: Logs the transform3d to the logger
  * Parameters: const std::string& loggerName, const frc::Transform3d transform3d
  * Returns: void
- * 
-*/
+ *
+ */
 void DragonVisionStructLogger::logTransform3d(const std::string &loggerName, const frc::Transform3d transform3d)
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("X"), std::to_string(transform3d.X().to<double>()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Y"), std::to_string(transform3d.Y().to<double>()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Z"), std::to_string(transform3d.Z().to<double>()));
-
 }
 
 /*******************
@@ -43,8 +43,8 @@ void DragonVisionStructLogger::logTransform3d(const std::string &loggerName, con
  * Description: Logs the translation3d to the logger
  * Parameters: const std::string& loggerName, const frc::Translation3d translation3d
  * Returns: void
- * 
-*/
+ *
+ */
 void DragonVisionStructLogger::logTranslation3d(const std::string &loggerName, const frc::Translation3d translation3d)
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("translationX"), std::to_string(translation3d.X().to<double>()));
@@ -57,8 +57,8 @@ void DragonVisionStructLogger::logTranslation3d(const std::string &loggerName, c
  * Description: Logs the rotation3d to the logger
  * Parameters: const std::string& loggerName, const frc::Rotation3d rotation3d
  * Returns: void
- * 
-***/
+ *
+ ***/
 void DragonVisionStructLogger::logRotation3d(const std::string &loggerName, const frc::Rotation3d rotation3d)
 {
     units::angle::degree_t roll = rotation3d.X();
@@ -67,6 +67,7 @@ void DragonVisionStructLogger::logRotation3d(const std::string &loggerName, cons
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("x:Roll"), std::to_string(roll.to<double>()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("y:Pitch"), std::to_string(pitch.to<double>()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("z:Yaw"), std::to_string(yaw.to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("logrotaion3d"), std::string("reached"));
 }
 
 /**************
@@ -74,9 +75,10 @@ void DragonVisionStructLogger::logRotation3d(const std::string &loggerName, cons
  * Description: Logs the dragon camera to the logger
  * Parameters: const std::string& loggerName, const DragonCamera& camera
  * Returns: void
- * 
-*/
-void DragonVisionStructLogger::logDragonCamera(const std::string &loggerName, const DragonCamera &camera){
+ *
+ */
+void DragonVisionStructLogger::logDragonCamera(const std::string &loggerName, const DragonCamera &camera)
+{
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("CameraName"), camera.GetCameraName());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Pipeline"), std::to_string(camera.GetPipeline()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("MountingXOffset"), std::to_string(camera.GetMountingXOffset().to<double>()));

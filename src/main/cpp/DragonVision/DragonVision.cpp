@@ -25,7 +25,7 @@
 #include "DragonVision/DragonPhotonCam.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVisionStructLogger.h"
-
+#include "utils/logging/Logger.h"
 #include <string>
 // Third Party Includes
 
@@ -85,7 +85,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 	{
 		return GetVisionDataFromElement(element);
 	}
-
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("returning null opt in dragon vision"), std::string("reached"));
 	// if we don't see any vision targets, return null optional
 	return std::nullopt;
 }
@@ -235,6 +235,7 @@ std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNam
 std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT element)
 {
 	DragonCamera *selectedCam = nullptr;
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("getvisiondata from note"), std::string("reached"));
 
 	switch (element)
 	{
@@ -246,6 +247,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		break;
 	case VISION_ELEMENT::NOTE:
 	{
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("case note"), std::string("reached"));
+
 		bool lintakeHasDetection = false;
 		bool pintakeHasDetection = false;
 		// make sure cameras are set
@@ -260,6 +263,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 
 		if (!lintakeHasDetection && !pintakeHasDetection)
 		{
+			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("bolth cams do not have target"), std::string("reached"));
 			return std::nullopt;
 		}
 		else if (lintakeHasDetection && pintakeHasDetection)
@@ -297,11 +301,12 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 
 		// create rotation3d with pitch and yaw (don't have access to roll)
 		frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame().value(), selectedCam->GetTargetYawRobotFrame().value());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("translation returning value in dragon vision"), std::string("reached"));
 
 		// return VisionData with new translation and rotation
 		return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote};
 	}
-
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("returning null opt in dragon vision"), std::string("reached"));
 	// if we don't have a selected cam
 	return std::nullopt;
 }
@@ -568,4 +573,5 @@ void DragonVision::testAndLogVisionData()
 {
 	std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
 	DragonVisionStructLogger::logVisionData("VisionData", testData);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("test and log vision data"), std::string("reached"));
 }
