@@ -297,18 +297,22 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	if (selectedCam != nullptr)
 	{
 		// create translation using 3 estimated distances
-		frc::Translation3d translationToNote = frc::Translation3d(selectedCam->EstimateTargetXDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetYDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetZDistance_RelToRobotCoords().value());
+		if (selectedCam->EstimateTargetXDistance_RelToRobotCoords().has_value() || selectedCam->EstimateTargetZDistance_RelToRobotCoords().has_value() || selectedCam->EstimateTargetYDistance_RelToRobotCoords().has_value())
+		{
+			frc::Translation3d translationToNote = frc::Translation3d(selectedCam->EstimateTargetXDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetYDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetZDistance_RelToRobotCoords().value());
 
-		// create rotation3d with pitch and yaw (don't have access to roll)
-		frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame().value(), selectedCam->GetTargetYawRobotFrame().value());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("translation returning value in dragon vision"), std::string("reached"));
+			// create rotation3d with pitch and yaw (don't have access to roll)
+			frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame().value(), selectedCam->GetTargetYawRobotFrame().value());
+			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("translation returning value in dragon vision"), std::string("reached"));
 
-		// return VisionData with new translation and rotation
-		return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote};
+			// return VisionData with new translation and rotation
+			return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote};
+		}
+
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("returning null opt in dragon vision"), std::string("reached"));
+		// if we don't have a selected cam
+		return std::nullopt;
 	}
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("returning null opt in dragon vision"), std::string("reached"));
-	// if we don't have a selected cam
-	return std::nullopt;
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT element)
