@@ -50,9 +50,15 @@ void ReadyState::Init()
 void ReadyState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("run"));
+	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
+	{
+		double delta = 6.0 * 0.05 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		m_target += delta;
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
+	}
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE));
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED));
 	m_genState->Run();
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>());
 }
 
 void ReadyState::Exit()
