@@ -5769,6 +5769,7 @@
               </SecondaryLimitCycles>
             </currentLimits>
             <theConfigMotorSettings>
+              <inverted>Clockwise_Positive</inverted>
               <mode>Brake</mode>
             </theConfigMotorSettings>
             <RotationOffset>
@@ -5948,7 +5949,6 @@
               </SecondaryLimitCycles>
             </currentLimits>
             <theConfigMotorSettings>
-              <inverted>Clockwise_Positive</inverted>
               <mode>Brake</mode>
             </theConfigMotorSettings>
             <RotationOffset>
