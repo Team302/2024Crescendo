@@ -11,11 +11,8 @@ void DragonVisionStructLogger::logVisionData(const std::string &loggerName, cons
 {
     if (optVisionData)
     {
-        frc::Transform3d testTransform = optVisionData.value().transformToTarget;
         logTransform3d(loggerName, optVisionData.value().transformToTarget);
         logTranslation3d(loggerName, optVisionData.value().translationToTarget);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("logrotaion3d"), std::string("reached"));
-
         logRotation3d(loggerName, optVisionData.value().rotationToTarget);
     }
     else
@@ -67,7 +64,6 @@ void DragonVisionStructLogger::logRotation3d(const std::string &loggerName, cons
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("x:Roll"), std::to_string(roll.to<double>()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("y:Pitch"), std::to_string(pitch.to<double>()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("z:Yaw"), std::to_string(yaw.to<double>()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("debug"), std::string("logrotaion3d"), std::string("reached"));
 }
 
 /**************
