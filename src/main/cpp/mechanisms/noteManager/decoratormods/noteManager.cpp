@@ -168,6 +168,8 @@ double noteManager::GetRequiredLaunchAngle()
 
 bool noteManager::autoLaunchReady()
 {
+	return false;
+
 	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	if (optionalVisionData.has_value())
 	{

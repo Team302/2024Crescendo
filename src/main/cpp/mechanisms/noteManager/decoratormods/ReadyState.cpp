@@ -43,7 +43,6 @@ ReadyState::ReadyState(std::string stateName,
 void ReadyState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("init"));
-
 	m_genState->Init();
 }
 
@@ -52,12 +51,28 @@ void ReadyState::Run()
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("run"));
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
 	{
-		double delta = 6.0 * 0.05 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		double delta = 6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
 		m_target += delta;
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
+		if (m_target > 16.5) // limiting the travel to 0 through 16.5
+			m_target = 16.5;
+		else if (m_target < 0)
+			m_target = 0;
 	}
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE));
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED));
+
+	if (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED) > 0) // Transfer turns on if the placer and feeder are ran manually
+	{
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED));
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 1.0);
+	}
+	else if (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE) > 0)
+	{
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE));
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, -1.0);
+	}
+	else
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0.0);
+
 	m_genState->Run();
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Evevator"), string("Pos"), m_mechanism->getElevator()->GetCounts()); // Remove logging after Note management is all verifed
 }

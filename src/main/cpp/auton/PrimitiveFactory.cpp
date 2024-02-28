@@ -15,15 +15,16 @@
 //====================================================================================================================================================
 
 // Team 302 includes
-#include <auton/PrimitiveEnums.h>
-#include <auton/PrimitiveFactory.h>
-#include <auton/PrimitiveParser.h>
-#include <auton/drivePrimitives/VisionDrivePrimitive.h>
-#include <auton/drivePrimitives/DriveStop.h>
-#include <auton/drivePrimitives/DrivePathPlanner.h>
-#include <auton/drivePrimitives/DriveHoldPosition.h>
-#include <auton/drivePrimitives/IPrimitive.h>
-#include <auton/drivePrimitives/ResetPositionPathPlanner.h>
+#include "auton/PrimitiveEnums.h"
+#include "auton/PrimitiveFactory.h"
+#include "auton/PrimitiveParser.h"
+#include "auton/drivePrimitives/VisionDrivePrimitive.h"
+#include "auton/drivePrimitives/DriveStop.h"
+#include "auton/drivePrimitives/DrivePathPlanner.h"
+#include "auton/drivePrimitives/DriveHoldPosition.h"
+#include "auton/drivePrimitives/IPrimitive.h"
+#include "auton/drivePrimitives/ResetPositionPathPlanner.h"
+#include "auton/drivePrimitives/ResetPositionPathPlannerNoVision.h"
 
 PrimitiveFactory *PrimitiveFactory::m_instance = nullptr;
 
@@ -39,7 +40,7 @@ PrimitiveFactory *PrimitiveFactory::GetInstance()
 PrimitiveFactory::PrimitiveFactory() : m_DriveStop(nullptr),
                                        m_DriveHoldPosition(nullptr),
                                        m_resetPositionPathPlanner(nullptr),
-                                       m_drivePathPlanner(nullptr)
+                                       m_resetPositionPathPlannerNoVision(nullptr), m_drivePathPlanner(nullptr)
 {
 }
 
@@ -75,6 +76,14 @@ IPrimitive *PrimitiveFactory::GetIPrimitive(PrimitiveParams *primitivePasser)
             m_resetPositionPathPlanner = new ResetPositionPathPlanner();
         }
         primitive = m_resetPositionPathPlanner;
+        break;
+
+    case RESET_POSITION_PATH_PLANNER_NO_VISION:
+        if (m_resetPositionPathPlannerNoVision == nullptr)
+        {
+            m_resetPositionPathPlannerNoVision = new ResetPositionPathPlannerNoVision();
+        }
+        primitive = m_resetPositionPathPlannerNoVision;
         break;
 
     case DRIVE_PATH_PLANNER:

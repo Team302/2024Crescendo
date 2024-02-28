@@ -15,38 +15,23 @@
 
 #pragma once
 
-// Team302 Includes
-#include <chassis/ChassisOptionEnums.h>
-#include <chassis/ChassisMovement.h>
+// C++ Includes
 
-class ISwerveDriveOrientation
+// Third party includes
+
+// Team 302 Includes
+#include "auton/drivePrimitives/IPrimitive.h"
+
+// Forward Declares
+class PrimitiveParams;
+
+class ResetPositionPathPlannerNoVision : public IPrimitive
 {
 public:
-    ISwerveDriveOrientation() = delete;
-    ~ISwerveDriveOrientation() = default;
+    ResetPositionPathPlannerNoVision();
+    virtual ~ResetPositionPathPlannerNoVision() = default;
 
-    ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption);
-
-    /// @brief Updated incoming chassis speeds to do heading action, precursor to ISwerveDriveState
-    /// @param [in] ChassisMovement& chassisMovement - Incomign chassis speeds to edit for heading option
-    void virtual UpdateChassisSpeeds(ChassisMovement &chassisMovement) = 0;
-
-    /// @brief Calculate heading correction
-    /// @param [in] rot - incoming rotation to correct for
-    /// @param [in] kP - porportional constant to correct with
-    static units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP);
-
-    /// @brief Returns the heading option
-    /// @return ChassisOptionEnums::HeadingOption - current heading option
-    ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
-
-    /// @brief Set the stored heading for the orientation options
-    void SetStoredHeading(units::angle::degree_t heading);
-
-protected:
-    ChassisOptionEnums::HeadingOption m_headingOption;
-    units::angle::degree_t m_storedYaw;
-
-    double m_kPMaintainHeadingControl = 6.0;
-    double m_kPGoalHeadingControl = 5.0;
+    void Init(PrimitiveParams *param) override;
+    void Run() override;
+    bool IsDone() override;
 };

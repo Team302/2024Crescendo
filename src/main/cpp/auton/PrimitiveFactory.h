@@ -43,6 +43,7 @@ private:
     IPrimitive *m_DriveStop;
     IPrimitive *m_DriveHoldPosition;
     IPrimitive *m_resetPositionPathPlanner;
+    IPrimitive *m_resetPositionPathPlannerNoVision;
     IPrimitive *m_visionAlign;
     IPrimitive *m_drivePathPlanner;
 };
