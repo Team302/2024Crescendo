@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id = "RESET_POSITION_PATH_PLANNER"
+           pathname= "BluePodiumWing1Center1"
+           noteOption="STATE_HOLD_FEEDER"/>
+
+
+<snippet file = "ShootWhenStopManual.xml"/>
+
+<primitive id = "DRIVE_PATH_PLANNER"
+            pathname= "BluePodiumWing1Center1"
+            time = "7.0"
+            noteOption = "STATE_FEEDER_INTAKE">
+
+</primitive>
+
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id = "DO_NOTHING"/>
+
+</auton>

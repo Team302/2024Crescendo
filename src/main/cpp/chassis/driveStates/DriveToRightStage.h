@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -15,45 +14,35 @@
 //====================================================================================================================================================
 
 #pragma once
-#include <driveteamfeedback/LEDStates.h>
-#include <robotstate/IRobotStateChangeSubscriber.h>
 
-class DriverFeedback : public IRobotStateChangeSubscriber
+// C++ Includes
+#include <vector>
+
+// FRC Includes
+#include <frc/geometry/Rotation3d.h>
+#include <frc/geometry/Rotation2d.h>
+
+// Team302 Includes
+#include "chassis/driveStates/RobotDrive.h"
+#include "chassis/SwerveChassis.h"
+#include "DragonVision/DragonVision.h"
+#include "utils/FMSData.h"
+
+class DriveToRightStage
 {
 public:
-    void UpdateFeedback();
+    DriveToRightStage();
+    ~DriveToRightStage() = default;
 
-    static DriverFeedback *GetInstance();
-
-    void UpdateLEDStates();
-
-    void UpdateCompressorState();
-
-    void Update(RobotStateChanges::StateChange change, int value) override;
+    static DriveToRightStage *GetInstance();
+    pathplanner::PathPlannerTrajectory CreateDriveToRightStage();
 
 private:
-    void CheckControllers();
-    void DisplayPressure() const;
-    void DisplayDesiredGamePiece();
-    void ResetRequests(void);
-    DriverFeedback();
-    ~DriverFeedback() = default;
+    SwerveChassis *m_chassis;
+    static DriveToRightStage *m_instance;
 
-    bool m_AutonomousEnabled = false;
-    bool m_TeleopEnabled = false;
-
-    DragonLeds::Colors oldState = DragonLeds::WHITE;
-    DragonLeds::Colors currentState = DragonLeds::BLACK;
-
-    enum DriverFeedbackStates
-    {
-        NONE
-    };
-
-    LEDStates *m_LEDStates = LEDStates::GetInstance();
-    int m_controllerCounter = 0;
-
-    static DriverFeedback *m_instance;
-    RobotStateChanges::ScoringMode m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
-    RobotStateChanges::ClimbMode m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
+    const units::meters_per_second_t m_maxVel = 3.0_mps;
+    const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;
+    const units::radians_per_second_t m_maxAngularVel = 360_deg_per_s;
+    const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
 };
