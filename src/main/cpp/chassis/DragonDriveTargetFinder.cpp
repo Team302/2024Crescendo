@@ -46,31 +46,30 @@ DragonDriveTargetFinder *DragonDriveTargetFinder::GetInstance()
 
 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::GetPose(DragonVision::VISION_ELEMENT item)
 {
-    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    if (chassisConfig != nullptr)
+    /*auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+     if (chassisConfig != nullptr)
     {
 
         auto chassis = chassisConfig->GetSwerveChassis();
 
         auto vision = DragonVision::GetDragonVision();
-        /*if (vision != nullptr)
+        if (vision != nullptr)
         {
             auto data = vision->GetVisionData(item);
             if (data)
             {
-                // auto currentPose{Pose3d(chassis->GetPose())};
-                // auto trans3d = data.value().transformToTarget;
-                // auto targetPose = currentPose + trans3d;
-                auto targetPose = data.value(). ToPose2d();
+                auto currentPose{Pose3d(chassis->GetPose())};
+                auto trans3d = data.value().transformToTarget;
+                auto targetPose = currentPose + trans3d;
 
                 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, targetPose);
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, targetPose.ToPose2d());
 
                 return targetInfo;
             }
         }
-        */
     }
+    */
 
     int aprilTag = -1;
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
