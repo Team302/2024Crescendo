@@ -2813,6 +2813,7 @@
               <type>Boolean</type>
               <value>false</value>
             </enableFOC>
+            <controlType>VELOCITY_RPS</controlType>
           </motorControlData>
         </stateMotorControlData>
         <states>
@@ -3971,7 +3972,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>534</value>
+                  <value>350</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>velocityRPSLaunch</controlDataName>
@@ -3983,7 +3984,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>534</value>
+                  <value>350</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>velocityRPSLaunch</controlDataName>
@@ -4323,7 +4324,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>534</value>
+                  <value>350</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>velocityRPSLaunch</controlDataName>
@@ -4335,7 +4336,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>534</value>
+                  <value>350</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>velocityRPSLaunch</controlDataName>

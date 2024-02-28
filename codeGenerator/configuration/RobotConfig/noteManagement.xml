@@ -2802,6 +2802,7 @@
         <type>Boolean</type>
         <value>false</value>
       </enableFOC>
+      <controlType>VELOCITY_RPS</controlType>
     </motorControlData>
   </stateMotorControlData>
   <states>
