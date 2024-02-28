@@ -319,11 +319,11 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		return multiTagEstimate;
 	}
 
-	/*std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose);
+	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose);
 	if (singleTagEstimate)
 	{
 		return singleTagEstimate;
-	}*/
+	}
 
 	return std::nullopt;
 }
