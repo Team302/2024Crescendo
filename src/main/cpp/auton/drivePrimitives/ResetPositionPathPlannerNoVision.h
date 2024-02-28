@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -18,20 +17,21 @@
 
 // C++ Includes
 
-// FRC includes
+// Third party includes
 
-// Team 302 includes
+// Team 302 Includes
+#include "auton/drivePrimitives/IPrimitive.h"
 
-// Third Party Includes
+// Forward Declares
+class PrimitiveParams;
 
-enum PRIMITIVE_IDENTIFIER
+class ResetPositionPathPlannerNoVision : public IPrimitive
 {
-  UNKNOWN_PRIMITIVE = -1,
-  DO_NOTHING,
-  HOLD_POSITION,
-  DRIVE_PATH_PLANNER,
-  RESET_POSITION_PATH_PLANNER,
-  RESET_POSITION_PATH_PLANNER_NO_VISION,
-  VISION_ALIGN,
-  MAX_AUTON_PRIMITIVES
+public:
+    ResetPositionPathPlannerNoVision();
+    virtual ~ResetPositionPathPlannerNoVision() = default;
+
+    void Init(PrimitiveParams *param) override;
+    void Run() override;
+    bool IsDone() override;
 };
