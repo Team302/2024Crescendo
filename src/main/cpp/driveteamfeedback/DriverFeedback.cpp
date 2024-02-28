@@ -50,35 +50,32 @@ void DriverFeedback::UpdateLEDStates()
     // TeleopControl::GetInstance()->SetRumble(0, false, false);
 
     oldState = currentState;
-    if (false)
+    if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
     {
-        if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+        currentState = DragonLeds::RED;
+        if (oldState != currentState)
         {
-            currentState = DragonLeds::RED;
-            if (oldState != currentState)
-            {
-                m_LEDStates->ResetVariables();
-            }
-            m_LEDStates->ChaserPattern(DragonLeds::RED);
+            m_LEDStates->ResetVariables();
         }
-        else if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+        m_LEDStates->ChaserPattern(DragonLeds::RED);
+    }
+    else if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+    {
+        currentState = DragonLeds::GREEN;
+        if (oldState != currentState)
         {
-            currentState = DragonLeds::GREEN;
-            if (oldState != currentState)
-            {
-                m_LEDStates->ResetVariables();
-            }
-            m_LEDStates->SolidColorPattern(DragonLeds::GREEN);
+            m_LEDStates->ResetVariables();
         }
-        else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
+        m_LEDStates->SolidColorPattern(DragonLeds::GREEN);
+    }
+    else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
+    {
+        currentState = DragonLeds::BLUE;
+        if (oldState != currentState)
         {
-            currentState = DragonLeds::BLUE;
-            if (oldState != currentState)
-            {
-                m_LEDStates->ResetVariables();
-            }
-            m_LEDStates->ClosingInChaserPattern(DragonLeds::BLUE);
+            m_LEDStates->ResetVariables();
         }
+        m_LEDStates->ClosingInChaserPattern(DragonLeds::BLUE);
     }
 }
 void DriverFeedback::ResetRequests(void)
