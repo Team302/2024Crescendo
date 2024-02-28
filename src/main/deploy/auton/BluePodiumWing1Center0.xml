@@ -2,7 +2,7 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id = "RESET_POSITION_PATH_PLANNER"
+<primitive id = "RESET_POSITION_PATH_PLANNER_NO_VISION"
            pathname= "BluePodiumWing1Center1"
            noteOption="STATE_HOLD_FEEDER"/>
 
