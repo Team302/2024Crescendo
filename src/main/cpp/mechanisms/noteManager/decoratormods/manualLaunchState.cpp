@@ -61,11 +61,26 @@ void manualLaunchState::Exit()
 bool manualLaunchState::AtTarget()
 {
 	bool attarget = false;
+
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
 
-	if ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 3.0) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed))
-		attarget = true;
+	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 3.0;
+	bool topSpeedIsWithinTolerance = topSpeed > m_targetSpeed;
+	bool bottomSpeedIsWithinTolerance = botSpeed > m_targetSpeed;
+
+	if (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999)
+	{
+		// in the practice bot do not check the launcher speed because speed control is not implemented
+		topSpeedIsWithinTolerance = true;
+		bottomSpeedIsWithinTolerance = true;
+	}
+
+	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("angleIsWithinTolerance"), angleIsWithinTolerance ? string("true") : string("false"));
+	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("topSpeedIsWithinTolerance"), topSpeedIsWithinTolerance ? string("true") : string("false"));
+	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("bottomSpeedIsWithinTolerance"), bottomSpeedIsWithinTolerance ? string("true") : string("false"));
+
+	attarget = angleIsWithinTolerance && topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
 
 	return (attarget);
 }
