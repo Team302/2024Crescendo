@@ -34,9 +34,6 @@ time= "4.0">
 
 <zone filename = "BlueIntakeWingNote3.xml"/>
 
-<!--<zone filename= "BlueLaunchingZoneWingNote2.xml"/>
-<zone filename= "BlueLaunchingZoneWingNote2.5.xml"/>-->
-
 </primitive>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
