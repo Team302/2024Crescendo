@@ -47,10 +47,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             if (chassis != nullptr)
             {
-                auto visionTanslationX = testVisionData.value().translationToTarget.X();
                 auto visionTanslationY = testVisionData.value().translationToTarget.Y();
-                auto visionTransformY = testVisionData.value().transformToTarget.Y();
-
                 chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(((visionTanslationY).to<double>()) * m_visionKp);
             }
         }
