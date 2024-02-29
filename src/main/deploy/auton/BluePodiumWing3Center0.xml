@@ -10,9 +10,8 @@
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing1Center0"
-time= "4.0">
-
-<zone filename = "BlueIntakeWingNote1.xml"/>
+time= "4.0"
+noteOption="STATE_FEEDER_INTAKE"/>
 
 </primitive>
 
@@ -20,9 +19,8 @@ time= "4.0">
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing1Center0_2"
-time= "4.0">
-<zone filename = "BlueIntakeWingNote2.xml"/>
-
+time= "4.0"
+noteOption="STATE_FEEDER_INTAKE"/>
 </primitive>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
@@ -30,9 +28,8 @@ time= "4.0">
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing1Center0_3"
-time= "4.0">
-
-<zone filename = "BlueIntakeWingNote3.xml"/>
+time= "4.0"
+noteOption="STATE_FEEDER_INTAKE"/>
 
 </primitive>
 
