@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -14,24 +13,53 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-
 // C++ Includes
-
-// FRC includes
+#include <memory>
+#include <string>
 
 // Team 302 includes
+#include "auton/drivePrimitives/IPrimitive.h"
+#include "auton/drivePrimitives/ResetPositionPathPlannerNoVision.h"
+#include "auton/PrimitiveParams.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/SwerveChassis.h"
+#include "utils/logging/Logger.h"
+#include "utils/FMSData.h"
 
 // Third Party Includes
+#include "pathplanner/lib/path/PathPlannerPath.h"
 
-enum PRIMITIVE_IDENTIFIER
+using namespace std;
+using namespace frc;
+using namespace pathplanner;
+
+ResetPositionPathPlannerNoVision::ResetPositionPathPlannerNoVision() : IPrimitive()
 {
-  UNKNOWN_PRIMITIVE = -1,
-  DO_NOTHING,
-  HOLD_POSITION,
-  DRIVE_PATH_PLANNER,
-  RESET_POSITION_PATH_PLANNER,
-  RESET_POSITION_PATH_PLANNER_NO_VISION,
-  VISION_ALIGN,
-  MAX_AUTON_PRIMITIVES
-};
+}
+
+void ResetPositionPathPlannerNoVision::Init(PrimitiveParams *param)
+{
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+
+    if (chassis != nullptr)
+    {
+        auto path = PathPlannerPath::fromPathFile(param->GetPathName());
+        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+        {
+            path = path.get()->flipPath();
+        }
+        auto pose = path.get()->getPreviewStartingHolonomicPose();
+        chassis->ResetPose(pose);
+    }
+}
+
+void ResetPositionPathPlannerNoVision::Run()
+{
+}
+
+bool ResetPositionPathPlannerNoVision::IsDone()
+{
+    return true;
+}
