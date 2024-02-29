@@ -6,20 +6,39 @@
             pathname= "BluePodiumWing3Center0"
                 noteOption="STATE_HOLD_FEEDER"/>
 
-<snippet file= "ShootWhenStopManual.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BluePodiumWing3Center0">
+pathname= "BluePodiumWing1Center0"
+time= "4.0">
 
 <zone filename = "BlueIntakeWingNote1.xml"/>
-<zone filename = "BlueIntakeWingNote2.xml"/>
-<zone filename = "BlueIntakeWingNote3.xml"/>
-
-<zone filename= "BlueLaunchingZoneWingNote2.xml"/>
-<zone filename= "BlueLaunchingZoneWingNote2.5.xml"/>
 
 </primitive>
 
-<snippet file= "ShootWhenStopManual.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing1Center0_2"
+time= "4.0">
+<zone filename = "BlueIntakeWingNote2.xml"/>
+
+</primitive>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing1Center0_3"
+time= "4.0">
+
+<zone filename = "BlueIntakeWingNote3.xml"/>
+
+<!--<zone filename= "BlueLaunchingZoneWingNote2.xml"/>
+<zone filename= "BlueLaunchingZoneWingNote2.5.xml"/>-->
+
+</primitive>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 </auton>
