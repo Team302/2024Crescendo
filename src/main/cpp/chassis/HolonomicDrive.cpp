@@ -146,7 +146,7 @@ void HolonomicDrive::Run()
             SlowMode();
         }
 
-        if (rotate > 0.05)
+        if (abs(rotate) > 0.05)
         {
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
         }

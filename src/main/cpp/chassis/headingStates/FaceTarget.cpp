@@ -52,7 +52,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision X", visionTanslationX.to<double>());
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Y", visionTanslationY.to<double>());
-                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::length::inch_t((visionTanslationY).to<double>() - 0.25) * m_visionKp);
+                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(((visionTanslationY).to<double>() + 0.25) * m_visionKp);
             }
             else
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
