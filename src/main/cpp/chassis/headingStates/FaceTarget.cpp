@@ -51,19 +51,10 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 auto visionTanslationY = testVisionData.value().translationToTarget.Y();
                 auto visionTransformY = testVisionData.value().transformToTarget.Y();
 
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision X", visionTanslationX.to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Y", visionTanslationY.to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Transform Y", visionTransformY.to<double>());
-
                 chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(((visionTanslationY).to<double>()) * m_visionKp);
             }
-            else
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
         }
-        else
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
-
-        if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+        else if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;

@@ -68,6 +68,8 @@ void readyAutoLaunchState::Run()
 			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualAutoSpeed));
 		}
 	}
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bottom Speed"), m_mechanism->getlauncherBottom()->GetRPS() * 60); // Remove logging after Note management is all verifed
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Speed"), m_mechanism->getlauncherTop()->GetRPS() * 60);		// Remove logging after Note management is all verifed
 
 	m_genState->Run();
 }
