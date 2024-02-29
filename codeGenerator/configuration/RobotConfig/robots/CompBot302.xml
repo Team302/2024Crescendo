@@ -5693,6 +5693,7 @@
               </SecondaryLimitCycles>
             </currentLimits>
             <theConfigMotorSettings>
+              <inverted>Clockwise_Positive</inverted>
               <mode>Brake</mode>
             </theConfigMotorSettings>
             <RotationOffset>
@@ -5872,7 +5873,6 @@
               </SecondaryLimitCycles>
             </currentLimits>
             <theConfigMotorSettings>
-              <inverted>Clockwise_Positive</inverted>
               <mode>Brake</mode>
             </theConfigMotorSettings>
             <RotationOffset>
@@ -5902,7 +5902,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.04</value>
+                <value>0.065</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -6193,7 +6193,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>28</value>
+                  <value>8.75</value>
                 </target>
                 <motorName>leftClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>
@@ -6205,7 +6205,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>28</value>
+                  <value>8.75</value>
                 </target>
                 <motorName>rightClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>
