@@ -5978,7 +5978,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.055</value>
+                <value>0.065</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
