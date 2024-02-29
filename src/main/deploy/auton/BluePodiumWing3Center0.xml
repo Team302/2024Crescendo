@@ -3,7 +3,7 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER"
-            pathname= "BluePodiumWing3Center0"
+            pathname= "BluePodiumWing1Center0"
                 noteOption="STATE_HOLD_FEEDER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
