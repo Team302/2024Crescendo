@@ -25,6 +25,8 @@
 #include <driveteamfeedback/LEDStates.h>
 
 #include "teleopcontrol/TeleopControl.h"
+#include "configs/RobotConfigMgr.h"
+#include "mechanisms/noteManager/decoratormods/noteManager.h"
 
 using frc::DriverStation;
 
@@ -50,37 +52,37 @@ void DriverFeedback::UpdateLEDStates()
     // TeleopControl::GetInstance()->SetRumble(0, false, false);
 
     oldState = currentState;
-    if (false)
+    if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
     {
-        if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
-        {
-            currentState = DragonLeds::RED;
-            if (oldState != currentState)
-            {
-                m_LEDStates->ResetVariables();
-            }
-            m_LEDStates->ChaserPattern(DragonLeds::RED);
-        }
-        else if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
-        {
+        currentState = DragonLeds::RED;
+        if (oldState != currentState)
+            m_LEDStates->ResetVariables();
+
+        m_LEDStates->SolidColorPattern(currentState);
+    }
+    else
+    {
+        if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
             currentState = DragonLeds::GREEN;
-            if (oldState != currentState)
-            {
-                m_LEDStates->ResetVariables();
-            }
-            m_LEDStates->SolidColorPattern(DragonLeds::GREEN);
-        }
         else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
+            currentState = DragonLeds::WHITE;
+
+        if (oldState != currentState)
+            m_LEDStates->ResetVariables();
+
+        StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+        if (noteStateManager != nullptr)
         {
-            currentState = DragonLeds::BLUE;
-            if (oldState != currentState)
-            {
-                m_LEDStates->ResetVariables();
-            }
-            m_LEDStates->ClosingInChaserPattern(DragonLeds::BLUE);
+            if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)
+                m_LEDStates->BlinkingPattern(currentState);
+            else
+                m_LEDStates->SolidColorPattern(currentState);
         }
+        else
+            m_LEDStates->SolidColorPattern(currentState);
     }
 }
+
 void DriverFeedback::ResetRequests(void)
 {
 }
