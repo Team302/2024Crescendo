@@ -50,7 +50,6 @@ void ManualState::Init()
 void ManualState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("run"));
-	bool bottomReached = false;
 
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
 	{
@@ -60,23 +59,6 @@ void ManualState::Run()
 			m_target = 6.0;
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
-	}
-
-	if (bottomReached == false)
-	{
-		if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB))
-		{
-			m_target = 8.75;
-			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
-			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
-			if (m_mechanism->getleftClimber()->GetCounts() < 9.0 && m_mechanism->getrightClimber()->GetCounts() < 9.0)
-			{
-				m_target = 9.5;
-				m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
-				m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
-				bottomReached = true;
-			}
-		}
 	}
 
 	m_genState->Run();
@@ -97,5 +79,5 @@ bool ManualState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	auto currentState = m_mechanism->GetCurrentState();
-	return (considerGamepadTransitions && (m_mechanism->IsClimbMode()));
+	return (considerGamepadTransitions && (m_mechanism->IsClimbMode()) && (currentState != m_mechanism->STATE_AUTO_CLIMB));
 }

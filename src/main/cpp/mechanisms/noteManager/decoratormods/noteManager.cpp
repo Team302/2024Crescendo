@@ -136,6 +136,7 @@ bool noteManager::HasVisionTarget()
 	{
 		return true;
 	}
+	return false;
 }
 
 void noteManager::Update(RobotStateChanges::StateChange change, int value)
