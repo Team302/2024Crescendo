@@ -44,7 +44,7 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
-		double m_targetSpeed = 525;
+		double m_targetSpeed = 430;
 		double m_targetAngle = 0;
 		units::angular_velocity::radians_per_second_t m_manualLaunchSpeed = units::angular_velocity::radians_per_second_t(350.0);
 	};

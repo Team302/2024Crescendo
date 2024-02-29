@@ -50,14 +50,24 @@ void readyAutoLaunchState::Init()
 void readyAutoLaunchState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyAutoLaunchState"), string("run"));
-	// Adding ability to control launcher Angel temporarily for tuning
-	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
-	{
-		double delta = 3.0 * 0.05 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)); // changing by 6 deg/s * 0.05 for 20 ms loop time * controller input
-		m_target += delta;
-	}
+
 	m_target = m_mechanism->GetRequiredLaunchAngle();
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_target);
+
+	if (m_mechanism->HasVisionTarget())
+	{
+		double distanceFromTarget = m_mechanism->GetVisionDistance().to<double>();
+		if (distanceFromTarget < 1.5)
+		{
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+		}
+		else
+		{
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualAutoSpeed));
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualAutoSpeed));
+		}
+	}
 
 	m_genState->Run();
 }

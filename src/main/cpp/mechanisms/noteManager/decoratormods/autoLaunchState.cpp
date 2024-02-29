@@ -52,6 +52,7 @@ void autoLaunchState::Init()
 	{
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+		m_targetSpeed = 325;
 	}
 }
 
