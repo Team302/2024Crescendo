@@ -122,7 +122,14 @@ void Robot::TeleopInit()
     if (config != nullptr)
     {
         auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
-        if (noteMgr != nullptr)
+        bool allSensorsOff = ((m_noteManagerGen->getfeederSensor()->Get() == false) &&
+                              (m_noteManagerGen->getlauncherSensor()->Get() == false) &&
+                              (m_noteManagerGen->getplacerInSensor()->Get() == false) &&
+                              (m_noteManagerGen->getplacerMidSensor()->Get() == false) &&
+                              (m_noteManagerGen->getplacerOutSensor()->Get() == false) &&
+                              (m_noteManagerGen->getbackIntakeSensor()->Get() == false) &&
+                              (m_noteManagerGen->getfrontIntakeSensor()->Get() == false));
+        if (noteMgr != nullptr && allSensorsOff)
         {
             noteMgr->SetCurrentState(noteManagerGen::STATE_NAMES::STATE_READY, true);
         }

@@ -31,6 +31,7 @@ class DragonField;
 class AutonPreviewer;
 class RobotState;
 class SomeMech;
+class noteManagerGen;
 class RobotDefinition;
 
 class Robot : public frc::TimedRobot
@@ -73,5 +74,6 @@ private:
     AutonPreviewer *m_previewer;
     RobotState *m_robotState;
     SomeMech *m_someMech;
+    noteManagerGen *m_noteManagerGen;
     RobotDefinition *m_robot;
 };
