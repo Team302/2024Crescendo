@@ -4,7 +4,7 @@
 
 <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
             pathname= "BluePodiumWing1Center0"
-                noteOption="STATE_READY_AUTO_LAUNCH"/>
+                noteOption="STATE_HOLD_FEEDER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing1Center0"
