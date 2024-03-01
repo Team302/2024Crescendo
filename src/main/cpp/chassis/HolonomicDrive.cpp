@@ -158,6 +158,11 @@ void HolonomicDrive::Run()
         {
             m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
         }
+        else
+        {
+            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+        }
+          
 
         CheckTipping(checkTipping);
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Heading Option", m_moveInfo.headingOption);
