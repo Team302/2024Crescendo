@@ -76,10 +76,6 @@ bool manualLaunchState::AtTarget()
 		bottomSpeedIsWithinTolerance = true;
 	}
 
-	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("angleIsWithinTolerance"), angleIsWithinTolerance ? string("true") : string("false"));
-	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("topSpeedIsWithinTolerance"), topSpeedIsWithinTolerance ? string("true") : string("false"));
-	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("bottomSpeedIsWithinTolerance"), bottomSpeedIsWithinTolerance ? string("true") : string("false"));
-
 	attarget = angleIsWithinTolerance && topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
 
 	return (attarget);

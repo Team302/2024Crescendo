@@ -46,6 +46,14 @@ void autoLaunchState::Init()
 	m_genState->Init();
 	m_targetAngle = m_mechanism->getlauncherAngle()->GetCounts();
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_targetAngle);
+
+	double distanceFromTarget = m_mechanism->GetVisionDistance().to<double>();
+	if (distanceFromTarget < 1.5)
+	{
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+		m_targetSpeed = 325;
+	}
 }
 
 void autoLaunchState::Run()
