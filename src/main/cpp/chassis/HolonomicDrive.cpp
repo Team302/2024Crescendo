@@ -39,6 +39,7 @@ using namespace frc;
 
 /// @brief initialize the object and validate the necessary items are not nullptrs
 HolonomicDrive::HolonomicDrive() : State(string("HolonomicDrive"), -1),
+                                   IRobotStateChangeSubscriber(),
                                    m_swerve(ChassisConfigMgr::GetInstance()->GetCurrentConfig() != nullptr ? ChassisConfigMgr::GetInstance()->GetCurrentConfig()->GetSwerveChassis() : nullptr),
                                    m_previousDriveState(ChassisOptionEnums::DriveStateType::FIELD_DRIVE),
                                    m_checkTippingLatch(false)
@@ -132,6 +133,7 @@ void HolonomicDrive::Run()
                 if ((m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER))
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+
                     if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.001) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
                     {
                         m_previousDriveState = m_moveInfo.driveOption;
@@ -151,6 +153,12 @@ void HolonomicDrive::Run()
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
         }
 
+        // if we're in climb mode, make robot drive robot oriented
+        if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+        {
+            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+        }
+
         CheckTipping(checkTipping);
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Heading Option", m_moveInfo.headingOption);
         m_swerve->Drive(m_moveInfo);
@@ -158,6 +166,14 @@ void HolonomicDrive::Run()
     else
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("HolonomicDrive"), string("Run"), string("nullptr"));
+    }
+}
+
+void HolonomicDrive::Update(RobotStateChanges::StateChange change, int value)
+{
+    if (change == RobotStateChanges::StateChange::ClimbModeStatus)
+    {
+        m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
     }
 }
 

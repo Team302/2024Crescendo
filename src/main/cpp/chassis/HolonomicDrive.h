@@ -20,10 +20,11 @@
 // Team 302 includes
 #include "chassis/ChassisMovement.h"
 #include "State.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
 
 class SwerveChassis;
 
-class HolonomicDrive : public State
+class HolonomicDrive : public State, public IRobotStateChangeSubscriber
 {
 public:
     HolonomicDrive();
@@ -50,10 +51,14 @@ private:
     void AlignToCenterStage();
     void AlignToRightStage();
 
+    void Update(RobotStateChanges::StateChange change, int value);
+
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
     const double m_slowModeMultiplier = 0.5;
     bool m_CheckTipping = false;
     bool m_checkTippingLatch = false;
     ChassisMovement m_moveInfo;
+
+    RobotStateChanges::ClimbMode m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 };
