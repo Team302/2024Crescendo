@@ -90,8 +90,8 @@ void ClimberManagerAllStatesStateGen::InitCompBot302()
 	}
 	else if ( GetClimberManager()->GetCurrentState() == ClimberManagerGen::STATE_NAMES::STATE_AUTO_CLIMB )
 	{
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 8.75 ) ) );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 8.75 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 8.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, GetClimberManager()->getclimberPosInch(), units::length::inch_t ( units::length::inch_t ( 8.5 ) ) );
 	}
 	else if ( GetClimberManager()->GetCurrentState() == ClimberManagerGen::STATE_NAMES::STATE_HOLD )
 	{
