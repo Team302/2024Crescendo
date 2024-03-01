@@ -46,8 +46,8 @@ DragonDriveTargetFinder *DragonDriveTargetFinder::GetInstance()
 
 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::GetPose(DragonVision::VISION_ELEMENT item)
 {
-    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    if (chassisConfig != nullptr)
+    /*auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+     if (chassisConfig != nullptr)
     {
 
         auto chassis = chassisConfig->GetSwerveChassis();
@@ -61,14 +61,15 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
                 auto currentPose{Pose3d(chassis->GetPose())};
                 auto trans3d = data.value().transformToTarget;
                 auto targetPose = currentPose + trans3d;
-                auto pose2d = targetPose.ToPose2d();
 
                 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, pose2d);
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, targetPose.ToPose2d());
+
                 return targetInfo;
             }
         }
     }
+    */
 
     int aprilTag = -1;
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
@@ -111,6 +112,7 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
                                             units::angle::degree_t target,
                                             double kp)
 {
+    chassis->SetStoredHeading(target);
     if (chassis != nullptr)
     {
         units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
@@ -125,6 +127,5 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
             chassisMovement.chassisSpeeds.omega += correction;
             // }
         }
-        chassis->SetStoredHeading(target);
     }
 }

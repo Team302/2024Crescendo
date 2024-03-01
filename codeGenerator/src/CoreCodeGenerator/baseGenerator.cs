@@ -53,7 +53,7 @@ namespace CoreCodeGenerator
                 list[i] = list[i].Trim();
                 if (!string.IsNullOrWhiteSpace(list[i]))
                 {
-                    if ( (list[i].EndsWith(delimeter)) || ((delimeter == ";") && list[i].EndsWith("}")))
+                    if ((list[i].EndsWith(delimeter)) || ((delimeter == ";") && list[i].EndsWith("}")))
                         sb.AppendLine(list[i]);
                     else
                         sb.AppendLine(string.Format("{0}{1}", list[i], delimeter));
@@ -111,6 +111,23 @@ namespace CoreCodeGenerator
             copyrightAndGenNoticeAndSave(outputFilePathName, contents, false);
         }
 
+
+        string removeConsecutiveWhiteSpace(string s1)
+        {
+            s1 = s1.Replace("\r", "\n");
+            s1 = s1.Replace("\t", "\n");
+            s1 = s1.Replace(" ", "\n");
+            return Regex.Replace(s1, "\n{2,}", "\n");
+        }
+
+        bool compareStringContentsIgnoreConsecutiveWhiteSpace(string s1, string s2)
+        {
+            s1 = removeConsecutiveWhiteSpace(s1);
+            s2 = removeConsecutiveWhiteSpace(s2);
+
+            return s1 == s2;
+        }
+
         internal void copyrightAndGenNoticeAndSave(string outputFilePathName, string contents, bool doNotWriteIfExists)
         {
             string copyright = theToolConfiguration.CopyrightNotice.Trim();
@@ -121,7 +138,7 @@ namespace CoreCodeGenerator
 
             contents = contents.Replace("$$_COPYRIGHT_$$", copyright);
             contents = contents.Replace("$$_GEN_NOTICE_$$", generationString);
-            if(!doNotWriteIfExists)
+            if (!doNotWriteIfExists)
                 contents = theToolConfiguration.EditorFormattingDisable.Trim() + Environment.NewLine + contents.TrimStart();
 
             contents = astyle.AStyleCaller.beautify(contents, null);
@@ -144,8 +161,7 @@ namespace CoreCodeGenerator
                     currentText = removeGenerationInfo(currentText);
                     contentsWithoutGenInfo = removeGenerationInfo(contents);
 
-                    if (currentText == contentsWithoutGenInfo)
-                        writeFile = false;
+                    writeFile = !compareStringContentsIgnoreConsecutiveWhiteSpace(currentText, contentsWithoutGenInfo);
                 }
             }
 

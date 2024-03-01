@@ -74,6 +74,7 @@ void ReadyState::Run()
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0.0);
 
 	m_genState->Run();
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Evevator"), string("Pos"), m_mechanism->getElevator()->GetCounts()); // Remove logging after Note management is all verifed
 }
 
 void ReadyState::Exit()
