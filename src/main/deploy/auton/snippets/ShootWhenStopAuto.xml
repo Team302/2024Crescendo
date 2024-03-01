@@ -4,5 +4,5 @@
 <auton>
  <primitive id="DO_NOTHING"
                noteOption="STATE_AUTO_LAUNCH"
-               time="1.0"/>
+               time="0.5"/>
 </auton>
