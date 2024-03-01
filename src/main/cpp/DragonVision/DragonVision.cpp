@@ -60,14 +60,13 @@ void DragonVision::AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USA
 	// check if we should add camera to photon pose estimator
 	if ((position == RobotElementNames::CAMERA_USAGE::LAUNCHER) || (position == RobotElementNames::CAMERA_USAGE::PLACER))
 	{
-		photon::PhotonPoseEstimator tempEstimator = photon::PhotonPoseEstimator{GetAprilTagLayout(),
-																				photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR,
-																				std::move(photon::PhotonCamera{camera->GetCameraName()}),
-																				camera->GetTransformFromRobotCenter()};
-		tempEstimator.SetMultiTagFallbackStrategy(photon::PoseStrategy::AVERAGE_BEST_TARGETS);
 		// may switch above pose fallback to reference or last pose, may be able to use odometry as a fallback and get closest
 		// to odometry's slightly inaccurate pose
-		m_poseEstimators.emplace_back();
+		m_poseEstimators.emplace_back(photon::PhotonPoseEstimator{GetAprilTagLayout(),
+																  photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR,
+																  std::move(photon::PhotonCamera{camera->GetCameraName()}),
+																  camera->GetTransformFromRobotCenter()});
+		m_poseEstimators.back().SetMultiTagFallbackStrategy(photon::PoseStrategy::AVERAGE_BEST_TARGETS);
 	}
 }
 
