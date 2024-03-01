@@ -53,7 +53,7 @@ void autoClimbState::Run()
 
 	if (m_bottomReached == false)
 	{
-		if (m_mechanism->getleftClimber()->GetCounts() < 9.0 && m_mechanism->getrightClimber()->GetCounts() < 9.0)
+		if (m_mechanism->getleftClimber()->GetCounts() < 8.75 && m_mechanism->getrightClimber()->GetCounts() < 8.75)
 		{
 			m_target = 9.5;
 			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);

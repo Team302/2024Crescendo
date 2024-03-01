@@ -61,6 +61,8 @@ void ManualState::Run()
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
 	}
 
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("In"), m_mechanism->getleftClimber()->GetCounts());
+
 	m_genState->Run();
 }
 
