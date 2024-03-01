@@ -15,7 +15,7 @@ noteOption="STATE_FEEDER_INTAKE"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing1Center0_1A"
-time= "2.5"
+time= "3.0"
 noteOption="STATE_FEEDER_INTAKE"/>
 
 <primitive id="DO_NOTHING"
