@@ -132,7 +132,16 @@ void HolonomicDrive::Run()
             {
                 if ((m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER))
                 {
-                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+
+                    // if we're in climb mode, make robot drive robot oriented
+                    if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+                    {
+                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+                    }
+                    else
+                    {
+                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    }
 
                     if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.001) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
                     {
@@ -152,17 +161,6 @@ void HolonomicDrive::Run()
         {
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
         }
-
-        // if we're in climb mode, make robot drive robot oriented
-        if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
-        {
-            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
-        }
-        else
-        {
-            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-        }
-          
 
         CheckTipping(checkTipping);
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Heading Option", m_moveInfo.headingOption);
