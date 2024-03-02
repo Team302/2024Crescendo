@@ -44,6 +44,6 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
-		double m_target = 11.5;
+		double m_target = 16.5;
 	};
 }
