@@ -7,8 +7,8 @@
                 noteOption="STATE_READY_AUTO_LAUNCH"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing1Center0"
-time= "1.75"
+    pathname= "BlueAmpWing1Center0"
+    time= "1.75"
 noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
