@@ -17,6 +17,7 @@
 #include "configs/RobotConfigMgr.h"
 #include "driveteamfeedback/DriverFeedback.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
+#include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "PeriodicLooper.h"
 #include "Robot.h"
 #include "robotstate/RobotState.h"
@@ -125,6 +126,11 @@ void Robot::TeleopInit()
         if (noteMgr != nullptr)
         {
             noteMgr->SetCurrentState(noteManagerGen::STATE_NAMES::STATE_READY, true);
+        }
+        auto climberMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
+        if (climberMgr != nullptr)
+        {
+            climberMgr->SetCurrentState(ClimberManagerGen::STATE_NAMES::STATE_HOLD, true);
         }
     }
 
