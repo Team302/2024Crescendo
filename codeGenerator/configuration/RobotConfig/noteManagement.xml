@@ -5322,6 +5322,13 @@
           <type>String</type>
           <value>placerToLauncher</value>
         </stringParameterConstInMechInstance>
+        <stringParameterConstInMechInstance>
+          <unitsFamily>none</unitsFamily>
+          <name>stringParameterConstInMechInstance_4</name>
+          <__units__ />
+          <type>String</type>
+          <value>Ready</value>
+        </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>
         <motorTarget>

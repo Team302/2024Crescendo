@@ -242,7 +242,7 @@ void HolonomicDrive::AlignToAmp()
 {
     // m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
-    m_moveInfo.yawAngle = units::angle::degree_t(90.0);
+    m_moveInfo.yawAngle = units::angle::degree_t(-90.0);
 }
 void HolonomicDrive::HoldPosition()
 {
