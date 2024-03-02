@@ -54,6 +54,7 @@ public:
         EXAMPLE_MECH_REVERSE,
         // Cresendo Modes
         CLIMB_MODE,
+        MANUAL_LAUNCH_MODE,
         MANUAL_MODE,
         SCORING_MODE,
 

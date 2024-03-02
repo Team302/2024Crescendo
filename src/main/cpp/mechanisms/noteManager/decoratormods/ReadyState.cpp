@@ -124,7 +124,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 			 ((currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH_ODOMETRY))))
 	{
 		m_launchTimer->Start();
-		if (m_launchTimer->Get().to<double>() > 0.25)
+		if (m_launchTimer->Get().to<double>() > m_mechanism->IsManualLaunchMode() ? 5.0 : 0.25)
 		{
 			transition = true;
 			m_launchTimer->Stop();

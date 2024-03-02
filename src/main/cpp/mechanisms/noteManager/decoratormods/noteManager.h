@@ -57,6 +57,7 @@ public:
 	bool IsLauncherMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Launcher; }
 	bool IsPlacerMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Placer; }
 	bool IsClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
+	bool IsManualLaunchMode() const { return m_manualLaunchMode == RobotStateChanges::ManualLaunchMode::ManualLaunchModeOn; }
 	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
@@ -67,5 +68,6 @@ private:
 	noteManagerGen *m_noteManager;
 	RobotStateChanges::ScoringMode m_scoringMode;
 	RobotStateChanges::ClimbMode m_climbMode;
+	RobotStateChanges::ManualLaunchMode m_manualLaunchMode;
 	RobotStateChanges::GamePeriod m_gamePeriod;
 };

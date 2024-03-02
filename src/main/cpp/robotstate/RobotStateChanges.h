@@ -27,6 +27,7 @@ public:
         DriveAssistMode,
         GameState,
         CompressorChange,
+        ManualLaunchStatus,
         LoopCounter
     };
 
@@ -40,6 +41,12 @@ public:
     {
         ClimbModeOff,
         ClimbModeOn
+    };
+
+    enum ManualLaunchMode
+    {
+        ManualLaunchModeOff,
+        ManualLaunchModeOn
     };
 
     enum ChassisTilt

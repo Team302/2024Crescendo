@@ -72,6 +72,7 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 
 	m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
+	m_manualLaunchMode = RobotStateChanges::ManualLaunchMode::ManualLaunchModeOff;
 	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
 
 	RobotState *RobotStates = RobotState::GetInstance();
@@ -145,6 +146,8 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
 	else if (change == RobotStateChanges::ClimbModeStatus)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
+	else if (change == RobotStateChanges::ManualLaunchStatus)
+		m_manualLaunchMode = static_cast<RobotStateChanges::ManualLaunchMode>(value);
 	else if (change == RobotStateChanges::GameState)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }

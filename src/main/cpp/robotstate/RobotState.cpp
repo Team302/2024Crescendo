@@ -166,3 +166,17 @@ void RobotState::PublishClimbMode(TeleopControl *controller)
     }
     m_climbModeButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::CLIMB_MODE);
 }
+
+void RobotState::PublishManualLaunchMode(TeleopControl *controller)
+{
+    if (controller->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH_MODE))
+    {
+        if (m_manualLaunchModeButtonReleased)
+        {
+            m_manualLaunchMode = (m_manualLaunchMode == RobotStateChanges::ManualLaunchModeOff) ? RobotStateChanges::ManualLaunchModeOn : RobotStateChanges::ManualLaunchModeOff;
+
+            PublishStateChange(RobotStateChanges::ManualLaunchStatus, m_manualLaunchMode);
+        }
+    }
+    m_manualLaunchModeButtonReleased = !controller->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH_MODE);
+}
