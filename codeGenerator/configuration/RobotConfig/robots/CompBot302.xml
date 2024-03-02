@@ -2516,7 +2516,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>5.1E-05</value>
+                <value>0.0001</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -5412,6 +5412,13 @@
                 <type>String</type>
                 <value>placerToLauncher</value>
               </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_4</name>
+                <__units__ />
+                <type>String</type>
+                <value>Ready</value>
+              </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
               <motorTarget>
@@ -6193,7 +6200,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>8.75</value>
+                  <value>8.5</value>
                 </target>
                 <motorName>leftClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>
@@ -6205,7 +6212,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>8.75</value>
+                  <value>8.5</value>
                 </target>
                 <motorName>rightClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>

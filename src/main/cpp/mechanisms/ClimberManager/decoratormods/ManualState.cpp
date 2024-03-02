@@ -55,11 +55,13 @@ void ManualState::Run()
 	{
 		double delta = 6.0 * 0.03 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
 		m_target += delta;
-		if (m_target < 6.0)
-			m_target = 6.0;
+		if (m_target < 8.5)
+			m_target = 8.5;
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
 	}
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("In"), m_mechanism->getleftClimber()->GetCounts());
 
 	m_genState->Run();
 }

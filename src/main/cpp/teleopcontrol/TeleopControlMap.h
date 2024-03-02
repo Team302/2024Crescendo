@@ -157,7 +157,7 @@ const TeleopControlButton extra4DPad315 = {TeleopControlMappingEnums::EXTRA4, Te
 robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlButton> teleopControlMapButtonMap{
     // {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverXButton},
 
-    //{TeleopControlFunctions::RESET_POSITION, driverAButton},need to re assign
+    {TeleopControlFunctions::RESET_POSITION, driverLStickPressed},
     //{TeleopControlFunctions::HOLD_POSITION, driverLBumper},need to re assign
     //{TeleopControlFunctions::SLOW_MODE, driverRBumper}, need to re assign
 
