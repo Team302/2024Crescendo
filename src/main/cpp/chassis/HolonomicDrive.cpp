@@ -230,7 +230,17 @@ void HolonomicDrive::AlignToRightStage()
 }
 void HolonomicDrive::AlignToSpeaker()
 {
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_SPEAKER;
+    // m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_SPEAKER;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
+
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
+    {
+        m_moveInfo.yawAngle = units::angle::degree_t(180.0);
+    }
+    else
+    {
+        m_moveInfo.yawAngle = units::angle::degree_t(0.0);
+    }
 }
 void HolonomicDrive::AlignToAmp()
 {
