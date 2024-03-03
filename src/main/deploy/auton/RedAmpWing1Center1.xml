@@ -25,7 +25,7 @@ noteOption="STATE_FEEDER_INTAKE"/>
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing1Center0_1B"
+pathname= "RedAmpWing1Center0_1B"
 time= "8.0"
 noteOption="STATE_FEEDER_INTAKE"/>
 
