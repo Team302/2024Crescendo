@@ -129,12 +129,16 @@ void HolonomicDrive::Run()
             {
                 HoldPosition();
             }
-            else if (isRobotOriented)
+            else if (isRobotOriented || m_robotOrientedDrive)
             {
                 CheckRobotOriented(isRobotOriented);
                 if (m_robotOrientedDrive)
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+                }
+                else
+                {
+                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
                 }
             }
             else
@@ -292,7 +296,7 @@ void HolonomicDrive::CheckRobotOriented(bool isSelected)
 {
     if (isSelected)
     {
-        if (m_robotOrientedLatch == false)
+        if (!m_robotOrientedLatch)
         {
             m_robotOrientedDrive = !m_robotOrientedDrive;
             m_robotOrientedLatch = true;
