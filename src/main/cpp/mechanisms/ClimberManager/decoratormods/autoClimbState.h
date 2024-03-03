@@ -45,6 +45,6 @@ namespace ClimberManagerStates
 		ClimberManagerAllStatesStateGen *m_genState;
 		ClimberManager *m_mechanism;
 		bool m_bottomReached = false;
-		double m_target = 10.5;
+		double m_target = 8.5;
 	};
 }
