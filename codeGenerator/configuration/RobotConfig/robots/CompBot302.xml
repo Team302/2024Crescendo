@@ -5916,7 +5916,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.065</value>
+                <value>0.11</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
@@ -6207,7 +6207,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>8.5</value>
+                  <value>10</value>
                 </target>
                 <motorName>leftClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>
@@ -6219,7 +6219,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>8.5</value>
+                  <value>10</value>
                 </target>
                 <motorName>rightClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>
