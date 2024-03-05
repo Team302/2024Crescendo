@@ -79,17 +79,14 @@ void DriverFeedback::UpdateLEDStates()
             }
             else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
             {
-                if (noteStateManager->)
+                // if (noteStateManager->)
 
-                    m_LEDStates->BlinkingPattern(currentState);
+                m_LEDStates->BlinkingPattern(currentState);
             }
             else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
             {
                 currentState = DragonLeds::YELLOW;
                 m_LEDStates->SolidColorPattern(currentState);
-            }
-            else if ()
-            {
             }
         }
     }
