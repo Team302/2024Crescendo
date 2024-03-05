@@ -62,10 +62,6 @@ void DriverFeedback::UpdateLEDStates()
     }
     else
     {
-        if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
-            currentState = DragonLeds::GREEN;
-        else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
-            currentState = DragonLeds::WHITE;
 
         if (oldState != currentState)
             m_LEDStates->ResetVariables();
@@ -74,12 +70,28 @@ void DriverFeedback::UpdateLEDStates()
         if (noteStateManager != nullptr)
         {
             if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)
-                m_LEDStates->BlinkingPattern(currentState);
-            else
+            {
+                if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+                    currentState = DragonLeds::GREEN;
+                else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
+                    currentState = DragonLeds::WHITE;
                 m_LEDStates->SolidColorPattern(currentState);
+            }
+            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
+            {
+                if (noteStateManager->)
+
+                    m_LEDStates->BlinkingPattern(currentState);
+            }
+            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
+            {
+                currentState = DragonLeds::YELLOW;
+                m_LEDStates->SolidColorPattern(currentState);
+            }
+            else if ()
+            {
+            }
         }
-        else
-            m_LEDStates->SolidColorPattern(currentState);
     }
 }
 
