@@ -25,6 +25,9 @@
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "utils/FMSData.h"
 
+/// DEBUGGING
+#include "utils/logging/Logger.h"
+
 using frc::Pose2d;
 using frc::Pose3d;
 using std::make_tuple;
@@ -43,8 +46,8 @@ DragonDriveTargetFinder *DragonDriveTargetFinder::GetInstance()
 
 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::GetPose(DragonVision::VISION_ELEMENT item)
 {
-    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    if (chassisConfig != nullptr)
+    /*auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+     if (chassisConfig != nullptr)
     {
 
         auto chassis = chassisConfig->GetSwerveChassis();
@@ -58,14 +61,15 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
                 auto currentPose{Pose3d(chassis->GetPose())};
                 auto trans3d = data.value().transformToTarget;
                 auto targetPose = currentPose + trans3d;
-                auto pose2d = targetPose.ToPose2d();
 
                 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, pose2d);
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, targetPose.ToPose2d());
+
                 return targetInfo;
             }
         }
     }
+    */
 
     int aprilTag = -1;
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
@@ -108,19 +112,20 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
                                             units::angle::degree_t target,
                                             double kp)
 {
+    chassis->SetStoredHeading(target);
     if (chassis != nullptr)
     {
         units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
         if (std::abs(rot.to<double>()) < 0.1)
         {
             chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-            if (abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0 ||
-                abs(chassisMovement.chassisSpeeds.vy.to<double>() > 0.0))
-            {
-                auto correction = ISwerveDriveOrientation::CalcHeadingCorrection(chassis->GetStoredHeading(), kp);
-                chassisMovement.chassisSpeeds.omega += correction;
-            }
+            // if (abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0 ||
+            //     abs(chassisMovement.chassisSpeeds.vy.to<double>() > 0.0))
+            // {
+            auto correction = ISwerveDriveOrientation::CalcHeadingCorrection(chassis->GetStoredHeading(), kp);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "FaceSpeakerCorrection (degpersec)", correction.to<double>());
+            chassisMovement.chassisSpeeds.omega += correction;
+            // }
         }
-        chassis->SetStoredHeading(target);
     }
 }

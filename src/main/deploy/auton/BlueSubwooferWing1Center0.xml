@@ -3,18 +3,21 @@
 <auton>
 
     <primitive id= "RESET_POSITION_PATH_PLANNER"
-                pathname="BlueSubwooferWing1Center0"/>
+                pathname="BlueSubwooferWing1Center0"
+                noteOption="STATE_HOLD_FEEDER"/>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
 
     <primitive id= "DRIVE_PATH_PLANNER"
-            pathname="BlueSubwooferWing1Center0">
-
-        <zone filename="BlueIntakeWingNote2.xml"/>
-
+            pathname="BlueSubwooferWing1Center0"
+            time = "7.0"
+            noteOption= "STATE_FEEDER_INTAKE">
+           <!-- <zone filename="BlueIntakeWingNote2.xml"/>-->
     </primitive>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
+
+    <primitive id= "DO_NOTHING"/>
 
     <!--No need for launching zones, as we are launching before and after-->
 

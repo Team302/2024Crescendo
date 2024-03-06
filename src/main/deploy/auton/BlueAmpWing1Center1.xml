@@ -2,24 +2,34 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id = "RESET_POSITION_PATH_PLANNER"
-pathname= "BlueAmpWing1Center1"/>
+<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+            pathname= "BlueAmpWing1Center0"
+                noteOption="STATE_READY_AUTO_LAUNCH"/>
 
-<snippet file = "ShootWhenStop.xml"/>
+<primitive id= "DRIVE_PATH_PLANNER"
+    pathname= "BlueAmpWing1Center0"
+    time= "1.75"
+noteOption="STATE_FEEDER_INTAKE"/>
 
-<primitive id = "DRIVE_PATH_PLANNER"
-pathname = "BlueAmpWing1Center1">
+<snippet file= "ShootWhenStopAuto.xml"/>
 
-            <zone filename="BlueIntakeWingNote2.xml"/>
-            <zone filename="BlueIntakeCenterNote1.xml"/>
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing1Center0_1A"
+time= "3.0"
+noteOption="STATE_FEEDER_INTAKE"/>
 
-            <zone filename = "BlueLaunchingZoneAmpNote1.xml"/>
+<primitive id="DO_NOTHING"
+time="0.6"
+noteOption="STATE_FEEDER_INTAKE"/>
 
-</primitive>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing1Center0_1B"
+time= "8.0"
+noteOption="STATE_FEEDER_INTAKE"/>
 
-<!--Zones to launch:
-V9-X11 (Launches there two different times: in the middle and at the very end)-->
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 
 </auton>

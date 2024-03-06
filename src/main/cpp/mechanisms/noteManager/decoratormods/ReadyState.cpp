@@ -43,16 +43,38 @@ ReadyState::ReadyState(std::string stateName,
 void ReadyState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("init"));
-
 	m_genState->Init();
 }
 
 void ReadyState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("run"));
+	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
+	{
+		double delta = 6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		m_target += delta;
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
+		if (m_target > 16.5) // limiting the travel to 0 through 16.5
+			m_target = 16.5;
+		else if (m_target < 0)
+			m_target = 0;
+	}
+
+	if (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED) > 0) // Transfer turns on if the placer and feeder are ran manually
+	{
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED));
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 1.0);
+	}
+	else if (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE) > 0)
+	{
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE));
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, -1.0);
+	}
+	else
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0.0);
+
 	m_genState->Run();
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Evevator"), string("Pos"), m_mechanism->getElevator()->GetCounts()); // Remove logging after Note management is all verifed
 }
 
 void ReadyState::Exit()
@@ -86,12 +108,12 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		transition = true;
 		reason = 1;
 	}
-	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::READY))
+	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::READY) && considerGamepadTransitions)
 	{
 		transition = true;
 		reason = 2;
 	}
-	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) &&
+	else if (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) &&
 			 ((currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_PLACE))))
 	{
 		transition = true;
@@ -118,7 +140,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		transition = true;
 		reason = 5;
 	}
-	else if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) == false) &&
+	else if (considerGamepadTransitions && (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) == false) &&
 			 ((frontIntakeSensor == false) && (backIntakeSensor == false)) &&
 			 (((currentState == static_cast<int>(m_mechanism->STATE_PLACER_INTAKE)) && ((placerInSensor == false) && (placerMidSensor == false))) ||
 			  ((currentState == static_cast<int>(m_mechanism->STATE_FEEDER_INTAKE)) && ((launcherSensor == false) && (feederSensor == false)))))
@@ -126,7 +148,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		transition = true;
 		reason = 6;
 	}
-	else if ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL) == false) &&
+	else if ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL) == false) &&
 			 (currentState == static_cast<int>(m_mechanism->STATE_EXPEL)))
 	{
 		transition = true;
