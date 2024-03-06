@@ -74,4 +74,5 @@ private:
     RobotState *m_robotState;
     SomeMech *m_someMech;
     RobotDefinition *m_robot;
+    bool isFMSAttached = false;
 };

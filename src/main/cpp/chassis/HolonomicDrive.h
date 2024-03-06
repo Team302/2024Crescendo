@@ -44,6 +44,7 @@ private:
     void TurnBackward();
     void SlowMode();
     void CheckTipping(bool tippingSelected);
+    void CheckRobotOriented(bool robotOrientedSelected);
     void AlignToSpeaker();
     void AlignToAmp();
     void AlignToLeftStage();
@@ -56,4 +57,7 @@ private:
     bool m_CheckTipping = false;
     bool m_checkTippingLatch = false;
     ChassisMovement m_moveInfo;
+
+    bool m_robotOrientedLatch = false;
+    bool m_robotOrientedDrive = false;
 };

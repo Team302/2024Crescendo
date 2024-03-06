@@ -155,15 +155,15 @@ const TeleopControlButton extra4DPad270 = {TeleopControlMappingEnums::EXTRA4, Te
 const TeleopControlButton extra4DPad315 = {TeleopControlMappingEnums::EXTRA4, TeleopControlMappingEnums::POV_315, TeleopControlMappingEnums::STANDARD};
 
 robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlButton> teleopControlMapButtonMap{
-    {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverXButton},
-    {TeleopControlFunctions::ALIGN_TO_SPEAKER, driverYButton},
+    // {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverXButton},
 
-    //{TeleopControlFunctions::RESET_POSITION, driverAButton},need to re assign
+    {TeleopControlFunctions::RESET_POSITION, driverLStickPressed},
+    {TeleopControlFunctions::ROBOT_ORIENTED_DRIVE, driverRStickPressed},
     //{TeleopControlFunctions::HOLD_POSITION, driverLBumper},need to re assign
     //{TeleopControlFunctions::SLOW_MODE, driverRBumper}, need to re assign
 
-    {TeleopControlFunctions::AUTO_TURN_FORWARD, driverLStickPressed},
-    {TeleopControlFunctions::AUTO_TURN_BACKWARD, driverRStickPressed},
+    // {TeleopControlFunctions::RESET_POSITION, driverLStickPressed},
+    // {TeleopControlFunctions::AUTO_TURN_BACKWARD, driverRStickPressed},
 
     {TeleopControlFunctions::DEBUG_INC_P, driverDPad0},
     {TeleopControlFunctions::DEBUG_DEC_P, driverDPad180},
@@ -181,7 +181,10 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::PASS, copilotBButton},
     {TeleopControlFunctions::PREP_PLACE, copilotXButton},
     {TeleopControlFunctions::PLACE, copilotRBumper},
+    // {TeleopControlFunctions::AUTO_SPEAKER, driverXButton},
+
     {TeleopControlFunctions::AUTO_SPEAKER, driverXButton},
+
     {TeleopControlFunctions::AUTO_AMP, driverAButton},
     {TeleopControlFunctions::AUTO_STAGE, driverBButton},
     {TeleopControlFunctions::BACKUP_FRONT_INTAKE, copilotRBumper},

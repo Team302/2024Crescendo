@@ -50,6 +50,28 @@ void autoClimbState::Init()
 void autoClimbState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoClimbState"), string("run"));
+	// Tune this in after week one, for now just let nick move the climber up and down manually
+	/*if (m_bottomReached == false)
+	{
+		if (m_mechanism->getleftClimber()->GetCounts() < 8.75 && m_mechanism->getrightClimber()->GetCounts() < 8.75)
+		{
+			m_target = 9.5;
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
+			m_bottomReached = true;
+		}
+	}*/
+	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
+	{
+		double delta = 6.0 * 0.035 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		m_target += delta;
+		if (m_target < 8.0)
+			m_target = 8.0;
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
+	}
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left"), m_mechanism->getleftClimber()->GetCounts());
+
 	m_genState->Run();
 }
 
