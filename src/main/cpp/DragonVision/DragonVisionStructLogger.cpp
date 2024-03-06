@@ -17,7 +17,7 @@ void DragonVisionStructLogger::logVisionData(const std::string &loggerName, cons
     }
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, loggerName, std::string("ERROR"), std::string("No vision data found"));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, loggerName, std::string("X"), std::string("No vision data found"));
     }
 }
 

@@ -569,6 +569,17 @@ DragonCamera::PIPELINE DragonVision::GetPipeline(RobotElementNames::CAMERA_USAGE
  */
 void DragonVision::testAndLogVisionData()
 {
-	std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
-	DragonVisionStructLogger::logVisionData("VisionData", testData);
+	try
+	{
+		std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
+		DragonVisionStructLogger::logVisionData("VisionData", testData);
+	}
+	catch (std::bad_optional_access &boa)
+	{
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("testAndLogVisionData"), std::string("bad_optional_access"), boa.what());
+	}
+	catch (std::exception &e)
+	{
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("testAndLogVisionData"), std::string("exception"), e.what());
+	}
 }
