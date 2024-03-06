@@ -2593,14 +2593,14 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.04</value>
+                <value>0.0425</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>5E-06</value>
+                <value>5.25E-06</value>
               </iGain>
               <dGain>
                 <unitsFamily>none</unitsFamily>
@@ -4068,6 +4068,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>1</value>
                 </target>
                 <motorName>frontIntake</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4079,6 +4080,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>1</value>
                 </target>
                 <motorName>backIntake</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4090,6 +4092,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>1</value>
                 </target>
                 <motorName>Transfer</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4123,6 +4126,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>1</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <controlDataName>percentOutput</controlDataName>
