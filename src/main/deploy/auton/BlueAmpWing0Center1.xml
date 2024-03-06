@@ -1,10 +1,11 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
-    <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
-    pathname= "BlueAmpWing0Center1"
-    noteOption="STATE_READY_AUTO_LAUNCH"/>
 
-<snippet file = "AmpCenterStart.xml"/>
+<primitive id= "RESET_POSITION_PATH_PLANNER"
+pathname= "BlueAmpWing0Center1"/>
+
+<snippet file= "AmpCenterStart.xml"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
