@@ -19,16 +19,22 @@
 #include <utils/logging/DataTraceSocket.h>
 
 // Third Party Includes
-#include <arpa/inet.h>
+
 #include <stdio.h>
 #include <string.h>
-#include <sys/socket.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <netdb.h>
+
+
+#ifdef INCLUDE_DATA_TRACE
+#include <arpa/inet.h>
+#include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <unistd.h>
+#include <netdb.h>
+#endif
+
 #include "utils/logging/DataTrace.h"
 
 #define PORT 30200

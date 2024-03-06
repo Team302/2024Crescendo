@@ -23,11 +23,15 @@
 #include <utils/logging/LoggableItemMgr.h>
 
 // Third Party Includes
-#include <arpa/inet.h>
+
 #include <stdio.h>
 #include <string.h>
+
+#ifdef INCLUDE_DATA_TRACE
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#endif
 
 class DataTraceSocket
 {
@@ -45,7 +49,9 @@ public:
 private:
     int status;
     int client_fd;
+#ifdef INCLUDE_DATA_TRACE
     struct sockaddr_in serv_addr;
+#endif
 
     bool isConnected = false;
 
