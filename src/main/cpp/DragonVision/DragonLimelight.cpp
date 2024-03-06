@@ -77,7 +77,8 @@ std::optional<int> DragonLimelight::GetAprilTagID()
     {
         double value = nt->GetNumber("tid", -1);
         int aprilTagInt = static_cast<int>(value + (value > 0 ? 0.5 : -0.5));
-        if (aprilTagInt < 0){
+        if (aprilTagInt < 0)
+        {
             return std::nullopt;
         }
         return aprilTagInt;
@@ -212,6 +213,7 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYaw()
     {
         return -1.0 * GetTy();
     }
+    // uncommenting this block might fix issue
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTx();
 }
@@ -229,6 +231,13 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
         units::length::inch_t targetDistanceRobotFrame = targetXdistance.value() + GetMountingXOffset(); // the offset is negative if the limelight is behind the center of the robot
 
         units::angle::radian_t angleOffset = units::math::atan2(targetHorizOffsetRobotFrame, targetDistanceRobotFrame);
+        if (GetTy().to<double>() < 0)
+        {
+            double angleOffsetdouble = angleOffset.to<double>();
+            angleOffsetdouble += 3.14159265;
+            units::angle::radian_t angleoffsetrad(angleOffsetdouble);
+            return angleoffsetrad;
+        }
         return angleOffset;
     }
 
@@ -237,7 +246,6 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitch()
 {
-    
     if (std::abs(GetCameraRoll().to<double>()) < 1.0)
     {
         return GetTy();
@@ -254,7 +262,7 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitch()
     {
         return -1.0 * GetTx();
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTy();
 }
 
@@ -265,7 +273,6 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetPitchRobotFrame(
 
     if (targetXDistance && targetZDistance)
     {
-
         units::angle::degree_t targetPitchToRobot = units::angle::degree_t(atan2(targetZDistance.value().to<double>(), targetXDistance.value().to<double>()));
         return targetPitchToRobot;
     }
@@ -387,35 +394,37 @@ void DragonLimelight::PrintValues()
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
 {
-    units::length::meter_t mountingHeight{m_cameraPose.Z()};
+    units::length::meter_t mountingHeight = m_cameraPose.Z();
 
-    units::angle::degree_t mountingAngle{m_cameraPose.Rotation().Z()};
-    std::optional<units::angle::degree_t> targetPitch{GetTargetPitch()};
-    std::optional<int> aprilTagID{GetAprilTagID()};
-    if (!aprilTagID.has_value() && targetPitch.has_value())
+    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
+    std::optional<units::angle::degree_t> targetPitch = GetTargetPitch();
+    std::optional<int> aprilTagID = GetAprilTagID();
+    if (!aprilTagID)
     {
-        // d=(h2-h1)/tan(a1+a2)
-        double tangent{units::math::tan(mountingAngle+ targetPitch.value())};
+        if (targetPitch)
+        {
+            double tangent = units::math::tan(mountingAngle + targetPitch.value());
+            if (tangent == 0)
+            {
+                return std::nullopt;
+            }
+            else
+            {
+                units::length::inch_t estimatedTargetDistance = (m_noteVerticalOffset - mountingHeight) / tangent;
 
-        if (std::abs(tangent) < 0.01)
-        {
-            return std::nullopt;
-        }
-        else
-        {
-            std::optional<units::length::inch_t> estimatedTargetDistance{(m_noteVerticalOffset - mountingHeight) / tangent};
-            return estimatedTargetDistance;
+                return estimatedTargetDistance;
+            }
         }
     }
-
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("LL"), std::string("EstimateTargetXDistance"), std::string("UNEXPECTED"));
         auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[0]);
     }
+
+    return std::nullopt;
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance()
@@ -423,24 +432,26 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance()
     std::optional<int> aprilTagID = GetAprilTagID();
     std::optional<units::angle::degree_t> targetYaw = GetTargetYaw();
     std::optional<units::length::inch_t> targetXdistance = EstimateTargetXDistance();
-    if (aprilTagID && targetYaw && targetXdistance)
+    if (!aprilTagID && targetYaw && targetXdistance)
     {
         units::length::inch_t estimatedTargetDistance = targetXdistance.value() * units::math::tan(m_cameraPose.Rotation().Z() + targetYaw.value());
         return estimatedTargetDistance;
     }
-    else
+    else if (aprilTagID)
     {
         auto botpose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
         std::vector<double> xdistance = botpose.GetEntry(std::array<double, 6>{}).Get(); // default value is empty array
 
         return units::length::inch_t(xdistance[1]);
     }
+
+    return std::nullopt;
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance()
 {
 
-    if (GetAprilTagID())
+    if (!GetAprilTagID())
     {
         units::length::inch_t estimatedTargetZDistance = m_cameraPose.Z() - m_noteVerticalOffset;
         return estimatedTargetZDistance;
@@ -453,24 +464,30 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance()
 
         return units::length::inch_t(xdistance[2]);
     }
+
+    return std::nullopt;
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance_RelToRobotCoords()
 {
-    std::optional<units::length::inch_t> optionalTargetXDistance = EstimateTargetXDistance();
-    if (optionalTargetXDistance.has_value())
+    std::optional<units::length::inch_t> xDistance = EstimateTargetXDistance();
+    if (xDistance)
     {
-        std::optional<units::length::inch_t> targetXoffset_RF_inch = optionalTargetXDistance.value() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
+        units::length::inch_t targetXoffset_RF_inch = xDistance.value() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
+
         return targetXoffset_RF_inch;
     }
+
     return std::nullopt;
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_RelToRobotCoords()
 {
-    if (EstimateTargetYDistance())
+    std::optional<units::length::inch_t> yDistance = EstimateTargetYDistance();
+    if (yDistance)
     {
-        units::length::inch_t targetYoffset_RF_inch = EstimateTargetYDistance().value() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
+        units::length::inch_t targetYoffset_RF_inch = yDistance.value() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
+
         return targetYoffset_RF_inch;
     }
 
@@ -479,9 +496,11 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_Re
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_RelToRobotCoords()
 {
-    if (EstimateTargetZDistance())
+    std::optional<units::length::inch_t> zDistance = EstimateTargetZDistance();
+    if (zDistance)
     {
-        units::length::inch_t targetZoffset_RF_inch = EstimateTargetZDistance().value() + GetMountingZOffset(); ///< the offset is positive if the limelight is above the center of the robot
+        units::length::inch_t targetZoffset_RF_inch = zDistance.value() + GetMountingZOffset(); ///< the offset is positive if the limelight is above the center of the robot
+
         return targetZoffset_RF_inch;
     }
 
@@ -490,7 +509,8 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_Re
 
 std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 {
-    if (GetAprilTagID())
+    std::optional<int> tagId = GetAprilTagID();
+    if (tagId)
     {
         auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
 
@@ -499,7 +519,7 @@ std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
         frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
         auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
 
-        return VisionData{transform, transform.Translation(), rotation, GetAprilTagID().value()};
+        return VisionData{transform, transform.Translation(), rotation, tagId.value()};
     }
 
     return std::nullopt;
