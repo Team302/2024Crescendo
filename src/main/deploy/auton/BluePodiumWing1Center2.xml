@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER"
+noteOption="STATE_HOLD_FEEDER"/>
+
+<snippet file= "PodiumStart.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<snippet file= "PodiumCenterRing5.xml"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<snippet file= "PodiumCenterRing4.xml"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<snippet file= "PodiumWingRing3.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
+</auton>
