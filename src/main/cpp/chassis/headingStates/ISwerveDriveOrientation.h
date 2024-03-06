@@ -48,5 +48,5 @@ protected:
     units::angle::degree_t m_storedYaw;
 
     double m_kPMaintainHeadingControl = 6.0;
-    double m_kPGoalHeadingControl = 6.0;
+    double m_kPGoalHeadingControl = 8.0;
 };

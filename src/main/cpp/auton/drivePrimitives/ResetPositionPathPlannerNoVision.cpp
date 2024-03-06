@@ -13,51 +13,53 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-
-// C++ Libraries
+// C++ Includes
+#include <memory>
+#include <string>
 
 // Team 302 includes
-#include "chassis/ChassisMovement.h"
-#include "State.h"
+#include "auton/drivePrimitives/IPrimitive.h"
+#include "auton/drivePrimitives/ResetPositionPathPlannerNoVision.h"
+#include "auton/PrimitiveParams.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/SwerveChassis.h"
+#include "utils/logging/Logger.h"
+#include "utils/FMSData.h"
 
-class SwerveChassis;
+// Third Party Includes
+#include "pathplanner/lib/path/PathPlannerPath.h"
 
-class HolonomicDrive : public State
+using namespace std;
+using namespace frc;
+using namespace pathplanner;
+
+ResetPositionPathPlannerNoVision::ResetPositionPathPlannerNoVision() : IPrimitive()
 {
-public:
-    HolonomicDrive();
-    ~HolonomicDrive() = default;
+}
 
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
+void ResetPositionPathPlannerNoVision::Init(PrimitiveParams *param)
+{
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 
-private:
-    void InitChassisMovement();
-    void InitSpeeds(double forwardScale, double strafeScale, double rotateScale);
-    void ResetPose();
-    void AlignGamePiece();
-    void HoldPosition();
-    void TurnForward();
-    void TurnBackward();
-    void SlowMode();
-    void CheckTipping(bool tippingSelected);
-    void CheckRobotOriented(bool robotOrientedSelected);
-    void AlignToSpeaker();
-    void AlignToAmp();
-    void AlignToLeftStage();
-    void AlignToCenterStage();
-    void AlignToRightStage();
+    if (chassis != nullptr)
+    {
+        auto path = PathPlannerPath::fromPathFile(param->GetPathName());
+        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+        {
+            path = path.get()->flipPath();
+        }
+        auto pose = path.get()->getPreviewStartingHolonomicPose();
+        chassis->ResetPose(pose);
+    }
+}
 
-    SwerveChassis *m_swerve;
-    ChassisOptionEnums::DriveStateType m_previousDriveState;
-    const double m_slowModeMultiplier = 0.5;
-    bool m_CheckTipping = false;
-    bool m_checkTippingLatch = false;
-    ChassisMovement m_moveInfo;
+void ResetPositionPathPlannerNoVision::Run()
+{
+}
 
-    bool m_robotOrientedLatch = false;
-    bool m_robotOrientedDrive = false;
-};
+bool ResetPositionPathPlannerNoVision::IsDone()
+{
+    return true;
+}

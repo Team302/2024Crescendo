@@ -31,7 +31,7 @@
 using namespace std;
 using namespace ClimberManagerStates;
 
-/// @class ExampleForwardState
+/// @class ExampleFwardState
 /// @brief information about the control (open loop, closed loop position, closed loop velocity, etc.) for a mechanism state
 ManualState::ManualState(std::string stateName,
 						 int stateId,
@@ -50,17 +50,20 @@ void ManualState::Init()
 void ManualState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ManualState"), string("run"));
+
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
 	{
-		double delta = 6.0 * 0.03 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		double delta = 8.0 * 0.05 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
 		m_target += delta;
-		if (m_target < 6.0)
-			m_target = 6.0;
+		if (m_target < 8.5)
+			m_target = 8.5;
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
 	}
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left Counts"), m_mechanism->getleftClimber()->GetCounts());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Right Counts"), m_mechanism->getrightClimber()->GetCounts());
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left"), m_mechanism->getleftClimber()->GetCounts());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Target"), m_target);
+
 	m_genState->Run();
 }
 
@@ -79,6 +82,5 @@ bool ManualState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	auto currentState = m_mechanism->GetCurrentState();
-	return (considerGamepadTransitions && (m_mechanism->IsClimbMode() ||
-										   (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) && (currentState == m_mechanism->STATE_AUTO_CLIMB))));
+	return (considerGamepadTransitions && (m_mechanism->IsClimbMode()) && (currentState != m_mechanism->STATE_AUTO_CLIMB));
 }
