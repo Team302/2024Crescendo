@@ -35,27 +35,16 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Current Rotation (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
 
-    if (units::math::abs(rot).to<double>() > 0.0)
-    {
-        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Setting Stored Heading (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
-        if (units::angle::degree_t(abs(chassis->GetPose().Rotation().Degrees().to<double>())) < units::angle::degree_t(15.0))
-            chassis->SetStoredHeading(units::angle::degree_t(0.0));
-        else if (chassis->GetPose().Rotation().Degrees() < units::angle::degree_t(105.0) && chassis->GetPose().Rotation().Degrees() > units::angle::degree_t(75.0))
-            chassis->SetStoredHeading(units::angle::degree_t(90.0));
-        else if (chassis->GetPose().Rotation().Degrees() > units::angle::degree_t(-105.0) && chassis->GetPose().Rotation().Degrees() < units::angle::degree_t(-75.0))
-            chassis->SetStoredHeading(units::angle::degree_t(-90));
-        else if (units::angle::degree_t(abs(chassis->GetPose().Rotation().Degrees().to<double>())) > units::angle::degree_t(165.0))
-            chassis->SetStoredHeading(units::angle::degree_t(180.0));
-    }
-    else
+    if (units::math::abs(rot).to<double>() < 0.1)
     {
         chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
         if ((abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0) || (abs(chassisMovement.chassisSpeeds.vy.to<double>()) > 0.0))
         {
-
             correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainHeadingControl);
-            chassisMovement.chassisSpeeds.omega += correction;
         }
     }
+    else
+        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+
+    chassisMovement.chassisSpeeds.omega += correction;
 }
