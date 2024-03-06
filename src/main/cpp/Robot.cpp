@@ -71,6 +71,14 @@ void Robot::RobotPeriodic()
     {
         LoggableItemMgr::GetInstance()->LogData();
         Logger::GetLogger()->PeriodicLog();
+
+        auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
+        auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
+        auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Controller"), string("Forward"), forward);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Controller"), string("Strafe"), strafe);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Controller"), string("Rotate"), rotate);
     }
 
     if (m_robotState != nullptr)
