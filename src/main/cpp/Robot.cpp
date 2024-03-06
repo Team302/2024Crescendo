@@ -23,7 +23,6 @@
 #include "robotstate/RobotState.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "utils/DragonField.h"
-// #include <utils/FMSData.h>
 #include <utils/logging/LoggableItemMgr.h>
 #include "utils/logging/Logger.h"
 #include <utils/logging/LoggerData.h>
@@ -50,6 +49,16 @@ void Robot::RobotInit()
     InitializeAutonOptions();
     InitializeDriveteamFeedback();
 
+    m_loggableItemTimer.Restart();
+    m_robotStateTimer.Restart();
+    m_driveteamFeedbackTimer.Restart();
+    m_autoCyclePrimsTimer.Restart();
+    m_autoLooperTimer.Restart();
+    m_teleopControllerTimer.Restart();
+    m_holonomicTimer.Restart();
+    m_updateStatesTimer.Restart();
+    m_teleopLooperTimer.Restart();
+
     if (!isFMSAttached)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("end"));
@@ -66,19 +75,28 @@ void Robot::RobotInit()
  */
 void Robot::RobotPeriodic()
 {
+    m_loggableItemTimer.Restart();
     isFMSAttached = isFMSAttached ? true : frc::DriverStation::IsFMSAttached();
     if (!isFMSAttached)
     {
         LoggableItemMgr::GetInstance()->LogData();
         Logger::GetLogger()->PeriodicLog();
     }
+    auto time = m_loggableItemTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("LoggableItem"), time.to<double>());
 
+    m_robotStateTimer.Restart();
     if (m_robotState != nullptr)
     {
         m_robotState->Run();
     }
+    time = m_robotStateTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("RobotState"), time.to<double>());
 
+    m_driveteamFeedbackTimer.Restart();
     UpdateDriveTeamFeedback();
+    time = m_driveteamFeedbackTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("Drive Team Feedback"), time.to<double>());
 }
 
 /**
@@ -99,11 +117,19 @@ void Robot::AutonomousInit()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("AutonomousInit"), string("arrived"));
     }
 
+    m_autoCyclePrimsTimer.Restart();
     if (m_cyclePrims != nullptr)
     {
         m_cyclePrims->Init();
     }
+    auto time = m_autoCyclePrimsTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("cycle primitives"), time.to<double>());
+
+    m_autoLooperTimer.Restart();
     PeriodicLooper::GetInstance()->AutonRunCurrentState();
+    time = m_autoLooperTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("auton periodic looper"), time.to<double>());
+
     if (!isFMSAttached)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("AutonomousInit"), string("end"));
@@ -117,11 +143,19 @@ void Robot::AutonomousPeriodic()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("AutonomousPeriodic"), string("arrived"));
     }
 
+    m_autoCyclePrimsTimer.Restart();
     if (m_cyclePrims != nullptr)
     {
         m_cyclePrims->Run();
     }
+    auto time = m_autoCyclePrimsTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("cycle primitives"), time.to<double>());
+
+    m_autoLooperTimer.Restart();
     PeriodicLooper::GetInstance()->AutonRunCurrentState();
+    time = m_autoLooperTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("auton periodic looper"), time.to<double>());
+
     if (!isFMSAttached)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("AutonomousPeriodic"), string("end"));
@@ -135,16 +169,23 @@ void Robot::TeleopInit()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopInit"), string("arrived"));
     }
 
+    m_teleopControllerTimer.Restart();
     if (m_controller == nullptr)
     {
         m_controller = TeleopControl::GetInstance();
     }
+    auto time = m_teleopControllerTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("Teleop Controller"), time.to<double>());
 
+    m_holonomicTimer.Restart();
     if (m_chassis != nullptr && m_controller != nullptr && m_holonomic != nullptr)
     {
         m_holonomic->Init();
     }
+    time = m_holonomicTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("holonomic"), time.to<double>());
 
+    m_updateStatesTimer.Restart();
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
 
     if (config != nullptr)
@@ -172,8 +213,13 @@ void Robot::TeleopInit()
             climberMgr->SetCurrentState(ClimberManagerGen::STATE_NAMES::STATE_HOLD, true);
         }
     }
+    time = m_updateStatesTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("Update States"), time.to<double>());
 
+    m_teleopLooperTimer.Restart();
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
+    time = m_teleopLooperTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("Teleop Looper"), time.to<double>());
 
     if (!isFMSAttached)
     {
@@ -188,11 +234,18 @@ void Robot::TeleopPeriodic()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("arrived"));
     }
 
+    m_holonomicTimer.Restart();
     if (m_chassis != nullptr && m_controller != nullptr && m_holonomic != nullptr)
     {
         m_holonomic->Run();
     }
+    auto time = m_holonomicTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("holonomic"), time.to<double>());
+
+    m_teleopLooperTimer.Restart();
     PeriodicLooper::GetInstance()->TeleopRunCurrentState();
+    time = m_teleopLooperTimer.Get();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Timing"), string("Teleop Looper"), time.to<double>());
 
     if (!isFMSAttached)
     {

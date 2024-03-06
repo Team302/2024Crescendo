@@ -16,21 +16,17 @@
 
 #pragma once
 
-#include <frc/TimedRobot.h>
-#include <DragonVision/DragonVision.h>
+#include "frc/TimedRobot.h"
+#include "frc/Timer.h"
 
-class ArcadeDrive;
 class CyclePrimitives;
-class DragonLimelight;
 class HolonomicDrive;
 class SwerveChassis;
 class TeleopControl;
-class AdjustableItemMgr;
 class FMSData;
 class DragonField;
 class AutonPreviewer;
 class RobotState;
-class SomeMech;
 class RobotDefinition;
 
 class Robot : public frc::TimedRobot
@@ -63,16 +59,21 @@ private:
     SwerveChassis *m_chassis;
     CyclePrimitives *m_cyclePrims;
     HolonomicDrive *m_holonomic;
-    ArcadeDrive *m_arcade;
 
-    DragonLimelight *m_dragonLimeLight;
-
-    AdjustableItemMgr *m_tuner;
     FMSData *m_fmsData;
     DragonField *m_field;
     AutonPreviewer *m_previewer;
     RobotState *m_robotState;
-    SomeMech *m_someMech;
     RobotDefinition *m_robot;
     bool isFMSAttached = false;
+
+    frc::Timer m_loggableItemTimer;
+    frc::Timer m_robotStateTimer;
+    frc::Timer m_driveteamFeedbackTimer;
+    frc::Timer m_autoCyclePrimsTimer;
+    frc::Timer m_autoLooperTimer;
+    frc::Timer m_teleopControllerTimer;
+    frc::Timer m_holonomicTimer;
+    frc::Timer m_updateStatesTimer;
+    frc::Timer m_teleopLooperTimer;
 };
