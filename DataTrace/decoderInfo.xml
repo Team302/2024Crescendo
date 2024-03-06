@@ -44,5 +44,66 @@
         </dataTraceItem>
        </dataItems>
     </dataTraceGroup>
+
+  <dataTraceGroup>
+      <name>NoteSensor</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>FrontIntake</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>BackIntake</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Feeder</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>PlacerIn</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>PlacerMid</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>PlacerOut</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+       </dataItems>
+    </dataTraceGroup>
+    
+  <dataTraceGroup>
+      <name>NoteMotor</name>
+      <dataItems>
+        <dataTraceItem>
+          <name>FrontIntake</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>BackIntake</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Transfer</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Placer</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Feeder</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>Elevator</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+       </dataItems>
+    </dataTraceGroup>
+	
   </data>
 </decoderDataSet>
