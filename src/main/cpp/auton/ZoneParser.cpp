@@ -212,7 +212,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                     if (itr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
                     {
                         noteChosenOption = itr->second;
-                        bool isNoteStateChanging = false;
+                        isNoteStateChanging = false;
                     }
                     else
                     {

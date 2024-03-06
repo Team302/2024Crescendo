@@ -3,9 +3,10 @@
 <auton>
 
     <primitive id= "RESET_POSITION_PATH_PLANNER"
-                pathname= "BlueAmpWing2Center0"/>
+                pathname= "BlueAmpWing2Center0"
+                noteOption="STATE_HOLD_FEEDER"/>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
 
     <primitive id = "DRIVE_PATH_PLANNER"
                 pathname= "BlueAmpWing2Center0">
@@ -16,7 +17,7 @@
                 <zone filename = "BlueLaunchingZoneAmpNote1.xml"/>
 </primitive>
 
-    <snippet file= "ShootWhenStop.xml"/>
+    <snippet file= "ShootWhenStopManual.xml"/>
 
     <!--Zones to shoot:
     V9-X11
