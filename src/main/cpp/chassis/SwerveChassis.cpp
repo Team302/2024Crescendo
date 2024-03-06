@@ -286,6 +286,7 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_frontRight->GetPosition(),
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
+    LogInformation();
 }
 
 //==================================================================================
