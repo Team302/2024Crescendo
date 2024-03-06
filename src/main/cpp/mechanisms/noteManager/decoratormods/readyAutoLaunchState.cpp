@@ -51,8 +51,8 @@ void readyAutoLaunchState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyAutoLaunchState"), string("run"));
 
-	m_target = m_mechanism->GetRequiredLaunchAngle();
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_target);
+	m_targetAngle = m_mechanism->GetRequiredLaunchAngle();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_targetAngle);
 
 	if (m_mechanism->HasVisionTarget())
 	{
@@ -61,15 +61,15 @@ void readyAutoLaunchState::Run()
 		{
 			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
 			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+			m_targetSpeed = 275;
 		}
 		else if (distanceFromTarget < 5.0)
 		{
-			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualAutoSpeed));
-			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualAutoSpeed));
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
+			m_targetSpeed = 375;
 		}
 	}
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bottom Speed"), m_mechanism->getlauncherBottom()->GetRPS() * 60); // Remove logging after Note management is all verifed
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Speed"), m_mechanism->getlauncherTop()->GetRPS() * 60);		// Remove logging after Note management is all verifed
 
 	m_genState->Run();
 }
@@ -81,8 +81,11 @@ void readyAutoLaunchState::Exit()
 
 bool readyAutoLaunchState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+	// Using this for LED/Driver Feedback
+	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
+	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
+
+	return ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed));
 }
 
 bool readyAutoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
