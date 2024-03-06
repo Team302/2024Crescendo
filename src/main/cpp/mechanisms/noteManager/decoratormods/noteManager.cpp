@@ -95,6 +95,22 @@ void noteManager::RunCommonTasks()
 	double elevator = getElevator()->GetCounts();
 	DataTrace::GetInstance()->sendElevatorData(elevator);
 	DataTrace::GetInstance()->sendLauncherData(wheelSetTop, wheelSetBottom, angle);
+
+	double FrontIntake = getfrontIntake()->GetCurrent();
+	double BackIntake = getbackIntake()->GetCurrent();
+	double Transfer = getTransfer()->GetCurrent();
+	double Placer = getPlacer()->GetCurrent();
+	double Feeder = getFeeder()->GetCurrent();
+	double Elevator = getElevator()->GetCurrent();
+	DataTrace::GetInstance()->sendNoteMotorData(FrontIntake, BackIntake, Transfer, Placer, Feeder, Elevator);
+
+	double FrontIntakeSensor = getfrontIntakeSensor()->Get() ? 50 : 0;
+	double BackIntakeSensor = getbackIntakeSensor()->Get() ? 50 : 0;
+	double FeederSensor = getfeederSensor()->Get() ? 50 : 0;
+	double PlacerInSensor = getplacerInSensor()->Get() ? 50 : 0;
+	double PlacerMidSensor = getplacerMidSensor()->Get() ? 50 : 0;
+	double PlacerOutSensor = getplacerOutSensor()->Get() ? 50 : 0;
+	DataTrace::GetInstance()->sendNoteSensorData(FrontIntakeSensor, BackIntakeSensor, FeederSensor, PlacerInSensor, PlacerMidSensor, PlacerOutSensor);
 #endif
 }
 
