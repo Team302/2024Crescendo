@@ -26,8 +26,6 @@
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVisionStructLogger.h"
 #include "utils/logging/Logger.h"
-
-
 #include <string>
 // Third Party Includes
 
@@ -255,7 +253,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		{
 			lintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->HasTarget();
 		}
-
 		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE] != nullptr)
 		{
 			pintakeHasDetection = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->HasTarget();
@@ -268,26 +265,12 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 		else if (lintakeHasDetection && pintakeHasDetection)
 		{
 			// check which note is closest to robot.. and handle std optional
-			//if one of these is optional, we should not return vision data
-			units::length::meter_t lintakeXDistance{0};
-			if ((m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetXDistance_RelToRobotCoords()).has_value()){
-				lintakeXDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value();
-			
-			}
-			units::length::meter_t lintakeYDistance{0};
-			if ((m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetYDistance_RelToRobotCoords()).has_value()){
-				lintakeYDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value();
-			}
+			units::length::meter_t lintakeXDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value();
+			units::length::meter_t lintakeYDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value();
 			frc::Translation2d translationLauncher = frc::Translation2d(lintakeXDistance, lintakeYDistance);
 
-			units::length::meter_t pintakeXDistance{0};
-			if ((m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetXDistance_RelToRobotCoords()).has_value()){
-				pintakeXDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value();
-			}
-			units::length::meter_t pintakeYDistance{0};
-			if ((m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetYDistance_RelToRobotCoords()).has_value()){
-				pintakeYDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value();
-			}
+			units::length::meter_t pintakeXDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetXDistance_RelToRobotCoords().value();
+			units::length::meter_t pintakeYDistance = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE]->EstimateTargetYDistance_RelToRobotCoords().value();
 			frc::Translation2d translationPlacer = frc::Translation2d(pintakeXDistance, pintakeYDistance);
 
 			selectedCam = units::math::abs(translationLauncher.Norm()) < units::math::abs(translationPlacer.Norm()) ? m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LINTAKE] : m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PINTAKE];
@@ -310,14 +293,12 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	if (selectedCam != nullptr)
 	{
 		// create translation using 3 estimated distances
-
 		if (selectedCam->EstimateTargetXDistance_RelToRobotCoords().has_value() || selectedCam->EstimateTargetZDistance_RelToRobotCoords().has_value() || selectedCam->EstimateTargetYDistance_RelToRobotCoords().has_value())
 		{
 			frc::Translation3d translationToNote = frc::Translation3d(selectedCam->EstimateTargetXDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetYDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetZDistance_RelToRobotCoords().value());
 
 			// create rotation3d with pitch and yaw (don't have access to roll)
 			frc::Rotation3d rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame().value(), selectedCam->GetTargetYawRobotFrame().value());
-
 
 			// return VisionData with new translation and rotation
 			return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote};
@@ -588,14 +569,17 @@ DragonCamera::PIPELINE DragonVision::GetPipeline(RobotElementNames::CAMERA_USAGE
  */
 void DragonVision::testAndLogVisionData()
 {
-	try {
+	try
+	{
 		std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
 		DragonVisionStructLogger::logVisionData("VisionData", testData);
-	} catch (std::bad_optional_access &boa){
+	}
+	catch (std::bad_optional_access &boa)
+	{
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("testAndLogVisionData"), std::string("bad_optional_access"), boa.what());
 	}
-	catch (std::exception &e){
+	catch (std::exception &e)
+	{
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("testAndLogVisionData"), std::string("exception"), e.what());
 	}
-	
 }
