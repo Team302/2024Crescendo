@@ -50,7 +50,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             if (chassis != nullptr)
             {
                 // auto visionTanslationY = testVisionData.value().translationToTarget.Y();
-                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::angle::degree_t((testVisionData.value().rotationToTarget.Z().to<double>())).to<double>() * m_visionKp);
+                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>() * m_visionKp);
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Omega (dps)", chassisMovement.chassisSpeeds.omega.to<double>());
             }
         }
