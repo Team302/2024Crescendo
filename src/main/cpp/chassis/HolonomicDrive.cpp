@@ -92,6 +92,15 @@ void HolonomicDrive::Run()
         else if (isAlignWithStageSelected)
         {
             AlignToStage();
+            CheckRobotOriented(true);
+            if (m_robotOrientedDrive)
+            {
+                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+            }
+            else
+            {
+                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+            }
         }
         else if (isAlignWithSpeakerSelected)
         {
