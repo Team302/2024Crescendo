@@ -91,13 +91,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 
 std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_ELEMENT element)
 {
-	std::optional<VisionData> launcherData = std::nullopt;
 	std::optional<VisionData> placerData = std::nullopt;
-
-	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] != nullptr)
-	{
-		launcherData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
-	}
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
 	{
@@ -162,14 +156,7 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_EL
 		break;
 	}
 
-	if (launcherData)
-	{
-		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherData.value().tagId) != tagIdsToCheck.end())
-		{
-			return launcherData;
-		}
-	}
-	else if (placerData)
+	if (placerData)
 	{
 		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerData.value().tagId) != tagIdsToCheck.end())
 		{
