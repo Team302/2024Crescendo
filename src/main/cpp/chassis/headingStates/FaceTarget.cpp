@@ -64,7 +64,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 auto trans = targetPose - currentPose;
                 units::angle::degree_t rawCorrection = units::angle::radian_t(atan(trans.Y().to<double>() / trans.X().to<double>()));
                 units::angle::degree_t correction = currentPose.Rotation().Degrees() + rawCorrection;
-                // DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, correction, m_kp);
+                DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, correction, m_kp);
             }
         }
     }
