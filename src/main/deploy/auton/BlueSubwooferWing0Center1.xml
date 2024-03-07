@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+    <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+                pathname= "BlueSubwooferWing0Center1"
+                noteOption="STATE_HOLD_FEEDER"/>
+
+    <snippet file = "ShootWhenStopAuto"/>
+
+    <primitive id= "DRIVE_PATH_PLANNER"
+                pathname= "BlueSubwooferWing0Center1"
+                noteOption="STATE_INTAKE_TO_FEEDER"/>
+
+    <snippet file = "ShootWhenStopAuto"/>
+
+</auton>
