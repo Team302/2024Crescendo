@@ -89,13 +89,13 @@ void HolonomicDrive::Run()
         {
             AlignToAmp();
         }
-        else if (isAlignWithStageSelected)
+        else if (isAlignWithStageSelected || m_stageDrive)
         {
             AlignToStage();
-            CheckRobotOriented(true);
-            if (m_robotOrientedDrive)
+            CheckStageDrive(isAlignWithStageSelected);
+            if (m_stageDrive)
             {
-                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
             }
             else
             {
@@ -297,10 +297,21 @@ void HolonomicDrive::CheckRobotOriented(bool isSelected)
     }
 }
 
-void HolonomicDrive::StageDrive()
+void HolonomicDrive::CheckStageDrive(bool isSelected)
 {
     m_previousDriveState = m_moveInfo.driveOption;
-    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
+    if (isSelected)
+    {
+        if (!m_stageLatch)
+        {
+            m_stageDrive = !m_stageDrive;
+            m_stageLatch = true;
+        }
+    }
+    else
+    {
+        m_stageLatch = false;
+    }
 }
 
 void HolonomicDrive::Exit()

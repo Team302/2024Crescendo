@@ -37,7 +37,20 @@ std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(Chass
 {
     if (m_chassis != nullptr)
     {
-        if ()
+        auto info = finder->GetPose(DragonVision::VISION_ELEMENT::STAGE);
+        auto type = get<0>(info);
+        auto targetPose = get<1>(info);
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
+
+        std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::STAGE);
+        if (testVisionData)
+        {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
+
+            // eventually do this, but for now allow drivingchassisMovement.chassisSpeeds.vy = 0_mps;
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Y (mps)", targetPose);
+        }
     }
     return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
