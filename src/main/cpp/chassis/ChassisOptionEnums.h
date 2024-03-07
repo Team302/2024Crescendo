@@ -28,6 +28,7 @@ public:
         FACE_LEFT_STAGE,
         FACE_RIGHT_STAGE,
         FACE_CENTER_STAGE,
+        FACE_STAGE,
         IGNORE
     };
 

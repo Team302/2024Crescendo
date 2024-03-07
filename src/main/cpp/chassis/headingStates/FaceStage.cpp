@@ -13,49 +13,16 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
+// Team302 Includes
+#include "chassis/headingStates/FaceStage.h"
+#include "chassis/headingStates/FaceTarget.h"
+#include "DragonVision/DragonVision.h"
 
-// C++ Libraries
-
-// Team 302 includes
-#include "chassis/ChassisMovement.h"
-#include "State.h"
-
-class SwerveChassis;
-
-class HolonomicDrive : public State
+FaceStage::FaceStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_STAGE)
 {
-public:
-    HolonomicDrive();
-    ~HolonomicDrive() = default;
+}
 
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
-
-private:
-    void InitChassisMovement();
-    void InitSpeeds(double forwardScale, double strafeScale, double rotateScale);
-    void ResetPose();
-    void AlignGamePiece();
-    void HoldPosition();
-    void TurnForward();
-    void TurnBackward();
-    void SlowMode();
-    void CheckTipping(bool tippingSelected);
-    void CheckRobotOriented(bool robotOrientedSelected);
-    void AlignToSpeaker();
-    void AlignToAmp();
-    void AlignToStage();
-
-    SwerveChassis *m_swerve;
-    ChassisOptionEnums::DriveStateType m_previousDriveState;
-    const double m_slowModeMultiplier = 0.5;
-    bool m_CheckTipping = false;
-    bool m_checkTippingLatch = false;
-    ChassisMovement m_moveInfo;
-
-    bool m_robotOrientedLatch = false;
-    bool m_robotOrientedDrive = false;
-};
+DragonVision::VISION_ELEMENT FaceStage::GetVisionElement() const
+{
+    return DragonVision::VISION_ELEMENT::STAGE;
+}

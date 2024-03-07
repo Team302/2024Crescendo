@@ -53,7 +53,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Omega (dps)", chassisMovement.chassisSpeeds.omega.to<double>());
             }
         }
-        else if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+        else
         {
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
