@@ -33,7 +33,7 @@ public:
     void sendClimberData(double angle, double power);
     void sendElevatorData(double ElevatorHeight);
     void sendLauncherData(double WheelSetTop, double WheelSetBottom, double Angle);
-    void sendNoteSensorData(double FrontIntake, double BackIntake, double Feeder, double PlacerIn, double PlacerMid, double PlacerOut);
+    void sendNoteSensorData(double FrontIntake, double BackIntake, double Feeder, double Launcher, double PlacerIn, double PlacerMid, double PlacerOut);
     void sendNoteMotorData(double FrontIntake, double BackIntake, double Transfer, double Placer, double Feeder, double Elevator);
 
 private:

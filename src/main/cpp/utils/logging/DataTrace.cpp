@@ -53,9 +53,9 @@ void DataTrace::sendLauncherData(double WheelSetTop, double WheelSetBottom, doub
     SendData();
 }
 
-void DataTrace::sendNoteSensorData(double FrontIntake, double BackIntake, double Feeder, double PlacerIn, double PlacerMid, double PlacerOut)
+void DataTrace::sendNoteSensorData(double FrontIntake, double BackIntake, double Feeder, double Launcher, double PlacerIn, double PlacerMid, double PlacerOut)
 {
-    sprintf(sendBuffer, "$$NoteSensor:%.3f:%.2f:%.2f:%.2f:%.2f:%.2f:%.2f##", m_timer.Get().to<double>(), FrontIntake, BackIntake, Feeder, PlacerIn, PlacerMid, PlacerOut);
+    sprintf(sendBuffer, "$$NoteSensor:%.3f:%.2f:%.2f:%.2f:%.2f:%.2f:%.2f##", m_timer.Get().to<double>(), FrontIntake, BackIntake, Feeder, Launcher, PlacerIn, PlacerMid, PlacerOut);
     SendData();
 }
 void DataTrace::sendNoteMotorData(double FrontIntake, double BackIntake, double Transfer, double Placer, double Feeder, double Elevator)

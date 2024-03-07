@@ -61,6 +61,10 @@
           <type>doubleType</type>
         </dataTraceItem>
         <dataTraceItem>
+          <name>Launcher</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
           <name>PlacerIn</name>
           <type>doubleType</type>
         </dataTraceItem>
