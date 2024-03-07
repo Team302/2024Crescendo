@@ -33,18 +33,24 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Current Rotation (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
 
-    if (units::math::abs(rot).to<double>() < 0.1)
+    if (units::math::abs(rot).to<double>() > 0.2)
     {
-        chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-        if ((abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0) || (abs(chassisMovement.chassisSpeeds.vy.to<double>()) > 0.0))
-        {
-            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainHeadingControl);
-        }
+        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
     }
     else
-        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+    {
+        chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
+        double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
+        if (error < 5.0)
+            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainFine);
+        else
+            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainCorse);
+    }
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Current Rotation (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Stored Heading (deg)", chassis->GetStoredHeading().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Correction (deg/s)", correction.to<double>());
 
     chassisMovement.chassisSpeeds.omega += correction;
 }
