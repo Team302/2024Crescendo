@@ -39,7 +39,9 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         auto type = get<0>(info);
         auto targetPose = get<1>(info);
 
-        std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(GetVisionElement());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
+
+        std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
         if (testVisionData)
         {
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
@@ -48,7 +50,8 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             if (chassis != nullptr)
             {
                 // auto visionTanslationY = testVisionData.value().translationToTarget.Y();
-                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t((testVisionData.value().rotationToTarget.Z().to<double>()) * m_visionKp);
+                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::angle::degree_t((testVisionData.value().rotationToTarget.Z().to<double>())).to<double>() * m_visionKp);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Omega (dps)", chassisMovement.chassisSpeeds.omega.to<double>());
             }
         }
         else if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
@@ -61,7 +64,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 auto trans = targetPose - currentPose;
                 units::angle::degree_t rawCorrection = units::angle::radian_t(atan(trans.Y().to<double>() / trans.X().to<double>()));
                 units::angle::degree_t correction = currentPose.Rotation().Degrees() + rawCorrection;
-                DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, correction, m_kp);
+                // DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, correction, m_kp);
             }
         }
     }
