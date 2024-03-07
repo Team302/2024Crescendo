@@ -13,50 +13,35 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
+#include <string>
 
-// C++ Libraries
+#include "frc/geometry/Rotation2d.h"
+#include "frc/geometry/Pose2d.h"
 
-// Team 302 includes
-#include "chassis/ChassisMovement.h"
-#include "State.h"
+// Team302 Includes
+#include "chassis/driveStates/StageDrive.h"
 
-class SwerveChassis;
+/// DEBUGGING
+#include "utils/logging/Logger.h"
 
-class HolonomicDrive : public State
+using frc::ChassisSpeeds;
+using frc::Rotation2d;
+using std::string;
+
+StageDrive::StageDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
+                                                 m_robotDrive(robotDrive)
 {
-public:
-    HolonomicDrive();
-    ~HolonomicDrive() = default;
+}
 
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
+std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
+{
+    if (m_chassis != nullptr)
+    {
+        if ()
+    }
+    return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
+}
 
-private:
-    void InitChassisMovement();
-    void InitSpeeds(double forwardScale, double strafeScale, double rotateScale);
-    void ResetPose();
-    void AlignGamePiece();
-    void HoldPosition();
-    void TurnForward();
-    void TurnBackward();
-    void SlowMode();
-    void CheckTipping(bool tippingSelected);
-    void CheckRobotOriented(bool robotOrientedSelected);
-    void AlignToSpeaker();
-    void AlignToAmp();
-    void AlignToStage();
-    void StageDrive();
-
-    SwerveChassis *m_swerve;
-    ChassisOptionEnums::DriveStateType m_previousDriveState;
-    const double m_slowModeMultiplier = 0.5;
-    bool m_CheckTipping = false;
-    bool m_checkTippingLatch = false;
-    ChassisMovement m_moveInfo;
-
-    bool m_robotOrientedLatch = false;
-    bool m_robotOrientedDrive = false;
-};
+void FieldDrive::Init(ChassisMovement &chassisMovement)
+{
+}

@@ -15,48 +15,22 @@
 
 #pragma once
 
-// C++ Libraries
+// FRC Includes
+#include <frc/kinematics/SwerveModuleState.h>
+#include <frc/kinematics/ChassisSpeeds.h>
 
-// Team 302 includes
-#include "chassis/ChassisMovement.h"
-#include "State.h"
+// Team302 Includes
+#include "chassis/driveStates/RobotDrive.h"
 
-class SwerveChassis;
-
-class HolonomicDrive : public State
+class StageDrive : public RobotDrive
 {
 public:
-    HolonomicDrive();
-    ~HolonomicDrive() = default;
+    StageDrive(RobotDrive *robotDrive);
 
-    void Init() override;
-    void Run() override;
-    void Exit() override;
-    bool AtTarget() override;
+    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
+
+    void Init(ChassisMovement &chassisMovement) override;
 
 private:
-    void InitChassisMovement();
-    void InitSpeeds(double forwardScale, double strafeScale, double rotateScale);
-    void ResetPose();
-    void AlignGamePiece();
-    void HoldPosition();
-    void TurnForward();
-    void TurnBackward();
-    void SlowMode();
-    void CheckTipping(bool tippingSelected);
-    void CheckRobotOriented(bool robotOrientedSelected);
-    void AlignToSpeaker();
-    void AlignToAmp();
-    void AlignToStage();
-    void StageDrive();
-
-    SwerveChassis *m_swerve;
-    ChassisOptionEnums::DriveStateType m_previousDriveState;
-    const double m_slowModeMultiplier = 0.5;
-    bool m_CheckTipping = false;
-    bool m_checkTippingLatch = false;
-    ChassisMovement m_moveInfo;
-
-    bool m_robotOrientedLatch = false;
-    bool m_robotOrientedDrive = false;
+    RobotDrive *m_robotDrive;
 };

@@ -39,6 +39,7 @@ public:
         TRAJECTORY_DRIVE_PLANNER,
         HOLD_DRIVE,
         STOP_DRIVE,
+        STAGE_DRIVE,
         AUTO_BALANCE
     };
 

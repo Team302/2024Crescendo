@@ -297,6 +297,12 @@ void HolonomicDrive::CheckRobotOriented(bool isSelected)
     }
 }
 
+void HolonomicDrive::StageDrive()
+{
+    m_previousDriveState = m_moveInfo.driveOption;
+    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
+}
+
 void HolonomicDrive::Exit()
 {
 }
