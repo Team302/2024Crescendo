@@ -41,7 +41,7 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
 
-        std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
+        std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(GetVisionElement());
         if (testVisionData)
         {
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
@@ -49,7 +49,6 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             if (chassis != nullptr)
             {
-                // auto visionTanslationY = testVisionData.value().translationToTarget.Y();
                 chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>() * m_visionKp);
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Omega (dps)", chassisMovement.chassisSpeeds.omega.to<double>());
             }
