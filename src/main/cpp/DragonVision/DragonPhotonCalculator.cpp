@@ -131,7 +131,7 @@ std::optional<units::angle::degree_t> DragonPhotonCalculator::GetTargetYawRobotF
             frc::Transform3d camToTarget = target.GetBestCameraToTarget();
 
             // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t yawRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (cameraPose + camToTarget)).Y(), frc::Transform3d(frc::Pose3d{}, (cameraPose + camToTarget)).X());
+            units::angle::radian_t yawRobotRelative = units::math::atan2(camToTarget.Y() - cameraPose.Y(), camToTarget.X() - cameraPose.X());
 
             return yawRobotRelative;
         }
@@ -155,7 +155,7 @@ std::optional<VisionData> DragonPhotonCalculator::GetDataToNearestAprilTag(frc::
         std::optional<units::angle::degree_t> pitch = GetTargetPitchRobotFrame(cameraPose, result);
         std::optional<units::angle::degree_t> yaw = GetTargetYawRobotFrame(cameraPose, result);
 
-            if (pitch && yaw)
+        if (pitch && yaw)
         {
             frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
                                                        pitch.value(),               // pitch
@@ -167,6 +167,3 @@ std::optional<VisionData> DragonPhotonCalculator::GetDataToNearestAprilTag(frc::
 
     return std::nullopt;
 }
-
-
-

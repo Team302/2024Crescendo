@@ -25,7 +25,7 @@
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
 #include "DragonVision/DragonVision.h"
-#include "DragonPhotonCalculator.h"
+#include "DragonVision/DragonPhotonCalculator.h"
 
 DragonPhotonCam::DragonPhotonCam(std::string name,
                                  DragonCamera::PIPELINE initialPipeline,

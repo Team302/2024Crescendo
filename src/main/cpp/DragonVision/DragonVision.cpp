@@ -395,7 +395,7 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 
 		// calculate rotation3d for angles from robot center, not transformation
 		units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
-		units::angle::radian_t yaw = units::math::atan2(transformToElement.X(), transformToElement.Y());
+		units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
 		units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
 		frc::Rotation3d rotation = frc::Rotation3d(roll, pitch, yaw);
 

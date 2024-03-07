@@ -47,8 +47,8 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             if (chassis != nullptr)
             {
-                auto visionTanslationY = testVisionData.value().translationToTarget.Y();
-                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(((visionTanslationY).to<double>()) * m_visionKp);
+                // auto visionTanslationY = testVisionData.value().translationToTarget.Y();
+                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t((testVisionData.value().rotationToTarget.Z().to<double>()) * m_visionKp);
             }
         }
         else if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
