@@ -20,6 +20,8 @@
 
 // Team302 Includes
 #include "chassis/driveStates/StageDrive.h"
+#include "DragonVision/DragonVision.h"
+#include "chassis/DragonDriveTargetFinder.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
@@ -33,28 +35,32 @@ StageDrive::StageDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChass
 {
 }
 
-std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
+std::array<frc::SwerveModuleState, 4> StageDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
-    if (m_chassis != nullptr)
+    auto finder = DragonDriveTargetFinder::GetInstance();
+    if (finder != nullptr)
     {
-        auto info = finder->GetPose(DragonVision::VISION_ELEMENT::STAGE);
-        auto type = get<0>(info);
-        auto targetPose = get<1>(info);
-
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
-
-        std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::STAGE);
-        if (testVisionData)
+        if (m_chassis != nullptr)
         {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
+            auto info = finder->GetPose(DragonVision::VISION_ELEMENT::STAGE);
+            auto type = get<0>(info);
+            auto targetPose = get<1>(info);
 
-            // eventually do this, but for now allow drivingchassisMovement.chassisSpeeds.vy = 0_mps;
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Y (mps)", targetPose);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
+
+            std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::STAGE);
+            if (testVisionData)
+            {
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
+
+                // eventually do this, but for now allow drivingchassisMovement.chassisSpeeds.vy = 0_mps;
+                // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Y (mps)", targetPose.);
+            }
         }
+        return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
     }
-    return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
-void FieldDrive::Init(ChassisMovement &chassisMovement)
+void StageDrive::Init(ChassisMovement &chassisMovement)
 {
 }
