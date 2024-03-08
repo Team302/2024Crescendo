@@ -71,3 +71,13 @@ void DragonField::UpdateObject(std::string name, frc::Pose2d object)
     fieldObject->SetPose(object);
      
 }
+
+void DragonField::UpdateObjectVisionPose(std::string name, std::optional<VisionPose> visionPose)
+{
+    frc::FieldObject2d* fieldObject = m_field.GetObject(name);
+    if (visionPose.has_value())
+    {
+        frc::Pose3d pose3d = visionPose.value().estimatedPose;
+        fieldObject->SetPose(pose3d.ToPose2d());
+    }
+}
