@@ -302,16 +302,20 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 	// initialize selected field element to empty Pose3d
 	frc::Pose3d fieldElementPose = frc::Pose3d{};
+	int idToSearch = -1;
 	switch (element)
 	{
 	case VISION_ELEMENT::SPEAKER:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SPEAKER)} /*load red speaker*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SPEAKER)}; /*load blue speaker*/
+		idToSearch = allianceColor == frc::DriverStation::Alliance::kRed ? 4 : 7;
 		break;
 	case VISION_ELEMENT::AMP:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_AMP)} /*load red amp*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_AMP)}; /*load blue amp*/
+		idToSearch = allianceColor == frc::DriverStation::Alliance::kRed ? 5 : 6;
 		break;
 	case VISION_ELEMENT::SOURCE:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SOURCE)} /*load red source*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SOURCE)}; /*load blue source*/
+
 		break;
 	default:
 		return std::nullopt;
@@ -324,7 +328,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 	// 	return multiTagEstimate;
 	// }
 
-	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose);
+	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose, idToSearch);
 	if (singleTagEstimate)
 	{
 		return singleTagEstimate;
@@ -393,7 +397,7 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 	return std::nullopt;
 }
 
-std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose)
+std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose, int idToSearch)
 {
 	std::optional<VisionData> launcherAprilTagData = std::nullopt;
 	std::optional<VisionData> placerAprilTagData = std::nullopt;
@@ -403,14 +407,14 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 	{
 		// get the optional of the translation and rotation to the apriltag
 		// launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
-		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToSpecifiedTag(7);
+		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToSpecifiedTag(idToSearch);
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("ASPEAKERDEBUG"), std::string("LauncherDataStatus"), std::string("True"));
 	}
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
 	{
 		// get the optional of the translation and rotation to the apriltag
-		placerAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
+		placerAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToSpecifiedTag(idToSearch);
 	}
 
 	if ((!launcherAprilTagData) && (!placerAprilTagData)) // if we see no april tags
