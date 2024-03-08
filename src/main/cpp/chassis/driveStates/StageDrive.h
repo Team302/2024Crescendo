@@ -33,4 +33,5 @@ public:
 
 private:
     RobotDrive *m_robotDrive;
+    double m_stageVisionKp = 6.0;
 };

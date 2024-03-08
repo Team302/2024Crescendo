@@ -53,11 +53,9 @@ std::array<frc::SwerveModuleState, 4> StageDrive::UpdateSwerveModuleStates(Chass
             {
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
 
-                // eventually do this, but for now allow drivingchassisMovement.chassisSpeeds.vy = 0_mps;
+                chassisMovement.chassisSpeeds.vy = 0_mps;
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Transform Y", testVisionData.value().transformToTarget.Y().to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Translation Y", testVisionData.value().translationToTarget.Y().to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Transform X", testVisionData.value().transformToTarget.X().to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Translation X", testVisionData.value().translationToTarget.X().to<double>());
+                chassisMovement.chassisSpeeds.vy = units::velocity::meters_per_second_t(testVisionData.value().transformToTarget.Y().to<double>() * m_stageVisionKp);
             }
         }
         return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
