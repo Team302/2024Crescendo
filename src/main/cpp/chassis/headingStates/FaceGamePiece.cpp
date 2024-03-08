@@ -22,7 +22,6 @@
 
 /// debugging
 #include "utils/logging/Logger.h"
-using namespace std;
 
 FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE)
 {
@@ -42,7 +41,6 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             {
                 auto rotation = data.value().rotationToTarget;
                 auto angle = rotation.ToRotation2d().Degrees();
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("notcharliedebug"), string("ben's mom"), angle.to<double>());
                 chassis->SetStoredHeading(angle);
             }
         }
