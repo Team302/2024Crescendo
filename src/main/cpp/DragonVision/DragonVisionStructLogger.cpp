@@ -84,3 +84,33 @@ void DragonVisionStructLogger::logDragonCamera(const std::string &loggerName, co
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("CameraYaw"), std::to_string(camera.GetCameraYaw().to<double>()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("CameraRoll"), std::to_string(camera.GetCameraRoll().to<double>()));
 }
+
+/****************
+ * Function: logVisionPose
+ * Description: Logs the vision pose to the logger
+ * Parameters: const std::string& loggerName, const std::optional<VisionPose>& optVisionPose
+ * Returns: void
+ *
+ */
+void DragonVisionStructLogger::logVisionPose(const std::string &loggerName, const std::optional<VisionPose> optVisionPose)
+{
+    if (optVisionPose)
+    {
+        frc::Pose3d pose = optVisionPose.value().estimatedPose;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("X"), std::to_string(pose.X().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Y"), std::to_string(pose.Y().to<double>()));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Z"), std::to_string(pose.Z().to<double>()));
+
+        units::time::millisecond_t timeStamp = optVisionPose.value().timeStamp;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("TimeStamp"), std::to_string(timeStamp.to<double>()));
+
+        wpi::array<double, 3> stdDevs = optVisionPose.value().visionMeasurementStdDevs;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("StdDevX"), std::to_string(stdDevs[0]));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("StdDevY"), std::to_string(stdDevs[1]));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("StdDevZ"), std::to_string(stdDevs[2]));
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, loggerName, std::string("X"), std::string("No vision pose found"));
+    }
+}

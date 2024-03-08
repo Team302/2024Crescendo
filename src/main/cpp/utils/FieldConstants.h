@@ -47,6 +47,9 @@ private:
     FieldConstants(const FieldConstants &) = delete;
     FieldConstants &operator=(const FieldConstants &) = delete;
 
+    // specified here
+    // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/2024LayoutMarkingDiagram.pdf
+
     // blue
     const frc::Pose3d m_BlueSource = frc::Pose3d(
         units::length::meter_t(15.63),

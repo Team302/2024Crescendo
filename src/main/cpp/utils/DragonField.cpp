@@ -64,3 +64,10 @@ void DragonField::ResetField()
         object->SetPoses(std::span<frc::Pose2d>());
     }
 }
+
+void DragonField::UpdateObject(std::string name, frc::Pose2d object)
+{
+    frc::FieldObject2d* fieldObject = m_field.GetObject(name);
+    fieldObject->SetPose(object);
+     
+}

@@ -30,6 +30,7 @@ public:
 
     void AddPose(std::string name, frc::Pose2d pose);
     void AddTrajectory(std::string name, frc::Trajectory trajectory);
+    void UpdateObject(std::string name, frc::Pose2d pose);
 
     /// @brief get the singeleton of FMSData
     static DragonField *GetInstance();
