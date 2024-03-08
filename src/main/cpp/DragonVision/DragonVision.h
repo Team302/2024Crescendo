@@ -101,7 +101,7 @@ private:
     std::optional<VisionData> GetVisionDataToNearestStageTag(VISION_ELEMENT element);
 
     std::optional<VisionData> MultiTagToElement(frc::Pose3d elementPose);
-    std::optional<VisionData> SingleTagToElement(frc::Pose3d elementPose);
+    std::optional<VisionData> SingleTagToElement(frc::Pose3d elementPose, int idToSearch);
 
     static DragonVision *m_dragonVision;
 
