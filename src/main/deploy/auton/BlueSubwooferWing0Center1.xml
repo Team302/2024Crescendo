@@ -4,14 +4,14 @@
 
     <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
                 pathname= "BlueSubwooferWing0Center1"
-                noteOption="STATE_HOLD_FEEDER"/>
+                noteOption="STATE_READY_AUTO_LAUNCH"/>
 
-    <snippet file = "ShootWhenStopAuto"/>
+    <snippet file = "ShootWhenStopAuto.xml"/>
 
     <primitive id= "DRIVE_PATH_PLANNER"
                 pathname= "BlueSubwooferWing0Center1"
                 noteOption="STATE_INTAKE_TO_FEEDER"/>
 
-    <snippet file = "ShootWhenStopAuto"/>
+    <snippet file = "ShootWhenStopAuto.xml"/>
 
 </auton>
