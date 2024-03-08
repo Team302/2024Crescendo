@@ -48,7 +48,6 @@ private:
     void AlignToSpeaker();
     void AlignToAmp();
     void AlignToStage();
-    void CheckStageDrive(bool isSelected);
 
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
@@ -59,6 +58,5 @@ private:
 
     bool m_robotOrientedLatch = false;
     bool m_robotOrientedDrive = false;
-    bool m_stageLatch = false;
     bool m_stageDrive = false;
 };

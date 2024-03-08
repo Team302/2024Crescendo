@@ -92,11 +92,9 @@ void HolonomicDrive::Run()
         else if (isAlignWithStageSelected || m_stageDrive)
         {
             AlignToStage();
-            CheckStageDrive(isAlignWithStageSelected);
-            if (m_stageDrive)
-            {
-                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
-            }
+            m_previousDriveState = m_moveInfo.driveOption;
+            m_stageDrive = true;
+            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
         }
         else if (isAlignWithSpeakerSelected)
         {
@@ -156,6 +154,7 @@ void HolonomicDrive::Run()
         if (abs(rotate) > 0.05)
         {
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+            m_stageDrive = false;
         }
 
         CheckTipping(checkTipping);
@@ -219,7 +218,6 @@ void HolonomicDrive::AlignToSpeaker()
 }
 void HolonomicDrive::AlignToAmp()
 {
-    // m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
     m_moveInfo.yawAngle = units::angle::degree_t(-90.0);
 }
@@ -290,23 +288,6 @@ void HolonomicDrive::CheckRobotOriented(bool isSelected)
     else
     {
         m_robotOrientedLatch = false;
-    }
-}
-
-void HolonomicDrive::CheckStageDrive(bool isSelected)
-{
-    m_previousDriveState = m_moveInfo.driveOption;
-    if (isSelected)
-    {
-        if (!m_stageLatch)
-        {
-            m_stageDrive = !m_stageDrive;
-            m_stageLatch = true;
-        }
-    }
-    else
-    {
-        m_stageLatch = false;
     }
 }
 

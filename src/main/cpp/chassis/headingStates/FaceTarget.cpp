@@ -38,7 +38,6 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     if (finder != nullptr)
     {
         auto info = finder->GetPose(GetVisionElement());
-        auto type = get<0>(info);
         auto targetPose = get<1>(info);
 
         std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(GetVisionElement());
@@ -67,6 +66,11 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                     units::angle::degree_t rawCorrection = units::angle::radian_t(atan(trans.Y().to<double>() / trans.X().to<double>()));
                     correction = (currentPose.Rotation().Degrees() + rawCorrection);
                     DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, correction, m_kp);
+                    chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+                }
+                else // maintain heading when you don't have vision or using odometery to set your heading
+                {
+                    DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, chassis->GetStoredHeading(), m_kp);
                 }
             }
         }

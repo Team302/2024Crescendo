@@ -46,13 +46,9 @@ std::array<frc::SwerveModuleState, 4> StageDrive::UpdateSwerveModuleStates(Chass
             auto type = get<0>(info);
             auto targetPose = get<1>(info);
 
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
-
             std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::STAGE);
             if (testVisionData)
             {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
-
                 chassisMovement.chassisSpeeds.vy = 0_mps;
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Transform Y", testVisionData.value().transformToTarget.Y().to<double>());
                 chassisMovement.chassisSpeeds.vy = units::velocity::meters_per_second_t(testVisionData.value().transformToTarget.Y().to<double>() * -m_stageVisionKp);
