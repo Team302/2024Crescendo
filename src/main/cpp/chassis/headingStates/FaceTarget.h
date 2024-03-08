@@ -40,5 +40,5 @@ protected:
 
 private:
     const double m_kp = 6.0;
-    const double m_visionKp = 8.0;
+    const double m_visionKp = 6.0;
 };

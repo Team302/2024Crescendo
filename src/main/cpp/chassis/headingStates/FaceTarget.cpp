@@ -32,6 +32,8 @@ FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerv
 
 void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Element", GetVisionElement());
+
     auto finder = DragonDriveTargetFinder::GetInstance();
     if (finder != nullptr)
     {
@@ -49,20 +51,26 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             if (chassis != nullptr)
             {
+
                 chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>() * m_visionKp);
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Omega (dps)", chassisMovement.chassisSpeeds.omega.to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Omega (dps)", (units::angular_velocity::degrees_per_second_t(units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>() * m_visionKp).to<double>()));
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Rotation To Target", units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "TagId", testVisionData.value().tagId);
             }
         }
         else
         {
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+            units::angle::degree_t correction = units::angle::degree_t(0);
             if (chassis != nullptr)
             {
                 auto currentPose = chassis->GetPose();
                 auto trans = targetPose - currentPose;
                 units::angle::degree_t rawCorrection = units::angle::radian_t(atan(trans.Y().to<double>() / trans.X().to<double>()));
-                units::angle::degree_t correction = (currentPose.Rotation().Degrees() + rawCorrection) + units::angle::degree_t(180);
+                if (GetVisionElement() == DragonVision::VISION_ELEMENT::SPEAKER)
+                    correction = (currentPose.Rotation().Degrees() + rawCorrection);
+
                 DragonDriveTargetFinder::GetInstance()->SetCorrection(chassisMovement, chassis, correction, m_kp);
             }
         }

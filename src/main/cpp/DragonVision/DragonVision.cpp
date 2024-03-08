@@ -318,11 +318,11 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		break;
 	}
 
-	std::optional<VisionData> multiTagEstimate = MultiTagToElement(fieldElementPose);
-	if (multiTagEstimate)
-	{
-		return multiTagEstimate;
-	}
+	// std::optional<VisionData> multiTagEstimate = MultiTagToElement(fieldElementPose);
+	// if (multiTagEstimate)
+	// {
+	// 	return multiTagEstimate;
+	// }
 
 	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose);
 	if (singleTagEstimate)
@@ -403,12 +403,13 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 	{
 		// get the optional of the translation and rotation to the apriltag
 		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("ASPEAKERDEBUG"), std::string("LauncherDataStatus"), std::string("True"));
 	}
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
 	{
 		// get the optional of the translation and rotation to the apriltag
-		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
+		placerAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
 	}
 
 	if ((!launcherAprilTagData) && (!placerAprilTagData)) // if we see no april tags
@@ -473,10 +474,11 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 			units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
 
 			// rebundle into vision data with april tag thats used
-			std::optional<VisionData> visionData = VisionData(transformToElement,
-															  transformToElement.Translation(),
-															  frc::Rotation3d(roll, pitch, yaw), // roll is 0, pitch and yaw are calculated
-															  selectedData.value().tagId);
+			std::optional<VisionData>
+				visionData = VisionData(transformToElement,
+										transformToElement.Translation(),
+										selectedData.value().rotationToTarget, // roll is 0, pitch and yaw are calculated
+										selectedData.value().tagId);
 			return visionData;
 		}
 	}
