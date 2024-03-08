@@ -97,10 +97,6 @@ void HolonomicDrive::Run()
             {
                 m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
             }
-            else
-            {
-                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-            }
         }
         else if (isAlignWithSpeakerSelected)
         {
