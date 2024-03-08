@@ -62,6 +62,7 @@ public:
     bool UpdatePipeline();
 
     std::optional<VisionData> GetDataToNearestAprilTag();
+    std::optional<VisionData> GetDataToSpecifiedTag(int id);
 
 private:
     photon::PhotonCamera *m_camera;

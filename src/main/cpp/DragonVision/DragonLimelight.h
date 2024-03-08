@@ -112,6 +112,7 @@ public:
     std::optional<VisionPose> GetOriginFieldPosition();
 
     std::optional<VisionData> GetDataToNearestAprilTag();
+    std::optional<VisionData> GetDataToSpecifiedTag(int id);
 
     std::optional<units::length::inch_t> EstimateTargetXDistance();
     std::optional<units::length::inch_t> EstimateTargetYDistance();
