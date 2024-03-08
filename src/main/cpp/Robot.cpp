@@ -23,6 +23,7 @@
 #include "robotstate/RobotState.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "utils/DragonField.h"
+#include "DragonVision/DragonVision.h"
 // #include <utils/FMSData.h>
 #include <utils/logging/LoggableItemMgr.h>
 #include "utils/logging/Logger.h"
@@ -268,6 +269,7 @@ void Robot::UpdateDriveTeamFeedback()
     if (m_field != nullptr && m_chassis != nullptr)
     {
         m_field->UpdateRobotPosition(m_chassis->GetPose()); // ToDo:: Move to DriveTeamFeedback (also don't assume m_field isn't a nullptr)
+        m_field->UpdateObjectVisionPose("Vision_Pose", DragonVision::GetDragonVision()->GetRobotPosition());
     }
     auto feedback = DriverFeedback::GetInstance();
     if (feedback != nullptr)
