@@ -45,7 +45,7 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         if (error < 5.0)
             correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainFine);
         else
-            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainCorse);
+            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainCoarse);
     }
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Current Rotation (deg)", chassis->GetPose().Rotation().Degrees().to<double>());

@@ -48,6 +48,6 @@ protected:
     units::angle::degree_t m_storedYaw;
 
     double m_kPMaintainFine = 10.0;
-    double m_kPMaintainCorse = 5.0;
+    double m_kPMaintainCoarse = 5.0;
     double m_kPGoalHeadingControl = 8.0;
 };
