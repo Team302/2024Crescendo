@@ -33,28 +33,28 @@ private:
 	std::string m_canbusName = std::string("rio");
 	const int m_leftfrontdriveID = 15;
 	const int m_leftfrontturnID = 14;
-	const double m_leftfrontOffset = 0.29541015625;
+	const double m_leftfrontOffset = 0.187255859375;
 	const bool m_leftfrontdriveInvert = true;
 	const bool m_leftfrontturnInvert = true;
 	const bool m_leftfrontcancoderInvert = true;
 
 	const int m_leftbackdriveID = 1;
 	const int m_leftbackturnID = 0;
-	const double m_leftbackOffset = -0.11328125;
+	const double m_leftbackOffset = -0.181884765625;
 	const bool m_leftbackdriveInvert = true;
 	const bool m_leftbackturnInvert = true;
 	const bool m_leftbackcancoderInvert = true;
 
 	const int m_rightfrontdriveID = 13;
 	const int m_rightfrontturnID = 12;
-	const double m_rightfrontOffset = 0.34228515625;
+	const double m_rightfrontOffset = 0.212158203125;
 	const bool m_rightfrontdriveInvert = true;
 	const bool m_rightfrontturnInvert = true;
-	const bool m_rightfrontcancoderInvert = false;
+	const bool m_rightfrontcancoderInvert = true;
 
 	const int m_rightbackdriveID = 3;
 	const int m_rightbackturnID = 2;
-	const double m_rightbackOffset = 0.036376953125;
+	const double m_rightbackOffset = -0.1357421875;
 	const bool m_rightbackdriveInvert = true;
 	const bool m_rightbackturnInvert = true;
 	const bool m_rightbackcancoderInvert = true;
