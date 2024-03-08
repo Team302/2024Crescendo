@@ -87,7 +87,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
             visionStdMeasurements[1] += ambiguity;
             visionStdMeasurements[2] += ambiguity;
 
-            return VisionPose(fieldRelPose, timestamp, visionStdMeasurements);
+            return VisionPose(fieldRelPose, timestamp, visionStdMeasurements, PoseEstimationStrategy::SINGLE_TAG);
         }
     }
 
@@ -122,7 +122,7 @@ std::optional<VisionPose> DragonPhotonCam::GetMultiTagEstimate()
         visionStdMeasurements[1] += ambiguity;
         visionStdMeasurements[2] += ambiguity;
 
-        return VisionPose(robotPose, timestamp, visionStdMeasurements);
+        return VisionPose(robotPose, timestamp, visionStdMeasurements, PoseEstimationStrategy::MULTI_TAG);
     }
 
     return std::nullopt;
