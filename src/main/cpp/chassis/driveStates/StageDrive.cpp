@@ -55,7 +55,7 @@ std::array<frc::SwerveModuleState, 4> StageDrive::UpdateSwerveModuleStates(Chass
 
                 chassisMovement.chassisSpeeds.vy = 0_mps;
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Stage Transform Y", testVisionData.value().transformToTarget.Y().to<double>());
-                chassisMovement.chassisSpeeds.vy = units::velocity::meters_per_second_t(testVisionData.value().transformToTarget.Y().to<double>() * m_stageVisionKp);
+                chassisMovement.chassisSpeeds.vy = units::velocity::meters_per_second_t(testVisionData.value().transformToTarget.Y().to<double>() * -m_stageVisionKp);
             }
         }
         return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
