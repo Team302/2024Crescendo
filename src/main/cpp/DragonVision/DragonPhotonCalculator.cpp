@@ -57,39 +57,45 @@ std::optional<units::length::inch_t> DragonPhotonCalculator::EstimateTargetZDist
 
 std::optional<units::angle::degree_t> DragonPhotonCalculator::GetTargetPitchRobotFrame(frc::Pose3d cameraPose, photon::PhotonPipelineResult result)
 {
-
     // check for detections
     if (result.HasTargets())
     {
         // get the most accurate according to configured contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        int tagId = target.GetFiducialId();
+        return GetTargetPitchRobotFrame(cameraPose, target);
+    }
 
-        // if we don't see a tag we are detecting a note instead
-        if (tagId == -1)
-        {
-            // Use photon utils to calculate distance to target
-            units::meter_t distanceToTarget = photon::PhotonUtils::CalculateDistanceToTarget(cameraPose.Z(),                      // camera mounting height
-                                                                                             GetElementVerticalOffset(),          // offset from robot center based on note being on the floor
-                                                                                             cameraPose.Rotation().Y(),           // camera mounting pitch
-                                                                                             units::degree_t{target.GetPitch()}); // pitch of detection
+    return std::nullopt;
+}
 
-            // inverse tangent of opposite (z/height) over adjacent (x distance)
-            units::angle::radian_t pitchRobotRelative = units::math::atan2(cameraPose.Z(), distanceToTarget);
+std::optional<units::angle::degree_t> DragonPhotonCalculator::GetTargetPitchRobotFrame(frc::Pose3d cameraPose, photon::PhotonTrackedTarget target)
+{
+    int tagId = target.GetFiducialId();
 
-            return pitchRobotRelative;
-        }
-        else // we see an april tag
-        {
-            // transform to get from cam to target
-            frc::Transform3d camToTarget = target.GetBestCameraToTarget();
+    // if we don't see a tag we are detecting a note instead
+    if (tagId == -1)
+    {
+        // Use photon utils to calculate distance to target
+        units::meter_t distanceToTarget = photon::PhotonUtils::CalculateDistanceToTarget(cameraPose.Z(),                      // camera mounting height
+                                                                                         GetElementVerticalOffset(),          // offset from robot center based on note being on the floor
+                                                                                         cameraPose.Rotation().Y(),           // camera mounting pitch
+                                                                                         units::degree_t{target.GetPitch()}); // pitch of detection
 
-            // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t pitchRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (cameraPose + camToTarget)).Z(), frc::Transform3d(frc::Pose3d{}, (cameraPose + camToTarget)).X());
+        // inverse tangent of opposite (z/height) over adjacent (x distance)
+        units::angle::radian_t pitchRobotRelative = units::math::atan2(cameraPose.Z(), distanceToTarget);
 
-            return pitchRobotRelative;
-        }
+        return pitchRobotRelative;
+    }
+    else // we see an april tag
+    {
+        // transform to get from cam to target
+        frc::Transform3d camToTarget = target.GetBestCameraToTarget();
+
+        // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
+        units::angle::radian_t pitchRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (cameraPose + camToTarget)).Z(), frc::Transform3d(frc::Pose3d{}, (cameraPose + camToTarget)).X());
+
+        return pitchRobotRelative;
     }
 
     return std::nullopt;
@@ -103,38 +109,45 @@ std::optional<units::angle::degree_t> DragonPhotonCalculator::GetTargetYawRobotF
         // get the most accurate according to configured contour ranking
         photon::PhotonTrackedTarget target = result.GetBestTarget();
 
-        int tagId = target.GetFiducialId();
+        return GetTargetYawRobotFrame(cameraPose, target);
+    }
 
-        // if we don't see a tag we are detecting a note instead
-        if (tagId == -1)
-        {
-            // Use photon utils to calculate distance to target
-            units::meter_t distanceToTarget = photon::PhotonUtils::CalculateDistanceToTarget(cameraPose.Z(),                      // camera mounting height
-                                                                                             GetElementVerticalOffset(),          // offset from robot center based on note being on the floor
-                                                                                             cameraPose.Rotation().Y(),           // camera mounting pitch
-                                                                                             units::degree_t{target.GetPitch()}); // pitch of detection
+    return std::nullopt;
+}
 
-            // get y distance to camera by multiplying distanceToTarget(x distance/adjacent) to the tangent of the yaw (opposite = ydistance, adjacent = x distance)
-            units::length::meter_t yOffsetCamToTarget = distanceToTarget * units::math::tan(units::degree_t{target.GetYaw()});
+std::optional<units::angle::degree_t> DragonPhotonCalculator::GetTargetYawRobotFrame(frc::Pose3d cameraPose, photon::PhotonTrackedTarget target)
+{
+    int tagId = target.GetFiducialId();
 
-            // Add camera y offset from robot center to target's y offset from cam
-            units::length::meter_t yOffsetRobotToTarget = yOffsetCamToTarget + cameraPose.Y();
+    // if we don't see a tag we are detecting a note instead
+    if (tagId == -1)
+    {
+        // Use photon utils to calculate distance to target
+        units::meter_t distanceToTarget = photon::PhotonUtils::CalculateDistanceToTarget(cameraPose.Z(),                      // camera mounting height
+                                                                                         GetElementVerticalOffset(),          // offset from robot center based on note being on the floor
+                                                                                         cameraPose.Rotation().Y(),           // camera mounting pitch
+                                                                                         units::degree_t{target.GetPitch()}); // pitch of detection
 
-            // inverse tangent of opposite (y/ left/right offset) over adjacent (x distance)
-            units::angle::radian_t yawRobotRelative = units::math::atan2(yOffsetRobotToTarget, distanceToTarget);
+        // get y distance to camera by multiplying distanceToTarget(x distance/adjacent) to the tangent of the yaw (opposite = ydistance, adjacent = x distance)
+        units::length::meter_t yOffsetCamToTarget = distanceToTarget * units::math::tan(units::degree_t{target.GetYaw()});
 
-            return yawRobotRelative;
-        }
-        else // we see an april tag
-        {
-            // transform to get from cam to target
-            frc::Transform3d camToTarget = target.GetBestCameraToTarget();
+        // Add camera y offset from robot center to target's y offset from cam
+        units::length::meter_t yOffsetRobotToTarget = yOffsetCamToTarget + cameraPose.Y();
 
-            // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t yawRobotRelative = units::math::atan2(camToTarget.Y() - cameraPose.Y(), camToTarget.X() - cameraPose.X());
+        // inverse tangent of opposite (y/ left/right offset) over adjacent (x distance)
+        units::angle::radian_t yawRobotRelative = units::math::atan2(yOffsetRobotToTarget, distanceToTarget);
 
-            return yawRobotRelative;
-        }
+        return yawRobotRelative;
+    }
+    else // we see an april tag
+    {
+        // transform to get from cam to target
+        frc::Transform3d camToTarget = target.GetBestCameraToTarget();
+
+        // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
+        units::angle::radian_t yawRobotRelative = units::math::atan2(camToTarget.Y() - cameraPose.Y(), camToTarget.X() - cameraPose.X());
+
+        return yawRobotRelative;
     }
 
     return std::nullopt;
@@ -163,6 +176,27 @@ std::optional<VisionData> DragonPhotonCalculator::GetDataToNearestAprilTag(frc::
 
             return VisionData{robotToTargetTransform, robotToTargetTransform.Translation(), rotation, target.GetFiducialId()};
         }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<VisionData> DragonPhotonCalculator::GetDataToNearestAprilTag(frc::Pose3d cameraPose, photon::PhotonTrackedTarget target)
+{
+    frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
+
+    frc::Transform3d robotToTargetTransform = frc::Transform3d{frc::Pose3d{}, (cameraPose + camToTargetTransform)};
+
+    std::optional<units::angle::degree_t> pitch = GetTargetPitchRobotFrame(cameraPose, target);
+    std::optional<units::angle::degree_t> yaw = GetTargetYawRobotFrame(cameraPose, target);
+
+    if (pitch && yaw)
+    {
+        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
+                                                   pitch.value(),               // pitch
+                                                   yaw.value()};                // yaw
+
+        return VisionData{robotToTargetTransform, robotToTargetTransform.Translation(), rotation, target.GetFiducialId()};
     }
 
     return std::nullopt;

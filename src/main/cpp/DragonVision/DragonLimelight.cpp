@@ -524,3 +524,8 @@ std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 
     return std::nullopt;
 }
+
+std::optional<VisionData> DragonLimelight::GetDataToSpecifiedTag(int id)
+{
+    return GetDataToNearestAprilTag();
+}

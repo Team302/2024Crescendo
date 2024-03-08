@@ -390,3 +390,20 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 
     return DragonPhotonCalculator::GetDataToNearestAprilTag(m_cameraPose, result);
 }
+
+std::optional<VisionData> DragonPhotonCam::GetDataToSpecifiedTag(int id)
+{
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    auto targets = result.GetTargets();
+    for (photon::PhotonTrackedTarget target : targets)
+    {
+        if (target.fiducialId == id)
+        {
+            return DragonPhotonCalculator::GetDataToNearestAprilTag(m_cameraPose, target);
+        }
+    }
+
+    return std::nullopt;
+}
