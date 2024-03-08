@@ -2,7 +2,7 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
  
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BluePodiumWing1Center2_B"
+pathname= "SecondBluePodiumWing1Center2"
 time= "6.0"
 noteOption= "STATE_FEEDER_INTAKE"/>
  

@@ -5,7 +5,6 @@
 <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
 noteOption="STATE_HOLD_FEEDER"/>
 
-<snippet file= "PodiumStart.xml"/>
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <snippet file= "PodiumCenterRing5.xml"/>
