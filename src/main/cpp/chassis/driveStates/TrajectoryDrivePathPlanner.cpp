@@ -115,7 +115,7 @@ bool TrajectoryDrivePathPlanner::IsDone()
         if ((currentTime) / m_totalTrajectoryTime > 0.9)
         {
             // isDone = m_holonomicController.atReference();
-            isDone = IsSamePose(currentPose, m_finalState.getTargetHolonomicPose(), 10.0, 5.0);
+            isDone = IsSamePose(currentPose, m_finalState.getTargetHolonomicPose(), 10.0, 3.0);
         }
     }
     else
