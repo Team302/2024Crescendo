@@ -38,10 +38,11 @@ public:
     void ConfigureCurrentFiltering(int filterLength);
     void ConfigureCurrentShutoff(double currentThreshold, int loopCountThreshold);
 
-    void MonitorCurrent();
+    void MonitorCurrent() override;
+
+    double GetFilteredCurrent() override;
 
     inline void EnableOverCurrentShutoff(bool enable) { m_overCurrentShutoffEnabled = enable; }
-    inline double GetAverageCurrent() { return m_currentAverage; }
 
 private:
     double m_currentThreshold;

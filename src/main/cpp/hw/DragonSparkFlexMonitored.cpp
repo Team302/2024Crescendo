@@ -49,6 +49,11 @@ void DragonSparkFlexMonitored::MonitorCurrent()
     FilterCurrentValue();
 }
 
+double DragonSparkFlexMonitored::GetFilteredCurrent()
+{
+    return m_currentAverage;
+}
+
 void DragonSparkFlexMonitored::FilterCurrentValue()
 {
     double latestCurrent = GetCurrent();

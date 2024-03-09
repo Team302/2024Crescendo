@@ -95,6 +95,7 @@ void noteManager::RunCommonTasks()
 	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
+	getFeeder()->MonitorCurrent();
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
@@ -110,7 +111,7 @@ void noteManager::RunCommonTasks()
 		m_backIntakeAverage = GetFilteredValue(getbackIntake()->GetCurrent(), backIntakeValues, m_backIntakeAverage);
 		m_transferAverage = GetFilteredValue(getTransfer()->GetCurrent(), transferValues, m_transferAverage);
 		m_placerAverage = GetFilteredValue(getPlacer()->GetCurrent(), placerValues, m_placerAverage);
-		m_feederAverage = GetFilteredValue(getFeeder()->GetCurrent(), feederValues, m_feederAverage);
+		m_feederAverage = getFeeder()->GetFilteredCurrent();
 		m_elevatorAverage = GetFilteredValue(getElevator()->GetCurrent(), elevatorValues, m_elevatorAverage);
 		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, m_elevatorAverage);
 	}

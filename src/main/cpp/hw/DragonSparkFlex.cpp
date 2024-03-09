@@ -285,3 +285,12 @@ double DragonSparkFlex::GetCounts()
 void DragonSparkFlex::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType)
 {
 }
+
+void DragonSparkFlex::MonitorCurrent()
+{
+}
+
+double DragonSparkFlex::GetFilteredCurrent()
+{
+    return 0.0;
+}
