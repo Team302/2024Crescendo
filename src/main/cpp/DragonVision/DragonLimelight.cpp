@@ -242,6 +242,9 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 
     if (targetXdistance.has_value() && targetYdistance.has_value())
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "X", targetXdistance.value().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Y", targetYdistance.value().to<double>());
+
         if (std::abs(targetXdistance.value().to<double>()) > 0)
         {
             return units::math::atan2(targetYdistance.value(), targetXdistance.value());
@@ -405,12 +408,12 @@ void DragonLimelight::PrintValues()
 
 units::length::inch_t DragonLimelight::CalcXTargetToRobot(units::angle::degree_t camPitch, units::length::inch_t mountHeight, units::length::inch_t camXOffset, units::angle::degree_t tY)
 {
-    return units::length::inch_t((units::math::tan(units::angle::degree_t(90) - camPitch + tY) * mountHeight) + camXOffset);
+    return units::length::inch_t((units::math::tan(units::angle::degree_t(90) + camPitch + tY) * mountHeight) + camXOffset);
 }
 
-units::length::inch_t DragonLimelight::CalcYTargetToRobot(units::angle::degree_t camYaw, units::length::inch_t xTargetDistance, units::length::inch_t camYOffset, units::angle::degree_t tX)
+units::length::inch_t DragonLimelight::CalcYTargetToRobot(units::angle::degree_t camYaw, units::length::inch_t xTargetDistance, units::length::inch_t camYOffset, units::length::inch_t camXOffset, units::angle::degree_t tX)
 {
-    return units::length::inch_t((units::math::tan(tX + camYaw) * xTargetDistance) + camYOffset);
+    return units::length::inch_t((units::math::tan(tX + camYaw) * (xTargetDistance - camXOffset)) - camYOffset);
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
@@ -494,7 +497,7 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance_Re
     units::angle::degree_t camPitch = GetCameraPitch();
     units::length::inch_t mountHeight = GetMountingZOffset();
     units::length::inch_t camXOffset = GetMountingXOffset();
-    units::angle::degree_t Ty = GetTy();
+    units::angle::degree_t Ty = GetTargetPitch().value();
     return CalcXTargetToRobot(camPitch, mountHeight, camXOffset, Ty);
 }
 
@@ -503,9 +506,17 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_Re
 
     units::angle::degree_t camYaw = GetCameraYaw();
     units::length::inch_t camYOffset = GetMountingYOffset();
-    units::angle::degree_t Tx = GetTx();
-    units::length::inch_t xTargetDistance = CalcXTargetToRobot(GetCameraPitch(), GetMountingZOffset(), GetMountingXOffset(), GetTy());
-    return CalcYTargetToRobot(camYaw, xTargetDistance, camYOffset, Tx);
+    units::length::inch_t camXOffset = GetMountingXOffset();
+    units::angle::degree_t Tx = GetTargetYaw().value();
+    units::length::inch_t xTargetDistance = CalcXTargetToRobot(GetCameraPitch(), GetMountingZOffset(), GetMountingXOffset(), GetTargetPitch().value());
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Cam Yaw", camYaw.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Cam Y Offset", camYOffset.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Cam X Offset", camXOffset.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Cam Tx", Tx.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "X TargetDistace", xTargetDistance.to<double>());
+
+    return CalcYTargetToRobot(camYaw, xTargetDistance, camYOffset, camXOffset, Tx);
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_RelToRobotCoords()

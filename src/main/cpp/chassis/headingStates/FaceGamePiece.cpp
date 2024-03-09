@@ -18,6 +18,7 @@
 // Team302 Includes
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "utils/AngleUtils.h"
 #include "chassis/headingStates/FaceGamePiece.h"
 
 /// debugging
@@ -31,6 +32,9 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Face Game Piece", "True");
+
     if (chassis != nullptr)
     {
         auto vision = DragonVision::GetDragonVision();
@@ -40,18 +44,20 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             if (data)
             {
                 auto rotation = data.value().rotationToTarget;
-                auto robotRelativeAngle = rotation.ToRotation2d().Degrees();
-                chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-
-                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
-
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Angle Offset", robotRelativeAngle.to<double>());
+                auto robotRelativeAngle = units::angle::degree_t(rotation.Z());
+                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Field Angle Offset", fieldRelativeAngle.to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Angle Offset", robotRelativeAngle.to<double>());
 
-                chassis->SetStoredHeading(fieldRelativeAngle);
+                // chassis->SetStoredHeading(fieldRelativeAngle);
 
-                // CalcHeadingCorrection(fieldRelativeAngle, m_kp);
+                // chassisMovement.chassisSpeeds.omega = CalcHeadingCorrection(fieldRelativeAngle, m_kp);
+
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Field Correction", CalcHeadingCorrection(fieldRelativeAngle, m_kp).to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Correction", robotRelativeAngle.to<double>() * m_kp);
             }
+            else
+                chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
         }
     }
 }
