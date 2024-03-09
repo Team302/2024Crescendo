@@ -558,7 +558,7 @@
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
           </MotorController>
-          <MotorController xsi:type="SparkFlex">
+          <MotorController xsi:type="SparkFlexMonitored">
             <name>Feeder</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -737,6 +737,13 @@
             </RotationOffset>
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
+            <CurrentFilterLength>
+              <unitsFamily>none</unitsFamily>
+              <name>uintParameter</name>
+              <__units__ />
+              <type>UInt32</type>
+              <value>7</value>
+            </CurrentFilterLength>
           </MotorController>
           <MotorController xsi:type="TalonFX">
             <name>launcherTop</name>
