@@ -93,7 +93,7 @@ void LEDStates::ChaserPattern(DragonLeds::Colors c)
 {
     if (m_LEDstring->m_ledBuffer.size() > 0)
     {
-        loopThroughIndividualLEDs += loopThroughIndividualLEDs < m_LEDstring->m_ledBuffer.size() - 1 ? 1 : -loopThroughIndividualLEDs;
+        loopThroughIndividualLEDs += loopThroughIndividualLEDs < static_cast<int>(m_LEDstring->m_ledBuffer.size()) - 1 ? 1 : -loopThroughIndividualLEDs;
         if (!switchColor)
         {
             color = color == m_LEDstring->getColorValues(c) ? m_LEDstring->getColorValues(DragonLeds::BLACK) : m_LEDstring->getColorValues(c);
@@ -101,7 +101,7 @@ void LEDStates::ChaserPattern(DragonLeds::Colors c)
         // auto color = colorLoop >= 0 ? m_LEDstring->getColorValues(c) : m_LEDstring->getColorValues(DragonLeds::BLACK);
 
         // colorLoop += colorLoop < m_LEDstring->m_ledBuffer.size() - 1 ? 1 : -((colorLoop * 2) + 1);
-        switchColor = loopThroughIndividualLEDs != m_LEDstring->m_ledBuffer.size() - 1;
+        switchColor = loopThroughIndividualLEDs != static_cast<int>(m_LEDstring->m_ledBuffer.size()) - 1;
 
         m_LEDstring->m_ledBuffer[loopThroughIndividualLEDs].SetRGB(color[0], color[1], color[2]);
         m_LEDstring->commitLedData();
