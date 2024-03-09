@@ -232,13 +232,6 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
         units::length::inch_t targetDistanceRobotFrame = targetXdistance.value() + GetMountingXOffset(); // the offset is negative if the limelight is behind the center of the robot
 
         units::angle::radian_t angleOffset = units::math::atan2(targetHorizOffsetRobotFrame, targetDistanceRobotFrame);
-        if (GetTy().to<double>() < 0)
-        {
-            double angleOffsetdouble = angleOffset.to<double>();
-            angleOffsetdouble += 3.14159265;
-            units::angle::radian_t angleoffsetrad(angleOffsetdouble);
-            return angleoffsetrad;
-        }
         return angleOffset;
 
         // return limelightFrameHorizAngleRad.value() + mountYaw;
@@ -399,7 +392,7 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
 {
     units::length::meter_t mountingHeight = m_cameraPose.Z();
 
-    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Z();
+    units::angle::degree_t mountingAngle = m_cameraPose.Rotation().Y() * -1;
     std::optional<units::angle::degree_t> targetPitch = GetTargetPitch();
     std::optional<int> aprilTagID = GetAprilTagID();
     if (!aprilTagID)
