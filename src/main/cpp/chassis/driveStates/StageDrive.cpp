@@ -42,10 +42,6 @@ std::array<frc::SwerveModuleState, 4> StageDrive::UpdateSwerveModuleStates(Chass
     {
         if (m_chassis != nullptr)
         {
-            auto info = finder->GetPose(DragonVision::VISION_ELEMENT::STAGE);
-            auto type = get<0>(info);
-            auto targetPose = get<1>(info);
-
             std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::STAGE);
             if (testVisionData)
             {
@@ -54,8 +50,8 @@ std::array<frc::SwerveModuleState, 4> StageDrive::UpdateSwerveModuleStates(Chass
                 chassisMovement.chassisSpeeds.vy = units::velocity::meters_per_second_t(testVisionData.value().transformToTarget.Y().to<double>() * -m_stageVisionKp);
             }
         }
-        return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
     }
+    return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
 void StageDrive::Init(ChassisMovement &chassisMovement)
