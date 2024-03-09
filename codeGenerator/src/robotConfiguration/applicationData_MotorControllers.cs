@@ -53,6 +53,7 @@ namespace ApplicationData
     [XmlInclude(typeof(TalonFX))]
     [XmlInclude(typeof(TalonSRX))]
     [XmlInclude(typeof(SparkMax))]
+    [XmlInclude(typeof(SparkMaxMonitored))]
     [XmlInclude(typeof(SparkFlex))]
     [XmlInclude(typeof(SparkFlexMonitored))]
     public class MotorController : baseRobotElementClass
@@ -1522,6 +1523,29 @@ namespace ApplicationData
     [ImplementationName("DragonSparkFlexMonitored")]
     [UserIncludeFile("hw/DragonSparkFlexMonitored.h")]
     public class SparkFlexMonitored : SparkFlex
+    {
+        [DefaultValue(7u)]
+        public uintParameter CurrentFilterLength { get; set; }
+
+        override public List<string> generateInitialization()
+        {
+            List<string> initCode = base.generateInitialization();
+
+            if (ControllerEnabled == Enabled.Yes)
+            {
+                initCode.Add(string.Format("{0}->ConfigureCurrentFiltering( {1});",
+                                                                        name + getImplementationName(),
+                                                                        CurrentFilterLength.value.ToString().ToLower()));
+            }
+
+            return initCode;
+        }
+    }
+
+    [Serializable]
+    [ImplementationName("DragonSparkMaxMonitored")]
+    [UserIncludeFile("hw/DragonSparkMaxMonitored.h")]
+    public class SparkMaxMonitored : SparkMax
     {
         [DefaultValue(7u)]
         public uintParameter CurrentFilterLength { get; set; }

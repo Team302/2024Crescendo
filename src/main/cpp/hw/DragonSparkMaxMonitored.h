@@ -17,23 +17,23 @@
 
 #include <deque>
 
-#include "hw/DragonSparkFlex.h"
+#include "hw/DragonSparkMax.h"
 
 // namespaces
 using namespace rev;
 
-class DragonSparkFlexMonitored : public DragonSparkFlex
+class DragonSparkMaxMonitored : public DragonSparkMax
 {
 public:
-    DragonSparkFlexMonitored() = delete;
-    DragonSparkFlexMonitored(int id,
-                             RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
-                             rev::CANSparkFlex::MotorType motorType,
-                             rev::SparkRelativeEncoder::Type feedbackType,
-                             rev::SparkLimitSwitch::Type forwardType,
-                             rev::SparkLimitSwitch::Type reverseType,
-                             const DistanceAngleCalcStruc &calcStruc);
-    virtual ~DragonSparkFlexMonitored() = default;
+    DragonSparkMaxMonitored() = delete;
+    DragonSparkMaxMonitored(int id,
+                            RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
+                            rev::CANSparkMax::MotorType motorType,
+                            rev::SparkRelativeEncoder::Type feedbackType,
+                            rev::SparkLimitSwitch::Type forwardType,
+                            rev::SparkLimitSwitch::Type reverseType,
+                            const DistanceAngleCalcStruc &calcStruc);
+    virtual ~DragonSparkMaxMonitored() = default;
 
     void ConfigureCurrentFiltering(int filterLength);
     void ConfigureCurrentShutoff(double currentThreshold, int loopCountThreshold);
@@ -49,7 +49,7 @@ private:
     int m_loopCountThreshold;
 
     std::deque<double> m_currentHistoryValues;
-    double m_currentAverage = 0;
+    double m_currentAverage;
 
     bool m_overCurrentShutoffEnabled;
 
