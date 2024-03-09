@@ -291,7 +291,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 			rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame().value(), selectedCam->GetTargetYawRobotFrame().value());
 
 			// return VisionData with new translation and rotation
-			return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote};
+			return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote, -1};
 		}
 	}
 	// if we don't have a selected cam
