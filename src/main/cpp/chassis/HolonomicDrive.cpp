@@ -33,6 +33,7 @@
 #include "teleopcontrol/TeleopControlFunctions.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
+#include "mechanisms/noteManager/decoratormods/noteManager.h"
 
 using std::string;
 using namespace frc;
@@ -83,7 +84,13 @@ void HolonomicDrive::Run()
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
         {
-            AlignGamePiece();
+            StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+            auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+
+            if (!noteMgr->getfrontIntakeSensor()->Get() && !noteMgr->getbackIntakeSensor()->Get())
+                AlignGamePiece();
+            else
+                m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
         }
         else if (isAlignWithAmpSelected)
         {
