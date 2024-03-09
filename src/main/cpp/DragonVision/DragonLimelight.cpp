@@ -213,38 +213,16 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYaw()
     {
         return -1.0 * GetTy();
     }
-    // uncommenting this block might fix issue
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTx();
 }
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 {
-    // Get the horizontal angle to the target and convert to radians
-    /* std::optional<units::angle::radian_t> limelightFrameHorizAngleRad = GetTargetYaw();
-     std::optional<units::length::inch_t> targetXdistance = EstimateTargetXDistance();
-     units::angle::degree_t mountYaw = GetCameraYaw();
-     if (limelightFrameHorizAngleRad)
-     {
-         units::length::inch_t targetHorizOffset = targetXdistance.value() * tan(limelightFrameHorizAngleRad.value().to<double>());
-
-         units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + GetMountingYOffset();    // the offset is positive if the limelight is to the left of the center of the robot
-         units::length::inch_t targetDistanceRobotFrame = targetXdistance.value() + GetMountingXOffset(); // the offset is negative if the limelight is behind the center of the robot
-
-         units::angle::radian_t angleOffset = units::math::atan2(targetHorizOffsetRobotFrame, targetDistanceRobotFrame);
-         return angleOffset;
-
-         // return limelightFrameHorizAngleRad.value() + mountYaw;
-     }
- */
     std::optional<units::length::inch_t> targetXdistance = EstimateTargetXDistance_RelToRobotCoords();
     std::optional<units::length::inch_t> targetYdistance = EstimateTargetYDistance_RelToRobotCoords();
 
     if (targetXdistance.has_value() && targetYdistance.has_value())
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "X", targetXdistance.value().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Y", targetYdistance.value().to<double>());
-
         if (std::abs(targetXdistance.value().to<double>()) > 0)
         {
             return units::math::atan2(targetYdistance.value(), targetXdistance.value());

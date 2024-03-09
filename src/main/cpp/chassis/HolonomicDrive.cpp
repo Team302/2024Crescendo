@@ -70,7 +70,7 @@ void HolonomicDrive::Run()
 
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
-        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE);
+        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::INTAKE);
         auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::ROBOT_ORIENTED_DRIVE);
         auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
         auto isAlignWithStageSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE);

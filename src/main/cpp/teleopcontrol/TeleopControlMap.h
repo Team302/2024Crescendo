@@ -155,7 +155,7 @@ const TeleopControlButton extra4DPad270 = {TeleopControlMappingEnums::EXTRA4, Te
 const TeleopControlButton extra4DPad315 = {TeleopControlMappingEnums::EXTRA4, TeleopControlMappingEnums::POV_315, TeleopControlMappingEnums::STANDARD};
 
 robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlButton> teleopControlMapButtonMap{
-    {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverYButton},
+    // {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverYButton},
 
     {TeleopControlFunctions::RESET_POSITION, driverLStickPressed},
     {TeleopControlFunctions::ROBOT_ORIENTED_DRIVE, driverRStickPressed},
@@ -181,15 +181,13 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::PASS, copilotBButton},
     {TeleopControlFunctions::PREP_PLACE, copilotXButton},
     {TeleopControlFunctions::PLACE, copilotRBumper},
-    // {TeleopControlFunctions::AUTO_SPEAKER, driverXButton},
-
     {TeleopControlFunctions::AUTO_SPEAKER, driverXButton},
 
     {TeleopControlFunctions::AUTO_AMP, driverAButton},
     {TeleopControlFunctions::AUTO_STAGE, driverBButton},
     {TeleopControlFunctions::BACKUP_FRONT_INTAKE, copilotRBumper},
     {TeleopControlFunctions::BACKUP_BACK_INTAKE, copilotLBumper},
-    //{TeleopControlFunctions::AUTO_CLIMB, driverYButton},
+    {TeleopControlFunctions::AUTO_CLIMB, driverYButton},
 };
 
 const TeleopControlAxis driverLJoystickX = {TeleopControlMappingEnums::DRIVER, TeleopControlMappingEnums::LEFT_JOYSTICK_X, TeleopControlMappingEnums::APPLY_STANDARD_DEADBAND, TeleopControlMappingEnums::AXIS_PROFILE::LINEAR, TeleopControlMappingEnums::REVERSED, 1.0};
