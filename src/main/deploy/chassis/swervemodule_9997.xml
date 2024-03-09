@@ -2,7 +2,7 @@
 <swervemodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!--- TO BE TUNED -->
   <attributes
-    proportional="5.0"
+    proportional="20.0"
     integral="1.0"
     derivative="0.0" />
 </swervemodule>
