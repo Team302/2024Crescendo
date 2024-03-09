@@ -28,6 +28,7 @@ public:
         FACE_LEFT_STAGE,
         FACE_RIGHT_STAGE,
         FACE_CENTER_STAGE,
+        FACE_STAGE,
         IGNORE
     };
 
@@ -38,6 +39,7 @@ public:
         TRAJECTORY_DRIVE_PLANNER,
         HOLD_DRIVE,
         STOP_DRIVE,
+        STAGE_DRIVE,
         AUTO_BALANCE
     };
 

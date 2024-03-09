@@ -47,6 +47,7 @@ protected:
     ChassisOptionEnums::HeadingOption m_headingOption;
     units::angle::degree_t m_storedYaw;
 
-    double m_kPMaintainHeadingControl = 6.0;
+    double m_kPMaintainFine = 10.0;
+    double m_kPMaintainCoarse = 5.0;
     double m_kPGoalHeadingControl = 8.0;
 };

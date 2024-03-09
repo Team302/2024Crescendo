@@ -25,6 +25,7 @@
 // Team 302 Includes
 #include "DragonVision/DragonPhotonCam.h"
 #include "DragonVision/DragonVision.h"
+#include "DragonVision/DragonPhotonCalculator.h"
 
 DragonPhotonCam::DragonPhotonCam(std::string name,
                                  DragonCamera::PIPELINE initialPipeline,
@@ -87,7 +88,7 @@ std::optional<VisionPose> DragonPhotonCam::GetFieldPosition()
             visionStdMeasurements[1] += ambiguity;
             visionStdMeasurements[2] += ambiguity;
 
-            return VisionPose(fieldRelPose, timestamp, visionStdMeasurements);
+            return VisionPose(fieldRelPose, timestamp, visionStdMeasurements, PoseEstimationStrategy::SINGLE_TAG);
         }
     }
 
@@ -122,7 +123,7 @@ std::optional<VisionPose> DragonPhotonCam::GetMultiTagEstimate()
         visionStdMeasurements[1] += ambiguity;
         visionStdMeasurements[2] += ambiguity;
 
-        return VisionPose(robotPose, timestamp, visionStdMeasurements);
+        return VisionPose(robotPose, timestamp, visionStdMeasurements, PoseEstimationStrategy::MULTI_TAG);
     }
 
     return std::nullopt;
@@ -189,90 +190,14 @@ std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetYawRobotFrame()
 {
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-        // get the most accurate according to configured contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        int tagId = target.GetFiducialId();
-
-        // if we don't see a tag we are detecting a note instead
-        if (tagId == -1)
-        {
-            // Use photon utils to calculate distance to target
-            units::meter_t distanceToTarget = photon::PhotonUtils::CalculateDistanceToTarget(m_cameraPose.Z(),                    // camera mounting height
-                                                                                             m_noteVerticalOffset,                // offset from robot center based on note being on the floor
-                                                                                             m_cameraPose.Rotation().Y(),         // camera mounting pitch
-                                                                                             units::degree_t{target.GetPitch()}); // pitch of detection
-
-            // get y distance to camera by multiplying distanceToTarget(x distance/adjacent) to the tangent of the yaw (opposite = ydistance, adjacent = x distance)
-            units::length::meter_t yOffsetCamToTarget = distanceToTarget * units::math::tan(units::degree_t{target.GetYaw()});
-
-            // Add camera y offset from robot center to target's y offset from cam
-            units::length::meter_t yOffsetRobotToTarget = yOffsetCamToTarget + m_cameraPose.Y();
-
-            // inverse tangent of opposite (y/ left/right offset) over adjacent (x distance)
-            units::angle::radian_t yawRobotRelative = units::math::atan2(yOffsetRobotToTarget, distanceToTarget);
-
-            return yawRobotRelative;
-        }
-        else // we see an april tag
-        {
-            // transform to get from cam to target
-            frc::Transform3d camToTarget = target.GetBestCameraToTarget();
-
-            // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t yawRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).Y(), frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).X());
-
-            return yawRobotRelative;
-        }
-    }
-
-    return std::nullopt;
+    return DragonPhotonCalculator::GetTargetYawRobotFrame(m_cameraPose, result);
 }
 
 std::optional<units::angle::degree_t> DragonPhotonCam::GetTargetPitchRobotFrame()
 {
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-        // get the most accurate according to configured contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        int tagId = target.GetFiducialId();
-
-        // if we don't see a tag we are detecting a note instead
-        if (tagId == -1)
-        {
-            // Use photon utils to calculate distance to target
-            units::meter_t distanceToTarget = photon::PhotonUtils::CalculateDistanceToTarget(m_cameraPose.Z(),                    // camera mounting height
-                                                                                             m_noteVerticalOffset,                // offset from robot center based on note being on the floor
-                                                                                             m_cameraPose.Rotation().Y(),         // camera mounting pitch
-                                                                                             units::degree_t{target.GetPitch()}); // pitch of detection
-
-            // inverse tangent of opposite (z/height) over adjacent (x distance)
-            units::angle::radian_t pitchRobotRelative = units::math::atan2(m_cameraPose.Z(), distanceToTarget);
-
-            return pitchRobotRelative;
-        }
-        else // we see an april tag
-        {
-            // transform to get from cam to target
-            frc::Transform3d camToTarget = target.GetBestCameraToTarget();
-
-            // inverse tangent of opposite (sum of camera mounting height and camera to target) over adjacent (sum of camera mounting x offset and cam to target x distance)
-            units::angle::radian_t pitchRobotRelative = units::math::atan2(frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).Z(), frc::Transform3d(frc::Pose3d{}, (m_cameraPose + camToTarget)).X());
-
-            return pitchRobotRelative;
-        }
-    }
-
-    return std::nullopt;
+    return DragonPhotonCalculator::GetTargetPitchRobotFrame(m_cameraPose, result);
 }
 
 /// @brief Get Pitch to Target
@@ -425,18 +350,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetXDistance_Re
 
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-        // get the most accurate data according to contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        return target.GetBestCameraToTarget().X() + m_robotCenterToCam.X();
-    }
-
-    return std::nullopt;
+    return DragonPhotonCalculator::EstimateTargetXDistance_RelToRobotCoords(m_robotCenterToCam, result);
 }
 
 /// @brief Estimate the Y distance to the detected target in relation to robot
@@ -447,18 +361,7 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetYDistance_Re
 
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-        // get the most accurate data according to contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        return target.GetBestCameraToTarget().Y() + m_robotCenterToCam.Y();
-    }
-
-    return std::nullopt;
+    return DragonPhotonCalculator::EstimateTargetYDistance_RelToRobotCoords(m_robotCenterToCam, result);
 }
 
 /// @brief Estimate the Z distance to the detected target in relation to robot
@@ -470,19 +373,9 @@ std::optional<units::length::inch_t> DragonPhotonCam::EstimateTargetZDistance_Re
 
     // get latest detections
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
-
-    // check for detections
-    if (result.HasTargets())
-    {
-        // get the most accurate data according to contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        // just need to add translation components of transforms together (camToTarget.X() + robotToCam.X())
-        return target.GetBestCameraToTarget().Z() + m_robotCenterToCam.Z();
-    }
-
-    return std::nullopt;
+    return DragonPhotonCalculator::EstimateTargetZDistance_RelToRobotCoords(m_robotCenterToCam, result);
 }
+
 bool DragonPhotonCam::UpdatePipeline()
 {
     m_camera->SetPipelineIndex(static_cast<int>(m_pipeline));
@@ -493,26 +386,22 @@ std::optional<VisionData> DragonPhotonCam::GetDataToNearestAprilTag()
 {
     // get latest detections from co-processor
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+    // result.GetTargets().back().
 
-    if (result.HasTargets())
+    return DragonPhotonCalculator::GetDataToNearestAprilTag(m_cameraPose, result);
+}
+
+std::optional<VisionData> DragonPhotonCam::GetDataToSpecifiedTag(int id)
+{
+    // get latest detections from co-processor
+    photon::PhotonPipelineResult result = m_camera->GetLatestResult();
+
+    auto targets = result.GetTargets();
+    for (photon::PhotonTrackedTarget target : targets)
     {
-        // get the most accurate according to configured contour ranking
-        photon::PhotonTrackedTarget target = result.GetBestTarget();
-
-        frc::Transform3d camToTargetTransform = target.GetBestCameraToTarget();
-
-        frc::Transform3d robotToTargetTransform = frc::Transform3d{frc::Pose3d{}, (m_cameraPose + camToTargetTransform)};
-
-        std::optional<units::angle::degree_t> pitch = GetTargetPitchRobotFrame();
-        std::optional<units::angle::degree_t> yaw = GetTargetYawRobotFrame();
-
-        if (pitch && yaw)
+        if (target.fiducialId == id)
         {
-            frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(0.0), // roll
-                                                       pitch.value(),               // pitch
-                                                       yaw.value()};                // yaw
-
-            return VisionData{robotToTargetTransform, robotToTargetTransform.Translation(), rotation, target.GetFiducialId()};
+            return DragonPhotonCalculator::GetDataToNearestAprilTag(m_cameraPose, target);
         }
     }
 

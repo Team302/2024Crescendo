@@ -29,6 +29,7 @@
 #include "chassis/driveStates/HoldDrive.h"
 #include "chassis/driveStates/RobotDrive.h"
 #include "chassis/driveStates/StopDrive.h"
+#include "chassis/driveStates/StageDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/headingStates/FaceAmp.h"
 #include "chassis/headingStates/FaceCenterStage.h"
@@ -36,6 +37,7 @@
 #include "chassis/headingStates/FaceLeftStage.h"
 #include "chassis/headingStates/FaceRightStage.h"
 #include "chassis/headingStates/FaceSpeaker.h"
+#include "chassis/headingStates/FaceStage.h"
 #include "chassis/headingStates/IgnoreHeading.h"
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/headingStates/MaintainHeading.h"
@@ -115,6 +117,7 @@ void SwerveChassis::InitStates()
 
     m_driveStateMap[ChassisOptionEnums::DriveStateType::FIELD_DRIVE] = new FieldDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::HOLD_DRIVE] = new HoldDrive();
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::STAGE_DRIVE] = new StageDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::ROBOT_DRIVE] = m_robotDrive;
     m_driveStateMap[ChassisOptionEnums::DriveStateType::STOP_DRIVE] = new StopDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER] = new TrajectoryDrivePathPlanner(m_robotDrive);
@@ -128,6 +131,7 @@ void SwerveChassis::InitStates()
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE] = new FaceCenterStage();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE] = new FaceLeftStage();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE] = new FaceRightStage();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_STAGE] = new FaceStage();
 }
 
 //==================================================================================

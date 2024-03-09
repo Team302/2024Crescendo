@@ -23,11 +23,10 @@
 #include "robotstate/RobotState.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "utils/DragonField.h"
-// #include <utils/FMSData.h>
-#include <utils/logging/LoggableItemMgr.h>
+#include "utils/logging/LoggableItemMgr.h"
 #include "utils/logging/Logger.h"
-#include <utils/logging/LoggerData.h>
-#include <utils/logging/LoggerEnums.h>
+#include "utils/logging/LoggerData.h"
+#include "utils/logging/LoggerEnums.h"
 
 #include "utils/logging/DataTrace.h"
 
@@ -146,12 +145,25 @@ void Robot::TeleopInit()
     }
 
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+
     if (config != nullptr)
     {
-        auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+        auto stateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+        auto noteMgr = stateMgr != nullptr ? dynamic_cast<noteManagerGen *>(stateMgr) : nullptr;
+
         if (noteMgr != nullptr)
         {
-            noteMgr->SetCurrentState(noteManagerGen::STATE_NAMES::STATE_READY, true);
+            bool allSensorsOff = ((!noteMgr->getfeederSensor()->Get()) &&
+                                  (!noteMgr->getlauncherSensor()->Get()) &&
+                                  (!noteMgr->getplacerInSensor()->Get()) &&
+                                  (!noteMgr->getplacerMidSensor()->Get()) &&
+                                  (!noteMgr->getplacerOutSensor()->Get()) &&
+                                  (!noteMgr->getbackIntakeSensor()->Get()) &&
+                                  (!noteMgr->getfrontIntakeSensor()->Get()));
+            if (stateMgr != nullptr && allSensorsOff)
+            {
+                stateMgr->SetCurrentState(noteManagerGen::STATE_NAMES::STATE_READY, true);
+            }
         }
         auto climberMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
         if (climberMgr != nullptr)

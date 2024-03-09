@@ -71,15 +71,21 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     auto speed = m_chassis->GetChassisSpeeds();
 
     auto path = PathPlannerPath::fromPathFile(m_pathname);
-
-    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
-    {
-        path = path.get()->flipPath();
-    }
-
     if (path.get() != nullptr)
     {
-        m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
+        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+        {
+            path = path.get()->flipPath();
+        }
+
+        if (path.get() != nullptr)
+        {
+            m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
+        }
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), string("Path not found"), m_pathname);
     }
 
     // Start timeout timer for path
