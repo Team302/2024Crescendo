@@ -12,47 +12,17 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-// C++ Includes
-#include <map>
-#include <memory>
-#include <string>
 
-// FRC includes
+// Team302 Includes
+#include "chassis/headingStates/FaceStage.h"
+#include "chassis/headingStates/FaceTarget.h"
+#include "DragonVision/DragonVision.h"
 
-// Team 302 includes
-#include <DragonVision/LimelightUsages.h>
-#include "utils/logging/Logger.h"
-
-// Third Party Includes
-
-LimelightUsages *LimelightUsages::m_instance = nullptr;
-LimelightUsages *LimelightUsages::GetInstance()
+FaceStage::FaceStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_STAGE)
 {
-    if (m_instance == nullptr)
-    {
-        m_instance = new LimelightUsages();
-    }
-    return m_instance;
 }
 
-LimelightUsages::LimelightUsages()
+DragonVision::VISION_ELEMENT FaceStage::GetVisionElement() const
 {
-    m_usageMap["MAINLIMELIGHT"] = LIMELIGHT_USAGE::PRIMARY;
-    m_usageMap["SECONDARYLIMELIGHT"] = LIMELIGHT_USAGE::SECONDARY;
-}
-
-LimelightUsages::~LimelightUsages()
-{
-    m_usageMap.clear();
-}
-
-LimelightUsages::LIMELIGHT_USAGE LimelightUsages::GetUsage(std::string usageString)
-{
-    auto it = m_usageMap.find(usageString);
-    if (it != m_usageMap.end())
-    {
-        return it->second;
-    }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("LimelightUsages::GetUsage"), std::string("unknown usage"), usageString);
-    return LimelightUsages::LIMELIGHT_USAGE::UNKNOWN_USAGE;
+    return DragonVision::VISION_ELEMENT::STAGE;
 }

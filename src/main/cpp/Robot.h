@@ -17,15 +17,11 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
-#include <DragonVision/DragonVision.h>
 
-class ArcadeDrive;
 class CyclePrimitives;
-class DragonLimelight;
 class HolonomicDrive;
 class SwerveChassis;
 class TeleopControl;
-class AdjustableItemMgr;
 class FMSData;
 class DragonField;
 class AutonPreviewer;
@@ -63,11 +59,7 @@ private:
     SwerveChassis *m_chassis;
     CyclePrimitives *m_cyclePrims;
     HolonomicDrive *m_holonomic;
-    ArcadeDrive *m_arcade;
 
-    DragonLimelight *m_dragonLimeLight;
-
-    AdjustableItemMgr *m_tuner;
     FMSData *m_fmsData;
     DragonField *m_field;
     AutonPreviewer *m_previewer;

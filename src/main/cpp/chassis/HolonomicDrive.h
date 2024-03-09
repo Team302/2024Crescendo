@@ -47,9 +47,7 @@ private:
     void CheckRobotOriented(bool robotOrientedSelected);
     void AlignToSpeaker();
     void AlignToAmp();
-    void AlignToLeftStage();
-    void AlignToCenterStage();
-    void AlignToRightStage();
+    void AlignToStage();
 
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
@@ -60,4 +58,5 @@ private:
 
     bool m_robotOrientedLatch = false;
     bool m_robotOrientedDrive = false;
+    bool m_stageDrive = false;
 };

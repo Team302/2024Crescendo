@@ -15,36 +15,15 @@
 
 #pragma once
 
-// C++ Includes
-#include <map>
-#include <memory>
-#include <string>
+// Team302 Includes
+#include "chassis/headingStates/FaceTarget.h"
 
-// FRC includes
-
-// Team 302 includes
-
-// Third Party Includes
-
-class LimelightUsages
+class FaceStage : public FaceTarget
 {
-
 public:
-    enum LIMELIGHT_USAGE
-    {
-        UNKNOWN_USAGE = -1,
-        PRIMARY,
-        SECONDARY
-    };
+    FaceStage();
+    ~FaceStage() = default;
 
-    static LimelightUsages *GetInstance();
-
-    LIMELIGHT_USAGE GetUsage(std::string usageString);
-
-private:
-    static LimelightUsages *m_instance;
-    LimelightUsages();
-    ~LimelightUsages();
-
-    std::map<std::string, LIMELIGHT_USAGE> m_usageMap;
+protected:
+    DragonVision::VISION_ELEMENT GetVisionElement() const override;
 };

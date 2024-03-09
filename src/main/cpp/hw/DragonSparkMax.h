@@ -109,4 +109,15 @@ private:
     int m_slot;
 
     rev::CANSparkMax *GetSparkMax();
+
+    double m_prevKp[4] = {0.0, 0.0, 0.0, 0.0};
+    double m_prevKi[4] = {0.0, 0.0, 0.0, 0.0};
+    double m_prevKd[4] = {0.0, 0.0, 0.0, 0.0};
+    double m_prevKf[4] = {0.0, 0.0, 0.0, 0.0};
+
+    const int m_velSlot = 0;
+    const int m_posSlot = 1;
+
+    double m_posConversion = 1.0;
+    double m_velConversion = 1.0;
 };
