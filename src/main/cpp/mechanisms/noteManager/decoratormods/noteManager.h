@@ -87,5 +87,5 @@ private:
 
 	double m_intakeDifferenceAvg;
 
-	bool m_noteInIntake;
+	bool m_noteInIntake = false;
 };
