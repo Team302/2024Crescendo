@@ -158,7 +158,7 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     // {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverXButton},
 
     {TeleopControlFunctions::RESET_POSITION, driverLStickPressed},
-    {TeleopControlFunctions::TIPCORRECTION_TOGGLE, driverRStickPressed},
+    {TeleopControlFunctions::ROBOT_ORIENTED_DRIVE, driverRStickPressed},
     //{TeleopControlFunctions::HOLD_POSITION, driverLBumper},need to re assign
     //{TeleopControlFunctions::SLOW_MODE, driverRBumper}, need to re assign
 
