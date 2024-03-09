@@ -223,18 +223,15 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
     // Get the horizontal angle to the target and convert to radians
     std::optional<units::angle::radian_t> limelightFrameHorizAngleRad = GetTargetYaw();
     std::optional<units::length::inch_t> targetXdistance = EstimateTargetXDistance();
+    std::optional<units::length::inch_t> targetYdistance = EstimateTargetYDistance();
     units::angle::degree_t mountYaw = GetCameraYaw();
+    units::length::inch_t mountX = GetMountingXOffset();
+    units::length::inch_t mountY = GetMountingYOffset();
     if (limelightFrameHorizAngleRad)
     {
-        units::length::inch_t targetHorizOffset = targetXdistance.value() * tan(limelightFrameHorizAngleRad.value().to<double>());
-
-        units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + GetMountingYOffset();    // the offset is positive if the limelight is to the left of the center of the robot
-        units::length::inch_t targetDistanceRobotFrame = targetXdistance.value() + GetMountingXOffset(); // the offset is negative if the limelight is behind the center of the robot
-
-        units::angle::radian_t angleOffset = units::math::atan2(targetHorizOffsetRobotFrame, targetDistanceRobotFrame);
-        return angleOffset;
-
-        // return limelightFrameHorizAngleRad.value() + mountYaw;
+        units::length::inch_t robotToTargetX = units::length::inch_t(targetXdistance.value().to<double>() - mountX.to<double>());
+        units::length::inch_t robotToTargetY = units::length::inch_t(targetYdistance.value().to<double>() - mountY.to<double>());
+        return units::math::atan2(robotToTargetY, robotToTargetX) + mountYaw;
     }
 
     return std::nullopt;
