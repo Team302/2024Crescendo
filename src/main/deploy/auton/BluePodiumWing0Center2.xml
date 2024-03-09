@@ -17,4 +17,9 @@
 <snippet file= "PodiumCenterRing5.xml"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
+
+<snippet file="PodiumCenterRing4.xml"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
 </auton>
