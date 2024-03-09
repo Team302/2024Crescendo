@@ -182,6 +182,13 @@
       </RotationOffset>
       <motorBrushType>kBrushless</motorBrushType>
       <sensorType>kHallSensor</sensorType>
+      <CurrentFilterLength>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>7</value>
+      </CurrentFilterLength>
     </MotorController>
     <MotorController
       xsi:type="SparkMaxMonitored">
@@ -362,6 +369,13 @@
       </RotationOffset>
       <motorBrushType>kBrushless</motorBrushType>
       <sensorType>kHallSensor</sensorType>
+      <CurrentFilterLength>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>7</value>
+      </CurrentFilterLength>
     </MotorController>
     <MotorController
       xsi:type="SparkMaxMonitored">
@@ -540,6 +554,13 @@
       </RotationOffset>
       <motorBrushType>kBrushless</motorBrushType>
       <sensorType>kHallSensor</sensorType>
+      <CurrentFilterLength>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>7</value>
+      </CurrentFilterLength>
     </MotorController>
     <MotorController
       xsi:type="SparkFlexMonitored">
@@ -1636,6 +1657,13 @@
       </RotationOffset>
       <motorBrushType>kBrushless</motorBrushType>
       <sensorType>kHallSensor</sensorType>
+      <CurrentFilterLength>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>7</value>
+      </CurrentFilterLength>
     </MotorController>
     <MotorController
       xsi:type="SparkMax">

@@ -106,6 +106,14 @@
           <name>Elevator</name>
           <type>doubleType</type>
         </dataTraceItem>
+        <dataTraceItem>
+          <name>IntakeDifference</name>
+          <type>doubleType</type>
+        </dataTraceItem>
+        <dataTraceItem>
+          <name>NoteInIntake</name>
+          <type>doubleType</type>
+        </dataTraceItem>
        </dataItems>
     </dataTraceGroup>
 	

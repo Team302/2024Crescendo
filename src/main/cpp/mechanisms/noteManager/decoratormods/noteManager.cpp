@@ -81,11 +81,6 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 
 	int dequeSize = 7;
-	frontIntakeValues.resize(dequeSize, 0);
-	backIntakeValues.resize(dequeSize, 0);
-	transferValues.resize(dequeSize, 0);
-	placerValues.resize(dequeSize, 0);
-	feederValues.resize(dequeSize, 0);
 	elevatorValues.resize(dequeSize, 0);
 }
 
@@ -96,6 +91,10 @@ void noteManager::RunCommonTasks()
 	ResetLauncherAngle();
 	ResetElevator();
 	getFeeder()->MonitorCurrent();
+	getfrontIntake()->MonitorCurrent();
+	getbackIntake()->MonitorCurrent();
+	getTransfer()->MonitorCurrent();
+	getPlacer()->MonitorCurrent();
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
@@ -107,23 +106,23 @@ void noteManager::RunCommonTasks()
 
 	if (true)
 	{
-		m_frontIntakeAverage = GetFilteredValue(getfrontIntake()->GetCurrent(), frontIntakeValues, m_frontIntakeAverage);
-		m_backIntakeAverage = GetFilteredValue(getbackIntake()->GetCurrent(), backIntakeValues, m_backIntakeAverage);
-		m_transferAverage = GetFilteredValue(getTransfer()->GetCurrent(), transferValues, m_transferAverage);
-		m_placerAverage = GetFilteredValue(getPlacer()->GetCurrent(), placerValues, m_placerAverage);
+		m_frontIntakeAverage = getfrontIntake()->GetFilteredCurrent();
+		m_backIntakeAverage = getbackIntake()->GetFilteredCurrent();
+		m_transferAverage = getTransfer()->GetFilteredCurrent();
+		m_placerAverage = getPlacer()->GetFilteredCurrent();
 		m_feederAverage = getFeeder()->GetFilteredCurrent();
 		m_elevatorAverage = GetFilteredValue(getElevator()->GetCurrent(), elevatorValues, m_elevatorAverage);
-		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, m_elevatorAverage);
-	}
-	else
-	{
-		double FrontIntake = getfrontIntake()->GetCurrent();
-		double BackIntake = getbackIntake()->GetCurrent();
-		double Transfer = getTransfer()->GetCurrent();
-		double Placer = getPlacer()->GetCurrent();
-		double Feeder = getFeeder()->GetCurrent();
-		double Elevator = getElevator()->GetCurrent();
-		DataTrace::GetInstance()->sendNoteMotorData(FrontIntake, BackIntake, Transfer, Placer, Feeder, Elevator);
+		m_intakeDifferenceAvg = std::abs(getfrontIntake()->GetFilteredCurrent() - getbackIntake()->GetFilteredCurrent());
+		if (m_intakeDifferenceAvg > 15)
+		{
+			m_noteInIntake = true;
+		}
+		if (m_noteInIntake && (m_intakeDifferenceAvg < 10))
+		{
+			m_noteInIntake = false;
+		}
+		double NoteInIntake = m_noteInIntake ? 40 : 0;
+		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, m_elevatorAverage, m_intakeDifferenceAvg, NoteInIntake);
 	}
 
 	double FrontIntakeSensor = getfrontIntakeSensor()->Get() ? 50 : 0;
