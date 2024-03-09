@@ -41,9 +41,12 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             {
                 auto rotation = data.value().rotationToTarget;
                 auto angle = rotation.ToRotation2d().Degrees();
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Angle", angle.to<double>());
+                chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
 
-                // chassis->SetStoredHeading(angle);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Angle", angle.to<double>());
+                chassis->SetStoredHeading(angle);
+
+                // CalcHeadingCorrection(angle, m_kp);
             }
         }
     }

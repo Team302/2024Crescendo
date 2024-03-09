@@ -26,4 +26,7 @@ public:
     ~FaceGamePiece();
 
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+
+private:
+    const double m_kp = 6.0;
 };
