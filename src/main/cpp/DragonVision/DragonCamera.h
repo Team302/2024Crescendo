@@ -95,6 +95,7 @@ public:
     virtual std::optional<units::length::inch_t> EstimateTargetZDistance_RelToRobotCoords() = 0;
 
     virtual std::optional<VisionData> GetDataToNearestAprilTag() = 0;
+    virtual std::optional<VisionData> GetDataToSpecifiedTag(int id) = 0;
 
     // Getters
     PIPELINE GetPipeline() const { return m_pipeline; }

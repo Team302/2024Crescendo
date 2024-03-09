@@ -94,13 +94,7 @@ std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 
 std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_ELEMENT element)
 {
-	std::optional<VisionData> launcherData = std::nullopt;
 	std::optional<VisionData> placerData = std::nullopt;
-
-	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] != nullptr)
-	{
-		launcherData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
-	}
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
 	{
@@ -165,14 +159,7 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_EL
 		break;
 	}
 
-	if (launcherData)
-	{
-		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), launcherData.value().tagId) != tagIdsToCheck.end())
-		{
-			return launcherData;
-		}
-	}
-	else if (placerData)
+	if (placerData)
 	{
 		if (std::find(tagIdsToCheck.begin(), tagIdsToCheck.end(), placerData.value().tagId) != tagIdsToCheck.end())
 		{
@@ -318,29 +305,33 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 
 	// initialize selected field element to empty Pose3d
 	frc::Pose3d fieldElementPose = frc::Pose3d{};
+	int idToSearch = -1;
 	switch (element)
 	{
 	case VISION_ELEMENT::SPEAKER:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SPEAKER)} /*load red speaker*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SPEAKER)}; /*load blue speaker*/
+		idToSearch = allianceColor == frc::DriverStation::Alliance::kRed ? 4 : 7;
 		break;
 	case VISION_ELEMENT::AMP:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_AMP)} /*load red amp*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_AMP)}; /*load blue amp*/
+		idToSearch = allianceColor == frc::DriverStation::Alliance::kRed ? 5 : 6;
 		break;
 	case VISION_ELEMENT::SOURCE:
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SOURCE)} /*load red source*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SOURCE)}; /*load blue source*/
+
 		break;
 	default:
 		return std::nullopt;
 		break;
 	}
 
-	std::optional<VisionData> multiTagEstimate = MultiTagToElement(fieldElementPose);
-	if (multiTagEstimate)
-	{
-		return multiTagEstimate;
-	}
+	// std::optional<VisionData> multiTagEstimate = MultiTagToElement(fieldElementPose);
+	// if (multiTagEstimate)
+	// {
+	// 	return multiTagEstimate;
+	// }
 
-	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose);
+	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose, idToSearch);
 	if (singleTagEstimate)
 	{
 		return singleTagEstimate;
@@ -398,7 +389,7 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 
 		// calculate rotation3d for angles from robot center, not transformation
 		units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
-		units::angle::radian_t yaw = units::math::atan2(transformToElement.X(), transformToElement.Y());
+		units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
 		units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
 		frc::Rotation3d rotation = frc::Rotation3d(roll, pitch, yaw);
 
@@ -409,7 +400,7 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 	return std::nullopt;
 }
 
-std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose)
+std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose, int idToSearch)
 {
 	std::optional<VisionData> launcherAprilTagData = std::nullopt;
 	std::optional<VisionData> placerAprilTagData = std::nullopt;
@@ -418,13 +409,15 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] != nullptr)
 	{
 		// get the optional of the translation and rotation to the apriltag
-		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
+		// launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
+		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToSpecifiedTag(idToSearch);
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("ASPEAKERDEBUG"), std::string("LauncherDataStatus"), std::string("True"));
 	}
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
 	{
 		// get the optional of the translation and rotation to the apriltag
-		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
+		placerAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToSpecifiedTag(idToSearch);
 	}
 
 	if ((!launcherAprilTagData) && (!placerAprilTagData)) // if we see no april tags
@@ -489,10 +482,11 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 			units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
 
 			// rebundle into vision data with april tag thats used
-			std::optional<VisionData> visionData = VisionData(transformToElement,
-															  transformToElement.Translation(),
-															  frc::Rotation3d(roll, pitch, yaw), // roll is 0, pitch and yaw are calculated
-															  selectedData.value().tagId);
+			std::optional<VisionData>
+				visionData = VisionData(transformToElement,
+										transformToElement.Translation(),
+										selectedData.value().rotationToTarget, // roll is 0, pitch and yaw are calculated
+										selectedData.value().tagId);
 			return visionData;
 		}
 	}

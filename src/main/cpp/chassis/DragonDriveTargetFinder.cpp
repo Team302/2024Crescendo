@@ -72,12 +72,19 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
     */
 
     int aprilTag = -1;
+    tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
+
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
     {
         auto itr = blueMap.find(item);
         if (itr != blueMap.end())
         {
             aprilTag = itr->second;
+        }
+        else if (item == DragonVision::VISION_ELEMENT::STAGE)
+        {
+            targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, m_blueStage);
+            return targetInfo;
         }
     }
     else
@@ -87,6 +94,11 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
         {
             aprilTag = itr->second;
         }
+        else if (item == DragonVision::VISION_ELEMENT::STAGE)
+        {
+            targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, m_redStage);
+            return targetInfo;
+        }
     }
 
     if (aprilTag > 0)
@@ -95,14 +107,12 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
         if (pose)
         {
             auto pose2d = pose.value().ToPose2d();
-            tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
             targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, pose2d);
             return targetInfo;
         }
     }
 
     auto pose2d = Pose2d();
-    tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
     targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND, pose2d);
     return targetInfo;
 }
@@ -119,13 +129,9 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
         if (std::abs(rot.to<double>()) < 0.1)
         {
             chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-            // if (abs(chassisMovement.chassisSpeeds.vx.to<double>()) > 0.0 ||
-            //     abs(chassisMovement.chassisSpeeds.vy.to<double>() > 0.0))
-            // {
+
             auto correction = ISwerveDriveOrientation::CalcHeadingCorrection(chassis->GetStoredHeading(), kp);
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "FaceSpeakerCorrection (degpersec)", correction.to<double>());
             chassisMovement.chassisSpeeds.omega += correction;
-            // }
         }
     }
 }

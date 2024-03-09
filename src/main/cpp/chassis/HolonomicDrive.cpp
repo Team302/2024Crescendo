@@ -70,13 +70,9 @@ void HolonomicDrive::Run()
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
         auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE);
-
         auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::ROBOT_ORIENTED_DRIVE);
-
         auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
-        auto isAlignWithLeftStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_LEFT_STAGE_TRAP);
-        auto isAlignWithCenterStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_CENTER_STAGE_TRAP);
-        auto isAlignWithRightStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_RIGHT_STAGE_TRAP);
+        auto isAlignWithStageSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE);
         auto isAlignWithAmpSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_AMP);
         auto isHoldPositionSelected = controller->IsButtonPressed(TeleopControlFunctions::HOLD_POSITION);
         auto isFaceForward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_FORWARD);
@@ -93,17 +89,12 @@ void HolonomicDrive::Run()
         {
             AlignToAmp();
         }
-        else if (isAlignWithLeftStageSelected)
+        else if (isAlignWithStageSelected || m_stageDrive)
         {
-            AlignToLeftStage();
-        }
-        else if (isAlignWithCenterStageSelected)
-        {
-            AlignToCenterStage();
-        }
-        else if (isAlignWithRightStageSelected)
-        {
-            AlignToRightStage();
+            AlignToStage();
+            m_previousDriveState = m_moveInfo.driveOption;
+            m_stageDrive = true;
+            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
         }
         else if (isAlignWithSpeakerSelected)
         {
@@ -163,6 +154,7 @@ void HolonomicDrive::Run()
         if (abs(rotate) > 0.05)
         {
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+            m_stageDrive = false;
         }
 
         CheckTipping(checkTipping);
@@ -216,35 +208,16 @@ void HolonomicDrive::AlignGamePiece()
 {
     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
 }
-void HolonomicDrive::AlignToLeftStage()
+void HolonomicDrive::AlignToStage()
 {
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE;
-}
-void HolonomicDrive::AlignToCenterStage()
-{
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
-}
-void HolonomicDrive::AlignToRightStage()
-{
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_STAGE;
 }
 void HolonomicDrive::AlignToSpeaker()
 {
-    // m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_SPEAKER;
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
-
-    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
-    {
-        m_moveInfo.yawAngle = units::angle::degree_t(180.0);
-    }
-    else
-    {
-        m_moveInfo.yawAngle = units::angle::degree_t(0.0);
-    }
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_SPEAKER;
 }
 void HolonomicDrive::AlignToAmp()
 {
-    // m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
     m_moveInfo.yawAngle = units::angle::degree_t(-90.0);
 }
