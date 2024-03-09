@@ -40,13 +40,17 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             if (data)
             {
                 auto rotation = data.value().rotationToTarget;
-                auto angle = rotation.ToRotation2d().Degrees();
+                auto robotRelativeAngle = rotation.ToRotation2d().Degrees();
                 chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
 
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Angle", angle.to<double>());
-                chassis->SetStoredHeading(angle);
+                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
-                // CalcHeadingCorrection(angle, m_kp);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Angle Offset", robotRelativeAngle.to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Field Angle Offset", fieldRelativeAngle.to<double>());
+
+                chassis->SetStoredHeading(fieldRelativeAngle);
+
+                // CalcHeadingCorrection(fieldRelativeAngle, m_kp);
             }
         }
     }
