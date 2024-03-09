@@ -510,12 +510,6 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_Re
     units::angle::degree_t Tx = GetTargetYaw().value();
     units::length::inch_t xTargetDistance = CalcXTargetToRobot(GetCameraPitch(), GetMountingZOffset(), GetMountingXOffset(), GetTargetPitch().value());
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Cam Yaw", camYaw.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Cam Y Offset", camYOffset.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Cam X Offset", camXOffset.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Cam Tx", Tx.to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "X TargetDistace", xTargetDistance.to<double>());
-
     return CalcYTargetToRobot(camYaw, xTargetDistance, camYOffset, camXOffset, Tx);
 }
 

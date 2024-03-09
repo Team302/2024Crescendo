@@ -290,8 +290,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 			// create rotation3d with pitch and yaw (don't have access to roll)
 			rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame().value(), selectedCam->GetTargetYawRobotFrame().value());
 
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Angle Offset Vision", selectedCam->GetTargetYawRobotFrame().value().to<double>());
-
 			// return VisionData with new translation and rotation
 			return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote, -1};
 		}

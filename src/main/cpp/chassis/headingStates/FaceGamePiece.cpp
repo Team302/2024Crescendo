@@ -49,9 +49,9 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Field Angle Offset", fieldRelativeAngle.to<double>());
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Angle Offset", robotRelativeAngle.to<double>());
 
-                // chassis->SetStoredHeading(fieldRelativeAngle);
+                chassis->SetStoredHeading(fieldRelativeAngle);
 
-                // chassisMovement.chassisSpeeds.omega = CalcHeadingCorrection(fieldRelativeAngle, m_kp);
+                chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kp);
 
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Field Correction", CalcHeadingCorrection(fieldRelativeAngle, m_kp).to<double>());
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Correction", robotRelativeAngle.to<double>() * m_kp);
