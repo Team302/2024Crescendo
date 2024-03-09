@@ -15,66 +15,23 @@
 
 #pragma once
 
-class ChassisOptionEnums
+// FRC Includes
+#include <frc/kinematics/SwerveModuleState.h>
+#include <frc/kinematics/ChassisSpeeds.h>
+
+// Team302 Includes
+#include "chassis/driveStates/RobotDrive.h"
+
+class StageDrive : public RobotDrive
 {
 public:
-    enum HeadingOption
-    {
-        MAINTAIN,
-        SPECIFIED_ANGLE,
-        FACE_GAME_PIECE,
-        FACE_SPEAKER,
-        FACE_AMP,
-        FACE_LEFT_STAGE,
-        FACE_RIGHT_STAGE,
-        FACE_CENTER_STAGE,
-        FACE_STAGE,
-        IGNORE
-    };
+    StageDrive(RobotDrive *robotDrive);
 
-    enum DriveStateType
-    {
-        ROBOT_DRIVE,
-        FIELD_DRIVE,
-        TRAJECTORY_DRIVE_PLANNER,
-        HOLD_DRIVE,
-        STOP_DRIVE,
-        STAGE_DRIVE,
-        AUTO_BALANCE
-    };
+    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 
-    enum RELATIVE_POSITION
-    {
-        LEFT = 1,
-        CENTER = 2,
-        RIGHT = 3
-    };
+    void Init(ChassisMovement &chassisMovement) override;
 
-    enum NoMovementOption
-    {
-        STOP,
-        HOLD_POSITION
-    };
-
-    enum AutonControllerType
-    {
-        RAMSETE,
-        HOLONOMIC
-    };
-
-    enum AutonChassisOptions
-    {
-        VISION_DRIVE_NOTE,
-        VISION_DRIVE_SPEAKER,
-        NO_VISION
-    };
-    enum AutonAvoidOptions
-    {
-        PODIUM,
-        ROBOT_COLLISION,
-        NO_AVOID_OPTION
-    };
-
-    ChassisOptionEnums() = delete;
-    ~ChassisOptionEnums() = delete;
+private:
+    RobotDrive *m_robotDrive;
+    double m_stageVisionKp = 3.0;
 };

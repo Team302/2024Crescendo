@@ -15,66 +15,15 @@
 
 #pragma once
 
-class ChassisOptionEnums
+// Team302 Includes
+#include "chassis/headingStates/FaceTarget.h"
+
+class FaceStage : public FaceTarget
 {
 public:
-    enum HeadingOption
-    {
-        MAINTAIN,
-        SPECIFIED_ANGLE,
-        FACE_GAME_PIECE,
-        FACE_SPEAKER,
-        FACE_AMP,
-        FACE_LEFT_STAGE,
-        FACE_RIGHT_STAGE,
-        FACE_CENTER_STAGE,
-        FACE_STAGE,
-        IGNORE
-    };
+    FaceStage();
+    ~FaceStage() = default;
 
-    enum DriveStateType
-    {
-        ROBOT_DRIVE,
-        FIELD_DRIVE,
-        TRAJECTORY_DRIVE_PLANNER,
-        HOLD_DRIVE,
-        STOP_DRIVE,
-        STAGE_DRIVE,
-        AUTO_BALANCE
-    };
-
-    enum RELATIVE_POSITION
-    {
-        LEFT = 1,
-        CENTER = 2,
-        RIGHT = 3
-    };
-
-    enum NoMovementOption
-    {
-        STOP,
-        HOLD_POSITION
-    };
-
-    enum AutonControllerType
-    {
-        RAMSETE,
-        HOLONOMIC
-    };
-
-    enum AutonChassisOptions
-    {
-        VISION_DRIVE_NOTE,
-        VISION_DRIVE_SPEAKER,
-        NO_VISION
-    };
-    enum AutonAvoidOptions
-    {
-        PODIUM,
-        ROBOT_COLLISION,
-        NO_AVOID_OPTION
-    };
-
-    ChassisOptionEnums() = delete;
-    ~ChassisOptionEnums() = delete;
+protected:
+    DragonVision::VISION_ELEMENT GetVisionElement() const override;
 };
