@@ -54,6 +54,7 @@ namespace ApplicationData
     [XmlInclude(typeof(TalonSRX))]
     [XmlInclude(typeof(SparkMax))]
     [XmlInclude(typeof(SparkFlex))]
+    [XmlInclude(typeof(SparkFlexMonitored))]
     public class MotorController : baseRobotElementClass
     {
         public enum Enabled { Yes, No }
@@ -334,25 +335,25 @@ namespace ApplicationData
                     {
                         mcs = mi.mechanism.MotorControllers.FindAll(m => (m.ControllerEnabled == MotorController.Enabled.Yes) && (m.name == name));
                         if (mcs.Count > 1)
-                            throw new Exception(string.Format("In robot id {0}, found more than one enabled motor controller named {1}.",robot.robotID, name));
-                        
+                            throw new Exception(string.Format("In robot id {0}, found more than one enabled motor controller named {1}.", robot.robotID, name));
+
                         sb.AppendLine(string.Format("else if ( RobotConfigMgr::RobotIdentifier::{0}_{1} == m_activeRobotId )",
                             ToUnderscoreCase(robot.name).ToUpper(), robot.robotID));
                         sb.AppendLine(string.Format("return {1}{0};", mcs[0].getImplementationName(), mcs[0].name));
                     }
                 }
                 string temp = sb.ToString().Substring("else".Length).Trim();
-                
+
                 sb.Clear();
-                sb.AppendLine(string.Format("IDragonMotorController* get{0}() const", name) );
+                sb.AppendLine(string.Format("IDragonMotorController* get{0}() const", name));
                 sb.AppendLine("{");
                 sb.AppendLine(temp);
                 sb.AppendLine("return nullptr;");
                 sb.AppendLine("}");
 
-                
+
                 return new List<string> { sb.ToString() };
-		    }
+            }
         }
     }
 
@@ -646,25 +647,25 @@ namespace ApplicationData
                     mechanismInstance mi = robot.mechanismInstances.Find(m => m.name == generatorContext.theMechanismInstance.name);
                     if (mi != null) // are we using the same mechanism instance in this robot
                     {
-                        mcs = mi.mechanism.MotorControllers.FindAll(m => (m.ControllerEnabled == MotorController.Enabled.Yes) && (m.name == name) && (m.GetType() == this.GetType()) );
+                        mcs = mi.mechanism.MotorControllers.FindAll(m => (m.ControllerEnabled == MotorController.Enabled.Yes) && (m.name == name) && (m.GetType() == this.GetType()));
                         if (mcs.Count > 1)
                             throw new Exception(string.Format("In robot id {0}, found more than one enabled motor controller named {1}.", robot.robotID, name));
-                        if(mcs.Count > 0)
+                        if (mcs.Count > 0)
                             robotsToCreateFor.Add(robot);
                     }
                 }
             }
 
             StringBuilder conditionalsSb = new StringBuilder();
-            if(robotsToCreateFor.Count > 0)
+            if (robotsToCreateFor.Count > 0)
             {
                 conditionalsSb.Append("if(");
-                foreach(applicationData r in robotsToCreateFor)
+                foreach (applicationData r in robotsToCreateFor)
                 {
                     conditionalsSb.Append("(RobotConfigMgr::RobotIdentifier::");
                     conditionalsSb.Append(string.Format("{0}_{1}", ToUnderscoreCase(r.name).ToUpper(), r.robotID));
                     conditionalsSb.Append(" == m_activeRobotId)");
-                    if(r != robotsToCreateFor.Last())
+                    if (r != robotsToCreateFor.Last())
                         conditionalsSb.Append(" || ");
                 }
                 conditionalsSb.Append(")");
@@ -687,12 +688,12 @@ namespace ApplicationData
             sb.AppendLine(theDistanceAngleCalcInfo.getDefinition(name));
             sb.AppendLine(creation);
             sb.AppendLine();
-            sb.AppendLine( ListToString( generateObjectAddToMaps(),";", true));
+            sb.AppendLine(ListToString(generateObjectAddToMaps(), ";", true));
             if (robotsToCreateFor.Count > 0)
                 sb.AppendLine("}");
             sb.AppendLine();
 
-            return new List<string>() { sb.ToString()};
+            return new List<string>() { sb.ToString() };
         }
     }
 
@@ -1511,6 +1512,29 @@ namespace ApplicationData
                 initCode.AddRange(base.generateInitialization());
 
                 initCode.Add(Environment.NewLine);
+            }
+
+            return initCode;
+        }
+    }
+
+    [Serializable]
+    [ImplementationName("DragonSparkFlexMonitored")]
+    [UserIncludeFile("hw/DragonSparkFlexMonitored.h")]
+    public class SparkFlexMonitored : SparkFlex
+    {
+        [DefaultValue(7u)]
+        public uintParameter CurrentFilterLength { get; set; }
+
+        override public List<string> generateInitialization()
+        {
+            List<string> initCode = base.generateInitialization();
+
+            if (ControllerEnabled == Enabled.Yes)
+            {
+                initCode.Add(string.Format("{0}->ConfigureCurrentFiltering( {1});",
+                                                                        name + getImplementationName(),
+                                                                        CurrentFilterLength.value.ToString().ToLower()));
             }
 
             return initCode;
