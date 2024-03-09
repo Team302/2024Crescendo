@@ -293,10 +293,9 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 			// return VisionData with new translation and rotation
 			return VisionData{frc::Transform3d(translationToNote, rotationToNote), translationToNote, rotationToNote};
 		}
-
-		// if we don't have a selected cam
-		return std::nullopt;
 	}
+	// if we don't have a selected cam
+	return std::nullopt;
 }
 
 std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT element)
@@ -476,11 +475,6 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 			// create transformation from robot to field element
 			frc::Transform3d transformToElement = frc::Transform3d(robotPose, elementPose);
 
-			// calculate rotation3d for angles from robot center, not transformation
-			units::angle::radian_t pitch = units::math::atan2(transformToElement.Z(), transformToElement.X());
-			units::angle::radian_t yaw = units::math::atan2(transformToElement.Y(), transformToElement.X());
-			units::angle::radian_t roll = units::math::atan2(transformToElement.Z(), transformToElement.Y());
-
 			// rebundle into vision data with april tag thats used
 			std::optional<VisionData>
 				visionData = VisionData(transformToElement,
@@ -507,9 +501,6 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 		{
 			frc::Pose3d estimatedPose = estimation.value().estimatedPose;
 			units::millisecond_t timestamp = estimation.value().timestamp;
-
-			// returned result
-			PoseEstimationStrategy strategy = (estimation.value().strategy == photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR) ? PoseEstimationStrategy::MULTI_TAG : PoseEstimationStrategy::SINGLE_TAG;
 
 			double ambiguity = 0.0;
 			double counter = 0.0;
