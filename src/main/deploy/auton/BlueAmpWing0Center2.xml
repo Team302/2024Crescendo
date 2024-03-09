@@ -6,6 +6,8 @@
 pathname= "BlueAmpWing0Center1_A"
 noteOption="STATE_READY_AUTO_LAUNCH"/>
 
+<snippet file= "AmpCenterStart.xml"/>
+
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <snippet file= "AmpCenterRing1.xml"/>
