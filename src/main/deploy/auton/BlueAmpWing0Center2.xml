@@ -5,6 +5,8 @@
 <primitive id= "RESET_POSITION_PATH_PLANNER"
 pathname= "BlueAmpWing0Center1_A"/>
 
+<snippet file= "AmpCenterStart.xml"/>
+
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <snippet file= "AmpCenterRing1.xml"/>
