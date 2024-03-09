@@ -46,15 +46,13 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 auto rotation = data.value().rotationToTarget;
                 auto robotRelativeAngle = units::angle::degree_t(rotation.Z());
                 units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Field Angle Offset", fieldRelativeAngle.to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Angle Offset", robotRelativeAngle.to<double>());
 
                 chassis->SetStoredHeading(fieldRelativeAngle);
-
-                chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kp);
-
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Field Correction", CalcHeadingCorrection(fieldRelativeAngle, m_kp).to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "FaceGamePiece", "Robot Correction", robotRelativeAngle.to<double>() * m_kp);
+                double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
+                if (error < 5.0)
+                    chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpFine);
+                else
+                    chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpCoarse);
             }
             else
                 chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
