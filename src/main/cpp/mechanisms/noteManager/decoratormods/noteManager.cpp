@@ -79,6 +79,14 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+
+	int dequeSize = 7;
+	frontIntakeValues.resize(dequeSize, 0);
+	backIntakeValues.resize(dequeSize, 0);
+	transferValues.resize(dequeSize, 0);
+	placerValues.resize(dequeSize, 0);
+	feederValues.resize(dequeSize, 0);
+	elevatorValues.resize(dequeSize, 0);
 }
 
 void noteManager::RunCommonTasks()
@@ -87,6 +95,7 @@ void noteManager::RunCommonTasks()
 	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
+	getFeeder()->MonitorCurrent();
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
@@ -95,6 +104,37 @@ void noteManager::RunCommonTasks()
 	double elevator = getElevator()->GetCounts();
 	DataTrace::GetInstance()->sendElevatorData(elevator);
 	DataTrace::GetInstance()->sendLauncherData(wheelSetTop, wheelSetBottom, angle);
+
+	if (true)
+	{
+		m_frontIntakeAverage = GetFilteredValue(getfrontIntake()->GetCurrent(), frontIntakeValues, m_frontIntakeAverage);
+		m_backIntakeAverage = GetFilteredValue(getbackIntake()->GetCurrent(), backIntakeValues, m_backIntakeAverage);
+		m_transferAverage = GetFilteredValue(getTransfer()->GetCurrent(), transferValues, m_transferAverage);
+		m_placerAverage = GetFilteredValue(getPlacer()->GetCurrent(), placerValues, m_placerAverage);
+		m_feederAverage = getFeeder()->GetFilteredCurrent();
+		m_elevatorAverage = GetFilteredValue(getElevator()->GetCurrent(), elevatorValues, m_elevatorAverage);
+		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, m_elevatorAverage);
+	}
+	else
+	{
+		double FrontIntake = getfrontIntake()->GetCurrent();
+		double BackIntake = getbackIntake()->GetCurrent();
+		double Transfer = getTransfer()->GetCurrent();
+		double Placer = getPlacer()->GetCurrent();
+		double Feeder = getFeeder()->GetCurrent();
+		double Elevator = getElevator()->GetCurrent();
+		DataTrace::GetInstance()->sendNoteMotorData(FrontIntake, BackIntake, Transfer, Placer, Feeder, Elevator);
+	}
+
+	double FrontIntakeSensor = getfrontIntakeSensor()->Get() ? 50 : 0;
+	double BackIntakeSensor = getbackIntakeSensor()->Get() ? 50 : 0;
+	double FeederSensor = getfeederSensor()->Get() ? 50 : 0;
+	double LauncherSensor = getlauncherSensor()->Get() ? 50 : 0;
+	double PlacerInSensor = getplacerInSensor()->Get() ? 50 : 0;
+	double PlacerMidSensor = getplacerMidSensor()->Get() ? 50 : 0;
+	double PlacerOutSensor = getplacerOutSensor()->Get() ? 50 : 0;
+
+	DataTrace::GetInstance()->sendNoteSensorData(FrontIntakeSensor, BackIntakeSensor, FeederSensor, LauncherSensor, PlacerInSensor, PlacerMidSensor, PlacerOutSensor);
 #endif
 }
 
@@ -180,4 +220,21 @@ bool noteManager::autoLaunchReady()
 			return true;
 		}
 	}
+}
+
+double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)
+{
+	double average = 0.0;
+
+	double previousTotal = previousAverage * previousValues.size();
+	previousTotal -= previousValues.back();
+
+	previousValues.push_front(latestValue);
+	previousValues.pop_back();
+
+	previousTotal += latestValue;
+
+	average = previousTotal / previousValues.size();
+
+	return average;
 }

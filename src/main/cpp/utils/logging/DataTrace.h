@@ -16,7 +16,7 @@
 #pragma once
 
 // FRC includes
-// #define INCLUDE_DATA_TRACE
+#define INCLUDE_DATA_TRACE
 
 // Team 302 includes
 #include <utils/logging/DataTraceSocket.h>
@@ -33,6 +33,8 @@ public:
     void sendClimberData(double angle, double power);
     void sendElevatorData(double ElevatorHeight);
     void sendLauncherData(double WheelSetTop, double WheelSetBottom, double Angle);
+    void sendNoteSensorData(double FrontIntake, double BackIntake, double Feeder, double Launcher, double PlacerIn, double PlacerMid, double PlacerOut);
+    void sendNoteMotorData(double FrontIntake, double BackIntake, double Transfer, double Placer, double Feeder, double Elevator);
 
 private:
     static DataTrace *m_instance;
