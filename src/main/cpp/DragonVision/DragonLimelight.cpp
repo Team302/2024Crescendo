@@ -385,6 +385,16 @@ void DragonLimelight::PrintValues()
  */
 }
 
+units::length::inch_t DragonLimelight::CalcXTargetToRobot(units::angle::degree_t camPitch, units::length::inch_t mountHeight, units::length::inch_t camXOffset, units::angle::degree_t tY)
+{
+    return units::length::inch_t((units::math::tan(units::angle::degree_t(90) - camPitch + tY) * mountHeight) + camXOffset);
+}
+
+units::length::inch_t DragonLimelight::CalcYTargetToRobot(units::angle::degree_t camYaw, units::length::inch_t xTargetDistance, units::length::inch_t camYOffset, units::angle::degree_t tX)
+{
+    return units::length::inch_t((units::math::tan(tX + camYaw) * xTargetDistance) + camYOffset);
+}
+
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
 {
     units::length::meter_t mountingHeight = m_cameraPose.Z();
