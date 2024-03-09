@@ -14,6 +14,6 @@
 
     <snippet file = "SubwooferCenterRing2.xml"/>
 
-    <snippet file = "ShootWhenStopAuto"/>
+    <snippet file = "ShootWhenStopAuto.xml"/>
 
 </auton>
