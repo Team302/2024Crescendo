@@ -23,7 +23,7 @@
         <GUID>fe625e52-5053-495b-9340-9ca23511df3c</GUID>
         <name>noteManagement</name>
         <MotorControllers>
-          <MotorController xsi:type="SparkMax">
+          <MotorController xsi:type="SparkMaxMonitored">
             <name>frontIntake</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -202,7 +202,7 @@
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
           </MotorController>
-          <MotorController xsi:type="SparkMax">
+          <MotorController xsi:type="SparkMaxMonitored">
             <name>backIntake</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -381,7 +381,7 @@
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
           </MotorController>
-          <MotorController xsi:type="SparkMax">
+          <MotorController xsi:type="SparkMaxMonitored">
             <name>Transfer</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -1470,7 +1470,7 @@
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
           </MotorController>
-          <MotorController xsi:type="SparkFlex">
+          <MotorController xsi:type="SparkFlexMonitored">
             <name>Placer</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
