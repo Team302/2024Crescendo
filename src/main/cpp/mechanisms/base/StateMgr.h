@@ -17,7 +17,6 @@
 #pragma once
 
 // C++ Includes
-#include <map>
 #include <vector>
 
 // Team 302 includes
@@ -42,11 +41,6 @@ public:
     /// @brief  run the current state
     /// @return void
     virtual void RunCurrentState();
-
-    /// @brief  Get the current Parameter parm value for the state of this mechanism
-    /// @param PrimitiveParams* currentParams current set of primitive parameters
-    /// @returns int state id - -1 indicates that there is not a state to set
-    virtual int GetCurrentStateParam(PrimitiveParams *currentParams);
 
     /// @brief  return the current state
     /// @return int - the current state
