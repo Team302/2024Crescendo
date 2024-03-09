@@ -82,10 +82,7 @@ private:
 
 	double m_feederAverage;
 
-	std::deque<double> elevatorValues;
-	double m_elevatorAverage;
-
 	double m_intakeDifferenceAvg;
 
-	bool m_noteInIntake;
+	bool m_noteInIntake = false;
 };

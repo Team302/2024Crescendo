@@ -49,7 +49,7 @@ private:
     int m_loopCountThreshold;
 
     std::deque<double> m_currentHistoryValues;
-    double m_currentAverage;
+    double m_currentAverage = 0;
 
     bool m_overCurrentShutoffEnabled;
 

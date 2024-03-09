@@ -79,9 +79,6 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
-
-	int dequeSize = 7;
-	elevatorValues.resize(dequeSize, 0);
 }
 
 void noteManager::RunCommonTasks()
@@ -111,7 +108,6 @@ void noteManager::RunCommonTasks()
 		m_transferAverage = getTransfer()->GetFilteredCurrent();
 		m_placerAverage = getPlacer()->GetFilteredCurrent();
 		m_feederAverage = getFeeder()->GetFilteredCurrent();
-		m_elevatorAverage = GetFilteredValue(getElevator()->GetCurrent(), elevatorValues, m_elevatorAverage);
 		m_intakeDifferenceAvg = std::abs(getfrontIntake()->GetFilteredCurrent() - getbackIntake()->GetFilteredCurrent());
 		if (m_intakeDifferenceAvg > 15)
 		{
@@ -122,7 +118,7 @@ void noteManager::RunCommonTasks()
 			m_noteInIntake = false;
 		}
 		double NoteInIntake = m_noteInIntake ? 40 : 0;
-		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, m_elevatorAverage, m_intakeDifferenceAvg, NoteInIntake);
+		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, 0.0, m_intakeDifferenceAvg, NoteInIntake);
 	}
 
 	double FrontIntakeSensor = getfrontIntakeSensor()->Get() ? 50 : 0;
