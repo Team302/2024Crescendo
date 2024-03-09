@@ -41,7 +41,8 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             {
                 auto rotation = data.value().rotationToTarget;
                 auto angle = rotation.ToRotation2d().Degrees();
-                chassis->SetStoredHeading(angle);
+
+                // chassis->SetStoredHeading(angle);
             }
         }
     }
