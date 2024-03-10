@@ -49,23 +49,22 @@ std::array<frc::SwerveModuleState, 4> DriveToNote::UpdateSwerveModuleStates(Chas
 {
 
     m_oldTargetPose = m_targetPose;
-    auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::NOTE);
-    m_targetPose = get<1>(aprilTagInfo);
-    auto type = get<0>(aprilTagInfo);
+    auto note = m_dragonDriveTargetFinder->GetPose(DragonVision::NOTE);
+    m_targetPose = get<1>(note);
+    auto type = get<0>(note);
 
-    if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND && m_chassis != nullptr)
+    if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_chassis != nullptr)
     {
 
         if (m_targetPose != m_oldTargetPose)
         {
-            m_trajectory = CreateDriveToNote();
+            //  m_trajectory = CreateDriveToNote();
         }
-
-        chassisMovement.pathplannerTrajectory = m_trajectory;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose X", m_targetPose.X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", m_targetPose.Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", m_targetPose.Rotation().Degrees().to<double>());
+        // chassisMovement.pathplannerTrajectory = m_trajectory;
     }
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose X", m_targetPose.X().to<double>());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", m_targetPose.Y().to<double>());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", m_targetPose.Rotation().Degrees().to<double>());
 
     return m_trajectoryDrivePathPlanner->UpdateSwerveModuleStates(chassisMovement);
 }
@@ -79,7 +78,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 
     pathplanner::PathPlannerTrajectory trajectory;
 
-    if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND && m_chassis != nullptr)
+    if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_chassis != nullptr)
     {
         auto currentPose2d = m_chassis->GetPose();
         auto chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
