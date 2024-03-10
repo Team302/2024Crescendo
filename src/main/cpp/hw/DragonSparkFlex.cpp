@@ -84,7 +84,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
         break;
     case ControlModes::POSITION_INCH:
         target = m_calcStruc.countsPerInch;
-        needToSet = std::abs(m_posConversion - target) > 0.0001;
+        needToSet = std::abs(m_posConversion - target) > 0.00001;
         if (needToSet)
         {
             m_encoder.SetPositionConversionFactor(target);
@@ -94,7 +94,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
         break;
     case ControlModes::POSITION_DEGREES:
         target = m_calcStruc.countsPerDegree;
-        needToSet = std::abs(m_posConversion - target) > 0.0001;
+        needToSet = std::abs(m_posConversion - target) > 0.00001;
         if (needToSet)
         {
             m_encoder.SetPositionConversionFactor(target);
@@ -104,7 +104,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
         break;
     case ControlModes::VELOCITY_RPS:
         target = m_calcStruc.countsPerRev;
-        needToSet = std::abs(m_velConversion - target) > 0.0001;
+        needToSet = std::abs(m_velConversion - target) > 0.00001;
         if (needToSet)
         {
             m_encoder.SetPositionConversionFactor(target);
@@ -122,7 +122,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     auto ctlSlot = (m_controlType == CANSparkBase::ControlType::kVelocity) ? m_velSlot : m_posSlot;
 
     target = controlInfo.GetP();
-    needToSet = std::abs(m_prevKp[ctlSlot] - target) > 0.0001;
+    needToSet = std::abs(m_prevKp[ctlSlot] - target) > 0.00001;
     if (needToSet)
     {
         m_prevKp[ctlSlot] = target;
@@ -130,7 +130,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     }
 
     target = controlInfo.GetI();
-    needToSet = std::abs(m_prevKi[ctlSlot] - target) > 0.0001;
+    needToSet = std::abs(m_prevKi[ctlSlot] - target) > 0.00001;
     if (needToSet)
     {
         m_prevKi[ctlSlot] = target;
@@ -138,7 +138,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     }
 
     target = controlInfo.GetD();
-    needToSet = std::abs(m_prevKd[ctlSlot] - target) > 0.0001;
+    needToSet = std::abs(m_prevKd[ctlSlot] - target) > 0.00001;
     if (needToSet)
     {
         m_prevKd[ctlSlot] = target;
@@ -146,7 +146,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
     }
 
     target = controlInfo.GetF();
-    needToSet = std::abs(m_prevKf[ctlSlot] - target) > 0.0001;
+    needToSet = std::abs(m_prevKf[ctlSlot] - target) > 0.00001;
     if (needToSet)
     {
         m_prevKf[ctlSlot] = target;
