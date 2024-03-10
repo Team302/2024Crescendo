@@ -87,11 +87,10 @@ void noteManager::RunCommonTasks()
 	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
-	getFeeder()->MonitorCurrent();
-	getfrontIntake()->MonitorCurrent();
-	getbackIntake()->MonitorCurrent();
-	getTransfer()->MonitorCurrent();
-	getPlacer()->MonitorCurrent();
+
+	// Processing related to current monitor
+	MonitorMotorCurrents();
+	MonitorForNoteInIntakes();
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
@@ -108,15 +107,7 @@ void noteManager::RunCommonTasks()
 		m_transferAverage = getTransfer()->GetCurrent();
 		m_placerAverage = getPlacer()->GetCurrent();
 		m_feederAverage = getFeeder()->GetCurrent();
-		m_intakeDifferenceAvg = std::abs(m_frontIntakeAverage - m_backIntakeAverage);
-		if (m_intakeDifferenceAvg > 15)
-		{
-			m_noteInIntake = true;
-		}
-		if (m_noteInIntake && (m_intakeDifferenceAvg < 10))
-		{
-			m_noteInIntake = false;
-		}
+
 		double NoteInIntake = m_noteInIntake ? 40 : 0;
 		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, 0.0, m_intakeDifferenceAvg, NoteInIntake);
 	}
@@ -131,6 +122,36 @@ void noteManager::RunCommonTasks()
 
 	DataTrace::GetInstance()->sendNoteSensorData(FrontIntakeSensor, BackIntakeSensor, FeederSensor, LauncherSensor, PlacerInSensor, PlacerMidSensor, PlacerOutSensor);
 #endif
+}
+
+void noteManager::MonitorMotorCurrents()
+{
+	getFeeder()->MonitorCurrent();
+	getfrontIntake()->MonitorCurrent();
+	getbackIntake()->MonitorCurrent();
+	getTransfer()->MonitorCurrent();
+	getPlacer()->MonitorCurrent();
+}
+
+void noteManager::MonitorForNoteInIntakes()
+{
+	// In order to detect that a note is being inhaled into the robot, the differential
+	// current needs to exceed incomingThreshold
+	const double incomingThreshold = 10;
+
+	// If the differential current is below forwardingThreshold, assume that the note has
+	// been forwarded to the next noteManagement stage
+	const double forwardingThreshold = 10;
+
+	m_frontIntakeAverage = getfrontIntake()->GetCurrent();
+	m_backIntakeAverage = getbackIntake()->GetCurrent();
+	double intakeDifferenceAvg = std::abs(m_frontIntakeAverage - m_backIntakeAverage);
+
+	if (m_intakeDifferenceAvg > incomingThreshold)
+		m_noteInIntake = true;
+
+	if (m_noteInIntake && (m_intakeDifferenceAvg < forwardingThreshold))
+		m_noteInIntake = false;
 }
 
 void noteManager::ResetElevator()

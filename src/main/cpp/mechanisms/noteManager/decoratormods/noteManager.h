@@ -73,16 +73,14 @@ private:
 	RobotStateChanges::GamePeriod m_gamePeriod;
 
 	double m_frontIntakeAverage;
-
 	double m_backIntakeAverage;
-
 	double m_transferAverage;
-
 	double m_placerAverage;
-
 	double m_feederAverage;
-
 	double m_intakeDifferenceAvg;
 
+	void MonitorMotorCurrents();
+
+	void MonitorForNoteInIntakes();
 	bool m_noteInIntake = false;
 };
