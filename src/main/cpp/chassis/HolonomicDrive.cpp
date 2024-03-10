@@ -228,6 +228,7 @@ void HolonomicDrive::ResetPose()
 }
 void HolonomicDrive::AlignGamePiece()
 {
+    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
 }
 void HolonomicDrive::AlignToStage()
