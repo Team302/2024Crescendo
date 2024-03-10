@@ -32,6 +32,7 @@
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
 #include "utils/FMSData.h"
+#include "DragonVision/DragonVision.h"
 #include "utils/logging/Logger.h"
 #include "mechanisms/noteManager/decoratormods/noteManager.h"
 
@@ -87,7 +88,7 @@ void HolonomicDrive::Run()
             StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
             auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
 
-            if (!noteMgr->getfrontIntakeSensor()->Get() && !noteMgr->getbackIntakeSensor()->Get())
+            if (!noteMgr->getfrontIntakeSensor()->Get() && !noteMgr->getbackIntakeSensor()->Get() && DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
                 AlignGamePiece();
             else
                 m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
@@ -144,7 +145,7 @@ void HolonomicDrive::Run()
                 if ((m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER))
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.001) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
+                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
                     {
                         m_previousDriveState = m_moveInfo.driveOption;
                         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;

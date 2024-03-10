@@ -52,8 +52,6 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 else
                     chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpCoarse);
             }
-            else
-                chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
         }
     }
 }
