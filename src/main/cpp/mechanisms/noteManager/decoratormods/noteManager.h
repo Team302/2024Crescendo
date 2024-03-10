@@ -19,6 +19,7 @@
 
 // C++ Includes
 #include <string>
+#include <deque>
 
 // FRC Includes
 
@@ -64,8 +65,24 @@ public:
 	bool autoLaunchReady();
 
 private:
+	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
+
 	noteManagerGen *m_noteManager;
 	RobotStateChanges::ScoringMode m_scoringMode;
 	RobotStateChanges::ClimbMode m_climbMode;
 	RobotStateChanges::GamePeriod m_gamePeriod;
+
+	double m_frontIntakeAverage;
+
+	double m_backIntakeAverage;
+
+	double m_transferAverage;
+
+	double m_placerAverage;
+
+	double m_feederAverage;
+
+	double m_intakeDifferenceAvg;
+
+	bool m_noteInIntake = false;
 };

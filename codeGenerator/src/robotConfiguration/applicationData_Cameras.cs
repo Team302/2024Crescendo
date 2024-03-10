@@ -147,12 +147,12 @@ namespace ApplicationData
         {
             string creation = string.Format(@"{0} = new {1} ( ""limelight-{19}"", //std::string name,                      /// <I> - network table name
                                                             DragonCamera::PIPELINE::{2}, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
-                                                            units::length::inch_t({4}({3})), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
-                                                            units::length::inch_t({6}({5})), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
-                                                            units::length::inch_t({8}({7})), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
-                                                            units::angle::degree_t({10}({9})), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
-                                                            units::angle::degree_t({12}({11})), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
-                                                            units::angle::degree_t({14}({13})), //units::angle::degree_t roll,           /// <I> - Roll of camera
+                                                           {4}({3}), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+                                                            {6}({5}), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+                                                            {8}({7}), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+                                                            {10}({9}), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
+                                                            {12}({11}), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
+                                                            {14}({13}), //units::angle::degree_t roll,           /// <I> - Roll of camera
                                                             DragonLimelight::LED_MODE::{15}, //LED_MODE ledMode,
                                                             DragonLimelight::CAM_MODE::{16}, //CAM_MODE camMode,
                                                             DragonLimelight::STREAM_MODE::{17}, //STREAM_MODE streamMode,
@@ -193,12 +193,12 @@ namespace ApplicationData
         {
             string creation = string.Format(@"{0} = new {1} ( ""{0}"", //std::string name,                      /// <I> - network table name
                                                             DragonCamera::PIPELINE::{2}, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
-                                                            units::length::inch_t({4}({3})), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
-                                                            units::length::inch_t({6}({5})), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
-                                                            units::length::inch_t({8}({7})), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
-                                                            units::angle::degree_t({10}({9})), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
-                                                            units::angle::degree_t({12}({11})), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
-                                                            units::angle::degree_t({14}({13}))); //units::angle::degree_t roll,           /// <I> - Roll of camera
+                                                           {4}({3}), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+                                                           {6}({5}), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
+                                                           {8}({7}), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
+                                                           {10}({9}), //units::angle::degree_t pitch,          /// <I> - Pitch of camera
+                                                           {12}({11}), //units::angle::degree_t yaw,            /// <I> - Yaw of camera
+                                                           {14}({13})); //units::angle::degree_t roll,           /// <I> - Roll of camera
 ",
                                             name,
                                             getImplementationName(),

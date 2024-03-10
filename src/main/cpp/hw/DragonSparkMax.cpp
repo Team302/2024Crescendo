@@ -43,6 +43,7 @@ DragonSparkMax::DragonSparkMax(int id,
                                                                           m_calcStruc(calcStruc)
 {
     m_spark->RestoreFactoryDefaults();
+    m_spark->SetCANTimeout(0);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09); // 0.2 0.25
@@ -285,4 +286,13 @@ double DragonSparkMax::GetCounts()
 
 void DragonSparkMax::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType)
 {
+}
+
+void DragonSparkMax::MonitorCurrent()
+{
+}
+
+double DragonSparkMax::GetFilteredCurrent()
+{
+    return 0.0;
 }

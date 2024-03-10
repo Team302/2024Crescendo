@@ -87,6 +87,11 @@ void noteManager::RunCommonTasks()
 	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
+	getFeeder()->MonitorCurrent();
+	getfrontIntake()->MonitorCurrent();
+	getbackIntake()->MonitorCurrent();
+	getTransfer()->MonitorCurrent();
+	getPlacer()->MonitorCurrent();
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
@@ -95,6 +100,36 @@ void noteManager::RunCommonTasks()
 	double elevator = getElevator()->GetCounts();
 	DataTrace::GetInstance()->sendElevatorData(elevator);
 	DataTrace::GetInstance()->sendLauncherData(wheelSetTop, wheelSetBottom, angle);
+
+	if (true)
+	{
+		m_frontIntakeAverage = getfrontIntake()->GetFilteredCurrent();
+		m_backIntakeAverage = getbackIntake()->GetFilteredCurrent();
+		m_transferAverage = getTransfer()->GetFilteredCurrent();
+		m_placerAverage = getPlacer()->GetFilteredCurrent();
+		m_feederAverage = getFeeder()->GetFilteredCurrent();
+		m_intakeDifferenceAvg = std::abs(getfrontIntake()->GetFilteredCurrent() - getbackIntake()->GetFilteredCurrent());
+		if (m_intakeDifferenceAvg > 15)
+		{
+			m_noteInIntake = true;
+		}
+		if (m_noteInIntake && (m_intakeDifferenceAvg < 10))
+		{
+			m_noteInIntake = false;
+		}
+		double NoteInIntake = m_noteInIntake ? 40 : 0;
+		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, 0.0, m_intakeDifferenceAvg, NoteInIntake);
+	}
+
+	double FrontIntakeSensor = getfrontIntakeSensor()->Get() ? 50 : 0;
+	double BackIntakeSensor = getbackIntakeSensor()->Get() ? 50 : 0;
+	double FeederSensor = getfeederSensor()->Get() ? 50 : 0;
+	double LauncherSensor = getlauncherSensor()->Get() ? 50 : 0;
+	double PlacerInSensor = getplacerInSensor()->Get() ? 50 : 0;
+	double PlacerMidSensor = getplacerMidSensor()->Get() ? 50 : 0;
+	double PlacerOutSensor = getplacerOutSensor()->Get() ? 50 : 0;
+
+	DataTrace::GetInstance()->sendNoteSensorData(FrontIntakeSensor, BackIntakeSensor, FeederSensor, LauncherSensor, PlacerInSensor, PlacerMidSensor, PlacerOutSensor);
 #endif
 }
 
@@ -180,4 +215,21 @@ bool noteManager::autoLaunchReady()
 			return true;
 		}
 	}
+}
+
+double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)
+{
+	double average = 0.0;
+
+	double previousTotal = previousAverage * previousValues.size();
+	previousTotal -= previousValues.back();
+
+	previousValues.push_front(latestValue);
+	previousValues.pop_back();
+
+	previousTotal += latestValue;
+
+	average = previousTotal / previousValues.size();
+
+	return average;
 }
