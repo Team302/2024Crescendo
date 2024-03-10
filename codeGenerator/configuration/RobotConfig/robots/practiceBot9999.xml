@@ -6405,21 +6405,21 @@
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>11.76</value>
+        <value>12.75</value>
       </mountingXOffset>
       <mountingYOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
-        <__units__>m</__units__>
+        <__units__>in</__units__>
         <type>UInt32</type>
-        <value>0</value>
+        <value>0.5</value>
       </mountingYOffset>
       <mountingZOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>12.128</value>
+        <value>13.5</value>
       </mountingZOffset>
       <pitch>
         <unitsFamily>angle</unitsFamily>
