@@ -42,7 +42,7 @@ DragonSparkFlex::DragonSparkFlex(int id,
                                                                             m_calcStruc(calcStruc)
 {
     m_spark->RestoreFactoryDefaults();
-    m_spark->SetCANTimeout(0);
+    // m_spark->SetCANTimeout(0);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09);

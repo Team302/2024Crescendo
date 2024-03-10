@@ -93,18 +93,17 @@ void HolonomicDrive::Run()
             {
                 if (!noteMgr->HasNote() && vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
                 {
-                    AlignGamePiece();
+                    // AlignGamePiece();
                     if (abs(forward) < 0.05 && abs(strafe) < 0.05)
                     {
                         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
                     }
-                    else
-                    {
-                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                    }
                 }
                 else
+                {
+                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
                     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+                }
             }
         }
         else if (isAlignWithAmpSelected)
