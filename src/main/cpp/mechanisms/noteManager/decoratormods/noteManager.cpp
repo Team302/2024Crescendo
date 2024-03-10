@@ -103,12 +103,12 @@ void noteManager::RunCommonTasks()
 
 	if (true)
 	{
-		m_frontIntakeAverage = getfrontIntake()->GetFilteredCurrent();
-		m_backIntakeAverage = getbackIntake()->GetFilteredCurrent();
-		m_transferAverage = getTransfer()->GetFilteredCurrent();
-		m_placerAverage = getPlacer()->GetFilteredCurrent();
-		m_feederAverage = getFeeder()->GetFilteredCurrent();
-		m_intakeDifferenceAvg = std::abs(getfrontIntake()->GetFilteredCurrent() - getbackIntake()->GetFilteredCurrent());
+		m_frontIntakeAverage = getfrontIntake()->GetCurrent();
+		m_backIntakeAverage = getbackIntake()->GetCurrent();
+		m_transferAverage = getTransfer()->GetCurrent();
+		m_placerAverage = getPlacer()->GetCurrent();
+		m_feederAverage = getFeeder()->GetCurrent();
+		m_intakeDifferenceAvg = std::abs(m_frontIntakeAverage - m_backIntakeAverage);
 		if (m_intakeDifferenceAvg > 15)
 		{
 			m_noteInIntake = true;

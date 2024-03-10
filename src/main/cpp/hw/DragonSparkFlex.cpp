@@ -290,8 +290,3 @@ void DragonSparkFlex::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::Re
 void DragonSparkFlex::MonitorCurrent()
 {
 }
-
-double DragonSparkFlex::GetFilteredCurrent()
-{
-    return 0.0;
-}

@@ -55,8 +55,6 @@ public:
 
     void MonitorCurrent() override;
 
-    double GetFilteredCurrent() override;
-
     // Setters
     void SetControlConstants(int slot, const ControlData &controlInfo) override;
 

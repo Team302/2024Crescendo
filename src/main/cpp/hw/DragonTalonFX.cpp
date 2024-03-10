@@ -399,8 +399,3 @@ IDragonMotorController::MOTOR_TYPE DragonTalonFX::GetMotorType() const
 void DragonTalonFX::MonitorCurrent()
 {
 }
-
-double DragonTalonFX::GetFilteredCurrent()
-{
-	return 0.0;
-}

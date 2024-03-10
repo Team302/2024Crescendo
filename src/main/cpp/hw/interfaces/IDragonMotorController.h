@@ -96,9 +96,8 @@ public:
     /// @return int - CAN ID
     virtual int GetID() const = 0;
 
+    /// @brief Do calculations associated with current monitoring, such as filtering
     virtual void MonitorCurrent() = 0;
-
-    virtual double GetFilteredCurrent() = 0;
 
     // Setters
     virtual void Set(double value) = 0;

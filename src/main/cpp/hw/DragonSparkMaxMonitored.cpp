@@ -49,7 +49,7 @@ void DragonSparkMaxMonitored::MonitorCurrent()
     FilterCurrentValue();
 }
 
-double DragonSparkMaxMonitored::GetFilteredCurrent()
+double DragonSparkMaxMonitored::GetCurrent()
 {
     return m_currentAverage;
 }
