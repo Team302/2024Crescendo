@@ -99,6 +99,11 @@ void noteManager::RunCommonTasks()
 	getTransfer()->MonitorCurrent();
 	getPlacer()->MonitorCurrent();
 
+	if (noteManager::HasNote())
+	{
+		m_robotState->PublishStateChange(RobotStateChanges::StateChange::HasNote, noteManager::HasNote());
+	}
+
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
 	double wheelSetBottom = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60)).to<double>();
@@ -189,11 +194,6 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
 	else if (change == RobotStateChanges::GameState)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
-
-	if (noteManager::HasNote())
-	{
-		m_robotState->PublishStateChange(RobotStateChanges::StateChange::HasNote, noteManager::HasNote());
-	}
 }
 
 double noteManager::GetRequiredLaunchAngle()
