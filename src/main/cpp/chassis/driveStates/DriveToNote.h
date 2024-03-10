@@ -36,7 +36,6 @@ class DriveToNote : public TrajectoryDrivePathPlanner
 public:
     DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
 
-    static units::angle::degree_t GetNoteDirection();
     pathplanner::PathPlannerTrajectory CreateDriveToNote();
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
         ChassisMovement &chassisMovement) override;

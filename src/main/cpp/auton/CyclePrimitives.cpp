@@ -88,6 +88,7 @@ void CyclePrimitives::Run()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Arrived at "), string("run"));
 	if (m_currentPrim != nullptr)
+
 	{
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("CurrentPrim "), string("run"));
 		m_currentPrim->Run();
