@@ -51,36 +51,23 @@ std::array<frc::SwerveModuleState, 4> DriveToNote::UpdateSwerveModuleStates(Chas
     m_oldTargetPose = m_targetPose;
     auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::NOTE);
     m_targetPose = get<1>(aprilTagInfo);
+    auto type = get<0>(aprilTagInfo);
 
-    if (m_targetPose != m_oldTargetPose)
+    if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND && m_chassis != nullptr)
     {
-        m_trajectory = CreateDriveToNote();
+
+        if (m_targetPose != m_oldTargetPose)
+        {
+            m_trajectory = CreateDriveToNote();
+        }
+
+        chassisMovement.pathplannerTrajectory = m_trajectory;
     }
-
-    chassisMovement.pathplannerTrajectory = m_trajectory;
-
     // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose X", m_targetPose.X().to<double>());
     // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", m_targetPose.Y().to<double>());
     // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", m_targetPose.Rotation().Degrees().to<double>());
 
     return m_trajectoryDrivePathPlanner->UpdateSwerveModuleStates(chassisMovement);
-}
-
-units::angle::degree_t DriveToNote::GetNoteDirection()
-{
-    auto finder = DragonDriveTargetFinder::GetInstance();
-
-    auto info = finder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-    auto type = get<0>(info);
-    auto targetNotePose = get<1>(info);
-
-    if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
-    {
-        auto noteRotation = targetNotePose.Rotation();
-        units::angle::degree_t notedirectiondegrees = noteRotation.Degrees();
-        return notedirectiondegrees;
-    }
-    return units::angle::degree_t(0.0); // TODO what should be returned without a target
 }
 
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
@@ -95,22 +82,18 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
     if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND && m_chassis != nullptr)
     {
         auto currentPose2d = m_chassis->GetPose();
-
-        units::angle::degree_t currentnotedirection = GetNoteDirection();
-        if (currentnotedirection)
-        {
-            auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), frc::Rotation2d(currentnotedirection));
-            std::vector<frc::Pose2d> poses{
-                currentPose2d,
-                noteDistance};
-            std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-            auto notepath = std::make_shared<PathPlannerPath>(
-                notebezierPoints,
-                PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                GoalEndState(0.0_mps, currentnotedirection));
-            notepath->preventFlipping = true;
-            trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-        }
+        auto chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
+        auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), chassisHeading);
+        std::vector<frc::Pose2d> poses{
+            currentPose2d,
+            noteDistance};
+        std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+        auto notepath = std::make_shared<PathPlannerPath>(
+            notebezierPoints,
+            PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+            GoalEndState(0.0_mps, chassisHeading));
+        notepath->preventFlipping = true;
+        trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
     }
     return trajectory;
 }
