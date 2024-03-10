@@ -124,4 +124,6 @@ private:
 
     double m_posConversion = 1.0;
     double m_velConversion = 1.0;
+
+    const double m_chgTolerance = 0.0000001;
 };
