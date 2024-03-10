@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE auton SYSTEM "auton.dtd">
-<auton>
-
+ 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing0Center1_A"
-time= "4.5"
-noteOption= "STATE_FEEDER_INTAKE"/>
+pathname= "BluePodiumWing1Center0"
+time= "2"
+noteOption= "STATE_READY_AUTO_LAUNCH"/>
+ 
 </auton>

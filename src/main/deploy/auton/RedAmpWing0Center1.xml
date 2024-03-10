@@ -3,22 +3,13 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname= "BlueAmpWing0Center1_B"
-noteOption="STATE_READY_AUTO_LAUNCH"/>
+pathname= "BlueAmpWing0Center1"/>
 
 <snippet file= "AmpCenterStart.xml"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <snippet file= "AmpCenterRing1.xml"/>
-
-<snippet file= "ShootWhenStopAuto.xml"/>
-
-<snippet file= "AmpCenterRing2.xml"/>
-
-<snippet file= "ShootWhenStopAuto.xml"/>
-
-<snippet file= "AmpCenterRing3.xml"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
