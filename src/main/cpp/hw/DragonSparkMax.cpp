@@ -291,8 +291,3 @@ void DragonSparkMax::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::Rem
 void DragonSparkMax::MonitorCurrent()
 {
 }
-
-double DragonSparkMax::GetFilteredCurrent()
-{
-    return 0.0;
-}

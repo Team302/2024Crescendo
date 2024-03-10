@@ -39,8 +39,7 @@ public:
     void ConfigureCurrentShutoff(double currentThreshold, int loopCountThreshold);
 
     void MonitorCurrent() override;
-
-    double GetFilteredCurrent() override;
+    double GetCurrent() override;
 
     inline void EnableOverCurrentShutoff(bool enable) { m_overCurrentShutoffEnabled = enable; }
 
