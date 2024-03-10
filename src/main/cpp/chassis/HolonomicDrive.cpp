@@ -79,7 +79,6 @@ void HolonomicDrive::Run()
         auto isFaceBackward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_BACKWARD);
         auto isSlowMode = controller->IsButtonPressed(TeleopControlFunctions::SLOW_MODE);
         auto checkTipping = controller->IsButtonPressed(TeleopControlFunctions::TIPCORRECTION_TOGGLE);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "notcharliedebug", "robot orented", isRobotOriented);
 
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
