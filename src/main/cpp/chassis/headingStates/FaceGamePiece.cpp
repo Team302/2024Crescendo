@@ -41,12 +41,9 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
             if (data)
             {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Has Vision Target", "True");
                 auto rotation = data.value().rotationToTarget;
                 auto robotRelativeAngle = units::angle::degree_t(rotation.Z());
                 units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
-
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Robot to Target Offset ", robotRelativeAngle.to<double>());
 
                 chassis->SetStoredHeading(fieldRelativeAngle);
                 double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
@@ -55,8 +52,6 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 else
                     chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpCoarse);
             }
-            else
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Has Vision Target", "False");
         }
     }
 }
