@@ -61,8 +61,6 @@ public:
 	bool IsClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
 	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
-	bool HasNote();
-
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	double GetRequiredLaunchAngle();
 	bool autoLaunchReady();

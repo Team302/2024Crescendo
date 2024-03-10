@@ -81,12 +81,6 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
-bool noteManager::HasNote()
-{
-
-	return m_noteManager->getfrontIntakeSensor()->Get() || m_noteManager->getbackIntakeSensor()->Get();
-}
-
 void noteManager::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
@@ -98,11 +92,6 @@ void noteManager::RunCommonTasks()
 	getbackIntake()->MonitorCurrent();
 	getTransfer()->MonitorCurrent();
 	getPlacer()->MonitorCurrent();
-
-	if (noteManager::HasNote())
-	{
-		m_robotState->PublishStateChange(RobotStateChanges::StateChange::HasNote, noteManager::HasNote());
-	}
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
