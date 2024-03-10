@@ -50,7 +50,7 @@ private:
     void AlignToStage();
     void DriveToGamePiece(double forward, double strafe);
 
-        SwerveChassis *m_swerve;
+    SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
     const double m_slowModeMultiplier = 0.5;
     bool m_CheckTipping = false;
