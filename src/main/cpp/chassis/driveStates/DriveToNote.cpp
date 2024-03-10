@@ -63,10 +63,6 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 
     if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && chassis != nullptr)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose X", targetNotePose.X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", targetNotePose.Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", targetNotePose.Rotation().Degrees().to<double>());
-
         frc::Pose2d currentPose2d = m_chassis->GetPose();
         frc::Rotation2d chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
 
