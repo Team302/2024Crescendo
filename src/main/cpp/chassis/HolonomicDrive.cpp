@@ -87,11 +87,14 @@ void HolonomicDrive::Run()
         {
             StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
             auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
-
-            if (!noteMgr->getfrontIntakeSensor()->Get() && !noteMgr->getbackIntakeSensor()->Get() && DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
-                AlignGamePiece();
-            else
-                m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+            auto vision = DragonVision::GetDragonVision();
+            if (vision != nullptr)
+            {
+                if (!noteMgr->getfrontIntakeSensor()->Get() && !noteMgr->getbackIntakeSensor()->Get() && vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
+                    AlignGamePiece();
+                else
+                    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+            }
         }
         else if (isAlignWithAmpSelected)
         {
