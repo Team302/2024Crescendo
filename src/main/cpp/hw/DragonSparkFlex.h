@@ -53,6 +53,10 @@ public:
     RobotElementNames::MOTOR_CONTROLLER_USAGE GetType() const override;
     int GetID() const override;
 
+    void MonitorCurrent() override;
+
+    double GetFilteredCurrent() override;
+
     // Setters
     void SetControlConstants(int slot, const ControlData &controlInfo) override;
 

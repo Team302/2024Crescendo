@@ -15,19 +15,43 @@
 
 #pragma once
 
-// Team302 Includes
-#include "chassis/headingStates/ISwerveDriveOrientation.h"
-#include "DragonVision/DragonVision.h"
+#include <deque>
 
-class FaceGamePiece : public ISwerveDriveOrientation
+#include "hw/DragonSparkMax.h"
+
+// namespaces
+using namespace rev;
+
+class DragonSparkMaxMonitored : public DragonSparkMax
 {
 public:
-    FaceGamePiece();
-    ~FaceGamePiece();
+    DragonSparkMaxMonitored() = delete;
+    DragonSparkMaxMonitored(int id,
+                            RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
+                            rev::CANSparkMax::MotorType motorType,
+                            rev::SparkRelativeEncoder::Type feedbackType,
+                            rev::SparkLimitSwitch::Type forwardType,
+                            rev::SparkLimitSwitch::Type reverseType,
+                            const DistanceAngleCalcStruc &calcStruc);
+    virtual ~DragonSparkMaxMonitored() = default;
 
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+    void ConfigureCurrentFiltering(int filterLength);
+    void ConfigureCurrentShutoff(double currentThreshold, int loopCountThreshold);
+
+    void MonitorCurrent() override;
+
+    double GetFilteredCurrent() override;
+
+    inline void EnableOverCurrentShutoff(bool enable) { m_overCurrentShutoffEnabled = enable; }
 
 private:
-    const double m_kpCoarse = 6.0;
-    const double m_kpFine = 10.0;
+    double m_currentThreshold;
+    int m_loopCountThreshold;
+
+    std::deque<double> m_currentHistoryValues;
+    double m_currentAverage;
+
+    bool m_overCurrentShutoffEnabled;
+
+    void FilterCurrentValue();
 };

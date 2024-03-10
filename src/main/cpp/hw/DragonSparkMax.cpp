@@ -43,6 +43,7 @@ DragonSparkMax::DragonSparkMax(int id,
                                                                           m_calcStruc(calcStruc)
 {
     m_spark->RestoreFactoryDefaults();
+    m_spark->SetCANTimeout(0);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09); // 0.2 0.25
@@ -84,7 +85,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
         break;
     case ControlModes::POSITION_INCH:
         target = m_calcStruc.countsPerInch;
-        needToSet = std::abs(m_posConversion - target) > 0.0001;
+        needToSet = std::abs(m_posConversion - target) > 0.0000001;
         if (needToSet)
         {
             m_encoder.SetPositionConversionFactor(target);
@@ -94,7 +95,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
         break;
     case ControlModes::POSITION_DEGREES:
         target = m_calcStruc.countsPerDegree;
-        needToSet = std::abs(m_posConversion - target) > 0.0001;
+        needToSet = std::abs(m_posConversion - target) > 0.0000001;
         if (needToSet)
         {
             m_encoder.SetPositionConversionFactor(target);
@@ -104,7 +105,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
         break;
     case ControlModes::VELOCITY_RPS:
         target = m_calcStruc.countsPerRev;
-        needToSet = std::abs(m_velConversion - target) > 0.0001;
+        needToSet = std::abs(m_velConversion - target) > 0.0000001;
         if (needToSet)
         {
             m_encoder.SetPositionConversionFactor(target);
@@ -122,7 +123,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     auto ctlSlot = (m_controlType == CANSparkBase::ControlType::kVelocity) ? m_velSlot : m_posSlot;
 
     target = controlInfo.GetP();
-    needToSet = std::abs(m_prevKp[ctlSlot] - target) > 0.0001;
+    needToSet = std::abs(m_prevKp[ctlSlot] - target) > 0.0000001;
     if (needToSet)
     {
         m_prevKp[ctlSlot] = target;
@@ -130,7 +131,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     }
 
     target = controlInfo.GetI();
-    needToSet = std::abs(m_prevKi[ctlSlot] - target) > 0.0001;
+    needToSet = std::abs(m_prevKi[ctlSlot] - target) > 0.0000001;
     if (needToSet)
     {
         m_prevKi[ctlSlot] = target;
@@ -138,7 +139,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     }
 
     target = controlInfo.GetD();
-    needToSet = std::abs(m_prevKd[ctlSlot] - target) > 0.0001;
+    needToSet = std::abs(m_prevKd[ctlSlot] - target) > 0.0000001;
     if (needToSet)
     {
         m_prevKd[ctlSlot] = target;
@@ -146,7 +147,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
     }
 
     target = controlInfo.GetF();
-    needToSet = std::abs(m_prevKf[ctlSlot] - target) > 0.0001;
+    needToSet = std::abs(m_prevKf[ctlSlot] - target) > 0.0000001;
     if (needToSet)
     {
         m_prevKf[ctlSlot] = target;
@@ -285,4 +286,13 @@ double DragonSparkMax::GetCounts()
 
 void DragonSparkMax::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType)
 {
+}
+
+void DragonSparkMax::MonitorCurrent()
+{
+}
+
+double DragonSparkMax::GetFilteredCurrent()
+{
+    return 0.0;
 }

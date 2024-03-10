@@ -60,6 +60,10 @@ public:
     IDragonMotorController::MOTOR_TYPE GetMotorType() const override;
     bool IsMotorInverted() const override { return m_inverted; };
 
+    void MonitorCurrent() override;
+
+    double GetFilteredCurrent() override;
+
     // Setters (override)
     void Set(double value) override;
     void SetRotationOffset(double rotations) override;

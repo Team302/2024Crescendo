@@ -32,8 +32,10 @@
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
 #include "utils/FMSData.h"
+#include "DragonVision/DragonVision.h"
 #include "utils/logging/Logger.h"
 #include "chassis/driveStates/DriveToNote.h"
+#include "mechanisms/noteManager/decoratormods/noteManager.h"
 
 using std::string;
 using namespace frc;
@@ -70,7 +72,7 @@ void HolonomicDrive::Run()
 
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
-        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE);
+        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::INTAKE);
         auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::ROBOT_ORIENTED_DRIVE);
         auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
         auto isAlignWithStageSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE);
@@ -84,7 +86,16 @@ void HolonomicDrive::Run()
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
         {
-            AlignGamePiece();
+            StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+            auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+            auto vision = DragonVision::GetDragonVision();
+            if (vision != nullptr)
+            {
+                if (!noteMgr->getfrontIntakeSensor()->Get() && !noteMgr->getbackIntakeSensor()->Get() && vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
+                    AlignGamePiece();
+                else
+                    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+            }
         }
         else if (isAlignWithAmpSelected)
         {
@@ -138,7 +149,7 @@ void HolonomicDrive::Run()
                 if ((m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER))
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.001) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
+                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
                     {
                         m_previousDriveState = m_moveInfo.driveOption;
                         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
