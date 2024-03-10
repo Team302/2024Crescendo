@@ -67,9 +67,13 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", targetNotePose.Y().to<double>());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", targetNotePose.Rotation().Degrees().to<double>());
 
-        auto currentPose2d = m_chassis->GetPose();
-        auto chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
-        auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), chassisHeading);
+        frc::Pose2d currentPose2d = m_chassis->GetPose();
+        frc::Rotation2d chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
+
+        units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
+        units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
+
+        auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), fieldRelativeAngle);
         std::vector<frc::Pose2d> poses{noteDistance, currentPose2d};
         std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
         auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,

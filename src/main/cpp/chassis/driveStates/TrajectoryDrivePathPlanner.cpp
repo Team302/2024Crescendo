@@ -92,7 +92,8 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPGoalHeadingControl);
 
         chassisMovement.chassisSpeeds = refChassisSpeeds;
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner Pose2d", "Chassis Omega", refChassisSpeeds.omega.to<double>());
+
+        m_chassis->SetStoredHeading(m_chassis->GetPose().Rotation().Degrees());
     }
     else // If we don't have states to run, don't move the robot
     {
