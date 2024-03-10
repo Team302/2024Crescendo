@@ -52,30 +52,6 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
     TrajectoryDrivePathPlanner::Init(chassisMovement);
 }
 
-std::array<frc::SwerveModuleState, 4> DriveToNote::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
-{
-
-    m_oldTargetPose = m_targetPose;
-    auto note = m_dragonDriveTargetFinder->GetPose(DragonVision::NOTE);
-    m_targetPose = get<1>(note);
-    auto type = get<0>(note);
-
-    if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_chassis != nullptr)
-    {
-
-        if (m_targetPose != m_oldTargetPose)
-        {
-            //  m_trajectory = CreateDriveToNote();
-        }
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose X", m_targetPose.X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", m_targetPose.Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", m_targetPose.Rotation().Degrees().to<double>());
-        // chassisMovement.pathplannerTrajectory = m_trajectory;
-    }
-
-    return m_trajectoryDrivePathPlanner->UpdateSwerveModuleStates(chassisMovement);
-}
-
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 {
     pathplanner::PathPlannerTrajectory trajectory;
@@ -86,6 +62,9 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 
     if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_chassis != nullptr)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose X", m_targetPose.X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", m_targetPose.Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", m_targetPose.Rotation().Degrees().to<double>());
         auto currentPose2d = m_chassis->GetPose();
         auto chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
         auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), chassisHeading);

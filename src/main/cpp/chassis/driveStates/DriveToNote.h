@@ -38,7 +38,6 @@ public:
 
     pathplanner::PathPlannerTrajectory CreateDriveToNote();
     void Init(ChassisMovement &chassisMovement) override;
-    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 
 private:
     SwerveChassis *m_chassis;
