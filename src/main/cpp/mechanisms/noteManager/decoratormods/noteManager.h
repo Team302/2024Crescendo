@@ -64,6 +64,7 @@ public:
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	double GetRequiredLaunchAngle();
 	bool autoLaunchReady();
+	bool HasNote() const;
 
 private:
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
