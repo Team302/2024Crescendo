@@ -37,6 +37,7 @@ public:
         ROBOT_DRIVE,
         FIELD_DRIVE,
         TRAJECTORY_DRIVE_PLANNER,
+        DRIVE_TO_NOTE,
         HOLD_DRIVE,
         STOP_DRIVE,
         STAGE_DRIVE,

@@ -27,6 +27,7 @@
 #include "mechanisms/base/StateMgr.h"
 #include "robotstate/IRobotStateChangeSubscriber.h"
 #include "robotstate/RobotStateChanges.h"
+#include "robotstate/RobotState.h"
 
 // forward declares
 
@@ -59,6 +60,8 @@ public:
 	bool IsClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
 	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
+	bool HasNote();
+
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	double GetRequiredLaunchAngle();
 	bool autoLaunchReady();
@@ -68,4 +71,5 @@ private:
 	RobotStateChanges::ScoringMode m_scoringMode;
 	RobotStateChanges::ClimbMode m_climbMode;
 	RobotStateChanges::GamePeriod m_gamePeriod;
+	RobotState *m_robotState;
 };

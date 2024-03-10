@@ -26,23 +26,33 @@
 #include "chassis/driveStates/RobotDrive.h"
 #include "chassis/SwerveChassis.h"
 #include "DragonVision/DragonVision.h"
+#include "chassis/DragonDriveTargetFinder.h"
+#include "pathplanner/lib/path/PathPlannerTrajectory.h"
+#include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "utils/FMSData.h"
 
-class DriveToNote
+class DriveToNote : public TrajectoryDrivePathPlanner
 {
 public:
-    DriveToNote();
-    ~DriveToNote() = default;
+    DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
 
-    static DriveToNote *getInstance();
     static units::angle::degree_t GetNoteDirection();
     pathplanner::PathPlannerTrajectory CreateDriveToNote();
+    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
+        ChassisMovement &chassisMovement) override;
 
 private:
-    static DriveToNote *m_instance;
-
     SwerveChassis *m_chassis;
+    DragonVision *m_dragonVision;
+
+    DragonDriveTargetFinder *m_dragonDriveTargetFinder;
+    TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
     // DragonVision *m_visiondata;
+
+    frc::Pose2d m_targetPose;
+    frc::Pose2d m_oldTargetPose;
+
+    pathplanner::PathPlannerTrajectory m_trajectory;
 
     const units::meters_per_second_t m_maxVel = 3.0_mps;
     const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;

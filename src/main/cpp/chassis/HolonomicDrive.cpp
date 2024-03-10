@@ -33,6 +33,7 @@
 #include "teleopcontrol/TeleopControlFunctions.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
+#include "chassis/driveStates/DriveToNote.h"
 
 using std::string;
 using namespace frc;
@@ -225,6 +226,10 @@ void HolonomicDrive::HoldPosition()
 {
     m_previousDriveState = m_moveInfo.driveOption;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
+}
+void HolonomicDrive::DriveToGamePiece()
+{
+    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
 }
 void HolonomicDrive::TurnForward()
 {
