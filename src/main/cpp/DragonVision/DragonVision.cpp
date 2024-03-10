@@ -288,9 +288,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 			frc::Translation3d translationToNote = frc::Translation3d(selectedCam->EstimateTargetXDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetYDistance_RelToRobotCoords().value(), selectedCam->EstimateTargetZDistance_RelToRobotCoords().value());
 			frc::Rotation3d rotationToNote = frc::Rotation3d();
 
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Vision Target Pose X", selectedCam->EstimateTargetXDistance_RelToRobotCoords().value().to<double>());
-			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Vision Target Pose Y", selectedCam->EstimateTargetYDistance_RelToRobotCoords().value().to<double>());
-
 			// create rotation3d with pitch and yaw (don't have access to roll)
 			rotationToNote = frc::Rotation3d(units::angle::degree_t(0.0), selectedCam->GetTargetPitchRobotFrame().value(), selectedCam->GetTargetYawRobotFrame().value());
 
