@@ -23,7 +23,7 @@
         <GUID>fe625e52-5053-495b-9340-9ca23511df3c</GUID>
         <name>noteManagement</name>
         <MotorControllers>
-          <MotorController xsi:type="SparkMax">
+          <MotorController xsi:type="SparkMaxMonitored">
             <name>frontIntake</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -92,14 +92,14 @@
               <name>uintParameter</name>
               <__units__ />
               <type>UInt32</type>
-              <value>13</value>
+              <value>17</value>
             </canID>
             <pdpID>
               <unitsFamily>none</unitsFamily>
               <name>uintParameter</name>
               <__units__ />
               <type>UInt32</type>
-              <value>13</value>
+              <value>17</value>
             </pdpID>
             <followID>
               <unitsFamily>none</unitsFamily>
@@ -201,8 +201,15 @@
             </RotationOffset>
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
+            <CurrentFilterLength>
+              <unitsFamily>none</unitsFamily>
+              <name>uintParameter</name>
+              <__units__ />
+              <type>UInt32</type>
+              <value>7</value>
+            </CurrentFilterLength>
           </MotorController>
-          <MotorController xsi:type="SparkMax">
+          <MotorController xsi:type="SparkMaxMonitored">
             <name>backIntake</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -271,14 +278,14 @@
               <name>uintParameter</name>
               <__units__ />
               <type>UInt32</type>
-              <value>17</value>
+              <value>13</value>
             </canID>
             <pdpID>
               <unitsFamily>none</unitsFamily>
               <name>uintParameter</name>
               <__units__ />
               <type>UInt32</type>
-              <value>17</value>
+              <value>13</value>
             </pdpID>
             <followID>
               <unitsFamily>none</unitsFamily>
@@ -380,8 +387,15 @@
             </RotationOffset>
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
+            <CurrentFilterLength>
+              <unitsFamily>none</unitsFamily>
+              <name>uintParameter</name>
+              <__units__ />
+              <type>UInt32</type>
+              <value>7</value>
+            </CurrentFilterLength>
           </MotorController>
-          <MotorController xsi:type="SparkMax">
+          <MotorController xsi:type="SparkMaxMonitored">
             <name>Transfer</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -557,8 +571,15 @@
             </RotationOffset>
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
+            <CurrentFilterLength>
+              <unitsFamily>none</unitsFamily>
+              <name>uintParameter</name>
+              <__units__ />
+              <type>UInt32</type>
+              <value>7</value>
+            </CurrentFilterLength>
           </MotorController>
-          <MotorController xsi:type="SparkFlex">
+          <MotorController xsi:type="SparkFlexMonitored">
             <name>Feeder</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -737,6 +758,13 @@
             </RotationOffset>
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
+            <CurrentFilterLength>
+              <unitsFamily>none</unitsFamily>
+              <name>uintParameter</name>
+              <__units__ />
+              <type>UInt32</type>
+              <value>7</value>
+            </CurrentFilterLength>
           </MotorController>
           <MotorController xsi:type="TalonFX">
             <name>launcherTop</name>
@@ -1463,7 +1491,7 @@
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
           </MotorController>
-          <MotorController xsi:type="SparkFlex">
+          <MotorController xsi:type="SparkFlexMonitored">
             <name>Placer</name>
             <ControllerEnabled>Yes</ControllerEnabled>
             <theDistanceAngleCalcInfo>
@@ -1642,6 +1670,13 @@
             </RotationOffset>
             <motorBrushType>kBrushless</motorBrushType>
             <sensorType>kHallSensor</sensorType>
+            <CurrentFilterLength>
+              <unitsFamily>none</unitsFamily>
+              <name>uintParameter</name>
+              <__units__ />
+              <type>UInt32</type>
+              <value>7</value>
+            </CurrentFilterLength>
           </MotorController>
           <MotorController xsi:type="SparkMax">
             <name>Elevator</name>
@@ -6370,21 +6405,21 @@
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>11.76</value>
+        <value>12.75</value>
       </mountingXOffset>
       <mountingYOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
-        <__units__>m</__units__>
+        <__units__>in</__units__>
         <type>UInt32</type>
-        <value>0</value>
+        <value>0.5</value>
       </mountingYOffset>
       <mountingZOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>12.128</value>
+        <value>13.5</value>
       </mountingZOffset>
       <pitch>
         <unitsFamily>angle</unitsFamily>

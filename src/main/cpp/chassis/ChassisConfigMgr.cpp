@@ -21,6 +21,7 @@
 #include "chassis/ChassisConfigCompBot_302.h"
 #include "chassis/ChassisConfigChassis_9998.h"
 #include "chassis/ChassisConfigPracticeBot_9999.h"
+#include "chassis/ChassisConfigChassis_9997.h"
 
 using namespace std;
 
@@ -52,6 +53,10 @@ void ChassisConfigMgr::InitChassis(RobotConfigMgr::RobotIdentifier id)
 
 	case RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999:
 		m_config = new ChassisConfigPracticeBot_9999();
+		break;
+
+	case RobotConfigMgr::RobotIdentifier::CHASSIS_BOT_9997:
+		m_config = new ChassisConfigChassis_9997();
 		break;
 
 	default:

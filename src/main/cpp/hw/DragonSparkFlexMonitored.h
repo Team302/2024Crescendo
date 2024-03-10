@@ -12,47 +12,46 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-// C++ Includes
-#include <map>
-#include <memory>
-#include <string>
 
-// FRC includes
+#pragma once
 
-// Team 302 includes
-#include <DragonVision/LimelightUsages.h>
-#include "utils/logging/Logger.h"
+#include <deque>
 
-// Third Party Includes
+#include "hw/DragonSparkFlex.h"
 
-LimelightUsages *LimelightUsages::m_instance = nullptr;
-LimelightUsages *LimelightUsages::GetInstance()
+// namespaces
+using namespace rev;
+
+class DragonSparkFlexMonitored : public DragonSparkFlex
 {
-    if (m_instance == nullptr)
-    {
-        m_instance = new LimelightUsages();
-    }
-    return m_instance;
-}
+public:
+    DragonSparkFlexMonitored() = delete;
+    DragonSparkFlexMonitored(int id,
+                             RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
+                             rev::CANSparkFlex::MotorType motorType,
+                             rev::SparkRelativeEncoder::Type feedbackType,
+                             rev::SparkLimitSwitch::Type forwardType,
+                             rev::SparkLimitSwitch::Type reverseType,
+                             const DistanceAngleCalcStruc &calcStruc);
+    virtual ~DragonSparkFlexMonitored() = default;
 
-LimelightUsages::LimelightUsages()
-{
-    m_usageMap["MAINLIMELIGHT"] = LIMELIGHT_USAGE::PRIMARY;
-    m_usageMap["SECONDARYLIMELIGHT"] = LIMELIGHT_USAGE::SECONDARY;
-}
+    void ConfigureCurrentFiltering(int filterLength);
+    void ConfigureCurrentShutoff(double currentThreshold, int loopCountThreshold);
 
-LimelightUsages::~LimelightUsages()
-{
-    m_usageMap.clear();
-}
+    void MonitorCurrent() override;
 
-LimelightUsages::LIMELIGHT_USAGE LimelightUsages::GetUsage(std::string usageString)
-{
-    auto it = m_usageMap.find(usageString);
-    if (it != m_usageMap.end())
-    {
-        return it->second;
-    }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("LimelightUsages::GetUsage"), std::string("unknown usage"), usageString);
-    return LimelightUsages::LIMELIGHT_USAGE::UNKNOWN_USAGE;
-}
+    double GetFilteredCurrent() override;
+
+    inline void EnableOverCurrentShutoff(bool enable) { m_overCurrentShutoffEnabled = enable; }
+
+private:
+    double m_currentThreshold;
+    int m_loopCountThreshold;
+
+    std::deque<double> m_currentHistoryValues;
+    double m_currentAverage = 0;
+
+    bool m_overCurrentShutoffEnabled;
+
+    void FilterCurrentValue();
+};

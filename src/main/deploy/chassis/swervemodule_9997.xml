@@ -3,6 +3,6 @@
   <!--- TO BE TUNED -->
   <attributes
     proportional="5.0"
-    integral="2.5"
+    integral="1.0"
     derivative="0.0" />
 </swervemodule>

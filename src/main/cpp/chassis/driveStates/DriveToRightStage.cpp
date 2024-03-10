@@ -106,8 +106,7 @@ pathplanner::PathPlannerTrajectory DriveToRightStage::CreateDriveToRightStage()
                 GoalEndState(0.0_mps, rightStagePoseDegrees));
             rightstagepath->preventFlipping = true;
             trajectory = rightstagepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-
-            return trajectory;
         }
     }
+    return trajectory;
 }

@@ -61,13 +61,12 @@ units::angle::degree_t DriveToNote::GetNoteDirection()
         units::angle::degree_t notedirectiondegrees = noteRotation.Degrees();
         return notedirectiondegrees;
     }
+    return units::angle::degree_t(0.0); // TODO what should be returned without a target
 }
 
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 {
     DriveToNote *dtnvisiondata = DriveToNote::getInstance();
-    auto visiondata = DragonVision::GetDragonVision();
-    auto notedata = visiondata->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
 
     auto finder = DragonDriveTargetFinder::GetInstance();
 
@@ -95,8 +94,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
                 GoalEndState(0.0_mps, currentnotedirection));
             notepath->preventFlipping = true;
             trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-
-            return trajectory;
         }
     }
+    return trajectory;
 }

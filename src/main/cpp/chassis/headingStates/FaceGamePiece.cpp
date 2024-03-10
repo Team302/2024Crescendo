@@ -18,6 +18,7 @@
 // Team302 Includes
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "utils/AngleUtils.h"
 #include "chassis/headingStates/FaceGamePiece.h"
 
 /// debugging
@@ -31,6 +32,7 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+
     if (chassis != nullptr)
     {
         auto vision = DragonVision::GetDragonVision();
@@ -40,24 +42,16 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             if (data)
             {
                 auto rotation = data.value().rotationToTarget;
-                auto angle = rotation.ToRotation2d().Degrees();
-                chassis->SetStoredHeading(angle);
+                auto robotRelativeAngle = units::angle::degree_t(rotation.Z());
+                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
+
+                chassis->SetStoredHeading(fieldRelativeAngle);
+                double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
+                if (error < 5.0)
+                    chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpFine);
+                else
+                    chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpCoarse);
             }
         }
     }
 }
-
-/** units::angular_velocity::radians_per_second_t FaceGamePiece::limitAngularVelocityToBetweenMinAndMax(units::angular_velocity::radians_per_second_t angularVelocity)
- {
-
-      double sign = angularVelocity.to<double>() < 0 ? -1 : 1;
-
-      if (std::abs(angularVelocity.to<double>()) < m_minimumOmega_radps)
-          angularVelocity = units::angular_velocity::radians_per_second_t(m_minimumOmega_radps * sign);
-
-      if (std::abs(angularVelocity.to<double>()) > m_maximumOmega_radps)
-          angularVelocity = units::angular_velocity::radians_per_second_t(m_maximumOmega_radps * sign);
-
-      return angularVelocity;
-
-}**/

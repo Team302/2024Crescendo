@@ -14,37 +14,48 @@
 //====================================================================================================================================================
 
 #pragma once
+#include "chassis/ChassisConfig.h"
 
-// C++ Includes
-#include <map>
-#include <memory>
-#include <string>
+#include "units/length.h"
+#include "ctre/phoenix6/Pigeon2.hpp"
 
-// FRC includes
-
-// Team 302 includes
-
-// Third Party Includes
-
-class LimelightUsages
+class ChassisConfigChassis_9997 : public ChassisConfig
 {
-
 public:
-    enum LIMELIGHT_USAGE
-    {
-        UNKNOWN_USAGE = -1,
-        PRIMARY,
-        SECONDARY
-    };
+	ChassisConfigChassis_9997() = default;
+	~ChassisConfigChassis_9997() = default;
 
-    static LimelightUsages *GetInstance();
-
-    LIMELIGHT_USAGE GetUsage(std::string usageString);
+protected:
+	void DefinePigeon() override;
+	void DefineChassis() override;
 
 private:
-    static LimelightUsages *m_instance;
-    LimelightUsages();
-    ~LimelightUsages();
+	std::string m_canbusName = std::string("rio");
+	const int m_leftfrontdriveID = 15;
+	const int m_leftfrontturnID = 14;
+	const double m_leftfrontOffset = 0.187255859375;
+	const bool m_leftfrontdriveInvert = true;
+	const bool m_leftfrontturnInvert = true;
+	const bool m_leftfrontcancoderInvert = true;
 
-    std::map<std::string, LIMELIGHT_USAGE> m_usageMap;
+	const int m_leftbackdriveID = 1;
+	const int m_leftbackturnID = 0;
+	const double m_leftbackOffset = -0.181884765625;
+	const bool m_leftbackdriveInvert = true;
+	const bool m_leftbackturnInvert = true;
+	const bool m_leftbackcancoderInvert = true;
+
+	const int m_rightfrontdriveID = 13;
+	const int m_rightfrontturnID = 12;
+	const double m_rightfrontOffset = 0.212158203125;
+	const bool m_rightfrontdriveInvert = true;
+	const bool m_rightfrontturnInvert = true;
+	const bool m_rightfrontcancoderInvert = true;
+
+	const int m_rightbackdriveID = 3;
+	const int m_rightbackturnID = 2;
+	const double m_rightbackOffset = -0.1357421875;
+	const bool m_rightbackdriveInvert = true;
+	const bool m_rightbackturnInvert = true;
+	const bool m_rightbackcancoderInvert = true;
 };
