@@ -93,16 +93,7 @@ void HolonomicDrive::Run()
             {
                 if (!noteMgr->HasNote() && vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
                 {
-                    // AlignGamePiece();
-                    if (abs(forward) < 0.05 && abs(strafe) < 0.05)
-                    {
-                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-                    }
-                }
-                else
-                {
-                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+                    DriveToGamePiece(forward, strafe);
                 }
             }
         }
@@ -247,9 +238,17 @@ void HolonomicDrive::HoldPosition()
     m_previousDriveState = m_moveInfo.driveOption;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
 }
-void HolonomicDrive::DriveToGamePiece()
+void HolonomicDrive::DriveToGamePiece(double forward, double strafe)
 {
-    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+    if (abs(forward) < 0.05 && abs(strafe) < 0.05)
+    {
+        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+    }
+    else
+    {
+        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+        m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+    }
 }
 void HolonomicDrive::TurnForward()
 {
