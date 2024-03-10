@@ -234,3 +234,17 @@ double noteManager::GetFilteredValue(double latestValue, std::deque<double> &pre
 
 	return average;
 }
+
+bool noteManager::HasNote() const
+{
+	auto currentState = GetCurrentState();
+	if (GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)
+	{
+		return false;
+	}
+	else if (currentState == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || currentState == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
+	{
+		return (getbackIntakeSensor()->Get() || getfrontIntakeSensor()->Get());
+	}
+	return true;
+}
