@@ -3,8 +3,7 @@
 <auton>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing0Center1_A"
+pathname= "BlueAmpWing1Center1_B"
 time= "4.5"
 noteOption= "STATE_FEEDER_INTAKE"/>
-
 </auton>

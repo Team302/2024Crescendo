@@ -446,8 +446,3 @@ void DragonTalonSRX::EnableDisableLimitSwitches(
 void DragonTalonSRX::MonitorCurrent()
 {
 }
-
-double DragonTalonSRX::GetFilteredCurrent()
-{
-	return 0.0;
-}
