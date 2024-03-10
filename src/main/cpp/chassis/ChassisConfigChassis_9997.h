@@ -33,29 +33,29 @@ private:
 	std::string m_canbusName = std::string("rio");
 	const int m_leftfrontdriveID = 15;
 	const int m_leftfrontturnID = 14;
-	const double m_leftfrontOffset = 0.1904296875;
+	const double m_leftfrontOffset = 0.303466796875;
 	const bool m_leftfrontdriveInvert = true;
-	const bool m_leftfrontturnInvert = true;
-	const bool m_leftfrontcancoderInvert = true;
+	const bool m_leftfrontturnInvert = false;
+	const bool m_leftfrontcancoderInvert = false;
 
 	const int m_leftbackdriveID = 1;
 	const int m_leftbackturnID = 0;
-	const double m_leftbackOffset = -0.182373046875;
+	const double m_leftbackOffset = -0.32177734375;
 	const bool m_leftbackdriveInvert = true;
-	const bool m_leftbackturnInvert = true;
-	const bool m_leftbackcancoderInvert = true;
+	const bool m_leftbackturnInvert = false;
+	const bool m_leftbackcancoderInvert = false;
 
 	const int m_rightfrontdriveID = 13;
 	const int m_rightfrontturnID = 12;
-	const double m_rightfrontOffset = 0.194091796875;
+	const double m_rightfrontOffset = 0.30908203125;
 	const bool m_rightfrontdriveInvert = true;
-	const bool m_rightfrontturnInvert = true;
-	const bool m_rightfrontcancoderInvert = true;
+	const bool m_rightfrontturnInvert = false;
+	const bool m_rightfrontcancoderInvert = false;
 
 	const int m_rightbackdriveID = 3;
 	const int m_rightbackturnID = 2;
-	const double m_rightbackOffset = -0.14306640625;
+	const double m_rightbackOffset = -0.364990234375;
 	const bool m_rightbackdriveInvert = true;
-	const bool m_rightbackturnInvert = true;
-	const bool m_rightbackcancoderInvert = true;
+	const bool m_rightbackturnInvert = false;
+	const bool m_rightbackcancoderInvert = false;
 };
