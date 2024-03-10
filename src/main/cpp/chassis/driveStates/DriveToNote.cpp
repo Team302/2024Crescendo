@@ -45,6 +45,13 @@ DriveToNote::DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *tra
     m_dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
 }
 
+void DriveToNote::Init(ChassisMovement &chassisMovement)
+{
+    m_trajectory = CreateDriveToNote();
+    chassisMovement.pathplannerTrajectory = m_trajectory;
+    TrajectoryDrivePathPlanner::Init(chassisMovement);
+}
+
 std::array<frc::SwerveModuleState, 4> DriveToNote::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
 
@@ -71,12 +78,11 @@ std::array<frc::SwerveModuleState, 4> DriveToNote::UpdateSwerveModuleStates(Chas
 
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 {
+    pathplanner::PathPlannerTrajectory trajectory;
 
     auto info = m_dragonDriveTargetFinder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
     auto type = get<0>(info);
     auto targetNotePose = get<1>(info);
-
-    pathplanner::PathPlannerTrajectory trajectory;
 
     if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_chassis != nullptr)
     {
