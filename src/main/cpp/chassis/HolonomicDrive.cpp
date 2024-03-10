@@ -87,24 +87,24 @@ void HolonomicDrive::Run()
         if (isAlignGamePieceSelected)
         {
             StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
-            auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+            auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManager *>(noteStateManager) : nullptr;
             auto vision = DragonVision::GetDragonVision();
             if (vision != nullptr)
             {
-                //   if (!noteMgr->getfrontIntakeSensor()->Get() && !noteMgr->getbackIntakeSensor()->Get() && vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
-                // {
-                AlignGamePiece();
-                /*  if (abs(forward) < 0.05 && abs(strafe) < 0.05)
-                  {
-                    //  m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-                  }
-                  else
-                  {
-                   //   m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                  }
-                  //}
-                  // else
-                  //  m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;*/
+                if (!noteMgr->HasNote() && vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
+                {
+                    AlignGamePiece();
+                    if (abs(forward) < 0.05 && abs(strafe) < 0.05)
+                    {
+                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+                    }
+                    else
+                    {
+                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    }
+                }
+                else
+                    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
             }
         }
         else if (isAlignWithAmpSelected)
@@ -228,7 +228,6 @@ void HolonomicDrive::ResetPose()
 }
 void HolonomicDrive::AlignGamePiece()
 {
-    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
 }
 void HolonomicDrive::AlignToStage()

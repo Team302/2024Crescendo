@@ -38,11 +38,8 @@
 using namespace pathplanner;
 
 DriveToNote::DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner)
-    : TrajectoryDrivePathPlanner(robotDrive), m_chassis(nullptr)
+    : TrajectoryDrivePathPlanner(robotDrive)
 {
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    m_dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
 }
 
 void DriveToNote::Init(ChassisMovement &chassisMovement)
@@ -54,21 +51,26 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
 
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 {
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    auto dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
+
     pathplanner::PathPlannerTrajectory trajectory;
 
-    auto info = m_dragonDriveTargetFinder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+    auto info = dragonDriveTargetFinder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
     auto type = get<0>(info);
     auto targetNotePose = get<1>(info);
 
-    if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_chassis != nullptr)
+    if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && chassis != nullptr)
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose X", m_targetPose.X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", m_targetPose.Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", m_targetPose.Rotation().Degrees().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose X", targetNotePose.X().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Pose Y", targetNotePose.Y().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "Target Rotation", targetNotePose.Rotation().Degrees().to<double>());
+
         auto currentPose2d = m_chassis->GetPose();
         auto chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
         auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), chassisHeading);
-        std::vector<frc::Pose2d> poses{currentPose2d, noteDistance};
+        std::vector<frc::Pose2d> poses{noteDistance, currentPose2d};
         std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
         auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
                                                           PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),

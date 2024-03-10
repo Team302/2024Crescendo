@@ -41,9 +41,6 @@ public:
     pathplanner::PathPlannerTrajectory GetTrajectory() const { return m_trajectory; }
 
 private:
-    SwerveChassis *m_chassis;
-    DragonVision *m_dragonVision;
-
     DragonDriveTargetFinder *m_dragonDriveTargetFinder;
     TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
     // DragonVision *m_visiondata;
