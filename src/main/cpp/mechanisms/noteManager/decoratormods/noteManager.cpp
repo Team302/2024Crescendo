@@ -90,7 +90,7 @@ void noteManager::RunCommonTasks()
 
 	// Processing related to current monitor
 	MonitorMotorCurrents();
-	MonitorForNoteInIntakes();
+	double intakeDifferentialCurrent = MonitorForNoteInIntakes();
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
@@ -109,7 +109,7 @@ void noteManager::RunCommonTasks()
 		m_feederAverage = getFeeder()->GetCurrent();
 
 		double NoteInIntake = m_noteInIntake ? 40 : 0;
-		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, 0.0, m_intakeDifferenceAvg, NoteInIntake);
+		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, 0.0, intakeDifferentialCurrent, NoteInIntake);
 	}
 
 	double FrontIntakeSensor = getfrontIntakeSensor()->Get() ? 50 : 0;
@@ -133,7 +133,7 @@ void noteManager::MonitorMotorCurrents()
 	getPlacer()->MonitorCurrent();
 }
 
-void noteManager::MonitorForNoteInIntakes()
+double noteManager::MonitorForNoteInIntakes()
 {
 	// In order to detect that a note is being inhaled into the robot, the differential
 	// current needs to exceed incomingThreshold
@@ -147,11 +147,13 @@ void noteManager::MonitorForNoteInIntakes()
 	m_backIntakeAverage = getbackIntake()->GetCurrent();
 	double intakeDifferenceAvg = std::abs(m_frontIntakeAverage - m_backIntakeAverage);
 
-	if (m_intakeDifferenceAvg > incomingThreshold)
+	if (intakeDifferenceAvg > incomingThreshold)
 		m_noteInIntake = true;
 
-	if (m_noteInIntake && (m_intakeDifferenceAvg < forwardingThreshold))
+	if (m_noteInIntake && (intakeDifferenceAvg < forwardingThreshold))
 		m_noteInIntake = false;
+
+	return intakeDifferenceAvg;
 }
 
 void noteManager::ResetElevator()
