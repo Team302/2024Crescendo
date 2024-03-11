@@ -32,11 +32,9 @@ class TrajectoryDrivePathPlanner : public RobotDrive
 public:
     TrajectoryDrivePathPlanner(RobotDrive *robotDrive);
 
-    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
-        ChassisMovement &chassisMovement) override;
+    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 
-    void Init(
-        ChassisMovement &chassisMovement) override;
+    void Init(ChassisMovement &chassisMovement) override;
 
     std::string WhyDone() const { return m_whyDone; };
     bool IsDone();

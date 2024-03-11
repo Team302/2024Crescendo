@@ -679,13 +679,18 @@ namespace FRCrobotCodeGen302
                 List<Type> subTypes = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == elementType).ToList();
                 foreach (Type type in subTypes)
                 {
-                    if (!addRobotElementType(type, types))
+                    addRobotElementType(type, types);
+                    
+                    //todo handle more than one level of inheritance in a nicer way
+                    List<Type> subTypesExt = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == type).ToList();
+                    foreach (Type type_ in subTypesExt)
                     {
-                        //todo handle more than one level of inheritance
-                        List<Type> subTypesExt = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == type).ToList();
-                        foreach (Type type_ in subTypesExt)
+                        addRobotElementType(type_, types);
+
+                        List<Type> subTypesExtExt = Assembly.GetAssembly(elementType).GetTypes().Where(t => t.BaseType == type_).ToList();
+                        foreach (Type type__ in subTypesExtExt)
                         {
-                            addRobotElementType(type_, types);
+                            addRobotElementType(type__, types);
                         }
                     }
                 }

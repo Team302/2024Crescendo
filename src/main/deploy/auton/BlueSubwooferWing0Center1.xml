@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+    <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "BlueSubwooferWing0Center1"
+                noteOption="STATE_READY_AUTO_LAUNCH"/>
+
+    <snippet file = "ShootWhenStopAuto.xml"/>
+
+    <snippet file = "SubwooferCenterRing1.xml"/>
+    
+    <snippet file = "ShootWhenStopAuto.xml"/>
+
+</auton>

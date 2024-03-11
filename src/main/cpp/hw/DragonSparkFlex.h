@@ -53,6 +53,8 @@ public:
     RobotElementNames::MOTOR_CONTROLLER_USAGE GetType() const override;
     int GetID() const override;
 
+    void MonitorCurrent() override;
+
     // Setters
     void SetControlConstants(int slot, const ControlData &controlInfo) override;
 
@@ -117,4 +119,6 @@ private:
 
     double m_posConversion = 1.0;
     double m_velConversion = 1.0;
+
+    const double m_chgTolerance = 0.0000001;
 };

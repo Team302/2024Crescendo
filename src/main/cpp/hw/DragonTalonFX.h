@@ -57,6 +57,8 @@ public:
     double GetCurrent() override;
     IDragonMotorController::MOTOR_TYPE GetMotorType() const override;
 
+    void MonitorCurrent() override;
+
     // Setters (override)
     void Set(double value) override;
     void Set(ctre::phoenix6::controls::ControlRequest &control);

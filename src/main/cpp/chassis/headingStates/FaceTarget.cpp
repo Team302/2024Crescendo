@@ -32,8 +32,6 @@ FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : ISwerv
 
 void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Element", GetVisionElement());
-
     auto finder = DragonDriveTargetFinder::GetInstance();
     if (finder != nullptr)
     {
@@ -43,7 +41,6 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         std::optional<VisionData> testVisionData = DragonVision::GetDragonVision()->GetVisionData(GetVisionElement());
         if (testVisionData)
         {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             if (chassis != nullptr)
@@ -53,7 +50,6 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         }
         else
         {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "False");
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             units::angle::degree_t correction = units::angle::degree_t(0);
