@@ -19,6 +19,7 @@
 #include "chassis/SwerveModuleConstants.h"
 #include "chassis/ChassisConfigChassis_9997.h"
 #include "utils/logging/Logger.h"
+#include <ctre/phoenix/sensors/PigeonIMU.h>
 
 using ctre::phoenix6::configs::MountPoseConfigs;
 using ctre::phoenix6::hardware::Pigeon2;
@@ -26,9 +27,9 @@ using std::string;
 
 void ChassisConfigChassis_9997::DefinePigeon()
 {
-    m_pigeon2 = new Pigeon2(0, m_canbusName);
+    m_pigeon2 = new Pigeon2(50, m_canbusName);
     MountPoseConfigs config{};
-    config.MountPoseYaw = 90;
+    config.MountPoseYaw = 0;
     m_pigeon2->GetConfigurator().Apply(config);
 }
 
