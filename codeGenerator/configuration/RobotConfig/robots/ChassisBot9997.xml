@@ -110,7 +110,6 @@
     </Camera>
     <Camera xsi:type="Limelight">
       <name>Pintake</name>
-      <pipeline>MACHINE_LEARNING</pipeline>
       <mountingXOffset>
         <unitsFamily>length</unitsFamily>
         <name>doubleParameter</name>
