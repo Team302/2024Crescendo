@@ -5,6 +5,7 @@
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing0Center1_1A"
 time= "4.7"
-noteOption= "STATE_FEEDER_INTAKE"/>
+noteOption= "STATE_FEEDER_INTAKE"
+visionAligment = "SPEAKER"/>
 
 </auton>

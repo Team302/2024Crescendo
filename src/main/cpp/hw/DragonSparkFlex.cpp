@@ -42,7 +42,7 @@ DragonSparkFlex::DragonSparkFlex(int id,
                                                                             m_calcStruc(calcStruc)
 {
     m_spark->RestoreFactoryDefaults();
-    m_spark->SetCANTimeout(0);
+    // m_spark->SetCANTimeout(0);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09);
@@ -107,7 +107,7 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
         needToSet = std::abs(m_velConversion - target) > m_chgTolerance;
         if (needToSet)
         {
-            m_encoder.SetPositionConversionFactor(target);
+            m_encoder.SetVelocityConversionFactor(target);
             m_velConversion = target;
         }
         m_controlType = CANSparkBase::ControlType::kVelocity;

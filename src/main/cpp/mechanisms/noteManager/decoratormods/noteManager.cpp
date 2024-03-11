@@ -74,11 +74,11 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
 
-	RobotState *RobotStates = RobotState::GetInstance();
+	m_robotState = RobotState::GetInstance();
 
-	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
-	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
-	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
+	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void noteManager::RunCommonTasks()
@@ -176,6 +176,7 @@ bool noteManager::HasVisionTarget()
 
 void noteManager::Update(RobotStateChanges::StateChange change, int value)
 {
+
 	if (change == RobotStateChanges::DesiredScoringMode)
 		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
 	else if (change == RobotStateChanges::ClimbModeStatus)
@@ -232,4 +233,18 @@ double noteManager::GetFilteredValue(double latestValue, std::deque<double> &pre
 	average = previousTotal / previousValues.size();
 
 	return average;
+}
+
+bool noteManager::HasNote() const
+{
+	auto currentState = GetCurrentState();
+	if (GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)
+	{
+		return false;
+	}
+	else if (currentState == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || currentState == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
+	{
+		return (getbackIntakeSensor()->Get() || getfrontIntakeSensor()->Get());
+	}
+	return true;
 }

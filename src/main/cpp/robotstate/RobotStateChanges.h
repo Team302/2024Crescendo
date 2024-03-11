@@ -27,6 +27,7 @@ public:
         DriveAssistMode,
         GameState,
         CompressorChange,
+        HasNote,
         LoopCounter
     };
 

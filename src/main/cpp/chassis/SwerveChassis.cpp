@@ -46,6 +46,7 @@
 #include "chassis/SwerveChassis.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
+#include "chassis/driveStates/DriveToNote.h"
 
 // Third Party Includes
 #include "pugixml/pugixml.hpp"
@@ -114,6 +115,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
 void SwerveChassis::InitStates()
 {
     m_robotDrive = new RobotDrive(this);
+    auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(m_robotDrive);
 
     m_driveStateMap[ChassisOptionEnums::DriveStateType::FIELD_DRIVE] = new FieldDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::HOLD_DRIVE] = new HoldDrive();
@@ -121,6 +123,7 @@ void SwerveChassis::InitStates()
     m_driveStateMap[ChassisOptionEnums::DriveStateType::ROBOT_DRIVE] = m_robotDrive;
     m_driveStateMap[ChassisOptionEnums::DriveStateType::STOP_DRIVE] = new StopDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER] = new TrajectoryDrivePathPlanner(m_robotDrive);
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE] = new DriveToNote(m_robotDrive, trajectoryDrivePathPlanner);
 
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] = new SpecifiedHeading();
