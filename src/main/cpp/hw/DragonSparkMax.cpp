@@ -108,7 +108,7 @@ void DragonSparkMax::SetControlConstants(int slot, const ControlData &controlInf
         needToSet = std::abs(m_velConversion - target) > m_chgTolerance;
         if (needToSet)
         {
-            m_encoder.SetPositionConversionFactor(target);
+            m_encoder.SetVelocityConversionFactor(target);
             m_velConversion = target;
         }
         m_controlType = CANSparkBase::ControlType::kVelocity;
