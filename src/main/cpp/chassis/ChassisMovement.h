@@ -16,14 +16,15 @@
 #pragma once
 
 // FRC Includes
-#include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/trajectory/TrajectoryUtil.h>
-#include <frc/geometry/Translation2d.h>
+#include "frc/geometry/Pose2d.h"
+#include "frc/geometry/Translation2d.h"
+#include "frc/kinematics/ChassisSpeeds.h"
+#include "frc/trajectory/TrajectoryUtil.h"
 
 #include "units/angle.h"
 
 // Team302 Includes
-#include <chassis/ChassisOptionEnums.h>
+#include "chassis/ChassisOptionEnums.h"
 
 // Third party includes
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
@@ -43,4 +44,5 @@ struct ChassisMovement
     bool checkTipping = false;
     units::angle::degree_t tippingTolerance = units::angle::degree_t(5.0);
     double tippingCorrection = -0.1;
+    frc::Pose2d targetPose = frc::Pose2d();
 };
