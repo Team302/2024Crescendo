@@ -44,39 +44,40 @@ DriveToNote::DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *tra
 
 void DriveToNote::Init(ChassisMovement &chassisMovement)
 {
-    m_trajectory = CreateDriveToNote();
+    m_trajectory = CreateDriveToNote(chassisMovement.targetPose);
     chassisMovement.pathplannerTrajectory = m_trajectory;
     TrajectoryDrivePathPlanner::Init(chassisMovement);
 }
 
-pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
+pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d targetNotePose)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    auto dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
+    // auto dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
 
     pathplanner::PathPlannerTrajectory trajectory;
 
-    auto info = dragonDriveTargetFinder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-    auto type = get<0>(info);
-    auto targetNotePose = get<1>(info);
+    // auto info = dragonDriveTargetFinder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+    // auto type = get<0>(info);
+    // auto targetNotePose = get<1>(info);
 
-    if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && chassis != nullptr)
-    {
-        frc::Pose2d currentPose2d = m_chassis->GetPose();
-        frc::Rotation2d chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
+    // if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && chassis != nullptr)
+    //{
+    frc::Pose2d currentPose2d = m_chassis->GetPose();
+    frc::Rotation2d chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
 
-        units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
-        units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
+    // units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
+    units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
+    units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
 
-        auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), fieldRelativeAngle);
-        std::vector<frc::Pose2d> poses{noteDistance, currentPose2d};
-        std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-        auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
-                                                          PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                                                          GoalEndState(0.0_mps, chassisHeading));
-        notepath->preventFlipping = true;
-        trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-    }
+    auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), fieldRelativeAngle);
+    std::vector<frc::Pose2d> poses{noteDistance, currentPose2d};
+    std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+    auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
+                                                      PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+                                                      GoalEndState(0.0_mps, chassisHeading));
+    notepath->preventFlipping = true;
+    trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+    //}
     return trajectory;
 }

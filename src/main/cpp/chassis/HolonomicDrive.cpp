@@ -28,6 +28,7 @@
 #include "chassis/HolonomicDrive.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "chassis/DragonDriveTargetFinder.h"
 #include "State.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
@@ -88,13 +89,23 @@ void HolonomicDrive::Run()
         {
             StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
             auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManager *>(noteStateManager) : nullptr;
-            auto vision = DragonVision::GetDragonVision();
-            if (vision != nullptr)
+            if (!noteMgr->HasNote())
             {
-                if (!noteMgr->HasNote() && vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
+                auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+                auto type = get<0>(info);
+                if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
-                    DriveToGamePiece(forward, strafe);
+                    auto targetNotePose = get<1>(info);
+                    DriveToGamePiece(forward, strafe, targetNotePose);
                 }
+                else
+                {
+                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                }
+            }
+            else
+            {
+                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
             }
         }
         else if (isAlignWithAmpSelected)
@@ -193,6 +204,7 @@ void HolonomicDrive::InitChassisMovement()
     m_moveInfo.checkTipping = false;
     m_moveInfo.tippingTolerance = units::angle::degree_t(5.0);
     m_moveInfo.tippingCorrection = -0.1;
+    m_moveInfo.targetPose = frc::Pose2d();
 }
 
 void HolonomicDrive::InitSpeeds(double forwardScale,
@@ -238,12 +250,13 @@ void HolonomicDrive::HoldPosition()
     m_previousDriveState = m_moveInfo.driveOption;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
 }
-void HolonomicDrive::DriveToGamePiece(double forward, double strafe)
+void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose)
 {
     if (abs(forward) < 0.05 && abs(strafe) < 0.05)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;
+        m_moveInfo.targetPose = targetPose;
     }
     else
     {

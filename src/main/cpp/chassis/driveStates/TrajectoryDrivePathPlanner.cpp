@@ -33,7 +33,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_holonomicController(pathplanner::PIDConstants(5.0, 3.0, 0.0),
+                                                                                 m_holonomicController(pathplanner::PIDConstants(2.0, 1.0, 0.0),
                                                                                                        pathplanner::PIDConstants(0.0, 0.0, 0.0),
                                                                                                        robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                        units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
@@ -51,12 +51,8 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
 
 void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
 {
-    if (chassisMovement.driveOption != ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE)
-    {
-        m_trajectoryStates.clear();
-        m_trajectory = chassisMovement.pathplannerTrajectory;
-    }
-
+    m_trajectoryStates.clear();
+    m_trajectory = chassisMovement.pathplannerTrajectory;
     m_trajectoryStates = m_trajectory.getStates();
     if (!m_trajectoryStates.empty())
     {
