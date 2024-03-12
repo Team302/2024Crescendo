@@ -51,12 +51,8 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
 
 void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
 {
-    if (chassisMovement.driveOption != ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE)
-    {
-        m_trajectoryStates.clear();
-        m_trajectory = chassisMovement.pathplannerTrajectory;
-    }
-
+    m_trajectoryStates.clear();
+    m_trajectory = chassisMovement.pathplannerTrajectory;
     m_trajectoryStates = m_trajectory.getStates();
     if (!m_trajectoryStates.empty())
     {
