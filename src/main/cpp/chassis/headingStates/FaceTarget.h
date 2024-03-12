@@ -40,6 +40,6 @@ protected:
 
 private:
     const double m_kp = 8.0;
-    const double m_visionKpFine = 10.0;
-    const double m_visionKpCoarse = 15.0;
+    const double m_visionKpFine = 15.0;
+    const double m_visionKpCoarse = 10.0;
 };
