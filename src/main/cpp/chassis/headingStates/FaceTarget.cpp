@@ -45,7 +45,15 @@ void FaceTarget::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             if (chassis != nullptr)
             {
-                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::angle::degree_t(testVisionData.value().rotationToTarget.Z()).to<double>() * m_visionKp);
+                units::angle::degree_t error = units::angle::degree_t(testVisionData.value().rotationToTarget.Z());
+                if (error < units::angle::degree_t(5))
+                {
+                    chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::angle::degree_t(error).to<double>() * m_visionKpFine);
+                }
+                else
+                {
+                    chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(units::angle::degree_t(error).to<double>() * m_visionKpCoarse);
+                }
             }
         }
         else
