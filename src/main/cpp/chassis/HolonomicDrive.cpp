@@ -243,6 +243,7 @@ void HolonomicDrive::DriveToGamePiece(double forward, double strafe)
     if (abs(forward) < 0.05 && abs(strafe) < 0.05)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+        m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;
     }
     else
     {
