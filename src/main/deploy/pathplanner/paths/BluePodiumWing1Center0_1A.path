@@ -59,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "BluePodium",
   "previewStartingState": {
     "rotation": 146.42,
     "velocity": 0

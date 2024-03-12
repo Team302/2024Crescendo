@@ -145,7 +145,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "BlueAmp",
   "previewStartingState": {
     "rotation": -130.7636052009412,
     "velocity": 0

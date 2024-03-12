@@ -65,7 +65,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "BlueSubwoofer",
   "previewStartingState": {
     "rotation": -164.38822067614583,
     "velocity": 0

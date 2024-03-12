@@ -223,7 +223,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "BlueWide",
   "previewStartingState": {
     "rotation": 179.29701957726442,
     "velocity": 0

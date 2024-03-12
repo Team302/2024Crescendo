@@ -2,7 +2,16 @@
   "robotWidth": 0.5715,
   "robotLength": 0.5715,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "BlueAmp",
+    "BluePodium",
+    "BlueSubwoofer",
+    "BlueWide",
+    "TestPaths",
+    "RedAmpOffsets",
+    "RedPodiumOffsets",
+    "RedSubwooferOffsets"
+  ],
   "autoFolders": [],
   "defaultMaxVel": 0.25,
   "defaultMaxAccel": 0.25,
