@@ -47,4 +47,6 @@ private:
     std::string m_pathname;
     units::time::second_t m_maxTime;
     std::string m_ntName;
+    bool m_switchedToVisionDrive;
+    PrimitiveParams::VISION_ALIGNMENT m_visionAlignment;
 };

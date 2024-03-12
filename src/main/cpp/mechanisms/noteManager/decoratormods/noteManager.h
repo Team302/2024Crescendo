@@ -28,6 +28,7 @@
 #include "mechanisms/base/StateMgr.h"
 #include "robotstate/IRobotStateChangeSubscriber.h"
 #include "robotstate/RobotStateChanges.h"
+#include "robotstate/RobotState.h"
 
 // forward declares
 
@@ -63,6 +64,7 @@ public:
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	double GetRequiredLaunchAngle();
 	bool autoLaunchReady();
+	bool HasNote() const;
 
 private:
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
@@ -71,6 +73,7 @@ private:
 	RobotStateChanges::ScoringMode m_scoringMode;
 	RobotStateChanges::ClimbMode m_climbMode;
 	RobotStateChanges::GamePeriod m_gamePeriod;
+	RobotState *m_robotState;
 
 	double m_frontIntakeAverage;
 	double m_backIntakeAverage;
