@@ -135,7 +135,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 	else if ((placerInSensor == false) &&
 			 (placerMidSensor == false) &&
 			 (placerOutSensor == false) &&
-			 ((currentState == static_cast<int>(m_mechanism->STATE_PLACE_AMP)) || (currentState == static_cast<int>(m_mechanism->STATE_PLACE_TRAP))))
+			 ((currentState == static_cast<int>(m_mechanism->STATE_PLACE_AMP))))
 	{
 		transition = true;
 		reason = 5;
