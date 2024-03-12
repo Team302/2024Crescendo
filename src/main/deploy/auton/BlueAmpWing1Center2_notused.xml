@@ -14,24 +14,17 @@ noteOption="STATE_READY_AUTO_LAUNCH"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
-<primitive id="DRIVE_PATH_PLANNER"
-pathname = "BlueAmpWing1Center1_C"
-time = "10.0"
-noteOption="STATE_FEEDER_INTAKE"
-visionAligment = "SPEAKER"/>
-
-<snippet file= "ShootWhenStopAuto.xml"/>
-
 <snippet file= "AmpCenterRing2.xml"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id="DRIVE_PATH_PLANNER"
-pathname = "BlueAmpWing2Center2"
-time = "10.0"
-noteOption="STATE_FEEDER_INTAKE"
-visionAligment = "SPEAKER"/>
+pathname = "BlueAmpWing1Center1_C"
+time = "1.0"
+noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
+
+
 
 </auton>

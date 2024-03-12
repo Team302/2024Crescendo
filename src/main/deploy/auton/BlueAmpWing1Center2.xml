@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE auton SYSTEM "auton.dtd">
-
 <auton>
+
 <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
-pathname= "StartBlueAmpWing0Center1"
-noteOption="STATE_READY_AUTO_LAUNCH"/>
+            pathname= "BlueAmpWing1Center0"
+                noteOption="STATE_READY_AUTO_LAUNCH"/>
 
-<snippet file= "AmpCenterStart.xml"/>
-
-<snippet file= "ShootWhenStopAuto.xml"/>
-
-<snippet file= "AmpCenterRing1.xml"/>
-
-<snippet file= "ShootWhenStopAuto.xml"/>
-
-<snippet file= "AmpCenterRing2.xml"/>
+<primitive id= "DRIVE_PATH_PLANNER"
+    pathname= "BlueAmpWing1Center0"
+    time= "1.75"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
-<primitive id="DRIVE_PATH_PLANNER"
-pathname = "BlueAmpWing1Center1_C"
-time = "1.0"
-noteOption="STATE_FEEDER_INTAKE"/>
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing1Center0_1A"
+time= "3.0"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment = "SPEAKER"/>
+
+<primitive id="DO_NOTHING"
+time="0.6"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing1Center1_1B"
+time= "8.0"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment = "SPEAKER"/>
 
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing1Center0_1C"
+time= "8.0"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment = "SPEAKER"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 </auton>
