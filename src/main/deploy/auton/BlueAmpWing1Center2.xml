@@ -8,7 +8,7 @@
 
 <primitive id= "DRIVE_PATH_PLANNER"
     pathname= "BlueAmpWing1Center0"
-    time= "1.75"
+    time= "1.0"
 noteOption="STATE_FEEDER_INTAKE"/>
 <!-- visionAligment = "SPEAKER"/> -->
 
