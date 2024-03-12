@@ -79,6 +79,7 @@ bool autoLaunchState::AtTarget()
 {
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
+
 	if (m_mechanism->HasVisionTarget())
 	{
 		double distanceFromTarget = m_mechanism->GetVisionDistance().to<double>();
@@ -91,6 +92,9 @@ bool autoLaunchState::AtTarget()
 			m_targetSpeed = 375;
 		}
 	}
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top AutoLaunch"), topSpeed);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bottom AutoLaunch"), botSpeed);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Speed Target AutoLaunch"), m_targetSpeed);
 
 	return (((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed)) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999));
 }
