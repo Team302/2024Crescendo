@@ -17,6 +17,8 @@
 
 // C++ Libraries
 
+#include "frc/geometry/Pose2d.h"
+
 // Team 302 includes
 #include "chassis/ChassisMovement.h"
 #include "State.h"
@@ -48,7 +50,7 @@ private:
     void AlignToSpeaker();
     void AlignToAmp();
     void AlignToStage();
-    void DriveToGamePiece(double forward, double strafe);
+    void DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose);
 
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
