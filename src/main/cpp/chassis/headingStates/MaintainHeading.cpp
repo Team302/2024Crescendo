@@ -34,7 +34,7 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 
-    if (units::math::abs(rot).to<double>() > 0.2)
+    if (units::math::abs(rot).to<double>() > 0.1)
     {
         chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
     }

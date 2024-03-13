@@ -39,6 +39,7 @@ protected:
     virtual DragonVision::VISION_ELEMENT GetVisionElement() const = 0;
 
 private:
-    const double m_kp = 6.0;
-    const double m_visionKp = 8.0;
+    const double m_kp = 8.0;
+    const double m_visionKpFine = 15.0;
+    const double m_visionKpCoarse = 10.0;
 };
