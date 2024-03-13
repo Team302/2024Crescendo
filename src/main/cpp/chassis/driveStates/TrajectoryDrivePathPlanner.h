@@ -58,5 +58,5 @@ private:
     std::string m_whyDone;
     units::time::second_t m_totalTrajectoryTime;
 
-    double m_kPGoalHeadingControl = 8.0;
+    double m_kPGoalHeadingControl = 6.0;
 };
