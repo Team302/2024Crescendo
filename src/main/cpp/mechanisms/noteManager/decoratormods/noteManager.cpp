@@ -137,22 +137,36 @@ double noteManager::MonitorForNoteInIntakes()
 {
 	// In order to detect that a note is being inhaled into the robot, the differential
 	// current needs to exceed incomingThreshold
-	const double incomingThreshold = 10;
+	const double intakeIncomingThreshold = 10;
 
 	// If the differential current is below forwardingThreshold, assume that the note has
 	// been forwarded to the next noteManagement stage
-	const double forwardingThreshold = 10;
+	const double intakeForwardingThreshold = 10;
+
+	const double scaledTransferValueThreshold = 50;
+
+	const double feederThreshold = 40;
 
 	m_frontIntakeAverage = getfrontIntake()->GetCurrent();
 	m_backIntakeAverage = getbackIntake()->GetCurrent();
+	m_transferAverage = getTransfer()->GetCurrent();
+	m_feederAverage = getFeeder()->GetCurrent();
 	double intakeDifferenceAvg = std::abs(m_frontIntakeAverage - m_backIntakeAverage);
 
-	if (intakeDifferenceAvg > incomingThreshold)
+	double scaledTransferValue = m_transferAverage * intakeDifferenceAvg;
+
+	if (intakeDifferenceAvg > intakeIncomingThreshold)
 		m_noteInIntake = true;
 
-	if (m_noteInIntake && (intakeDifferenceAvg < forwardingThreshold))
+	if (scaledTransferValue > scaledTransferValueThreshold)
+	{
 		m_noteInIntake = false;
-
+		m_noteInFeeder = true;
+	}
+	if (m_feederAverage > feederThreshold)
+	{
+		m_noteInFeeder = false;
+	}
 	return intakeDifferenceAvg;
 }
 

@@ -85,4 +85,5 @@ private:
 
 	double MonitorForNoteInIntakes();
 	bool m_noteInIntake = false;
+	bool m_noteInFeeder = false;
 };
