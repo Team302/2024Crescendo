@@ -33,7 +33,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_holonomicController(pathplanner::PIDConstants(2.0, 1.0, 0.0),
+                                                                                 m_holonomicController(pathplanner::PIDConstants(5.0, 3.5, 0.0),
                                                                                                        pathplanner::PIDConstants(0.0, 0.0, 0.0),
                                                                                                        robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                        units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
@@ -88,7 +88,7 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         {
             chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
         }
-        refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPGoalHeadingControl);
+        refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
 
         chassisMovement.chassisSpeeds = refChassisSpeeds;
 
@@ -155,13 +155,17 @@ bool TrajectoryDrivePathPlanner::IsSamePose(frc::Pose2d currentPose, frc::Pose2d
     return ((dDeltaX <= xyTolerance) && (dDeltaY <= xyTolerance) && (dDeltaRot <= rotTolerance));
 }
 
-units::angular_velocity::degrees_per_second_t TrajectoryDrivePathPlanner::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
+units::angular_velocity::degrees_per_second_t TrajectoryDrivePathPlanner::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kPFine, double kPCoarse)
 {
     units::angle::degree_t currentAngle = m_chassis->GetPose().Rotation().Degrees();
+    units::angular_velocity::degrees_per_second_t correction = units::angular_velocity::degrees_per_second_t(0);
 
     auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(currentAngle, targetAngle));
 
-    auto correction = units::angular_velocity::degrees_per_second_t(errorAngle.to<double>() * kP);
+    if (errorAngle < units::angle::degree_t(5.0))
+        correction = units::angular_velocity::degrees_per_second_t(errorAngle.to<double>() * kPFine);
+    else
+        correction = units::angular_velocity::degrees_per_second_t(errorAngle.to<double>() * kPCoarse);
 
     return correction;
 }

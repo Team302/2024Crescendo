@@ -38,7 +38,7 @@ public:
 
     std::string WhyDone() const { return m_whyDone; };
     bool IsDone();
-    units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP);
+    units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kPFine, double kPCoarse);
 
 private:
     bool IsSamePose(frc::Pose2d currentPose, frc::Pose2d previousPose, double xyTolerance, double rotTolerance);
@@ -58,5 +58,6 @@ private:
     std::string m_whyDone;
     units::time::second_t m_totalTrajectoryTime;
 
-    double m_kPGoalHeadingControl = 6.0;
+    double m_kPCoarse = 7.0;
+    double m_kPFine = 10.0;
 };
