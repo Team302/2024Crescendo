@@ -39,7 +39,7 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
         auto translatingOrStrafing = (abs(chassisMovement.chassisSpeeds.vx.to<double>()) +
                                       abs(chassisMovement.chassisSpeeds.vy.to<double>())) > 0.0;
-        if (abs(chassisMovement.rawOmega) > 0.1 || !m_prevTranslatinOrStrafing)
+        if (abs(chassisMovement.rawOmega) > 0.1) //|| !m_prevTranslatinOrStrafing)
         {
             auto deltaAng = units::angular_velocity::degrees_per_second_t(chassisMovement.chassisSpeeds.omega) *
                             units::time::millisecond_t(20.0);
