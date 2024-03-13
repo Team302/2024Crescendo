@@ -28,29 +28,24 @@ MaintainHeading::MaintainHeading() : ISwerveDriveOrientation(ChassisOptionEnums:
 
 void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
-    units::angular_velocity::degrees_per_second_t correction = units::angular_velocity::degrees_per_second_t(0.0);
-
-    units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-
-    if (units::math::abs(rot).to<double>() > 0.1)
+    if (chassis != nullptr)
     {
-        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
-    }
-    else
-    {
-        chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-        double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
-        if (error < 5.0)
-            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainFine);
-        else
-            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainCoarse);
-    }
+        auto correction = units::angular_velocity::degrees_per_second_t(0.0);
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Current Rotation (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Stored Heading (deg)", chassis->GetStoredHeading().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Correction (deg/s)", correction.to<double>());
-
-    chassisMovement.chassisSpeeds.omega += correction;
+        auto translatingOrStrafing = (abs(chassisMovement.chassisSpeeds.vx.to<double>()) +
+                                      abs(chassisMovement.chassisSpeeds.vy.to<double>())) > 0.0;
+        if (abs(chassisMovement.chassisSpeeds.omega.to<double>()) > 0.0 || !m_prevTranslatinOrStrafing)
+        {
+            chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+        }
+        else if (translatingOrStrafing)
+        {
+            auto error = chassis->GetPose().Rotation().Degrees() - chassis->GetStoredHeading();
+            auto slot = abs(error.value()) < m_fineCoarseAngle.value() ? m_fineSlot : m_coarseSlot;
+            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), kPMaintain[slot]);
+            chassisMovement.chassisSpeeds.omega += correction;
+        }
+    }
 }

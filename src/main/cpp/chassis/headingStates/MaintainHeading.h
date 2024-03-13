@@ -28,4 +28,7 @@ public:
     ~MaintainHeading() = default;
 
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+
+private:
+    bool m_prevTranslatinOrStrafing;
 };
