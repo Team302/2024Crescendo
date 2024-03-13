@@ -25,8 +25,12 @@ class SpecifiedHeading : public ISwerveDriveOrientation
 {
 public:
     SpecifiedHeading();
-    ~SpecifiedHeading();
+    SpecifiedHeading(ChassisOptionEnums::HeadingOption option);
+    ~SpecifiedHeading() = default;
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+
+protected:
+    virtual units::angle::degree_t GetTargetAngle(ChassisMovement &chassisMovement) const;
 
 private:
     units::angle::degree_t m_targetAngle;

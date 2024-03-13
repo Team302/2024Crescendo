@@ -56,7 +56,7 @@ void autoLaunchState::Init()
 			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
 			m_targetSpeed = 275;
 		}
-		else if (distanceFromTarget < 5.0)
+		else
 		{
 			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
 			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
@@ -79,6 +79,9 @@ bool autoLaunchState::AtTarget()
 {
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
+
+	m_targetAngle = m_mechanism->GetRequiredLaunchAngle();
+
 	if (m_mechanism->HasVisionTarget())
 	{
 		double distanceFromTarget = m_mechanism->GetVisionDistance().to<double>();
@@ -86,7 +89,7 @@ bool autoLaunchState::AtTarget()
 		{
 			m_targetSpeed = 275;
 		}
-		else if (distanceFromTarget < 5.0)
+		else
 		{
 			m_targetSpeed = 375;
 		}
