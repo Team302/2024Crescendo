@@ -56,7 +56,7 @@ double DragonSparkMaxMonitored::GetCurrent()
 
 void DragonSparkMaxMonitored::FilterCurrentValue()
 {
-    double latestCurrent = GetCurrent();
+    double latestCurrent = DragonSparkMax::GetCurrent();
 
     double total = m_currentAverage * m_currentHistoryValues.size();
 
