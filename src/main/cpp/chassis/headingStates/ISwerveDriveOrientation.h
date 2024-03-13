@@ -50,6 +50,6 @@ protected:
     const int m_coarseSlot = 1;
     const units::angle::degree_t m_fineCoarseAngle = units::angle::degree_t(5.0);
 
-    const double kPMaintain[2] = {10.0, 5.0};
+    const double kPMaintain[2] = {7.0, 5.0};
     const double kPSpecifiedHeading[2] = {10.0, 6.0};
 };
