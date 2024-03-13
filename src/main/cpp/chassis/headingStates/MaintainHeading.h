@@ -16,6 +16,7 @@
 #pragma once
 
 // FRC Includes
+#include "frc/controller/PIDController.h"
 
 // Team302 Includes
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
@@ -31,4 +32,6 @@ public:
 
 private:
     bool m_prevTranslatinOrStrafing = false;
+    frc::PIDController m_fineController{10.0, 1.0, 0.0};
+    frc::PIDController m_coarseController{5.0, 1.0, 0.0};
 };
