@@ -42,8 +42,6 @@ void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         auto slot = abs(error.value()) < m_fineCoarseAngle.value() ? m_fineSlot : m_coarseSlot;
         auto correction = CalcHeadingCorrection(m_targetAngle, kPSpecifiedHeading[slot]);
         chassisMovement.chassisSpeeds.omega += correction;
-        // Not sure if this should be done as its inconsistent with maintain, but face speaker had it
-        // I'm inclined to believe this is correct as we now have a desired heading we want to maintain
         chassis->SetStoredHeading(m_targetAngle);
     }
 }

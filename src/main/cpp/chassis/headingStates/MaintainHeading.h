@@ -30,5 +30,5 @@ public:
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 private:
-    bool m_prevTranslatinOrStrafing;
+    bool m_prevTranslatinOrStrafing = false;
 };

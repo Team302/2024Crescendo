@@ -47,5 +47,6 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             correction = CalcHeadingCorrection(chassis->GetStoredHeading(), kPMaintain[slot]);
             chassisMovement.chassisSpeeds.omega += correction;
         }
+        m_prevTranslatinOrStrafing = translatingOrStrafing;
     }
 }
