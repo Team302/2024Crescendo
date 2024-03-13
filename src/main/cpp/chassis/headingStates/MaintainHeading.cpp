@@ -12,6 +12,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+#include <string>
 
 // Team302 Includes
 #include "chassis/headingStates/MaintainHeading.h"
@@ -21,6 +22,8 @@
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
+
+using std::string;
 
 MaintainHeading::MaintainHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::MAINTAIN)
 {
@@ -36,7 +39,7 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
         auto translatingOrStrafing = (abs(chassisMovement.chassisSpeeds.vx.to<double>()) +
                                       abs(chassisMovement.chassisSpeeds.vy.to<double>())) > 0.0;
-        if (abs(chassisMovement.chassisSpeeds.omega.to<double>()) > 0.0 || !m_prevTranslatinOrStrafing)
+        if (abs(chassisMovement.rawOmega) > 0.0 || !m_prevTranslatinOrStrafing)
         {
             chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
         }
@@ -48,5 +51,9 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             chassisMovement.chassisSpeeds.omega += correction;
         }
         m_prevTranslatinOrStrafing = translatingOrStrafing;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("raw omega"), chassisMovement.rawOmega);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("omega"), chassisMovement.chassisSpeeds.omega.value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("saved heading"), chassis->GetStoredHeading().value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("correction"), correction.value());
     }
 }
