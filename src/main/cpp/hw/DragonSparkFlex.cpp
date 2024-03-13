@@ -42,6 +42,7 @@ DragonSparkFlex::DragonSparkFlex(int id,
                                                                             m_calcStruc(calcStruc)
 {
     m_spark->RestoreFactoryDefaults();
+    // m_spark->SetCANTimeout(0);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
     m_spark->SetOpenLoopRampRate(0.09);
@@ -74,27 +75,41 @@ int DragonSparkFlex::GetID() const
 
 void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlInfo)
 {
-    m_pidController.SetP(controlInfo.GetP(), slot);
-    m_pidController.SetI(controlInfo.GetI(), slot);
-    m_pidController.SetD(controlInfo.GetD(), slot);
-    m_pidController.SetFF(controlInfo.GetF(), slot);
-    m_slot = slot;
-
+    bool needToSet = false;
+    double target = 1.0;
     switch (controlInfo.GetMode())
     {
     case ControlModes::PERCENT_OUTPUT:
         m_controlType = CANSparkBase::ControlType ::kDutyCycle;
         break;
     case ControlModes::POSITION_INCH:
-        m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerInch);
+        target = m_calcStruc.countsPerInch;
+        needToSet = std::abs(m_posConversion - target) > m_chgTolerance;
+        if (needToSet)
+        {
+            m_encoder.SetPositionConversionFactor(target);
+            m_posConversion = target;
+        }
         m_controlType = CANSparkBase::ControlType::kPosition;
         break;
     case ControlModes::POSITION_DEGREES:
-        m_encoder.SetPositionConversionFactor(m_calcStruc.countsPerDegree);
+        target = m_calcStruc.countsPerDegree;
+        needToSet = std::abs(m_posConversion - target) > m_chgTolerance;
+        if (needToSet)
+        {
+            m_encoder.SetPositionConversionFactor(target);
+            m_posConversion = target;
+        }
         m_controlType = CANSparkBase::ControlType ::kPosition;
         break;
     case ControlModes::VELOCITY_RPS:
-        m_encoder.SetVelocityConversionFactor(m_calcStruc.countsPerRev);
+        target = m_calcStruc.countsPerRev;
+        needToSet = std::abs(m_velConversion - target) > m_chgTolerance;
+        if (needToSet)
+        {
+            m_encoder.SetVelocityConversionFactor(target);
+            m_velConversion = target;
+        }
         m_controlType = CANSparkBase::ControlType::kVelocity;
         break;
 
@@ -102,6 +117,40 @@ void DragonSparkFlex::SetControlConstants(int slot, const ControlData &controlIn
         // danger11!!!!
         m_spark->Set(0);
         break;
+    }
+
+    auto ctlSlot = (m_controlType == CANSparkBase::ControlType::kVelocity) ? m_velSlot : m_posSlot;
+
+    target = controlInfo.GetP();
+    needToSet = std::abs(m_prevKp[ctlSlot] - target) > m_chgTolerance;
+    if (needToSet)
+    {
+        m_prevKp[ctlSlot] = target;
+        m_pidController.SetP(target, ctlSlot);
+    }
+
+    target = controlInfo.GetI();
+    needToSet = std::abs(m_prevKi[ctlSlot] - target) > m_chgTolerance;
+    if (needToSet)
+    {
+        m_prevKi[ctlSlot] = target;
+        m_pidController.SetI(target, ctlSlot);
+    }
+
+    target = controlInfo.GetD();
+    needToSet = std::abs(m_prevKd[ctlSlot] - target) > m_chgTolerance;
+    if (needToSet)
+    {
+        m_prevKd[ctlSlot] = target;
+        m_pidController.SetD(target, ctlSlot);
+    }
+
+    target = controlInfo.GetF();
+    needToSet = std::abs(m_prevKf[ctlSlot] - target) > m_chgTolerance;
+    if (needToSet)
+    {
+        m_prevKf[ctlSlot] = target;
+        m_pidController.SetFF(target, ctlSlot);
     }
 }
 
@@ -117,11 +166,11 @@ void DragonSparkFlex::Set(double value)
     }
     else if (m_controlType == CANSparkBase::ControlType::kVelocity)
     {
-        m_pidController.SetReference(value * 60, m_controlType, m_slot);
+        m_pidController.SetReference(value * 60, m_controlType, m_velSlot);
     }
     else
     {
-        m_pidController.SetReference(value, m_controlType, m_slot);
+        m_pidController.SetReference(value, m_controlType, m_posSlot);
     }
 }
 
@@ -235,5 +284,9 @@ double DragonSparkFlex::GetCounts()
 }
 
 void DragonSparkFlex::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::RemoteSensorSource deviceType)
+{
+}
+
+void DragonSparkFlex::MonitorCurrent()
 {
 }

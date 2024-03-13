@@ -29,6 +29,7 @@
 #include "chassis/driveStates/HoldDrive.h"
 #include "chassis/driveStates/RobotDrive.h"
 #include "chassis/driveStates/StopDrive.h"
+#include "chassis/driveStates/StageDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/headingStates/FaceAmp.h"
 #include "chassis/headingStates/FaceCenterStage.h"
@@ -36,13 +37,16 @@
 #include "chassis/headingStates/FaceLeftStage.h"
 #include "chassis/headingStates/FaceRightStage.h"
 #include "chassis/headingStates/FaceSpeaker.h"
+#include "chassis/headingStates/FaceStage.h"
 #include "chassis/headingStates/IgnoreHeading.h"
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/headingStates/MaintainHeading.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
+#include "chassis/LogChassisMovement.h"
 #include "chassis/SwerveChassis.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
+#include "chassis/driveStates/DriveToNote.h"
 
 // Third Party Includes
 #include "pugixml/pugixml.hpp"
@@ -96,7 +100,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                                         frc::Pose2d(),
                                                                         {0.1, 0.1, 0.1},
                                                                         {0.1, 0.1, 0.1}),
-                                                        m_storedYaw(m_pigeon->GetYaw().GetValue()),
+                                                        m_storedYaw(units::angle::degree_t(0.0)),
                                                         m_targetHeading(units::angle::degree_t(0.0)),
                                                         m_networkTableName(networkTableName)
 {
@@ -104,18 +108,22 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
     InitStates();
     ZeroAlignSwerveModules();
     ResetYaw();
+    ResetPose(frc::Pose2d());
 }
 
 //==================================================================================
 void SwerveChassis::InitStates()
 {
     m_robotDrive = new RobotDrive(this);
+    auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(m_robotDrive);
 
     m_driveStateMap[ChassisOptionEnums::DriveStateType::FIELD_DRIVE] = new FieldDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::HOLD_DRIVE] = new HoldDrive();
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::STAGE_DRIVE] = new StageDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::ROBOT_DRIVE] = m_robotDrive;
     m_driveStateMap[ChassisOptionEnums::DriveStateType::STOP_DRIVE] = new StopDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER] = new TrajectoryDrivePathPlanner(m_robotDrive);
+    m_driveStateMap[ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE] = new DriveToNote(m_robotDrive, trajectoryDrivePathPlanner);
 
     m_headingStateMap[ChassisOptionEnums::HeadingOption::MAINTAIN] = new MaintainHeading();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE] = new SpecifiedHeading();
@@ -126,6 +134,7 @@ void SwerveChassis::InitStates()
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE] = new FaceCenterStage();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE] = new FaceLeftStage();
     m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE] = new FaceRightStage();
+    m_headingStateMap[ChassisOptionEnums::HeadingOption::FACE_STAGE] = new FaceStage();
 }
 
 //==================================================================================
@@ -146,8 +155,6 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
 
-    // LogInformation();
-
     m_currentOrientationState = GetHeadingState(moveInfo);
     if (m_currentOrientationState != nullptr)
     {
@@ -164,6 +171,7 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
         m_backLeft->SetDesiredState(states[LEFT_BACK]);
         m_backRight->SetDesiredState(states[RIGHT_BACK]);
     }
+
     UpdateOdometry();
 }
 
@@ -307,9 +315,15 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
 //==================================================================================
 void SwerveChassis::ResetPose(const Pose2d &pose)
 {
-    Rotation2d rot2d{GetYaw()};
     ZeroAlignSwerveModules();
+    Rotation2d rot2d{GetYaw()};
+
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
+}
+//=================================================================================
+void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
+{
+    m_pigeon->SetYaw(newYaw);
 }
 
 //==================================================================================

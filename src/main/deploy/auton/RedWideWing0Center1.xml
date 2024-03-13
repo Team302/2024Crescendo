@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+    <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "BlueWideWing0Center1"
+                noteOption="STATE_HOLD_FEEDER"/>
+
+    <snippet file = "ShootWhenStopManual.xml"/>
+
+    <primitive id = "DRIVE_PATH_PLANNER"
+                pathname= "BlueWideWing0Center1"
+                time="10.0"
+            noteOption= "STATE_FEEDER_INTAKE">
+
+      <zone filename="BlueIntakeCenterNote5.xml"/>
+    </primitive>
+
+    <snippet file= "ShootWhenStopManual.xml"/>
+
+    <!--Shoots the ring into the speaker with the preload and the intaken note- we're already across the line so we are done-->
+</auton>

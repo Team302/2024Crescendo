@@ -61,11 +61,22 @@ void manualLaunchState::Exit()
 bool manualLaunchState::AtTarget()
 {
 	bool attarget = false;
-	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
+	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
+
+	/*double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
 
-	if ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed))
-		attarget = true;
+	bool topSpeedIsWithinTolerance = topSpeed > m_targetSpeed;
+	bool bottomSpeedIsWithinTolerance = botSpeed > m_targetSpeed;
+
+	if (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999)
+	{
+		// in the practice bot do not check the launcher speed because speed control is not implemented
+		topSpeedIsWithinTolerance = true;
+		bottomSpeedIsWithinTolerance = true;
+	}*/
+	// Commenting out speed check for now, just incase something happens and battery is super low
+	attarget = angleIsWithinTolerance; //&& topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
 
 	return (attarget);
 }

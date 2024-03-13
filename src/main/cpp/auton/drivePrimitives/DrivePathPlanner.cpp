@@ -25,15 +25,23 @@
 #include "frc/kinematics/ChassisSpeeds.h"
 
 // 302 Includes
-#include <auton/drivePrimitives/DrivePathPlanner.h>
-#include <chassis/ChassisMovement.h>
-#include <chassis/ChassisOptionEnums.h>
-
-#include "chassis/ChassisConfigMgr.h"
+#include "auton/drivePrimitives/DrivePathPlanner.h"
 #include "chassis/ChassisConfig.h"
-#include "chassis/IChassis.h"
-#include "utils/logging/Logger.h"
+#include "chassis/ChassisConfigMgr.h"
+#include "chassis/ChassisMovement.h"
+#include "chassis/ChassisOptionEnums.h"
+#include "chassis/DragonDriveTargetFinder.h"
+#include "chassis/driveStates/DriveToNote.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
+#include "chassis/IChassis.h"
+#include "configs/RobotConfig.h"
+#include "configs/RobotConfigMgr.h"
+#include "DragonVision/DragonVision.h"
+#include "mechanisms/base/StateMgr.h"
+#include "mechanisms/MechanismTypes.h"
+#include "mechanisms/noteManager/decoratormods/noteManager.h"
+#include "utils/FMSData.h"
+#include "utils/logging/Logger.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
@@ -53,7 +61,9 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
                                        m_pathname(),
                                        // max velocity of 1 rotation per second and a max acceleration of 180 degrees per second squared.
                                        m_maxTime(units::time::second_t(-1.0)),
-                                       m_ntName("DrivePathPlanner")
+                                       m_ntName("DrivePathPlanner"),
+                                       m_switchedToVisionDrive(false),
+                                       m_visionAlignment(PrimitiveParams::VISION_ALIGNMENT::UNKNOWN)
 
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
@@ -64,6 +74,8 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_pathname = params->GetPathName(); // Grabs path name from auton xml
     m_ntName = string("DrivePathPlanner: ") + m_pathname;
     m_maxTime = params->GetTime();
+    m_switchedToVisionDrive = false;
+    m_visionAlignment = params->GetVisionAlignment();
 
     auto pose = m_chassis->GetPose();
 
@@ -72,7 +84,19 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     auto path = PathPlannerPath::fromPathFile(m_pathname);
     if (path.get() != nullptr)
     {
-        m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
+        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+        {
+            path = path.get()->flipPath();
+        }
+
+        if (path.get() != nullptr)
+        {
+            m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
+        }
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), string("Path not found"), m_pathname);
     }
 
     // Start timeout timer for path
@@ -81,13 +105,45 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
 }
 void DrivePathPlanner::Run()
 {
-    ChassisMovement moveInfo;
-    moveInfo.driveOption = ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER;
-    moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
-    moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;
+    if (m_chassis != nullptr)
+    {
+        ChassisMovement moveInfo;
+        moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
+        moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;
+        moveInfo.driveOption = ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER;
+        moveInfo.pathplannerTrajectory = m_trajectory;
 
-    moveInfo.pathplannerTrajectory = m_trajectory;
-    m_chassis->Drive(moveInfo);
+        if (m_switchedToVisionDrive)
+        {
+            moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+        }
+        else if (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
+        {
+            auto finder = DragonDriveTargetFinder::GetInstance();
+            if (finder != nullptr)
+            {
+                auto targetInfo = finder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+                auto found = get<0>(targetInfo);
+                if (found)
+                {
+                    auto state = m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE);
+                    if (state != nullptr)
+                    {
+                        auto notestate = dynamic_cast<DriveToNote *>(state);
+                        if (notestate != nullptr)
+                        {
+                            notestate->Init(moveInfo);
+                            m_trajectory = notestate->GetTrajectory();
+                            moveInfo.pathplannerTrajectory = m_trajectory;
+                            moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+                            m_switchedToVisionDrive = true;
+                        }
+                    }
+                }
+            }
+        }
+        m_chassis->Drive(moveInfo);
+    }
 }
 
 bool DrivePathPlanner::IsDone()
@@ -97,10 +153,22 @@ bool DrivePathPlanner::IsDone()
     {
         return true;
     }
-    else
+    else if (m_switchedToVisionDrive)
     {
-        TrajectoryDrivePathPlanner *trajectoryDrive = dynamic_cast<TrajectoryDrivePathPlanner *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER));
-
-        return trajectoryDrive != nullptr ? trajectoryDrive->IsDone() : false;
+        auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+        if (config != nullptr)
+        {
+            auto noteStateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+            if (noteStateMgr != nullptr)
+            {
+                auto notemgr = dynamic_cast<noteManager *>(noteStateMgr);
+                if (notemgr != nullptr)
+                {
+                    return notemgr->HasNote();
+                }
+            }
+        }
     }
+    auto *trajectoryDrive = dynamic_cast<TrajectoryDrivePathPlanner *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER));
+    return trajectoryDrive != nullptr ? trajectoryDrive->IsDone() : false;
 }

@@ -89,7 +89,7 @@ namespace CoreCodeGenerator
                   m_mechanismMap[MechanismTypes::MECHANISM_TYPE::$$_MECHANISM_INSTANCE_NAME_UPPERCASE_$$] = m_the$$_MECHANISM_INSTANCE_NAME_$$;
                  ";
 
-            string LEDinitialization = @"DragonLeds::GetInstance()->Initialize($$_LED_PWM_ID_$$, $$_TOTAL_LED_$$);";
+            string LEDinitializationTemplate = @"DragonLeds::GetInstance()->Initialize($$_LED_PWM_ID_$$, $$_TOTAL_LED_$$);";
 
             generatorContext.clear();
             foreach (applicationData robot in theRobotConfiguration.theRobotVariants.Robots)
@@ -127,15 +127,13 @@ namespace CoreCodeGenerator
                 foreach (LedSegment ls in robot.LEDs.Segments)
                     numberOfLeds += ls.Count.value;
 
+                string LEDinitialization = "";
                 if (numberOfLeds > 0)
                 {
+                    LEDinitialization = LEDinitializationTemplate;
                     LEDinitialization = LEDinitialization.Replace("$$_TOTAL_LED_$$", numberOfLeds.ToString());
                     LEDinitialization = LEDinitialization.Replace("$$_LED_PWM_ID_$$", robot.LEDs.PwmId.ToString());
                     includeList.AddRange(robot.LEDs.generateIncludes());
-                }
-                else
-                {
-                    LEDinitialization = "";
                 }
 
                 resultString = resultString.Replace("$$_LED_INITIALIZATION_$$", LEDinitialization);

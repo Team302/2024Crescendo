@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+
+<auton>
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferWing0Center1"
+time= "6.5"
+noteOption= "STATE_FEEDER_INTAKE"/>
+</auton>

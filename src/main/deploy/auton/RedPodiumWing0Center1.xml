@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+           pathname="StartBluePodiumCenter"
+           noteOption="STATE_READY_AUTO_LAUNCH"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    pathname= "StartBluePodiumCenter"
+    time= "1.0"
+    noteOption="STATE_READY_AUTO_LAUNCH"
+    />
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<snippet file= "PodiumCenterRing5.xml"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+</auton>

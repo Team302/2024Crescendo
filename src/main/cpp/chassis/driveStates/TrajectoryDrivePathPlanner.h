@@ -32,14 +32,13 @@ class TrajectoryDrivePathPlanner : public RobotDrive
 public:
     TrajectoryDrivePathPlanner(RobotDrive *robotDrive);
 
-    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
-        ChassisMovement &chassisMovement) override;
+    std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 
-    void Init(
-        ChassisMovement &chassisMovement) override;
+    void Init(ChassisMovement &chassisMovement) override;
 
     std::string WhyDone() const { return m_whyDone; };
     bool IsDone();
+    units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP);
 
 private:
     bool IsSamePose(frc::Pose2d currentPose, frc::Pose2d previousPose, double xyTolerance, double rotTolerance);
@@ -58,4 +57,6 @@ private:
 
     std::string m_whyDone;
     units::time::second_t m_totalTrajectoryTime;
+
+    double m_kPGoalHeadingControl = 6.0;
 };

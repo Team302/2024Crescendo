@@ -16,20 +16,24 @@
 // FRC includes
 
 // Team 302 includes
+#include "utils/logging/DataTrace.h"
 #include <utils/logging/DataTraceSocket.h>
 
 // Third Party Includes
-#include <arpa/inet.h>
+
 #include <stdio.h>
 #include <string.h>
-#include <sys/socket.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <netdb.h>
+
+#ifdef INCLUDE_DATA_TRACE
+#include <arpa/inet.h>
+#include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
-#include "utils/logging/DataTrace.h"
+#include <unistd.h>
+#include <netdb.h>
+#endif
 
 #define PORT 30200
 
@@ -44,8 +48,8 @@ void DataTraceSocket::Connect(void)
     char host[256];
     char *IP;
     struct hostent *host_entry;
-    int hostname;
-    hostname = gethostname(host, sizeof(host));                      // find the host name
+
+    gethostname(host, sizeof(host));                                 // find the host name
     host_entry = gethostbyname(host);                                // find host information
     IP = inet_ntoa(*((struct in_addr *)host_entry->h_addr_list[0])); // Convert into IP string
     printf("================== Current Host Name: %s\n", host);

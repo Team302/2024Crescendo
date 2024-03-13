@@ -74,11 +74,11 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
 
-	RobotState *RobotStates = RobotState::GetInstance();
+	m_robotState = RobotState::GetInstance();
 
-	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
-	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
-	RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
+	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
+	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 }
 
 void noteManager::RunCommonTasks()
@@ -87,6 +87,11 @@ void noteManager::RunCommonTasks()
 	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
+	getFeeder()->MonitorCurrent();
+	getfrontIntake()->MonitorCurrent();
+	getbackIntake()->MonitorCurrent();
+	getTransfer()->MonitorCurrent();
+	getPlacer()->MonitorCurrent();
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
@@ -95,6 +100,36 @@ void noteManager::RunCommonTasks()
 	double elevator = getElevator()->GetCounts();
 	DataTrace::GetInstance()->sendElevatorData(elevator);
 	DataTrace::GetInstance()->sendLauncherData(wheelSetTop, wheelSetBottom, angle);
+
+	if (true)
+	{
+		m_frontIntakeAverage = getfrontIntake()->GetCurrent();
+		m_backIntakeAverage = getbackIntake()->GetCurrent();
+		m_transferAverage = getTransfer()->GetCurrent();
+		m_placerAverage = getPlacer()->GetCurrent();
+		m_feederAverage = getFeeder()->GetCurrent();
+		m_intakeDifferenceAvg = std::abs(m_frontIntakeAverage - m_backIntakeAverage);
+		if (m_intakeDifferenceAvg > 15)
+		{
+			m_noteInIntake = true;
+		}
+		if (m_noteInIntake && (m_intakeDifferenceAvg < 10))
+		{
+			m_noteInIntake = false;
+		}
+		double NoteInIntake = m_noteInIntake ? 40 : 0;
+		DataTrace::GetInstance()->sendNoteMotorData(m_frontIntakeAverage, m_backIntakeAverage, m_transferAverage, m_placerAverage, m_feederAverage, 0.0, m_intakeDifferenceAvg, NoteInIntake);
+	}
+
+	double FrontIntakeSensor = getfrontIntakeSensor()->Get() ? 50 : 0;
+	double BackIntakeSensor = getbackIntakeSensor()->Get() ? 50 : 0;
+	double FeederSensor = getfeederSensor()->Get() ? 50 : 0;
+	double LauncherSensor = getlauncherSensor()->Get() ? 50 : 0;
+	double PlacerInSensor = getplacerInSensor()->Get() ? 50 : 0;
+	double PlacerMidSensor = getplacerMidSensor()->Get() ? 50 : 0;
+	double PlacerOutSensor = getplacerOutSensor()->Get() ? 50 : 0;
+
+	DataTrace::GetInstance()->sendNoteSensorData(FrontIntakeSensor, BackIntakeSensor, FeederSensor, LauncherSensor, PlacerInSensor, PlacerMidSensor, PlacerOutSensor);
 #endif
 }
 
@@ -141,6 +176,7 @@ bool noteManager::HasVisionTarget()
 
 void noteManager::Update(RobotStateChanges::StateChange change, int value)
 {
+
 	if (change == RobotStateChanges::DesiredScoringMode)
 		m_scoringMode = static_cast<RobotStateChanges::ScoringMode>(value);
 	else if (change == RobotStateChanges::ClimbModeStatus)
@@ -169,6 +205,8 @@ double noteManager::GetRequiredLaunchAngle()
 
 bool noteManager::autoLaunchReady()
 {
+	return false;
+
 	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	if (optionalVisionData.has_value())
 	{
@@ -178,5 +216,35 @@ bool noteManager::autoLaunchReady()
 			return true;
 		}
 	}
-	return false;
+}
+
+double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)
+{
+	double average = 0.0;
+
+	double previousTotal = previousAverage * previousValues.size();
+	previousTotal -= previousValues.back();
+
+	previousValues.push_front(latestValue);
+	previousValues.pop_back();
+
+	previousTotal += latestValue;
+
+	average = previousTotal / previousValues.size();
+
+	return average;
+}
+
+bool noteManager::HasNote() const
+{
+	auto currentState = GetCurrentState();
+	if (GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)
+	{
+		return false;
+	}
+	else if (currentState == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || currentState == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
+	{
+		return (getbackIntakeSensor()->Get() || getfrontIntakeSensor()->Get());
+	}
+	return true;
 }

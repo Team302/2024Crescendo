@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+            pathname= "BluePodiumWing1Center0"
+                noteOption="STATE_HOLD_FEEDER"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing1Center0"
+time= "1.5"
+noteOption="STATE_HOLD_FEEDER"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BluePodiumWing1Center0_1A"
+time= "3.0"
+noteOption="STATE_FEEDER_INTAKE"/>
+
+<primitive id="DO_NOTHING"
+time="0.6"
+noteOption="STATE_FEEDER_INTAKE"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "RedPodiumWing1Center1_1B"
+time= "10.0"
+noteOption= "STATE_FEEDER_INTAKE"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+
+</auton>

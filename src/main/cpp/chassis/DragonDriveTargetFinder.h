@@ -83,4 +83,7 @@ private:
         {DragonVision::VISION_ELEMENT::CENTER_STAGE, AprilTagIDs::RED_STAGE_CENTER},
         {DragonVision::VISION_ELEMENT::LEFT_STAGE, AprilTagIDs::RED_STAGE_LEFT},
         {DragonVision::VISION_ELEMENT::RIGHT_STAGE, AprilTagIDs::RED_STAGE_RIGHT}};
+
+    frc::Pose2d m_blueStage = frc::Pose2d(units::length::meter_t(4.87), units::length::meter_t(4.11), frc::Rotation2d());
+    frc::Pose2d m_redStage = frc::Pose2d(units::length::meter_t(11.67), units::length::meter_t(4.11), frc::Rotation2d());
 };

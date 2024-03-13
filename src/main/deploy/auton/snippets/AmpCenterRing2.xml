@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing1Center1_B"
+time= "4.5"
+noteOption= "STATE_FEEDER_INTAKE"
+visionAligment = "SPEAKER"/>
+</auton>

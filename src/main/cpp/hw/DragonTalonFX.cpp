@@ -395,3 +395,7 @@ IDragonMotorController::MOTOR_TYPE DragonTalonFX::GetMotorType() const
 {
 	return MOTOR_TYPE::FALCON500;
 }
+
+void DragonTalonFX::MonitorCurrent()
+{
+}

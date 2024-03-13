@@ -32,6 +32,8 @@ public:
     void SetCurrentState(int state, bool run) override;
     void CreateAndRegisterStates();
 
+    RobotConfigMgr::RobotIdentifier getActiveRobotId() { return m_activeRobotId; }
+
 private:
     $$_MECHANISM_INSTANCE_NAME_$$Gen *m_$$_MECHANISM_INSTANCE_NAME_$$;
 };

@@ -32,7 +32,10 @@
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
 #include "utils/FMSData.h"
+#include "DragonVision/DragonVision.h"
 #include "utils/logging/Logger.h"
+#include "chassis/driveStates/DriveToNote.h"
+#include "mechanisms/noteManager/decoratormods/noteManager.h"
 
 using std::string;
 using namespace frc;
@@ -69,14 +72,11 @@ void HolonomicDrive::Run()
 
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
-        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE);
-
-        auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_SPEAKER);
-        auto isAlignWithLeftStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_LEFT_STAGE_TRAP);
-        auto isAlignWithCenterStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_CENTER_STAGE_TRAP);
-        auto isAlignWithRightStageSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_RIGHT_STAGE_TRAP);
-        auto isAlignWithAmpSelected = controller->IsButtonPressed(TeleopControlFunctions::ALIGN_TO_AMP);
-
+        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::INTAKE);
+        auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::ROBOT_ORIENTED_DRIVE);
+        auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
+        auto isAlignWithStageSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE);
+        auto isAlignWithAmpSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_AMP);
         auto isHoldPositionSelected = controller->IsButtonPressed(TeleopControlFunctions::HOLD_POSITION);
         auto isFaceForward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_FORWARD);
         auto isFaceBackward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_BACKWARD);
@@ -86,23 +86,27 @@ void HolonomicDrive::Run()
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
         {
-            AlignGamePiece();
+            StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+            auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManager *>(noteStateManager) : nullptr;
+            auto vision = DragonVision::GetDragonVision();
+            if (vision != nullptr)
+            {
+                if (!noteMgr->HasNote() && vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE).has_value())
+                {
+                    DriveToGamePiece(forward, strafe);
+                }
+            }
         }
         else if (isAlignWithAmpSelected)
         {
             AlignToAmp();
         }
-        else if (isAlignWithLeftStageSelected)
+        else if (isAlignWithStageSelected || m_stageDrive)
         {
-            AlignToLeftStage();
-        }
-        else if (isAlignWithCenterStageSelected)
-        {
-            AlignToCenterStage();
-        }
-        else if (isAlignWithRightStageSelected)
-        {
-            AlignToRightStage();
+            AlignToStage();
+            m_previousDriveState = m_moveInfo.driveOption;
+            m_stageDrive = true;
+            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
         }
         else if (isAlignWithSpeakerSelected)
         {
@@ -128,12 +132,24 @@ void HolonomicDrive::Run()
             {
                 HoldPosition();
             }
-            else
+            else if (isRobotOriented || m_robotOrientedDrive)
             {
-                if (m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER)
+                CheckRobotOriented(isRobotOriented);
+                if (m_robotOrientedDrive)
+                {
+                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+                }
+                else
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05))
+                }
+            }
+            else
+            {
+                if ((m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER))
+                {
+                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
                     {
                         m_previousDriveState = m_moveInfo.driveOption;
                         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
@@ -147,7 +163,15 @@ void HolonomicDrive::Run()
             SlowMode();
         }
 
+        if (abs(rotate) > 0.05)
+        {
+            m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+            m_stageDrive = false;
+        }
+
         CheckTipping(checkTipping);
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Heading Option", m_moveInfo.headingOption);
         m_swerve->Drive(m_moveInfo);
     }
     else
@@ -177,8 +201,9 @@ void HolonomicDrive::InitSpeeds(double forwardScale,
 {
     auto maxSpeed = m_swerve->GetMaxSpeed();
     auto maxAngSpeed = m_swerve->GetMaxAngularSpeed();
-    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed;
-    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed;
+    // auto scale = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 1.0 : -1.0;
+    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed * -1.0;
+    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed * -1.0;
     m_moveInfo.chassisSpeeds.omega = rotateScale * maxAngSpeed;
 
     if ((abs(forwardScale) > 0.0) || (abs(strafeScale) > 0.0) || (abs(rotateScale) > 0.0))
@@ -195,17 +220,9 @@ void HolonomicDrive::AlignGamePiece()
 {
     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
 }
-void HolonomicDrive::AlignToLeftStage()
+void HolonomicDrive::AlignToStage()
 {
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE;
-}
-void HolonomicDrive::AlignToCenterStage()
-{
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
-}
-void HolonomicDrive::AlignToRightStage()
-{
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_STAGE;
 }
 void HolonomicDrive::AlignToSpeaker()
 {
@@ -213,12 +230,25 @@ void HolonomicDrive::AlignToSpeaker()
 }
 void HolonomicDrive::AlignToAmp()
 {
-    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_AMP;
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
+    m_moveInfo.yawAngle = units::angle::degree_t(-90.0);
 }
 void HolonomicDrive::HoldPosition()
 {
     m_previousDriveState = m_moveInfo.driveOption;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
+}
+void HolonomicDrive::DriveToGamePiece(double forward, double strafe)
+{
+    if (abs(forward) < 0.05 && abs(strafe) < 0.05)
+    {
+        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+    }
+    else
+    {
+        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+        m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+    }
 }
 void HolonomicDrive::TurnForward()
 {
@@ -268,6 +298,23 @@ void HolonomicDrive::CheckTipping(bool isSelected)
     }
     m_moveInfo.checkTipping = m_CheckTipping;
 }
+
+void HolonomicDrive::CheckRobotOriented(bool isSelected)
+{
+    if (isSelected)
+    {
+        if (!m_robotOrientedLatch)
+        {
+            m_robotOrientedDrive = !m_robotOrientedDrive;
+            m_robotOrientedLatch = true;
+        }
+    }
+    else
+    {
+        m_robotOrientedLatch = false;
+    }
+}
+
 void HolonomicDrive::Exit()
 {
 }

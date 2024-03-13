@@ -442,3 +442,7 @@ void DragonTalonSRX::EnableDisableLimitSwitches(
 {
 	m_talon.get()->OverrideLimitSwitchesEnable(enable);
 }
+
+void DragonTalonSRX::MonitorCurrent()
+{
+}
