@@ -57,7 +57,7 @@
 *.war
 *.nar
 *.ear
-*.zip
+#*.zip - removed for photonvision
 *.tar.gz
 *.rar
 
