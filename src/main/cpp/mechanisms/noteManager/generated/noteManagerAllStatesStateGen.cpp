@@ -739,7 +739,7 @@ void noteManagerAllStatesStateGen::InitpracticeBot9999()
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0 );
 		GetnoteManager()->getPlacer()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, 0 );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInchUp(), units::length::inch_t ( units::length::inch_t ( 16.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInchUp(), units::length::inch_t ( units::length::inch_t ( 18.0 ) ) );
 		GetnoteManager()->getFeeder()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 0 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, 0.25 );
