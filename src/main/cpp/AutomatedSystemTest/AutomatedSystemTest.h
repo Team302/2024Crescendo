@@ -18,10 +18,13 @@
 #include "LauncherTest.h"
 #include "Placertest.h"
 #include "SwerveTest.h"
+#include "map"
+
 class AutomatedSystemTest
 {
-    AutomatedSystemTest() = default;
+    AutomatedSystemTest() = delete;
     ~AutomatedSystemTest() = default;
+    AutomatedSystemTest();
 
 public:
     void RunAllTests();
@@ -30,4 +33,31 @@ private:
     Placertest *Placertest;
     LauncherTest *LauncherTest;
     SwerveTest *SwerveTest;
+    PDPFactory *PDPpointer;
+
+    enum MOTORS
+    {
+        BACK_LEFT_DRIVE,
+        BACK_LEFT_TURN,
+        BACK_RIGHT_DRIVE,
+        BACK_RIGHT_TURN,
+        FRONT_RIGHT_DRIVE,
+        FRONT_RIGHT_TURN,
+        FRONT_LEFT_DRIVE,
+        FRONT_LEFT_TURN,
+        ELEVATOR,
+        FRONT_INTAKE,
+        BACK_INTAKE,
+        TRANSFER,
+        PLACER,
+        FEEDER,
+        LAUNCHER_TOP,
+        LAUNCHER_BOTTOM,
+        LAUNCHER_ANGLE,
+        LEFT_CLIMB,
+        RIGHT_CLIMB
+    };
+
+    std::map<MOTORS, int> motorsToCan;
+    std::map<MOTORS, int> motorsToPDH;
 };

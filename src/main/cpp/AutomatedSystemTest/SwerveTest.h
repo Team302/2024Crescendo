@@ -18,4 +18,9 @@ class SwerveTest
 {
 public:
     bool RunSwerveTest();
+
+    void XBackwardTest();
+    void XForwardTest();
+    void YForwardTest();
+    void YBackwardTest();
 };

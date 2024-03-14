@@ -18,3 +18,15 @@ bool SwerveTest::RunSwerveTest()
 {
     return true;
 }
+void SwerveTest::XBackwardTest()
+{
+}
+void SwerveTest::XForwardTest()
+{
+}
+void SwerveTest::YBackwardTest()
+{
+}
+void SwerveTest::YForwardTest()
+{
+}
