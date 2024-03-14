@@ -26,17 +26,27 @@ SpecifiedHeading::SpecifiedHeading() : ISwerveDriveOrientation(ChassisOptionEnum
 {
 }
 
+SpecifiedHeading::SpecifiedHeading(ChassisOptionEnums::HeadingOption option) : ISwerveDriveOrientation(option),
+                                                                               m_targetAngle(units::angle::degree_t(0.0))
+{
+}
 void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
-    m_targetAngle = chassisMovement.yawAngle;
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner Pose2d", "Target Angle Specified", m_targetAngle.to<double>());
-
-    chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(m_targetAngle, m_kPGoalHeadingControl);
+    m_targetAngle = GetTargetAngle(chassisMovement);
 
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {
-        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
+        auto error = chassis->GetPose().Rotation().Degrees() - m_targetAngle;
+        auto slot = abs(error.value()) < m_fineCoarseAngle.value() ? m_fineSlot : m_coarseSlot;
+        auto correction = CalcHeadingCorrection(m_targetAngle, kPSpecifiedHeading[slot]);
+        chassisMovement.chassisSpeeds.omega += correction;
+        chassis->SetStoredHeading(m_targetAngle);
     }
+}
+
+units::angle::degree_t SpecifiedHeading::GetTargetAngle(ChassisMovement &chassisMovement) const
+{
+    return chassisMovement.yawAngle;
 }

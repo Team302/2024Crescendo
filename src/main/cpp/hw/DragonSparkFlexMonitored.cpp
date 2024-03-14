@@ -56,7 +56,7 @@ double DragonSparkFlexMonitored::GetCurrent()
 
 void DragonSparkFlexMonitored::FilterCurrentValue()
 {
-    double latestCurrent = GetCurrent();
+    double latestCurrent = DragonSparkFlex::GetCurrent();
 
     double total = m_currentAverage * m_currentHistoryValues.size();
 

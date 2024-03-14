@@ -76,16 +76,14 @@ private:
 	RobotState *m_robotState;
 
 	double m_frontIntakeAverage;
-
 	double m_backIntakeAverage;
-
 	double m_transferAverage;
-
 	double m_placerAverage;
-
 	double m_feederAverage;
 
-	double m_intakeDifferenceAvg;
+	void MonitorMotorCurrents();
 
+	double MonitorForNoteInIntakes();
 	bool m_noteInIntake = false;
+	bool m_noteInFeeder = false;
 };

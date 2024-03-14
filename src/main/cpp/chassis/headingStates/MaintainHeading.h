@@ -16,6 +16,7 @@
 #pragma once
 
 // FRC Includes
+#include "frc/controller/PIDController.h"
 
 // Team302 Includes
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
@@ -28,4 +29,9 @@ public:
     ~MaintainHeading() = default;
 
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+
+private:
+    bool m_prevTranslatinOrStrafing = false;
+    frc::PIDController m_fineController{5.0, 0.5, 0.0};
+    frc::PIDController m_coarseController{5.0, 0.5, 0.0};
 };
