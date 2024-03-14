@@ -3,12 +3,15 @@
   "robotLength": 0.5715,
   "holonomicMode": true,
   "pathFolders": [
+    "BlueAmpWing1Center2",
+    "BluePodiumWing1Center2"
+  ],
+  "autoFolders": [
     "New Folder"
   ],
-  "autoFolders": [],
-  "defaultMaxVel": 0.25,
-  "defaultMaxAccel": 0.25,
+  "defaultMaxVel": 4.65,
+  "defaultMaxAccel": 4.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
-  "maxModuleSpeed": 0.75
+  "maxModuleSpeed": 5.14
 }

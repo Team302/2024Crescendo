@@ -3,52 +3,52 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.32,
-        "y": 4.2710528664300575
+        "x": 2.6419791996634947,
+        "y": 4.257295470821239
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.086904459523204,
-        "y": 4.119307667186764
+        "x": 1.6557241548042583,
+        "y": 2.6345483803799135
       },
-      "isLocked": false,
-      "linkedName": null
+      "isLocked": true,
+      "linkedName": "PodiumWing1Center2_A"
     },
     {
       "anchor": {
-        "x": 13.96,
-        "y": 4.113892912470511
+        "x": 8.282785179322758,
+        "y": 0.8673976026508795
       },
       "prevControl": {
-        "x": 13.914147828295658,
-        "y": 3.708842846257122
+        "x": 8.360272095448796,
+        "y": 0.3134299029241141
       },
       "nextControl": {
-        "x": 13.972521697716548,
-        "y": 4.224507400305366
+        "x": 8.125363574346256,
+        "y": 1.9928325632354567
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.96,
-        "y": 4.585372774349152
+        "x": 3.8660589259387383,
+        "y": 5.075852393793775
       },
       "prevControl": {
-        "x": 13.943466744076344,
-        "y": 4.295221161870895
+        "x": 4.798317009792772,
+        "y": 5.635092617798654
       },
       "nextControl": null,
-      "isLocked": false,
-      "linkedName": null
+      "isLocked": true,
+      "linkedName": "PodiumWing1Center2B"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 0.4515016943299027,
-      "rotateFast": true
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
@@ -61,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 20.56286287312732,
+    "rotation": 177.7756383214884,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "BluePodiumWing1Center2",
   "previewStartingState": {
-    "rotation": 69.2442899340458,
+    "rotation": 151.26,
     "velocity": 0
   },
   "useDefaultConstraints": true
