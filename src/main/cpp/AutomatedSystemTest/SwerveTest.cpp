@@ -12,51 +12,29 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
-
-#pragma once
-
-#include "LauncherTest.h"
-#include "Placertest.h"
 #include "SwerveTest.h"
-#include "map"
 
-class AutomatedSystemTest
+SwerveTest *SwerveTest::GetInstance()
 {
-    AutomatedSystemTest();
-    ~AutomatedSystemTest() = default;
-
-public:
-    void RunAllTests();
-
-private:
-    Placertest *Placertest;
-    LauncherTest *LauncherTest;
-    SwerveTest *SwerveTest;
-    PDPFactory *PDPpointer;
-
-    enum MOTORS
+    if (SwerveTest::m_swerveTest == nullptr)
     {
-        BACK_LEFT_DRIVE,
-        BACK_LEFT_TURN,
-        BACK_RIGHT_DRIVE,
-        BACK_RIGHT_TURN,
-        FRONT_RIGHT_DRIVE,
-        FRONT_RIGHT_TURN,
-        FRONT_LEFT_DRIVE,
-        FRONT_LEFT_TURN,
-        ELEVATOR,
-        FRONT_INTAKE,
-        BACK_INTAKE,
-        TRANSFER,
-        PLACER,
-        FEEDER,
-        LAUNCHER_TOP,
-        LAUNCHER_BOTTOM,
-        LAUNCHER_ANGLE,
-        LEFT_CLIMB,
-        RIGHT_CLIMB
-    };
-
-    std::map<MOTORS, int> motorsToCan;
-    std::map<MOTORS, int> motorsToPDH;
-};
+        SwerveTest::m_swerveTest = new SwerveTest();
+    }
+    return SwerveTest::m_swerveTest;
+}
+bool SwerveTest::RunSwerveTest()
+{
+    return true;
+}
+void SwerveTest::XBackwardTest()
+{
+}
+void SwerveTest::XForwardTest()
+{
+}
+void SwerveTest::YBackwardTest()
+{
+}
+void SwerveTest::YForwardTest()
+{
+}

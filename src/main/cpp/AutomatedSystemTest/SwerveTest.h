@@ -16,11 +16,17 @@
 
 class SwerveTest
 {
-public:
-    bool RunSwerveTest();
+    SwerveTest() = default;
+    ~SwerveTest() = default;
 
+public:
+    static SwerveTest *GetInstance();
+    bool RunSwerveTest();
     void XBackwardTest();
     void XForwardTest();
     void YForwardTest();
     void YBackwardTest();
+
+private:
+    static SwerveTest *m_swerveTest;
 };
