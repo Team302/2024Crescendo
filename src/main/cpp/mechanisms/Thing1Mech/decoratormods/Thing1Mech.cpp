@@ -61,6 +61,10 @@ void Thing1Mech::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
 	Cyclic();
+	bool testSensor = getdigitalInput_0()->Get();
+#ifdef INCLUDE_DATA_TRACE
+	DataTrace::GetInstance()->sendClimberData(testSensor ? 60 : 0, 0);
+#endif
 }
 
 void Thing1Mech::SetCurrentState(int state, bool run)

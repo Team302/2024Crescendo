@@ -1433,7 +1433,32 @@
   <solenoid />
   <servo />
   <analogInput />
-  <digitalInput />
+  <digitalInput>
+    <digitalInput>
+      <name>digitalInput_0</name>
+      <digitalId>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>0</value>
+      </digitalId>
+      <reversed>
+        <unitsFamily>none</unitsFamily>
+        <name>boolParameter</name>
+        <__units__ />
+        <type>Boolean</type>
+        <value>false</value>
+      </reversed>
+      <debouncetime>
+        <unitsFamily>time</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>s</__units__>
+        <type>Double</type>
+        <value>0</value>
+      </debouncetime>
+    </digitalInput>
+  </digitalInput>
   <cancoder />
   <stateMotorControlData>
     <motorControlData>
