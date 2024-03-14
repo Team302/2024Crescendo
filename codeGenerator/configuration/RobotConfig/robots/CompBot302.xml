@@ -4777,7 +4777,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>17.5</value>
+                  <value>18</value>
                 </target>
                 <motorName>Elevator</motorName>
                 <controlDataName>positionInchUp</controlDataName>
@@ -4999,7 +4999,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0.25</value>
                 </target>
                 <motorName>Placer</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -5011,7 +5011,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>16.5</value>
+                  <value>18.0</value>
                 </target>
                 <motorName>Elevator</motorName>
                 <controlDataName>positionInchUp</controlDataName>

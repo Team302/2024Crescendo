@@ -344,7 +344,7 @@ void noteManagerAllStatesStateGen::InitCompBot302()
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0 );
 		GetnoteManager()->getPlacer()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, 0 );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInchUp(), units::length::inch_t ( units::length::inch_t ( 17.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInchUp(), units::length::inch_t ( units::length::inch_t ( 18.0 ) ) );
 		GetnoteManager()->getFeeder()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 0 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 165 ) ) );
@@ -379,8 +379,8 @@ void noteManagerAllStatesStateGen::InitCompBot302()
 		GetnoteManager()->getTransfer()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0 );
 		GetnoteManager()->getPlacer()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, 1 );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInchUp(), units::length::inch_t ( units::length::inch_t ( 16.5 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, 0.25 );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInchUp(), units::length::inch_t ( units::length::inch_t (18.0 ) ) );
 		GetnoteManager()->getFeeder()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 0 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 165 ) ) );
