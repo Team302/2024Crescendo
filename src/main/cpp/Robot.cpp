@@ -201,6 +201,7 @@ void Robot::TeleopPeriodic()
 
 void Robot::DisabledInit()
 {
+    LEDStates::GetInstance()->SolidColorPattern(DragonLeds::BLUE);
     if (!isFMSAttached)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("DisabledInit"), string("arrived"));
