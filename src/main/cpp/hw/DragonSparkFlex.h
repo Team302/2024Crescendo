@@ -89,6 +89,8 @@ public:
     double GetCountsPerInch() const override { return 1.0 / m_calcStruc.countsPerInch; }     // calc sturc is acutally inch/count for Rev convention, returning the reciprocal
     double GetCountsPerDegree() const override { return 1.0 / m_calcStruc.countsPerDegree; } // calc sturc is acutally deg/count for Rev convention, returning the reciprocal
 
+    void SetCANTimeout(double timeout) { m_spark->SetCANTimeout(timeout); }
+
 private:
     double GetRotationsWithGearNoOffset() const;
     int m_id;
