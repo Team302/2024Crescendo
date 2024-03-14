@@ -67,11 +67,11 @@ void HolonomicDrive::Run()
     {
         auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
         auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
-        if (abs(forward) > 0.55)
+        if (abs(forward) > 0.6)
         {
             forward = forward < 0.0 ? -1.0 : 1.0;
         }
-        if (abs(strafe) > 0.55)
+        if (abs(strafe) > 0.6)
         {
             strafe = strafe < 0.0 ? -1.0 : 1.0;
         }
