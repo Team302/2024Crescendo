@@ -90,7 +90,9 @@ void noteManager::RunCommonTasks()
 
 	// Processing related to current monitor
 	MonitorMotorCurrents();
-	double intakeDifferentialCurrent = MonitorForNoteInIntakes();
+
+	// not used yet
+	// double intakeDifferentialCurrent = MonitorForNoteInIntakes();
 
 #ifdef INCLUDE_DATA_TRACE
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
@@ -141,7 +143,8 @@ double noteManager::MonitorForNoteInIntakes()
 
 	// If the differential current is below forwardingThreshold, assume that the note has
 	// been forwarded to the next noteManagement stage
-	const double intakeForwardingThreshold = 10;
+
+	// const double intakeForwardingThreshold = 10;
 
 	const double scaledTransferValueThreshold = 50;
 
