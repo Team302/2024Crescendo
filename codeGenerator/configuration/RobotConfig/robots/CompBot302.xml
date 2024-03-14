@@ -4777,7 +4777,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>16.5</value>
+                  <value>17.5</value>
                 </target>
                 <motorName>Elevator</motorName>
                 <controlDataName>positionInchUp</controlDataName>
