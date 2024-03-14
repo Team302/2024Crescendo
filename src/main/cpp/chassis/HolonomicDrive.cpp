@@ -65,8 +65,8 @@ void HolonomicDrive::Run()
     auto controller = TeleopControl::GetInstance();
     if (controller != nullptr && m_swerve != nullptr)
     {
-        auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
-        auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
+        auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD) > .70 ? 1 : controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
+        auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE) > .70 ? 1 : controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
         auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
 
         InitSpeeds(forward, strafe, rotate);
@@ -193,6 +193,9 @@ void HolonomicDrive::Run()
 
 void HolonomicDrive::InitChassisMovement()
 {
+    m_moveInfo.rawX = 0.0;
+    m_moveInfo.rawY = 0.0;
+    m_moveInfo.rawOmega = 0.0;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
     m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
     m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
@@ -211,6 +214,10 @@ void HolonomicDrive::InitSpeeds(double forwardScale,
                                 double strafeScale,
                                 double rotateScale)
 {
+    m_moveInfo.rawX = forwardScale;
+    m_moveInfo.rawY = strafeScale;
+    m_moveInfo.rawOmega = rotateScale;
+
     auto maxSpeed = m_swerve->GetMaxSpeed();
     auto maxAngSpeed = m_swerve->GetMaxAngularSpeed();
     // auto scale = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 1.0 : -1.0;

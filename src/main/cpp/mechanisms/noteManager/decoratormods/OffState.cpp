@@ -46,6 +46,42 @@ void OffState::Init()
 
 	m_genState->Init();
 	m_mechanism->getlauncherBottom()->Invert(true);
+
+	auto frontIntake = dynamic_cast<DragonSparkMax *>(m_mechanism->getfrontIntake());
+	if (frontIntake != nullptr)
+		frontIntake->SetCANTimeout(0);
+
+	auto backIntake = dynamic_cast<DragonSparkMax *>(m_mechanism->getbackIntake());
+	if (backIntake != nullptr)
+		backIntake->SetCANTimeout(0);
+
+	auto transfer = dynamic_cast<DragonSparkMax *>(m_mechanism->getTransfer());
+	if (transfer != nullptr)
+		transfer->SetCANTimeout(0);
+
+	auto launcherAngle = dynamic_cast<DragonSparkMax *>(m_mechanism->getlauncherAngle());
+	if (launcherAngle != nullptr)
+		launcherAngle->SetCANTimeout(0);
+
+	auto elevator = dynamic_cast<DragonSparkMax *>(m_mechanism->getElevator());
+	if (elevator != nullptr)
+		elevator->SetCANTimeout(0);
+
+	auto feeder = dynamic_cast<DragonSparkFlex *>(m_mechanism->getFeeder());
+	if (feeder != nullptr)
+		feeder->SetCANTimeout(0);
+
+	auto launcherTop = dynamic_cast<DragonSparkFlex *>(m_mechanism->getlauncherTop());
+	if (launcherTop != nullptr)
+		launcherTop->SetCANTimeout(0);
+
+	auto launcherBottom = dynamic_cast<DragonSparkFlex *>(m_mechanism->getlauncherBottom());
+	if (launcherBottom != nullptr)
+		launcherBottom->SetCANTimeout(0);
+
+	auto placer = dynamic_cast<DragonSparkFlex *>(m_mechanism->getPlacer());
+	if (placer != nullptr)
+		placer->SetCANTimeout(0);
 }
 
 void OffState::Run()

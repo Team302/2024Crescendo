@@ -15,9 +15,11 @@
 
 #pragma once
 
+#include "units/angle.h"
+
 // Team302 Includes
-#include <chassis/ChassisOptionEnums.h>
-#include <chassis/ChassisMovement.h>
+#include "chassis/ChassisOptionEnums.h"
+#include "chassis/ChassisMovement.h"
 
 class ISwerveDriveOrientation
 {
@@ -40,14 +42,14 @@ public:
     /// @return ChassisOptionEnums::HeadingOption - current heading option
     ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
 
-    /// @brief Set the stored heading for the orientation options
-    void SetStoredHeading(units::angle::degree_t heading);
-
 protected:
     ChassisOptionEnums::HeadingOption m_headingOption;
     units::angle::degree_t m_storedYaw;
 
-    double m_kPMaintainFine = 10.0;
-    double m_kPMaintainCoarse = 5.0;
-    double m_kPGoalHeadingControl = 8.0;
+    const int m_fineSlot = 0;
+    const int m_coarseSlot = 1;
+    const units::angle::degree_t m_fineCoarseAngle = units::angle::degree_t(5.0);
+
+    const double kPMaintain[2] = {7.0, 5.0};
+    const double kPSpecifiedHeading[2] = {10.0, 6.0};
 };

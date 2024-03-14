@@ -23,23 +23,19 @@
 
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
-#include "chassis/headingStates/ISwerveDriveOrientation.h"
+#include "chassis/headingStates/SpecifiedHeading.h"
 #include "DragonVision/DragonVision.h"
 
-class FaceTarget : public ISwerveDriveOrientation
+class FaceTarget : public SpecifiedHeading
 {
 public:
     FaceTarget() = delete;
 
     FaceTarget(ChassisOptionEnums::HeadingOption headingOption);
     ~FaceTarget() = default;
-    void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+    // void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 protected:
     virtual DragonVision::VISION_ELEMENT GetVisionElement() const = 0;
-
-private:
-    const double m_kp = 8.0;
-    const double m_visionKpFine = 15.0;
-    const double m_visionKpCoarse = 10.0;
+    units::angle::degree_t GetTargetAngle(ChassisMovement &chassisMovement) const override;
 };
