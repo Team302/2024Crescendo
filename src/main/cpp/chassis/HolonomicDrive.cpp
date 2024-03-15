@@ -103,17 +103,9 @@ void HolonomicDrive::Run()
                 auto type = get<0>(info);
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
-                    auto targetNotePose = get<1>(info);
-                    DriveToGamePiece(forward, strafe, targetNotePose);
-                }
-                else
-                {
+                    AlignGamePiece();
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
                 }
-            }
-            else
-            {
-                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
             }
         }
         else if (isAlignWithAmpSelected)

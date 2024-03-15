@@ -86,7 +86,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "BlueAmpWing1Center2",
+  "folder": null,
   "previewStartingState": {
     "rotation": -130.7636052009412,
     "velocity": 0
