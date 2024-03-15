@@ -28,6 +28,6 @@ public:
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 private:
-    const double m_kpCoarse = 6.0;
-    const double m_kpFine = 10.0;
+    const double m_kpCoarse = 5.0;
+    const double m_kpFine = 9.0;
 };

@@ -50,7 +50,7 @@ private:
     void AlignToSpeaker();
     void AlignToAmp();
     void AlignToStage();
-    void DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose);
+    void DriveToGamePiece(double forward, double strafe, double rotate);
 
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
@@ -62,4 +62,7 @@ private:
     bool m_robotOrientedLatch = false;
     bool m_robotOrientedDrive = false;
     bool m_stageDrive = false;
+
+    double m_kPVisionXY = 2.0;
+    double m_kPVisionOmega = 5.0;
 };

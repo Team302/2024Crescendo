@@ -104,9 +104,14 @@ void HolonomicDrive::Run()
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
                     AlignGamePiece();
-                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    DriveToGamePiece(forward, strafe, rotate);
                 }
             }
+            else
+            {
+                m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
+            }
+            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
         }
         else if (isAlignWithAmpSelected)
         {
@@ -258,8 +263,29 @@ void HolonomicDrive::HoldPosition()
     m_previousDriveState = m_moveInfo.driveOption;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
 }
-void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose)
+void HolonomicDrive::DriveToGamePiece(double forward, double strafe, double rotate)
 {
+    if (abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.1)
+    {
+        auto dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
+        auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+        auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+        auto info = dragonDriveTargetFinder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+        auto type = get<0>(info);
+        auto targetNotePose = get<1>(info);
+
+        if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && chassis != nullptr)
+        {
+            frc::Pose2d currentPose2d = chassis->GetPose();
+
+            units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
+
+            m_moveInfo.chassisSpeeds.vx = units::velocity::meters_per_second_t(targetNotePose.X().to<double>() * m_kPVisionXY);
+            m_moveInfo.chassisSpeeds.vy = units::velocity::meters_per_second_t(targetNotePose.Y().to<double>() * m_kPVisionXY);
+            m_moveInfo.chassisSpeeds.omega -= units::angular_velocity::degrees_per_second_t(robotRelativeAngle.to<double>() * m_kPVisionOmega);
+        }
+    }
+    /*
     if (abs(forward) < 0.05 && abs(strafe) < 0.05)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
@@ -270,7 +296,7 @@ void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
         m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
-    }
+    }*/
 }
 void HolonomicDrive::TurnForward()
 {
