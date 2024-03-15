@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 1.53,
+        "y": 6.85
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0,
-        "y": 7.0
+        "x": 1.5346891004179166,
+        "y": 6.85
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 2.951646791065992,
+        "y": 6.9920223351715975
       },
       "prevControl": {
-        "x": 4.0,
-        "y": 7.0
+        "x": 2.811646791065992,
+        "y": 6.9920223351715975
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,14 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": -156.98351086546967,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "RedAmpWing1Center2",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -146.58,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

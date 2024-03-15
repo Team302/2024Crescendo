@@ -3,11 +3,11 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
-            pathname= "BluePodiumWing1Center2_A"
+            pathname= "RedPodiumWing1Center2_A"
                 noteOption="STATE_HOLD_FEEDER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BluePodiumWing1Center2_A"
+pathname= "RedPodiumWing1Center2_A"
 time= "1.2"
 noteOption="STATE_HOLD_FEEDER"/>
 
@@ -20,14 +20,14 @@ noteOption="STATE_FEEDER_INTAKE"/>
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BluePodiumWing1Center2_B"
+pathname= "RedPodiumWing1Center2_B"
 time= "6.5"
 noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BluePodiumWing1Center2_C"
+pathname= "RedPodiumWing1Center2_C"
 time= "6.5"
 noteOption= "STATE_FEEDER_INTAKE"/>
 
