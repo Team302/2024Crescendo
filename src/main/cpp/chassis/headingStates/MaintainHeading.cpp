@@ -47,13 +47,8 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
         }
         else if (translatingOrStrafing)
         {
-            auto error = chassis->GetPose().Rotation().Degrees() - chassis->GetStoredHeading();
-            auto slot = abs(error.value()) < m_fineCoarseAngle.value() ? m_fineSlot : m_coarseSlot;
-            //    correction = CalcHeadingCorrection(chassis->GetStoredHeading(), kPMaintain[slot]);
-            auto angvel = slot == m_fineSlot ? m_fineController.Calculate(chassis->GetPose().Rotation().Degrees().value(),
-                                                                          chassis->GetStoredHeading().value())
-                                             : m_coarseController.Calculate(chassis->GetPose().Rotation().Degrees().value(),
-                                                                            chassis->GetStoredHeading().value());
+            auto angvel = m_controller.Calculate(chassis->GetPose().Rotation().Degrees().value(),
+                                                 chassis->GetStoredHeading().value());
             correction = units::angular_velocity::degrees_per_second_t(angvel);
             chassisMovement.chassisSpeeds.omega += correction;
         }

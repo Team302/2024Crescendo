@@ -58,6 +58,6 @@ private:
     std::string m_whyDone;
     units::time::second_t m_totalTrajectoryTime;
 
-    double m_kPCoarse = 7.0;
-    double m_kPFine = 10.0;
+    double m_kPCoarse = 6.0;
+    double m_kPFine = 9.5;
 };

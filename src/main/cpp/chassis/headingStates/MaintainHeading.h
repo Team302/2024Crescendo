@@ -32,6 +32,5 @@ public:
 
 private:
     bool m_prevTranslatinOrStrafing = false;
-    frc::PIDController m_fineController{5.0, 0.5, 0.0};
-    frc::PIDController m_coarseController{5.0, 0.5, 0.0};
+    frc::PIDController m_controller{0.07, 0.0, 0.004};
 };

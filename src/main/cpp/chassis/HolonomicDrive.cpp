@@ -65,8 +65,16 @@ void HolonomicDrive::Run()
     auto controller = TeleopControl::GetInstance();
     if (controller != nullptr && m_swerve != nullptr)
     {
-        auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD) > .70 ? 1 : controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
-        auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE) > .70 ? 1 : controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
+        auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
+        auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
+        if (abs(forward) > 0.55)
+        {
+            forward = forward < 0.0 ? -1.0 : 1.0;
+        }
+        if (abs(strafe) > 0.55)
+        {
+            strafe = strafe < 0.0 ? -1.0 : 1.0;
+        }
         auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
 
         InitSpeeds(forward, strafe, rotate);
@@ -95,17 +103,9 @@ void HolonomicDrive::Run()
                 auto type = get<0>(info);
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
-                    auto targetNotePose = get<1>(info);
-                    DriveToGamePiece(forward, strafe, targetNotePose);
-                }
-                else
-                {
+                    AlignGamePiece();
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
                 }
-            }
-            else
-            {
-                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
             }
         }
         else if (isAlignWithAmpSelected)
@@ -121,7 +121,8 @@ void HolonomicDrive::Run()
         }
         else if (isAlignWithSpeakerSelected)
         {
-            AlignToSpeaker();
+            // AlignToSpeaker();
+            TurnBackward();
         }
         else
         {
