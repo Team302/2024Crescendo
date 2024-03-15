@@ -13,6 +13,7 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 #include <string>
+#include <cmath>
 
 // Team302 Includes
 #include "chassis/ChassisConfig.h"
@@ -28,7 +29,7 @@ using std::string;
 
 MaintainHeading::MaintainHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::MAINTAIN)
 {
-    m_controller.EnableContinuousInput(-180.0, 180.0);
+    m_controller.EnableContinuousInput(-PI / 2.0, PI / 2.0);
 }
 
 void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
