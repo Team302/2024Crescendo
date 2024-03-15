@@ -129,7 +129,8 @@ void HolonomicDrive::Run()
         }
         else if (isAlignWithSpeakerSelected)
         {
-            AlignToSpeaker();
+            // AlignToSpeaker();
+            TurnBackward();
         }
         else
         {
