@@ -265,7 +265,7 @@ void HolonomicDrive::HoldPosition()
 }
 void HolonomicDrive::DriveToGamePiece(double forward, double strafe, double rotate)
 {
-    if (abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.1)
+    if (abs(forward) < 0.25 && abs(strafe) < 0.25 && abs(rotate) < 0.25)
     {
         auto dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
         auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
@@ -282,7 +282,7 @@ void HolonomicDrive::DriveToGamePiece(double forward, double strafe, double rota
 
             m_moveInfo.chassisSpeeds.vx = units::velocity::meters_per_second_t(targetNotePose.X().to<double>() * m_kPVisionXY);
             m_moveInfo.chassisSpeeds.vy = units::velocity::meters_per_second_t(targetNotePose.Y().to<double>() * m_kPVisionXY);
-            m_moveInfo.chassisSpeeds.omega -= units::angular_velocity::degrees_per_second_t(robotRelativeAngle.to<double>() * m_kPVisionOmega);
+            m_moveInfo.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(robotRelativeAngle.to<double>() * m_kPVisionOmega);
         }
     }
     /*
