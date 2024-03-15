@@ -27,10 +27,9 @@ public:
     void XForwardTest();
     void YForwardTest();
     void YBackwardTest();
-
-private:
     static SwerveTest *m_swerveTest;
 
+private:
     bool XBackwardFinished;
     bool YBackwardFinished;
     bool XForwardFinished;

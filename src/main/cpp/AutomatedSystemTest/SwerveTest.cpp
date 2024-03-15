@@ -24,13 +24,14 @@ SwerveTest::SwerveTest()
     bool XFrowardFinished = false;
     bool YForwardFinished = false;
 }
+SwerveTest *SwerveTest::m_swerveTest = nullptr;
 SwerveTest *SwerveTest::GetInstance()
 {
-    if (SwerveTest::m_swerveTest == nullptr)
+    if (m_swerveTest == nullptr)
     {
-        SwerveTest::m_swerveTest = new SwerveTest;
+        m_swerveTest = new SwerveTest();
     }
-    return SwerveTest::m_swerveTest;
+    return m_swerveTest;
 }
 bool SwerveTest::RunSwerveTest()
 {

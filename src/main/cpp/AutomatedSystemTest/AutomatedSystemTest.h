@@ -29,10 +29,9 @@ public:
     void RunAllTests();
 
 private:
-    Placertest *Placertest;
-    LauncherTest *LauncherTest;
-    SwerveTest *SwerveTest;
-    PDPFactory *PDPpointer;
+    Placertest *placertest;
+    LauncherTest *launcherTest;
+    SwerveTest *swerveTest;
 
     enum MOTORS
     {
