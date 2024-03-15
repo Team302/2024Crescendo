@@ -13,11 +13,12 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 #pragma once
-
+#include "AutomatedSystemTestStructs.h"
+class PowerDistribution;
 class SwerveTest
 {
-    SwerveTest() = default;
     ~SwerveTest() = default;
+    SwerveTest();
 
 public:
     static SwerveTest *GetInstance();
@@ -29,4 +30,11 @@ public:
 
 private:
     static SwerveTest *m_swerveTest;
+
+    bool XBackwardFinished;
+    bool YBackwardFinished;
+    bool XForwardFinished;
+    bool YForwardFinished;
+    int timer = 0;
+    DriveSystemTest loggerData;
 };

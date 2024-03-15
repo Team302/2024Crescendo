@@ -13,3 +13,19 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 #pragma once
+
+struct DriveSystemTest
+{
+    double voltage = 0;
+    double totalCurrent = 0;
+    double temperature = 0;
+    double totalEnergy = 0;
+    double frontRightDrive = 0;
+    double frontRightTurn = 0;
+    double frontLeftDrive = 0;
+    double frontLeftTurn = 0;
+    double backRightDrive = 0;
+    double backRightTurn = 0;
+    double backLeftDrive = 0;
+    double backLeftTurn = 0;
+};
