@@ -109,6 +109,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
     ZeroAlignSwerveModules();
     ResetYaw();
     ResetPose(frc::Pose2d());
+    SetStoredHeading(units::angle::degree_t(0.0));
 }
 
 //==================================================================================
@@ -154,6 +155,20 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_drive = moveInfo.chassisSpeeds.vx;
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
+
+    auto isRotating = (abs(moveInfo.rawOmega) > 0.1);
+    if (!isRotating)
+    {
+        if (m_isRotating)
+        {
+            m_isRotating = false;
+            SetStoredHeading(GetYaw());
+        }
+    }
+    else
+    {
+        m_isRotating = true;
+    }
 
     m_currentOrientationState = GetHeadingState(moveInfo);
     if (m_currentOrientationState != nullptr)

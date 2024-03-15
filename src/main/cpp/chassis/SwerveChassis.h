@@ -80,7 +80,7 @@ public:
     /// @brief Reset yaw to 0 or 180 degrees depending on alliance
     void ResetYaw();
     void SetYaw(units::angle::degree_t newYaw);
-    
+
     units::length::inch_t GetWheelDiameter() const override;
     units::length::inch_t GetWheelBase() const { return m_wheelBase; }
     units::length::inch_t GetTrack() const { return m_track; }
@@ -109,6 +109,8 @@ public:
 
     ISwerveDriveOrientation *GetSpecifiedHeadingState(ChassisOptionEnums::HeadingOption headingOption);
     ISwerveDriveState *GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType driveOption);
+
+    bool IsRotating() const { return m_isRotating; }
 
     void LogInformation() override;
 
@@ -162,4 +164,5 @@ private:
 
     bool m_initialized = false;
     std::string m_networkTableName;
+    bool m_isRotating = false;
 };
