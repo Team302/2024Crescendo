@@ -72,7 +72,7 @@ double AnalogAxis::GetAxisValue()
     {
         auto value = GetRawValue();
         m_deadband->ApplyDeadband(value);
-        m_profile->ApplyProfile(value);
+        // m_profile->ApplyProfile(value);
         m_scale->Scale(value);
         m_inversion->ApplyInversion(value);
 

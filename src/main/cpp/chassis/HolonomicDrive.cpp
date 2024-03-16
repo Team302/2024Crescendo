@@ -66,7 +66,8 @@ void HolonomicDrive::Run()
     if (controller != nullptr && m_swerve != nullptr)
     {
         auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
-        auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
+        auto strafe = -1 * controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
+
         if (abs(forward) < 0.01)
         {
             forward = 0;
@@ -91,7 +92,20 @@ void HolonomicDrive::Run()
 
             forward = n;
             strafe = o;
+
+            if (forward > 1)
+                forward = 1;
+            if (forward < -1)
+                forward = -1;
+
+            if (strafe > 1)
+                strafe = 1;
+            if (strafe < -1)
+                strafe = -1;
         }
+
+        forward = pow(forward, 3.0);
+        strafe = -1 * pow(strafe, 3.0);
 
         auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
 
