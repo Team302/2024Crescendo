@@ -60,10 +60,7 @@ void PassState::Exit()
 
 bool PassState::AtTarget()
 {
-	// bool attarget = false;
-	double m_targetAngle = 17.0;
 	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
-	// attarget = angleIsWithinTolerance;
 	return angleIsWithinTolerance;
 }
 
