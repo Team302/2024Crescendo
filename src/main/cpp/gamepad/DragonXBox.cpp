@@ -52,8 +52,8 @@ DragonXBox::DragonXBox(
 
     m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_X] = new AnalogAxis(m_xbox, XboxController::Axis::kRightX, false);
     m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_Y] = new AnalogAxis(m_xbox, XboxController::Axis::kRightY, true);
-    // m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_X]->DefinePerpendicularAxis(m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_Y]);
-    // m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_Y]->DefinePerpendicularAxis(m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_X]);
+    m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_X]->DefinePerpendicularAxis(m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_Y]);
+    m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_Y]->DefinePerpendicularAxis(m_axis[TeleopControlMappingEnums::RIGHT_JOYSTICK_X]);
 
     // Create DigitalButton Objects for the physical buttons
     m_button[TeleopControlMappingEnums::A_BUTTON] = new DigitalButton(m_xbox, XboxController::Button::kA);
