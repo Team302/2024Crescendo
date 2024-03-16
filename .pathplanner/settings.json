@@ -5,8 +5,9 @@
   "pathFolders": [
     "BlueAmpWing1Center2",
     "BluePodiumWing1Center2",
-    "RedPodiumWing1Center2",
-    "RedAmpWing1Center2"
+    "BlueCenterWing1Center2",
+    "RedAmpWing1Center2",
+    "RedPodiumWing1Center2"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.65,

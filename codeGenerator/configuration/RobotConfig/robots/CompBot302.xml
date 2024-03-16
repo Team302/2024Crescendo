@@ -4078,6 +4078,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>17</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>posDegreeAbs</controlDataName>
