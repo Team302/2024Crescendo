@@ -13,12 +13,14 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 #include <string>
+#include <cmath>
 
 // Team302 Includes
-#include "chassis/headingStates/MaintainHeading.h"
-#include "chassis/ChassisOptionEnums.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "chassis/ChassisOptionEnums.h"
+#include "chassis/headingStates/MaintainHeading.h"
+#include "utils/AngleUtils.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
@@ -27,6 +29,7 @@ using std::string;
 
 MaintainHeading::MaintainHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::MAINTAIN)
 {
+    m_controller.EnableContinuousInput(-PI / 2.0, PI / 2.0);
 }
 
 void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
@@ -37,25 +40,21 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     {
         auto correction = units::angular_velocity::degrees_per_second_t(0.0);
 
-        auto translatingOrStrafing = (abs(chassisMovement.chassisSpeeds.vx.to<double>()) +
-                                      abs(chassisMovement.chassisSpeeds.vy.to<double>())) > 0.0;
-        if (abs(chassisMovement.rawOmega) > 0.1) //|| !m_prevTranslatinOrStrafing)
+        auto isRotating = chassis->IsRotating();
+        if (!isRotating)
         {
-            auto deltaAng = units::angular_velocity::degrees_per_second_t(chassisMovement.chassisSpeeds.omega) *
-                            units::time::millisecond_t(20.0);
-            chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees() + deltaAng);
-        }
-        else if (translatingOrStrafing)
-        {
-            auto angvel = m_controller.Calculate(chassis->GetPose().Rotation().Degrees().value(),
-                                                 chassis->GetStoredHeading().value());
-            correction = units::angular_velocity::degrees_per_second_t(angvel);
+            auto currentAngle = units::angle::radian_t(AngleUtils::GetEquivAngle(chassis->GetYaw()));
+            auto targetAngle = units::angle::radian_t(AngleUtils::GetEquivAngle(chassis->GetStoredHeading()));
+
+            auto radianCorrection = m_controller.Calculate(currentAngle.value(), targetAngle.value());
+
+            correction = units::angular_velocity::radians_per_second_t(radianCorrection);
             chassisMovement.chassisSpeeds.omega += correction;
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("currentAngle"), currentAngle.value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("targetAngle"), targetAngle.value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("correction"), radianCorrection);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("omega"), chassisMovement.chassisSpeeds.omega.value());
         }
-        m_prevTranslatinOrStrafing = translatingOrStrafing;
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("raw omega"), chassisMovement.rawOmega);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("omega"), chassisMovement.chassisSpeeds.omega.value());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("saved heading"), chassis->GetStoredHeading().value());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("correction"), correction.value());
     }
 }
