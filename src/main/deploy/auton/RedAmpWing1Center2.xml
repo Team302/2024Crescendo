@@ -3,11 +3,11 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
-            pathname= "BlueAmpWing1Center0"
+            pathname= "RedAmpWing1Center0"
                 noteOption="STATE_READY_AUTO_LAUNCH"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    pathname= "BlueAmpWing1Center0"
+    pathname= "RedAmpWing1Center0"
     time= "0.7"
 noteOption="STATE_FEEDER_INTAKE"/>
 <!-- visionAligment = "SPEAKER"/> -->
@@ -15,7 +15,7 @@ noteOption="STATE_FEEDER_INTAKE"/>
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing1Center0_1"
+pathname= "RedAmpWing1Center0_1"
 time= "1.0"
 noteOption="STATE_FEEDER_INTAKE"/>
 <!--visionAligment = "SPEAKER"/>-->
@@ -28,18 +28,21 @@ noteOption="STATE_FEEDER_INTAKE"/>
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing1Center1_1B"
-time= "5.5"
+pathname= "RedAmpWing1Center1_1B"
+time= "6.0"
 noteOption="STATE_FEEDER_INTAKE"/>
 <!--visionAligment = "SPEAKER"/>-->
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing1Center0_1C"
+pathname= "RedAmpWing1Center0_1C"
 time= "6.0"
 noteOption="STATE_FEEDER_INTAKE"/>
 <!--visionAligment = "SPEAKER"/>-->
+<primitive id="DO_NOTHING"
+time="0.25"
+noteOption="STATE_READY_AUTO_LAUNCH"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 

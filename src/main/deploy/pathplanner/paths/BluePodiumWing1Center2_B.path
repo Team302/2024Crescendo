@@ -32,21 +32,26 @@
     },
     {
       "anchor": {
-        "x": 3.8660589259387383,
-        "y": 5.075852393793775
+        "x": 3.461622332817334,
+        "y": 5.084042833672975
       },
       "prevControl": {
-        "x": 4.798317009792772,
-        "y": 5.635092617798654
+        "x": 4.393880416671367,
+        "y": 5.643283057677855
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "PodiumWing1Center2B"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.2,
       "rotationDegrees": 180.0,
       "rotateFast": false
     }
@@ -61,7 +66,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 177.7756383214884,
+    "rotation": 175.0190065232864,
     "rotateFast": false
   },
   "reversed": false,
