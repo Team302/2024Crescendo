@@ -60,13 +60,16 @@ void PassState::Exit()
 
 bool PassState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+	// bool attarget = false;
+	double m_targetAngle = 17.0;
+	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
+	// attarget = angleIsWithinTolerance;
+	return angleIsWithinTolerance;
 }
 
 bool PassState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS));
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS) && AtTarget());
 }
