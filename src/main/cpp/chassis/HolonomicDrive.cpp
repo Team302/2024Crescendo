@@ -66,15 +66,47 @@ void HolonomicDrive::Run()
     if (controller != nullptr && m_swerve != nullptr)
     {
         auto forward = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_FORWARD);
-        auto strafe = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
-        if (abs(forward) > 0.55)
+        auto strafe = -1 * controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_STRAFE);
+
+        if (abs(forward) < 0.01)
         {
-            forward = forward < 0.0 ? -1.0 : 1.0;
+            forward = 0;
         }
-        if (abs(strafe) > 0.55)
+        else if (abs(strafe) < 0.01)
         {
-            strafe = strafe < 0.0 ? -1.0 : 1.0;
+            strafe = 0;
         }
+        else
+        {
+            double theta = atan2(forward, strafe);
+            double f = forward / sin(theta);
+            double g = strafe / sin(theta);
+            double h = forward / cos(theta);
+            double i = strafe / cos(theta);
+            double j = abs(forward) > abs(strafe) ? f : h;
+            double k = abs(forward) > abs(strafe) ? g : i;
+            double l = forward / abs(forward);
+            double m = strafe / abs(strafe);
+            double n = l * abs(j);
+            double o = m * abs(k);
+
+            forward = n;
+            strafe = o;
+
+            if (forward > 1)
+                forward = 1;
+            if (forward < -1)
+                forward = -1;
+
+            if (strafe > 1)
+                strafe = 1;
+            if (strafe < -1)
+                strafe = -1;
+        }
+
+        forward = pow(forward, 3.0);
+        strafe = -1 * pow(strafe, 3.0);
+
         auto rotate = controller->GetAxisValue(TeleopControlFunctions::HOLONOMIC_DRIVE_ROTATE);
 
         InitSpeeds(forward, strafe, rotate);

@@ -4054,7 +4054,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>350</value>
+                  <value>400</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -4066,7 +4066,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>350</value>
+                  <value>400</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -4078,6 +4078,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>17</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>posDegreeAbs</controlDataName>
@@ -4293,7 +4294,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>300</value>
+                  <value>400</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -4305,7 +4306,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>300</value>
+                  <value>400</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -4317,7 +4318,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>32.5</value>
+                  <value>34.5</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>posDegreeAbs</controlDataName>

@@ -21,7 +21,7 @@ void LEDStates::BlinkingPattern(DragonLeds::Colors c)
 {
     if (m_LEDstring->m_ledBuffer.size() > 0)
     {
-        if (timer > 2 * blinkPatternPeriod)
+        if (timer > blinkPatternPeriod)
             timer = 0;
 
         int blinkState = (timer / blinkPatternPeriod) % 2;

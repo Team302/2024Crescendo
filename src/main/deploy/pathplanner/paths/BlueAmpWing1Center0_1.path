@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.951646791065992,
-        "y": 6.9920223351715975
+        "x": 2.918404239090931,
+        "y": 7.06163443710625
       },
       "prevControl": {
-        "x": 2.811646791065992,
-        "y": 6.9920223351715975
+        "x": 2.7784042390909307,
+        "y": 7.06163443710625
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "BlueAmpWing1Center2",
   "previewStartingState": {
-    "rotation": -146.58,
+    "rotation": -136.02,
     "velocity": 0
   },
   "useDefaultConstraints": false

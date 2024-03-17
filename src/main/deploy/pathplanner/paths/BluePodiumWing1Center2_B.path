@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6419791996634947,
-        "y": 4.257295470821239
+        "x": 2.784236337703446,
+        "y": 4.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.8685181380380258,
-        "y": 1.3393091013071956
+        "x": 1.0107752760779771,
+        "y": 1.232013630485957
       },
       "isLocked": true,
       "linkedName": "PodiumWing1Center2_A"
@@ -72,7 +72,7 @@
   "reversed": false,
   "folder": "BluePodiumWing1Center2",
   "previewStartingState": {
-    "rotation": 151.26,
+    "rotation": 160.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
