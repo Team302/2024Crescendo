@@ -203,7 +203,7 @@ units::length::meter_t noteManager::GetVisionDistance()
 		distance = optionalVisionData.value().translationToTarget.X();
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("X"), optionalVisionData.value().translationToTarget.X().to<double>());
 	}
-	return distance;
+	return distance - units::length::meter_t(0.1);
 }
 
 bool noteManager::HasVisionTarget()
