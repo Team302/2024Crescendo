@@ -44,8 +44,8 @@ DragonXBox::DragonXBox(
     // Create Axis Objects
     m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_X] = new AnalogAxis(m_xbox, XboxController::Axis::kLeftX, false);
     m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_Y] = new AnalogAxis(m_xbox, XboxController::Axis::kLeftY, true);
-    m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_X]->DefinePerpendicularAxis(m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_Y]);
-    m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_Y]->DefinePerpendicularAxis(m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_X]);
+    // m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_X]->DefinePerpendicularAxis(m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_Y]);
+    // m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_Y]->DefinePerpendicularAxis(m_axis[TeleopControlMappingEnums::LEFT_JOYSTICK_X]);
 
     m_axis[TeleopControlMappingEnums::LEFT_TRIGGER] = new AnalogAxis(m_xbox, XboxController::Axis::kLeftTrigger, false);
     m_axis[TeleopControlMappingEnums::RIGHT_TRIGGER] = new AnalogAxis(m_xbox, XboxController::Axis::kRightTrigger, false);

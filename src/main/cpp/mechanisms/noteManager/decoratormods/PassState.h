@@ -44,5 +44,6 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
+		double m_targetAngle = 17.0;
 	};
 }

@@ -45,6 +45,14 @@ void OffState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("OffState"), string("init"));
 
 	m_genState->Init();
+
+	auto leftClimber = dynamic_cast<DragonSparkMax *>(m_mechanism->getleftClimber());
+	if (leftClimber != nullptr)
+		leftClimber->SetCANTimeout(0);
+
+	auto rightClimber = dynamic_cast<DragonSparkMax *>(m_mechanism->getrightClimber());
+	if (rightClimber != nullptr)
+		rightClimber->SetCANTimeout(0);
 }
 
 void OffState::Run()

@@ -52,6 +52,9 @@ void placeTrapState::Init()
 void placeTrapState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("placeTrapState"), string("run"));
+
+	if (!m_mechanism->getplacerInSensor()->Get() && !m_mechanism->getplacerMidSensor()->Get() && !m_mechanism->getplacerOutSensor()->Get())
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, 0);
 	m_genState->Run();
 }
 

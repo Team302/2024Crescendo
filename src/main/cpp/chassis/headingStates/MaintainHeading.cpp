@@ -12,45 +12,49 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
+#include <string>
+#include <cmath>
 
 // Team302 Includes
-#include "chassis/headingStates/MaintainHeading.h"
-#include "chassis/ChassisOptionEnums.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "chassis/ChassisOptionEnums.h"
+#include "chassis/headingStates/MaintainHeading.h"
+#include "utils/AngleUtils.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
 
+using std::string;
+
 MaintainHeading::MaintainHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::MAINTAIN)
 {
+    m_controller.EnableContinuousInput(-PI / 2.0, PI / 2.0);
 }
 
 void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
-    units::angular_velocity::degrees_per_second_t correction = units::angular_velocity::degrees_per_second_t(0.0);
-
-    units::radians_per_second_t rot = chassisMovement.chassisSpeeds.omega;
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-
-    if (units::math::abs(rot).to<double>() > 0.2)
+    if (chassis != nullptr)
     {
-        chassis->SetStoredHeading(chassis->GetPose().Rotation().Degrees());
-    }
-    else
-    {
-        chassisMovement.chassisSpeeds.omega = units::radians_per_second_t(0.0);
-        double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
-        if (error < 5.0)
-            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainFine);
-        else
-            correction = CalcHeadingCorrection(chassis->GetStoredHeading(), m_kPMaintainCoarse);
-    }
+        auto correction = units::angular_velocity::degrees_per_second_t(0.0);
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Current Rotation (deg)", chassis->GetPose().Rotation().Degrees().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Stored Heading (deg)", chassis->GetStoredHeading().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "MaintainDebugging", "Correction (deg/s)", correction.to<double>());
+        auto isRotating = chassis->IsRotating();
+        if (!isRotating)
+        {
+            auto currentAngle = units::angle::radian_t(AngleUtils::GetEquivAngle(chassis->GetYaw()));
+            auto targetAngle = units::angle::radian_t(AngleUtils::GetEquivAngle(chassis->GetStoredHeading()));
 
-    chassisMovement.chassisSpeeds.omega += correction;
+            auto radianCorrection = m_controller.Calculate(currentAngle.value(), targetAngle.value());
+
+            correction = units::angular_velocity::radians_per_second_t(radianCorrection);
+            chassisMovement.chassisSpeeds.omega += correction;
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("currentAngle"), currentAngle.value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("targetAngle"), targetAngle.value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("correction"), radianCorrection);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("omega"), chassisMovement.chassisSpeeds.omega.value());
+        }
+    }
 }
