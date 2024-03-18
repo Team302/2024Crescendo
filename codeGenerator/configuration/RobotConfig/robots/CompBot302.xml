@@ -6247,7 +6247,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>8.5</value>
+                  <value>30</value>
                 </target>
                 <motorName>leftClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>
@@ -6259,7 +6259,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>8.5</value>
+                  <value>30</value>
                 </target>
                 <motorName>rightClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>
