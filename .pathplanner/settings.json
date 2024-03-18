@@ -4,8 +4,9 @@
   "holonomicMode": true,
   "pathFolders": [
     "BlueAmpWing1Center2",
-    "BluePodiumWing1Center2",
     "BlueCenterWing1Center2",
+    "BluePodiumWing1Center2",
+    "Sabatage",
     "RedAmpWing1Center2",
     "RedPodiumWing1Center2"
   ],

@@ -145,6 +145,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 			 (((currentState == static_cast<int>(m_mechanism->STATE_PLACER_INTAKE)) && ((placerInSensor == false) && (placerMidSensor == false))) ||
 			  ((currentState == static_cast<int>(m_mechanism->STATE_FEEDER_INTAKE)) && ((launcherSensor == false) && (feederSensor == false)))))
 	{
+
 		transition = true;
 		reason = 6;
 	}

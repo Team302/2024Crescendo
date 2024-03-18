@@ -88,6 +88,10 @@ void noteManager::RunCommonTasks()
 	ResetLauncherAngle();
 	ResetElevator();
 
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Front"), getfrontIntakeSensor()->Get());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Back"), getbackIntakeSensor()->Get());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Feeder"), getfeederSensor()->Get());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher"), getlauncherSensor()->Get());
 	// Processing related to current monitor
 	MonitorMotorCurrents();
 

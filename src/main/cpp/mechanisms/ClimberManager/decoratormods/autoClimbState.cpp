@@ -65,8 +65,8 @@ void autoClimbState::Run()
 	{
 		double delta = 6.0 * 0.035 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
 		m_target += delta;
-		if (m_target < 8.0)
-			m_target = 8.0;
+		if (m_target < 7.0)
+			m_target = 7.0;
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
 	}
