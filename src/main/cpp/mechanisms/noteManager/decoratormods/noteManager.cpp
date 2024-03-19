@@ -247,19 +247,22 @@ double noteManager::GetRequiredLaunchAngle()
 	if (HasVisionTarget())
 	{
 		distanceFromTarget = GetVisionDistance().to<double>();
-
-		launchAngle = 80.0 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
 	}
 	else if (chassis != nullptr)
 	{
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SPEAKER)} /*load red speaker*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SPEAKER)}; /*load blue speaker*/
 		chassisPos = chassis->GetPose();
+
+		distanceFromTarget = sqrt(pow((fieldElementPose.X() - chassisPos.X()).to<double>(), 2) + pow((fieldElementPose.Y() - chassisPos.Y()).to<double>(), 2));
 	}
+
+	launchAngle = 80.0 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
 
 	if (launchAngle > 40)
 	{
-		launchAngle = 0;
+		launchAngle = 40;
 	}
+
 	return launchAngle;
 }
 
