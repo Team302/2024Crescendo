@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5336201664769746,
-        "y": 6.85152474630649
+        "x": 1.5015337722983153,
+        "y": 4.02571266680995
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5382860006113417,
-        "y": 6.851991280935302
+        "x": 1.457322549233054,
+        "y": 4.041364650270177
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.5336201664769746,
-        "y": 6.85152474630649
+        "x": 1.5015337722983153,
+        "y": 4.02571266680995
       },
       "prevControl": {
-        "x": 1.397223832862508,
-        "y": 6.8577019012864175
+        "x": 1.4967903204762885,
+        "y": 4.001896879026941
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Sab1"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 4.65,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -136.02,
+    "rotation": 131.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "RedAmpWing1Center2",
+  "folder": "Sabatage",
   "previewStartingState": {
     "rotation": 180.0,
-    "velocity": 0
+    "velocity": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

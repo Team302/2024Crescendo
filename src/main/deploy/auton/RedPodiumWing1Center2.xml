@@ -7,15 +7,22 @@
                 noteOption="STATE_HOLD_FEEDER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "RedPodiumWing1Center2_A"
-time= "1.2"
-noteOption="STATE_HOLD_FEEDER"/>
+pathname= "BluePodiumWing1Center2_1A"
+time= "0.8"
+noteOption="STATE_READY_AUTO_LAUNCH"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
-<primitive id="DO_NOTHING"
-time="1.5"
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "RedPodiumWing1Center2_A"
+time= "1.2"
 noteOption="STATE_FEEDER_INTAKE"/>
+
+
+<primitive id="DO_NOTHING"
+time="0.8"
+noteOption="STATE_FEEDER_INTAKE"/>
+
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 

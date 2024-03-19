@@ -172,7 +172,7 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::CLIMB_MODE, driverStartButton},
     {TeleopControlFunctions::SCORING_MODE, copilotSelectButton},
 
-    {TeleopControlFunctions::READY, copilotStartButton},
+    {TeleopControlFunctions::READY, copilotYButton},
     {TeleopControlFunctions::MANUAL_MODE, copilotLStickPressed},
     {TeleopControlFunctions::INTAKE, driverRBumper},
     {TeleopControlFunctions::EXPEL, driverLBumper},

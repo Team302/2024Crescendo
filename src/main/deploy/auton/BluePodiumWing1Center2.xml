@@ -19,7 +19,7 @@ time= "1.2"
 noteOption="STATE_FEEDER_INTAKE"/>
 
 <primitive id= "DO_NOTHING"
-time= "0.7"
+time= "0.5"
 noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>

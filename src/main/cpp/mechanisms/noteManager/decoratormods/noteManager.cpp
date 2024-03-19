@@ -88,6 +88,10 @@ void noteManager::RunCommonTasks()
 	ResetLauncherAngle();
 	ResetElevator();
 
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Front"), getfrontIntakeSensor()->Get());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Back"), getbackIntakeSensor()->Get());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Feeder"), getfeederSensor()->Get());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher"), getlauncherSensor()->Get());
 	// Processing related to current monitor
 	MonitorMotorCurrents();
 
@@ -203,7 +207,7 @@ units::length::meter_t noteManager::GetVisionDistance()
 		distance = optionalVisionData.value().translationToTarget.X();
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("X"), optionalVisionData.value().translationToTarget.X().to<double>());
 	}
-	return distance;
+	return distance - units::length::meter_t(0.1);
 }
 
 bool noteManager::HasVisionTarget()
