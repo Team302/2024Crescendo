@@ -4042,7 +4042,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>1</value>
+                  <value>0</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4054,7 +4054,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>0.25</value>
+                  <value>0.75</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4066,7 +4066,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>0.25</value>
+                  <value>0.75</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4078,6 +4078,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>17</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>posDegreeAbs</controlDataName>
