@@ -295,8 +295,8 @@ void noteManagerAllStatesStateGen::InitCompBot302()
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInch(), units::length::inch_t ( units::length::inch_t ( 0 ) ) );
 		GetnoteManager()->getFeeder()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 0 );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 165 ) ) );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 165 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 400 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 400 ) ) );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetnoteManager()->getposDegreeAbs(), units::angle::degree_t ( units::angle::degree_t ( 16 ) ) );
 	}
 	else if ( GetnoteManager()->GetCurrentState() == noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH_ODOMETRY )
@@ -690,8 +690,8 @@ void noteManagerAllStatesStateGen::InitpracticeBot9999()
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInch(), units::length::inch_t ( units::length::inch_t ( 0 ) ) );
 		GetnoteManager()->getFeeder()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 0 );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, 0.25 );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, 0.25 );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, 0.75 );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, 0.75 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetnoteManager()->getposDegreeAbs(), units::angle::degree_t ( units::angle::degree_t ( 16 ) ) );
 	}
 	else if ( GetnoteManager()->GetCurrentState() == noteManagerGen::STATE_NAMES::STATE_AUTO_LAUNCH_ODOMETRY )
