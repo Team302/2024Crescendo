@@ -71,12 +71,17 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
 
     auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), fieldRelativeAngle);
-    std::vector<frc::Pose2d> poses{noteDistance, currentPose2d};
+    std::vector<frc::Pose2d> poses{currentPose2d, noteDistance};
     std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
     auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
                                                       PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                                                      GoalEndState(0.0_mps, chassisHeading));
+                                                      GoalEndState(0.0_mps, fieldRelativeAngle));
     notepath->preventFlipping = true;
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Target X"), targetNotePose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Target Y"), targetNotePose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Target Rotation"), targetNotePose.Rotation().Degrees().to<double>());
+
     trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
     //}
     return trajectory;

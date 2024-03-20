@@ -113,7 +113,7 @@ void HolonomicDrive::Run()
 
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
-        auto isAlignGamePieceSelected = false; // controller->IsButtonPressed(TeleopControlFunctions::INTAKE);
+        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::INTAKE);
         auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::ROBOT_ORIENTED_DRIVE);
         auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
         auto isAlignWithStageSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE);
@@ -135,11 +135,13 @@ void HolonomicDrive::Run()
                 auto type = get<0>(info);
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
-                    AlignGamePiece();
+                    // AlignGamePiece();
+                    DriveToGamePiece(forward, strafe, get<1>(info));
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
                 }
             }
         }
+
         else if (isAlignWithAmpSelected)
         {
             AlignToAmp();
