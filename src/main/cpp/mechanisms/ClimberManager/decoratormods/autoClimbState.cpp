@@ -71,7 +71,7 @@ void autoClimbState::Run()
 	}
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
 	{
-		double delta = 6.0 * 0.035 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		double delta = 6.0 * 0.035 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.035 for 20 ms loop time * controller input
 		m_target += delta;
 		if (m_target < 7.0)
 			m_target = 7.0;
