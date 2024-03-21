@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4857923001560294,
-        "y": 4.3245400776515845
+        "x": 3.417975978809101,
+        "y": 0.2198918683551661
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.30385717914293,
-        "y": 5.511956166769477
+        "x": 7.522624188105519,
+        "y": 2.433470009797163
       },
       "prevControl": {
-        "x": 2.2538571791429303,
-        "y": 5.511956166769477
+        "x": 7.472624188105519,
+        "y": 2.433470009797163
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "bluepodiumwing2center2_bEnd"
     }
   ],
   "rotationTargets": [],
