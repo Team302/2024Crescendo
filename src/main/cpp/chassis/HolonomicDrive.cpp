@@ -137,7 +137,6 @@ void HolonomicDrive::Run()
                 {
                     // AlignGamePiece();
                     DriveToGamePiece(forward, strafe, get<1>(info));
-                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
                 }
             }
         }
