@@ -669,7 +669,7 @@ namespace ApplicationData
         public analogInputType type { get; set; }
 
         [DefaultValue(0u)]
-        [Range(typeof(uint), "0", "7")]
+        [Range(typeof(uint), "0", "3")]
         public uintParameter analogId { get; set; }
 
         [DefaultValue(0D)]
@@ -690,9 +690,9 @@ namespace ApplicationData
         {
         }
 
-        override public List<string> generateObjectCreation()
+        public override List<string> generateIndexedObjectCreation(int index)
         {
-            string creation = string.Format("{0} = new {1}(\"{0}\",{1}::ANALOG_SENSOR_TYPE::{2},{3},{4},{5},{6},{7})",
+            string creation = string.Format("{0} = new {1}(\"{0}\",{1}::ANALOG_SENSOR_TYPE::{2},{3},{4},{5},{6},{7});",
                 name,
                 getImplementationName(),
                 type,
@@ -704,6 +704,11 @@ namespace ApplicationData
                 );
 
             return new List<string> { creation };
+        }
+
+        override public List<string> generateObjectCreation()
+        {
+            return new List<string>();
         }
 
         override public List<string> generateInitialization()
