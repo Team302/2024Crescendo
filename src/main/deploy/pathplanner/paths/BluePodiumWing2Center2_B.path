@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.4357923001560295,
+        "y": 4.3245400776515845
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.4857923001560294,
+        "y": 4.3245400776515845
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.30385717914293,
+        "y": 5.511956166769477
+      },
+      "prevControl": {
+        "x": 2.2538571791429303,
+        "y": 5.511956166769477
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.65,
+    "maxAcceleration": 4.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "BluePodiumWing2Center2",
+  "previewStartingState": {
+    "rotation": 149.93141717813765,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

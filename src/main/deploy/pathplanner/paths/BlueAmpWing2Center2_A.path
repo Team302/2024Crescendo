@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.53,
+        "y": 6.85
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.58,
+        "y": 6.85
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.4357923001560295,
+        "y": 6.85
+      },
+      "prevControl": {
+        "x": 2.3857923001560297,
+        "y": 6.85
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.65,
+    "maxAcceleration": 4.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": -164.05460409907724,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "BlueAmpWing2Center2",
+  "previewStartingState": {
+    "rotation": -136.02,
+    "velocity": 0.0
+  },
+  "useDefaultConstraints": true
+}

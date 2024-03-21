@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE auton SYSTEM "auton.dtd">
-
 <auton>
-<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
-pathname= "StartBlueAmpWing2Center2"
-noteOption="STATE_READY_AUTO_LAUNCH"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "StartBlueAmpWing2Center2"
-noteOption="STATE_READY_AUTO_LAUNCH"
+  <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "BluePodiumWing2Center2Start"
+                noteOption="STATE_READY_AUTO_LAUNCH"/>
+
+<snippet file= "ShootWhenStopAuto"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2Start"
+noteOption= "STATE_READY_AUTO_LAUNCH"
 time= "0.5"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing2Center2_A"
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "2.0"/>
 
@@ -23,43 +25,43 @@ noteOption= "STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing2Center2_B"
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_B"
 noteOption= "STATE_FEEDER_INTAKE"
-time="2.0"/>
+time= "2.0"/>
 
 <primitive id= "DRIVE_TO_NOTE"
 noteOption= "STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing2Center2_C"
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_C"
 noteOption= "STATE_FEEDER_INTAKE"
-time="3.0"/>
+time= "3.0"/>
 
 <primitive id= "DRIVE_TO_NOTE"
 noteOption= "STATE_FEEDER_INTAKE"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing2Center2_D"
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_D"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "3.0"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing2Center2_E"
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_E"
 noteOption= "STATE_FEEDER_INTAKE"
-time="3.0"/>
+time= "3.0"/>
 
 <primitive id= "DRIVE_TO_NOTE"
 noteOption= "STATE_FEEDER_INTAKE"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing2Center2_F"
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_F"
 noteOption= "STATE_FEEDER_INTAKE"
-time="3.0"/>
+time= "3.0"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
