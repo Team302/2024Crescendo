@@ -44,6 +44,7 @@ DriveToNote::DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *tra
 
 void DriveToNote::Init(ChassisMovement &chassisMovement)
 {
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Init"), "True");
     m_trajectory = CreateDriveToNote(chassisMovement.targetPose);
     chassisMovement.pathplannerTrajectory = m_trajectory;
     TrajectoryDrivePathPlanner::Init(chassisMovement);
@@ -53,20 +54,12 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    // auto dragonDriveTargetFinder = DragonDriveTargetFinder::GetInstance();
 
     pathplanner::PathPlannerTrajectory trajectory;
 
-    // auto info = dragonDriveTargetFinder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-    // auto type = get<0>(info);
-    // auto targetNotePose = get<1>(info);
-
-    // if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && chassis != nullptr)
-    //{
     frc::Pose2d currentPose2d = m_chassis->GetPose();
     frc::Rotation2d chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
 
-    // units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
     units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
     units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
 

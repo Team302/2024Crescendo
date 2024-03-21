@@ -221,6 +221,8 @@ void HolonomicDrive::Run()
         CheckTipping(checkTipping);
 
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Heading Option", m_moveInfo.headingOption);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Drive Option", m_moveInfo.driveOption);
+
         m_swerve->Drive(m_moveInfo);
     }
     else
