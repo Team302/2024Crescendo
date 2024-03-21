@@ -107,6 +107,8 @@ public:
     std::optional<VisionPose> GetFieldPosition();
     std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
 
+    std::optional<VisionPose> EstimatePoseOdometryLimelight();
+
     std::optional<VisionPose> GetRedFieldPosition();
     std::optional<VisionPose> GetBlueFieldPosition();
     std::optional<VisionPose> GetOriginFieldPosition();
@@ -121,9 +123,6 @@ public:
     std::optional<units::length::inch_t> EstimateTargetXDistance_RelToRobotCoords();
     std::optional<units::length::inch_t> EstimateTargetYDistance_RelToRobotCoords();
     std::optional<units::length::inch_t> EstimateTargetZDistance_RelToRobotCoords();
-
-    units::length::inch_t CalcXTargetToRobot(units::angle::degree_t camPitch, units::length::inch_t mountHeight, units::length::inch_t camXOffset, units::angle::degree_t tY);
-    units::length::inch_t CalcYTargetToRobot(units::angle::degree_t camYaw, units::length::inch_t xTargetDistance, units::length::inch_t camYOffset, units::length::inch_t camXOffset, units::angle::degree_t tX);
 
     // Setters
     void SetLEDMode(DragonLimelight::LED_MODE mode);
