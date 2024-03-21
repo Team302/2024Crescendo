@@ -4042,7 +4042,6 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>1</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4424,7 +4423,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>165</value>
+                  <value>400</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -4436,7 +4435,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>165</value>
+                  <value>400</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -6247,7 +6246,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>8.5</value>
+                  <value>30</value>
                 </target>
                 <motorName>leftClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>
@@ -6259,7 +6258,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>8.5</value>
+                  <value>30</value>
                 </target>
                 <motorName>rightClimber</motorName>
                 <controlDataName>climberPosInch</controlDataName>

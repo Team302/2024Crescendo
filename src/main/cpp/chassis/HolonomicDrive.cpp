@@ -135,8 +135,12 @@ void HolonomicDrive::Run()
                 auto type = get<0>(info);
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
-                    // AlignGamePiece();
                     DriveToGamePiece(forward, strafe, get<1>(info));
+                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("InDrivetoNote"), "True");
+                }
+                else
+                {
+                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("InDrivetoNote"), "False");
                 }
             }
         }

@@ -75,12 +75,12 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
     auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
                                                       PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                                                      GoalEndState(0.0_mps, fieldRelativeAngle));
+                                                      GoalEndState(0.0_mps, fieldRelativeAngle, true));
     notepath->preventFlipping = true;
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Target X"), targetNotePose.X().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Target Y"), targetNotePose.Y().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Target Rotation"), targetNotePose.Rotation().Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTN Target X"), targetNotePose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTN Target Y"), targetNotePose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTN Target Rot"), targetNotePose.Rotation().Degrees().to<double>());
 
     trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
     //}
