@@ -1,0 +1,15 @@
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\CoreCodeGenerator.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\CoreCodeGenerator.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\CodeBeautifier.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\Configuration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\DataConfiguration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\robotConfiguration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\CodeBeautifier.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\Configuration.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\DataConfiguration.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\bin\Debug\robotConfiguration.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\obj\Debug\CoreCodeGenerator.csproj.AssemblyReference.cache
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\obj\Debug\CoreCodeGenerator.csproj.CoreCompileInputs.cache
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\obj\Debug\CoreCode.E5E6D121.Up2Date
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\obj\Debug\CoreCodeGenerator.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CoreCodeGenerator\obj\Debug\CoreCodeGenerator.pdb

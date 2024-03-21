@@ -1,0 +1,6 @@
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CodeBeautifier\bin\Debug\CodeBeautifier.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CodeBeautifier\bin\Debug\CodeBeautifier.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CodeBeautifier\obj\Debug\CodeBeautifier.csproj.AssemblyReference.cache
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CodeBeautifier\obj\Debug\CodeBeautifier.csproj.CoreCompileInputs.cache
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CodeBeautifier\obj\Debug\CodeBeautifier.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\CodeBeautifier\obj\Debug\CodeBeautifier.pdb

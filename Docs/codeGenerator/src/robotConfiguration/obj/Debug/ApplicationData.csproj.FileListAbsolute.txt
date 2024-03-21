@@ -1,0 +1,11 @@
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\bin\Debug\robotConfiguration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\bin\Debug\robotConfiguration.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\bin\Debug\Configuration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\bin\Debug\DataConfiguration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\bin\Debug\Configuration.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\bin\Debug\DataConfiguration.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\obj\Debug\ApplicationData.csproj.AssemblyReference.cache
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\obj\Debug\ApplicationData.csproj.CoreCompileInputs.cache
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\obj\Debug\Applicat.0DC12D4B.Up2Date
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\obj\Debug\robotConfiguration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\robotConfiguration\obj\Debug\robotConfiguration.pdb

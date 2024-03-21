@@ -1,0 +1,9 @@
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\bin\Debug\DataConfiguration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\bin\Debug\DataConfiguration.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\bin\Debug\Configuration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\bin\Debug\Configuration.pdb
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\obj\Debug\DataConfiguration.csproj.AssemblyReference.cache
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\obj\Debug\DataConfiguration.csproj.CoreCompileInputs.cache
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\obj\Debug\DataConf.85B4F591.Up2Date
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\obj\Debug\DataConfiguration.dll
+C:\Users\CRC\Documents\GitHub\2024Crescendo\codeGenerator\src\DataConfiguration\obj\Debug\DataConfiguration.pdb
