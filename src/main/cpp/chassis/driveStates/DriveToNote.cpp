@@ -75,7 +75,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
     auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
                                                       PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                                                      GoalEndState(0.0_mps, fieldRelativeAngle));
+                                                      GoalEndState(0.0_mps, fieldRelativeAngle, true));
     notepath->preventFlipping = true;
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Target X"), targetNotePose.X().to<double>());
