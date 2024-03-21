@@ -4,11 +4,11 @@
 <auton>
 <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
 pathname= "StartBlueAmpWing2Center2"
-noteOption="STATE_READY_AUTO_LAUNCH"/>
+noteOption="STATE_READY_ODOMETRY_LAUNCH"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "StartBlueAmpWing2Center2"
-noteOption="STATE_READY_AUTO_LAUNCH"
+noteOption="STATE_READY_ODOMETRY_LAUNCH"
 time= "0.5"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
