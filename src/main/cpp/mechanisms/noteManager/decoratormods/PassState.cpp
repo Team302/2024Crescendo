@@ -50,6 +50,13 @@ void PassState::Init()
 void PassState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("PassState"), string("run"));
+	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
+	if (angleIsWithinTolerance)
+	{
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 1);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 1);
+	}
+
 	m_genState->Run();
 }
 
@@ -60,13 +67,12 @@ void PassState::Exit()
 
 bool PassState::AtTarget()
 {
-	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
-	return angleIsWithinTolerance;
+	return true;
 }
 
 bool PassState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS) && AtTarget());
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS));
 }

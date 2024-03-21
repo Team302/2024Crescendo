@@ -54,6 +54,9 @@
 #include "robotstate/RobotState.h"
 #include "utils/logging/Logger.h"
 #include "utils/logging/DataTrace.h"
+#include "utils/FMSData.h"
+#include "chassis/ChassisConfig.h"
+#include "chassis/ChassisConfigMgr.h"
 
 using std::string;
 using namespace noteManagerStates;
@@ -233,19 +236,33 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 
 double noteManager::GetRequiredLaunchAngle()
 {
+	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 	double distanceFromTarget = 3.5;
 	double launchAngle = 0;
+	frc::Pose3d fieldElementPose = frc::Pose3d{};
+	auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+	auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+	frc::Pose2d chassisPos = frc::Pose2d();
 
 	if (HasVisionTarget())
 	{
 		distanceFromTarget = GetVisionDistance().to<double>();
-
-		launchAngle = 80.0 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
 	}
+	else if (chassis != nullptr)
+	{
+		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SPEAKER)} /*load red speaker*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SPEAKER)}; /*load blue speaker*/
+		chassisPos = chassis->GetPose();
+
+		distanceFromTarget = sqrt(pow((fieldElementPose.X() - chassisPos.X()).to<double>(), 2) + pow((fieldElementPose.Y() - chassisPos.Y()).to<double>(), 2));
+	}
+
+	launchAngle = 80.0 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
+
 	if (launchAngle > 40)
 	{
-		launchAngle = 0;
+		launchAngle = 40;
 	}
+
 	return launchAngle;
 }
 

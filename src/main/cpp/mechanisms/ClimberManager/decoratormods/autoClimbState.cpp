@@ -25,6 +25,7 @@
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
 #include "utils/logging/Logger.h"
+#include "mechanisms/noteManager/decoratormods/noteManager.h"
 
 // Third Party Includes
 
@@ -50,31 +51,37 @@ void autoClimbState::Init()
 void autoClimbState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoClimbState"), string("run"));
-	// Tune this in after week one, for now just let nick move the climber up and down manually
-	/*if (m_bottomReached == false)
+	StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+	auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+
+	if (noteMgr != nullptr)
 	{
-		if (m_mechanism->getleftClimber()->GetCounts() < 8.75 && m_mechanism->getrightClimber()->GetCounts() < 8.75)
+		double elevatorPosition = noteMgr->getElevator()->GetCounts();
+		if (elevatorPosition < 10.0)
 		{
-			m_target = 9.5;
-			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
-			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
-			m_bottomReached = true;
+			if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
+				m_target = 30.0;
+			else
+				m_target = 8.5;
 		}
-	}*/
+		else
+		{
+			m_target = 8.5;
+		}
+	}
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
 	{
-		double delta = 6.0 * 0.035 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		double delta = 6.0 * 0.035 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.035 for 20 ms loop time * controller input
 		m_target += delta;
 		if (m_target < 7.0)
 			m_target = 7.0;
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
 	}
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Climber"), string("Left"), m_mechanism->getleftClimber()->GetCounts());
+
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
 
 	m_genState->Run();
 }
-
 void autoClimbState::Exit()
 {
 	m_genState->Exit();
