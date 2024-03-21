@@ -2216,7 +2216,47 @@
         <closedLoopControlParameters />
         <solenoid />
         <servo />
-        <analogInput />
+        <analogInput>
+          <analogInput>
+            <name>AnalogSensor</name>
+            <type>ANALOG_GENERAL</type>
+            <analogId>
+              <unitsFamily>none</unitsFamily>
+              <name>uintParameter</name>
+              <__units__ />
+              <type>UInt32</type>
+              <value>0</value>
+            </analogId>
+            <voltageMin>
+              <unitsFamily>none</unitsFamily>
+              <name>doubleParameter</name>
+              <__units__ />
+              <type>Double</type>
+              <value>2</value>
+            </voltageMin>
+            <voltageMax>
+              <unitsFamily>none</unitsFamily>
+              <name>doubleParameter</name>
+              <__units__ />
+              <type>Double</type>
+              <value>5</value>
+            </voltageMax>
+            <outputMin>
+              <unitsFamily>none</unitsFamily>
+              <name>doubleParameter</name>
+              <__units__ />
+              <type>Double</type>
+              <value>3</value>
+            </outputMin>
+            <outputMax>
+              <unitsFamily>none</unitsFamily>
+              <name>doubleParameter</name>
+              <__units__ />
+              <type>Double</type>
+              <value>4</value>
+            </outputMax>
+          </analogInput>
+        </analogInput>
         <digitalInput>
           <digitalInput>
             <name>frontIntakeSensor</name>

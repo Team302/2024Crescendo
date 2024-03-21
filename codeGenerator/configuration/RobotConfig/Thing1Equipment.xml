@@ -1432,7 +1432,47 @@
   <closedLoopControlParameters />
   <solenoid />
   <servo />
-  <analogInput />
+  <analogInput>
+    <analogInput>
+      <name>Thing1AnalogInput</name>
+      <type>ANALOG_GENERAL</type>
+      <analogId>
+        <unitsFamily>none</unitsFamily>
+        <name>uintParameter</name>
+        <__units__ />
+        <type>UInt32</type>
+        <value>0</value>
+      </analogId>
+      <voltageMin>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </voltageMin>
+      <voltageMax>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>5</value>
+      </voltageMax>
+      <outputMin>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>0</value>
+      </outputMin>
+      <outputMax>
+        <unitsFamily>none</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__ />
+        <type>Double</type>
+        <value>5</value>
+      </outputMax>
+    </analogInput>
+  </analogInput>
   <digitalInput />
   <cancoder />
   <stateMotorControlData>
