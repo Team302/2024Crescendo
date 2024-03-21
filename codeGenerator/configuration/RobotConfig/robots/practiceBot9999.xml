@@ -4042,7 +4042,6 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>0</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -6344,7 +6343,7 @@
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>180</value>
       </yaw>
       <roll>
         <unitsFamily>angle</unitsFamily>
