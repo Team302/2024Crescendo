@@ -38,6 +38,8 @@
 
 #include "utils/logging/DataTrace.h"
 
+#include "utils/logging/Logger.h"
+
 using std::string;
 using namespace Thing1MechStates;
 
@@ -60,6 +62,8 @@ Thing1Mech::Thing1Mech(Thing1MechGen *base, RobotConfigMgr::RobotIdentifier acti
 void Thing1Mech::RunCommonTasks()
 {
 	// This function is called once per loop before the current state Run()
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("AnalogInput"), string("0"), getThing1AnalogInput()->GetInterpolatedValue());
+
 	Cyclic();
 }
 
