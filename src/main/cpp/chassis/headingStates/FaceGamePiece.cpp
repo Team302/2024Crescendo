@@ -43,12 +43,12 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             {
                 auto rotation = data.value().rotationToTarget;
 
-                units::angle::degree_t robotRelativeAngle = ;
+                units::angle::degree_t robotRelativeAngle = rotation.Z();
 
                 if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
-                    robotRelativeAngle = targetNotePose.Rotation().Degrees() + units::angle::degree_t(180.0);
+                    robotRelativeAngle += units::angle::degree_t(180.0);
                 else if (robotRelativeAngle >= units::angle::degree_t(90.0))
-                    robotRelativeAngle = targetNotePose.Rotation().Degrees() - units::angle::degree_t(180.0);
+                    robotRelativeAngle -= units::angle::degree_t(180.0);
 
                 units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
@@ -57,7 +57,7 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(fieldRelativeAngle, m_kP);
 
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Relative Rot"), robotRelativeAngle.to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Filed Rot"), fieldRelativeAngle.to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Field Rot"), fieldRelativeAngle.to<double>());
             }
         }
     }
