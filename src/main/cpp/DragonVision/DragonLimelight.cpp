@@ -20,6 +20,7 @@
 // FRC includes
 #include "networktables/NetworkTableInstance.h"
 #include "networktables/NetworkTable.h"
+#include "DragonVision/LimelightHelpers.h"
 #include "networktables/NetworkTableEntry.h"
 #include "units/angle.h"
 #include "units/length.h"
@@ -30,11 +31,14 @@
 #include "frc/Timer.h"
 #include "units/length.h"
 #include <frc/geometry/Pose2d.h>
+#include <frc/geometry/Pose3d.h>
+#include <frc/geometry/Rotation3d.h>
 
 // Team 302 includes
 #include "DragonVision/DragonLimelight.h"
 #include "utils/logging/Logger.h"
 #include "DragonVision/DragonVision.h"
+#include "chassis/SwerveChassis.h"
 
 // Third Party Includes
 
@@ -297,7 +301,15 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetSkew()
 
 std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
 {
-    PoseLatency visionBotPose =->getPoseLatency();
+    // m_networktable = nt::NetworkTableInstance::GetDefault().GetTable(std::string("limelight"));
+    auto robotPoseLimelightArray = m_networktable->GetNumberArray("<botpose>", std::vector<double>(6));
+    auto robotPose3dLimelight = frc::Pose3d(units::meter_t(robotPoseLimelightArray[0]), units::meter_t(robotPoseLimelightArray[1]), units::meter_t(robotPoseLimelightArray[2]), frc::Rotation3d(robotPoseLimelightArray[3], robotPoseLimelightArray[4]));
+    // auto robotPoseLimelight1 = nt::NetworkTableInstance::GetDefault().GetEntry("<botpose>").GetDoubleArray(new double[6]);
+    // auto poseArray = m_networktable.get()->GetDoubleArrayTopic("DragonLimelight");
+    //   m_networktable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+    // auto limelightBotPose = LimelightHelpers::getBotPose("DragonLimelight");
+
+    //    std::optional<VisionData> estimation;
 }
 
 std::optional<units::time::millisecond_t> DragonLimelight::GetPipelineLatency()
