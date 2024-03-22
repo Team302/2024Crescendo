@@ -136,11 +136,6 @@ void HolonomicDrive::Run()
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
                     DriveToGamePiece(forward, strafe, get<1>(info));
-                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("InDrivetoNote"), "True");
-                }
-                else
-                {
-                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("InDrivetoNote"), "False");
                 }
             }
         }
@@ -302,7 +297,7 @@ void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d
     if (abs(forward) < 0.05 && abs(strafe) < 0.05)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-        m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;
+        m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
         m_moveInfo.targetPose = targetPose;
     }
     else

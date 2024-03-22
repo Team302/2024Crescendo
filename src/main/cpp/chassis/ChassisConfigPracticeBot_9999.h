@@ -34,28 +34,28 @@ private:
 	const int m_leftfrontdriveID = 8;
 	const int m_leftfrontturnID = 9;
 	const double m_leftfrontOffset = 0.029053;
-	const bool m_leftfrontdriveInvert = false;
+	const bool m_leftfrontdriveInvert = true;
 	const bool m_leftfrontturnInvert = true;
 	const bool m_leftfrontcancoderInvert = false;
 
 	const int m_leftbackdriveID = 5;
 	const int m_leftbackturnID = 2;
 	const double m_leftbackOffset = 0.39795;
-	const bool m_leftbackdriveInvert = true;
+	const bool m_leftbackdriveInvert = false;
 	const bool m_leftbackturnInvert = false;
 	const bool m_leftbackcancoderInvert = false;
 
 	const int m_rightfrontdriveID = 6;
 	const int m_rightfrontturnID = 7;
 	const double m_rightfrontOffset = 0.018555;
-	const bool m_rightfrontdriveInvert = true;
+	const bool m_rightfrontdriveInvert = false;
 	const bool m_rightfrontturnInvert = false;
 	const bool m_rightfrontcancoderInvert = false;
 
 	const int m_rightbackdriveID = 4;
 	const int m_rightbackturnID = 3;
 	const double m_rightbackOffset = -0.114014;
-	const bool m_rightbackdriveInvert = false;
+	const bool m_rightbackdriveInvert = true;
 	const bool m_rightbackturnInvert = true;
 	const bool m_rightbackcancoderInvert = false;
 };

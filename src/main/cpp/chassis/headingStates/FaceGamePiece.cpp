@@ -42,15 +42,32 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             if (data)
             {
                 auto rotation = data.value().rotationToTarget;
+
                 auto robotRelativeAngle = units::angle::degree_t(rotation.Z());
-                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
+                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees();
+
+                if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+                {
+                    robotRelativeAngle += units::angle::degree_t(180.0);
+                    fieldRelativeAngle -= robotRelativeAngle;
+                }
+                else if (robotRelativeAngle >= units::angle::degree_t(90.0))
+                {
+                    robotRelativeAngle -= units::angle::degree_t(180.0);
+                    fieldRelativeAngle -= robotRelativeAngle;
+                }
+
+                fieldRelativeAngle += robotRelativeAngle;
 
                 chassis->SetStoredHeading(fieldRelativeAngle);
                 double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
                 if (error < 5.0)
-                    chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpFine);
+                    chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(fieldRelativeAngle, m_kpFine);
                 else
-                    chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpCoarse);
+                    chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(fieldRelativeAngle, m_kpCoarse);
+
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Relative Rot"), robotRelativeAngle.to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Filed Rot"), fieldRelativeAngle.to<double>());
             }
         }
     }

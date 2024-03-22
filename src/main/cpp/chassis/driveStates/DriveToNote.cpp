@@ -60,8 +60,14 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     frc::Pose2d currentPose2d = m_chassis->GetPose();
     frc::Rotation2d chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
 
-    units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
-    units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
+    units::angle::degree_t robotRelativeAngle = units::angle::degree_t(0.0);
+
+    if (targetNotePose.Rotation().Degrees() <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+        robotRelativeAngle = targetNotePose.Rotation().Degrees() + units::angle::degree_t(180.0);
+    else if (targetNotePose.Rotation().Degrees() >= units::angle::degree_t(90.0))
+        robotRelativeAngle = targetNotePose.Rotation().Degrees() - units::angle::degree_t(180.0);
+
+    units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
     auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), fieldRelativeAngle);
     std::vector<frc::Pose2d> poses{currentPose2d, noteDistance};
@@ -70,10 +76,6 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
                                                       PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
                                                       GoalEndState(0.0_mps, fieldRelativeAngle, true));
     notepath->preventFlipping = true;
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTN Target X"), targetNotePose.X().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTN Target Y"), targetNotePose.Y().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTN Target Rot"), targetNotePose.Rotation().Degrees().to<double>());
 
     trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
     //}
