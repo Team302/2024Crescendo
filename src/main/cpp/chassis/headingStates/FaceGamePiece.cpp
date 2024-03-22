@@ -60,11 +60,8 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 fieldRelativeAngle += robotRelativeAngle;
 
                 chassis->SetStoredHeading(fieldRelativeAngle);
-                double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
-                if (error < 5.0)
-                    chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(fieldRelativeAngle, m_kpFine);
-                else
-                    chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(fieldRelativeAngle, m_kpCoarse);
+
+                chassisMovement.chassisSpeeds.omega += CalcHeadingCorrection(fieldRelativeAngle, m_kP);
 
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Relative Rot"), robotRelativeAngle.to<double>());
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Filed Rot"), fieldRelativeAngle.to<double>());

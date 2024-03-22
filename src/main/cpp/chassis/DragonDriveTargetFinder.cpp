@@ -64,9 +64,6 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
 
                 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
                 targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, targetPose.ToPose2d());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTF Target X"), get<1>(targetInfo).X().to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTF Target Y"), get<1>(targetInfo).Y().to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("DTF Target Rot"), get<1>(targetInfo).Rotation().Degrees().to<double>());
 
                 return targetInfo;
             }
