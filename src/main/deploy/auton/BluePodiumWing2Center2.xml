@@ -6,13 +6,9 @@
                 pathname= "BluePodiumWing2Center2Start"
                 noteOption="STATE_READY_ODOMETRY_LAUNCH"/>
 
-<zone ygrid1="Y_11"
-            xgrid1="X_Q"
-            ygrid2="Y_13"
-            xgrid2="X_S"
-            noteOption="STATE_AUTO_LAUNCH_ODOMETRY"/>
-
 <snippet file= "ShootWhenStopAuto"/>
+
+<snippet file = "BluePodiumWing2Center2Launch.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2Start"
