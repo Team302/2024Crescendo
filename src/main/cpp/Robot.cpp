@@ -27,7 +27,7 @@
 #include "utils/logging/Logger.h"
 #include "utils/logging/LoggerData.h"
 #include "utils/logging/LoggerEnums.h"
-
+#include "DragonVision/DragonVision.h"
 #include "utils/logging/DataTrace.h"
 
 using std::string;
@@ -197,6 +197,8 @@ void Robot::TeleopPeriodic()
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
     }
+
+    DragonVision::GetDragonVision()->testAndLogVisionData();
 }
 
 void Robot::DisabledInit()

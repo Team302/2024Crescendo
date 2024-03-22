@@ -175,19 +175,16 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 {
 	std::optional<VisionData> selectedData = std::nullopt;
 	std::optional<VisionData> launcherData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
-	std::optional<VisionData> placerData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
 
-	if ((!launcherData) && (!placerData)) // if we see no april tags
+	if ((!launcherData)) // if we see no april tags
 	{
 		return std::nullopt;
 	}
-	else if ((launcherData) && (placerData)) // if we see april tags in both cameras
+	else if (launcherData) // if we see april tags in both cameras
 	{
 		// distance logic
 		units::length::inch_t launcherDistance = launcherData.value().translationToTarget.X();
-		units::length::inch_t placerDistance = placerData.value().translationToTarget.X();
-
-		selectedData = units::math::abs(launcherDistance) <= units::math::abs(placerDistance) ? launcherData : placerData; // if launcher is less ambiguous, select it, and vice versa
+		selectedData = launcherData; // if launcher is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
@@ -195,10 +192,6 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 		{
 
 			selectedData = launcherData;
-		}
-		else if (placerData)
-		{
-			selectedData = placerData;
 		}
 	}
 
@@ -213,9 +206,12 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position)
 {
 	std::optional<VisionData> dataToAprilTag = m_dragonCameraMap[position]->GetDataToNearestAprilTag();
-	if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value())
+	if (dataToAprilTag.has_value())
 	{
-		return dataToAprilTag;
+		if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value())
+		{
+			return dataToAprilTag;
+		}
 	}
 
 	return std::nullopt;
@@ -560,7 +556,7 @@ void DragonVision::testAndLogVisionData()
 {
 	try
 	{
-		std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
+		std::optional<VisionData> testData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
 		DragonVisionStructLogger::logVisionData("VisionData", testData);
 	}
 	catch (std::bad_optional_access &boa)

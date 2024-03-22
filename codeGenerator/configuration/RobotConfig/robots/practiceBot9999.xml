@@ -4042,7 +4042,6 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>0</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <controlDataName>percentOutput</controlDataName>
