@@ -43,21 +43,14 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             {
                 auto rotation = data.value().rotationToTarget;
 
-                auto robotRelativeAngle = units::angle::degree_t(rotation.Z());
-                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees();
+                units::angle::degree_t robotRelativeAngle = ;
 
                 if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
-                {
-                    robotRelativeAngle += units::angle::degree_t(180.0);
-                    fieldRelativeAngle -= robotRelativeAngle;
-                }
+                    robotRelativeAngle = targetNotePose.Rotation().Degrees() + units::angle::degree_t(180.0);
                 else if (robotRelativeAngle >= units::angle::degree_t(90.0))
-                {
-                    robotRelativeAngle -= units::angle::degree_t(180.0);
-                    fieldRelativeAngle -= robotRelativeAngle;
-                }
+                    robotRelativeAngle = targetNotePose.Rotation().Degrees() - units::angle::degree_t(180.0);
 
-                fieldRelativeAngle += robotRelativeAngle;
+                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
                 chassis->SetStoredHeading(fieldRelativeAngle);
 
