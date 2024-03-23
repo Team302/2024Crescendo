@@ -27,18 +27,20 @@
 #include "units/time.h"
 #include "networktables/DoubleArrayTopic.h"
 #include "frc/geometry/Pose3d.h"
-#include "frc/geometry/Rotation3d.h"
+#include "frc/geometry/Rotation2d.h"
 #include "frc/Timer.h"
 #include "units/length.h"
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Pose3d.h>
 #include <frc/geometry/Rotation3d.h>
+#include "frc/Timer.h"
 
 // Team 302 includes
 #include "DragonVision/DragonLimelight.h"
 #include "utils/logging/Logger.h"
 #include "DragonVision/DragonVision.h"
 #include "chassis/SwerveChassis.h"
+#include "chassis/ChassisConfigMgr.h"
 
 // Third Party Includes
 
@@ -64,13 +66,16 @@ DragonLimelight::DragonLimelight(
     CAM_MODE camMode,
     STREAM_MODE streamMode,
     SNAPSHOT_MODE snapMode) : DragonCamera(networkTableName, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(std::string(networkTableName)))
+                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(std::string(networkTableName))),
+                              m_chassis()
 {
     SetPipeline(initialPipeline);
     SetLEDMode(ledMode);
     SetCamMode(camMode);
     SetStreamMode(streamMode);
     ToggleSnapshot(snapMode);
+    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
 }
 
 /// @brief Assume that the current pipeline is AprilTag and that a target is detected
@@ -301,15 +306,48 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetSkew()
 
 std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
 {
+
     // m_networktable = nt::NetworkTableInstance::GetDefault().GetTable(std::string("limelight"));
     auto robotPoseLimelightArray = m_networktable->GetNumberArray("<botpose>", std::vector<double>(6));
-    auto robotPose3dLimelight = frc::Pose3d(units::meter_t(robotPoseLimelightArray[0]), units::meter_t(robotPoseLimelightArray[1]), units::meter_t(robotPoseLimelightArray[2]), frc::Rotation3d(robotPoseLimelightArray[3], robotPoseLimelightArray[4]));
-    // auto robotPoseLimelight1 = nt::NetworkTableInstance::GetDefault().GetEntry("<botpose>").GetDoubleArray(new double[6]);
-    // auto poseArray = m_networktable.get()->GetDoubleArrayTopic("DragonLimelight");
-    //   m_networktable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
-    // auto limelightBotPose = LimelightHelpers::getBotPose("DragonLimelight");
+    auto robotPoseLimelightRotation = frc::Rotation3d(units::radian_t(robotPoseLimelightArray[3]), units::radian_t(robotPoseLimelightArray[4]), units::radian_t(robotPoseLimelightArray[5]));
+    auto robotPose3dLimelight = frc::Pose3d(units::meter_t(robotPoseLimelightArray[0]), units::meter_t(robotPoseLimelightArray[1]), units::meter_t(robotPoseLimelightArray[2]), robotPoseLimelightRotation);
+    double robotPoseLatencySeconds = robotPoseLimelightArray[6] / 1000;
+    double numberOfTagsDetected = robotPoseLimelightArray[7];
+    double averageTagTargetArea = robotPoseLimelightArray[10];
 
-    //    std::optional<VisionData> estimation;
+    // in case of invalid Limelight targets
+    if (robotPose3dLimelight.ToPose2d().X() == units::meter_t(0.0))
+    {
+        return;
+    }
+
+    double poseDifference = m_chassis->GetPose().Translation().Distance(robotPose3dLimelight.ToPose2d().Translation()).to<double>();
+
+    double xyStds;
+    double degStds;
+    // multiple targets detected
+    if (numberOfTagsDetected >= 2)
+    {
+        xyStds = 0.5;
+        degStds = 6;
+    }
+    // 1 target with large area and close to estimated pose
+    else if (averageTagTargetArea > 0.8 && poseDifference < 0.5)
+    {
+        xyStds = 1.0;
+        degStds = 12;
+    }
+    // 1 target farther away and estimated pose is close
+    else if (averageTagTargetArea > 0.1 && poseDifference < 0.3)
+    {
+        xyStds = 2.0;
+        degStds = 30;
+    }
+    // conditions don't match to add a vision measurement
+    else
+    {
+        return;
+    }
 }
 
 std::optional<units::time::millisecond_t> DragonLimelight::GetPipelineLatency()

@@ -136,6 +136,9 @@ public:
 
     void PrintValues(); // Prints out all values to ensure everything is working and connected
 
+private:
+    SwerveChassis *m_chassis;
+
 protected:
     units::angle::degree_t GetTx() const;
     units::angle::degree_t GetTy() const;
