@@ -66,6 +66,9 @@ public:
 	bool autoLaunchReady();
 	bool HasNote() const;
 
+	bool GetTransitionFromHoldFeedToReady() { return m_TransitionFromHoldFeedToReady; }
+	void SetTransitionFromHoldFeedToReady(bool state) { m_TransitionFromHoldFeedToReady = state; }
+
 private:
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
 
@@ -86,4 +89,6 @@ private:
 	double MonitorForNoteInIntakes();
 	bool m_noteInIntake = false;
 	bool m_noteInFeeder = false;
+
+	bool m_TransitionFromHoldFeedToReady = false;
 };
