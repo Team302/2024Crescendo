@@ -155,6 +155,11 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		transition = true;
 		reason = 7;
 	}
+	else if (currentState == static_cast<int>(m_mechanism->STATE_HOLD_FEEDER) && (m_mechanism->GetTransitionFromHoldFeedToReady()))
+	{
+		transition = true;
+		reason = 8;
+	}
 
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason); // Remove logging after Note management is all verifed
 	return (transition);
