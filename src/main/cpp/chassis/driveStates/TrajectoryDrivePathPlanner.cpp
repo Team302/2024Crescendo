@@ -84,12 +84,13 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         LogState(desiredState);
 
         auto refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
-        if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::IGNORE
-             || chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE)
+        if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::IGNORE)
         {
             chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
+            refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
         }
-        refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
+        else if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE)
+            refChassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(0);
 
         chassisMovement.chassisSpeeds = refChassisSpeeds;
 
