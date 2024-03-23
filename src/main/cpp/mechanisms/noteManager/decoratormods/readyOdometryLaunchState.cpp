@@ -50,7 +50,7 @@ void readyOdometryLaunchState::Init()
 void readyOdometryLaunchState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyOdometryLaunchState"), string("run"));
-	double targetAngle = m_mechanism->GetRequiredLaunchAngle();
+	auto targetAngle = m_mechanism->GetRequiredLaunchAngle();
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, targetAngle);
 
 	m_genState->Run();

@@ -62,7 +62,7 @@ public:
 	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
-	double GetRequiredLaunchAngle();
+	units::angle::degree_t GetRequiredLaunchAngle();
 	bool autoLaunchReady();
 	bool HasNote() const;
 
@@ -86,4 +86,5 @@ private:
 	double MonitorForNoteInIntakes();
 	bool m_noteInIntake = false;
 	bool m_noteInFeeder = false;
+	const double m_similarDistToleranceMeters = 0.5;
 };

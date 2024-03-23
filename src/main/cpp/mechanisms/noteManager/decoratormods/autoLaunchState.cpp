@@ -95,7 +95,7 @@ bool autoLaunchState::AtTarget()
 		}
 	}
 
-	return (((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed)) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999));
+	return (((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle.value()) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed)) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999));
 }
 
 bool autoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)

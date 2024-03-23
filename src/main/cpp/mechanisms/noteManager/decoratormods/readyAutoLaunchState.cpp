@@ -85,7 +85,7 @@ bool readyAutoLaunchState::AtTarget()
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
 
-	return ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed));
+	return ((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle.value()) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed));
 }
 
 bool readyAutoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
