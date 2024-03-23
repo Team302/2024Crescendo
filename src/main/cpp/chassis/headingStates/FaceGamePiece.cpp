@@ -43,6 +43,8 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             {
                 auto rotation = data.value().rotationToTarget;
 
+                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(0);
+
                 units::angle::degree_t robotRelativeAngle = rotation.Z();
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("robotRelativeAngleBefore"), robotRelativeAngle.to<double>());
 
