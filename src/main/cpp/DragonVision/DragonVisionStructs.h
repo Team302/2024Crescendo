@@ -23,15 +23,16 @@ enum PoseEstimationStrategy
 {
     MULTI_TAG,
     SINGLE_TAG,
+    MEGA_TAG,
     NONE
 };
 
 struct VisionPose
 {
-    frc::Pose3d estimatedPose = frc::Pose3d{};                               // empty pose3d if we don't give one out
-    units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0); // negative timestamp for no timestamp
-    wpi::array<double, 3> visionMeasurementStdDevs = {0.1, 0.1, 0.1};        // default std devs from WPI docs
-    PoseEstimationStrategy estimationStrategy = PoseEstimationStrategy::MULTI_TAG; //default estimation strategy, what should be used
+    frc::Pose3d estimatedPose = frc::Pose3d{};                                     // empty pose3d if we don't give one out
+    units::time::millisecond_t timeStamp = units::time::millisecond_t(-1.0);       // negative timestamp for no timestamp
+    wpi::array<double, 3> visionMeasurementStdDevs = {0.1, 0.1, 0.1};              // default std devs from WPI docs
+    PoseEstimationStrategy estimationStrategy = PoseEstimationStrategy::MULTI_TAG; // default estimation strategy, what should be used
 };
 
 struct VisionData

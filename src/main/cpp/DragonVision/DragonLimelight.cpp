@@ -321,8 +321,6 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
         return;
     }
 
-    double poseDifference = m_chassis->GetPose().Translation().Distance(robotPose3dLimelight.ToPose2d().Translation()).to<double>();
-
     double xyStds;
     double degStds;
     // multiple targets detected
@@ -332,13 +330,13 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
         degStds = 6;
     }
     // 1 target with large area and close to estimated pose
-    else if (averageTagTargetArea > 0.8 && poseDifference < 0.5)
+    else if (averageTagTargetArea > 0.8)
     {
         xyStds = 1.0;
         degStds = 12;
     }
     // 1 target farther away and estimated pose is close
-    else if (averageTagTargetArea > 0.1 && poseDifference < 0.3)
+    else if (averageTagTargetArea > 0.1)
     {
         xyStds = 2.0;
         degStds = 30;
@@ -348,6 +346,8 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
     {
         return;
     }
+    VisionPose LimelightVisionPose = {robotPose3dLimelight, frc::Timer().GetFPGATimestamp() - robotPoseLatencySeconds, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG};
+    return LimelightVisionPose;
 }
 
 std::optional<units::time::millisecond_t> DragonLimelight::GetPipelineLatency()
