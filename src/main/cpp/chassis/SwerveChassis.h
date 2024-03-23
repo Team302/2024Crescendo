@@ -36,6 +36,7 @@
 #include "chassis/IChassis.h"
 #include "chassis/SwerveModule.h"
 #include "chassis/ChassisMovement.h"
+#include "DragonVision/DragonVision.h"
 #include "utils/logging/LoggableItem.h"
 
 #include "ctre/phoenix6/Pigeon2.hpp"
@@ -165,4 +166,5 @@ private:
     bool m_initialized = false;
     std::string m_networkTableName;
     bool m_isRotating = false;
+    DragonVision *m_vision;
 };
