@@ -165,13 +165,13 @@ void noteManagerAllStatesStateGen::InitCompBot302()
 	else if ( GetnoteManager()->GetCurrentState() == noteManagerGen::STATE_NAMES::STATE_LAUNCHER_TO_PLACER )
 	{
 		GetnoteManager()->getfrontIntake()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, 1 );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, -1 );
 		GetnoteManager()->getbackIntake()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE, -1 );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE, 1 );
 		GetnoteManager()->getTransfer()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, -1 );
 		GetnoteManager()->getPlacer()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, 0 );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, 1 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInch(), units::length::inch_t ( units::length::inch_t ( 0 ) ) );
 		GetnoteManager()->getFeeder()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, -1 );
@@ -391,7 +391,7 @@ void noteManagerAllStatesStateGen::InitCompBot302()
 	else if ( GetnoteManager()->GetCurrentState() == noteManagerGen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER )
 	{
 		GetnoteManager()->getfrontIntake()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, -1 );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE, 1 );
 		GetnoteManager()->getbackIntake()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE, 1 );
 		GetnoteManager()->getTransfer()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
@@ -400,7 +400,7 @@ void noteManagerAllStatesStateGen::InitCompBot302()
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, -1 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, GetnoteManager()->getpositionInch(), units::length::inch_t ( units::length::inch_t ( 0 ) ) );
 		GetnoteManager()->getFeeder()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 0 );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 1 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 165 ) ) );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 165 ) ) );
 		GetnoteManager()->getlauncherAngle()->SetControlConstants ( 0,*GetnoteManager()->getpercentOutput() );
