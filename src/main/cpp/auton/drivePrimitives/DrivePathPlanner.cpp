@@ -133,7 +133,7 @@ void DrivePathPlanner::Run()
                         auto notestate = dynamic_cast<DriveToNote *>(state);
                         if (notestate != nullptr)
                         {
-                            notestate->Init(moveInfo);
+                            // notestate->Init(moveInfo);
                             m_trajectory = notestate->GetTrajectory();
                             moveInfo.pathplannerTrajectory = m_trajectory;
                             moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
