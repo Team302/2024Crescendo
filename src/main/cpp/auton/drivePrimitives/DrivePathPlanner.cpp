@@ -116,6 +116,7 @@ void DrivePathPlanner::Run()
         if (m_switchedToVisionDrive)
         {
             moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+            moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
         }
         else if (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
         {
@@ -136,6 +137,7 @@ void DrivePathPlanner::Run()
                             m_trajectory = notestate->GetTrajectory();
                             moveInfo.pathplannerTrajectory = m_trajectory;
                             moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+                            moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
                             m_switchedToVisionDrive = true;
                         }
                     }

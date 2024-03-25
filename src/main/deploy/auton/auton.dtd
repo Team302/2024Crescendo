@@ -6,7 +6,7 @@
 <!ELEMENT primitive (zone* ) >
 <!ATTLIST primitive 
           id                ( DO_NOTHING | HOLD_POSITION | 
-                              DRIVE_PATH_PLANNER | RESET_POSITION_PATH_PLANNER | RESET_POSITION_PATH_PLANNER_NO_VISION | DRIVE_TO_NOTE) "DO_NOTHING"
+                              DRIVE_PATH_PLANNER | RESET_POSITION_PATH_PLANNER | RESET_POSITION_PATH_PLANNER_NO_VISION) "DO_NOTHING"
 		  time				CDATA #IMPLIED
           headingOption     CDATA "MAINTAIN"
           heading           CDATA "0.0"
