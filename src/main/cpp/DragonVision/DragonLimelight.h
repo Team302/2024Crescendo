@@ -107,6 +107,8 @@ public:
     std::optional<VisionPose> GetFieldPosition();
     std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
 
+    std::optional<VisionPose> EstimatePoseOdometryLimelight();
+
     std::optional<VisionPose> GetRedFieldPosition();
     std::optional<VisionPose> GetBlueFieldPosition();
     std::optional<VisionPose> GetOriginFieldPosition();
