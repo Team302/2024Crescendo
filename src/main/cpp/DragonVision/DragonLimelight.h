@@ -124,6 +124,9 @@ public:
     std::optional<units::length::inch_t> EstimateTargetYDistance_RelToRobotCoords();
     std::optional<units::length::inch_t> EstimateTargetZDistance_RelToRobotCoords();
 
+    units::length::inch_t CalcXTargetToRobot(units::angle::degree_t camPitch, units::length::inch_t mountHeight, units::length::inch_t camXOffset, units::angle::degree_t tY);
+    units::length::inch_t CalcYTargetToRobot(units::angle::degree_t camYaw, units::length::inch_t xTargetDistance, units::length::inch_t camYOffset, units::length::inch_t camXOffset, units::angle::degree_t tX);
+
     // Setters
     void SetLEDMode(DragonLimelight::LED_MODE mode);
     void SetCamMode(DragonLimelight::CAM_MODE mode);
@@ -135,9 +138,6 @@ public:
     bool UpdatePipeline();
 
     void PrintValues(); // Prints out all values to ensure everything is working and connected
-
-private:
-    SwerveChassis *m_chassis;
 
 protected:
     units::angle::degree_t GetTx() const;

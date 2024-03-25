@@ -20,27 +20,21 @@
 // FRC includes
 #include "networktables/NetworkTableInstance.h"
 #include "networktables/NetworkTable.h"
-#include "DragonVision/LimelightHelpers.h"
 #include "networktables/NetworkTableEntry.h"
 #include "units/angle.h"
 #include "units/length.h"
 #include "units/time.h"
 #include "networktables/DoubleArrayTopic.h"
 #include "frc/geometry/Pose3d.h"
-#include "frc/geometry/Rotation2d.h"
+#include "frc/geometry/Rotation3d.h"
 #include "frc/Timer.h"
 #include "units/length.h"
-#include <frc/geometry/Pose2d.h>
-#include <frc/geometry/Pose3d.h>
-#include <frc/geometry/Rotation3d.h>
-#include "frc/Timer.h"
+#include "units/time.h"
 
 // Team 302 includes
 #include "DragonVision/DragonLimelight.h"
 #include "utils/logging/Logger.h"
 #include "DragonVision/DragonVision.h"
-#include "chassis/SwerveChassis.h"
-#include "chassis/ChassisConfigMgr.h"
 
 // Third Party Includes
 
@@ -66,16 +60,13 @@ DragonLimelight::DragonLimelight(
     CAM_MODE camMode,
     STREAM_MODE streamMode,
     SNAPSHOT_MODE snapMode) : DragonCamera(networkTableName, initialPipeline, mountingXOffset, mountingYOffset, mountingZOffset, pitch, yaw, roll),
-                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(std::string(networkTableName))),
-                              m_chassis()
+                              m_networktable(nt::NetworkTableInstance::GetDefault().GetTable(std::string(networkTableName)))
 {
     SetPipeline(initialPipeline);
     SetLEDMode(ledMode);
     SetCamMode(camMode);
     SetStreamMode(streamMode);
     ToggleSnapshot(snapMode);
-    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
 }
 
 /// @brief Assume that the current pipeline is AprilTag and that a target is detected
@@ -223,25 +214,24 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetYaw()
     {
         return -1.0 * GetTy();
     }
-    // uncommenting this block might fix issue
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, std::string("DragonLimelight"), std::string("GetTargetVerticalOffset"), std::string("Invalid limelight rotation"));
     return GetTx();
 }
 
 std::optional<units::angle::degree_t> DragonLimelight::GetTargetYawRobotFrame()
 {
-    // Get the horizontal angle to the target and convert to radians
-    std::optional<units::angle::radian_t> limelightFrameHorizAngleRad = GetTargetYaw();
-    std::optional<units::length::inch_t> targetXdistance = EstimateTargetXDistance();
-    if (limelightFrameHorizAngleRad && targetXdistance)
+    std::optional<units::length::inch_t> targetXdistance = EstimateTargetXDistance_RelToRobotCoords();
+    std::optional<units::length::inch_t> targetYdistance = EstimateTargetYDistance_RelToRobotCoords();
+
+    if (targetXdistance.has_value() && targetYdistance.has_value())
     {
-        units::length::inch_t targetHorizOffset = targetXdistance.value() * tan(limelightFrameHorizAngleRad.value().to<double>());
-
-        units::length::inch_t targetHorizOffsetRobotFrame = targetHorizOffset + GetMountingYOffset();    // the offset is positive if the limelight is to the left of the center of the robot
-        units::length::inch_t targetDistanceRobotFrame = targetXdistance.value() + GetMountingXOffset(); // the offset is negative if the limelight is behind the center of the robot
-
-        units::angle::radian_t angleOffset = units::math::atan2(targetHorizOffsetRobotFrame, targetDistanceRobotFrame);
-        return angleOffset;
+        if (std::abs(targetXdistance.value().to<double>()) > 0)
+        {
+            return units::math::atan2(targetYdistance.value(), targetXdistance.value());
+        }
+        else
+        {
+            return units::angle::degree_t(0.0);
+        }
     }
 
     return std::nullopt;
@@ -311,14 +301,14 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
     auto robotPoseLimelightArray = m_networktable->GetNumberArray("<botpose>", std::vector<double>(6));
     auto robotPoseLimelightRotation = frc::Rotation3d(units::radian_t(robotPoseLimelightArray[3]), units::radian_t(robotPoseLimelightArray[4]), units::radian_t(robotPoseLimelightArray[5]));
     auto robotPose3dLimelight = frc::Pose3d(units::meter_t(robotPoseLimelightArray[0]), units::meter_t(robotPoseLimelightArray[1]), units::meter_t(robotPoseLimelightArray[2]), robotPoseLimelightRotation);
-    double robotPoseLatencySeconds = robotPoseLimelightArray[6] / 1000;
+    auto robotPoseLatencySeconds = units::time::millisecond_t(robotPoseLimelightArray[6]) / 1000;
     double numberOfTagsDetected = robotPoseLimelightArray[7];
     double averageTagTargetArea = robotPoseLimelightArray[10];
 
     // in case of invalid Limelight targets
     if (robotPose3dLimelight.ToPose2d().X() == units::meter_t(0.0))
     {
-        return;
+        return std::nullopt;
     }
 
     double xyStds;
@@ -344,7 +334,7 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
     // conditions don't match to add a vision measurement
     else
     {
-        return;
+        return std::nullopt;
     }
     VisionPose LimelightVisionPose = {robotPose3dLimelight, frc::Timer().GetFPGATimestamp() - robotPoseLatencySeconds, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG};
     return LimelightVisionPose;
@@ -441,6 +431,21 @@ void DragonLimelight::PrintValues()
  */
 }
 
+units::length::inch_t DragonLimelight::CalcXTargetToRobot(units::angle::degree_t camPitch, units::length::inch_t mountHeight, units::length::inch_t camXOffset, units::angle::degree_t tY)
+{
+    units::length::inch_t XDistance = units::length::inch_t((units::math::tan(units::angle::degree_t(90) + camPitch + tY) * mountHeight) + units::math::abs(camXOffset));
+    if (GetCameraYaw() > units::degree_t(std::abs(90.0)))
+    {
+        return -1.0 * XDistance;
+    }
+    return XDistance;
+}
+
+units::length::inch_t DragonLimelight::CalcYTargetToRobot(units::angle::degree_t camYaw, units::length::inch_t xTargetDistance, units::length::inch_t camYOffset, units::length::inch_t camXOffset, units::angle::degree_t tX)
+{
+    return units::length::inch_t((units::math::tan(tX + camYaw) * (xTargetDistance - camXOffset)) - camYOffset);
+}
+
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance()
 {
     units::length::meter_t mountingHeight = m_cameraPose.Z();
@@ -519,28 +524,23 @@ std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance()
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetXDistance_RelToRobotCoords()
 {
-    std::optional<units::length::inch_t> xDistance = EstimateTargetXDistance();
-    if (xDistance)
-    {
-        units::length::inch_t targetXoffset_RF_inch = xDistance.value() + GetMountingXOffset(); ///< the offset is negative if the limelight is behind the center of the robot
-
-        return targetXoffset_RF_inch;
-    }
-
-    return std::nullopt;
+    units::angle::degree_t camPitch = GetCameraPitch();
+    units::length::inch_t mountHeight = GetMountingZOffset();
+    units::length::inch_t camXOffset = GetMountingXOffset();
+    units::angle::degree_t Ty = GetTargetPitch().value();
+    return CalcXTargetToRobot(camPitch, mountHeight, camXOffset, Ty);
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetYDistance_RelToRobotCoords()
 {
-    std::optional<units::length::inch_t> yDistance = EstimateTargetYDistance();
-    if (yDistance)
-    {
-        units::length::inch_t targetYoffset_RF_inch = yDistance.value() + GetMountingYOffset(); ///< the offset is positive if the limelight is to the left of the center of the robot
 
-        return targetYoffset_RF_inch;
-    }
+    units::angle::degree_t camYaw = GetCameraYaw();
+    units::length::inch_t camYOffset = GetMountingYOffset();
+    units::length::inch_t camXOffset = GetMountingXOffset();
+    units::angle::degree_t Tx = GetTargetYaw().value();
+    units::length::inch_t xTargetDistance = CalcXTargetToRobot(GetCameraPitch(), GetMountingZOffset(), GetMountingXOffset(), GetTargetPitch().value());
 
-    return std::nullopt;
+    return CalcYTargetToRobot(camYaw, xTargetDistance, camYOffset, camXOffset, Tx);
 }
 
 std::optional<units::length::inch_t> DragonLimelight::EstimateTargetZDistance_RelToRobotCoords()
