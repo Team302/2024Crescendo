@@ -36,7 +36,7 @@ class DriveToNote : public TrajectoryDrivePathPlanner
 public:
     DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
 
-    pathplanner::PathPlannerTrajectory CreateDriveToNote(frc::Pose2d targetPose);
+    pathplanner::PathPlannerTrajectory CreateDriveToNote();
     void Init(ChassisMovement &chassisMovement) override;
     pathplanner::PathPlannerTrajectory GetTrajectory() const { return m_trajectory; }
 

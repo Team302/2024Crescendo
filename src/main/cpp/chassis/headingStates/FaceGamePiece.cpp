@@ -62,9 +62,12 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
                 chassisMovement.chassisSpeeds.omega -= CalcHeadingCorrection(fieldRelativeAngle, m_kP);
 
-                Logger::GetLogger()
-                    ->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("robotRelativeAngle"), robotRelativeAngle.to<double>());
+                chassisMovement.targetPose = frc::Pose2d(data.value().transformToTarget.X(), data.value().transformToTarget.X(), fieldRelativeAngle);
+
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("robotRelativeAngle"), robotRelativeAngle.to<double>());
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("fieldRelativeAnglet"), fieldRelativeAngle.to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("targetNotePose.X()"), data.value().transformToTarget.X().to<double>());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("targetNotePose.Y()"), data.value().transformToTarget.Y().to<double>());
             }
         }
     }

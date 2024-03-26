@@ -28,5 +28,5 @@ public:
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 private:
-    const double m_kP= 0.5;
+    const double m_kP = 6.0;
 };
