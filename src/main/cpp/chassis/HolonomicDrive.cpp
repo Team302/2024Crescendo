@@ -302,7 +302,7 @@ void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d
     if (abs(forward) < 0.2 && abs(strafe) < 0.2)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-        m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
+        m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;
         m_moveInfo.targetPose = targetPose;
     }
     else

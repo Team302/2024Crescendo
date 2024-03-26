@@ -117,7 +117,6 @@ void SwerveChassis::InitStates()
 {
     m_robotDrive = new RobotDrive(this);
     auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(m_robotDrive);
-    auto driveToNote = new DriveToNote(m_robotDrive, trajectoryDrivePathPlanner);
 
     m_driveStateMap[ChassisOptionEnums::DriveStateType::FIELD_DRIVE] = new FieldDrive(m_robotDrive);
     m_driveStateMap[ChassisOptionEnums::DriveStateType::HOLD_DRIVE] = new HoldDrive();
@@ -271,7 +270,6 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
     if (!m_initialized && state != nullptr)
     {
         state->Init(moveInfo);
-        driveToNote->Init();
         m_initialized = true;
     }
 

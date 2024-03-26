@@ -58,7 +58,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     DragonVisionStructLogger::logPose2d("CreateDriveToNote", targetNotePose);
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    ;
+
     pathplanner::PathPlannerTrajectory trajectory;
 
     frc::Pose2d currentPose2d = m_chassis->GetPose();
@@ -102,6 +102,6 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("CreateDriveToNote"), std::string("fieldRelativeAngle"), fieldRelativeAngle.to<double>());
 
     trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-    //}
+
     return trajectory;
 }
