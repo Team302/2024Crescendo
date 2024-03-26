@@ -45,6 +45,7 @@ DriveToNote::DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *tra
 
 void DriveToNote::Init(ChassisMovement &chassisMovement)
 {
+    // chassisMovement.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Init"), "True");
     m_trajectory = CreateDriveToNote(chassisMovement.targetPose);
     chassisMovement.pathplannerTrajectory = m_trajectory;
@@ -57,7 +58,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     DragonVisionStructLogger::logPose2d("CreateDriveToNote", targetNotePose);
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-
+    ;
     pathplanner::PathPlannerTrajectory trajectory;
 
     frc::Pose2d currentPose2d = m_chassis->GetPose();
@@ -72,14 +73,13 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     { // Intake for front and back (optimizing movement)
         robotRelativeAngle = targetNotePose.Rotation().Degrees() + units::angle::degree_t(180.0);
         interX -= units::length::meter_t(chassis->GetWheelBase());
-        //interY -= units::length::meter_t(chassis->GetWheelBase());
+        // interY -= units::length::meter_t(chassis->GetWheelBase());
     }
     else if (robotRelativeAngle >= units::angle::degree_t(90.0))
     {
         robotRelativeAngle = targetNotePose.Rotation().Degrees() - units::angle::degree_t(180.0);
         interX -= units::length::meter_t(chassis->GetWheelBase());
-        //interY -= units::length::meter_t(chassis->GetWheelBase());
-    } else {
+        // interY -= units::length::meter_t(chassis->GetWheelBase());    } else {
         interX += units::length::meter_t(chassis->GetWheelBase());
     }
 
