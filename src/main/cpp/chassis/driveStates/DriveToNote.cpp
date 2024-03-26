@@ -62,15 +62,13 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
     pathplanner::PathPlannerTrajectory trajectory;
 
     frc::Pose2d currentPose2d = m_chassis->GetPose();
-    frc::Rotation2d chassisHeading = frc::Rotation2d(m_chassis->GetStoredHeading());
-
     units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
 
     units::length::meter_t interX = currentPose2d.X();
     units::length::meter_t interY = currentPose2d.Y();
 
-    if (robotRelativeAngle <= units::angle::degree_t(-90.0))
-    { // Intake for front and back (optimizing movement)
+    if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+    {
         robotRelativeAngle = targetNotePose.Rotation().Degrees() + units::angle::degree_t(180.0);
         interX -= units::length::meter_t(chassis->GetWheelBase());
         // interY -= units::length::meter_t(chassis->GetWheelBase());
