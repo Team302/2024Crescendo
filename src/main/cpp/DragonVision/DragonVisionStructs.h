@@ -23,6 +23,7 @@ enum PoseEstimationStrategy
 {
     MULTI_TAG,
     SINGLE_TAG,
+    MEGA_TAG,
     NONE
 };
 

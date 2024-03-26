@@ -102,7 +102,8 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                                         {0.1, 0.1, 0.1}),
                                                         m_storedYaw(units::angle::degree_t(0.0)),
                                                         m_targetHeading(units::angle::degree_t(0.0)),
-                                                        m_networkTableName(networkTableName)
+                                                        m_networkTableName(networkTableName),
+                                                        m_vision(DragonVision::GetDragonVision())
 {
     ReadConstants(configfilename);
     InitStates();
@@ -310,6 +311,16 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_frontRight->GetPosition(),
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
+    if (m_vision != nullptr)
+    {
+        auto pos = m_vision->GetRobotPosition();
+        if (pos)
+        {
+            m_poseEstimator.AddVisionMeasurement(pos.value().estimatedPose.ToPose2d(),
+                                                 pos.value().timeStamp,
+                                                 pos.value().visionMeasurementStdDevs);
+        }
+    }
     LogInformation();
 }
 

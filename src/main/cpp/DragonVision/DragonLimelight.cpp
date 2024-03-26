@@ -29,6 +29,7 @@
 #include "frc/geometry/Rotation3d.h"
 #include "frc/Timer.h"
 #include "units/length.h"
+#include "units/time.h"
 
 // Team 302 includes
 #include "DragonVision/DragonLimelight.h"
@@ -291,6 +292,52 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetSkew()
     }
 
     return std::nullopt;
+}
+
+std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
+{
+
+    // m_networktable = nt::NetworkTableInstance::GetDefault().GetTable(std::string("limelight"));
+    auto robotPoseLimelightArray = m_networktable->GetNumberArray("<botpose>", std::vector<double>(6));
+    auto robotPoseLimelightRotation = frc::Rotation3d(units::radian_t(robotPoseLimelightArray[3]), units::radian_t(robotPoseLimelightArray[4]), units::radian_t(robotPoseLimelightArray[5]));
+    auto robotPose3dLimelight = frc::Pose3d(units::meter_t(robotPoseLimelightArray[0]), units::meter_t(robotPoseLimelightArray[1]), units::meter_t(robotPoseLimelightArray[2]), robotPoseLimelightRotation);
+    auto robotPoseLatencySeconds = units::time::millisecond_t(robotPoseLimelightArray[6]) / 1000;
+    double numberOfTagsDetected = robotPoseLimelightArray[7];
+    double averageTagTargetArea = robotPoseLimelightArray[10];
+
+    // in case of invalid Limelight targets
+    if (robotPose3dLimelight.ToPose2d().X() == units::meter_t(0.0))
+    {
+        return std::nullopt;
+    }
+
+    double xyStds;
+    double degStds;
+    // multiple targets detected
+    if (numberOfTagsDetected >= 2)
+    {
+        xyStds = 0.5;
+        degStds = 6;
+    }
+    // 1 target with large area and close to estimated pose
+    else if (averageTagTargetArea > 0.8)
+    {
+        xyStds = 1.0;
+        degStds = 12;
+    }
+    // 1 target farther away and estimated pose is close
+    else if (averageTagTargetArea > 0.1)
+    {
+        xyStds = 2.0;
+        degStds = 30;
+    }
+    // conditions don't match to add a vision measurement
+    else
+    {
+        return std::nullopt;
+    }
+    VisionPose LimelightVisionPose = {robotPose3dLimelight, frc::Timer().GetFPGATimestamp() - robotPoseLatencySeconds, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG};
+    return LimelightVisionPose;
 }
 
 std::optional<units::time::millisecond_t> DragonLimelight::GetPipelineLatency()
