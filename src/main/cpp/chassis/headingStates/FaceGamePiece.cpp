@@ -56,6 +56,7 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("ChassisRotationDegrees"), chassis->GetPose().Rotation().Degrees().to<double>());
 
                 units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("GetStoredHeading"), chassis->GetStoredHeading().to<double>());
 
                 chassis->SetStoredHeading(fieldRelativeAngle);
 

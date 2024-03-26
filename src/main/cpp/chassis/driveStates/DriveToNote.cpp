@@ -29,6 +29,7 @@
 #include "chassis/driveStates/DriveToNote.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVisionStructs.h"
+#include "DragonVision/DragonVisionStructLogger.h"
 #include "chassis/DragonDriveTargetFinder.h"
 
 #include "utils/logging/Logger.h"
@@ -53,6 +54,7 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d targetNotePose)
 {
 
+    DragonVisionStructLogger::logPose2d("CreateDriveToNote", targetNotePose);
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 
@@ -63,15 +65,32 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote(frc::Pose2d ta
 
     units::angle::degree_t robotRelativeAngle = targetNotePose.Rotation().Degrees();
 
-    if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+    units::length::meter_t interX = currentPose2d.X();
+    units::length::meter_t interY = currentPose2d.Y();
+
+    if (robotRelativeAngle <= units::angle::degree_t(-90.0))
+    { // Intake for front and back (optimizing movement)
         robotRelativeAngle = targetNotePose.Rotation().Degrees() + units::angle::degree_t(180.0);
+        interX -= units::length::meter_t(chassis->GetWheelBase());
+        //interY -= units::length::meter_t(chassis->GetWheelBase());
+    }
     else if (robotRelativeAngle >= units::angle::degree_t(90.0))
+    {
         robotRelativeAngle = targetNotePose.Rotation().Degrees() - units::angle::degree_t(180.0);
+        interX -= units::length::meter_t(chassis->GetWheelBase());
+        //interY -= units::length::meter_t(chassis->GetWheelBase());
+    } else {
+        interX += units::length::meter_t(chassis->GetWheelBase());
+    }
 
     units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
-    auto noteDistance = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), fieldRelativeAngle);
-    std::vector<frc::Pose2d> poses{currentPose2d, noteDistance};
+    auto intermediateNotePose = frc::Pose2d(interX, interY, fieldRelativeAngle);
+    auto finalNotePose = frc::Pose2d(targetNotePose.X(), targetNotePose.Y(), fieldRelativeAngle);
+    DragonVisionStructLogger::logPose2d("CreateDriveToNote-currentPose", currentPose2d);
+    DragonVisionStructLogger::logPose2d("CreateDriveToNote-intermediateNotePose", intermediateNotePose);
+    DragonVisionStructLogger::logPose2d("CreateDriveToNote-notedistance", finalNotePose);
+    std::vector<frc::Pose2d> poses{currentPose2d, intermediateNotePose, finalNotePose};
     std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
     auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
                                                       PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
