@@ -33,7 +33,6 @@
 #include "chassis/DragonDriveTargetFinder.h"
 #include "chassis/driveStates/DriveToNote.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
-#include "chassis/IChassis.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
 #include "DragonVision/DragonVision.h"

@@ -16,7 +16,6 @@
 
 #include "auton/PrimitiveEnums.h"
 #include "auton/PrimitiveParams.h"
-#include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
