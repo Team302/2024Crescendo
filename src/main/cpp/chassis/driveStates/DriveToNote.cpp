@@ -84,7 +84,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
                 else if (fieldRelativeAngle < units::angle::degree_t(-180))
                     fieldRelativeAngle = fieldRelativeAngle + units::angle::degree_t(360);
 
-                if (units::math::abs(robotRelativeAngle) <= units::angle::degree_t(90) && units::math::abs(fieldRelativeAngle) <= units::angle::degree_t(90))
+                if (units::math::abs(fieldRelativeAngle) <= units::angle::degree_t(90))
                 {
                     xPos = (currentPose2d.X() + data.value().transformToTarget.X());
                     yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
