@@ -79,6 +79,11 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
                 units::length::meter_t xPos = units::length::meter_t();
                 units::length::meter_t yPos = units::length::meter_t();
 
+                if (fieldRelativeAngle > units::angle::degree_t(180))
+                    fieldRelativeAngle = units::angle::degree_t(360) - fieldRelativeAngle;
+                else if (fieldRelativeAngle < units::angle::degree_t(-180))
+                    fieldRelativeAngle = fieldRelativeAngle + units::angle::degree_t(360);
+
                 if (units::math::abs(robotRelativeAngle) <= units::angle::degree_t(90) && units::math::abs(fieldRelativeAngle) <= units::angle::degree_t(90))
                 {
 
