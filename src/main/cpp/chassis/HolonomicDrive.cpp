@@ -113,7 +113,7 @@ void HolonomicDrive::Run()
 
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
-        auto isAlignGamePieceSelected = false; // controller->IsButtonPressed(TeleopControlFunctions::INTAKE);
+        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::INTAKE);
         auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::ROBOT_ORIENTED_DRIVE);
         auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
         auto isAlignWithStageSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE);
@@ -135,11 +135,11 @@ void HolonomicDrive::Run()
                 auto type = get<0>(info);
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
-                    AlignGamePiece();
-                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
+                    DriveToGamePiece(forward, strafe, get<1>(info));
                 }
             }
         }
+
         else if (isAlignWithAmpSelected)
         {
             AlignToAmp();
@@ -216,6 +216,8 @@ void HolonomicDrive::Run()
         CheckTipping(checkTipping);
 
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Heading Option", m_moveInfo.headingOption);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Drive Option", m_moveInfo.driveOption);
+
         m_swerve->Drive(m_moveInfo);
     }
     else
@@ -292,11 +294,12 @@ void HolonomicDrive::HoldPosition()
 }
 void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose)
 {
-    if (abs(forward) < 0.05 && abs(strafe) < 0.05)
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToGamePiece", "forward", forward);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToGamePiece", "strafe", strafe);
+    if (abs(forward) < 0.2 && abs(strafe) < 0.2)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;
-        m_moveInfo.targetPose = targetPose;
     }
     else
     {
