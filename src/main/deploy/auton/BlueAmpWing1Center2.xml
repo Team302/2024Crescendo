@@ -3,8 +3,8 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
-            pathname= "BlueAmpWing1Center0"
-                noteOption="STATE_READY_AUTO_LAUNCH"/>
+        pathname= "BlueAmpWing1Center0"
+        noteOption="STATE_READY_AUTO_LAUNCH"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
     pathname= "BlueAmpWing1Center0"
