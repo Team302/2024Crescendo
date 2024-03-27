@@ -87,8 +87,10 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::IGNORE)
         {
             chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
+            refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
         }
-        refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
+        else
+            refChassisSpeeds.omega = chassisMovement.chassisSpeeds.omega;
 
         chassisMovement.chassisSpeeds = refChassisSpeeds;
 
