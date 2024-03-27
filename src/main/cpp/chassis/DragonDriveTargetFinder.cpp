@@ -46,26 +46,31 @@ DragonDriveTargetFinder *DragonDriveTargetFinder::GetInstance()
 
 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::GetPose(DragonVision::VISION_ELEMENT item)
 {
+    auto type = static_cast<int>(DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND);
     auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     if (chassisConfig != nullptr)
     {
-
         auto chassis = chassisConfig->GetSwerveChassis();
-
-        auto vision = DragonVision::GetDragonVision();
-        if (vision != nullptr)
+        if (chassis != nullptr)
         {
-            auto data = vision->GetVisionData(item);
-            if (data && item == DragonVision::VISION_ELEMENT::NOTE)
+            auto currentPose{Pose3d(chassis->GetPose())};
+
+            auto vision = DragonVision::GetDragonVision();
+            if (vision != nullptr)
             {
-                auto currentPose{Pose3d(chassis->GetPose())};
-                auto trans3d = data.value().transformToTarget;
-                auto targetPose = currentPose + trans3d;
+                auto data = vision->GetVisionData(item);
+                if (data)
+                {
+                    auto trans3d = data.value().transformToTarget;
+                    auto targetPose = currentPose + trans3d;
 
-                tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, targetPose.ToPose2d());
+                    type += static_cast<int>(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED);
 
-                return targetInfo;
+                    tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
+                    targetInfo = make_tuple(static_cast<DragonDriveTargetFinder::TARGET_INFO>(type), targetPose.ToPose2d());
+
+                    return targetInfo;
+                }
             }
         }
     }

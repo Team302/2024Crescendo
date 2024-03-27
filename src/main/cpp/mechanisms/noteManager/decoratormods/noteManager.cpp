@@ -246,9 +246,6 @@ units::angle::degree_t noteManager::GetRequiredLaunchAngle()
 	auto visionDistance = units::length::meter_t(0.0);
 	auto hasVisionDistance = false;
 
-	auto laserDistance = units::length::meter_t(0.0);
-	auto hasLaserDistance = false;
-
 	if (HasVisionTarget())
 	{
 		visionDistance = GetVisionDistance();
@@ -262,73 +259,17 @@ units::angle::degree_t noteManager::GetRequiredLaunchAngle()
 		chassisPos = chassis->GetPose();
 
 		auto odometryDistance = fieldElementPose.ToPose2d().Translation().Distance(chassisPos.Translation());
-
-		// TODO::  get distance from LaserCans and compare/fuse with
-		/**
-		if ()
+		if (hasVisionDistance)
 		{
-			laserDistance = ;
-			hasLaserDistance = true;
-		}
-		**/
-
-		if (hasLaserDistance)
-		{
-			if (hasVisionDistance)
+			auto visionOdometrydiff = abs(visionDistance.value() - odometryDistance.value());
+			if (visionOdometrydiff < m_similarDistToleranceMeters)
 			{
-				auto visionOdometrydiff = abs(visionDistance.value() - odometryDistance.value());
-				auto odometryLaserDiff = abs(odometryDistance.value() - laserDistance.value());
-				auto visionLaserDiff = abs(visionDistance.value() - laserDistance.value());
-				if ((visionOdometrydiff < m_similarDistToleranceMeters) &&
-					(odometryLaserDiff < m_similarDistToleranceMeters) &&
-					(visionLaserDiff < m_similarDistToleranceMeters))
-				{
-					distanceFromTarget = (visionDistance + odometryDistance + laserDistance) / 3.0;
-				}
-				else if (visionOdometrydiff < m_similarDistToleranceMeters)
-				{
-					distanceFromTarget = (odometryDistance + visionDistance) / 2.0;
-				}
-				else if (odometryLaserDiff < m_similarDistToleranceMeters)
-				{
-					distanceFromTarget = (odometryDistance + laserDistance) / 2.0;
-				}
-				else if (visionLaserDiff < m_similarDistToleranceMeters)
-				{
-					distanceFromTarget = (visionDistance + laserDistance) / 2.0;
-				}
-				else
-				{
-					distanceFromTarget = visionDistance;
-				}
-			}
-			else
-			{
-				auto odometryLaserDiff = abs(odometryDistance.value() - laserDistance.value());
-				if (odometryLaserDiff < m_similarDistToleranceMeters)
-				{
-					distanceFromTarget = (odometryDistance - laserDistance) / 2.0;
-				}
-				else
-				{
-					distanceFromTarget = odometryDistance;
-				}
+				distanceFromTarget = (visionDistance + odometryDistance) / 2.0;
 			}
 		}
 		else
 		{
-			if (hasVisionDistance)
-			{
-				auto visionOdometrydiff = abs(visionDistance.value() - odometryDistance.value());
-				if (visionOdometrydiff < m_similarDistToleranceMeters)
-				{
-					distanceFromTarget = (visionDistance + odometryDistance) / 2.0;
-				}
-			}
-			else
-			{
-				distanceFromTarget = odometryDistance;
-			}
+			distanceFromTarget = odometryDistance;
 		}
 	}
 	else

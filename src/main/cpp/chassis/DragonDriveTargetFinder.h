@@ -29,12 +29,14 @@
 class DragonDriveTargetFinder
 {
 public:
+    // vision = 1
+    // odometry = 10
     enum TARGET_INFO
     {
         NOT_FOUND,
-        VISION_BASED,
-        ODOMETRY_BASED
-
+        VISION_BASED = 1,
+        ODOMETRY_BASED = 10,
+        VISION_ODOMETRY_FUSED = 11
     };
     static DragonDriveTargetFinder *GetInstance();
 
