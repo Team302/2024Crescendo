@@ -61,9 +61,17 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
                 auto currentPose{Pose3d(chassis->GetPose())};
                 auto trans3d = data.value().transformToTarget;
                 auto targetPose = currentPose + trans3d;
+                units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z();
+
+                if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+                    robotRelativeAngle += units::angle::degree_t(180.0);
+                else if (robotRelativeAngle >= units::angle::degree_t(90.0))
+                    robotRelativeAngle -= units::angle::degree_t(180.0);
+
+                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
                 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, targetPose.ToPose2d());
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, frc::Pose2d(targetPose.X(), targetPose.Y(), fieldRelativeAngle));
 
                 return targetInfo;
             }

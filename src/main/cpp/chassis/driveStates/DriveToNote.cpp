@@ -57,62 +57,91 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    pathplanner::PathPlannerTrajectory trajectory;
+
     if (chassis != nullptr)
     {
-        auto vision = DragonVision::GetDragonVision();
-        if (vision != nullptr)
+        auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+        auto type = get<0>(info);
+        auto data = get<1>(info);
+        if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
         {
-            auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
-            if (data)
+            frc::Pose2d currentPose2d = m_chassis->GetPose();
+
+            /*units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z();
+
+            if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+                robotRelativeAngle += units::angle::degree_t(180.0);
+            else if (robotRelativeAngle >= units::angle::degree_t(90.0))
+                robotRelativeAngle -= units::angle::degree_t(180.0);
+
+            units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
+            units::length::meter_t xPos = units::length::meter_t();
+            units::length::meter_t yPos = units::length::meter_t();
+
+            if (fieldRelativeAngle > units::angle::degree_t(180)) // correcting for roll over
+                fieldRelativeAngle = units::angle::degree_t(360) - fieldRelativeAngle;
+            else if (fieldRelativeAngle < units::angle::degree_t(-180))
+                fieldRelativeAngle = fieldRelativeAngle + units::angle::degree_t(360);
+
+            if (fieldRelativeAngle >= units::angle::degree_t(-45) && fieldRelativeAngle <= units::angle::degree_t(45))
             {
-                pathplanner::PathPlannerTrajectory trajectory;
-
-                frc::Pose2d currentPose2d = m_chassis->GetPose();
-                units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z();
-
-                if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
-                    robotRelativeAngle += units::angle::degree_t(180.0);
-                else if (robotRelativeAngle >= units::angle::degree_t(90.0))
-                    robotRelativeAngle -= units::angle::degree_t(180.0);
-
-                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
-                units::length::meter_t xPos = units::length::meter_t();
-                units::length::meter_t yPos = units::length::meter_t();
-
-                if (fieldRelativeAngle > units::angle::degree_t(180)) // correcting for roll over
-                    fieldRelativeAngle = units::angle::degree_t(360) - fieldRelativeAngle;
-                else if (fieldRelativeAngle < units::angle::degree_t(-180))
-                    fieldRelativeAngle = fieldRelativeAngle + units::angle::degree_t(360);
-
-                if (units::math::abs(fieldRelativeAngle) <= units::angle::degree_t(90))
+                xPos = (currentPose2d.X() + data.value().transformToTarget.X());
+                yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
+            }
+            else if (fieldRelativeAngle <= units::angle::degree_t(-45) && fieldRelativeAngle >= units::angle::degree_t(-135))
+            {
+                if ((robotRelativeAngle >= units::angle::degree_t(0.0) && robotRelativeAngle <= units::angle::degree_t(90.0)) || (robotRelativeAngle >= units::angle::degree_t(-180.) && robotRelativeAngle <= units::angle::degree_t(-90.0)))
                 {
                     xPos = (currentPose2d.X() + data.value().transformToTarget.X());
-                    yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
+                    yPos = (currentPose2d.Y() - data.value().transformToTarget.Y());
                 }
                 else
                 {
                     xPos = (currentPose2d.X() - data.value().transformToTarget.X());
+                    yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
+                }
+            }
+            else if (fieldRelativeAngle <= units::angle::degree_t(-135.0) || fieldRelativeAngle >= units::angle::degree_t(135))
+            {
+                if ((robotRelativeAngle >= units::angle::degree_t(0.0) && robotRelativeAngle <= units::angle::degree_t(90.0)) || (robotRelativeAngle >= units::angle::degree_t(-180.) && robotRelativeAngle <= units::angle::degree_t(-90.0)))
+                {
+                    xPos = (currentPose2d.X() - data.value().transformToTarget.X());
                     yPos = (currentPose2d.Y() - data.value().transformToTarget.Y());
                 }
-
-                frc::Pose2d targetPose = frc::Pose2d(xPos, yPos, fieldRelativeAngle);
-                DragonVisionStructLogger::logPose2d("CreateDriveToNote-currentPose", currentPose2d);
-                DragonVisionStructLogger::logVisionData("CreateDriveToNote-VisionData", data);
-                DragonVisionStructLogger::logPose2d("CreateDriveToNote-notedistance", targetPose);
-                std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
-                std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-                auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
-                                                                  PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                                                                  GoalEndState(0.0_mps, fieldRelativeAngle, true));
-                notepath->preventFlipping = true;
-
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("CreateDriveToNote"), std::string("robotRelativeAngle"), robotRelativeAngle.to<double>());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("CreateDriveToNote"), std::string("fieldRelativeAngle"), fieldRelativeAngle.to<double>());
-
-                trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-
-                return trajectory;
+                else
+                {
+                    xPos = (currentPose2d.X() - data.value().transformToTarget.X());
+                    yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
+                }
             }
+            else
+            {
+                if ((robotRelativeAngle >= units::angle::degree_t(0.0) && robotRelativeAngle <= units::angle::degree_t(90.0)) || (robotRelativeAngle >= units::angle::degree_t(-180.) && robotRelativeAngle <= units::angle::degree_t(-90.0)))
+                {
+                    xPos = (currentPose2d.X() - data.value().transformToTarget.X());
+                    yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
+                }
+                else
+                {
+                    xPos = (currentPose2d.X() + data.value().transformToTarget.X());
+                    yPos = (currentPose2d.Y() - data.value().transformToTarget.Y());
+                }
+            }*/
+
+            frc::Pose2d targetPose = data; // frc::Pose2d(xPos, yPos, fieldRelativeAngle);
+            DragonVisionStructLogger::logPose2d("CreateDriveToNote-currentPose", currentPose2d);
+            DragonVisionStructLogger::logPose2d("CreateDriveToNote-notedistance", targetPose);
+            std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
+            std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+            auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
+                                                              PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+                                                              GoalEndState(0.0_mps, data.Rotation().Degrees(), true));
+            notepath->preventFlipping = true;
+
+            trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
         }
+
+        return trajectory;
     }
 }
