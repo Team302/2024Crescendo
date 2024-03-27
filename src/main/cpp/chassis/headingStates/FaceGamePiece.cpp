@@ -42,15 +42,32 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             if (data)
             {
                 auto rotation = data.value().rotationToTarget;
-                auto robotRelativeAngle = units::angle::degree_t(rotation.Z());
-                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() - robotRelativeAngle;
+                auto chassisRot = chassis->GetPose().Rotation().Degrees();
+                chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(0);
+
+                units::angle::degree_t robotRelativeAngle = rotation.Z();
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("robotRelativeAngleBefore"), robotRelativeAngle.to<double>());
+
+                if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+                    robotRelativeAngle += units::angle::degree_t(180.0);
+                else if (robotRelativeAngle >= units::angle::degree_t(90.0))
+                    robotRelativeAngle -= units::angle::degree_t(180.0);
+
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("ChassisRotationDegrees"), chassis->GetPose().Rotation().Degrees().to<double>());
+
+                units::angle::degree_t fieldRelativeAngle = AngleUtils::GetEquivAngle(chassis->GetPose().Rotation().Degrees() + robotRelativeAngle);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("UpdateChassisSpeeds"), std::string("GetStoredHeading"), chassis->GetStoredHeading().to<double>());
+
+                if (fieldRelativeAngle > units::angle::degree_t(180))
+                    fieldRelativeAngle = units::angle::degree_t(360) - fieldRelativeAngle;
+                else if (fieldRelativeAngle < units::angle::degree_t(-180))
+                    fieldRelativeAngle = fieldRelativeAngle + units::angle::degree_t(360);
 
                 chassis->SetStoredHeading(fieldRelativeAngle);
-                double error = abs(chassis->GetPose().Rotation().Degrees().to<double>() - chassis->GetStoredHeading().to<double>());
-                if (error < 5.0)
-                    chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpFine);
-                else
-                    chassisMovement.chassisSpeeds.omega = -CalcHeadingCorrection(fieldRelativeAngle, m_kpCoarse);
+
+                chassisMovement.chassisSpeeds.omega -= CalcHeadingCorrection(fieldRelativeAngle, m_kP);
+
+                chassisMovement.targetPose = frc::Pose2d(data.value().transformToTarget.X(), data.value().transformToTarget.X(), fieldRelativeAngle);
             }
         }
     }
