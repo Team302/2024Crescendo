@@ -79,14 +79,13 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
                 units::length::meter_t xPos = units::length::meter_t();
                 units::length::meter_t yPos = units::length::meter_t();
 
-                if (fieldRelativeAngle > units::angle::degree_t(180))
+                if (fieldRelativeAngle > units::angle::degree_t(180)) // correcting for roll over
                     fieldRelativeAngle = units::angle::degree_t(360) - fieldRelativeAngle;
                 else if (fieldRelativeAngle < units::angle::degree_t(-180))
                     fieldRelativeAngle = fieldRelativeAngle + units::angle::degree_t(360);
 
                 if (units::math::abs(robotRelativeAngle) <= units::angle::degree_t(90) && units::math::abs(fieldRelativeAngle) <= units::angle::degree_t(90))
                 {
-
                     xPos = (currentPose2d.X() + data.value().transformToTarget.X());
                     yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
                 }
