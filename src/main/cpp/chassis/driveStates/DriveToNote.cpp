@@ -67,76 +67,12 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
         if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
         {
             frc::Pose2d currentPose2d = m_chassis->GetPose();
-
-            /*units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z();
-
-            if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
-                robotRelativeAngle += units::angle::degree_t(180.0);
-            else if (robotRelativeAngle >= units::angle::degree_t(90.0))
-                robotRelativeAngle -= units::angle::degree_t(180.0);
-
-            units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
-            units::length::meter_t xPos = units::length::meter_t();
-            units::length::meter_t yPos = units::length::meter_t();
-
-            if (fieldRelativeAngle > units::angle::degree_t(180)) // correcting for roll over
-                fieldRelativeAngle = units::angle::degree_t(360) - fieldRelativeAngle;
-            else if (fieldRelativeAngle < units::angle::degree_t(-180))
-                fieldRelativeAngle = fieldRelativeAngle + units::angle::degree_t(360);
-
-            if (fieldRelativeAngle >= units::angle::degree_t(-45) && fieldRelativeAngle <= units::angle::degree_t(45))
-            {
-                xPos = (currentPose2d.X() + data.value().transformToTarget.X());
-                yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
-            }
-            else if (fieldRelativeAngle <= units::angle::degree_t(-45) && fieldRelativeAngle >= units::angle::degree_t(-135))
-            {
-                if ((robotRelativeAngle >= units::angle::degree_t(0.0) && robotRelativeAngle <= units::angle::degree_t(90.0)) || (robotRelativeAngle >= units::angle::degree_t(-180.) && robotRelativeAngle <= units::angle::degree_t(-90.0)))
-                {
-                    xPos = (currentPose2d.X() + data.value().transformToTarget.X());
-                    yPos = (currentPose2d.Y() - data.value().transformToTarget.Y());
-                }
-                else
-                {
-                    xPos = (currentPose2d.X() - data.value().transformToTarget.X());
-                    yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
-                }
-            }
-            else if (fieldRelativeAngle <= units::angle::degree_t(-135.0) || fieldRelativeAngle >= units::angle::degree_t(135))
-            {
-                if ((robotRelativeAngle >= units::angle::degree_t(0.0) && robotRelativeAngle <= units::angle::degree_t(90.0)) || (robotRelativeAngle >= units::angle::degree_t(-180.) && robotRelativeAngle <= units::angle::degree_t(-90.0)))
-                {
-                    xPos = (currentPose2d.X() - data.value().transformToTarget.X());
-                    yPos = (currentPose2d.Y() - data.value().transformToTarget.Y());
-                }
-                else
-                {
-                    xPos = (currentPose2d.X() - data.value().transformToTarget.X());
-                    yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
-                }
-            }
-            else
-            {
-                if ((robotRelativeAngle >= units::angle::degree_t(0.0) && robotRelativeAngle <= units::angle::degree_t(90.0)) || (robotRelativeAngle >= units::angle::degree_t(-180.) && robotRelativeAngle <= units::angle::degree_t(-90.0)))
-                {
-                    xPos = (currentPose2d.X() - data.value().transformToTarget.X());
-                    yPos = (currentPose2d.Y() + data.value().transformToTarget.Y());
-                }
-                else
-                {
-                    xPos = (currentPose2d.X() + data.value().transformToTarget.X());
-                    yPos = (currentPose2d.Y() - data.value().transformToTarget.Y());
-                }
-            }*/
-
-            frc::Pose2d targetPose = data; // frc::Pose2d(xPos, yPos, fieldRelativeAngle);
-            DragonVisionStructLogger::logPose2d("CreateDriveToNote-currentPose", currentPose2d);
-            DragonVisionStructLogger::logPose2d("CreateDriveToNote-notedistance", targetPose);
+            frc::Pose2d targetPose = data;
             std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
             std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
             auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
                                                               PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                                                              GoalEndState(0.0_mps, data.Rotation().Degrees(), true));
+                                                              GoalEndState(1.0_mps, data.Rotation().Degrees(), true));
             notepath->preventFlipping = true;
 
             trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());

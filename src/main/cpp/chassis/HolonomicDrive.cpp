@@ -127,17 +127,14 @@ void HolonomicDrive::Run()
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
         {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "isAlignGamePieceSelected", "start");
             StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
             auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManager *>(noteStateManager) : nullptr;
             if (!noteMgr->HasNote())
             {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "no notes", "!noteMgr->HasNote()");
                 auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
                 auto type = get<0>(info);
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
-                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToNote", "DriveToGamePiece", type);
                     DriveToGamePiece(forward, strafe, get<1>(info));
                 }
             }
