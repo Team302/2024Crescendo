@@ -87,29 +87,35 @@ std::vector<frc::Trajectory> AutonPreviewer::GetTrajectories()
     {
         std::vector<Trajectory::State> states;
 
-        if (param->GetID() == PRIMITIVE_IDENTIFIER::DRIVE_PATH_PLANNER)
+        if (param->GetID() == PRIMITIVE_IDENTIFIER::DRIVE_PATH_PLANNER && false)
         {
             auto pathname = param->GetPathName();
             auto path = PathPlannerPath::fromPathFile(pathname);
             if (path.get() != nullptr)
             {
-                auto pptrajectory = path.get()->getTrajectory(speeds, heading);
-                auto endstate = pptrajectory.getEndState();
-                heading = endstate.heading;
-                speeds.vx = endstate.velocity * heading.Cos();
-                speeds.vy = endstate.velocity * heading.Sin();
-
-                auto ppstates = pptrajectory.getStates();
-                for (auto ppstate : ppstates)
+                if (pathname == "DRIVE_TO_NOTE")
                 {
-                    Trajectory::State state;
-                    state.t = ppstate.time;
-                    state.acceleration = ppstate.acceleration;
-                    state.velocity = ppstate.velocity;
-                    state.pose = ppstate.getTargetHolonomicPose();
-                    state.curvature = ppstate.curvature;
+                }
+                else
+                {
+                    auto pptrajectory = path.get()->getTrajectory(speeds, heading);
+                    auto endstate = pptrajectory.getEndState();
+                    heading = endstate.heading;
+                    speeds.vx = endstate.velocity * heading.Cos();
+                    speeds.vy = endstate.velocity * heading.Sin();
 
-                    states.emplace_back(state);
+                    auto ppstates = pptrajectory.getStates();
+                    for (auto ppstate : ppstates)
+                    {
+                        Trajectory::State state;
+                        state.t = ppstate.time;
+                        state.acceleration = ppstate.acceleration;
+                        state.velocity = ppstate.velocity;
+                        state.pose = ppstate.getTargetHolonomicPose();
+                        state.curvature = ppstate.curvature;
+
+                        states.emplace_back(state);
+                    }
                 }
             }
         }

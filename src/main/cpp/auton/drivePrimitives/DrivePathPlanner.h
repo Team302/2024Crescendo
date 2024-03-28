@@ -49,4 +49,5 @@ private:
     std::string m_ntName;
     bool m_switchedToVisionDrive;
     PrimitiveParams::VISION_ALIGNMENT m_visionAlignment;
+    ChassisMovement m_moveInfo;
 };

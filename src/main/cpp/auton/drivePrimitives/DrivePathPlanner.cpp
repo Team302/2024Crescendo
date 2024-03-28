@@ -42,6 +42,8 @@
 #include "mechanisms/noteManager/decoratormods/noteManager.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
+#include "chassis/driveStates/DriveToNote.h"
+#include "chassis/driveStates/RobotDrive.h"
 
 // third party includes
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
@@ -77,12 +79,23 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_switchedToVisionDrive = false;
     m_visionAlignment = params->GetVisionAlignment();
 
-    auto pose = m_chassis->GetPose();
+    m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
+    m_moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;
+    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER;
 
+    auto pose = m_chassis->GetPose();
     auto speed = m_chassis->GetChassisSpeeds();
 
     auto path = PathPlannerPath::fromPathFile(m_pathname);
-    if (path.get() != nullptr)
+    auto robotDrive = new RobotDrive(m_chassis);
+    auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(robotDrive);
+    if (m_pathname == "DRIVE_TO_NOTE")
+    {
+        DriveToNote *createPath = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
+        createPath->Init(m_moveInfo);
+        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+    }
+    else if (path.get() != nullptr)
     {
         if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
         {
@@ -99,6 +112,8 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), string("Path not found"), m_pathname);
     }
 
+    m_moveInfo.pathplannerTrajectory = m_trajectory;
+
     // Start timeout timer for path
     m_timer.get()->Reset();
     m_timer.get()->Start();
@@ -107,44 +122,7 @@ void DrivePathPlanner::Run()
 {
     if (m_chassis != nullptr)
     {
-        ChassisMovement moveInfo;
-        moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
-        moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;
-        moveInfo.driveOption = ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER;
-        moveInfo.pathplannerTrajectory = m_trajectory;
-
-        if (m_switchedToVisionDrive)
-        {
-            moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-            moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-        }
-        else if (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
-        {
-            auto finder = DragonDriveTargetFinder::GetInstance();
-            if (finder != nullptr)
-            {
-                auto targetInfo = finder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-                auto found = get<0>(targetInfo);
-                if (found)
-                {
-                    auto state = m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE);
-                    if (state != nullptr)
-                    {
-                        auto notestate = dynamic_cast<DriveToNote *>(state);
-                        if (notestate != nullptr)
-                        {
-                            // notestate->Init(moveInfo);
-                            m_trajectory = notestate->GetTrajectory();
-                            moveInfo.pathplannerTrajectory = m_trajectory;
-                            moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-                            moveInfo.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-                            m_switchedToVisionDrive = true;
-                        }
-                    }
-                }
-            }
-        }
-        m_chassis->Drive(moveInfo);
+        m_chassis->Drive(m_moveInfo);
     }
 }
 

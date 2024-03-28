@@ -77,7 +77,6 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 
             trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
         }
-
-        return trajectory;
     }
+    return trajectory;
 }
