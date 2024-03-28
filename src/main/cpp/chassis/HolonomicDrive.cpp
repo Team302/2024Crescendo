@@ -294,8 +294,6 @@ void HolonomicDrive::HoldPosition()
 }
 void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose)
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToGamePiece", "forward", forward);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DriveToGamePiece", "strafe", strafe);
     if (abs(forward) < 0.2 && abs(strafe) < 0.2)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;

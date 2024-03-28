@@ -21,6 +21,7 @@
 #include "auton/PrimitiveParams.h"
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "chassis/SwerveChassis.h"
+#include "chassis/driveStates/DriveToNote.h"
 
 // FRC,WPI Includes
 #include "frc/Timer.h"
@@ -42,6 +43,7 @@ public:
 
 private:
     SwerveChassis *m_chassis;
+    DriveToNote *m_driveToNote;
     std::unique_ptr<frc::Timer> m_timer;
     pathplanner::PathPlannerTrajectory m_trajectory;
     std::string m_pathname;

@@ -27,7 +27,8 @@ time= "2.0"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 visionAligment= "NOTE"
 pathname="DRIVE_TO_NOTE"
-noteOption= "STATE_FEEDER_INTAKE"/>
+noteOption= "STATE_FEEDER_INTAKE"
+time= "1.0"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_B"
@@ -43,7 +44,8 @@ time="2.0"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 visionAligment= "NOTE"
 pathname="DRIVE_TO_NOTE"
-noteOption= "STATE_FEEDER_INTAKE"/>
+noteOption= "STATE_FEEDER_INTAKE"
+time= "1.0"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_D"
@@ -55,7 +57,8 @@ time= "2.5"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 visionAligment= "NOTE"
 pathname="DRIVE_TO_NOTE"
-noteOption= "STATE_FEEDER_INTAKE"/>
+noteOption= "STATE_FEEDER_INTAKE"
+time= "1.0"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 

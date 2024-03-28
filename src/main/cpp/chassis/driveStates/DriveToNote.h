@@ -40,6 +40,8 @@ public:
     void Init(ChassisMovement &chassisMovement) override;
     pathplanner::PathPlannerTrajectory GetTrajectory() const { return m_trajectory; }
 
+    bool IsDone();
+
 private:
     DragonDriveTargetFinder *m_dragonDriveTargetFinder;
     TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;

@@ -39,10 +39,8 @@
 #include "DragonVision/DragonVision.h"
 #include "mechanisms/base/StateMgr.h"
 #include "mechanisms/MechanismTypes.h"
-#include "mechanisms/noteManager/decoratormods/noteManager.h"
 #include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
-#include "chassis/driveStates/DriveToNote.h"
 #include "chassis/driveStates/RobotDrive.h"
 
 // third party includes
@@ -89,9 +87,10 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(robotDrive);
     if (m_pathname == "DRIVE_TO_NOTE")
     {
-        DriveToNote *createPath = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
-        createPath->Init(m_moveInfo);
+        m_driveToNote = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
+        m_driveToNote->Init(m_moveInfo);
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+        m_switchedToVisionDrive = true;
     }
     else
     {
@@ -120,32 +119,30 @@ void DrivePathPlanner::Run()
 {
     if (m_chassis != nullptr)
     {
+        if (!m_switchedToVisionDrive)
+        {
+            auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+            auto type = get<0>(info);
+            if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
+            {
+                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+                m_driveToNote->Init(m_moveInfo);
+                m_switchedToVisionDrive = true;
+            }
+        }
         m_chassis->Drive(m_moveInfo);
     }
 }
 
 bool DrivePathPlanner::IsDone()
 {
-
     if (m_timer.get()->Get() > m_maxTime && m_timer.get()->Get().to<double>() > 0.0)
     {
         return true;
     }
     else if (m_switchedToVisionDrive)
     {
-        auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-        if (config != nullptr)
-        {
-            auto noteStateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
-            if (noteStateMgr != nullptr)
-            {
-                auto notemgr = dynamic_cast<noteManager *>(noteStateMgr);
-                if (notemgr != nullptr)
-                {
-                    return notemgr->HasNote();
-                }
-            }
-        }
+        return m_driveToNote->IsDone();
     }
     auto *trajectoryDrive = dynamic_cast<TrajectoryDrivePathPlanner *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER));
     return trajectoryDrive != nullptr ? trajectoryDrive->IsDone() : false;
