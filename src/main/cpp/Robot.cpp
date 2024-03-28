@@ -37,7 +37,7 @@ void Robot::RobotInit()
     isFMSAttached = frc::DriverStation::IsFMSAttached();
 
     Logger::GetLogger()->PutLoggingSelectionsOnDashboard();
-    if (!isFMSAttached)
+    // if (!isFMSAttached)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("arrived"));
         InitializeDataTracing();

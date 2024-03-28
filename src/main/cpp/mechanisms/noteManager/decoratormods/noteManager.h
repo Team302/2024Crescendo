@@ -66,6 +66,8 @@ public:
 	bool autoLaunchReady();
 	bool HasNote() const;
 
+	double m_manualLauncherAngle;
+
 private:
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
 

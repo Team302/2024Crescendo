@@ -45,13 +45,26 @@ void holdFeederState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederState"), string("init"));
 
 	m_genState->Init();
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->getlauncherAngle()->GetCounts());
+	// m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->getlauncherAngle()->GetCounts());
+
+	m_mechanism->m_manualLauncherAngle = m_mechanism->getlauncherAngle()->GetCounts();
 }
 
 void holdFeederState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederState"), string("run"));
 	m_genState->Run();
+
+	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MOVE_LAUNCHER_UP))
+	{
+		m_mechanism->m_manualLauncherAngle += 0.1;
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->m_manualLauncherAngle);
+	}
+	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MOVE_LAUNCHER_DOWN))
+	{
+		m_mechanism->m_manualLauncherAngle -= 0.1;
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->m_manualLauncherAngle);
+	}
 }
 
 void holdFeederState::Exit()

@@ -42,7 +42,24 @@
           <name>Angle</name>
           <type>doubleType</type>
         </dataTraceItem>
-       </dataItems>
+
+       <dataTraceItem>
+          <name>LauncherTopCurrent</name>
+          <type>doubleType</type>
+       </dataTraceItem>
+       <dataTraceItem>
+          <name>LauncherBottomCurrent</name>
+          <type>doubleType</type>
+       </dataTraceItem>
+      <dataTraceItem>
+          <name>NoteManagerState</name>
+          <type>doubleType</type>
+       </dataTraceItem>
+             <dataTraceItem>
+          <name>blank</name>
+          <type>doubleType</type>
+       </dataTraceItem>
+	 </dataItems>
     </dataTraceGroup>
 
   <dataTraceGroup>
