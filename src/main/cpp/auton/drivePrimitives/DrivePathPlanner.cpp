@@ -85,7 +85,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
 
     auto pose = m_chassis->GetPose();
     auto speed = m_chassis->GetChassisSpeeds();
-
+    //TBD - Tanay - code crashed here in debug mode
     auto path = PathPlannerPath::fromPathFile(m_pathname);
     auto robotDrive = new RobotDrive(m_chassis);
     auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(robotDrive);
