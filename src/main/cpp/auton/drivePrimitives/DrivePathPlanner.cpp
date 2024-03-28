@@ -121,7 +121,7 @@ void DrivePathPlanner::Run()
             auto finder = DragonDriveTargetFinder::GetInstance();
             if (finder != nullptr)
             {
-                auto targetInfo = finder->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+                auto targetInfo = finder->GetPose(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY, DragonVision::VISION_ELEMENT::NOTE);
                 auto found = get<0>(targetInfo);
                 if (found)
                 {

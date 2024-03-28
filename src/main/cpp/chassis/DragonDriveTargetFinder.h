@@ -38,9 +38,17 @@ public:
         ODOMETRY_BASED = 10,
         VISION_ODOMETRY_FUSED = 11
     };
+
+    enum FINDER_OPTION
+    {
+        VISION_ONLY,
+        ODOMETRY_ONLY,
+        FUSE_IF_POSSIBLE
+    };
+
     static DragonDriveTargetFinder *GetInstance();
 
-    std::tuple<TARGET_INFO, frc::Pose2d> GetPose(DragonVision::VISION_ELEMENT item);
+    std::tuple<TARGET_INFO, frc::Pose2d> GetPose(FINDER_OPTION option, DragonVision::VISION_ELEMENT item);
 
     static void SetCorrection(ChassisMovement &chassisMovement,
                               SwerveChassis *chassis,
@@ -88,4 +96,6 @@ private:
 
     frc::Pose2d m_blueStage = frc::Pose2d(units::length::meter_t(4.87), units::length::meter_t(4.11), frc::Rotation2d());
     frc::Pose2d m_redStage = frc::Pose2d(units::length::meter_t(11.67), units::length::meter_t(4.11), frc::Rotation2d());
+
+    const units::length::meter_t m_fuseTol = units::length::meter_t(0.0);
 };

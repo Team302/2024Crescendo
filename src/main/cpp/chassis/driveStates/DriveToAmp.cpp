@@ -41,7 +41,8 @@ void DriveToAmp::Init(ChassisMovement &chassisMovement)
     if (m_chassis != nullptr)
     {
         auto currentPose2d = m_chassis->GetPose();
-        auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::AMP);
+        auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE,
+                                                               DragonVision::AMP);
         auto type = get<0>(aprilTagInfo);
         m_targetPose2d = get<1>(aprilTagInfo);
 
@@ -50,13 +51,14 @@ void DriveToAmp::Init(ChassisMovement &chassisMovement)
         {
             m_trajectory = CreateDriveToAmpTrajectory(currentPose2d, m_targetPose2d);
         }
-        }
+    }
 }
 
 std::array<frc::SwerveModuleState, 4> DriveToAmp::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
     m_oldTargetPose2d = m_targetPose2d;
-    auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::AMP);
+    auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE,
+                                                           DragonVision::AMP);
     m_targetPose2d = get<1>(aprilTagInfo);
 
     if (m_targetPose2d != m_oldTargetPose2d)
