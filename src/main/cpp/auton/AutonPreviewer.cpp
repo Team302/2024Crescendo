@@ -93,29 +93,24 @@ std::vector<frc::Trajectory> AutonPreviewer::GetTrajectories()
             auto path = PathPlannerPath::fromPathFile(pathname);
             if (path.get() != nullptr)
             {
-                if (pathname == "DRIVE_TO_NOTE")
-                {
-                }
-                else
-                {
-                    auto pptrajectory = path.get()->getTrajectory(speeds, heading);
-                    auto endstate = pptrajectory.getEndState();
-                    heading = endstate.heading;
-                    speeds.vx = endstate.velocity * heading.Cos();
-                    speeds.vy = endstate.velocity * heading.Sin();
 
-                    auto ppstates = pptrajectory.getStates();
-                    for (auto ppstate : ppstates)
-                    {
-                        Trajectory::State state;
-                        state.t = ppstate.time;
-                        state.acceleration = ppstate.acceleration;
-                        state.velocity = ppstate.velocity;
-                        state.pose = ppstate.getTargetHolonomicPose();
-                        state.curvature = ppstate.curvature;
+                auto pptrajectory = path.get()->getTrajectory(speeds, heading);
+                auto endstate = pptrajectory.getEndState();
+                heading = endstate.heading;
+                speeds.vx = endstate.velocity * heading.Cos();
+                speeds.vy = endstate.velocity * heading.Sin();
 
-                        states.emplace_back(state);
-                    }
+                auto ppstates = pptrajectory.getStates();
+                for (auto ppstate : ppstates)
+                {
+                    Trajectory::State state;
+                    state.t = ppstate.time;
+                    state.acceleration = ppstate.acceleration;
+                    state.velocity = ppstate.velocity;
+                    state.pose = ppstate.getTargetHolonomicPose();
+                    state.curvature = ppstate.curvature;
+
+                    states.emplace_back(state);
                 }
             }
         }

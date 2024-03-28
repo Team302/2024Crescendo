@@ -86,7 +86,6 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     auto pose = m_chassis->GetPose();
     auto speed = m_chassis->GetChassisSpeeds();
 
-    auto path = PathPlannerPath::fromPathFile(m_pathname);
     auto robotDrive = new RobotDrive(m_chassis);
     auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(robotDrive);
     if (m_pathname == "DRIVE_TO_NOTE")
@@ -95,21 +94,21 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
         createPath->Init(m_moveInfo);
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
     }
-    else if (path.get() != nullptr)
-    {
-        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
-        {
-            path = path.get()->flipPath();
-        }
-
-        if (path.get() != nullptr)
-        {
-            m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
-        }
-    }
     else
     {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), string("Path not found"), m_pathname);
+        auto path = PathPlannerPath::fromPathFile(m_pathname);
+        if (path.get() != nullptr)
+        {
+            if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+            {
+                path = path.get()->flipPath();
+                m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
+            }
+            else
+            {
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), string("Path not found"), m_pathname);
+            }
+        }
     }
 
     m_moveInfo.pathplannerTrajectory = m_trajectory;
