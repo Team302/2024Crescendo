@@ -2551,14 +2551,14 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.0001</value>
+                <value>0.0003</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0</value>
+                <value>1E-06</value>
               </iGain>
               <dGain>
                 <unitsFamily>none</unitsFamily>
@@ -2572,7 +2572,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.0002</value>
+                <value>0.0001</value>
               </fGain>
               <iZone>
                 <unitsFamily>none</unitsFamily>
@@ -3130,7 +3130,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>0.1</value>
+                  <value>0.2</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -3937,7 +3937,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>300</value>
+                  <value>500</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -3949,7 +3949,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>300</value>
+                  <value>500</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -3961,7 +3961,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>32.5</value>
+                  <value>50</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>posDegreeAbs</controlDataName>
@@ -4042,7 +4042,6 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>0</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4294,7 +4293,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>400</value>
+                  <value>500</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -4306,7 +4305,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>400</value>
+                  <value>500</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <controlDataName>velocityRPS</controlDataName>
@@ -4318,7 +4317,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>34.5</value>
+                  <value>50</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>posDegreeAbs</controlDataName>
@@ -6518,7 +6517,7 @@
           <name>uintParameter</name>
           <__units__ />
           <type>UInt32</type>
-          <value>18</value>
+          <value>17</value>
         </Count>
       </LedSegment>
       <LedSegment>
@@ -6538,7 +6537,7 @@
           <name>uintParameter</name>
           <__units__ />
           <type>UInt32</type>
-          <value>12</value>
+          <value>13</value>
         </Count>
       </LedSegment>
     </Segments>
