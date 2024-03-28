@@ -143,11 +143,11 @@ bool DrivePathPlanner::IsDone()
     }
     else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
     {
-        return (m_chassis->GetPose().X() >= units::length::meter_t(8.5));
+        return (m_chassis->GetPose().X() >= units::length::meter_t(8.75));
     }
     else
     {
-        return (m_chassis->GetPose().X() <= units::length::meter_t(8.0));
+        return (m_chassis->GetPose().X() <= units::length::meter_t(7.75));
     }
 
     if (m_switchedToVisionDrive)
