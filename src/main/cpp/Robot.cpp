@@ -198,7 +198,6 @@ void Robot::TeleopPeriodic()
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
     }
 
-    DragonVision::GetDragonVision()->testAndLogVisionData();
 }
 
 void Robot::DisabledInit()

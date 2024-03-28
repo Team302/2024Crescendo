@@ -175,16 +175,19 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 {
 	std::optional<VisionData> selectedData = std::nullopt;
 	std::optional<VisionData> launcherData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetDataToNearestAprilTag();
+	std::optional<VisionData> placerData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
 
-	if ((!launcherData)) // if we see no april tags
+	if ((!launcherData) && (!placerData)) // if we see no april tags
 	{
 		return std::nullopt;
 	}
-	else if (launcherData) // if we see april tags in both cameras
+	else if ((launcherData) && (placerData)) // if we see april tags in both cameras
 	{
 		// distance logic
 		units::length::inch_t launcherDistance = launcherData.value().translationToTarget.X();
-		selectedData = launcherData; // if launcher is less ambiguous, select it, and vice versa
+		units::length::inch_t placerDistance = placerData.value().translationToTarget.X();
+
+		selectedData = units::math::abs(launcherDistance) <= units::math::abs(placerDistance) ? launcherData : placerData; // if launcher is less ambiguous, select it, and vice versa
 	}
 	else // one camera sees an april tag
 	{
@@ -192,6 +195,10 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 		{
 
 			selectedData = launcherData;
+		}
+		else if (placerData)
+		{
+			selectedData = placerData;
 		}
 	}
 
@@ -206,12 +213,8 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position)
 {
 	std::optional<VisionData> dataToAprilTag = m_dragonCameraMap[position]->GetDataToNearestAprilTag();
-	if (dataToAprilTag.has_value())
-	{
-		if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value())
-		{
-			return dataToAprilTag;
-		}
+	if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value()){
+		return dataToAprilTag;
 	}
 
 	return std::nullopt;
@@ -338,7 +341,7 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPose)
 {
 	std::optional<VisionPose> launcherMultiTag = std::nullopt;
-	DragonPhotonCam *launcherPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
+	DragonPhotonCam *launcherPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]);
 	if (launcherPhotonCam != nullptr)
 	{
 		launcherMultiTag = launcherPhotonCam->GetMultiTagEstimate();
@@ -423,7 +426,7 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 	{
 		// confidence logic for single tag
 		double launcherAmbiguity = 100.0;
-		DragonPhotonCam *launcherPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
+		DragonPhotonCam *launcherPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]);
 		if (launcherPhotonCam != nullptr)
 		{
 			launcherAmbiguity = launcherPhotonCam->GetPoseAmbiguity();

@@ -6315,35 +6315,35 @@
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>-13.136</value>
+        <value>-14</value>
       </mountingXOffset>
       <mountingYOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
-        <__units__>m</__units__>
+        <__units__>in</__units__>
         <type>UInt32</type>
-        <value>0</value>
+        <value>1.5</value>
       </mountingYOffset>
       <mountingZOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>18.397</value>
+        <value>18.75</value>
       </mountingZOffset>
       <pitch>
         <unitsFamily>angle</unitsFamily>
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>-25</value>
+        <value>-52.5</value>
       </pitch>
       <yaw>
         <unitsFamily>angle</unitsFamily>
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>180</value>
       </yaw>
       <roll>
         <unitsFamily>angle</unitsFamily>
@@ -6479,6 +6479,51 @@
         <__units__>deg</__units__>
         <type>Double</type>
         <value>1</value>
+      </yaw>
+      <roll>
+        <unitsFamily>angle</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>deg</__units__>
+        <type>Double</type>
+        <value>0</value>
+      </roll>
+    </Camera>
+    <Camera xsi:type="Limelight">
+      <name>launche</name>
+      <mountingXOffset>
+        <unitsFamily>length</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>in</__units__>
+        <type>Double</type>
+        <value>14.5</value>
+      </mountingXOffset>
+      <mountingYOffset>
+        <unitsFamily>length</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>in</__units__>
+        <type>Double</type>
+        <value>0.5</value>
+      </mountingYOffset>
+      <mountingZOffset>
+        <unitsFamily>length</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>in</__units__>
+        <type>Double</type>
+        <value>15.25</value>
+      </mountingZOffset>
+      <pitch>
+        <unitsFamily>angle</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>deg</__units__>
+        <type>Double</type>
+        <value>31</value>
+      </pitch>
+      <yaw>
+        <unitsFamily>angle</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>deg</__units__>
+        <type>Double</type>
+        <value>0</value>
       </yaw>
       <roll>
         <unitsFamily>angle</unitsFamily>
