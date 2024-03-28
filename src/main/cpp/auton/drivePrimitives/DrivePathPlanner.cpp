@@ -100,12 +100,13 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
             if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
             {
                 path = path.get()->flipPath();
-                m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
             }
-            else
-            {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), string("Path not found"), m_pathname);
-            }
+
+            m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
+        }
+        else
+        {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), string("Path not found"), m_pathname);
         }
     }
 
