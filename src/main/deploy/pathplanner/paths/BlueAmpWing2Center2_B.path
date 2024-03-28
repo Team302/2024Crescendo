@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.836786530715918,
-        "y": 6.464820929641859
+        "x": 4.862485863137236,
+        "y": 6.457148746364912
       },
       "prevControl": {
-        "x": 5.7867865307159185,
-        "y": 6.464820929641859
+        "x": 4.812485863137236,
+        "y": 6.457148746364912
       },
       "nextControl": null,
-      "isLocked": false,
-      "linkedName": null
+      "isLocked": true,
+      "linkedName": "BlueAmpWing2Center2B"
     }
   ],
   "rotationTargets": [],
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -167.19573393471327,
+    "rotation": -166.02926074239699,
     "rotateFast": false
   },
   "reversed": false,
