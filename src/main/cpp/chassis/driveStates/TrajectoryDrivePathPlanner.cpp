@@ -25,6 +25,8 @@
 #include "chassis/ChassisMovement.h"
 #include "utils/logging/Logger.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
+#include "chassis/DragonDriveTargetFinder.h"
+#include "chassis/driveStates/DriveToNote.h"
 
 using frc::Pose2d;
 using std::string;
@@ -80,25 +82,26 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         {
             Init(chassisMovement);
         }
-        auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-        auto type = get<0>(info);
-        auto newNotePos = get<1>(info);
+        /// TO DO If a the target position changes by 0.3m then re generate the path
+        /* auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+         auto type = get<0>(info);
+         auto newNotePos = get<1>(info);
 
-        if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
-        {
-            frc::Pose2d currentTargetPos = m_trajectory.getEndState().getTargetHolonomicPose();
-            frc::Transform2d targetTransform = frc::Transform2d(currentTargetPos, newNotePos);
-            units::length::meter_t distance = targetTransform.Translation().distance();
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Note Distance", distance.to<double>());
+         if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
+         {
+             frc::Pose2d currentTargetPos = m_trajectory.getEndState().getTargetHolonomicPose();
+             frc::transl targetTransform = frc::Transform2d(currentTargetPos, newNotePos);
+             units::length::meter_t distance = targetTransform.Translation().Distance();
+             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Note Distance", distance.to<double>());
 
-            if (distance > units::length::meter_t(0.3))
-            {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Trajectory Created", "True");
+             if (distance > units::length::meter_t(0.3))
+             {
+                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Trajectory Created", "True");
 
-                DriveNote driveToNote = new DriveToNote(m_robotDrive, this);
-                driveToNote->Init(chassisMovement);
-            }
-        }
+                 DriveToNote driveToNote = new DriveToNote(m_robotDrive, this);
+                 driveToNote->Init(chassisMovement);
+             }
+         }*/
 
         auto desiredState = m_trajectory.sample(m_timer.get()->Get() + units::time::second_t(0.02));
         LogState(desiredState);
