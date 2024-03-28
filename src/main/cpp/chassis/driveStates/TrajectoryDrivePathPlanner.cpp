@@ -64,6 +64,7 @@ void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
         m_timer.get()->Start();
     }
     m_delta = m_finalState.getTargetHolonomicPose() - m_chassis->GetPose();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Trajectory Created", "False");
 }
 
 std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
@@ -88,8 +89,12 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             frc::Pose2d currentTargetPos = m_trajectory.getEndState().getTargetHolonomicPose();
             frc::Transform2d targetTransform = frc::Transform2d(currentTargetPos, newNotePos);
             units::length::meter_t distance = targetTransform.Translation().distance();
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Note Distance", distance.to<double>());
+
             if (distance > units::length::meter_t(0.3))
             {
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Trajectory Created", "True");
+
                 DriveNote driveToNote = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
                 driveToNote->Init(chassisMovement);
             }
