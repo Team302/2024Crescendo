@@ -26,6 +26,7 @@
 #include "DragonVision/DragonLimelight.h"
 #include "DragonVision/DragonVision.h"
 #include "DragonVision/DragonPhotonCam.h"
+#include "hw/DragonLeds.h"
 
 using std::string;
 
@@ -52,7 +53,7 @@ void RobotConfigpracticeBot_9999::DefineMechanisms()
 
 void RobotConfigpracticeBot_9999::DefineLEDs()
 {
-
+	DragonLeds::GetInstance()->Initialize ( 8, 15 );
 
 }
 
@@ -70,7 +71,7 @@ void RobotConfigpracticeBot_9999::DefineVisionSensors()
 {
 	PIntake = new DragonLimelight ( "limelight-pintake", //std::string name,                      /// <I> - network table name
 	                                DragonCamera::PIPELINE::OFF, //PIPELINE initialPipeline,              /// <I> enum for starting pipeline
-	                                units::length::inch_t ( -14 ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
+	                                units::length::inch_t ( -14.0 ), //units::length::inch_t mountingXOffset, /// <I> x offset of cam from robot center (forward relative to robot)
 	                                units::length::inch_t ( 1.5 ), //units::length::inch_t mountingYOffset, /// <I> y offset of cam from robot center (left relative to robot)
 	                                units::length::inch_t ( 18.75 ), //units::length::inch_t mountingZOffset, /// <I> z offset of cam from robot center (up relative to robot)
 	                                units::angle::degree_t ( -52.5 ), //units::angle::degree_t pitch,          /// <I> - Pitch of camera

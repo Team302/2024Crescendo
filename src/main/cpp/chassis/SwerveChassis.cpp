@@ -102,7 +102,8 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                                         {0.1, 0.1, 0.1}),
                                                         m_storedYaw(units::angle::degree_t(0.0)),
                                                         m_targetHeading(units::angle::degree_t(0.0)),
-                                                        m_networkTableName(networkTableName)
+                                                        m_networkTableName(networkTableName),
+                                                        m_vision(DragonVision::GetDragonVision())
 {
     ReadConstants(configfilename);
     InitStates();
@@ -231,8 +232,9 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
     auto isHoldDrive = moveInfo.driveOption == ChassisOptionEnums::HOLD_DRIVE;
     auto isStopDrive = moveInfo.driveOption == ChassisOptionEnums::STOP_DRIVE;
     auto hasTrajectory = moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER;
+    auto isDrivetoNote = moveInfo.driveOption == ChassisOptionEnums::DRIVE_TO_NOTE;
 
-    if (!hasTrajectory && !isHoldDrive && !isStopDrive &&
+    if (!hasTrajectory && !isHoldDrive && !isStopDrive && !isDrivetoNote &&
         (units::math::abs(moveInfo.chassisSpeeds.vx) < m_velocityDeadband) &&
         (units::math::abs(moveInfo.chassisSpeeds.vy) < m_velocityDeadband) &&
         (units::math::abs(moveInfo.chassisSpeeds.omega) < m_angularDeadband))
@@ -271,6 +273,7 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
         state->Init(moveInfo);
         m_initialized = true;
     }
+
     return state;
 }
 
@@ -308,6 +311,16 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_frontRight->GetPosition(),
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
+    if (m_vision != nullptr)
+    {
+        auto pos = m_vision->GetRobotPosition();
+        if (pos)
+        {
+            m_poseEstimator.AddVisionMeasurement(pos.value().estimatedPose.ToPose2d(),
+                                                 pos.value().timeStamp,
+                                                 pos.value().visionMeasurementStdDevs);
+        }
+    }
     LogInformation();
 }
 
