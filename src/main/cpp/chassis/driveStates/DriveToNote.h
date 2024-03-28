@@ -24,12 +24,12 @@
 
 // Team302 Includes
 #include "chassis/driveStates/RobotDrive.h"
-#include "chassis/SwerveChassis.h"
 #include "DragonVision/DragonVision.h"
 #include "chassis/DragonDriveTargetFinder.h"
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "utils/FMSData.h"
+#include "chassis/SwerveChassis.h"
 
 class DriveToNote : public TrajectoryDrivePathPlanner
 {

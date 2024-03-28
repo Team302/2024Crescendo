@@ -24,7 +24,6 @@
 
 // Team302 Includes
 #include "DragonVision/DragonVision.h"
-#include "chassis/SwerveChassis.h"
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/driveStates/DriveToNote.h"
 #include "utils/FMSData.h"
@@ -32,6 +31,7 @@
 #include "DragonVision/DragonVisionStructLogger.h"
 #include "chassis/DragonDriveTargetFinder.h"
 #include "mechanisms/noteManager/decoratormods/noteManager.h"
+#include "chassis/SwerveChassis.h"
 
 #include "utils/logging/Logger.h"
 #include "utils/logging/LoggerData.h"
@@ -83,6 +83,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 bool DriveToNote::IsDone()
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (config != nullptr)
     {
         auto noteStateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
@@ -94,7 +95,17 @@ bool DriveToNote::IsDone()
                 return notemgr->HasNote() || TrajectoryDrivePathPlanner::IsDone();
             }
         }
+        if (chassis != nullptr)
+        {
+            if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
+            {
+                return m_chassis->GetPose().X() >= units::length::meter_t(8.5);
+            }
+            else
+            {
+                return m_chassis->GetPose().X() <= units::length::meter_t(8.0);
+            }
+        }
     }
-
     return TrajectoryDrivePathPlanner::IsDone();
 }
