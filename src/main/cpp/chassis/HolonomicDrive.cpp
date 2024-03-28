@@ -135,7 +135,7 @@ void HolonomicDrive::Run()
                 auto type = get<0>(info);
                 if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
                 {
-                    DriveToGamePiece(forward, strafe, get<1>(info));
+                    DriveToGamePiece(forward, strafe, rotate);
                 }
             }
         }
@@ -292,9 +292,9 @@ void HolonomicDrive::HoldPosition()
     m_previousDriveState = m_moveInfo.driveOption;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
 }
-void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose)
+void HolonomicDrive::DriveToGamePiece(double forward, double strafe, double rot)
 {
-    if (abs(forward) < 0.2 && abs(strafe) < 0.2)
+    if (abs(forward) < 0.2 && abs(strafe) < 0.2 && abs(rot) < 0.2)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;
