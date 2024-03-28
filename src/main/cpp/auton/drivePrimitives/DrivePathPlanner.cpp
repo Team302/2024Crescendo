@@ -85,7 +85,6 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
 
     auto pose = m_chassis->GetPose();
     auto speed = m_chassis->GetChassisSpeeds();
-
     auto robotDrive = new RobotDrive(m_chassis);
     auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(robotDrive);
     if (m_pathname == "DRIVE_TO_NOTE")
