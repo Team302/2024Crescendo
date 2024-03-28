@@ -79,6 +79,21 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         {
             Init(chassisMovement);
         }
+        auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+        auto type = get<0>(info);
+        auto newNotePos = get<1>(info);
+
+        if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
+        {
+            frc::Pose2d currentTargetPos = m_trajectory.getEndState().getTargetHolonomicPose();
+            frc::Transform2d targetTransform = frc::Transform2d(currentTargetPos, newNotePos);
+            units::length::meter_t distance = targetTransform.Translation().distance();
+            if (distance > units::length::meter_t(0.3))
+            {
+                DriveNote driveToNote = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
+                driveToNote->Init(chassisMovement);
+            }
+        }
 
         auto desiredState = m_trajectory.sample(m_timer.get()->Get() + units::time::second_t(0.02));
         LogState(desiredState);
