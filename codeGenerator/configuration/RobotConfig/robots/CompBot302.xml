@@ -6320,23 +6320,23 @@
       <mountingYOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
-        <__units__>m</__units__>
+        <__units__>in</__units__>
         <type>UInt32</type>
-        <value>0</value>
+        <value>1.25</value>
       </mountingYOffset>
       <mountingZOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>18.624</value>
+        <value>17.5</value>
       </mountingZOffset>
       <pitch>
         <unitsFamily>angle</unitsFamily>
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>-45</value>
+        <value>-61</value>
       </pitch>
       <yaw>
         <unitsFamily>angle</unitsFamily>
@@ -6493,30 +6493,30 @@
       <mountingXOffset>
         <unitsFamily>length</unitsFamily>
         <name>doubleParameter</name>
-        <__units__>m</__units__>
+        <__units__>in</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>-6</value>
       </mountingXOffset>
       <mountingYOffset>
         <unitsFamily>length</unitsFamily>
         <name>doubleParameter</name>
-        <__units__>m</__units__>
+        <__units__>in</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>10</value>
       </mountingYOffset>
       <mountingZOffset>
         <unitsFamily>length</unitsFamily>
         <name>doubleParameter</name>
-        <__units__>m</__units__>
+        <__units__>in</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>24.5</value>
       </mountingZOffset>
       <pitch>
         <unitsFamily>angle</unitsFamily>
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>20</value>
       </pitch>
       <yaw>
         <unitsFamily>angle</unitsFamily>
@@ -6530,7 +6530,7 @@
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>90</value>
       </roll>
     </Camera>
   </Cameras>
