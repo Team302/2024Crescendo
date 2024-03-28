@@ -95,4 +95,13 @@ bool DriveToNote::IsDone()
             }
         }
     }
+    auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+    auto type = get<0>(info);
+    auto newNotePos = get<1>(info);
+
+    frc::Pose2d targetPos = m_trajectory.back()..getTargetHolonomicPose();
+
+    if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED &&)
+
+        return TrajectoryDrivePathPlanner::IsDone();
 }
