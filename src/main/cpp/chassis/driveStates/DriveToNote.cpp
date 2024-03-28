@@ -95,17 +95,6 @@ bool DriveToNote::IsDone()
                 return notemgr->HasNote() || TrajectoryDrivePathPlanner::IsDone();
             }
         }
-        if (chassis != nullptr)
-        {
-            if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
-            {
-                return m_chassis->GetPose().X() >= units::length::meter_t(8.5);
-            }
-            else
-            {
-                return m_chassis->GetPose().X() <= units::length::meter_t(8.0);
-            }
-        }
     }
     return TrajectoryDrivePathPlanner::IsDone();
 }

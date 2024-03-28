@@ -141,9 +141,18 @@ bool DrivePathPlanner::IsDone()
     {
         return true;
     }
-    else if (m_switchedToVisionDrive)
+    else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
     {
-        return m_driveToNote->IsDone();
+        return (m_chassis->GetPose().X() >= units::length::meter_t(8.5));
+    }
+    else
+    {
+        return (m_chassis->GetPose().X() <= units::length::meter_t(8.0));
+    }
+
+    if (m_switchedToVisionDrive)
+    {
+        m_driveToNote->IsDone();
     }
     auto *trajectoryDrive = dynamic_cast<TrajectoryDrivePathPlanner *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER));
     return trajectoryDrive != nullptr ? trajectoryDrive->IsDone() : false;
