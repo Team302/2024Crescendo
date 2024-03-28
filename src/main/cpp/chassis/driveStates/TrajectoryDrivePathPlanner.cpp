@@ -95,7 +95,7 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             {
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Trajectory Created", "True");
 
-                DriveNote driveToNote = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
+                DriveNote driveToNote = new DriveToNote(m_robotDrive, this);
                 driveToNote->Init(chassisMovement);
             }
         }
