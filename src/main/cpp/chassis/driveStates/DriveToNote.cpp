@@ -24,13 +24,14 @@
 
 // Team302 Includes
 #include "DragonVision/DragonVision.h"
-#include "chassis/SwerveChassis.h"
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/driveStates/DriveToNote.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonVisionStructLogger.h"
 #include "chassis/DragonDriveTargetFinder.h"
+#include "mechanisms/noteManager/decoratormods/noteManager.h"
+#include "chassis/SwerveChassis.h"
 
 #include "utils/logging/Logger.h"
 #include "utils/logging/LoggerData.h"
@@ -45,8 +46,6 @@ DriveToNote::DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *tra
 
 void DriveToNote::Init(ChassisMovement &chassisMovement)
 {
-    // chassisMovement.headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("DriveToNote"), std::string("Init"), "True");
     m_trajectory = CreateDriveToNote();
     chassisMovement.pathplannerTrajectory = m_trajectory;
     TrajectoryDrivePathPlanner::Init(chassisMovement);
@@ -78,8 +77,25 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 
             trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
         }
-
-        return trajectory;
     }
-    return {};
+    return trajectory;
+}
+
+bool DriveToNote::IsDone()
+{
+    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    if (config != nullptr)
+    {
+        auto noteStateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+        if (noteStateMgr != nullptr)
+        {
+            auto notemgr = dynamic_cast<noteManager *>(noteStateMgr);
+            if (notemgr != nullptr)
+            {
+                return notemgr->HasNote() || TrajectoryDrivePathPlanner::IsDone();
+            }
+        }
+    }
+    return TrajectoryDrivePathPlanner::IsDone();
 }
