@@ -4,11 +4,14 @@
   "holonomicMode": true,
   "pathFolders": [
     "BlueAmpWing1Center2",
+    "BlueAmpWing2Center2",
     "BlueCenterWing1Center2",
     "BluePodiumWing1Center2",
-    "Sabatage",
+    "BluePodiumWing2Center2",
+    "BlueSubwooferWing1Center3",
     "RedAmpWing1Center2",
-    "RedPodiumWing1Center2"
+    "RedPodiumWing1Center2",
+    "Sabatage"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.65,

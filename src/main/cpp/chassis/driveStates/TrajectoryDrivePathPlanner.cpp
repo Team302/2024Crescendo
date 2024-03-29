@@ -25,6 +25,8 @@
 #include "chassis/ChassisMovement.h"
 #include "utils/logging/Logger.h"
 #include "chassis/headingStates/SpecifiedHeading.h"
+#include "chassis/DragonDriveTargetFinder.h"
+#include "chassis/driveStates/DriveToNote.h"
 
 using frc::Pose2d;
 using std::string;
@@ -33,7 +35,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_holonomicController(pathplanner::PIDConstants(5.5, 0.5, 0.0),
+                                                                                 m_holonomicController(pathplanner::PIDConstants(5.0, 0.5, 0.0),
                                                                                                        pathplanner::PIDConstants(0.0, 0.0, 0.0),
                                                                                                        robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                        units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
@@ -78,6 +80,25 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         if (m_trajectory.getInitialTargetHolonomicPose() != chassisMovement.pathplannerTrajectory.getInitialTargetHolonomicPose())
         {
             Init(chassisMovement);
+        }
+        /// TO DO If a the target position changes by 0.3m then re generate the path
+        auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+        auto type = get<0>(info);
+        auto newNotePos = get<1>(info);
+
+        if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
+        {
+            frc::Pose2d currentTargetPos = m_trajectory.getEndState().getTargetHolonomicPose();
+            units::length::meter_t distance = currentTargetPos.Translation().Distance(newNotePos.Translation());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Note Distance", distance.to<double>());
+
+            if (distance > units::length::meter_t(0.3))
+            {
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Trajectory Created", "True");
+
+                DriveToNote *driveToNote = new DriveToNote(m_robotDrive, this);
+                driveToNote->Init(chassisMovement);
+            }
         }
 
         auto desiredState = m_trajectory.sample(m_timer.get()->Get() + units::time::second_t(0.02));
