@@ -92,6 +92,8 @@ public:
 	void SetLauncherAngleTarget(units::angle::degree_t valueDeg) { m_LauncherAngleTarget = valueDeg; }
 	void SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherTopWheelsTarget = valueRadPerSec; }
 	void SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherBottomWheelsTarget = valueRadPerSec; }
+	bool GetTransitionFromHoldFeedToReady() { return m_TransitionFromHoldFeedToReady; }
+	void SetTransitionFromHoldFeedToReady(bool state) { m_TransitionFromHoldFeedToReady = state; }
 
 private:
 	units::length::meter_t GetDistanceFromSpeaker();
@@ -121,4 +123,5 @@ private:
 	units::angular_velocity::radians_per_second_t m_LauncherTopWheelsTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherBottomWheelsTarget;
 	const double m_similarDistToleranceMeters = 0.5;
+	bool m_TransitionFromHoldFeedToReady = false;
 };

@@ -67,7 +67,6 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    m_offset = m_chassis->GetWheelBase();
 }
 void DrivePathPlanner::Init(PrimitiveParams *params)
 {
@@ -76,6 +75,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_maxTime = params->GetTime();
     m_switchedToVisionDrive = false;
     m_visionAlignment = params->GetVisionAlignment();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), m_pathname, m_chassis->GetPose().Rotation().Degrees().to<double>());
 
     m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
     m_moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;
@@ -120,7 +120,8 @@ void DrivePathPlanner::Run()
 {
     if (m_chassis != nullptr)
     {
-        if (!m_switchedToVisionDrive)
+        /*
+         if (!m_switchedToVisionDrive)
         {
             auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY,
                                                                         DragonVision::VISION_ELEMENT::NOTE);
@@ -131,7 +132,9 @@ void DrivePathPlanner::Run()
                 m_driveToNote->Init(m_moveInfo);
                 m_switchedToVisionDrive = true;
             }
-        }
+        }            
+        */
+
         m_chassis->Drive(m_moveInfo);
     }
 }
@@ -140,8 +143,12 @@ bool DrivePathPlanner::IsDone()
 {
     if (m_timer.get()->Get() > m_maxTime && m_timer.get()->Get().to<double>() > 0.0)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "Time Out");
+
         return true;
     }
+    // TO DO Figure out how to be able to drive back don't just stop your trajectory (Cause next trajectory to also stop)
+    /*
     else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
     {
         return m_chassis->GetPose().X() >= (m_centerLine + m_offset);
@@ -149,11 +156,12 @@ bool DrivePathPlanner::IsDone()
     else
     {
         return m_chassis->GetPose().X() <= (m_centerLine - m_offset);
-    }
+    }*/
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Switched To Vision Drive", m_switchedToVisionDrive);
 
     if (m_switchedToVisionDrive)
     {
-        m_driveToNote->IsDone();
+        return m_driveToNote->IsDone();
     }
     auto *trajectoryDrive = dynamic_cast<TrajectoryDrivePathPlanner *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER));
     return trajectoryDrive != nullptr ? trajectoryDrive->IsDone() : false;

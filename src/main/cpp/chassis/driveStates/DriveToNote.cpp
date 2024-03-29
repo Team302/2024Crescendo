@@ -86,15 +86,31 @@ bool DriveToNote::IsDone()
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
     if (config != nullptr)
     {
+        auto vision = DragonVision::GetDragonVision();
+        if (vision != nullptr)
+        {
+            auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
+            if (!data.has_value())
+            {
+                Logger ::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "No Note Found");
+                return true;
+            }
+        }
+
         auto noteStateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
         if (noteStateMgr != nullptr)
         {
             auto notemgr = dynamic_cast<noteManager *>(noteStateMgr);
             if (notemgr != nullptr)
             {
+                if (notemgr->HasNote())
+                    Logger ::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "Note Aquired");
+                else if (TrajectoryDrivePathPlanner::IsDone())
+                    Logger ::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "End of Trajectory");
+
                 return notemgr->HasNote() || TrajectoryDrivePathPlanner::IsDone();
             }
         }
     }
-    return TrajectoryDrivePathPlanner::IsDone();
+    return true;
 }
