@@ -6315,7 +6315,7 @@
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>-12.049</value>
+        <value>-11</value>
       </mountingXOffset>
       <mountingYOffset>
         <unitsFamily>length</unitsFamily>
@@ -6329,14 +6329,14 @@
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>17.5</value>
+        <value>17.25</value>
       </mountingZOffset>
       <pitch>
         <unitsFamily>angle</unitsFamily>
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>-61</value>
+        <value>-29</value>
       </pitch>
       <yaw>
         <unitsFamily>angle</unitsFamily>
