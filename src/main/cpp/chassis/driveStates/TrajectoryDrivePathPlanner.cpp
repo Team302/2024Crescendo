@@ -86,7 +86,7 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         auto type = get<0>(info);
         auto newNotePos = get<1>(info);
 
-        if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
+        if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && chassisMovement.driveOption == ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE)
         {
             frc::Pose2d currentTargetPos = m_trajectory.getEndState().getTargetHolonomicPose();
             units::length::meter_t distance = currentTargetPos.Translation().Distance(newNotePos.Translation());
