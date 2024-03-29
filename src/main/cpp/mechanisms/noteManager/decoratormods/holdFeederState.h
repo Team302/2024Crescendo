@@ -44,5 +44,8 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
+
+		int m_NoteMisdetectionCounter;
+		const int m_NoteMisdetectionThreshhold = 500 / 20; // Half a second
 	};
 }
