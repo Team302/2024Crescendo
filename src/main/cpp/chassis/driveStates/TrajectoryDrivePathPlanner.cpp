@@ -82,7 +82,8 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             Init(chassisMovement);
         }
         /// TO DO If a the target position changes by 0.3m then re generate the path
-        auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+        auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY,
+                                                                    DragonVision::VISION_ELEMENT::NOTE);
         auto type = get<0>(info);
         auto newNotePos = get<1>(info);
 
