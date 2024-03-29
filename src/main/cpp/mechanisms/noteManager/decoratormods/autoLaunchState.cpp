@@ -21,6 +21,7 @@
 // FRC includes
 
 // Team 302 includes
+#include "chassis/DragonDriveTargetFinder.h"
 #include "mechanisms/noteManager/decoratormods/autoLaunchState.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
@@ -70,4 +71,24 @@ bool autoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 	bool readyToLaunch = (m_mechanism->LauncherTargetsForAutoLaunchAchieved()) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999);
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH)) && readyToLaunch;
+}
+
+units::length::meter_t autoLaunchState::GetDistanceFromTarget()
+{
+	auto distanceFromTarget = units::length::meter_t(1.0);
+	auto finder = DragonDriveTargetFinder::GetInstance();
+	if (finder != nullptr)
+	{
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto type = get<0>(distinfo);
+		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+		{
+			auto visionDist = get<1>(distinfo);
+			if (visionDist.value() > 0.5 && visionDist.value() < 5.0)
+			{
+				distanceFromTarget = visionDist;
+			}
+		}
+	}
+	return distanceFromTarget;
 }

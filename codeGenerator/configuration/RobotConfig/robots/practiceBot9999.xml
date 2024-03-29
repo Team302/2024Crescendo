@@ -4042,7 +4042,6 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
-                  <value>0</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -6321,9 +6320,9 @@
       <mountingYOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
-        <__units__>m</__units__>
+        <__units__>in</__units__>
         <type>UInt32</type>
-        <value>0</value>
+        <value>1.5</value>
       </mountingYOffset>
       <mountingZOffset>
         <unitsFamily>length</unitsFamily>
@@ -6344,7 +6343,7 @@
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>0</value>
+        <value>180</value>
       </yaw>
       <roll>
         <unitsFamily>angle</unitsFamily>
@@ -6489,6 +6488,51 @@
         <value>0</value>
       </roll>
     </Camera>
+    <Camera xsi:type="Limelight">
+      <name>launche</name>
+      <mountingXOffset>
+        <unitsFamily>length</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>in</__units__>
+        <type>Double</type>
+        <value>14.5</value>
+      </mountingXOffset>
+      <mountingYOffset>
+        <unitsFamily>length</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>in</__units__>
+        <type>Double</type>
+        <value>0.5</value>
+      </mountingYOffset>
+      <mountingZOffset>
+        <unitsFamily>length</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>in</__units__>
+        <type>Double</type>
+        <value>15.25</value>
+      </mountingZOffset>
+      <pitch>
+        <unitsFamily>angle</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>deg</__units__>
+        <type>Double</type>
+        <value>31</value>
+      </pitch>
+      <yaw>
+        <unitsFamily>angle</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>deg</__units__>
+        <type>Double</type>
+        <value>0</value>
+      </yaw>
+      <roll>
+        <unitsFamily>angle</unitsFamily>
+        <name>doubleParameter</name>
+        <__units__>deg</__units__>
+        <type>Double</type>
+        <value>0</value>
+      </roll>
+    </Camera>
   </Cameras>
   <Roborios />
   <LEDs>
@@ -6498,9 +6542,20 @@
       <name>uintParameter</name>
       <__units__ />
       <type>UInt32</type>
-      <value>0</value>
+      <value>8</value>
     </PwmId>
-    <Segments />
+    <Segments>
+      <LedSegment>
+        <name>LedSegment_1</name>
+        <Count>
+          <unitsFamily>none</unitsFamily>
+          <name>uintParameter</name>
+          <__units__ />
+          <type>UInt32</type>
+          <value>15</value>
+        </Count>
+      </LedSegment>
+    </Segments>
   </LEDs>
   <robotID>
     <unitsFamily>none</unitsFamily>

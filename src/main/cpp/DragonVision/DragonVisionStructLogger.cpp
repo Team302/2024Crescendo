@@ -114,3 +114,10 @@ void DragonVisionStructLogger::logVisionPose(const std::string &loggerName, cons
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, loggerName, std::string("X"), std::string("No vision pose found"));
     }
 }
+
+void DragonVisionStructLogger::logPose2d(const std::string &loggerName, const frc::Pose2d pose2d)
+{
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("X"), std::to_string(pose2d.X().to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Y"), std::to_string(pose2d.Y().to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Rotation"), std::to_string(pose2d.Rotation().Degrees().to<double>()));
+}

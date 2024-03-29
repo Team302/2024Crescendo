@@ -26,8 +26,7 @@
 
 // Third Party Includes
 
-
-class IChassis;
+class SwerveChassis;
 class PrimitiveParams;
 
 class DriveHoldPosition : public IPrimitive
@@ -45,6 +44,6 @@ private:
 	const float kD = 0.0;
 	const float kF = 0.0;
 	// Objects
-	IChassis* m_chassis;
-	units::time::second_t m_timeRemaining; 
+	SwerveChassis *m_chassis;
+	units::time::second_t m_timeRemaining;
 };

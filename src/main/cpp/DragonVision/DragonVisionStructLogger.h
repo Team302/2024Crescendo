@@ -15,4 +15,5 @@ public:
     static void logRotation3d(const std::string &loggerName, const frc::Rotation3d rotation3d);
     static void logDragonCamera(const std::string &loggerName, const DragonCamera& camera);
     static void logVisionPose(const std::string &loggerName, const std::optional<VisionPose> optVisionPose);
+    static void logPose2d(const std::string &loggerName, const frc::Pose2d pose2d);
 };

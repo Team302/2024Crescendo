@@ -236,33 +236,64 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
-double noteManager::GetRequiredLaunchAngle()
+units::angle::degree_t noteManager::GetRequiredLaunchAngle()
 {
-	frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
-	double distanceFromTarget = 3.5;
-	double launchAngle = 0;
+	units::length::meter_t distanceFromTarget = units::length::meter_t(3.5);
+	units::angle::degree_t launchAngle = units::angle::degree_t(0.0);
 	frc::Pose3d fieldElementPose = frc::Pose3d{};
 	auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 	auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 	frc::Pose2d chassisPos = frc::Pose2d();
 
+	auto visionDistance = units::length::meter_t(0.0);
+	auto hasVisionDistance = false;
+
 	if (HasVisionTarget())
 	{
-		distanceFromTarget = GetVisionDistance().to<double>();
+		visionDistance = GetVisionDistance();
+		hasVisionDistance = true;
 	}
-	else if (chassis != nullptr)
+
+	if (chassis != nullptr)
 	{
+		frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SPEAKER)} /*load red speaker*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SPEAKER)}; /*load blue speaker*/
 		chassisPos = chassis->GetPose();
 
-		distanceFromTarget = sqrt(pow((fieldElementPose.X() - chassisPos.X()).to<double>(), 2) + pow((fieldElementPose.Y() - chassisPos.Y()).to<double>(), 2));
+		auto odometryDistance = fieldElementPose.ToPose2d().Translation().Distance(chassisPos.Translation());
+		if (hasVisionDistance)
+		{
+			auto visionOdometrydiff = abs(visionDistance.value() - odometryDistance.value());
+			if (visionOdometrydiff < m_similarDistToleranceMeters)
+			{
+				distanceFromTarget = (visionDistance + odometryDistance) / 2.0;
+			}
+		}
+		else
+		{
+			distanceFromTarget = odometryDistance;
+		}
+	}
+	else
+	{
+		if (hasVisionDistance)
+		{
+			distanceFromTarget = visionDistance;
+		}
 	}
 
-	launchAngle = 80.0 + (-44.2 * distanceFromTarget) + (6.09 * distanceFromTarget * distanceFromTarget);
+	return GetRequiredLaunchAngle(distanceFromTarget);
+}
 
-	if (launchAngle > 40)
+units::angle::degree_t noteManager::GetRequiredLaunchAngle(units::length::meter_t distanceFromTarget)
+{
+	units::angle::degree_t launchAngle = units::angle::degree_t(0.0);
+
+	launchAngle = units::angle::degree_t(80.0 + (-44.2 * distanceFromTarget.value()) + (6.09 * distanceFromTarget.value() * distanceFromTarget.value()));
+
+	if (launchAngle > units::angle::degree_t(40.0))
 	{
-		launchAngle = 40;
+		launchAngle = units::angle::degree_t(40.0);
 	}
 
 	return launchAngle;

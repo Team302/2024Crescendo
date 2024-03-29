@@ -58,7 +58,7 @@ void DragonVision::AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USA
 	m_dragonCameraMap[position] = camera;
 
 	// check if we should add camera to photon pose estimator
-	if ((position == RobotElementNames::CAMERA_USAGE::LAUNCHER) || (position == RobotElementNames::CAMERA_USAGE::PLACER))
+	if ((position == RobotElementNames::CAMERA_USAGE::LAUNCHE) || (position == RobotElementNames::CAMERA_USAGE::PLACER))
 	{
 		// may switch above pose fallback to reference or last pose, may be able to use odometry as a fallback and get closest
 		// to odometry's slightly inaccurate pose
@@ -174,7 +174,7 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestStageTag(VISION_EL
 std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 {
 	std::optional<VisionData> selectedData = std::nullopt;
-	std::optional<VisionData> launcherData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
+	std::optional<VisionData> launcherData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetDataToNearestAprilTag();
 	std::optional<VisionData> placerData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToNearestAprilTag();
 
 	if ((!launcherData) && (!placerData)) // if we see no april tags
@@ -213,8 +213,7 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position)
 {
 	std::optional<VisionData> dataToAprilTag = m_dragonCameraMap[position]->GetDataToNearestAprilTag();
-	if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value())
-	{
+	if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value()){
 		return dataToAprilTag;
 	}
 
@@ -405,11 +404,11 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 	std::optional<VisionData> placerAprilTagData = std::nullopt;
 	std::optional<VisionData> selectedData = std::nullopt;
 
-	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER] != nullptr)
+	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
 	{
 		// get the optional of the translation and rotation to the apriltag
 		// launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
-		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToSpecifiedTag(idToSearch);
+		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetDataToSpecifiedTag(idToSearch);
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("ASPEAKERDEBUG"), std::string("LauncherDataStatus"), std::string("True"));
 	}
 
@@ -560,7 +559,7 @@ void DragonVision::testAndLogVisionData()
 {
 	try
 	{
-		std::optional<VisionData> testData = GetVisionDataFromNote(VISION_ELEMENT::NOTE);
+		std::optional<VisionData> testData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
 		DragonVisionStructLogger::logVisionData("VisionData", testData);
 	}
 	catch (std::bad_optional_access &boa)

@@ -37,7 +37,8 @@
 #include "chassis/DragonDriveTargetFinder.h"
 // forward declares
 
-class noteManager : public noteManagerGen, public IRobotStateChangeSubscriber
+class noteManager : public noteManagerGen,
+					public IRobotStateChangeSubscriber
 {
 public:
 	// todo delete this once Joe creates and tests the functionality
@@ -75,8 +76,8 @@ public:
 	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
-	double GetRequiredLaunchAngle();
-	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters();
+	units::angle::degree_t GetRequiredLaunchAngle();
+	units::angle::degree_t GetRequiredLaunchAngle(units::length::meter_t distance);
 	bool autoLaunchReady();
 	bool HasNote() const;
 
@@ -118,4 +119,5 @@ private:
 	units::angle::degree_t m_LauncherAngleTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherTopWheelsTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherBottomWheelsTarget;
+	const double m_similarDistToleranceMeters = 0.5;
 };

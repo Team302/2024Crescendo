@@ -27,7 +27,6 @@
 #include "auton/PrimitiveEnums.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "DragonVision/DragonVision.h"
-#include "chassis/IChassis.h"
 #include "auton/ZoneParams.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"

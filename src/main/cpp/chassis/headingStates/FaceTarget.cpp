@@ -30,7 +30,7 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
     auto finder = DragonDriveTargetFinder::GetInstance();
     if (finder != nullptr)
     {
-        auto info = finder->GetPose(GetVisionElement());
+        auto info = finder->GetPose(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, GetVisionElement());
         if (get<0>(info) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
             auto targetPose = get<1>(info);
