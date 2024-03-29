@@ -3166,6 +3166,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -3299,6 +3300,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -3432,6 +3434,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -3558,6 +3561,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4694,6 +4698,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4824,6 +4829,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -4941,6 +4947,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -5058,6 +5065,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -5184,6 +5192,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
@@ -5542,6 +5551,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <controlDataName>percentOutput</controlDataName>
