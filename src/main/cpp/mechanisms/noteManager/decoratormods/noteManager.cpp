@@ -299,15 +299,6 @@ units::angle::degree_t noteManager::GetRequiredLaunchAngle(units::length::meter_
 	return launchAngle;
 }
 
-// todo delete this function once Joe creates and tests it
-std::tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> noteManager::GetDistance(FINDER_OPTION option, DragonVision::VISION_ELEMENT item)
-{
-	tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> targetInfo;
-	targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, units::length::meter_t(1.5));
-
-	return targetInfo;
-}
-
 void noteManager::SetLauncherTargetsForAutoLaunch()
 {
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters();
@@ -348,28 +339,38 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	double topLaunchSpeed = 400;	// 400 rad/sec is the default for manualLaunch
 	double bottomLaunchSpeed = 400; // 400 rad/sec is the default for manualLaunch
 
-	// todo uncomment the next line and delete the line after it once Joe creates GetDistance
-	// std::tuple<TARGET_INFO, units::length::meter_t> distanceToSpeaker = DragonDriveTargetFinder::GetInstance()->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
-	std::tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t>
-		distanceToSpeaker = GetDistance(FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
+	double distanceFromTarget_in = (units::length::inch_t(GetDistanceFromSpeaker())).to<double>();
 
-	// todo uncomment the next line and delete the line after it once Joe creates GetDistance
-	// if (std::get<0>(distanceToSpeaker) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
-	if (std::get<0>(distanceToSpeaker) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
-	{
-		double distanceFromTarget_in = units::length::inch_t(std::get<0>(distanceToSpeaker)).to<double>();
+	launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
 
-		launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
+	// limit the resulting launcher angle
+	launcherAngle = launcherAngle > 50 ? 50 : launcherAngle;
+	launcherAngle = launcherAngle < 0 ? 0 : launcherAngle;
 
-		// limit the resulting launcher angle
-		launcherAngle = launcherAngle > 50 ? 50 : launcherAngle;
-		launcherAngle = launcherAngle < 0 ? 0 : launcherAngle;
-
-		topLaunchSpeed = distanceFromTarget_in < 90 /*inch*/ ? 400 : 500;
-		bottomLaunchSpeed = distanceFromTarget_in < 90 /*inch*/ ? 400 : 500;
-	}
+	topLaunchSpeed = distanceFromTarget_in < 90 /*inch*/ ? 400 : 500;
+	bottomLaunchSpeed = distanceFromTarget_in < 90 /*inch*/ ? 400 : 500;
 
 	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
+}
+
+units::length::meter_t noteManager::GetDistanceFromSpeaker()
+{
+	auto distanceFromTarget = units::length::meter_t(1.0);
+	auto finder = DragonDriveTargetFinder::GetInstance();
+	if (finder != nullptr)
+	{
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto type = get<0>(distinfo);
+		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+		{
+			auto visionDist = get<1>(distinfo);
+			if (visionDist.value() > 0.5 && visionDist.value() < 5.0)
+			{
+				distanceFromTarget = visionDist;
+			}
+		}
+	}
+	return distanceFromTarget;
 }
 
 bool noteManager::autoLaunchReady()

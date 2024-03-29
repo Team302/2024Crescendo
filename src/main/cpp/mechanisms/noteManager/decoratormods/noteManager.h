@@ -94,8 +94,7 @@ public:
 	void SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherBottomWheelsTarget = valueRadPerSec; }
 
 private:
-	std::tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> GetDistance(FINDER_OPTION option, DragonVision::VISION_ELEMENT item);
-
+	units::length::meter_t GetDistanceFromSpeaker();
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters();
 
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
