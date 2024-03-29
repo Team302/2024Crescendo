@@ -58,6 +58,8 @@
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 
+#include "chassis/DragonDriveTargetFinder.h"
+
 using std::string;
 using namespace noteManagerStates;
 
@@ -237,7 +239,7 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 units::angle::degree_t noteManager::GetRequiredLaunchAngle()
 {
 	units::length::meter_t distanceFromTarget = units::length::meter_t(3.5);
-	units::angle::degree_t launchAngle = units::angle::degree_t(0.0);
+
 	frc::Pose3d fieldElementPose = frc::Pose3d{};
 	auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 	auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
@@ -295,6 +297,80 @@ units::angle::degree_t noteManager::GetRequiredLaunchAngle(units::length::meter_
 	}
 
 	return launchAngle;
+}
+
+void noteManager::SetLauncherTargetsForAutoLaunch()
+{
+	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters();
+
+	SetLauncherTopWheelsTarget(std::get<0>(launchParameters));
+	SetLauncherBottomWheelsTarget(std::get<1>(launchParameters));
+	SetLauncherAngleTarget(std::get<2>(launchParameters));
+
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()));
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetLauncherAngleTarget());
+}
+
+void noteManager::MaintainCurrentLauncherTargetsForAutoLaunch()
+{
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()));
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetLauncherAngleTarget());
+}
+
+bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
+{
+	units::angular_velocity::revolutions_per_minute_t topSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60); // RPS is revs/sec not rad/sec
+	units::angular_velocity::revolutions_per_minute_t botSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60);
+	units::angle::degree_t launcherAngle = units::angle::degree_t(getlauncherAngle()->GetCounts());
+
+	bool wheelTargetSpeedAchieved = (topSpeed > GetLauncherTopWheelsTarget()) && (botSpeed > GetLauncherBottomWheelsTarget());
+	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.5;
+
+	return launcherTargetAngleAchieved && wheelTargetSpeedAchieved;
+}
+
+/// @brief
+/// @return top wheel speed, bottom wheel speed, launcher angle
+std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters()
+{
+	double launcherAngle = 50;		// 50 deg is the angle for manualLaunch
+	double topLaunchSpeed = 400;	// 400 rad/sec is the default for manualLaunch
+	double bottomLaunchSpeed = 400; // 400 rad/sec is the default for manualLaunch
+
+	double distanceFromTarget_in = (units::length::inch_t(GetDistanceFromSpeaker())).to<double>();
+
+	launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
+
+	// limit the resulting launcher angle
+	launcherAngle = launcherAngle > 50 ? 50 : launcherAngle;
+	launcherAngle = launcherAngle < 0 ? 0 : launcherAngle;
+
+	topLaunchSpeed = distanceFromTarget_in < 90 /*inch*/ ? 400 : 500;
+	bottomLaunchSpeed = distanceFromTarget_in < 90 /*inch*/ ? 400 : 500;
+
+	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
+}
+
+units::length::meter_t noteManager::GetDistanceFromSpeaker()
+{
+	auto distanceFromTarget = units::length::meter_t(1.0);
+	auto finder = DragonDriveTargetFinder::GetInstance();
+	if (finder != nullptr)
+	{
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto type = get<0>(distinfo);
+		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+		{
+			auto visionDist = get<1>(distinfo);
+			if (visionDist.value() > 0.5 && visionDist.value() < 5.0)
+			{
+				distanceFromTarget = visionDist;
+			}
+		}
+	}
+	return distanceFromTarget;
 }
 
 bool noteManager::autoLaunchReady()

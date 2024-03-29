@@ -45,23 +45,8 @@ void autoLaunchState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoLaunchState"), string("init"));
 	m_genState->Init();
-	auto distanceFromTarget = GetDistanceFromTarget();
 
-	m_targetAngle = m_mechanism->GetRequiredLaunchAngle(distanceFromTarget);
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_targetAngle);
-
-	if (distanceFromTarget < units::length::meter_t(1.5))
-	{
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
-		m_targetSpeed = 275;
-	}
-	else
-	{
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
-		m_targetSpeed = 375;
-	}
+	m_mechanism->MaintainCurrentLauncherTargetsForAutoLaunch();
 }
 
 void autoLaunchState::Run()
@@ -76,46 +61,14 @@ void autoLaunchState::Exit()
 
 bool autoLaunchState::AtTarget()
 {
-	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
-	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
-
-	m_targetAngle = m_mechanism->GetRequiredLaunchAngle();
-	auto distanceFromTarget = GetDistanceFromTarget();
-
-	if (distanceFromTarget < units::length::meter_t(1.5))
-	{
-		m_targetSpeed = 275;
-	}
-	else
-	{
-		m_targetSpeed = 375;
-	}
-
-	return (((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle.value()) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed)) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999));
+	return true;
 }
 
 bool autoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH) && AtTarget());
-}
 
-units::length::meter_t autoLaunchState::GetDistanceFromTarget()
-{
-	auto distanceFromTarget = units::length::meter_t(1.0);
-	auto finder = DragonDriveTargetFinder::GetInstance();
-	if (finder != nullptr)
-	{
-		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
-		auto type = get<0>(distinfo);
-		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
-		{
-			auto visionDist = get<1>(distinfo);
-			if (visionDist.value() > 0.5 && visionDist.value() < 5.0)
-			{
-				distanceFromTarget = visionDist;
-			}
-		}
-	}
-	return distanceFromTarget;
+	bool readyToLaunch = (m_mechanism->LauncherTargetsForAutoLaunchAchieved()) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999);
+
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH)) && readyToLaunch;
 }
