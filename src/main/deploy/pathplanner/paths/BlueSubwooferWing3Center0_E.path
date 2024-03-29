@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.407706324685116,
-        "y": 5.515804013063089
+        "x": 1.290450109148193,
+        "y": 5.488777436611587
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.157199863615132,
-        "y": 5.211322262872771
+        "x": 2.039943648078209,
+        "y": 5.184295686421268
       },
       "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_B"
@@ -32,10 +32,10 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.65,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 360.0
   },
   "goalEndState": {
     "velocity": 0,

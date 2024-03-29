@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 3.550789412563132,
+        "x": 3.0154953079726763,
         "y": 5.515804013063089
       },
       "prevControl": {
-        "x": 2.550789412563132,
+        "x": 2.0154953079726763,
         "y": 5.515804013063089
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_A"
     }
   ],
@@ -32,10 +32,10 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.65,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 360.0
   },
   "goalEndState": {
     "velocity": 0,
