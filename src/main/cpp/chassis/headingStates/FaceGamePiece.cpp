@@ -42,7 +42,6 @@ void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
             if (data)
             {
                 auto rotation = data.value().rotationToTarget;
-                auto chassisRot = chassis->GetPose().Rotation().Degrees();
                 chassisMovement.chassisSpeeds.omega = units::angular_velocity::degrees_per_second_t(0);
 
                 units::angle::degree_t robotRelativeAngle = rotation.Z();

@@ -49,6 +49,7 @@ public:
     static DragonDriveTargetFinder *GetInstance();
 
     std::tuple<TARGET_INFO, frc::Pose2d> GetPose(FINDER_OPTION option, DragonVision::VISION_ELEMENT item);
+    std::tuple<TARGET_INFO, units::length::meter_t> GetDistance(FINDER_OPTION option, DragonVision::VISION_ELEMENT item);
 
     static void SetCorrection(ChassisMovement &chassisMovement,
                               SwerveChassis *chassis,

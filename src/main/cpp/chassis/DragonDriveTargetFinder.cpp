@@ -157,6 +157,34 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
     return targetInfo;
 }
 
+tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> DragonDriveTargetFinder::GetDistance(FINDER_OPTION option,
+                                                                                                         DragonVision::VISION_ELEMENT item)
+{
+    tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> targetInfo;
+    auto type = static_cast<int>(DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND);
+
+    units::length::meter_t dist = units::length::meter_t(0.0);
+
+    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    if (chassisConfig != nullptr && (option == FINDER_OPTION::FUSE_IF_POSSIBLE || option == FINDER_OPTION::VISION_ONLY))
+    {
+        auto chassis = chassisConfig->GetSwerveChassis();
+        if (chassis != nullptr)
+        {
+            auto currentPose{Pose3d(chassis->GetPose())};
+
+            auto info = GetPose(option, item);
+            auto type = get<0>(info);
+            auto pose = get<1>(info);
+
+            dist = pose.Translation().Distance(currentPose.ToPose2d().Translation());
+        }
+    }
+
+    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND, dist);
+    return targetInfo;
+}
+
 void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
                                             SwerveChassis *chassis,
                                             units::angle::degree_t target,
