@@ -8,36 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0107752760779771,
-        "y": 1.232013630485957
+        "x": 1.4920434887107001,
+        "y": 2.0238743118000015
       },
       "isLocked": true,
       "linkedName": "PodiumWing1Center2_A"
     },
     {
       "anchor": {
-        "x": 8.492762434882929,
-        "y": 0.2810600770987556
+        "x": 7.463986356544141,
+        "y": 2.4774483834681957
       },
       "prevControl": {
-        "x": 8.570249351008966,
-        "y": -0.2729076226280099
-      },
-      "nextControl": {
-        "x": 8.335340829906427,
-        "y": 1.4064950376833338
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.461622332817334,
-        "y": 5.084042833672975
-      },
-      "prevControl": {
-        "x": 4.393880416671367,
-        "y": 5.643283057677855
+        "x": 6.774991835697957,
+        "y": 0.38114590514895347
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,7 +35,7 @@
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 1.2,
+      "waypointRelativePos": 0.6,
       "rotationDegrees": 180.0,
       "rotateFast": false
     }

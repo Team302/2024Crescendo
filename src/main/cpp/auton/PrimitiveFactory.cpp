@@ -102,6 +102,14 @@ IPrimitive *PrimitiveFactory::GetIPrimitive(PrimitiveParams *primitivePasser)
         primitive = m_visionAlign;
         break;
 
+    case DRIVE_TO_NOTE:
+        if (m_visionAlign == nullptr)
+        {
+            m_visionAlign = new VisionDrivePrimitive();
+        }
+        primitive = m_visionAlign;
+        break;
+
     default:
         break;
     }
