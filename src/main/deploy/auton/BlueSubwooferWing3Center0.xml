@@ -40,7 +40,7 @@ visionAligment="NOTE"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_D"
 time = "10.0"
-noteOption="STATE_HOLD_FEEDER"/>
+noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopManual.xml"/>
 
