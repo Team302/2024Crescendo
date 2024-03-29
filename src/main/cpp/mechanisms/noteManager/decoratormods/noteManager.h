@@ -20,8 +20,12 @@
 // C++ Includes
 #include <string>
 #include <deque>
+#include <tuple>
 
 // FRC Includes
+#include "units/angle.h"
+#include "units/angular_velocity.h"
+#include "units/length.h"
 
 // Team 302 includes
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
@@ -30,11 +34,20 @@
 #include "robotstate/RobotStateChanges.h"
 #include "robotstate/RobotState.h"
 
+#include "chassis/DragonDriveTargetFinder.h"
 // forward declares
 
 class noteManager : public noteManagerGen, public IRobotStateChangeSubscriber
 {
 public:
+	// todo delete this once Joe creates and tests the functionality
+	enum FINDER_OPTION
+	{
+		VISION_ONLY,
+		ODOMETRY_ONLY,
+		FUSE_IF_POSSIBLE
+	};
+
 	/// @brief  This method constructs the mechanism using composition with its various actuators and sensors.
 	/// @param controlFileName The control file with the PID constants and Targets for each state
 	/// @param networkTableName Location for logging information
@@ -63,10 +76,25 @@ public:
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	double GetRequiredLaunchAngle();
+	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters();
 	bool autoLaunchReady();
 	bool HasNote() const;
 
+	void SetLauncherTargetsForAutoLaunch();
+	void MaintainCurrentLauncherTargetsForAutoLaunch();
+	bool LauncherTargetsForAutoLaunchAchieved() const;
+
+	units::angle::degree_t GetLauncherAngleTarget() const { return m_LauncherAngleTarget; }
+	units::angular_velocity::radians_per_second_t GetLauncherTopWheelsTarget() const { return m_LauncherTopWheelsTarget; }
+	units::angular_velocity::radians_per_second_t GetLauncherBottomWheelsTarget() const { return m_LauncherBottomWheelsTarget; }
+
+	void SetLauncherAngleTarget(units::angle::degree_t valueDeg) { m_LauncherAngleTarget = valueDeg; }
+	void SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherTopWheelsTarget = valueRadPerSec; }
+	void SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherBottomWheelsTarget = valueRadPerSec; }
+
 private:
+	std::tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> GetDistance(FINDER_OPTION option, DragonVision::VISION_ELEMENT item);
+
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
 
 	noteManagerGen *m_noteManager;
@@ -86,4 +114,8 @@ private:
 	double MonitorForNoteInIntakes();
 	bool m_noteInIntake = false;
 	bool m_noteInFeeder = false;
+
+	units::angle::degree_t m_LauncherAngleTarget;
+	units::angular_velocity::radians_per_second_t m_LauncherTopWheelsTarget;
+	units::angular_velocity::radians_per_second_t m_LauncherBottomWheelsTarget;
 };
