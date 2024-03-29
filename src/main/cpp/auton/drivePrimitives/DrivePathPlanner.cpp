@@ -77,6 +77,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_maxTime = params->GetTime();
     m_switchedToVisionDrive = false;
     m_visionAlignment = params->GetVisionAlignment();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), m_pathname, m_chassis->GetPose().Rotation().Degrees().to<double>());
 
     m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
     m_moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;

@@ -35,7 +35,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_holonomicController(pathplanner::PIDConstants(1.0, 0.25, 0.0),
+                                                                                 m_holonomicController(pathplanner::PIDConstants(1.85, 0.85, 0.0),
                                                                                                        pathplanner::PIDConstants(0.0, 0.0, 0.0),
                                                                                                        robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                        units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
@@ -107,13 +107,15 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         auto refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
         if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::IGNORE)
         {
-            chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
-            refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
+            // chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
+            // refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
         }
         else
             refChassisSpeeds.omega = chassisMovement.chassisSpeeds.omega;
 
         chassisMovement.chassisSpeeds = refChassisSpeeds;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "Current Rotation", m_chassis->GetPose().Rotation().Degrees().to<double>());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "Omega", units::angular_velocity::degrees_per_second_t(refChassisSpeeds.omega).to<double>());
 
         m_chassis->SetStoredHeading(m_chassis->GetPose().Rotation().Degrees());
     }
@@ -142,7 +144,7 @@ bool TrajectoryDrivePathPlanner::IsDone()
         if ((currentTime) / m_totalTrajectoryTime > 0.9)
         {
             // isDone = m_holonomicController.atReference();
-            isDone = IsSamePose(currentPose, m_finalState.getTargetHolonomicPose(), 10.0, 3.0);
+            isDone = IsSamePose(currentPose, m_finalState.getTargetHolonomicPose(), 5.0, 3.0);
         }
     }
     else
@@ -168,7 +170,7 @@ bool TrajectoryDrivePathPlanner::IsSamePose(frc::Pose2d currentPose, frc::Pose2d
 
     double dDeltaX = abs(dPrevPosX - dCurPosX);
     double dDeltaY = abs(dPrevPosY - dCurPosY);
-    double dDeltaRot = abs(dPrevPosRot - dCurPosRot);
+    double dDeltaRot = abs(dCurPosRot - dPrevPosRot);
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "deltaX", dDeltaX);
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "deltaY", dDeltaY);
@@ -195,9 +197,9 @@ units::angular_velocity::degrees_per_second_t TrajectoryDrivePathPlanner::CalcHe
 
 void TrajectoryDrivePathPlanner::LogPose(Pose2d pose) const
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner Pose2d", "Target X", pose.X().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner Pose2d", "Target Y", pose.Y().to<double>());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive path planner Pose2d", "Target Angle", pose.Rotation().Degrees().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "Target X", pose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "Target Y", pose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "Target Angle", pose.Rotation().Degrees().to<double>());
 }
 void TrajectoryDrivePathPlanner::LogState(pathplanner::PathPlannerTrajectory::State state) const
 {
