@@ -68,6 +68,7 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    m_offset = m_chassis->GetWheelBase();
 }
 void DrivePathPlanner::Init(PrimitiveParams *params)
 {
@@ -143,11 +144,11 @@ bool DrivePathPlanner::IsDone()
     }
     else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
     {
-        return (m_chassis->GetPose().X() >= units::length::meter_t(8.75));
+        return m_chassis->GetPose().X() >= (m_centerLine + m_offset);
     }
     else
     {
-        return (m_chassis->GetPose().X() <= units::length::meter_t(7.75));
+        return m_chassis->GetPose().X() <= (m_centerLine - m_offset);
     }
 
     if (m_switchedToVisionDrive)

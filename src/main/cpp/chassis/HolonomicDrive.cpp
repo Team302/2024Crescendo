@@ -127,17 +127,7 @@ void HolonomicDrive::Run()
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
         {
-            StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
-            auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManager *>(noteStateManager) : nullptr;
-            if (!noteMgr->HasNote())
-            {
-                auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-                auto type = get<0>(info);
-                if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
-                {
-                    DriveToGamePiece(forward, strafe, rotate);
-                }
-            }
+            DriveToGamePiece(forward, strafe, rotate);
         }
 
         else if (isAlignWithAmpSelected)
@@ -294,7 +284,10 @@ void HolonomicDrive::HoldPosition()
 }
 void HolonomicDrive::DriveToGamePiece(double forward, double strafe, double rot)
 {
-    if (abs(forward) < 0.2 && abs(strafe) < 0.2 && abs(rot) < 0.2)
+
+    StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+    auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManager *>(noteStateManager) : nullptr;
+    if (!noteMgr->HasNote() && abs(forward) < 0.2 && abs(strafe) < 0.2 && abs(rot) < 0.2)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;

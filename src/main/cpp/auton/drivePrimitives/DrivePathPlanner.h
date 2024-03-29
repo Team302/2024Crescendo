@@ -52,4 +52,6 @@ private:
     bool m_switchedToVisionDrive;
     PrimitiveParams::VISION_ALIGNMENT m_visionAlignment;
     ChassisMovement m_moveInfo;
+    units::length::meter_t m_centerLine = units::length::meter_t(8.27);
+    units::length::meter_t m_offset;
 };
