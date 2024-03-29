@@ -36,7 +36,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
                                                                                  m_holonomicController(pathplanner::PIDConstants(2.5, 0.375, 0.0),
-                                                                                                       pathplanner::PIDConstants(5.5, 1.0, 0.0),
+                                                                                                       pathplanner::PIDConstants(5.5, 0.5, 0.0),
                                                                                                        robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                        units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                        units::time::second_t(0.02)),
@@ -93,13 +93,13 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             units::length::meter_t distance = currentTargetPos.Translation().Distance(newNotePos.Translation());
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Note Distance", distance.to<double>());
 
-            if (distance > units::length::meter_t(0.3))
+            /*if (distance > units::length::meter_t(0.3))
             {
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Trajectory Created", "True");
 
                 DriveToNote *driveToNote = new DriveToNote(m_robotDrive, this);
                 driveToNote->Init(chassisMovement);
-            }
+            }*/
         }
 
         auto desiredState = m_trajectory.sample(m_timer.get()->Get() + units::time::second_t(0.02));
