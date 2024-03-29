@@ -85,6 +85,16 @@ void DragonVisionStructLogger::logDragonCamera(const std::string &loggerName, co
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("CameraRoll"), std::to_string(camera.GetCameraRoll().to<double>()));
 }
 
+void DragonVisionStructLogger::logPose3d(const std::string &loggerName, const frc::Pose3d pose3d)
+{
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("X"), std::to_string(pose3d.X().to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Y"), std::to_string(pose3d.Y().to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Z"), std::to_string(pose3d.Z().to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Roll"), std::to_string(pose3d.Rotation().X().to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Pitch"), std::to_string(pose3d.Rotation().Y().to<double>()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Yaw"), std::to_string(pose3d.Rotation().Z().to<double>()));
+}
+
 /****************
  * Function: logVisionPose
  * Description: Logs the vision pose to the logger
@@ -97,9 +107,7 @@ void DragonVisionStructLogger::logVisionPose(const std::string &loggerName, cons
     if (optVisionPose)
     {
         frc::Pose3d pose = optVisionPose.value().estimatedPose;
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("X"), std::to_string(pose.X().to<double>()));
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Y"), std::to_string(pose.Y().to<double>()));
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("Z"), std::to_string(pose.Z().to<double>()));
+        logPose3d(loggerName, pose);
 
         units::time::millisecond_t timeStamp = optVisionPose.value().timeStamp;
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("TimeStamp"), std::to_string(timeStamp.to<double>()));

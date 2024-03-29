@@ -41,7 +41,7 @@ public:
     units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kPFine, double kPCoarse);
 
 private:
-    bool IsSamePose(frc::Pose2d currentPose, frc::Pose2d previousPose, double xyTolerance, double rotTolerance);
+    bool IsSamePose(frc::Pose2d currentPose, frc::Pose2d previousPose, frc::ChassisSpeeds velocity, double xyTolerance, double rotTolerance, double speedTolerance);
 
     void LogPose(frc::Pose2d pose) const;
     void LogState(pathplanner::PathPlannerTrajectory::State state) const;
@@ -58,6 +58,7 @@ private:
     std::string m_whyDone;
     units::time::second_t m_totalTrajectoryTime;
 
-    double m_kPCoarse = 6.0;
-    double m_kPFine = 9.5;
+    double m_kPCoarse = 5.0;
+    double m_kPFine = 9.0;
+    int m_firstGen = 0;
 };

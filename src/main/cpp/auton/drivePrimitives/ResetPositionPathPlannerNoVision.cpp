@@ -51,6 +51,7 @@ void ResetPositionPathPlannerNoVision::Init(PrimitiveParams *param)
             path = path.get()->flipPath();
         }
         auto pose = path.get()->getPreviewStartingHolonomicPose();
+
         chassis->ResetPose(pose);
     }
 }

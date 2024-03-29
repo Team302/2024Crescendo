@@ -11,14 +11,15 @@
     "BlueSubwooferWing2Center1",
     "BluePodiumWing2Center2",
     "BlueSubwooferWing1Center3",
+    "Square Test",
     "RedAmpWing1Center2",
     "RedPodiumWing1Center2",
     "Sabatage"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 4.65,
-  "defaultMaxAccel": 4.5,
+  "defaultMaxVel": 4.25,
+  "defaultMaxAccel": 3.75,
   "defaultMaxAngVel": 540.0,
-  "defaultMaxAngAccel": 720.0,
+  "defaultMaxAngAccel": 360.0,
   "maxModuleSpeed": 0.75
 }

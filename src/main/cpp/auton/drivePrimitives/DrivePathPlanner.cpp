@@ -68,7 +68,6 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-    m_offset = m_chassis->GetWheelBase();
 }
 void DrivePathPlanner::Init(PrimitiveParams *params)
 {
@@ -77,6 +76,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_maxTime = params->GetTime();
     m_switchedToVisionDrive = false;
     m_visionAlignment = params->GetVisionAlignment();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), m_pathname, m_chassis->GetPose().Rotation().Degrees().to<double>());
 
     m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
     m_moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;
@@ -142,6 +142,8 @@ bool DrivePathPlanner::IsDone()
     {
         return true;
     }
+    // TO DO Figure out how to be able to drive back don't just stop your trajectory (Cause next trajectory to also stop)
+    /*
     else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
     {
         return m_chassis->GetPose().X() >= (m_centerLine + m_offset);
@@ -149,7 +151,7 @@ bool DrivePathPlanner::IsDone()
     else
     {
         return m_chassis->GetPose().X() <= (m_centerLine - m_offset);
-    }
+    }*/
 
     if (m_switchedToVisionDrive)
     {
