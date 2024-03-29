@@ -142,14 +142,14 @@ bool DrivePathPlanner::IsDone()
     {
         return true;
     }
-    else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
-    {
-        return m_chassis->GetPose().X() >= (m_centerLine + m_offset);
-    }
-    else
-    {
-        return m_chassis->GetPose().X() <= (m_centerLine - m_offset);
-    }
+    /* else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
+     {
+         return m_chassis->GetPose().X() >= (m_centerLine + m_offset);
+     }
+     else
+     {
+         return m_chassis->GetPose().X() <= (m_centerLine - m_offset);
+     }*/
 
     if (m_switchedToVisionDrive)
     {
