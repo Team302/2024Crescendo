@@ -142,6 +142,6 @@ public:
 protected:
     units::angle::degree_t GetTx() const;
     units::angle::degree_t GetTy() const;
-    units::length::inch_t m_driveThroughOffset = units::length::inch_t(7.0);
+    units::length::inch_t m_driveThroughOffset = units::length::inch_t(0.0);
     std::shared_ptr<nt::NetworkTable> m_networktable;
 };
