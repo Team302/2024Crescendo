@@ -2,13 +2,27 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
  <primitive id= "RESET_POSITION_PATH_PLANNER"
-                pathname="BlueSubwooferWing1Center0"
+                pathname="Test1"
                                                 />
 
-<!--                pathname="BlueDefault"/ 
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "Test1"
+time= "10.0"
+/>
 
-    <primitive id= "DRIVE_PATH_PLANNER"
-            pathname="square">
-    </primitive> 
-    -->
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "Test2"
+time= "10.0"
+/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "Test3"
+time= "10.0"
+/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "Test4"
+time= "10.0"
+/>
+
 </auton>
