@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.251262818353183,
-        "y": 7.417614974733711
+        "x": 8.63,
+        "y": 2.42
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.357035887042178,
-        "y": 6.845896117010281
+        "x": 7.511966011250106,
+        "y": 2.42
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Test2"
     },
     {
       "anchor": {
-        "x": 4.862485863137236,
-        "y": 6.457148746364912
+        "x": 5.63,
+        "y": 2.42
       },
       "prevControl": {
-        "x": 4.812485863137236,
-        "y": 6.457148746364912
+        "x": 7.1506906325745545,
+        "y": 2.42
       },
       "nextControl": null,
       "isLocked": true,
-      "linkedName": "BlueAmpWing2Center2B"
+      "linkedName": "Test3"
     }
   ],
   "rotationTargets": [],
@@ -38,15 +38,15 @@
     "maxAngularAcceleration": 360.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": -166.02926074239699,
-    "rotateFast": false
+    "velocity": 0,
+    "rotation": -90.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "BlueAmpWing2Center2",
+  "folder": "Square Test",
   "previewStartingState": {
-    "rotation": -162.4744316262772,
-    "velocity": 0.0
+    "rotation": 0.0,
+    "velocity": 0
   },
   "useDefaultConstraints": true
 }
