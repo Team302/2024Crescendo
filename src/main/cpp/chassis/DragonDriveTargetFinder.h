@@ -61,6 +61,10 @@ private:
     ~DragonDriveTargetFinder() = default;
     static DragonDriveTargetFinder *m_instance;
 
+    SwerveChassis *GetChassis();
+    int GetAprilTag(DragonVision::VISION_ELEMENT item);
+    units::angle::degree_t AdjustRobotRelativeAngleForIntake(units::angle::degree_t angle);
+
     enum AprilTagIDs
     {
         BLUE_SOURCE_ONE = 1,

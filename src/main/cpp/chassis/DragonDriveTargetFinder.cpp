@@ -18,6 +18,7 @@
 
 #include "frc/geometry/Pose3d.h"
 #include "frc/geometry/Transform3d.h"
+#include "units/angle.h"
 
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
@@ -60,10 +61,9 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
     auto hasVisionPose = false;
     frc::Pose3d visionPose;
 
-    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    if (chassisConfig != nullptr && (option == FINDER_OPTION::FUSE_IF_POSSIBLE || option == FINDER_OPTION::VISION_ONLY))
+    if ((option == FINDER_OPTION::FUSE_IF_POSSIBLE || option == FINDER_OPTION::VISION_ONLY))
     {
-        auto chassis = chassisConfig->GetSwerveChassis();
+        auto chassis = GetChassis();
         if (chassis != nullptr)
         {
             auto currentPose{Pose3d(chassis->GetPose())};
@@ -81,16 +81,7 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
                     type += static_cast<int>(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED);
                     if (item == DragonVision::VISION_ELEMENT::NOTE)
                     {
-                        units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z();
-
-                        if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
-                        {
-                            robotRelativeAngle += units::angle::degree_t(180.0);
-                        }
-                        else if (robotRelativeAngle >= units::angle::degree_t(90.0))
-                        {
-                            robotRelativeAngle -= units::angle::degree_t(180.0);
-                        }
+                        auto robotRelativeAngle = AdjustRobotRelativeAngleForIntake(data.value().rotationToTarget.Z());
                         auto fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
                         targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, frc::Pose2d(visionPose.X(), visionPose.Y(), fieldRelativeAngle));
                         return targetInfo;
@@ -100,24 +91,7 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
         }
     }
 
-    auto aprilTag = -1;
-    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
-    {
-        auto itr = blueMap.find(item);
-        if (itr != blueMap.end())
-        {
-            aprilTag = itr->second;
-        }
-        else
-        {
-            auto itr = redMap.find(item);
-            if (itr != redMap.end())
-            {
-                aprilTag = itr->second;
-            }
-        }
-    }
-
+    auto aprilTag = GetAprilTag(item);
     if (aprilTag > 0 && (option == FINDER_OPTION::FUSE_IF_POSSIBLE || option == FINDER_OPTION::ODOMETRY_ONLY))
     {
         auto pose = DragonVision::GetAprilTagLayout().GetTagPose(aprilTag);
@@ -161,27 +135,26 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> DragonDriveT
                                                                                                          DragonVision::VISION_ELEMENT item)
 {
     tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> targetInfo;
-    auto type = static_cast<int>(DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND);
+    auto type = DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND;
 
     units::length::meter_t dist = units::length::meter_t(0.0);
 
-    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    if (chassisConfig != nullptr && (option == FINDER_OPTION::FUSE_IF_POSSIBLE || option == FINDER_OPTION::VISION_ONLY))
+    if (option == FINDER_OPTION::FUSE_IF_POSSIBLE || option == FINDER_OPTION::VISION_ONLY)
     {
-        auto chassis = chassisConfig->GetSwerveChassis();
+        auto chassis = GetChassis();
         if (chassis != nullptr)
         {
             auto currentPose{Pose3d(chassis->GetPose())};
 
             auto info = GetPose(option, item);
-            auto type = get<0>(info);
+            type = get<0>(info);
             auto pose = get<1>(info);
 
             dist = pose.Translation().Distance(currentPose.ToPose2d().Translation());
         }
     }
 
-    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND, dist);
+    targetInfo = make_tuple(type, dist);
     return targetInfo;
 }
 
@@ -202,4 +175,49 @@ void DragonDriveTargetFinder::SetCorrection(ChassisMovement &chassisMovement,
             chassisMovement.chassisSpeeds.omega += correction;
         }
     }
+}
+
+SwerveChassis *DragonDriveTargetFinder::GetChassis()
+{
+    auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    if (chassisConfig != nullptr)
+    {
+        return chassisConfig->GetSwerveChassis();
+    }
+    return nullptr;
+}
+
+int DragonDriveTargetFinder::GetAprilTag(DragonVision::VISION_ELEMENT item)
+{
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
+    {
+        auto itr = blueMap.find(item);
+        if (itr != blueMap.end())
+        {
+            return itr->second;
+        }
+    }
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kRed)
+    {
+        auto itr = redMap.find(item);
+        if (itr != redMap.end())
+        {
+            return itr->second;
+        }
+    }
+    return -1;
+}
+
+units::angle::degree_t DragonDriveTargetFinder::AdjustRobotRelativeAngleForIntake(units::angle::degree_t angle)
+{
+    auto robotRelativeAngle = angle;
+    if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+    {
+        robotRelativeAngle += units::angle::degree_t(180.0);
+    }
+    else if (robotRelativeAngle >= units::angle::degree_t(90.0))
+    {
+        robotRelativeAngle -= units::angle::degree_t(180.0);
+    }
+    return robotRelativeAngle;
 }

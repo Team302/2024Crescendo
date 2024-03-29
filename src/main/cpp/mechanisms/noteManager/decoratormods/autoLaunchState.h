@@ -44,6 +44,7 @@ namespace noteManagerStates
 		bool IsTransitionCondition(bool considerGamepadTransitions) override;
 
 	private:
+		units::length::meter_t GetDistanceFromTarget();
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
 		double m_targetSpeed = 375.0;

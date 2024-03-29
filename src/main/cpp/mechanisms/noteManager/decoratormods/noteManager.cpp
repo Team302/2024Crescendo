@@ -280,6 +280,13 @@ units::angle::degree_t noteManager::GetRequiredLaunchAngle()
 		}
 	}
 
+	return GetRequiredLaunchAngle(distanceFromTarget);
+}
+
+units::angle::degree_t noteManager::GetRequiredLaunchAngle(units::length::meter_t distanceFromTarget)
+{
+	units::angle::degree_t launchAngle = units::angle::degree_t(0.0);
+
 	launchAngle = units::angle::degree_t(80.0 + (-44.2 * distanceFromTarget.value()) + (6.09 * distanceFromTarget.value() * distanceFromTarget.value()));
 
 	if (launchAngle > units::angle::degree_t(40.0))

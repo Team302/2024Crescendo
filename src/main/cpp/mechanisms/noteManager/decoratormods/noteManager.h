@@ -22,6 +22,8 @@
 #include <deque>
 
 // FRC Includes
+#include "units/angle.h"
+#include "units/length.h"
 
 // Team 302 includes
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
@@ -63,6 +65,7 @@ public:
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	units::angle::degree_t GetRequiredLaunchAngle();
+	units::angle::degree_t GetRequiredLaunchAngle(units::length::meter_t distance);
 	bool autoLaunchReady();
 	bool HasNote() const;
 

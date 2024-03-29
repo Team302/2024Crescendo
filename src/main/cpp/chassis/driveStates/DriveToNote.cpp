@@ -84,7 +84,6 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 bool DriveToNote::IsDone()
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (config != nullptr)
     {
         auto noteStateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
