@@ -60,4 +60,5 @@ private:
 
     double m_kPCoarse = 5.0;
     double m_kPFine = 9.0;
+    int m_firstGen = 0;
 };

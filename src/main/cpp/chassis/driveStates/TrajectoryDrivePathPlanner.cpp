@@ -35,8 +35,8 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_holonomicController(pathplanner::PIDConstants(1.85, 0.85, 0.0),
-                                                                                                       pathplanner::PIDConstants(0.0, 0.0, 0.0),
+                                                                                 m_holonomicController(pathplanner::PIDConstants(2.0, 0.85, 0.0),
+                                                                                                       pathplanner::PIDConstants(0.75, 0.0, 0.0),
                                                                                                        robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                        units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                        units::time::second_t(0.02)),
@@ -53,6 +53,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
 
 void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
 {
+    m_firstGen++;
     m_trajectoryStates.clear();
     m_trajectory = chassisMovement.pathplannerTrajectory;
     m_trajectoryStates = m_trajectory.getStates();
@@ -107,8 +108,11 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         auto refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
         if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::IGNORE)
         {
-            // chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
-            // refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
+            if (m_firstGen == 1)
+            {
+                chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
+                refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
+            }
         }
         else
             refChassisSpeeds.omega = chassisMovement.chassisSpeeds.omega;
