@@ -118,8 +118,6 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             refChassisSpeeds.omega = chassisMovement.chassisSpeeds.omega;
 
         chassisMovement.chassisSpeeds = refChassisSpeeds;
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "Current Rotation", m_chassis->GetPose().Rotation().Degrees().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "Omega", units::angular_velocity::degrees_per_second_t(refChassisSpeeds.omega).to<double>());
 
         m_chassis->SetStoredHeading(m_chassis->GetPose().Rotation().Degrees());
     }

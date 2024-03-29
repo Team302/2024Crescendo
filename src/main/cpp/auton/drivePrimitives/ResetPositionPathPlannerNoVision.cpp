@@ -52,10 +52,7 @@ void ResetPositionPathPlannerNoVision::Init(PrimitiveParams *param)
         }
         auto pose = path.get()->getPreviewStartingHolonomicPose();
 
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, param->GetPathName(), "Inital Yaw", pose.Rotation().Degrees().to<double>());
-
         chassis->ResetPose(pose);
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, param->GetPathName(), "Inital Chassis Yaw", chassis->GetPose().Rotation().Degrees().to<double>());
     }
 }
 
