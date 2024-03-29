@@ -96,6 +96,8 @@ public:
 private:
 	std::tuple<DragonDriveTargetFinder::TARGET_INFO, units::length::meter_t> GetDistance(FINDER_OPTION option, DragonVision::VISION_ELEMENT item);
 
+	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters();
+
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
 
 	noteManagerGen *m_noteManager;

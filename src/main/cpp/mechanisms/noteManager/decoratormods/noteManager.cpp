@@ -239,7 +239,7 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 units::angle::degree_t noteManager::GetRequiredLaunchAngle()
 {
 	units::length::meter_t distanceFromTarget = units::length::meter_t(3.5);
-	units::angle::degree_t launchAngle = units::angle::degree_t(0.0);
+
 	frc::Pose3d fieldElementPose = frc::Pose3d{};
 	auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 	auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
@@ -344,9 +344,9 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 /// @return top wheel speed, bottom wheel speed, launcher angle
 std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters()
 {
-	double launcherAngle = 50;		// 50 is the angle for manualLaunch
-	double topLaunchSpeed = 400;	// 400 is the default for manualLaunch
-	double bottomLaunchSpeed = 400; // 400 is the default for manualLaunch
+	double launcherAngle = 50;		// 50 deg is the angle for manualLaunch
+	double topLaunchSpeed = 400;	// 400 rad/sec is the default for manualLaunch
+	double bottomLaunchSpeed = 400; // 400 rad/sec is the default for manualLaunch
 
 	// todo uncomment the next line and delete the line after it once Joe creates GetDistance
 	// std::tuple<TARGET_INFO, units::length::meter_t> distanceToSpeaker = DragonDriveTargetFinder::GetInstance()->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
