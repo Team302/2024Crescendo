@@ -23,9 +23,11 @@
 
 #include "DragonVision/DragonVision.h"
 #include "DragonVision/DragonPhotonCam.h"
+#include "DragonVision/DragonLimelight.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVisionStructLogger.h"
 #include "utils/logging/Logger.h"
+#include "utils/DragonField.h"
 #include <string>
 // Third Party Includes
 
@@ -491,45 +493,56 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 {
 	std::vector<VisionPose> estimatedPoses = {};
 
-	for (photon::PhotonPoseEstimator estimator : m_poseEstimators)
-	{
-		units::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
-		std::optional<photon::EstimatedRobotPose> estimation = estimator.Update();
+	if (!m_photonVisionOdometry){
 
-		if (estimation) // check if we have a result
-		{
-			frc::Pose3d estimatedPose = estimation.value().estimatedPose;
-			units::millisecond_t timestamp = estimation.value().timestamp;
-
-			double ambiguity = 0.0;
-			double counter = 0.0;
-			wpi::array<double, 3> visionStdMeasurements = VisionPose{}.visionMeasurementStdDevs;
-
-			for (auto target : estimation.value().targetsUsed)
-			{
-				ambiguity += target.GetPoseAmbiguity();
-				counter++;
-			}
-
-			// get the average ambiguity and add as standard deviation
-			visionStdMeasurements[0] += (ambiguity / counter);
-			visionStdMeasurements[1] += (ambiguity / counter);
-			visionStdMeasurements[2] += (ambiguity / counter);
-
-			estimatedPoses.emplace_back(VisionPose{estimatedPose, currentTime - timestamp, visionStdMeasurements});
+		// this is for single camera limelight odometry
+		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr){
+			//get the pose from limelight
+			DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
+			return launcheLimelightCam->GetBlueFieldPosition();
 		}
-	}
-
-	if (!estimatedPoses.empty())
-	{
-		if (estimatedPoses.size() == 1)
-			return estimatedPoses[0];
-		else
+	} else {
+		//this could be moved into photoncamera later
+		for (photon::PhotonPoseEstimator estimator : m_poseEstimators)
 		{
-			double firstAmbiguity = estimatedPoses[0].visionMeasurementStdDevs[0];
-			double secondAmbiguity = estimatedPoses[1].visionMeasurementStdDevs[0];
+			units::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
+			std::optional<photon::EstimatedRobotPose> estimation = estimator.Update();
 
-			return firstAmbiguity < secondAmbiguity ? estimatedPoses[0] : estimatedPoses[1];
+			if (estimation) // check if we have a result
+			{
+				frc::Pose3d estimatedPose = estimation.value().estimatedPose;
+				units::millisecond_t timestamp = estimation.value().timestamp;
+
+				double ambiguity = 0.0;
+				double counter = 0.0;
+				wpi::array<double, 3> visionStdMeasurements = VisionPose{}.visionMeasurementStdDevs;
+
+				for (auto target : estimation.value().targetsUsed)
+				{
+					ambiguity += target.GetPoseAmbiguity();
+					counter++;
+				}
+
+				// get the average ambiguity and add as standard deviation
+				visionStdMeasurements[0] += (ambiguity / counter);
+				visionStdMeasurements[1] += (ambiguity / counter);
+				visionStdMeasurements[2] += (ambiguity / counter);
+
+				estimatedPoses.emplace_back(VisionPose{estimatedPose, currentTime - timestamp, visionStdMeasurements});
+			}
+		}
+
+		if (!estimatedPoses.empty())
+		{
+			if (estimatedPoses.size() == 1)
+				return estimatedPoses[0];
+			else
+			{
+				double firstAmbiguity = estimatedPoses[0].visionMeasurementStdDevs[0];
+				double secondAmbiguity = estimatedPoses[1].visionMeasurementStdDevs[0];
+
+				return firstAmbiguity < secondAmbiguity ? estimatedPoses[0] : estimatedPoses[1];
+			}
 		}
 	}
 
@@ -559,8 +572,13 @@ void DragonVision::testAndLogVisionData()
 {
 	try
 	{
-		std::optional<VisionData> testData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
-		DragonVisionStructLogger::logVisionData("VisionData", testData);
+		std::optional<VisionData> visionData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
+		std::optional<VisionPose> visionPose = GetRobotPosition();
+		DragonVisionStructLogger::logVisionData("VisionData", visionData);
+		DragonVisionStructLogger::logVisionPose("VisionPose", visionPose);
+
+		DragonField::GetInstance()->UpdateObjectVisionPose("VisionPose", visionPose);
+
 	}
 	catch (std::bad_optional_access &boa)
 	{
