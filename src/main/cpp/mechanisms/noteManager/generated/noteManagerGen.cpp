@@ -292,10 +292,10 @@ void noteManagerGen::CreateCompBot302()
 	    ControlModes::CONTROL_TYPE::VELOCITY_RPS, // ControlModes::CONTROL_TYPE mode
 	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
 	    "velocityRPS", // std::string indentifier
-	    0.0003, // double proportional
-	    1E-06, // double integral
+	    0.0001, // double proportional
+	    0.0,//1E-06, // double integral
 	    0, // double derivative
-	    0.0001, // double feedforward
+	    0.00015, // double feedforward
 	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
 	    0, // double integralZone
 	    0, // double maxAcceleration

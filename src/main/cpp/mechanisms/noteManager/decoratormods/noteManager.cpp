@@ -341,7 +341,17 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 
 	double distanceFromTarget_in = (units::length::inch_t(GetDistanceFromSpeaker())).to<double>();
 
-	launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
+	// launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
+	auto transitionInch = 90.0;
+	if (distanceFromTarget_in < transitionInch)
+	{
+		launcherAngle = 80.9196 - 0.58333 * distanceFromTarget_in;
+	}
+	else
+	{
+		launcherAngle = 49.1458 - 0.229167 * distanceFromTarget_in;
+	}
+	// launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
 
 	// limit the resulting launcher angle
 	launcherAngle = launcherAngle > 50 ? 50 : launcherAngle;

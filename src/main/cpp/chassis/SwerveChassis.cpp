@@ -316,6 +316,14 @@ void SwerveChassis::UpdateOdometry()
         auto pos = m_vision->GetRobotPosition();
         if (pos)
         {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("VisionPose x"), pos.value().estimatedPose.ToPose2d().X().value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("VisionPose y"), pos.value().estimatedPose.ToPose2d().Y().value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("VisionPose omega"), pos.value().estimatedPose.ToPose2d().Rotation().Degrees().value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("timestamp"), pos.value().timeStamp.value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("std dev 0"), pos.value().visionMeasurementStdDevs[0]);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("std dev 1"), pos.value().visionMeasurementStdDevs[1]);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("std dev 2"), pos.value().visionMeasurementStdDevs[2]);
+
             m_poseEstimator.AddVisionMeasurement(pos.value().estimatedPose.ToPose2d(),
                                                  pos.value().timeStamp,
                                                  pos.value().visionMeasurementStdDevs);
