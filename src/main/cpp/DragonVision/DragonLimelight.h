@@ -91,6 +91,7 @@ public:
     ///-----------------------------------------------------------------------------------
     ~DragonLimelight() = default;
 
+    bool HealthCheck();
     bool HasTarget();
 
     std::optional<units::angle::degree_t> GetTargetYaw();
@@ -135,6 +136,7 @@ public:
     void SetCrosshairPos(double crosshairPosX, double crosshairPosY);
     void SetSecondaryCrosshairPos(double crosshairPosX, double crosshairPosY);
 
+
     bool UpdatePipeline();
 
     void PrintValues(); // Prints out all values to ensure everything is working and connected
@@ -144,4 +146,5 @@ protected:
     units::angle::degree_t GetTy() const;
     units::length::inch_t m_driveThroughOffset = units::length::inch_t(0.0);
     std::shared_ptr<nt::NetworkTable> m_networktable;
+    double m_lastHeartbeat = -2;
 };

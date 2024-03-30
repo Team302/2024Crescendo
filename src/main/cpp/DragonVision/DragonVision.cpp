@@ -499,7 +499,8 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr){
 			//get the pose from limelight
 			DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
-			return launcheLimelightCam->GetBlueFieldPosition();
+			std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight();
+			return estimatedPose;
 		}
 	} else {
 		//this could be moved into photoncamera later
@@ -572,10 +573,10 @@ void DragonVision::testAndLogVisionData()
 {
 	try
 	{
-		std::optional<VisionData> visionData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
+		//std::optional<VisionData> visionData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
 		std::optional<VisionPose> visionPose = GetRobotPosition();
-		DragonVisionStructLogger::logVisionData("VisionData", visionData);
-		DragonVisionStructLogger::logVisionPose("VisionPose", visionPose);
+		//DragonVisionStructLogger::logVisionData("VisionData", visionData);
+		//DragonVisionStructLogger::logVisionPose("VisionPose", visionPose);
 
 		DragonField::GetInstance()->UpdateObjectVisionPose("VisionPose", visionPose);
 
