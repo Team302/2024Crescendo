@@ -313,12 +313,23 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backRight->GetPosition()});
     if (m_vision != nullptr)
     {
-        auto pos = m_vision->GetRobotPosition();
-        if (pos)
+        std::optional<VisionPose> visionPose = m_vision->GetRobotPosition();
+        if (visionPose)
         {
-            m_poseEstimator.AddVisionMeasurement(pos.value().estimatedPose.ToPose2d(),
-                                                 pos.value().timeStamp,
-                                                 pos.value().visionMeasurementStdDevs);
+            //only updated based on vision if std deviations are met and difference is under thresholds
+            frc::Pose2d chassisPose2d = GetPose();
+            frc::Pose2d visionPose2d = visionPose.value().estimatedPose.ToPose2d();
+            wpi::array<double, 3> visionMeasurementStdDevs = visionPose.value().visionMeasurementStdDevs;
+            units::length::meter_t poseDifference = chassisPose2d.Translation().Distance(visionPose2d.Translation());
+
+            if ( (visionMeasurementStdDevs[0] == 0.5)
+             || (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0)
+             || (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0) ){
+                m_poseEstimator.AddVisionMeasurement(visionPose.value().estimatedPose.ToPose2d(),
+                                                     visionPose.value().timeStamp,
+                                                     visionPose.value().visionMeasurementStdDevs);
+            } 
+            
         }
     }
     LogInformation();
