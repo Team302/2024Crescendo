@@ -317,31 +317,19 @@ void SwerveChassis::UpdateOdometry()
         if (visionPose)
         {
 
-            //only updated based on vision if std deviations are met and difference is under thresholds
+            // only updated based on vision if std deviations are met and difference is under thresholds
             frc::Pose2d chassisPose2d = GetPose();
             frc::Pose2d visionPose2d = visionPose.value().estimatedPose.ToPose2d();
             wpi::array<double, 3> visionMeasurementStdDevs = visionPose.value().visionMeasurementStdDevs;
             units::length::meter_t poseDifference = chassisPose2d.Translation().Distance(visionPose2d.Translation());
 
-            if ( (visionMeasurementStdDevs[0] == 0.5)
-             || (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0)
-             || (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0) )
-             {
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("VisionPose x"), pos.value().estimatedPose.ToPose2d().X().value());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("VisionPose y"), pos.value().estimatedPose.ToPose2d().Y().value());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("VisionPose omega"), pos.value().estimatedPose.ToPose2d().Rotation().Degrees().value());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("timestamp"), pos.value().timeStamp.value());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("std dev 0"), pos.value().visionMeasurementStdDevs[0]);
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("std dev 1"), pos.value().visionMeasurementStdDevs[1]);
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("UpdateOdometry"), string("std dev 2"), pos.value().visionMeasurementStdDevs[2]);
-
+            if ((visionMeasurementStdDevs[0] == 0.5) || (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0) || (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0))
+            {
 
                 m_poseEstimator.AddVisionMeasurement(visionPose.value().estimatedPose.ToPose2d(),
                                                      visionPose.value().timeStamp,
                                                      visionPose.value().visionMeasurementStdDevs);
-            } 
-            
+            }
         }
     }
     LogInformation();
