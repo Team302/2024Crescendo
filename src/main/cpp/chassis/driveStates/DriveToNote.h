@@ -51,9 +51,4 @@ private:
     frc::Pose2d m_oldTargetPose;
 
     pathplanner::PathPlannerTrajectory m_trajectory;
-
-    const units::meters_per_second_t m_maxVel = 4.65_mps;
-    const units::meters_per_second_squared_t m_maxAccel = 10.0_mps_sq;
-    const units::radians_per_second_t m_maxAngularVel = 540_deg_per_s;
-    const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
 };
