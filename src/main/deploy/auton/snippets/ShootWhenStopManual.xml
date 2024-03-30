@@ -4,8 +4,8 @@
 <auton>
  <primitive id="DO_NOTHING"
                noteOption="STATE_READY_MANUAL_LAUNCH"
-               time="0.5"/>
+               time="0.35"/>
  <primitive id="DO_NOTHING"
                noteOption="STATE_MANUAL_LAUNCH"
-               time="1.0"/>
+               time="0.35"/>
 </auton>
