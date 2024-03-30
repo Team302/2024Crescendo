@@ -45,6 +45,7 @@ void readyManualLaunchState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyManualLaunchState"), string("init"));
 
 	m_genState->Init();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->m_manualLauncherAngle);
 }
 
 void readyManualLaunchState::Run()

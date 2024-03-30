@@ -176,6 +176,10 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::MANUAL_MODE, copilotLStickPressed},
     {TeleopControlFunctions::INTAKE, driverRBumper},
     {TeleopControlFunctions::EXPEL, driverLBumper},
+
+    {TeleopControlFunctions::MANUAL_MOVE_LAUNCHER_DOWN, copilotDPad270},
+    {TeleopControlFunctions::MANUAL_MOVE_LAUNCHER_UP, copilotDPad0},
+
     {TeleopControlFunctions::AUTO_LAUNCH, copilotAButton},
     {TeleopControlFunctions::MANUAL_LAUNCH, copilotXButton},
     {TeleopControlFunctions::PASS, copilotBButton},

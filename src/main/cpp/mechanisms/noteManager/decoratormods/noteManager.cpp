@@ -109,9 +109,15 @@ void noteManager::RunCommonTasks()
 	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
 	double wheelSetBottom = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60)).to<double>();
 	double angle = getlauncherAngle()->GetCounts();
+	double launcherTopCurrent = getlauncherTop()->GetCurrent();
+	double launcherBottomCurrent = getlauncherBottom()->GetCurrent();
+	int theCurrentState = GetCurrentState();
+	int XButton = 0; // TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) ? 30 : 0;
+	DataTrace::GetInstance()
+		->sendLauncherData(wheelSetTop, wheelSetBottom, angle, launcherTopCurrent, launcherBottomCurrent, theCurrentState, XButton);
+
 	double elevator = getElevator()->GetCounts();
 	DataTrace::GetInstance()->sendElevatorData(elevator);
-	DataTrace::GetInstance()->sendLauncherData(wheelSetTop, wheelSetBottom, angle);
 
 	if (true)
 	{

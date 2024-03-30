@@ -45,6 +45,7 @@ void manualLaunchState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("manualLaunchState"), string("init"));
 
 	m_genState->Init();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->m_manualLauncherAngle);
 }
 
 void manualLaunchState::Run()
@@ -60,6 +61,7 @@ void manualLaunchState::Exit()
 
 bool manualLaunchState::AtTarget()
 {
+	m_targetAngle = m_mechanism->m_manualLauncherAngle;
 	bool attarget = false;
 	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
 
@@ -75,7 +77,6 @@ bool manualLaunchState::AtTarget()
 		topSpeedIsWithinTolerance = true;
 		bottomSpeedIsWithinTolerance = true;
 	}
-
 	attarget = angleIsWithinTolerance && topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
 
 	return (attarget);

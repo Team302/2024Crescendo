@@ -94,6 +94,7 @@ public:
 	void SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherBottomWheelsTarget = valueRadPerSec; }
 	bool GetTransitionFromHoldFeedToReady() { return m_TransitionFromHoldFeedToReady; }
 	void SetTransitionFromHoldFeedToReady(bool state) { m_TransitionFromHoldFeedToReady = state; }
+	double m_manualLauncherAngle;
 
 private:
 	units::length::meter_t GetDistanceFromSpeaker();
