@@ -36,8 +36,8 @@ FMSData::FMSData() : m_allianceColorChooser(),
                      m_color(frc::DriverStation::Alliance::kRed),
                      m_polledFMS(false)
 {
-    m_allianceColorChooser.SetDefaultOption("Red Alliance", "Red");
-    m_allianceColorChooser.AddOption("Blue Alliance", "Blue");
+    m_allianceColorChooser.SetDefaultOption("Blue Alliance", "Blue");
+    m_allianceColorChooser.AddOption("Red Alliance", "Red");
 
     frc::SmartDashboard::PutData("Alliance If NO FMS", &m_allianceColorChooser);
 }

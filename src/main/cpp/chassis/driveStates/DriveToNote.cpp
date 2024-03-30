@@ -60,8 +60,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 
     if (chassis != nullptr)
     {
-        auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY,
-                                                                    DragonVision::VISION_ELEMENT::NOTE);
+        auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
         auto type = get<0>(info);
         auto data = get<1>(info);
         if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)

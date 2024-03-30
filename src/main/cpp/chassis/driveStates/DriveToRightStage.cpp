@@ -52,7 +52,7 @@ pathplanner::PathPlannerTrajectory DriveToRightStage::CreateDriveToRightStage()
 {
     auto finder = DragonDriveTargetFinder::GetInstance();
 
-    auto info = finder->GetPose(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::RIGHT_STAGE);
+    auto info = finder->GetPose(DragonVision::VISION_ELEMENT::RIGHT_STAGE);
     auto type = get<0>(info);
     auto targetRightStagePose = get<1>(info);
 

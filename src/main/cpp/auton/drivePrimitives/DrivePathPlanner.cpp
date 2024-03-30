@@ -123,8 +123,7 @@ void DrivePathPlanner::Run()
         /*
          if (!m_switchedToVisionDrive)
         {
-            auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY,
-                                                                        DragonVision::VISION_ELEMENT::NOTE);
+            auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
             auto type = get<0>(info);
             if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
             {
@@ -132,7 +131,7 @@ void DrivePathPlanner::Run()
                 m_driveToNote->Init(m_moveInfo);
                 m_switchedToVisionDrive = true;
             }
-        }            
+        }
         */
 
         m_chassis->Drive(m_moveInfo);
