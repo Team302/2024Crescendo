@@ -68,8 +68,8 @@ bool manualLaunchState::AtTarget()
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
 
-	bool topSpeedIsWithinTolerance = topSpeed > m_targetSpeed;
-	bool bottomSpeedIsWithinTolerance = botSpeed > m_targetSpeed;
+	bool topSpeedIsWithinTolerance = topSpeed > (m_targetSpeed * 0.95);
+	bool bottomSpeedIsWithinTolerance = botSpeed > (m_targetSpeed * 0.95);
 
 	if (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999)
 	{
