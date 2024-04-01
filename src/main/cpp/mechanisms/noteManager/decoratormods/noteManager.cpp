@@ -49,6 +49,7 @@
 #include "mechanisms/noteManager/decoratormods/backupManualLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/backupManualPlaceState.h"
 #include "mechanisms/noteManager/decoratormods/holdPlacerState.h"
+#include "teleopcontrol/TeleopControl.h"
 
 #include "DragonVision/DragonVision.h"
 #include "robotstate/RobotState.h"
@@ -253,10 +254,16 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 	units::angular_velocity::revolutions_per_minute_t topSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60); // RPS is revs/sec not rad/sec
 	units::angular_velocity::revolutions_per_minute_t botSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60);
 	units::angle::degree_t launcherAngle = units::angle::degree_t(getlauncherAngle()->GetCounts());
-	units::angular_velocity::revolutions_per_minute_t offsetThreshold = units::angular_velocity::revolutions_per_minute_t(25.);
 
-	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() - offsetThreshold)) && (botSpeed > (GetLauncherBottomWheelsTarget() - offsetThreshold));
-	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.5;
+	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() * 0.95)) && (botSpeed > (GetLauncherBottomWheelsTarget() * 0.95));
+	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.25;
+
+	/* keeping for now, might still need to do tuning
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle Target"), GetLauncherAngleTarget().to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Speed Target"), units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()).to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Speed"), topSpeed.to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bot Speed"), botSpeed.to<double>());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Speed At Target"), wheelTargetSpeedAchieved);*/
 
 	return launcherTargetAngleAchieved && wheelTargetSpeedAchieved;
 }
@@ -265,24 +272,35 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 /// @return top wheel speed, bottom wheel speed, launcher angle
 std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters()
 {
-	double launcherAngle = 50;		// 50 deg is the angle for manualLaunch
+	double launcherAngle = 55;		// 50 deg is the angle for manualLaunch
 	double topLaunchSpeed = 400;	// 400 rad/sec is the default for manualLaunch
 	double bottomLaunchSpeed = 400; // 400 rad/sec is the default for manualLaunch
 
-	double distanceFromTarget_in = (units::length::inch_t(GetDistanceFromSpeaker())).to<double>();
+	double distanceFromTarget_m = ((GetDistanceFromSpeaker())).to<double>();
 
-	// launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
-	auto transitionInch = 60.0;
+	auto transitionInch = 1.5;
 
-	launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
+	// launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
+	// 117+-59.2*x+9.43*x^2
+	launcherAngle = 117 + (-59.2 * distanceFromTarget_m) + (9.43 * distanceFromTarget_m * distanceFromTarget_m);
 
 	// limit the resulting launcher angle
-	launcherAngle = launcherAngle > 50 ? 50 : launcherAngle;
-	launcherAngle = launcherAngle < 5 ? 5 : launcherAngle;
+	launcherAngle = launcherAngle > 55 ? 55 : launcherAngle;
+	launcherAngle = launcherAngle < 20 ? 5 : launcherAngle;
 
-	topLaunchSpeed = distanceFromTarget_in < transitionInch /*inch*/ ? 400 : 500;
-	bottomLaunchSpeed = distanceFromTarget_in < transitionInch /*inch*/ ? 400 : 500;
+	topLaunchSpeed = distanceFromTarget_m < transitionInch /*inch*/ ? 400 : 500;
+	bottomLaunchSpeed = distanceFromTarget_m < transitionInch /*inch*/ ? 400 : 500;
 
+	/* keep for tuning purposes
+	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
+	{
+		units::angle::degree_t delta = units::angle::degree_t(6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE))); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+		m_LauncherAngleTarget += delta;
+		if (m_LauncherAngleTarget > units::angle::degree_t(55)) // limiting the travel to 0 through 16.5
+			m_LauncherAngleTarget = units::angle::degree_t(55);
+		else if (m_LauncherAngleTarget < units::angle::degree_t(2))
+			m_LauncherAngleTarget = units::angle::degree_t(2);
+	}*/
 	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
 }
 
