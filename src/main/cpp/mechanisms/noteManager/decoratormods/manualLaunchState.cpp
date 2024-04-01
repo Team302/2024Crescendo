@@ -74,6 +74,7 @@ bool manualLaunchState::AtTarget()
 		// in the practice bot do not check the launcher speed because speed control is not implemented
 		topSpeedIsWithinTolerance = true;
 		bottomSpeedIsWithinTolerance = true;
+		angleIsWithinTolerance = true; // debugging
 	}
 
 	attarget = angleIsWithinTolerance && topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
