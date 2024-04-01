@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0154953079726763,
-        "y": 5.515804013063089
+        "x": 2.858080312153101,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6524593750534495,
-        "y": 5.515804013063089
+        "x": 2.495044379233874,
+        "y": 5.55
       },
       "isLocked": true,
       "linkedName": "BlueSubwooferWing3Center0_A"
     },
     {
       "anchor": {
-        "x": 1.290450109148193,
-        "y": 5.488777436611587
+        "x": 1.288835132430103,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.0049071224559825,
-        "y": 5.488777436611587
+        "x": 2.0032921457378925,
+        "y": 5.55
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_B"
     }
   ],
