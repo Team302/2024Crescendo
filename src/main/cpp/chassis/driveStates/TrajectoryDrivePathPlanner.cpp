@@ -170,8 +170,8 @@ bool TrajectoryDrivePathPlanner::IsSamePose(frc::Pose2d currentPose, frc::Pose2d
     double dCurPosRot = currentPose.Rotation().Degrees().to<double>();
     double dPrevPosRot = previousPose.Rotation().Degrees().to<double>();
 
-    dCurPosRot = dCurPosRot < 0 ? dCurPosRot = 360 + dCurPosRot : dCurPosRot;
-    dPrevPosRot = dPrevPosRot < 0 ? dPrevPosRot = 360 + dPrevPosRot : dPrevPosRot;
+    dCurPosRot = dCurPosRot < 0 ? 360.0 + dCurPosRot : dCurPosRot;
+    dPrevPosRot = dPrevPosRot < 0 ? 360.0 + dPrevPosRot : dPrevPosRot;
 
     double dDeltaX = abs(dPrevPosX - dCurPosX);
     double dDeltaY = abs(dPrevPosY - dCurPosY);
