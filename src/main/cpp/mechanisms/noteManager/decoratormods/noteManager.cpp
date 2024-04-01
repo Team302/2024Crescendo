@@ -253,8 +253,9 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 	units::angular_velocity::revolutions_per_minute_t topSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60); // RPS is revs/sec not rad/sec
 	units::angular_velocity::revolutions_per_minute_t botSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60);
 	units::angle::degree_t launcherAngle = units::angle::degree_t(getlauncherAngle()->GetCounts());
+	units::angular_velocity::revolutions_per_minute_t offsetThreshold = units::angular_velocity::revolutions_per_minute_t(25.);
 
-	bool wheelTargetSpeedAchieved = (topSpeed > GetLauncherTopWheelsTarget()) && (botSpeed > GetLauncherBottomWheelsTarget());
+	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() - offsetThreshold)) && (botSpeed > (GetLauncherBottomWheelsTarget() - offsetThreshold));
 	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.5;
 
 	return launcherTargetAngleAchieved && wheelTargetSpeedAchieved;
