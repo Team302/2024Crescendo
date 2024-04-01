@@ -99,7 +99,7 @@ void noteManager::RunCommonTasks()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Feeder"), getfeederSensor()->Get());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher"), getlauncherSensor()->Get());
 	// Processing related to current monitor
-	MonitorMotorCurrents();
+	// MonitorMotorCurrents();
 
 #ifdef INCLUDE_DATA_TRACE
 	double intakeDifferentialCurrent =
