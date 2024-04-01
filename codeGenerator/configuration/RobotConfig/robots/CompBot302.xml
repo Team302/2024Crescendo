@@ -4139,7 +4139,6 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>16</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <Enabled>
