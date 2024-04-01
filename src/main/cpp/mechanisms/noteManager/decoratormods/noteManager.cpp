@@ -107,7 +107,9 @@ void noteManager::RunCommonTasks()
 		MonitorForNoteInIntakes();
 
 #ifdef INCLUDE_DATA_TRACE
-	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
+	// double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
+	double wheelSetTop = GetLauncherAngleTarget().to<double>();
+
 	double wheelSetBottom = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60)).to<double>();
 	double angle = getlauncherAngle()->GetCounts();
 	double launcherTopCurrent = getlauncherTop()->GetCurrent();
