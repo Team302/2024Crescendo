@@ -311,7 +311,7 @@ units::length::meter_t noteManager::GetDistanceFromSpeaker()
 	auto finder = DragonDriveTargetFinder::GetInstance();
 	if (finder != nullptr)
 	{
-		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
 		auto type = get<0>(distinfo);
 		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
 		{
