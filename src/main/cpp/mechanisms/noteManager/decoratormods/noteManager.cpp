@@ -347,23 +347,22 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	double distanceFromTarget_in = (units::length::inch_t(GetDistanceFromSpeaker())).to<double>();
 
 	// launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
-	auto transitionInch = 90.0;
+	auto transitionInch = 100.0;
 	if (distanceFromTarget_in < transitionInch)
 	{
-		launcherAngle = 80.9196 - 0.58333 * distanceFromTarget_in;
+		launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
 	}
 	else
 	{
-		launcherAngle = 49.1458 - 0.229167 * distanceFromTarget_in;
+		launcherAngle = 71.4283 - 0.416817 * 100; // Muscat -> left this here but capped the dist at 100 in
 	}
-	// launcherAngle = 77.6721 + (-0.616226 * distanceFromTarget_in) + (0.00121458 * distanceFromTarget_in * distanceFromTarget_in);
 
 	// limit the resulting launcher angle
 	launcherAngle = launcherAngle > 50 ? 50 : launcherAngle;
 	launcherAngle = launcherAngle < 0 ? 0 : launcherAngle;
 
-	topLaunchSpeed = distanceFromTarget_in < 90 /*inch*/ ? 400 : 500;
-	bottomLaunchSpeed = distanceFromTarget_in < 90 /*inch*/ ? 400 : 500;
+	topLaunchSpeed = distanceFromTarget_in < transitionInch /*inch*/ ? 400 : 500;
+	bottomLaunchSpeed = distanceFromTarget_in < transitionInch /*inch*/ ? 400 : 500;
 
 	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
 }
