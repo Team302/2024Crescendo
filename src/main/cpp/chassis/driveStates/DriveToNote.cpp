@@ -81,7 +81,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
         }
         else if (frc::DriverStation::IsAutonomous())
         {
-            targetPose = frc::Pose2d(currentPose2d.X(), currentPose2d.Y(), frc::Rotation2d(units::angle::degree_t(90.0)));
+            targetPose = frc::Pose2d(currentPose2d.X(), currentPose2d.Y(), m_noNoteTargetAngle);
             std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
             std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
             auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
@@ -135,7 +135,7 @@ bool DriveToNote::HasCheckedForNote()
 
     if (frc::DriverStation::IsAutonomous() && chassis != nullptr)
     {
-        if (units::math::abs(units::math::abs(chassis->GetYaw()) - units::angle::degree_t(90.0)) <= units::angle::degree_t(5.0))
+        if (units::math::abs(units::math::abs(chassis->GetYaw()) - m_noNoteTargetAngle) <= units::angle::degree_t(5.0))
             return false;
         else
             return true;
