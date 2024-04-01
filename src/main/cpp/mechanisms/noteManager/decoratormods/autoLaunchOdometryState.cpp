@@ -45,24 +45,24 @@ autoLaunchOdometryState::autoLaunchOdometryState(std::string stateName,
 void autoLaunchOdometryState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoLaunchOdometryState"), string("init"));
+	/*
+		m_genState->Init();
+		auto distanceFromTarget = GetDistanceFromTarget();
+		m_targetAngle = m_mechanism->GetRequiredLaunchAngle(distanceFromTarget);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_targetAngle);
 
-	m_genState->Init();
-	auto distanceFromTarget = GetDistanceFromTarget();
-	m_targetAngle = m_mechanism->GetRequiredLaunchAngle(distanceFromTarget);
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_targetAngle);
-
-	if (distanceFromTarget < units::length::meter_t(1.5))
-	{
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
-		m_targetSpeed = 275;
-	}
-	else
-	{
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
-		m_targetSpeed = 375;
-	}
+		if (distanceFromTarget < units::length::meter_t(1.5))
+		{
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+			m_targetSpeed = 275;
+		}
+		else
+		{
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
+			m_targetSpeed = 375;
+		}*/
 }
 
 void autoLaunchOdometryState::Run()
@@ -78,7 +78,7 @@ void autoLaunchOdometryState::Exit()
 
 bool autoLaunchOdometryState::AtTarget()
 {
-	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
+	/*double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
 
 	m_targetAngle = m_mechanism->GetRequiredLaunchAngle();
@@ -94,6 +94,8 @@ bool autoLaunchOdometryState::AtTarget()
 	}
 
 	return (((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle.value()) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed)) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999));
+*/
+	return false;
 }
 
 bool autoLaunchOdometryState::IsTransitionCondition(bool considerGamepadTransitions)

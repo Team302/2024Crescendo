@@ -67,7 +67,6 @@ public:
 	RobotConfigMgr::RobotIdentifier getActiveRobotId() { return m_activeRobotId; }
 	void ResetElevator();
 	void ResetLauncherAngle();
-	units::length::meter_t GetVisionDistance();
 	bool HasVisionTarget();
 
 	bool IsLauncherMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Launcher; }
@@ -76,9 +75,6 @@ public:
 	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
-	units::angle::degree_t GetRequiredLaunchAngle();
-	units::angle::degree_t GetRequiredLaunchAngle(units::length::meter_t distance);
-	bool autoLaunchReady();
 	bool HasNote() const;
 
 	void SetLauncherTargetsForAutoLaunch();

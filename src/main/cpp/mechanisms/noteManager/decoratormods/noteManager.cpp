@@ -207,19 +207,6 @@ void noteManager::SetCurrentState(int state, bool run)
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("State Transition"), string("Note Manager Current State"), GetCurrentStatePtr()->GetStateName());
 }
 
-units::length::meter_t noteManager::GetVisionDistance()
-{
-	units::length::meter_t distance{units::length::meter_t(0)};
-	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
-	if (optionalVisionData)
-	{
-		frc::Translation3d translate{optionalVisionData.value().translationToTarget};
-		distance = optionalVisionData.value().translationToTarget.X();
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("X"), optionalVisionData.value().translationToTarget.X().to<double>());
-	}
-	return distance - units::length::meter_t(0.1);
-}
-
 bool noteManager::HasVisionTarget()
 {
 	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
@@ -239,69 +226,6 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_climbMode = static_cast<RobotStateChanges::ClimbMode>(value);
 	else if (change == RobotStateChanges::GameState)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
-}
-
-units::angle::degree_t noteManager::GetRequiredLaunchAngle()
-{
-	units::length::meter_t distanceFromTarget = units::length::meter_t(3.5);
-
-	frc::Pose3d fieldElementPose = frc::Pose3d{};
-	auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-	auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-	frc::Pose2d chassisPos = frc::Pose2d();
-
-	auto visionDistance = units::length::meter_t(0.0);
-	auto hasVisionDistance = false;
-
-	if (HasVisionTarget())
-	{
-		visionDistance = GetVisionDistance();
-		hasVisionDistance = true;
-	}
-
-	if (chassis != nullptr)
-	{
-		frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
-		fieldElementPose = allianceColor == frc::DriverStation::Alliance::kRed ? frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::RED_SPEAKER)} /*load red speaker*/ : frc::Pose3d{FieldConstants::GetInstance()->GetFieldElement(FieldConstants::FIELD_ELEMENT::BLUE_SPEAKER)}; /*load blue speaker*/
-		chassisPos = chassis->GetPose();
-
-		auto odometryDistance = fieldElementPose.ToPose2d().Translation().Distance(chassisPos.Translation());
-		if (hasVisionDistance)
-		{
-			auto visionOdometrydiff = abs(visionDistance.value() - odometryDistance.value());
-			if (visionOdometrydiff < m_similarDistToleranceMeters)
-			{
-				distanceFromTarget = (visionDistance + odometryDistance) / 2.0;
-			}
-		}
-		else
-		{
-			distanceFromTarget = odometryDistance;
-		}
-	}
-	else
-	{
-		if (hasVisionDistance)
-		{
-			distanceFromTarget = visionDistance;
-		}
-	}
-
-	return GetRequiredLaunchAngle(distanceFromTarget);
-}
-
-units::angle::degree_t noteManager::GetRequiredLaunchAngle(units::length::meter_t distanceFromTarget)
-{
-	units::angle::degree_t launchAngle = units::angle::degree_t(0.0);
-
-	launchAngle = units::angle::degree_t(80.0 + (-44.2 * distanceFromTarget.value()) + (6.09 * distanceFromTarget.value() * distanceFromTarget.value()));
-
-	if (launchAngle > units::angle::degree_t(40.0))
-	{
-		launchAngle = units::angle::degree_t(40.0);
-	}
-
-	return launchAngle;
 }
 
 void noteManager::SetLauncherTargetsForAutoLaunch()
@@ -364,6 +288,9 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	topLaunchSpeed = distanceFromTarget_in < transitionInch /*inch*/ ? 400 : 500;
 	bottomLaunchSpeed = distanceFromTarget_in < transitionInch /*inch*/ ? 400 : 500;
 
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle Target"), launcherAngle);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), getlauncherAngle()->GetCounts());
+
 	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
 }
 
@@ -384,22 +311,9 @@ units::length::meter_t noteManager::GetDistanceFromSpeaker()
 			}
 		}
 	}
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance"), distanceFromTarget.to<double>());
+
 	return distanceFromTarget;
-}
-
-bool noteManager::autoLaunchReady()
-{
-	return false;
-
-	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
-	if (optionalVisionData.has_value())
-	{
-		VisionData visionData = optionalVisionData.value();
-		if (visionData.transformToTarget.Y().to<double>() <= 0.5 && GetVisionDistance().to<double>() <= 3.5)
-		{
-			return true;
-		}
-	}
 }
 
 double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)
