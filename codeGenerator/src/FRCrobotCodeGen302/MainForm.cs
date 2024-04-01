@@ -1163,16 +1163,19 @@ namespace FRCrobotCodeGen302
                 bool first = true;
                 foreach (motorTarget mt in s.motorTargets)
                 {
-                    stateVisualization sv = new stateVisualization();
-                    stateGridVisualization.Add(sv);
+                    if (mt.Enabled.value)
+                    {
+                        stateVisualization sv = new stateVisualization();
+                        stateGridVisualization.Add(sv);
 
-                    sv.transitionTo = first ? transitions : "";
-                    sv.Target = string.Format("{0} {1}", mt.target.value, mt.target.physicalUnits);
-                    sv.ControlData = mt.controlDataName;
-                    sv.StateName = first ? s.name : "";
-                    sv.ActuatorName = mt.motorName;
+                        sv.transitionTo = first ? transitions : "";
+                        sv.Target = string.Format("{0} {1}", mt.target.value, mt.target.physicalUnits);
+                        sv.ControlData = mt.controlDataName;
+                        sv.StateName = first ? s.name : "";
+                        sv.ActuatorName = mt.motorName;
 
-                    first = false;
+                        first = false;
+                    }
                 }
             }
             stateDataGridView.DataSource = null;
