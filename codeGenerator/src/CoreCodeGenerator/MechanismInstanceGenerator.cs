@@ -249,57 +249,60 @@ namespace CoreCodeGenerator
                                             List<string> motorTargets = new List<string>();
                                             foreach (motorTarget mT in s.motorTargets)
                                             {
-                                                // find the corresponding motor control Data link
-                                                motorControlData mcd = theMi.mechanism.stateMotorControlData.Find(cd => cd.name == mT.controlDataName);
-                                                if (mcd == null)
-                                                    addProgress(string.Format("In mechanism {0}, cannot find a Motor control data called {1}, referenced in state {2}", theMi.name, mT.controlDataName, s.name));
-                                                else
+                                                if (mT.Enabled.value)
                                                 {
-                                                    //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, double percentOutput);
-                                                    //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angle::degree_t angle );
-                                                    //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angular_velocity::revolutions_per_minute_t angVel );
-                                                    //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::length::inch_t position );
-                                                    //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::velocity::feet_per_second_t velocity );
-
-                                                    string targetUnitsType = "";
-                                                    if (mcd.controlType == motorControlData.CONTROL_TYPE.PERCENT_OUTPUT) { }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_INCH) { targetUnitsType = "units::length::inch_t"; }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_ABS_TICKS) { addProgress("How should we handle POSITION_ABS_TICKS"); }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES) { targetUnitsType = "units::angle::degree_t"; }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES_ABSOLUTE) { targetUnitsType = "units::angle::degree_t"; }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_INCH) { targetUnitsType = "units::velocity::feet_per_second_t"; }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_DEGREES) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_RPS) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.VOLTAGE) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.CURRENT) { addProgress("How should we handle CURRENT"); }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { targetUnitsType = "units::length::inch_t"; }
-                                                    else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { targetUnitsType = "units::angle::degree_t"; }
-
-                                                    MotorController mc = theMi.mechanism.MotorControllers.Find(m => m.name == mT.motorName);
-                                                    if (mc == null)
-                                                    {
-                                                        addProgress(string.Format("In mechanism {0}, cannot find a Motor controller called {1}, referenced in state {2}, target {3}", theMi.name, mT.motorName, s.name, mT.name));
-                                                    }
+                                                    // find the corresponding motor control Data link
+                                                    motorControlData mcd = theMi.mechanism.stateMotorControlData.Find(cd => cd.name == mT.controlDataName);
+                                                    if (mcd == null)
+                                                        addProgress(string.Format("In mechanism {0}, cannot find a Motor control data called {1}, referenced in state {2}", theMi.name, mT.controlDataName, s.name));
                                                     else
                                                     {
-                                                        string motorEnumName = String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(), "").Trim().Replace("::", "_USAGE::").ToUpper());
-                                                        if (targetUnitsType == "")
-                                                        {
-                                                            if (mc.GetType().IsSubclassOf(typeof(SparkController)))
-                                                            {
-                                                                motorTargets.Add(String.Format("Get{0}()->get{1}()->SetControlConstants({2},*Get{0}()->get{3}())", theMi.name, mc.name, 0 /*slot number fixed to 0*/, mT.controlDataName));
-                                                            }
+                                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, double percentOutput);
+                                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angle::degree_t angle );
+                                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::angular_velocity::revolutions_per_minute_t angVel );
+                                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::length::inch_t position );
+                                                        //void SetTargetControl(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData &controlConst, units::velocity::feet_per_second_t velocity );
 
-                                                            motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
+                                                        string targetUnitsType = "";
+                                                        if (mcd.controlType == motorControlData.CONTROL_TYPE.PERCENT_OUTPUT) { }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_INCH) { targetUnitsType = "units::length::inch_t"; }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_ABS_TICKS) { addProgress("How should we handle POSITION_ABS_TICKS"); }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES) { targetUnitsType = "units::angle::degree_t"; }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.POSITION_DEGREES_ABSOLUTE) { targetUnitsType = "units::angle::degree_t"; }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_INCH) { targetUnitsType = "units::velocity::feet_per_second_t"; }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_DEGREES) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.VELOCITY_RPS) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.VOLTAGE) { targetUnitsType = "units::angular_velocity::revolutions_per_minute_t"; }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.CURRENT) { addProgress("How should we handle CURRENT"); }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_LINEAR_POS) { targetUnitsType = "units::length::inch_t"; }
+                                                        else if (mcd.controlType == motorControlData.CONTROL_TYPE.TRAPEZOID_ANGULAR_POS) { targetUnitsType = "units::angle::degree_t"; }
+
+                                                        MotorController mc = theMi.mechanism.MotorControllers.Find(m => m.name == mT.motorName);
+                                                        if (mc == null)
+                                                        {
+                                                            addProgress(string.Format("In mechanism {0}, cannot find a Motor controller called {1}, referenced in state {2}, target {3}", theMi.name, mT.motorName, s.name, mT.name));
                                                         }
                                                         else
-                                                            motorTargets.Add(String.Format("SetTargetControl({0}, Get{1}()->get{2}(), {5}({3}({4})))",
-                                                                motorEnumName,
-                                                                theMi.name,
-                                                                mcd.name,
-                                                                generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mT.target.physicalUnits),
-                                                                mT.target.value,
-                                                                targetUnitsType));
+                                                        {
+                                                            string motorEnumName = String.Format("RobotElementNames::{0}", ListToString(mc.generateElementNames(), "").Trim().Replace("::", "_USAGE::").ToUpper());
+                                                            if (targetUnitsType == "")
+                                                            {
+                                                                if (mc.GetType().IsSubclassOf(typeof(SparkController)))
+                                                                {
+                                                                    motorTargets.Add(String.Format("Get{0}()->get{1}()->SetControlConstants({2},*Get{0}()->get{3}())", theMi.name, mc.name, 0 /*slot number fixed to 0*/, mT.controlDataName));
+                                                                }
+
+                                                                motorTargets.Add(String.Format("SetTargetControl({0}, {1})", motorEnumName, mT.target.value));
+                                                            }
+                                                            else
+                                                                motorTargets.Add(String.Format("SetTargetControl({0}, Get{1}()->get{2}(), {5}({3}({4})))",
+                                                                    motorEnumName,
+                                                                    theMi.name,
+                                                                    mcd.name,
+                                                                    generatorContext.theGeneratorConfig.getWPIphysicalUnitType(mT.target.physicalUnits),
+                                                                    mT.target.value,
+                                                                    targetUnitsType));
+                                                        }
                                                     }
                                                 }
                                             }

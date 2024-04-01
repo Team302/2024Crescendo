@@ -33,7 +33,6 @@
 #include "chassis/DragonDriveTargetFinder.h"
 #include "chassis/driveStates/DriveToNote.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
-#include "chassis/IChassis.h"
 #include "configs/RobotConfig.h"
 #include "configs/RobotConfigMgr.h"
 #include "DragonVision/DragonVision.h"
@@ -121,17 +120,19 @@ void DrivePathPlanner::Run()
 {
     if (m_chassis != nullptr)
     {
-        /*  if (!m_switchedToVisionDrive)
-          {
-              auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-              auto type = get<0>(info);
-              if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
-              {
-                  m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-                  m_driveToNote->Init(m_moveInfo);
-                  m_switchedToVisionDrive = true;
-              }
-          }*/
+        /*
+         if (!m_switchedToVisionDrive)
+        {
+            auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
+            auto type = get<0>(info);
+            if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
+            {
+                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
+                m_driveToNote->Init(m_moveInfo);
+                m_switchedToVisionDrive = true;
+            }
+        }
+        */
         m_chassis->Drive(m_moveInfo);
     }
 }

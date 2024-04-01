@@ -18,6 +18,8 @@
 #pragma once
 #include <string>
 
+#include "units/angle.h"
+
 #include "State.h"
 #include "mechanisms/noteManager/decoratormods/noteManager.h"
 #include "mechanisms/noteManager/generated/noteManagerAllStatesStateGen.h"
@@ -44,9 +46,5 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
-		double m_targetAngle = 0;
-		double m_targetSpeed = 375;
-		units::angular_velocity::radians_per_second_t m_manualLaunchSpeed = units::angular_velocity::radians_per_second_t(300.0);
-		units::angular_velocity::radians_per_second_t m_autoLaunchSpeed = units::angular_velocity::radians_per_second_t(400.0);
 	};
 }

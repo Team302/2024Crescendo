@@ -87,7 +87,6 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 bool DriveToNote::IsDone()
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (config != nullptr)
     {
         auto vision = DragonVision::GetDragonVision();

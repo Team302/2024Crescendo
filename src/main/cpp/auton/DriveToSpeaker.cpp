@@ -41,7 +41,7 @@ void DriveToSpeaker::Init(ChassisMovement &chassisMovement)
     if (m_chassis != nullptr)
     {
         auto currentPose2d = m_chassis->GetPose();
-        auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::AMP);
+        auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::SPEAKER);
         auto type = get<0>(aprilTagInfo);
         m_targetPose2d = get<1>(aprilTagInfo);
 
@@ -55,7 +55,7 @@ void DriveToSpeaker::Init(ChassisMovement &chassisMovement)
 std::array<frc::SwerveModuleState, 4> DriveToSpeaker::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
     m_oldTargetPose2d = m_targetPose2d;
-    auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::AMP);
+    auto aprilTagInfo = m_dragonDriveTargetFinder->GetPose(DragonVision::SPEAKER);
     m_targetPose2d = get<1>(aprilTagInfo);
     m_makeTrajectory = m_targetPose2d != m_oldTargetPose2d;
 

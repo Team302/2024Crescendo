@@ -116,6 +116,8 @@ void DragonVisionStructLogger::logVisionPose(const std::string &loggerName, cons
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("StdDevX"), std::to_string(stdDevs[0]));
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("StdDevY"), std::to_string(stdDevs[1]));
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("StdDevZ"), std::to_string(stdDevs[2]));
+        PoseEstimationStrategy strategy = optVisionPose.value().estimationStrategy;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, loggerName, std::string("PoseEstimationStrategy"), std::to_string(strategy));
     }
     else
     {
