@@ -3,13 +3,11 @@
 
 <auton>
 
+<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+pathname= "BlueSubwooferWing3Center0_A"/>
+
 <snippet file= "ShootWhenStopManual.xml"/>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
-pathname= "BlueSubwooferWing3Center0_A"
-time = "1.75"
-noteOption="STATE_FEEDER_INTAKE"
-visionAligment="NOTE"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_A"
