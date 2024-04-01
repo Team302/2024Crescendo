@@ -195,7 +195,7 @@ void noteManagerAllStatesStateGen::InitCompBot302()
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 0 );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 165 ) ) );
 		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, GetnoteManager()->getvelocityRPS(), units::angular_velocity::revolutions_per_minute_t ( units::angular_velocity::radians_per_second_t ( 165 ) ) );
-		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetnoteManager()->getposDegreeAbs(), units::angle::degree_t ( units::angle::degree_t ( 16 ) ) );
+		SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetnoteManager()->getposDegreeAbs(), units::angle::degree_t ( units::angle::degree_t ( 0 ) ) );
 	}
 	else if ( GetnoteManager()->GetCurrentState() == noteManagerGen::STATE_NAMES::STATE_READY_AUTO_LAUNCH )
 	{

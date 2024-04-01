@@ -256,7 +256,7 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 	units::angle::degree_t launcherAngle = units::angle::degree_t(getlauncherAngle()->GetCounts());
 
 	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() * 0.9)) && (botSpeed > (GetLauncherBottomWheelsTarget() * 0.9));
-	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.25;
+	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.5;
 
 	// keeping for now, might still need to do tuning
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), getlauncherAngle()->GetCounts());
@@ -282,8 +282,8 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	auto transitionInch = 1.5;
 
 	// launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
-	// 117+-59.2*x+9.43*x^2
-	launcherAngle = 117 + (-59.2 * distanceFromTarget_m) + (9.43 * distanceFromTarget_m * distanceFromTarget_m);
+	// 102 + -43.2x + 5.95x^2
+	launcherAngle = 102 + (-43.2 * distanceFromTarget_m) + (5.95 * distanceFromTarget_m * distanceFromTarget_m);
 
 	// limit the resulting launcher angle
 	launcherAngle = launcherAngle > 55 ? 55 : launcherAngle;
@@ -311,7 +311,7 @@ units::length::meter_t noteManager::GetDistanceFromSpeaker()
 	auto finder = DragonDriveTargetFinder::GetInstance();
 	if (finder != nullptr)
 	{
-		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
 		auto type = get<0>(distinfo);
 		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
 		{
