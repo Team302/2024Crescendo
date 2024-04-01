@@ -41,6 +41,7 @@ public:
     pathplanner::PathPlannerTrajectory GetTrajectory() const { return m_trajectory; }
 
     bool IsDone();
+    bool HasCheckedForNote();
 
 private:
     DragonDriveTargetFinder *m_dragonDriveTargetFinder;
@@ -51,6 +52,7 @@ private:
     frc::Pose2d m_oldTargetPose;
 
     pathplanner::PathPlannerTrajectory m_trajectory;
+    ChassisMovement m_chassisMovement;
 
     const units::meters_per_second_t m_maxVel = 4.65_mps;
     const units::meters_per_second_squared_t m_maxAccel = 10.0_mps_sq;

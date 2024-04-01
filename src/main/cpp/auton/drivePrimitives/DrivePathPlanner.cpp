@@ -156,7 +156,6 @@ bool DrivePathPlanner::IsDone()
     {
         return m_chassis->GetPose().X() <= (m_centerLine - m_offset);
     }*/
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Switched To Vision Drive", m_switchedToVisionDrive);
 
     if (m_switchedToVisionDrive)
     {
