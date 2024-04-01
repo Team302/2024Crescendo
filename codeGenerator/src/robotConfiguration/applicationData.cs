@@ -1610,11 +1610,16 @@ namespace ApplicationData
         [DataDescription("The name of the motor that this target applies to")]
         public string motorName { get; set; }
 
+        [ConstantInMechInstance]
+        [DataDescription("If Enabled is true, this motor target will be set on entry into the state.")]
+        public boolParameter Enabled { get; set; }
+
         [DataDescription("The name of the control data to use in order to reach this target")]
         public string controlDataName { get; set; }
 
         public motorTarget()
         {
+            Enabled.value = true;
             target.name = "Target";
             motorName = "theMotorName";
             controlDataName = "theControlData";

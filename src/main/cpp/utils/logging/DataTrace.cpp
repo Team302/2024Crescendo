@@ -47,9 +47,9 @@ void DataTrace::sendElevatorData(double ElevatorHeight)
     SendData();
 }
 
-void DataTrace::sendLauncherData(double WheelSetTop, double WheelSetBottom, double Angle)
+void DataTrace::sendLauncherData(double WheelSetTop, double WheelSetBottom, double Angle, double topWheelCurrent, double bottomWheelCurrent, double theState, double xbutton)
 {
-    sprintf(sendBuffer, "$$Launcher:%.3f:%.2f:%.2f:%.2f##", m_timer.Get().to<double>(), WheelSetTop, WheelSetBottom, Angle);
+    sprintf(sendBuffer, "$$Launcher:%.3f:%.2f:%.2f:%.2f:%.2f:%.2f:%.2f:%.2f##", m_timer.Get().to<double>(), WheelSetTop, WheelSetBottom, Angle, topWheelCurrent, bottomWheelCurrent, theState, xbutton);
     SendData();
 }
 

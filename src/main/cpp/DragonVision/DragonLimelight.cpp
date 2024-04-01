@@ -69,6 +69,26 @@ DragonLimelight::DragonLimelight(
     ToggleSnapshot(snapMode);
 }
 
+bool DragonLimelight::HealthCheck(){
+    auto nt = m_networktable.get();
+    if (nt != nullptr)
+    {
+        double currentHb = nt->GetNumber("hb", -1);
+        //check if heartbeat has ever been set and network table is not 0
+        if (m_lastHeartbeat == -2 && currentHb != -1){
+            m_lastHeartbeat = currentHb;
+        } else if (currentHb == -1){
+            return false;
+        } else {
+            if (currentHb != m_lastHeartbeat){
+                m_lastHeartbeat = currentHb;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 /// @brief Assume that the current pipeline is AprilTag and that a target is detected
 /// @return -1 if the network table cannot be found
 std::optional<int> DragonLimelight::GetAprilTagID()
@@ -122,6 +142,10 @@ std::optional<VisionPose> DragonLimelight::GetRedFieldPosition()
     return std::nullopt;
 }
 
+/**
+ * @brief Get the Blue Field Position object
+ * 
+*/
 std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition()
 {
     if (m_networktable.get() != nullptr)
@@ -294,50 +318,62 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetSkew()
     return std::nullopt;
 }
 
+/**
+ * @brief Get the Pose object for the current location of the robot
+ * https://docs.limelightvision.io/docs/docs-limelight/pipeline-apriltag/apriltag-robot-localization
+ */
 std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
 {
 
-    // m_networktable = nt::NetworkTableInstance::GetDefault().GetTable(std::string("limelight"));
-    auto robotPoseLimelightArray = m_networktable->GetNumberArray("<botpose>", std::vector<double>(6));
-    auto robotPoseLimelightRotation = frc::Rotation3d(units::radian_t(robotPoseLimelightArray[3]), units::radian_t(robotPoseLimelightArray[4]), units::radian_t(robotPoseLimelightArray[5]));
-    auto robotPose3dLimelight = frc::Pose3d(units::meter_t(robotPoseLimelightArray[0]), units::meter_t(robotPoseLimelightArray[1]), units::meter_t(robotPoseLimelightArray[2]), robotPoseLimelightRotation);
-    auto robotPoseLatencySeconds = units::time::millisecond_t(robotPoseLimelightArray[6]) / 1000;
-    double numberOfTagsDetected = robotPoseLimelightArray[7];
-    double averageTagTargetArea = robotPoseLimelightArray[10];
+    if (m_networktable.get() != nullptr)
+    {
+        nt::DoubleArrayTopic topic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpiblue");
+        std::vector<double> position = topic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
 
-    // in case of invalid Limelight targets
-    if (robotPose3dLimelight.ToPose2d().X() == units::meter_t(0.0))
-    {
-        return std::nullopt;
-    }
+        units::time::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
+        units::time::millisecond_t timestamp = currentTime - units::millisecond_t(position[6] / 1000.0);
 
-    double xyStds;
-    double degStds;
-    // multiple targets detected
-    if (numberOfTagsDetected >= 2)
-    {
-        xyStds = 0.5;
-        degStds = 6;
+        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
+        frc::Pose3d pose3d = frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation};
+
+        double numberOfTagsDetected = position[7];
+        double averageTagTargetArea = position[10];
+
+        // in case of invalid Limelight targets
+        if (pose3d.ToPose2d().X() == units::meter_t(0.0))
+        {
+            return std::nullopt;
+        }
+
+        double xyStds;
+        double degStds;
+        // multiple targets detected
+        if (numberOfTagsDetected >= 2)
+        {
+            xyStds = 0.5;
+            degStds = 6;
+        }
+        // 1 target with large area and close to estimated pose
+        else if (averageTagTargetArea > 0.8)
+        {
+            xyStds = 1.0;
+            degStds = 12;
+        }
+        // 1 target farther away and estimated pose is close
+        else if (averageTagTargetArea > 0.1)
+        {
+            xyStds = 2.0;
+            degStds = 30;
+        }
+        // conditions don't match to add a vision measurement
+        else
+        {
+            return std::nullopt;
+        }
+        VisionPose LimelightVisionPose = {pose3d, timestamp, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG};
+        return LimelightVisionPose;
     }
-    // 1 target with large area and close to estimated pose
-    else if (averageTagTargetArea > 0.8)
-    {
-        xyStds = 1.0;
-        degStds = 12;
-    }
-    // 1 target farther away and estimated pose is close
-    else if (averageTagTargetArea > 0.1)
-    {
-        xyStds = 2.0;
-        degStds = 30;
-    }
-    // conditions don't match to add a vision measurement
-    else
-    {
-        return std::nullopt;
-    }
-    VisionPose LimelightVisionPose = {robotPose3dLimelight, frc::Timer().GetFPGATimestamp() - robotPoseLatencySeconds, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG};
-    return LimelightVisionPose;
+    return std::nullopt;
 }
 
 std::optional<units::time::millisecond_t> DragonLimelight::GetPipelineLatency()

@@ -50,7 +50,7 @@ void DriveToAmp::Init(ChassisMovement &chassisMovement)
         {
             m_trajectory = CreateDriveToAmpTrajectory(currentPose2d, m_targetPose2d);
         }
-        }
+    }
 }
 
 std::array<frc::SwerveModuleState, 4> DriveToAmp::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)

@@ -36,7 +36,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
                                                                                  m_holonomicController(pathplanner::PIDConstants(2.5, 0.375, 0.0),
-                                                                                                       pathplanner::PIDConstants(5.5, 0.5, 0.0),
+                                                                                                       pathplanner::PIDConstants(5.2, 2.5, 0.0),
                                                                                                        robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                        units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                        units::time::second_t(0.02)),
@@ -170,8 +170,8 @@ bool TrajectoryDrivePathPlanner::IsSamePose(frc::Pose2d currentPose, frc::Pose2d
     double dCurPosRot = currentPose.Rotation().Degrees().to<double>();
     double dPrevPosRot = previousPose.Rotation().Degrees().to<double>();
 
-    dCurPosRot = dCurPosRot < 0 ? dCurPosRot = 360 + dCurPosRot : dCurPosRot;
-    dPrevPosRot = dPrevPosRot < 0 ? dPrevPosRot = 360 + dPrevPosRot : dPrevPosRot;
+    dCurPosRot = dCurPosRot < 0 ? 360 + dCurPosRot : dCurPosRot;
+    dPrevPosRot = dPrevPosRot < 0 ? 360 + dPrevPosRot : dPrevPosRot;
 
     double dDeltaX = abs(dPrevPosX - dCurPosX);
     double dDeltaY = abs(dPrevPosY - dCurPosY);

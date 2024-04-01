@@ -2785,6 +2785,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2796,6 +2803,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2807,6 +2821,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2818,6 +2839,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2829,6 +2857,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2840,6 +2875,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2851,6 +2893,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2862,6 +2911,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2873,6 +2929,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -2933,6 +2996,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2944,6 +3014,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2955,6 +3032,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2966,6 +3050,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2977,6 +3068,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2988,6 +3086,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -2999,6 +3104,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3010,6 +3122,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3021,6 +3140,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -3060,6 +3186,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3071,6 +3204,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3082,6 +3222,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3093,6 +3240,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3104,6 +3258,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3115,6 +3276,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3126,6 +3294,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3137,6 +3312,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3148,6 +3330,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -3187,6 +3376,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3198,6 +3394,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3209,6 +3412,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3220,6 +3430,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3231,6 +3448,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3242,6 +3466,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3253,6 +3484,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3264,6 +3502,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3275,6 +3520,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -3314,6 +3566,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3325,6 +3584,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3336,6 +3602,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3347,6 +3620,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3358,6 +3638,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3369,6 +3656,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3380,6 +3674,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3391,6 +3692,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3402,6 +3710,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -3434,6 +3749,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3445,6 +3767,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3456,6 +3785,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3467,6 +3803,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3478,6 +3821,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3489,6 +3839,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3500,6 +3857,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3511,6 +3875,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3522,6 +3893,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -3575,6 +3953,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3586,6 +3971,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3597,6 +3989,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3608,6 +4007,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3619,6 +4025,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3630,6 +4043,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3641,6 +4061,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3652,6 +4079,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3663,6 +4097,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>posDegreeAbs</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -3709,6 +4150,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3720,6 +4168,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3731,6 +4186,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3742,6 +4204,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3753,6 +4222,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3764,6 +4240,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3775,6 +4258,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>false</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3786,6 +4276,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>false</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3797,6 +4294,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>false</value>
+          </Enabled>
           <controlDataName>posDegreeAbs</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -3829,6 +4333,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3840,6 +4351,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3851,6 +4369,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3862,6 +4387,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3873,6 +4405,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3884,6 +4423,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3895,6 +4441,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3906,6 +4459,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3917,6 +4477,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>posDegreeAbs</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -3942,6 +4509,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3953,6 +4527,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3964,6 +4545,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3975,6 +4563,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3986,6 +4581,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -3997,6 +4599,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4008,6 +4617,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4019,6 +4635,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4030,6 +4653,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>posDegreeAbs</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -4055,6 +4685,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4066,6 +4703,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4077,6 +4721,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4088,6 +4739,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4099,6 +4757,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4110,6 +4775,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4121,6 +4793,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>false</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4132,6 +4811,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>false</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4143,6 +4829,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>false</value>
+          </Enabled>
           <controlDataName>posDegreeAbs</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -4168,6 +4861,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4179,6 +4879,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4190,6 +4897,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4201,6 +4915,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4212,6 +4933,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4223,6 +4951,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4234,6 +4969,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4245,6 +4987,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4256,6 +5005,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>posDegreeAbs</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -4295,6 +5051,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4306,6 +5069,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4317,6 +5087,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4328,6 +5105,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4339,6 +5123,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4350,6 +5141,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4361,6 +5159,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4372,6 +5177,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4383,6 +5195,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>posDegreeAbs</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -4408,6 +5227,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4419,6 +5245,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4430,6 +5263,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4441,6 +5281,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4452,6 +5299,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4463,6 +5317,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4474,6 +5335,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4485,6 +5353,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4496,6 +5371,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>posDegreeAbs</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -4535,6 +5417,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4546,6 +5435,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4557,6 +5453,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4568,6 +5471,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4579,6 +5489,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInchUp</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4590,6 +5507,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4601,6 +5525,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4612,6 +5543,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4623,6 +5561,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -4662,6 +5607,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4673,6 +5625,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4684,6 +5643,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4695,6 +5661,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4706,6 +5679,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInchUp</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4717,6 +5697,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4728,6 +5715,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4739,6 +5733,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4750,6 +5751,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -4775,6 +5783,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4786,6 +5801,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4797,6 +5819,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4808,6 +5837,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4819,6 +5855,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInchUp</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4830,6 +5873,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4841,6 +5891,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4852,6 +5909,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4863,6 +5927,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -4888,6 +5959,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4899,6 +5977,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4910,6 +5995,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4921,6 +6013,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4932,6 +6031,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInchUp</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4943,6 +6049,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4954,6 +6067,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4965,6 +6085,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -4976,6 +6103,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -5008,6 +6142,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5019,6 +6160,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5030,6 +6178,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5041,6 +6196,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5052,6 +6214,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5063,6 +6232,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5074,6 +6250,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5085,6 +6268,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5096,6 +6286,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -5128,6 +6325,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5139,6 +6343,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5150,6 +6361,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5161,6 +6379,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5172,6 +6397,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5183,6 +6415,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5194,6 +6433,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5205,6 +6451,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5216,6 +6469,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -5248,6 +6508,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5259,6 +6526,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5270,6 +6544,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5281,6 +6562,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5292,6 +6580,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5303,6 +6598,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5314,6 +6616,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5325,6 +6634,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5336,6 +6652,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -5382,6 +6705,13 @@
             <type>Double</type>
           </target>
           <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5393,6 +6723,13 @@
             <type>Double</type>
           </target>
           <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5404,6 +6741,13 @@
             <type>Double</type>
           </target>
           <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5415,6 +6759,13 @@
             <type>Double</type>
           </target>
           <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5426,6 +6777,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5437,6 +6795,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>velocityRPS</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5448,6 +6813,13 @@
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5459,6 +6831,13 @@
             <type>Double</type>
           </target>
           <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>percentOutput</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -5470,6 +6849,13 @@
             <type>Double</type>
           </target>
           <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>positionInch</controlDataName>
         </motorTarget>
       </motorTargets>

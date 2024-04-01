@@ -21,6 +21,8 @@
 // FRC includes
 
 // Team 302 includes
+#include "chassis/DragonDriveTargetFinder.h"
+#include "DragonVision/DragonVision.h"
 #include "mechanisms/noteManager/decoratormods/autoLaunchOdometryState.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
@@ -43,8 +45,24 @@ autoLaunchOdometryState::autoLaunchOdometryState(std::string stateName,
 void autoLaunchOdometryState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("autoLaunchOdometryState"), string("init"));
+	/*
+		m_genState->Init();
+		auto distanceFromTarget = GetDistanceFromTarget();
+		m_targetAngle = m_mechanism->GetRequiredLaunchAngle(distanceFromTarget);
+		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_targetAngle);
 
-	m_genState->Init();
+		if (distanceFromTarget < units::length::meter_t(1.5))
+		{
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_manualLaunchSpeed));
+			m_targetSpeed = 275;
+		}
+		else
+		{
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
+			m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(m_autoLaunchSpeed));
+			m_targetSpeed = 375;
+		}*/
 }
 
 void autoLaunchOdometryState::Run()
@@ -60,8 +78,24 @@ void autoLaunchOdometryState::Exit()
 
 bool autoLaunchOdometryState::AtTarget()
 {
-	auto attarget = m_genState->AtTarget();
-	return attarget;
+	/*double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
+	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
+
+	m_targetAngle = m_mechanism->GetRequiredLaunchAngle();
+	auto distanceFromTarget = GetDistanceFromTarget();
+
+	if (distanceFromTarget < units::length::meter_t(1.5))
+	{
+		m_targetSpeed = 275;
+	}
+	else
+	{
+		m_targetSpeed = 375;
+	}
+
+	return (((abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle.value()) <= 0.5) && (topSpeed > m_targetSpeed) && (botSpeed > m_targetSpeed)) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999));
+*/
+	return false;
 }
 
 bool autoLaunchOdometryState::IsTransitionCondition(bool considerGamepadTransitions)
@@ -69,4 +103,24 @@ bool autoLaunchOdometryState::IsTransitionCondition(bool considerGamepadTransiti
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXAMPLE_MECH_FORWARD));
+}
+
+units::length::meter_t autoLaunchOdometryState::GetDistanceFromTarget()
+{
+	auto distanceFromTarget = units::length::meter_t(1.0);
+	auto finder = DragonDriveTargetFinder::GetInstance();
+	if (finder != nullptr)
+	{
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto type = get<0>(distinfo);
+		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+		{
+			auto odomdist = get<1>(distinfo);
+			if (odomdist.value() > 0.5 && odomdist.value() < 5.0)
+			{
+				distanceFromTarget = odomdist;
+			}
+		}
+	}
+	return distanceFromTarget;
 }

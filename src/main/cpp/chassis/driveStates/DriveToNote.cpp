@@ -68,7 +68,11 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
             frc::Pose2d currentPose2d = m_chassis->GetPose();
             frc::Pose2d targetPose = data;
             std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
-            std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+
+            DragonVisionStructLogger::logPose2d("current pose", currentPose2d);
+            DragonVisionStructLogger::logPose2d("note pose", targetPose);
+
+                        std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
             auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
                                                               PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
                                                               GoalEndState(1.0_mps, data.Rotation().Degrees(), true));
@@ -83,7 +87,6 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
 bool DriveToNote::IsDone()
 {
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (config != nullptr)
     {
         auto vision = DragonVision::GetDragonVision();

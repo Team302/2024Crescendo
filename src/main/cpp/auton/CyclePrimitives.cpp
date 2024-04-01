@@ -32,7 +32,6 @@
 #include "auton/PrimitiveParser.h"
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "utils/logging/Logger.h"
-#include "chassis/IChassis.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/ChassisOptionEnums.h"
