@@ -255,15 +255,16 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 	units::angular_velocity::revolutions_per_minute_t botSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60);
 	units::angle::degree_t launcherAngle = units::angle::degree_t(getlauncherAngle()->GetCounts());
 
-	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() * 0.95)) && (botSpeed > (GetLauncherBottomWheelsTarget() * 0.95));
+	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() * 0.9)) && (botSpeed > (GetLauncherBottomWheelsTarget() * 0.9));
 	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.25;
 
-	/* keeping for now, might still need to do tuning
+	// keeping for now, might still need to do tuning
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), getlauncherAngle()->GetCounts());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle Target"), GetLauncherAngleTarget().to<double>());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Speed Target"), units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()).to<double>());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Speed"), topSpeed.to<double>());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bot Speed"), botSpeed.to<double>());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Speed At Target"), wheelTargetSpeedAchieved);*/
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Speed At Target"), wheelTargetSpeedAchieved);
 
 	return launcherTargetAngleAchieved && wheelTargetSpeedAchieved;
 }
