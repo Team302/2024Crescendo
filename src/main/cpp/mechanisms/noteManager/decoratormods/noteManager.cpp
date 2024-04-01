@@ -210,11 +210,15 @@ void noteManager::SetCurrentState(int state, bool run)
 
 bool noteManager::HasVisionTarget()
 {
-	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
-	if (optionalVisionData)
+	auto finder = DragonDriveTargetFinder::GetInstance();
+	if (finder != nullptr)
 	{
-		return true;
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto type = get<0>(distinfo);
+		if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && get<1>(distinfo) < units::length::meter_t(5.0))
+			return true;
 	}
+
 	return false;
 }
 
@@ -297,9 +301,9 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
 }
 
-units::length::meter_t noteManager::GetDistanceFromSpeaker()
+units::length::meter_t noteManager::GetDistanceFromSpeaker() const
 {
-	auto distanceFromTarget = units::length::meter_t(1.0);
+	auto distanceFromTarget = units::length::meter_t(6.0);
 	auto finder = DragonDriveTargetFinder::GetInstance();
 	if (finder != nullptr)
 	{
