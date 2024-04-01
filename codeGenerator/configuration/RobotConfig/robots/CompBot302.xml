@@ -4183,6 +4183,13 @@
                 <type>String</type>
                 <value>readyManualLaunch</value>
               </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_5</name>
+                <__units__ />
+                <type>String</type>
+                <value>Pass</value>
+              </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
               <motorTarget>
