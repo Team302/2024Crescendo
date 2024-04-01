@@ -13,14 +13,14 @@ visionAligment="NOTE"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_A"
-time = "2.0"
+time = "1.75"
 noteOption="STATE_FEEDER_INTAKE"
 visionAligment="NOTE"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_B"
 time = "1.75"
-noteOption="STATE_HOLD_FEEDER"/>
+noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopManual.xml"/>
 
@@ -38,19 +38,14 @@ noteOption="STATE_FEEDER_INTAKE"/>
 <snippet file= "ShootWhenStopManual.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueSubwooferWing2Center1_A"
-noteoption = "DRIVE_TO_NOTE"
-time = "10.0"
-visionAligment="NOTE"/>
-
-<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferWing3Center0_C"
+time = "1.75"
 noteOption="STATE_FEEDER_INTAKE"
-pathname="DRIVE_TO_NOTE"
 visionAligment="NOTE"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueSubwooferWing2Center1_B"
-time = "10.0"
+pathname= "BlueSubwooferWing3Center0_D"
+time = "1.75"
 noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopManual.xml"/>
