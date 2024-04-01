@@ -167,8 +167,9 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
 
     {TeleopControlFunctions::DEBUG_INC_P, driverDPad0},
     {TeleopControlFunctions::DEBUG_DEC_P, driverDPad180},
-    {TeleopControlFunctions::TIPCORRECTION_TOGGLE, driverRStickPressed},
+    // {TeleopControlFunctions::TIPCORRECTION_TOGGLE, driverRStickPressed},
 
+    {TeleopControlFunctions::DRIVE_TO_NOTE, driverBButton},
     {TeleopControlFunctions::CLIMB_MODE, driverStartButton},
     {TeleopControlFunctions::SCORING_MODE, copilotSelectButton},
 
@@ -184,7 +185,7 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::AUTO_SPEAKER, driverXButton},
 
     {TeleopControlFunctions::AUTO_AMP, driverAButton},
-    {TeleopControlFunctions::AUTO_STAGE, driverBButton},
+    // {TeleopControlFunctions::AUTO_STAGE, driverBButton},
     {TeleopControlFunctions::BACKUP_FRONT_INTAKE, copilotRBumper},
     {TeleopControlFunctions::BACKUP_BACK_INTAKE, copilotLBumper},
     {TeleopControlFunctions::AUTO_CLIMB, driverYButton},
