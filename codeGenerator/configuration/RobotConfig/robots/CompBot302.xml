@@ -7794,7 +7794,7 @@
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>1.25</value>
+        <value>0</value>
       </mountingYOffset>
       <mountingZOffset>
         <unitsFamily>length</unitsFamily>
