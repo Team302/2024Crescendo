@@ -117,8 +117,9 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
             auto pose = DragonVision::GetAprilTagLayout().GetTagPose(aprilTag);
             if (pose)
             {
-                auto pose2d = pose.value().ToPose2d();
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, pose2d);
+                auto targetPose = pose.value().ToPose2d();
+                auto trans = targetPose - currentPose;
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, trans);
 
                 return targetInfo;
             }
