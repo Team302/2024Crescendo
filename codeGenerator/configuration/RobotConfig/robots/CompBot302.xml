@@ -2628,14 +2628,14 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.025</value>
+                <value>0.045</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>2E-06</value>
+                <value>5.25E-06</value>
               </iGain>
               <dGain>
                 <unitsFamily>none</unitsFamily>
