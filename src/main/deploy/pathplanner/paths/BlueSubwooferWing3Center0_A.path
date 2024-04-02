@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.31,
-        "y": 5.55
+        "x": 1.3140196323188638,
+        "y": 5.515804013063089
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3100000000000005,
-        "y": 5.55
+        "x": 2.314019632318864,
+        "y": 5.515804013063089
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.7615844703872,
+        "x": 2.8927727086223416,
         "y": 5.515804013063089
       },
       "prevControl": {
-        "x": 2.7615844703872,
+        "x": 1.8927727086223416,
         "y": 5.515804013063089
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_A"
     }
   ],
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -179.25594079711132,
     "rotateFast": false
   },
   "reversed": false,
