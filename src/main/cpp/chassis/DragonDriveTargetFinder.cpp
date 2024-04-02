@@ -51,78 +51,79 @@ DragonDriveTargetFinder *DragonDriveTargetFinder::GetInstance()
 tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::GetPose(DragonVision::VISION_ELEMENT item)
 {
     auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
+
     if (chassisConfig != nullptr)
     {
-
         auto chassis = chassisConfig->GetSwerveChassis();
+        auto currentPose{Pose3d(chassis->GetPose())};
 
         auto vision = DragonVision::GetDragonVision();
         if (vision != nullptr)
         {
             auto data = vision->GetVisionData(item);
-            if (data && item == DragonVision::VISION_ELEMENT::NOTE)
+
+            if (data)
             {
-                auto currentPose{Pose3d(chassis->GetPose())};
                 auto trans3d = data.value().transformToTarget;
                 auto targetPose = currentPose + trans3d;
                 units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z();
-
-                if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
-                    robotRelativeAngle += units::angle::degree_t(180.0);
-                else if (robotRelativeAngle >= units::angle::degree_t(90.0))
-                    robotRelativeAngle -= units::angle::degree_t(180.0);
-
+                if (item == DragonVision::VISION_ELEMENT::NOTE)
+                {
+                    if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
+                        robotRelativeAngle += units::angle::degree_t(180.0);
+                    else if (robotRelativeAngle >= units::angle::degree_t(90.0))
+                        robotRelativeAngle -= units::angle::degree_t(180.0);
+                }
                 units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
-                tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
                 targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, frc::Pose2d(targetPose.X(), targetPose.Y(), fieldRelativeAngle));
 
                 return targetInfo;
             }
         }
-    }
 
-    int aprilTag = -1;
-    tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> targetInfo;
+        int aprilTag = -1;
 
-    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
-    {
-        auto itr = blueMap.find(item);
-        if (itr != blueMap.end())
+        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
         {
-            aprilTag = itr->second;
+            auto itr = blueMap.find(item);
+            if (itr != blueMap.end())
+            {
+                aprilTag = itr->second;
+            }
+            else if (item == DragonVision::VISION_ELEMENT::STAGE)
+            {
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, m_blueStage);
+                return targetInfo;
+            }
         }
-        else if (item == DragonVision::VISION_ELEMENT::STAGE)
+        else
         {
-            targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, m_blueStage);
-            return targetInfo;
+            auto itr = redMap.find(item);
+            if (itr != redMap.end())
+            {
+                aprilTag = itr->second;
+            }
+            else if (item == DragonVision::VISION_ELEMENT::STAGE)
+            {
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, m_redStage);
+                return targetInfo;
+            }
+        }
+
+        if (aprilTag > 0)
+        {
+            auto pose = DragonVision::GetAprilTagLayout().GetTagPose(aprilTag);
+            if (pose)
+            {
+                auto pose2d = pose.value().ToPose2d();
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, pose2d);
+
+                return targetInfo;
+            }
         }
     }
-    else
-    {
-        auto itr = redMap.find(item);
-        if (itr != redMap.end())
-        {
-            aprilTag = itr->second;
-        }
-        else if (item == DragonVision::VISION_ELEMENT::STAGE)
-        {
-            targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, m_redStage);
-            return targetInfo;
-        }
-    }
-
-    if (aprilTag > 0)
-    {
-        auto pose = DragonVision::GetAprilTagLayout().GetTagPose(aprilTag);
-        if (pose)
-        {
-            auto pose2d = pose.value().ToPose2d();
-            targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, pose2d);
-            return targetInfo;
-        }
-    }
-
     auto pose2d = Pose2d();
     targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND, pose2d);
     return targetInfo;

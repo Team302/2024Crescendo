@@ -69,18 +69,25 @@ DragonLimelight::DragonLimelight(
     ToggleSnapshot(snapMode);
 }
 
-bool DragonLimelight::HealthCheck(){
+bool DragonLimelight::HealthCheck()
+{
     auto nt = m_networktable.get();
     if (nt != nullptr)
     {
         double currentHb = nt->GetNumber("hb", -1);
-        //check if heartbeat has ever been set and network table is not 0
-        if (m_lastHeartbeat == -2 && currentHb != -1){
+        // check if heartbeat has ever been set and network table is not 0
+        if (m_lastHeartbeat == -2 && currentHb != -1)
+        {
             m_lastHeartbeat = currentHb;
-        } else if (currentHb == -1){
+        }
+        else if (currentHb == -1)
+        {
             return false;
-        } else {
-            if (currentHb != m_lastHeartbeat){
+        }
+        else
+        {
+            if (currentHb != m_lastHeartbeat)
+            {
                 m_lastHeartbeat = currentHb;
                 return true;
             }
@@ -144,8 +151,8 @@ std::optional<VisionPose> DragonLimelight::GetRedFieldPosition()
 
 /**
  * @brief Get the Blue Field Position object
- * 
-*/
+ *
+ */
 std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition()
 {
     if (m_networktable.get() != nullptr)
@@ -607,7 +614,7 @@ std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 
         std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
 
-        frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]), units::angle::degree_t(vector[5]));
+        frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[5]), units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]));
         auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
 
         return VisionData{transform, transform.Translation(), rotation, tagId.value()};
@@ -618,5 +625,22 @@ std::optional<VisionData> DragonLimelight::GetDataToNearestAprilTag()
 
 std::optional<VisionData> DragonLimelight::GetDataToSpecifiedTag(int id)
 {
-    return GetDataToNearestAprilTag();
+    std::optional<int> detectedTag = GetAprilTagID();
+    if (detectedTag.has_value())
+    {
+        if (detectedTag.value() == detectedTag)
+        {
+            auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
+
+            std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
+
+            // targetpose_robotspace: 3D transform of the primary in-view AprilTag in the coordinate system of the Robot (array (6)) [tx, ty, tz, pitch, yaw, roll] (meters, degrees)
+            frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[5]), units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]));
+            auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
+
+            return VisionData{transform, transform.Translation(), rotation, detectedTag.value()};
+        }
+    }
+
+    return std::nullopt;
 }
