@@ -36,6 +36,8 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
         if (get<0>(info) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
             auto targetPose = get<1>(info);
+            units::angle::degree_t rawCorrection = units::angle::radian_t(atan(targetPose.Y().to<double>() / targetPose.X().to<double>()));
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Raw Correction", rawCorrection.value());
             return targetPose.Rotation().Degrees();
         }
     }
