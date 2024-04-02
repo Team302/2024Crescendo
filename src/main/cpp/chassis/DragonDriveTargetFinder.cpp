@@ -122,7 +122,7 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "Flase");
                 auto targetPose = pose.value();
                 auto trans = targetPose - currentPose;
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, frc::Pose2d(targetPose.X(), targetPose.Y(), targetPose.Rotation().Z()));
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, frc::Pose2d(trans.X(), trans.Y(), trans.Rotation().Z()));
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "ODOMETRY_BASED Target", units::angle::degree_t((targetPose.Rotation().Z())).value());
 
                 return targetInfo;
