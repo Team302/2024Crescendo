@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.290450109148193,
-        "y": 5.488777436611587
+        "x": 1.288835132430103,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.113284226568455,
-        "y": 5.476153259998827
+        "x": 2.111669249850365,
+        "y": 5.53737582338724
       },
       "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_B"

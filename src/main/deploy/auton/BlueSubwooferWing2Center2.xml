@@ -2,7 +2,6 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 
 <auton>
-
 <primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
 pathname= "BlueSubwooferWing2Center2_A"/>
 
@@ -27,7 +26,7 @@ noteOption="STATE_FEEDER_INTAKE"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_C"
 time= "3.0"
-noteOption="STATE_FEEDER_INTAKE"/>
+noteOption="STATE_READY_AUTO_LAUNCH"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
