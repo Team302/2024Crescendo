@@ -36,12 +36,7 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
         if (get<0>(info) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
             auto calcType = get<0>(info);
-
             auto targetPose = get<1>(info);
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Face Target Heading", "targetPose Angle (Deg)", targetPose.Rotation().Degrees().value());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Face Target Heading", "targetPose type", static_cast<int>(calcType));
-
             if (calcType == DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED)
             {
                 // find difference between robot angle and given pose rotation
