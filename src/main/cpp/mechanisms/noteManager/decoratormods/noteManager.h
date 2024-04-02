@@ -91,8 +91,9 @@ public:
 	bool GetTransitionFromHoldFeedToReady() { return m_TransitionFromHoldFeedToReady; }
 	void SetTransitionFromHoldFeedToReady(bool state) { m_TransitionFromHoldFeedToReady = state; }
 
+	units::length::meter_t GetDistanceFromSpeaker() const;
+
 private:
-	units::length::meter_t GetDistanceFromSpeaker();
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters();
 
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);

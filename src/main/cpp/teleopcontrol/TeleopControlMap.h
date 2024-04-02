@@ -157,7 +157,8 @@ const TeleopControlButton extra4DPad315 = {TeleopControlMappingEnums::EXTRA4, Te
 robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlButton> teleopControlMapButtonMap{
     // {TeleopControlFunctions::ALIGN_FLOOR_GAME_PIECE, driverYButton},
 
-    {TeleopControlFunctions::RESET_POSITION, driverLStickPressed},
+    {TeleopControlFunctions::RESET_POSITION, driverDPad90},
+    {TeleopControlFunctions::RESET_POSITION, driverDPad270},
     {TeleopControlFunctions::ROBOT_ORIENTED_DRIVE, driverRStickPressed},
     //{TeleopControlFunctions::HOLD_POSITION, driverLBumper},need to re assign
     //{TeleopControlFunctions::SLOW_MODE, driverRBumper}, need to re assign
@@ -167,8 +168,9 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
 
     {TeleopControlFunctions::DEBUG_INC_P, driverDPad0},
     {TeleopControlFunctions::DEBUG_DEC_P, driverDPad180},
-    {TeleopControlFunctions::TIPCORRECTION_TOGGLE, driverRStickPressed},
+    // {TeleopControlFunctions::TIPCORRECTION_TOGGLE, driverRStickPressed},
 
+    {TeleopControlFunctions::DRIVE_TO_NOTE, driverBButton},
     {TeleopControlFunctions::CLIMB_MODE, driverStartButton},
     {TeleopControlFunctions::SCORING_MODE, copilotSelectButton},
 
@@ -181,10 +183,11 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::PASS, copilotBButton},
     {TeleopControlFunctions::PREP_PLACE, copilotXButton},
     {TeleopControlFunctions::PLACE, copilotRBumper},
-    {TeleopControlFunctions::AUTO_SPEAKER, driverXButton},
+    {TeleopControlFunctions::AUTO_TURN_BACKWARD, driverXButton},
+    {TeleopControlFunctions::AUTO_SPEAKER, driverLStickPressed},
 
     {TeleopControlFunctions::AUTO_AMP, driverAButton},
-    {TeleopControlFunctions::AUTO_STAGE, driverBButton},
+    // {TeleopControlFunctions::AUTO_STAGE, driverBButton},
     {TeleopControlFunctions::BACKUP_FRONT_INTAKE, copilotRBumper},
     {TeleopControlFunctions::BACKUP_BACK_INTAKE, copilotLBumper},
     {TeleopControlFunctions::AUTO_CLIMB, driverYButton},
