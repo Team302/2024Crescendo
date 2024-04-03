@@ -314,11 +314,11 @@ void noteManagerGen::CreateCompBot302()
 	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
 	    "posDegreeAbs", // std::string indentifier
 	    0.025, // double proportional
-	    2E-06, // double integral
+	    1E-05, // double integral
 	    0, // double derivative
 	    0, // double feedforward
 	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
-	    0.5, // double integralZone
+	    2.0, // double integralZone
 	    0, // double maxAcceleration
 	    0, // double cruiseVelocity
 	    0, // double peakValue

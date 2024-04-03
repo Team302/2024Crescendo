@@ -25,6 +25,7 @@
 // Team 302 includes
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "chassis/SwerveChassis.h"
+#include "mechanisms/noteManager/decoratormods/noteManager.h"
 
 // Third Party Includes
 
@@ -69,4 +70,5 @@ private:
 	SwerveChassis *m_chassis;
 	std::unique_ptr<frc::Timer> m_timer;
 	double m_heading;
+	noteManager *m_noteManager;
 };
