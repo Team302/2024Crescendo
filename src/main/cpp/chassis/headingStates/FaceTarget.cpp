@@ -20,6 +20,7 @@
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose2d.h"
+#include "utils/FMSData.h"
 
 #include "utils/logging/Logger.h"
 
@@ -45,11 +46,15 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
             auto currentPose = chassis->GetPose();
+            frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
+
             if (chassis != nullptr)
             {
                 auto targetPose = get<1>(info);
                 units::angle::degree_t rawCorrection = units::angle::radian_t(atan(targetPose.Y().to<double>() / targetPose.X().to<double>()));
-                units::angle::degree_t fieldRelativeAngle = currentPose.Rotation().Degrees() + rawCorrection;
+
+                units::angle::degree_t fieldRelativeAngle = allianceColor == frc::DriverStation::Alliance::kBlue ? units::angle::degree_t(180) + rawCorrection : rawCorrection;
+
                 chassisMovement.yawAngle = fieldRelativeAngle;
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Raw Correction", rawCorrection.value());
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "fieldRelativeAngle", fieldRelativeAngle.value());
