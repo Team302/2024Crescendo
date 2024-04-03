@@ -34,14 +34,7 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
     if (finder != nullptr)
     {
         auto info = finder->GetPose(GetVisionElement());
-        if (get<0>(info) == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
-        {
-            auto targetPose = get<1>(info);
-            chassisMovement.yawAngle = targetPose.Rotation().Degrees();
-
-            return targetPose.Rotation().Degrees();
-        }
-        else
+        if (get<0>(info) == DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED)
         {
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
@@ -51,16 +44,10 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
             if (chassis != nullptr)
             {
                 auto targetPose = get<1>(info);
-                units::angle::degree_t rawCorrection = units::angle::radian_t(atan(targetPose.Y().to<double>() / targetPose.X().to<double>()));
 
-                units::angle::degree_t fieldRelativeAngle = (allianceColor == frc::DriverStation::Alliance::kBlue) ? (units::angle::degree_t(180) + rawCorrection) : rawCorrection;
+                units::angle::degree_t fieldRelativeAngle = (allianceColor == frc::DriverStation::Alliance::kBlue) ? (units::angle::degree_t(180) + targetPose.Rotation().Degrees()) : targetPose.Rotation().Degrees();
 
                 chassisMovement.yawAngle = fieldRelativeAngle;
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Raw Correction", rawCorrection.value());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "fieldRelativeAngle", fieldRelativeAngle.value());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Target X", targetPose.X().value());
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Target Y", targetPose.Y().value());
-
                 return fieldRelativeAngle;
             }
         }

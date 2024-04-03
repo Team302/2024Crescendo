@@ -164,6 +164,9 @@ std::optional<VisionPose> DragonLimelight::GetBlueFieldPosition()
         units::time::millisecond_t timestamp = currentTime - units::millisecond_t(position[6] / 1000.0);
 
         frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
+
+        // frc::Rotation3d rotationToTarget = frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::math::atan2(units::meter_t(position[0]), units::meter_t(position[2]))); // roll pitch yaw
+
         return VisionPose{frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation}, timestamp};
     }
 
@@ -628,17 +631,19 @@ std::optional<VisionData> DragonLimelight::GetDataToSpecifiedTag(int id)
     std::optional<int> detectedTag = GetAprilTagID();
     if (detectedTag.has_value())
     {
-        if (detectedTag.value() == detectedTag)
+        if (detectedTag.value() == id)
         {
             auto targetPose = m_networktable.get()->GetDoubleArrayTopic("targetpose_robotspace");
 
             std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
 
             // targetpose_robotspace: 3D transform of the primary in-view AprilTag in the coordinate system of the Robot (array (6)) [tx, ty, tz, pitch, yaw, roll] (meters, degrees)
-            frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[5]), units::angle::degree_t(vector[3]), -units::angle::degree_t(vector[4]));
-            auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
+            frc::Rotation3d rotationTransform = frc::Rotation3d(units::angle::degree_t(vector[5]), units::angle::degree_t(vector[3]), -units::angle::degree_t(vector[4]));
+            auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotationTransform);
 
-            return VisionData{transform, transform.Translation(), rotation, detectedTag.value()};
+            frc::Rotation3d rotationToTarget = frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::math::atan2(transform.X(), transform.Z())); // roll pitch yaw
+
+            return VisionData{transform, transform.Translation(), rotationToTarget, detectedTag.value()};
         }
     }
 
