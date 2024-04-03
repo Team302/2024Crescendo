@@ -47,7 +47,7 @@ private:
 
 	const int m_rightfrontdriveID = 12;
 	const int m_rightfrontturnID = 13;
-	const double m_rightfrontOffset = 0.39404296875;
+	const double m_rightfrontOffset = 0.40063476;
 	const bool m_rightfrontdriveInvert = true;
 	const bool m_rightfrontturnInvert = false;
 	const bool m_rightfrontcancoderInvert = false;
