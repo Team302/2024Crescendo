@@ -635,7 +635,7 @@ std::optional<VisionData> DragonLimelight::GetDataToSpecifiedTag(int id)
             std::vector<double> vector = targetPose.GetEntry(std::array<double, 6>{}).Get();
 
             // targetpose_robotspace: 3D transform of the primary in-view AprilTag in the coordinate system of the Robot (array (6)) [tx, ty, tz, pitch, yaw, roll] (meters, degrees)
-            frc::Rotation3d rotation = frc::Rotation3d(-units::angle::degree_t(vector[5]), -units::angle::degree_t(vector[3]), units::angle::degree_t(vector[4]));
+            frc::Rotation3d rotation = frc::Rotation3d(units::angle::degree_t(vector[5]), units::angle::degree_t(vector[3]), -units::angle::degree_t(vector[4]));
             auto transform = frc::Transform3d(units::length::meter_t(vector[0]), units::length::meter_t(vector[1]), units::length::meter_t(vector[2]), rotation);
 
             return VisionData{transform, transform.Translation(), rotation, detectedTag.value()};
