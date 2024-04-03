@@ -40,6 +40,16 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                                        robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                        units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                        units::time::second_t(0.02)),
+                                                                                 m_longpathHolonomicController(pathplanner::PIDConstants(0.75, 0.5, 0.0),
+                                                                                                               pathplanner::PIDConstants(5.2, 2.5, 0.0),
+                                                                                                               robotDrive->GetChassis()->GetMaxSpeed(),
+                                                                                                               units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
+                                                                                                               units::time::second_t(0.02)),
+                                                                                 m_shortpathHolonomicController(pathplanner::PIDConstants(2.5, 0.375, 0.0),
+                                                                                                                pathplanner::PIDConstants(5.2, 2.5, 0.0),
+                                                                                                                robotDrive->GetChassis()->GetMaxSpeed(),
+                                                                                                                units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
+                                                                                                                units::time::second_t(0.02)),
                                                                                  m_trajectoryStates(),
                                                                                  m_prevPose(),
                                                                                  m_wasMoving(false),
@@ -105,7 +115,17 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
         auto desiredState = m_trajectory.sample(m_timer.get()->Get() + units::time::second_t(0.02));
         LogState(desiredState);
 
-        auto refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
+        frc::ChassisSpeeds refChassisSpeeds;
+        if (chassisMovement.pathnamegains == ChassisOptionEnums::PathGainsType::LONG)
+        {
+            refChassisSpeeds = m_longpathHolonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
+        }
+        else
+        {
+            refChassisSpeeds = m_shortpathHolonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
+        }
+
+        // auto refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
         if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::IGNORE)
         {
             if (m_firstGen == 1)

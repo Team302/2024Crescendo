@@ -191,6 +191,7 @@ void CyclePrimitives::RunDriveStop()
 										  ChassisOptionEnums::HeadingOption::MAINTAIN,
 										  0.0,		// heading
 										  string(), // pathname
+										  ChassisOptionEnums::PathGainsType::LONG,
 										  ZoneParamsVector(),
 										  PrimitiveParams::VISION_ALIGNMENT::UNKNOWN,
 										  false,
