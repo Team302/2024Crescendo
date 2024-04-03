@@ -53,7 +53,7 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
                 auto targetPose = get<1>(info);
                 units::angle::degree_t rawCorrection = units::angle::radian_t(atan(targetPose.Y().to<double>() / targetPose.X().to<double>()));
 
-                units::angle::degree_t fieldRelativeAngle = allianceColor == frc::DriverStation::Alliance::kBlue ? units::angle::degree_t(180) + rawCorrection : rawCorrection;
+                units::angle::degree_t fieldRelativeAngle = (allianceColor == frc::DriverStation::Alliance::kBlue) ? (units::angle::degree_t(180) + rawCorrection) : rawCorrection;
 
                 chassisMovement.yawAngle = fieldRelativeAngle;
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Raw Correction", rawCorrection.value());
