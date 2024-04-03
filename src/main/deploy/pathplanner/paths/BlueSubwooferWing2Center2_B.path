@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 6.5238076629999435,
-        "y": 4.065180438053184
+        "x": 6.209149308455535,
+        "y": 4.051949444840401
       },
       "prevControl": {
-        "x": 3.761063675973507,
-        "y": 4.6078622926476624
+        "x": 3.4464053214290984,
+        "y": 4.59463129943488
       },
       "nextControl": null,
       "isLocked": false,
@@ -40,7 +40,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "BlueSubwooferWing2Center2",

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.038328671360119,
-        "y": 5.245518249809681
+        "x": 2.1806215367066955,
+        "y": 5.264743935964335
       },
       "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_B"
@@ -20,8 +20,8 @@
         "y": 3.911419406291023
       },
       "prevControl": {
-        "x": 1.431127997776678,
-        "y": 3.6654918388296114
+        "x": 1.4386915571763095,
+        "y": 3.6668494007731383
       },
       "nextControl": null,
       "isLocked": true,
@@ -40,7 +40,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "BlueSubwooferWing3Center0",
