@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.290450109148193,
-        "y": 5.488777436611587
+        "x": 1.288835132430103,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9751470272171325,
-        "y": 7.617279849944316
+        "x": 2.1626189406224983,
+        "y": 6.610851683241828
       },
       "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_B"
     },
     {
       "anchor": {
-        "x": 3.4847892772708637,
-        "y": 6.985795510052559
+        "x": 3.2085148785682196,
+        "y": 7.005529395674177
       },
       "prevControl": {
-        "x": 3.3859582283695944,
-        "y": 6.903436302634834
+        "x": 2.5474297102440375,
+        "y": 7.1535335378363065
       },
       "nextControl": {
-        "x": 3.5439909341357163,
-        "y": 7.035130224106603
+        "x": 3.6826678713419145,
+        "y": 6.899375740575589
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.290450109148193,
-        "y": 5.488777436611587
+        "x": 1.288835132430103,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 1.3299178803914276,
-        "y": 5.478910493800777
+        "x": 1.876477599109046,
+        "y": 5.38735077470155
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
     {
       "waypointRelativePos": 1,
       "rotationDegrees": 180.0,
-      "rotateFast": false
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
@@ -61,8 +61,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.1523897340055,
-    "rotateFast": false
+    "rotation": 180.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "BlueSubwooferWing3Center0",
