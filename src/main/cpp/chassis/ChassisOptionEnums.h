@@ -76,6 +76,12 @@ public:
         NO_AVOID_OPTION
     };
 
+    enum PathGainsType
+    {
+        SHORT,
+        LONG
+    };
+
     ChassisOptionEnums() = delete;
     ~ChassisOptionEnums() = delete;
 };

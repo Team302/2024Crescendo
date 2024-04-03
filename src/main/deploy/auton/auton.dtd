@@ -11,6 +11,7 @@
           headingOption     CDATA "MAINTAIN"
           heading           CDATA "0.0"
           pathname          CDATA #IMPLIED
+		  pathgains			(LongPath | ShortPath) "LongPath"
 		  climberOption		( STATE_OFF | STATE_INITIALIZE | 
 		  					  STATE_MANUAL | STATE_AUTO_CLIMB | STATE_HOLD ) "STATE_OFF"
 		  noteOption        ( STATE_OFF | STATE_READY | STATE_FEEDER_INTAKE | 

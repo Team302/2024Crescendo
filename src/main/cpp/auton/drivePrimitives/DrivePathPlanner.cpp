@@ -58,6 +58,7 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
                                        m_timer(make_unique<Timer>()),
                                        m_trajectory(),
                                        m_pathname(),
+                                       m_pathGainsType(ChassisOptionEnums::PathGainsType::LONG),
                                        // max velocity of 1 rotation per second and a max acceleration of 180 degrees per second squared.
                                        m_maxTime(units::time::second_t(-1.0)),
                                        m_ntName("DrivePathPlanner"),
@@ -71,6 +72,8 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
 void DrivePathPlanner::Init(PrimitiveParams *params)
 {
     m_pathname = params->GetPathName(); // Grabs path name from auton xml
+    m_pathGainsType = params->GetPathGainsType();
+
     m_ntName = string("DrivePathPlanner: ") + m_pathname;
     m_maxTime = params->GetTime();
     m_switchedToVisionDrive = false;
@@ -80,6 +83,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
     m_moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER;
+    m_moveInfo.pathnamegains = m_pathGainsType;
 
     auto pose = m_chassis->GetPose();
     auto speed = m_chassis->GetChassisSpeeds();
