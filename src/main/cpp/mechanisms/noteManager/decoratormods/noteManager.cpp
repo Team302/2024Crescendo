@@ -119,7 +119,9 @@ void noteManager::RunCommonTasks()
 	DataTrace::GetInstance()->sendLauncherData(wheelSetTop, wheelSetBottom, angle, launcherTopCurrent, launcherBottomCurrent, theCurrentState, XButton);
 
 	double elevator = getElevator()->GetCounts();
-	DataTrace::GetInstance()->sendElevatorData(elevator);
+	double iState = getElevator()->GetIState();
+
+	DataTrace::GetInstance()->sendElevatorData(elevator, iState);
 
 	if (true)
 	{
@@ -277,18 +279,18 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 
 	double distanceFromTarget_m = ((GetDistanceFromSpeaker())).to<double>();
 
-	auto transitionInch = 1.5;
+	auto transitionMeters = 1.5;
 
 	// launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
 	// 102 + -43.2x + 5.95x^2
-	launcherAngle = 102 + (-43.2 * distanceFromTarget_m) + (5.95 * distanceFromTarget_m * distanceFromTarget_m);
+	launcherAngle = 101.5 + (-43.2 * distanceFromTarget_m) + (5.95 * distanceFromTarget_m * distanceFromTarget_m);
 
 	// limit the resulting launcher angle
 	launcherAngle = launcherAngle > 55 ? 55 : launcherAngle;
 	launcherAngle = launcherAngle < 20 ? 5 : launcherAngle;
 
-	topLaunchSpeed = distanceFromTarget_m < transitionInch /*inch*/ ? 400 : 500;
-	bottomLaunchSpeed = distanceFromTarget_m < transitionInch /*inch*/ ? 400 : 500;
+	topLaunchSpeed = distanceFromTarget_m < transitionMeters /*inch*/ ? 400 : 550;
+	bottomLaunchSpeed = distanceFromTarget_m < transitionMeters /*inch*/ ? 400 : 550;
 
 	/* keep for tuning purposes
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst

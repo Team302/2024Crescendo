@@ -2628,14 +2628,14 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.025</value>
+                <value>0.045</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>2E-06</value>
+                <value>5.25E-06</value>
               </iGain>
               <dGain>
                 <unitsFamily>none</unitsFamily>
@@ -7832,28 +7832,28 @@
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>11.653</value>
+        <value>13.5</value>
       </mountingXOffset>
       <mountingYOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>9.5</value>
+        <value>7.25</value>
       </mountingYOffset>
       <mountingZOffset>
         <unitsFamily>length</unitsFamily>
         <name>uintParameter</name>
         <__units__>in</__units__>
         <type>UInt32</type>
-        <value>11.786</value>
+        <value>12.6</value>
       </mountingZOffset>
       <pitch>
         <unitsFamily>angle</unitsFamily>
         <name>doubleParameter</name>
         <__units__>deg</__units__>
         <type>Double</type>
-        <value>-30</value>
+        <value>-34</value>
       </pitch>
       <yaw>
         <unitsFamily>angle</unitsFamily>

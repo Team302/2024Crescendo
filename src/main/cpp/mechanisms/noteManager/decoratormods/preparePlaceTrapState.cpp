@@ -76,6 +76,8 @@ bool preparePlaceTrapState::IsTransitionCondition(bool considerGamepadTransition
 
 	auto currentState = m_mechanism->GetCurrentState();
 
-	return ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) && (m_mechanism->IsClimbMode())) || (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE) && (m_mechanism->IsClimbMode())) ||
-			((currentState == m_mechanism->STATE_PREPARE_PLACE_AMP) && (m_mechanism->IsClimbMode())));
+	bool buttonsPressed = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) || TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE);
+
+	return (considerGamepadTransitions && buttonsPressed && (m_mechanism->IsClimbMode())) ||
+		   ((currentState == m_mechanism->STATE_PREPARE_PLACE_AMP) && (m_mechanism->IsClimbMode()));
 }
