@@ -69,14 +69,16 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
                 auto trans3d = data.value().transformToTarget;
                 auto targetPose = currentPose + trans3d;
                 units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z(); // value is robot to target
+                units::angle::degree_t fieldRelativeAngle = robotRelativeAngle;
                 if (item == DragonVision::VISION_ELEMENT::NOTE)
                 {
                     if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
                         robotRelativeAngle += units::angle::degree_t(180.0);
                     else if (robotRelativeAngle >= units::angle::degree_t(90.0))
                         robotRelativeAngle -= units::angle::degree_t(180.0);
+
+                    fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
                 }
-                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Based Target", fieldRelativeAngle.value());
 
                 targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, frc::Pose2d(targetPose.X(), targetPose.Y(), fieldRelativeAngle));
