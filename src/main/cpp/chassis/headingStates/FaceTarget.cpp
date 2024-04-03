@@ -34,7 +34,7 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
     if (finder != nullptr)
     {
         auto info = finder->GetPose(GetVisionElement());
-        if (get<0>(info) == DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED)
+        if (get<0>(info) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
