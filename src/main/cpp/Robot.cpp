@@ -197,7 +197,6 @@ void Robot::TeleopPeriodic()
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("end"));
     }
-
 }
 
 void Robot::DisabledInit()
@@ -220,6 +219,31 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic()
 {
+    LogSensorData();
+}
+
+void Robot::LogSensorData()
+{
+    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+
+    if (config != nullptr)
+    {
+        auto stateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+        auto noteMgr = stateMgr != nullptr ? dynamic_cast<noteManagerGen *>(stateMgr) : nullptr;
+        if (noteMgr != nullptr)
+        {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Front Intake"), noteMgr->getfrontIntakeSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Back Intake"), noteMgr->getbackIntakeSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Feeder"), noteMgr->getfeederSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher"), noteMgr->getlauncherSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerIn"), noteMgr->getplacerInSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerMid"), noteMgr->getplacerMidSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerOut"), noteMgr->getplacerOutSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher Angle (degrees)"), noteMgr->getlauncherAngle()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Elevator Height"), noteMgr->getElevator()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Front"), noteMgr->getfrontIntakeSensor()->Get());
+        }
+    }
 }
 
 void Robot::SimulationInit()
