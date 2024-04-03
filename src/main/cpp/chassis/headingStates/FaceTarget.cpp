@@ -20,6 +20,7 @@
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose2d.h"
+#include "utils/FMSData.h"
 
 #include "utils/logging/Logger.h"
 
@@ -35,16 +36,19 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
         auto info = finder->GetPose(GetVisionElement());
         if (get<0>(info) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
-            auto calcType = get<0>(info);
-            auto targetPose = get<1>(info);
-            if (calcType == DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED)
+            auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+            auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+            auto currentPose = chassis->GetPose();
+            frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
+
+            if (chassis != nullptr)
             {
-                // find difference between robot angle and given pose rotation
-                return targetPose.Rotation().Degrees(); // dummy return for now
-            }
-            else
-            {
-                return targetPose.Rotation().Degrees();
+                auto targetPose = get<1>(info);
+
+                units::angle::degree_t fieldRelativeAngle = (allianceColor == frc::DriverStation::Alliance::kBlue) ? (units::angle::degree_t(180) + targetPose.Rotation().Degrees()) : targetPose.Rotation().Degrees();
+
+                chassisMovement.yawAngle = fieldRelativeAngle;
+                return fieldRelativeAngle;
             }
         }
     }

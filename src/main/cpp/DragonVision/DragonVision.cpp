@@ -215,7 +215,8 @@ std::optional<VisionData> DragonVision::GetVisionDataToNearestTag()
 std::optional<VisionData> DragonVision::GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position)
 {
 	std::optional<VisionData> dataToAprilTag = m_dragonCameraMap[position]->GetDataToNearestAprilTag();
-	if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value()){
+	if ((m_dragonCameraMap[position] != nullptr) && dataToAprilTag.has_value())
+	{
 		return dataToAprilTag;
 	}
 
@@ -409,56 +410,14 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
 	{
 		// get the optional of the translation and rotation to the apriltag
-		// launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]->GetDataToNearestAprilTag();
 		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetDataToSpecifiedTag(idToSearch);
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("ASPEAKERDEBUG"), std::string("LauncherDataStatus"), std::string("True"));
 	}
 
-	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER] != nullptr)
+	if (launcherAprilTagData)
 	{
-		// get the optional of the translation and rotation to the apriltag
-		placerAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]->GetDataToSpecifiedTag(idToSearch);
-	}
+		return launcherAprilTagData;
 
-	if ((!launcherAprilTagData) && (!placerAprilTagData)) // if we see no april tags
-	{
-		return std::nullopt;
-	}
-	else if ((launcherAprilTagData) && (placerAprilTagData)) // if we see april tags in both cameras
-	{
-		// confidence logic for single tag
-		double launcherAmbiguity = 100.0;
-		DragonPhotonCam *launcherPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHER]);
-		if (launcherPhotonCam != nullptr)
-		{
-			launcherAmbiguity = launcherPhotonCam->GetPoseAmbiguity();
-		}
-
-		double placerAmbiguity = 100.0;
-		DragonPhotonCam *placerPhotonCam = dynamic_cast<DragonPhotonCam *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::PLACER]);
-		if (placerPhotonCam != nullptr)
-		{
-			placerAmbiguity = placerPhotonCam->GetPoseAmbiguity();
-		}
-
-		selectedData = launcherAmbiguity <= placerAmbiguity ? launcherAprilTagData : placerAprilTagData; // if launcher is less ambiguous, select it, and vice versa
-	}
-	else // one camera sees an april tag
-	{
-		if (launcherAprilTagData)
-		{
-			selectedData = launcherAprilTagData;
-		}
-
-		else if (placerAprilTagData)
-		{
-			selectedData = placerAprilTagData;
-		}
-	}
-
-	if (selectedData)
-	{
-		// optional of the April Tag's 3D pose
+		/* optional of the April Tag's 3D pose
 		std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(selectedData.value().tagId);
 
 		// get valid value of optionalAprilTagPose
@@ -484,6 +443,7 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 										selectedData.value().tagId);
 			return visionData;
 		}
+		*/
 	}
 
 	return std::nullopt;
@@ -493,17 +453,21 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 {
 	std::vector<VisionPose> estimatedPoses = {};
 
-	if (!m_photonVisionOdometry){
+	if (!m_photonVisionOdometry)
+	{
 
 		// this is for single camera limelight odometry
-		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr){
-			//get the pose from limelight
+		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
+		{
+			// get the pose from limelight
 			DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
 			std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight();
 			return estimatedPose;
 		}
-	} else {
-		//this could be moved into photoncamera later
+	}
+	else
+	{
+		// this could be moved into photoncamera later
 		for (photon::PhotonPoseEstimator estimator : m_poseEstimators)
 		{
 			units::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
@@ -573,13 +537,12 @@ void DragonVision::testAndLogVisionData()
 {
 	try
 	{
-		//std::optional<VisionData> visionData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
+		// std::optional<VisionData> visionData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
 		std::optional<VisionPose> visionPose = GetRobotPosition();
-		//DragonVisionStructLogger::logVisionData("VisionData", visionData);
-		//DragonVisionStructLogger::logVisionPose("VisionPose", visionPose);
+		// DragonVisionStructLogger::logVisionData("VisionData", visionData);
+		// DragonVisionStructLogger::logVisionPose("VisionPose", visionPose);
 
 		DragonField::GetInstance()->UpdateObjectVisionPose("VisionPose", visionPose);
-
 	}
 	catch (std::bad_optional_access &boa)
 	{
