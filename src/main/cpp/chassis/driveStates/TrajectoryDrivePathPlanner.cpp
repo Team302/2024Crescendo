@@ -35,18 +35,13 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_holonomicController(pathplanner::PIDConstants(2.7, 0.5, 0.0),
-                                                                                                       pathplanner::PIDConstants(5.5, 2.5, 0.0),
-                                                                                                       robotDrive->GetChassis()->GetMaxSpeed(),
-                                                                                                       units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
-                                                                                                       units::time::second_t(0.02)),
                                                                                  m_longpathHolonomicController(pathplanner::PIDConstants(0.75, 0.5, 0.0),
                                                                                                                pathplanner::PIDConstants(5.2, 2.5, 0.0),
                                                                                                                robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                                units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                                units::time::second_t(0.02)),
-                                                                                 m_shortpathHolonomicController(pathplanner::PIDConstants(2.5, 0.375, 0.0),
-                                                                                                                pathplanner::PIDConstants(5.2, 2.5, 0.0),
+                                                                                 m_shortpathHolonomicController(pathplanner::PIDConstants(2.7, 0.375, 0.0),
+                                                                                                                pathplanner::PIDConstants(5.5, 2.5, 0.0),
                                                                                                                 robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                                 units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                                 units::time::second_t(0.02)),
@@ -125,7 +120,6 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             refChassisSpeeds = m_shortpathHolonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
         }
 
-        // auto refChassisSpeeds = m_holonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
         if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::IGNORE)
         {
             if (m_firstGen == 1)
@@ -165,7 +159,6 @@ bool TrajectoryDrivePathPlanner::IsDone()
         auto currentTime = m_timer.get()->Get();
         if ((currentTime) / m_totalTrajectoryTime > 0.9)
         {
-            // isDone = m_holonomicController.atReference();
             isDone = IsSamePose(currentPose, m_finalState.getTargetHolonomicPose(), m_chassis->GetChassisSpeeds(), 10.0, 3.0, 1.5);
         }
     }
