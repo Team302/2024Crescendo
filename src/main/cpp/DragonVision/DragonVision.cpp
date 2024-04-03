@@ -415,8 +415,9 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 
 	if (launcherAprilTagData)
 	{
+		return launcherAprilTagData;
 
-				/* optional of the April Tag's 3D pose
+		/* optional of the April Tag's 3D pose
 		std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(selectedData.value().tagId);
 
 		// get valid value of optionalAprilTagPose

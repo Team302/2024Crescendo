@@ -66,24 +66,20 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
             if (data)
             {
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "True");
-                units::angle::degree_t fieldRelativeAngle = units::angle::degree_t(0);
+                auto trans3d = data.value().transformToTarget;
+                auto targetPose = currentPose + trans3d;
+                units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z(); // value is robot to target
+
                 if (item == DragonVision::VISION_ELEMENT::NOTE)
                 {
-                    auto trans3d = data.value().transformToTarget;
-                    auto targetPose = currentPose + trans3d;
-                    units::angle::degree_t robotRelativeAngle = data.value().rotationToTarget.Z(); // value is robot to target
-                    fieldRelativeAngle = robotRelativeAngle;
-
                     if (robotRelativeAngle <= units::angle::degree_t(-90.0)) // Intake for front and back (optimizing movement)
                         robotRelativeAngle += units::angle::degree_t(180.0);
                     else if (robotRelativeAngle >= units::angle::degree_t(90.0))
                         robotRelativeAngle -= units::angle::degree_t(180.0);
+                }
+                units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
-                    fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
-                }
-                else
-                {
-                }
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Based Target", fieldRelativeAngle.value());
 
                 targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, frc::Pose2d(targetPose.X(), targetPose.Y(), fieldRelativeAngle));
 
@@ -128,7 +124,7 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Has Target", "Flase");
                 auto targetPose = pose.value();
                 auto trans = targetPose - currentPose;
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, frc::Pose2d(trans.X(), trans.Y(), trans.Rotation().Z()));
+                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, frc::Pose2d(targetPose.X(), targetPose.Y(), targetPose.Rotation().Z()));
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "ODOMETRY_BASED Target", units::angle::degree_t((targetPose.Rotation().Z())).value());
 
                 return targetInfo;
