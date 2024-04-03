@@ -79,7 +79,9 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
                 }
                 units::angle::degree_t fieldRelativeAngle = chassis->GetPose().Rotation().Degrees() + robotRelativeAngle;
 
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Based Target", fieldRelativeAngle.value());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Vision Based Field Relative Angle", fieldRelativeAngle.value());
+                DragonVisionStructLogger::logPose2d("AlignDebugging-TargetPos", targetPose.ToPose2d());
+                DragonVisionStructLogger::logVisionData("AlignDebugging-Vision Pose", data);
 
                 targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::VISION_BASED, frc::Pose2d(targetPose.X(), targetPose.Y(), fieldRelativeAngle));
 
