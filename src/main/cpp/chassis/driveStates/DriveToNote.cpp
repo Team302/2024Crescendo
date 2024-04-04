@@ -53,6 +53,10 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
         chassisMovement.pathnamegains = ChassisOptionEnums::PathGainsType::LONG;
         TrajectoryDrivePathPlanner::Init(chassisMovement);
     }
+    else
+    {
+        chassisMovement.headingOption = ChassisOptionEnums::MAINTAIN;
+    }
 }
 
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
