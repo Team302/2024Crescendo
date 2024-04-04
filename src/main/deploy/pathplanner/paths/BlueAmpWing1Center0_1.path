@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.53,
-        "y": 6.85
+        "x": 1.4662605074140238,
+        "y": 6.8391285427364
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5346891004179166,
-        "y": 6.85
+        "x": 1.4709496078319404,
+        "y": 6.8391285427364
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9066934025451485,
-        "y": 6.85
-      },
-      "prevControl": {
-        "x": 2.871560892907804,
-        "y": 6.838289163454219
-      },
-      "nextControl": {
-        "x": 2.9418259121824937,
-        "y": 6.861710836545781
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.4851032868970147,
+        "x": 2.8598500563620233,
         "y": 7.003080254377342
       },
       "prevControl": {
-        "x": 2.3451032868970145,
+        "x": 2.8247175467246786,
+        "y": 6.991369417831561
+      },
+      "nextControl": {
+        "x": 2.8949825659993684,
+        "y": 7.014791090923123
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0752240077946618,
+        "y": 7.003080254377342
+      },
+      "prevControl": {
+        "x": 1.9352240077946616,
         "y": 7.003080254377342
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BluAmpWing1Center0_1"
     }
   ],
   "rotationTargets": [
