@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.922373537054768,
+        "x": 2.8927727086223416,
         "y": 5.57
       },
       "prevControl": {
-        "x": 3.1533750805963185,
+        "x": 3.123774252163892,
         "y": 5.555088802485298
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BlueSubwooferWing2Center2_A"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
