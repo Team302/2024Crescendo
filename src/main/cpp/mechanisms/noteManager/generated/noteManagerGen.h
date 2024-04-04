@@ -167,6 +167,7 @@ public:
 	ControlData* getvelocityRPS() const {return velocityRPS;}
 	ControlData* getposDegreeAbs() const {return posDegreeAbs;}
 	ControlData* getpositionInchUp() const {return positionInchUp;}
+	ControlData* getLauncherSafePositionControl() const {return LauncherSafePositionControl;}
 
 	static std::map<std::string, STATE_NAMES> stringToSTATE_NAMESEnumMap;
 
@@ -209,6 +210,7 @@ private:
 	ControlData* velocityRPS;
 	ControlData* posDegreeAbs;
 	ControlData* positionInchUp;
+	ControlData* LauncherSafePositionControl;
 
 	void CheckForTuningEnabled();
 	void ReadTuningParamsFromNT();

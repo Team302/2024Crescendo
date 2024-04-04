@@ -337,6 +337,22 @@ void noteManagerGen::CreateCompBot302()
 	    0, // double nominalValue
 	    false  // bool enableFOC
 	);
+	LauncherSafePositionControl = new ControlData (
+	    ControlModes::CONTROL_TYPE::POSITION_DEGREES, // ControlModes::CONTROL_TYPE mode
+	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
+	    "LauncherSafePositionControl", // std::string indentifier
+	    0.025, // double proportional
+	    2E-06, // double integral
+	    0, // double derivative
+	    0, // double feedforward
+	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
+	    0.5, // double integralZone
+	    0, // double maxAcceleration
+	    0, // double cruiseVelocity
+	    0, // double peakValue
+	    0, // double nominalValue
+	    false  // bool enableFOC
+	);
 
 	m_table = nt::NetworkTableInstance::GetDefault().GetTable ( m_ntName );
 	m_tuningIsEnabledStr = "Enable Tuning for " + m_ntName; // since this string is used every loop, we do not want to create the string every time
@@ -602,6 +618,22 @@ void noteManagerGen::CreatepracticeBot9999()
 	    "positionInchUp", // std::string indentifier
 	    0.3, // double proportional
 	    1E-05, // double integral
+	    0, // double derivative
+	    0, // double feedforward
+	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
+	    0.5, // double integralZone
+	    0, // double maxAcceleration
+	    0, // double cruiseVelocity
+	    0, // double peakValue
+	    0, // double nominalValue
+	    false  // bool enableFOC
+	);
+	LauncherSafePositionControl = new ControlData (
+	    ControlModes::CONTROL_TYPE::POSITION_DEGREES, // ControlModes::CONTROL_TYPE mode
+	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
+	    "LauncherSafePositionControl", // std::string indentifier
+	    0.04, // double proportional
+	    5E-06, // double integral
 	    0, // double derivative
 	    0, // double feedforward
 	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
@@ -1198,6 +1230,11 @@ void noteManagerGen::ReadTuningParamsFromNT()
 	positionInchUp->SetP ( m_table.get()->GetNumber ( "positionInchUp_pGain", 0.3 ) );
 	positionInchUp->SetI ( m_table.get()->GetNumber ( "positionInchUp_iGain", 1E-05 ) );
 	positionInchUp->SetD ( m_table.get()->GetNumber ( "positionInchUp_dGain", 0 ) );
+	LauncherSafePositionControl->SetIZone ( m_table.get()->GetNumber ( "LauncherSafePositionControl_iZone", 0.5 ) );
+	LauncherSafePositionControl->SetF ( m_table.get()->GetNumber ( "LauncherSafePositionControl_fGain", 0 ) );
+	LauncherSafePositionControl->SetP ( m_table.get()->GetNumber ( "LauncherSafePositionControl_pGain", 0.025 ) );
+	LauncherSafePositionControl->SetI ( m_table.get()->GetNumber ( "LauncherSafePositionControl_iGain", 2E-06 ) );
+	LauncherSafePositionControl->SetD ( m_table.get()->GetNumber ( "LauncherSafePositionControl_dGain", 0 ) );
 
 }
 
@@ -1223,5 +1260,10 @@ void noteManagerGen::PushTuningParamsToNT()
 	m_table.get()->PutNumber ( "positionInchUp_pGain", positionInchUp->GetP() );
 	m_table.get()->PutNumber ( "positionInchUp_iGain", positionInchUp->GetI() );
 	m_table.get()->PutNumber ( "positionInchUp_dGain", positionInchUp->GetD() );
+	m_table.get()->PutNumber ( "LauncherSafePositionControl_iZone", LauncherSafePositionControl->GetIZone() );
+	m_table.get()->PutNumber ( "LauncherSafePositionControl_fGain", LauncherSafePositionControl->GetF() );
+	m_table.get()->PutNumber ( "LauncherSafePositionControl_pGain", LauncherSafePositionControl->GetP() );
+	m_table.get()->PutNumber ( "LauncherSafePositionControl_iGain", LauncherSafePositionControl->GetI() );
+	m_table.get()->PutNumber ( "LauncherSafePositionControl_dGain", LauncherSafePositionControl->GetD() );
 
 }
