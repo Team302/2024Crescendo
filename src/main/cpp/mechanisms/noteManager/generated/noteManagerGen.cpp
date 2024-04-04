@@ -65,7 +65,8 @@ std::map<std::string, noteManagerGen::STATE_NAMES> noteManagerGen::stringToSTATE
 	{"STATE_PLACER_TO_LAUNCHER", noteManagerGen::STATE_NAMES::STATE_PLACER_TO_LAUNCHER},
 	{"STATE_BACKUP_MANUAL_LAUNCH", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_LAUNCH},
 	{"STATE_BACKUP_MANUAL_PLACE", noteManagerGen::STATE_NAMES::STATE_BACKUP_MANUAL_PLACE},
-	{"STATE_HOLD_PLACER", noteManagerGen::STATE_NAMES::STATE_HOLD_PLACER},};
+	{"STATE_HOLD_PLACER", noteManagerGen::STATE_NAMES::STATE_HOLD_PLACER},
+	{"STATE_LOW_PASS", noteManagerGen::STATE_NAMES::STATE_LOW_PASS},};
 
 void noteManagerGen::CreateCompBot302()
 {
@@ -313,12 +314,12 @@ void noteManagerGen::CreateCompBot302()
 	    ControlModes::CONTROL_TYPE::POSITION_DEGREES, // ControlModes::CONTROL_TYPE mode
 	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
 	    "posDegreeAbs", // std::string indentifier
-	    0.025, // double proportional
-	    1E-05, // double integral
+	    0.045, // double proportional
+	    5.25E-06, // double integral
 	    0, // double derivative
 	    0, // double feedforward
 	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
-	    2.0, // double integralZone
+	    0.5, // double integralZone
 	    0, // double maxAcceleration
 	    0, // double cruiseVelocity
 	    0, // double peakValue
@@ -826,6 +827,7 @@ void noteManagerGen::InitializeCompBot302()
 //todo create initialization for backupManualLaunch
 //todo create initialization for backupManualPlace
 //todo create initialization for holdPlacer
+//todo create initialization for lowPass
 }
 
 void noteManagerGen::InitializepracticeBot9999()
@@ -1029,6 +1031,7 @@ void noteManagerGen::InitializepracticeBot9999()
 //todo create initialization for backupManualLaunch
 //todo create initialization for backupManualPlace
 //todo create initialization for holdPlacer
+//todo create initialization for lowPass
 }
 
 void noteManagerGen::SetCurrentState ( int state, bool run )
@@ -1247,8 +1250,8 @@ void noteManagerGen::ReadTuningParamsFromNT()
 	velocityRPS->SetD ( m_table.get()->GetNumber ( "velocityRPS_dGain", 0 ) );
 	posDegreeAbs->SetIZone ( m_table.get()->GetNumber ( "posDegreeAbs_iZone", 0.5 ) );
 	posDegreeAbs->SetF ( m_table.get()->GetNumber ( "posDegreeAbs_fGain", 0 ) );
-	posDegreeAbs->SetP ( m_table.get()->GetNumber ( "posDegreeAbs_pGain", 0.025 ) );
-	posDegreeAbs->SetI ( m_table.get()->GetNumber ( "posDegreeAbs_iGain", 2E-06 ) );
+	posDegreeAbs->SetP ( m_table.get()->GetNumber ( "posDegreeAbs_pGain", 0.045 ) );
+	posDegreeAbs->SetI ( m_table.get()->GetNumber ( "posDegreeAbs_iGain", 5.25E-06 ) );
 	posDegreeAbs->SetD ( m_table.get()->GetNumber ( "posDegreeAbs_dGain", 0 ) );
 	positionInchUp->SetIZone ( m_table.get()->GetNumber ( "positionInchUp_iZone", 0.5 ) );
 	positionInchUp->SetF ( m_table.get()->GetNumber ( "positionInchUp_fGain", 0 ) );

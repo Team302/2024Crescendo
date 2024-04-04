@@ -121,7 +121,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 	}
 	else if ((launcherSensor == false) &&
 			 (feederSensor == false) &&
-			 ((currentState == static_cast<int>(m_mechanism->STATE_READY_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH_ODOMETRY))))
+			 ((currentState == static_cast<int>(m_mechanism->STATE_READY_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_LOW_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH_ODOMETRY))))
 	{
 		m_launchTimer->Start();
 		if (m_launchTimer->Get().to<double>() > 0.25)

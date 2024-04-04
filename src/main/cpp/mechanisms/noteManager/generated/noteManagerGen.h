@@ -66,7 +66,8 @@ public:
 		STATE_PLACER_TO_LAUNCHER,
 		STATE_BACKUP_MANUAL_LAUNCH,
 		STATE_BACKUP_MANUAL_PLACE,
-		STATE_HOLD_PLACER
+		STATE_HOLD_PLACER,
+		STATE_LOW_PASS
 	};
 
 	noteManagerGen ( RobotConfigMgr::RobotIdentifier activeRobotId );

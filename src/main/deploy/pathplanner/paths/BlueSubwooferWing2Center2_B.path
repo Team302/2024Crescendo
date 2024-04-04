@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.31,
+        "x": 2.922373537054768,
         "y": 5.57
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3100000000000005,
-        "y": 5.57
+        "x": 3.999770499266668,
+        "y": 5.218674903626556
       },
       "isLocked": false,
       "linkedName": "BlueSubwooferWing2Center2_A"
     },
     {
       "anchor": {
-        "x": 6.5238076629999435,
-        "y": 4.065180438053184
+        "x": 7.253961430999786,
+        "y": 2.3384654461616616
       },
       "prevControl": {
-        "x": 3.761063675973507,
-        "y": 4.6078622926476624
+        "x": 6.908618432621482,
+        "y": 2.900881186377758
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BlueSubwooferWing2Center2_B"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -40,7 +40,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "BlueSubwooferWing2Center2",

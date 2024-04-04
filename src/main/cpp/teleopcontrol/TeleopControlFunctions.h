@@ -64,6 +64,7 @@ public:
         AUTO_LAUNCH,
         MANUAL_LAUNCH,
         PASS,
+        LOW_PASS,
         PREP_PLACE,
         PLACE,
         AUTO_SPEAKER,
