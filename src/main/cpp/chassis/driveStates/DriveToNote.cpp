@@ -47,9 +47,12 @@ DriveToNote::DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *tra
 void DriveToNote::Init(ChassisMovement &chassisMovement)
 {
     m_trajectory = CreateDriveToNote();
-    chassisMovement.pathplannerTrajectory = m_trajectory;
-    chassisMovement.pathnamegains = ChassisOptionEnums::PathGainsType::LONG;
-    TrajectoryDrivePathPlanner::Init(chassisMovement);
+    if (!m_trajectory.getStates().empty())
+    {
+        chassisMovement.pathplannerTrajectory = m_trajectory;
+        chassisMovement.pathnamegains = ChassisOptionEnums::PathGainsType::LONG;
+        TrajectoryDrivePathPlanner::Init(chassisMovement);
+    }
 }
 
 pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
