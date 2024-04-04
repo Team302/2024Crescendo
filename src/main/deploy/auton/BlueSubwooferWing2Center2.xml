@@ -13,10 +13,10 @@ pathname= "BlueSubwooferWing2Center2_A"
 time= "3.0"
 noteOption="STATE_FEEDER_INTAKE"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
+<!-- <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "DRIVE_TO_NOTE"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains= "ShortPath"/>
+pathgains= "ShortPath"/> -->
 
 <snippet file= "ShootWhenStopManual.xml"/>
 
@@ -33,8 +33,7 @@ pathgains= "ShortPath"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_C"
 time= "3.0"
-noteOption="STATE_FEEDER_INTAKE"
-pathgains= "ShortPath"/>
+noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
