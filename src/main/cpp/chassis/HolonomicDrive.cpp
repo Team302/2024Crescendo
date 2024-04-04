@@ -123,6 +123,7 @@ void HolonomicDrive::Run()
         auto isFaceBackward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_BACKWARD);
         auto isSlowMode = controller->IsButtonPressed(TeleopControlFunctions::SLOW_MODE);
         auto checkTipping = controller->IsButtonPressed(TeleopControlFunctions::TIPCORRECTION_TOGGLE);
+        auto isTurnToPassAngle = controller->IsButtonPressed(TeleopControlFunctions::TURN_TO_PASS_ANGLE);
 
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
@@ -159,6 +160,10 @@ void HolonomicDrive::Run()
             else if (isFaceBackward)
             {
                 TurnBackward();
+            }
+            else if (isTurnToPassAngle)
+            {
+                TurnToPassAngle();
             }
             // Switch Drive Modes
             if (isHoldPositionSelected)
@@ -315,6 +320,20 @@ void HolonomicDrive::TurnBackward()
     else
     {
         m_moveInfo.yawAngle = units::angle::degree_t(0.0);
+    }
+}
+
+void HolonomicDrive::TurnToPassAngle()
+{
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
+
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
+    {
+        m_moveInfo.yawAngle = units::angle::degree_t(150.0);
+    }
+    else
+    {
+        m_moveInfo.yawAngle = units::angle::degree_t(-150.0);
     }
 }
 void HolonomicDrive::SlowMode()
