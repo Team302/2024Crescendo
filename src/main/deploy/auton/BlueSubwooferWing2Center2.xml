@@ -18,7 +18,7 @@ pathname= "DRIVE_TO_NOTE"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains= "ShortPath"/> -->
 
-<snippet file= "ShootWhenStopManual.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_B"
