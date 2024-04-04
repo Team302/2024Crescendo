@@ -4322,7 +4322,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </Enabled>
                 <controlDataName>velocityRPS</controlDataName>
               </motorTarget>
@@ -4341,7 +4341,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </Enabled>
                 <controlDataName>velocityRPS</controlDataName>
               </motorTarget>
@@ -4360,7 +4360,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>false</value>
+                  <value>true</value>
                 </Enabled>
                 <controlDataName>posDegreeAbs</controlDataName>
               </motorTarget>
