@@ -53,7 +53,8 @@ private:
     void LogState(pathplanner::PathPlannerTrajectory::State state) const;
     pathplanner::PathPlannerTrajectory m_trajectory;
     RobotDrive *m_robotDrive;
-    pathplanner::PPHolonomicDriveController m_holonomicController;
+    pathplanner::PPHolonomicDriveController m_longpathHolonomicController;
+    pathplanner::PPHolonomicDriveController m_shortpathHolonomicController;
     std::vector<pathplanner::PathPlannerTrajectory::State> m_trajectoryStates;
     pathplanner::PathPlannerTrajectory::State m_finalState;
     frc::Pose2d m_prevPose;

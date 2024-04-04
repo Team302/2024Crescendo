@@ -20,6 +20,7 @@
 // Team302 Includes
 #include "auton/PrimitiveParams.h"
 #include "auton/drivePrimitives/IPrimitive.h"
+#include "chassis/ChassisOptionEnums.h"
 #include "chassis/SwerveChassis.h"
 #include "chassis/driveStates/DriveToNote.h"
 
@@ -47,6 +48,7 @@ private:
     std::unique_ptr<frc::Timer> m_timer;
     pathplanner::PathPlannerTrajectory m_trajectory;
     std::string m_pathname;
+    ChassisOptionEnums::PathGainsType m_pathGainsType;
     units::time::second_t m_maxTime;
     std::string m_ntName;
     bool m_switchedToVisionDrive;

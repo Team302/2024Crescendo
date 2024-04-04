@@ -80,6 +80,10 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
 	m_gamePeriod = RobotStateChanges::GamePeriod::Disabled;
 
+	SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t(0));
+	SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t(0));
+	SetLauncherAngleTarget(units::angle::degree_t(0));
+
 	m_robotState = RobotState::GetInstance();
 
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
