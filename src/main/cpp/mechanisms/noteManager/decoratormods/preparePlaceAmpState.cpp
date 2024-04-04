@@ -56,6 +56,9 @@ void preparePlaceAmpState::Run()
 		m_target += delta;
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
 	}
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Placer Debugging", "Elevator Position (in)", m_mechanism->getElevator()->GetCounts());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Placer Debugging", "Elevator Target", m_target);
 	m_genState->Run();
 }
 
