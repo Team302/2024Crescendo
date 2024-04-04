@@ -72,7 +72,7 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
             DragonVisionStructLogger::logPose2d("current pose", currentPose2d);
             DragonVisionStructLogger::logPose2d("note pose", targetPose);
 
-                        std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+            std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
             auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
                                                               PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
                                                               GoalEndState(1.0_mps, data.Rotation().Degrees(), true));
