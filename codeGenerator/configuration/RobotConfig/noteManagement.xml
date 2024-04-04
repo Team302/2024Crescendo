@@ -2849,7 +2849,7 @@
           <name>stringParameterConstInMechInstance_1</name>
           <__units__ />
           <type>String</type>
-          <value>Ready</value>
+          <value>Initialize</value>
         </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>
@@ -7038,9 +7038,9 @@
         <motorTarget>
           <name>launcherTop</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>angularVelocity</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>rad/s</__units__>
             <type>Double</type>
           </target>
           <motorName>launcherTop</motorName>
@@ -7056,9 +7056,9 @@
         <motorTarget>
           <name>launcherBottom</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>angularVelocity</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>rad/s</__units__>
             <type>Double</type>
           </target>
           <motorName>launcherBottom</motorName>
@@ -7074,9 +7074,9 @@
         <motorTarget>
           <name>launcherAngle</name>
           <target>
-            <unitsFamily>none</unitsFamily>
+            <unitsFamily>angle</unitsFamily>
             <name>Target</name>
-            <__units__ />
+            <__units__>deg</__units__>
             <type>Double</type>
           </target>
           <motorName>launcherAngle</motorName>
@@ -7110,6 +7110,182 @@
         <motorTarget>
           <name>Elevator</name>
           <target>
+            <unitsFamily>length</unitsFamily>
+            <name>Target</name>
+            <__units__>m</__units__>
+            <type>Double</type>
+          </target>
+          <motorName>Elevator</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>positionInch</controlDataName>
+        </motorTarget>
+      </motorTargets>
+    </state>
+    <state>
+      <name>Initialize</name>
+      <transitionsTo>
+        <stringParameterConstInMechInstance>
+          <unitsFamily>none</unitsFamily>
+          <name>stringParameterConstInMechInstance_1</name>
+          <__units__ />
+          <type>String</type>
+          <value>Ready</value>
+        </stringParameterConstInMechInstance>
+      </transitionsTo>
+      <motorTargets>
+        <motorTarget>
+          <name>frontIntake</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>frontIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>theControlData</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>backIntake</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>backIntake</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>theControlData</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>Transfer</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>Transfer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>theControlData</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>Feeder</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>Feeder</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>theControlData</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>launcherTop</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>launcherTop</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>theControlData</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>launcherBottom</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>launcherBottom</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>theControlData</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>launcherAngle</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>launcherAngle</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>theControlData</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>Placer</name>
+          <target>
+            <unitsFamily>none</unitsFamily>
+            <name>Target</name>
+            <__units__ />
+            <type>Double</type>
+          </target>
+          <motorName>Placer</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
+          <controlDataName>theControlData</controlDataName>
+        </motorTarget>
+        <motorTarget>
+          <name>Elevator</name>
+          <target>
             <unitsFamily>none</unitsFamily>
             <name>Target</name>
             <__units__ />
@@ -7123,7 +7299,7 @@
             <type>Boolean</type>
             <value>true</value>
           </Enabled>
-          <controlDataName>positionInch</controlDataName>
+          <controlDataName>theControlData</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>
