@@ -2789,7 +2789,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>2E-06</value>
+                <value>3E-06</value>
               </iGain>
               <dGain>
                 <unitsFamily>none</unitsFamily>
@@ -3226,7 +3226,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -3423,7 +3423,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -3620,7 +3620,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -3817,7 +3817,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -4007,7 +4007,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -5725,7 +5725,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -5919,7 +5919,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -6100,7 +6100,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -6281,7 +6281,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -6471,7 +6471,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                   <value>-1</value>
                 </target>
@@ -7146,7 +7146,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                   <value>500</value>
                 </target>
@@ -7165,7 +7165,7 @@
                 <target>
                   <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
                   <value>500</value>
                 </target>
@@ -7221,7 +7221,7 @@
                 <target>
                   <unitsFamily>length</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>m</__units__>
                   <type>Double</type>
                 </target>
                 <motorName>Elevator</motorName>
