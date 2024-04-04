@@ -23,9 +23,25 @@
         "x": 2.929096301907125,
         "y": 5.561710836545783
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 2.901254914061511,
+        "y": 5.538289163454217
+      },
       "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_A"
+    },
+    {
+      "anchor": {
+        "x": 1.3287569764701164,
+        "y": 5.56072346635434
+      },
+      "prevControl": {
+        "x": 2.1150059452658136,
+        "y": 5.549506314904279
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

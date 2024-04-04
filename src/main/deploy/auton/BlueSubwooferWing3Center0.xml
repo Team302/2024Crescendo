@@ -10,14 +10,9 @@ pathname= "BlueSubwooferWing3Center0_A"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_A"
-time = "1.75"
+time = "3.0"
 noteOption="STATE_FEEDER_INTAKE"
 />
-
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueSubwooferWing3Center0_B"
-time = "1.75"
-noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopManual.xml"/> 
 
