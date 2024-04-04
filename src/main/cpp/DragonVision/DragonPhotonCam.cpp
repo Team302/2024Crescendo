@@ -41,6 +41,11 @@ DragonPhotonCam::DragonPhotonCam(std::string name,
     SetPipeline(initialPipeline);
 }
 
+bool DragonPhotonCam::HealthCheck()
+{
+    return false;
+}
+
 bool DragonPhotonCam::HasTarget()
 {
     photon::PhotonPipelineResult result = m_camera->GetLatestResult();
