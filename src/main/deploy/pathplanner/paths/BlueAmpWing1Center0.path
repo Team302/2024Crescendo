@@ -20,8 +20,8 @@
         "y": 6.85152474630649
       },
       "prevControl": {
-        "x": 1.397223832862508,
-        "y": 6.8577019012864175
+        "x": 1.4836713634371483,
+        "y": 6.853786841549541
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "BlueAmpWing1Center2",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -136.18313704010623,
     "velocity": 0
   },
   "useDefaultConstraints": false
