@@ -32,5 +32,5 @@ public:
 
 private:
     bool m_prevTranslatinOrStrafing = false;
-    frc::PIDController m_controller{5.0, 0.65, 0.0};
+    frc::PIDController m_controller{3.0, 0.25, 0.0};
 };
