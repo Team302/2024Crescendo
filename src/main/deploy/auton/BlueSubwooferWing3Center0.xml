@@ -3,7 +3,7 @@
 
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+<primitive id= "RESET_POSITION_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_A"/>
 
 <snippet file= "ShootWhenStopManual.xml"/>
@@ -23,14 +23,9 @@ noteOption="STATE_FEEDER_INTAKE"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_E"
-time = "1.75"
+time = "3.5"
 noteOption="STATE_FEEDER_INTAKE"
 />
-
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueSubwooferWing3Center0_F"
-time = "1.75"
-noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopManual.xml"/> 
 
