@@ -107,7 +107,9 @@ void noteManager::RunCommonTasks()
 		MonitorForNoteInIntakes();
 
 #ifdef INCLUDE_DATA_TRACE
-	double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
+	// double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
+	double wheelSetTop = GetLauncherAngleTarget().to<double>();
+
 	double wheelSetBottom = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60)).to<double>();
 	double angle = getlauncherAngle()->GetCounts();
 	double launcherTopCurrent = getlauncherTop()->GetCurrent();
@@ -117,7 +119,9 @@ void noteManager::RunCommonTasks()
 	DataTrace::GetInstance()->sendLauncherData(wheelSetTop, wheelSetBottom, angle, launcherTopCurrent, launcherBottomCurrent, theCurrentState, XButton);
 
 	double elevator = getElevator()->GetCounts();
-	DataTrace::GetInstance()->sendElevatorData(elevator);
+	double iState = getElevator()->GetIState();
+
+	DataTrace::GetInstance()->sendElevatorData(elevator, iState);
 
 	if (true)
 	{
@@ -210,11 +214,15 @@ void noteManager::SetCurrentState(int state, bool run)
 
 bool noteManager::HasVisionTarget()
 {
-	std::optional<VisionData> optionalVisionData = DragonVision::GetDragonVision()->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
-	if (optionalVisionData)
+	auto finder = DragonDriveTargetFinder::GetInstance();
+	if (finder != nullptr)
 	{
-		return true;
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto type = get<0>(distinfo);
+		if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && get<1>(distinfo) < units::length::meter_t(5.0))
+			return true;
 	}
+
 	return false;
 }
 
@@ -271,18 +279,18 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 
 	double distanceFromTarget_m = ((GetDistanceFromSpeaker())).to<double>();
 
-	auto transitionInch = 1.5;
+	auto transitionMeters = 1.5;
 
 	// launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
 	// 102 + -43.2x + 5.95x^2
-	launcherAngle = 102 + (-43.2 * distanceFromTarget_m) + (5.95 * distanceFromTarget_m * distanceFromTarget_m);
+	launcherAngle = 101.5 + (-43.2 * distanceFromTarget_m) + (5.95 * distanceFromTarget_m * distanceFromTarget_m);
 
 	// limit the resulting launcher angle
 	launcherAngle = launcherAngle > 55 ? 55 : launcherAngle;
 	launcherAngle = launcherAngle < 20 ? 5 : launcherAngle;
 
-	topLaunchSpeed = distanceFromTarget_m < transitionInch /*inch*/ ? 400 : 500;
-	bottomLaunchSpeed = distanceFromTarget_m < transitionInch /*inch*/ ? 400 : 500;
+	topLaunchSpeed = distanceFromTarget_m < transitionMeters /*inch*/ ? 400 : 550;
+	bottomLaunchSpeed = distanceFromTarget_m < transitionMeters /*inch*/ ? 400 : 550;
 
 	/* keep for tuning purposes
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
@@ -297,9 +305,9 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
 }
 
-units::length::meter_t noteManager::GetDistanceFromSpeaker()
+units::length::meter_t noteManager::GetDistanceFromSpeaker() const
 {
-	auto distanceFromTarget = units::length::meter_t(1.0);
+	auto distanceFromTarget = units::length::meter_t(6.0);
 	auto finder = DragonDriveTargetFinder::GetInstance();
 	if (finder != nullptr)
 	{

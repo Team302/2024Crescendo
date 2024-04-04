@@ -56,6 +56,7 @@ public:
         CLIMB_MODE,
         MANUAL_MODE,
         SCORING_MODE,
+        DRIVE_TO_NOTE,
 
         READY,
         INTAKE,
