@@ -4757,7 +4757,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>367</value>
+                  <value>400</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <Enabled>
@@ -4776,7 +4776,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>388</value>
+                  <value>400</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <Enabled>
@@ -4795,7 +4795,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>30</value>
+                  <value>32.5</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <Enabled>

@@ -9,7 +9,8 @@
 <primitive id= "DRIVE_PATH_PLANNER"
     pathname= "BlueAmpWing1Center0"
     time= "1.0"
-noteOption="STATE_READY_AUTO_LAUNCH"/>
+noteOption="STATE_READY_AUTO_LAUNCH"
+/>
 <!-- visionAligment = "SPEAKER"/> -->
 
 <snippet file= "ShootWhenStopAuto.xml"/>
@@ -17,7 +18,8 @@ noteOption="STATE_READY_AUTO_LAUNCH"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing1Center0_1"
 time= "1.2"
-noteOption="STATE_FEEDER_INTAKE"/>
+noteOption="STATE_FEEDER_INTAKE"
+pathgains = "ShortPath"/>
 <!--visionAligment = "SPEAKER"/>-->
 
 <snippet file= "ShootWhenStopAuto.xml"/>
