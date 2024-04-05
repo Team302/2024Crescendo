@@ -3,20 +3,26 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER"
-        pathname= "BlueAmpWing1Center0"
+        pathname= "BlueAmpWing3Center3_A"
         noteOption="STATE_HOLD_FEEDER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    pathname= "BlueAmpWing1Center0"
-    time= "1.0"
+    pathname= "BlueAmpWing3Center3_A"
+    time= "0.25"
 noteOption="STATE_HOLD_FEEDER"
+/>
+
+<primitive id= "DO_NOTHING"
+    pathname= "BlueAmpWing3Center3_A"
+    time= "0.25"
+noteOption="STATE_READY_AUTO_LAUNCH"
 />
 <!-- visionAligment = "SPEAKER"/> -->
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing1Center0_1"
+pathname= "BlueAmpWing3Center3_B"
 time= "2.5"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"/>
@@ -25,16 +31,16 @@ pathgains = "ShortPath"/>
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing1Center1_1B"
-time= "5.1"
+pathname= "BlueAmpWing3Center3_C"
+time= "6.5"
 noteOption="STATE_FEEDER_INTAKE"/>
 <!--visionAligment = "SPEAKER"/>-->
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueAmpWing1Center0_1C"
-time= "5.6"
+pathname= "BlueAmpWing3Center3_D"
+time= "5.5"
 noteOption="STATE_FEEDER_INTAKE"/>
 <!--visionAligment = "SPEAKER"/>-->
 

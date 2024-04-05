@@ -7186,7 +7186,6 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>5</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <Enabled>
