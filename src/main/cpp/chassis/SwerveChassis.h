@@ -167,4 +167,6 @@ private:
     std::string m_networkTableName;
     bool m_isRotating = false;
     DragonVision *m_vision;
+
+    const units::length::meter_t m_visionUpdateTol = units::length::meter_t(2.0);
 };
