@@ -326,128 +326,129 @@ void SwerveChassis::UpdateOdometry()
         }
         LogInformation();
     }
+}
 
-    //==================================================================================
-    double SwerveChassis::GetEncoderValues(SwerveModule * motor)
+//==================================================================================
+double SwerveChassis::GetEncoderValues(SwerveModule *motor)
+{
+    return motor->GetEncoderValues();
+}
+
+//==================================================================================
+/// @brief Provide the current chassis speed information
+ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
+{
+    return m_kinematics.ToChassisSpeeds({m_frontLeft->GetState(),
+                                         m_frontRight->GetState(),
+                                         m_backLeft->GetState(),
+                                         m_backRight->GetState()});
+}
+
+//==================================================================================
+void SwerveChassis::ResetPose(const Pose2d &pose)
+{
+    ZeroAlignSwerveModules();
+    Rotation2d rot2d{GetYaw()};
+
+    m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
+}
+//=================================================================================
+void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
+{
+    m_pigeon->SetYaw(newYaw);
+}
+
+//==================================================================================
+void SwerveChassis::ResetYaw()
+{
+    m_pigeon->Reset();
+    ZeroAlignSwerveModules();
+}
+
+//==================================================================================
+void SwerveChassis::SetStoredHeading(units::angle::degree_t heading)
+{
+    m_storedYaw = heading;
+}
+
+//==================================================================================
+void SwerveChassis::SetTargetHeading(units::angle::degree_t targetYaw)
+{
+    m_targetHeading = targetYaw;
+}
+
+//==================================================================================
+units::length::inch_t SwerveChassis::GetWheelDiameter() const
+{
+    return m_wheelDiameter;
+}
+
+//==================================================================================
+units::velocity::meters_per_second_t SwerveChassis::GetMaxSpeed() const
+{
+    return m_maxSpeed;
+}
+
+//==================================================================================
+units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed() const
+{
+    units::length::meter_t circumference = std::numbers::pi * m_wheelBase * .707 * 2.0;
+    auto angSpeed = units::angular_velocity::turns_per_second_t(GetMaxSpeed().to<double>() / circumference.to<double>());
+    units::angular_velocity::radians_per_second_t retval = angSpeed;
+    return retval;
+}
+
+//==================================================================================
+void SwerveChassis::LogInformation()
+{
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vx"), m_drive.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vy"), m_steer.to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Omega"), m_rotate.to<double>());
+    auto pose = GetPose();
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current x position"), pose.X().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current y position"), pose.Y().to<double>());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current rotation position"), pose.Rotation().Degrees().to<double>());
+}
+
+//==================================================================================
+void SwerveChassis::ReadConstants(string configfilename)
+{
+    auto deployDir = frc::filesystem::GetDeployDirectory();
+    auto filename = deployDir + string("/chassis/") + configfilename;
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(filename.c_str());
+
+    if (result)
     {
-        return motor->GetEncoderValues();
-    }
-
-    //==================================================================================
-    /// @brief Provide the current chassis speed information
-    ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
-    {
-        return m_kinematics.ToChassisSpeeds({m_frontLeft->GetState(),
-                                             m_frontRight->GetState(),
-                                             m_backLeft->GetState(),
-                                             m_backRight->GetState()});
-    }
-
-    //==================================================================================
-    void SwerveChassis::ResetPose(const Pose2d &pose)
-    {
-        ZeroAlignSwerveModules();
-        Rotation2d rot2d{GetYaw()};
-
-        m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
-    }
-    //=================================================================================
-    void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
-    {
-        m_pigeon->SetYaw(newYaw);
-    }
-
-    //==================================================================================
-    void SwerveChassis::ResetYaw()
-    {
-        m_pigeon->Reset();
-        ZeroAlignSwerveModules();
-    }
-
-    //==================================================================================
-    void SwerveChassis::SetStoredHeading(units::angle::degree_t heading)
-    {
-        m_storedYaw = heading;
-    }
-
-    //==================================================================================
-    void SwerveChassis::SetTargetHeading(units::angle::degree_t targetYaw)
-    {
-        m_targetHeading = targetYaw;
-    }
-
-    //==================================================================================
-    units::length::inch_t SwerveChassis::GetWheelDiameter() const
-    {
-        return m_wheelDiameter;
-    }
-
-    //==================================================================================
-    units::velocity::meters_per_second_t SwerveChassis::GetMaxSpeed() const
-    {
-        return m_maxSpeed;
-    }
-
-    //==================================================================================
-    units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed() const
-    {
-        units::length::meter_t circumference = std::numbers::pi * m_wheelBase * .707 * 2.0;
-        auto angSpeed = units::angular_velocity::turns_per_second_t(GetMaxSpeed().to<double>() / circumference.to<double>());
-        units::angular_velocity::radians_per_second_t retval = angSpeed;
-        return retval;
-    }
-
-    //==================================================================================
-    void SwerveChassis::LogInformation()
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vx"), m_drive.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vy"), m_steer.to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Omega"), m_rotate.to<double>());
-        auto pose = GetPose();
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current x position"), pose.X().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current y position"), pose.Y().to<double>());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current rotation position"), pose.Rotation().Degrees().to<double>());
-    }
-
-    //==================================================================================
-    void SwerveChassis::ReadConstants(string configfilename)
-    {
-        auto deployDir = frc::filesystem::GetDeployDirectory();
-        auto filename = deployDir + string("/chassis/") + configfilename;
-        pugi::xml_document doc;
-        pugi::xml_parse_result result = doc.load_file(filename.c_str());
-
-        if (result)
+        pugi::xml_node parent = doc.root();
+        for (pugi::xml_node swervemod = parent.first_child(); swervemod; swervemod = swervemod.next_sibling())
         {
-            pugi::xml_node parent = doc.root();
-            for (pugi::xml_node swervemod = parent.first_child(); swervemod; swervemod = swervemod.next_sibling())
+            for (pugi::xml_node control = swervemod.first_child(); swervemod; swervemod = swervemod.next_sibling())
             {
-                for (pugi::xml_node control = swervemod.first_child(); swervemod; swervemod = swervemod.next_sibling())
+                for (pugi::xml_attribute attr = control.first_attribute(); attr; attr = attr.next_attribute())
                 {
-                    for (pugi::xml_attribute attr = control.first_attribute(); attr; attr = attr.next_attribute())
+                    if (strcmp(attr.name(), "wheelbase") == 0)
                     {
-                        if (strcmp(attr.name(), "wheelbase") == 0)
-                        {
-                            m_wheelBase = units::length::inch_t(attr.as_double());
-                        }
-                        else if (strcmp(attr.name(), "track") == 0)
-                        {
-                            m_track = units::length::inch_t(attr.as_double());
-                        }
-                        else if (strcmp(attr.name(), "wheeldiameter") == 0)
-                        {
-                            m_wheelDiameter = units::length::inch_t(attr.as_double());
-                        }
-                        else if (strcmp(attr.name(), "maxspeed") == 0)
-                        {
-                            m_maxSpeed = units::velocity::feet_per_second_t(attr.as_double() / 12.0);
-                        }
+                        m_wheelBase = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "track") == 0)
+                    {
+                        m_track = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "wheeldiameter") == 0)
+                    {
+                        m_wheelDiameter = units::length::inch_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "maxspeed") == 0)
+                    {
+                        m_maxSpeed = units::velocity::feet_per_second_t(attr.as_double() / 12.0);
                     }
                 }
             }
         }
-        else
-        {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
-        }
     }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
+    }
+}
