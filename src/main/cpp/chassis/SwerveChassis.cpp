@@ -300,7 +300,19 @@ void SwerveChassis::UpdateOdometry()
             wpi::array<double, 3> visionMeasurementStdDevs = visionPose.value().visionMeasurementStdDevs;
             units::length::meter_t poseDifference = chassisPose2d.Translation().Distance(visionPose2d.Translation());
 
-            if ((visionMeasurementStdDevs[0] == 0.5) || (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0) || (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0) && !frc::DriverStation::IsTeleopEnabled())
+            auto addVision = false;
+            auto finder = DragonDriveTargetFinder::GetInstance()->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
+            if (get<0>(finder) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+            {
+                addVision = get<1>(finder) < units::length::meter_t(3.0);
+            }
+            else if (!frc::DriverStation::IsTeleopEnabled())
+            {
+                addVision = ((visionMeasurementStdDevs[0] == 0.5) ||
+                             (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0) ||
+                             (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0));
+            }
+            if (addVision)
             {
 
                 m_poseEstimator.AddVisionMeasurement(visionPose.value().estimatedPose.ToPose2d(),
