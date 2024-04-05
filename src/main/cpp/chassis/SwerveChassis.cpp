@@ -25,11 +25,12 @@
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
+#include "chassis/driveStates/DriveToNote.h"
 #include "chassis/driveStates/FieldDrive.h"
 #include "chassis/driveStates/HoldDrive.h"
 #include "chassis/driveStates/RobotDrive.h"
-#include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/StageDrive.h"
+#include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/headingStates/FaceAmp.h"
 #include "chassis/headingStates/FaceCenterStage.h"
@@ -44,10 +45,7 @@
 #include "chassis/headingStates/SpecifiedHeading.h"
 #include "chassis/LogChassisMovement.h"
 #include "chassis/SwerveChassis.h"
-#include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
-#include "chassis/driveStates/DriveToNote.h"
-#include "utils/FMSData.h"
 
 // Third Party Includes
 #include "pugixml/pugixml.hpp"
