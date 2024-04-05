@@ -316,6 +316,13 @@ void SwerveChassis::UpdateOdometry()
                     addVision = true;
                 }
             }
+            if (addVision)
+            {
+
+                m_poseEstimator.AddVisionMeasurement(visionPose.value().estimatedPose.ToPose2d(),
+                                                     visionPose.value().timeStamp,
+                                                     visionPose.value().visionMeasurementStdDevs);
+            }
         }
         LogInformation();
     }
