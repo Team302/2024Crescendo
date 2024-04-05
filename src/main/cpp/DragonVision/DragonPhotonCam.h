@@ -34,6 +34,7 @@ public:
 
     DragonPhotonCam() = delete;
 
+    bool HealthCheck();
     bool HasTarget();
 
     std::optional<units::angle::degree_t> GetTargetYaw();

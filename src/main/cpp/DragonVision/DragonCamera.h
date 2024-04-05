@@ -49,6 +49,7 @@ public:
     DragonCamera() = delete;
 
     virtual bool HasTarget() = 0;
+    virtual bool HealthCheck() = 0;
 
     // Getters
 

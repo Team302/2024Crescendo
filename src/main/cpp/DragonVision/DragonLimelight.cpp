@@ -74,24 +74,25 @@ bool DragonLimelight::HealthCheck()
     auto nt = m_networktable.get();
     if (nt != nullptr)
     {
-        double currentHb = nt->GetNumber("hb", -1);
-        // check if heartbeat has ever been set and network table is not 0
-        if (m_lastHeartbeat == -2 && currentHb != -1)
-        {
-            m_lastHeartbeat = currentHb;
-        }
-        else if (currentHb == -1)
+
+        double currentHb = nt->GetNumber("hb", START_HB);
+        // check if heartbeat has ever been set and network table is not default
+        if (currentHb == START_HB)
         {
             return false;
         }
-        else
+        else if (m_lastHeartbeat != currentHb)
         {
-            if (currentHb != m_lastHeartbeat)
-            {
-                m_lastHeartbeat = currentHb;
-                return true;
-            }
+            m_lastHeartbeat = currentHb;
+            m_repeatingHeartbeat = 0; // reset when we see a new heartbeat
+            return true;
         }
+        else if (m_repeatingHeartbeat < 10) //repeats on the same heartbeat before it's considered dead
+        {
+            m_repeatingHeartbeat++;
+            return true;
+        }
+        
     }
     return false;
 }

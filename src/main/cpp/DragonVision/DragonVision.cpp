@@ -284,6 +284,10 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	// double check selectedCam is not nullptr
 	if (selectedCam != nullptr)
 	{
+		if (!selectedCam->HealthCheck()){
+			return std::nullopt;
+		}
+
 		// create translation using 3 estimated distances
 		if (selectedCam->EstimateTargetXDistance_RelToRobotCoords().has_value() || selectedCam->EstimateTargetZDistance_RelToRobotCoords().has_value() || selectedCam->EstimateTargetYDistance_RelToRobotCoords().has_value())
 		{
@@ -409,6 +413,11 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
 	{
+		if (!m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->HealthCheck())
+		{
+			return std::nullopt;
+		}
+
 		// get the optional of the translation and rotation to the apriltag
 		launcherAprilTagData = m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetDataToSpecifiedTag(idToSearch);
 	}
@@ -459,6 +468,12 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 		// this is for single camera limelight odometry
 		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
 		{
+			if (!m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->HealthCheck())
+			{
+				return std::nullopt;
+			}
+
+
 			// get the pose from limelight
 			DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
 			std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight();
