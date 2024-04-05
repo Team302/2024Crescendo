@@ -6,7 +6,7 @@
         pathname= "BluePodiumWing0Center0"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    pathname= "BlueAmpWing1Center0"
+    pathname= "BluePodiumWing0Center0"
     time= "5.0"
 noteOption="STATE_READY"/>
 

@@ -4616,7 +4616,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>50</value>
+                  <value>55</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <Enabled>
@@ -5161,7 +5161,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>50</value>
+                  <value>55</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <Enabled>

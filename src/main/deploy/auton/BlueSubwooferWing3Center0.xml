@@ -28,7 +28,7 @@ pathgains = "ShortPath"
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_C"
-time = "3.55"
+time = "3.65"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"/>
 
