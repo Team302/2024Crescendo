@@ -103,8 +103,9 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	int reason = 0;
 
-	if (m_mechanism->IsEnabled() && (currentState == static_cast<int>(m_mechanism->STATE_OFF)))
+	if ((currentState == static_cast<int>(m_mechanism->STATE_INITIALIZE)) && (m_mechanism->getlauncherAngle()->IsReverseLimitSwitchClosed()))
 	{
+		m_mechanism->getlauncherAngle()->SetSelectedSensorPosition(0);
 		transition = true;
 		reason = 1;
 	}

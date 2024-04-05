@@ -28,6 +28,7 @@ noteOption="STATE_FEEDER_INTAKE"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "DRIVE_TO_NOTE"
 noteOption="STATE_FEEDER_INTAKE"
+time="2.0"
 pathgains= "ShortPath"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"

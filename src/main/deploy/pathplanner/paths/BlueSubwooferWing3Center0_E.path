@@ -8,24 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1806215367066955,
-        "y": 5.264743935964335
+        "x": 1.610253078506736,
+        "y": 4.509478009479746
       },
       "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_B"
     },
     {
       "anchor": {
-        "x": 2.8012958736331153,
-        "y": 3.911419406291023
+        "x": 2.8520036200952035,
+        "y": 4.1087355246903785
       },
       "prevControl": {
-        "x": 1.4386915571763095,
-        "y": 3.6668494007731383
+        "x": 2.91690453774865,
+        "y": 3.945969193264234
+      },
+      "nextControl": {
+        "x": 2.6470467902596684,
+        "y": 4.622750926925465
+      },
+      "isLocked": false,
+      "linkedName": "BlueSubwooferWing3Center0_E"
+    },
+    {
+      "anchor": {
+        "x": 1.3066045157336266,
+        "y": 5.487560520802465
+      },
+      "prevControl": {
+        "x": 2.691604327309494,
+        "y": 4.688804217000072
       },
       "nextControl": null,
-      "isLocked": true,
-      "linkedName": "BlueSubwooferWing3Center0_E"
+      "isLocked": false,
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

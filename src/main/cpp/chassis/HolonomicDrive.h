@@ -50,6 +50,8 @@ private:
     void AlignToSpeaker();
     void AlignToAmp();
     void AlignToStage();
+    void TurnToPassAngle();
+
     void DriveToGamePiece(double forward, double strafe, double rot);
 
     SwerveChassis *m_swerve;

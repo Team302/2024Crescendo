@@ -25,11 +25,12 @@
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
+#include "chassis/driveStates/DriveToNote.h"
 #include "chassis/driveStates/FieldDrive.h"
 #include "chassis/driveStates/HoldDrive.h"
 #include "chassis/driveStates/RobotDrive.h"
-#include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/StageDrive.h"
+#include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/headingStates/FaceAmp.h"
 #include "chassis/headingStates/FaceCenterStage.h"
@@ -44,9 +45,7 @@
 #include "chassis/headingStates/SpecifiedHeading.h"
 #include "chassis/LogChassisMovement.h"
 #include "chassis/SwerveChassis.h"
-#include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
-#include "chassis/driveStates/DriveToNote.h"
 
 // Third Party Includes
 #include "pugixml/pugixml.hpp"
@@ -301,7 +300,7 @@ void SwerveChassis::UpdateOdometry()
             wpi::array<double, 3> visionMeasurementStdDevs = visionPose.value().visionMeasurementStdDevs;
             units::length::meter_t poseDifference = chassisPose2d.Translation().Distance(visionPose2d.Translation());
 
-            if ((visionMeasurementStdDevs[0] == 0.5) || (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0) || (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0))
+            if ((visionMeasurementStdDevs[0] == 0.5) || (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0) || (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0) && !frc::DriverStation::IsTeleopEnabled())
             {
 
                 m_poseEstimator.AddVisionMeasurement(visionPose.value().estimatedPose.ToPose2d(),

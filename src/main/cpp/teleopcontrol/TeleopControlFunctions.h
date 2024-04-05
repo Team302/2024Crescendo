@@ -58,6 +58,7 @@ public:
         SCORING_MODE,
         DRIVE_TO_NOTE,
 
+        TURN_TO_PASS_ANGLE,
         READY,
         INTAKE,
         EXPEL,

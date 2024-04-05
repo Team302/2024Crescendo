@@ -186,6 +186,7 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::PLACE, copilotRBumper},
     {TeleopControlFunctions::AUTO_TURN_BACKWARD, driverXButton},
     {TeleopControlFunctions::AUTO_SPEAKER, driverLStickPressed},
+    {TeleopControlFunctions::TURN_TO_PASS_ANGLE, copilotDPad90},
 
     {TeleopControlFunctions::AUTO_AMP, driverAButton},
     // {TeleopControlFunctions::AUTO_STAGE, driverBButton},

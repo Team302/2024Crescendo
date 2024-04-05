@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.639899851228273,
-        "y": 4.1632860408577965
+        "x": 8.281967377058862,
+        "y": 4.122214464115091
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.2734134039696645,
-        "y": 4.280561703980552
+        "x": 4.581343028591905,
+        "y": 3.4664076175513263
       },
       "isLocked": false,
-      "linkedName": "bluepodiumwing1center2_dEnd"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.623208389273922,
-        "y": 5.08683188794949
+        "x": 2.9066934025451485,
+        "y": 5.5040931765173085
       },
       "prevControl": {
-        "x": 5.616894662360755,
-        "y": 4.148626582967451
+        "x": 3.9255361820281403,
+        "y": 5.3635631379679305
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 166.5042667192041,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
