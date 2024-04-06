@@ -4,12 +4,12 @@
 
 <primitive id= "RESET_POSITION_PATH_PLANNER"
         pathname= "BlueAmpWing1Center0"
-        noteOption="STATE_READY_AUTO_LAUNCH"/>
+        noteOption="STATE_HOLD_FEEDER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
     pathname= "BlueAmpWing1Center0"
     time= "1.0"
-noteOption="STATE_READY_AUTO_LAUNCH"
+noteOption="STATE_HOLD_FEEDER"
 />
 <!-- visionAligment = "SPEAKER"/> -->
 
@@ -17,7 +17,7 @@ noteOption="STATE_READY_AUTO_LAUNCH"
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing1Center0_1"
-time= "2.3"
+time= "2.5"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"/>
 <!--visionAligment = "SPEAKER"/>-->

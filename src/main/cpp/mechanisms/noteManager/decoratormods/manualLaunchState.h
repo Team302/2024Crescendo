@@ -45,6 +45,6 @@ namespace noteManagerStates
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
 		double m_targetSpeed = 400;	 // Radians per Second
-		double m_targetAngle = 50.0; //  Degrees
+		double m_targetAngle = 55.0; //  Degrees
 	};
 }

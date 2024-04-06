@@ -3,108 +3,108 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4662605074140238,
-        "y": 6.8391285427364
+        "x": 1.5336201664769746,
+        "y": 6.85152474630649
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4709263415483909,
-        "y": 6.839595077365212
+        "x": 1.5382860006113417,
+        "y": 6.851991280935302
       },
       "isLocked": false,
-      "linkedName": "BluAmpWing1Center0_1"
+      "linkedName": "BlueAmpWing3Center3_A"
     },
     {
       "anchor": {
-        "x": 5.190306528972544,
-        "y": 7.237296985292972
+        "x": 5.823254723432524,
+        "y": 6.571383911998593
       },
       "prevControl": {
-        "x": 3.6037818910867294,
-        "y": 7.156279407048737
+        "x": 5.321220796052073,
+        "y": 6.900843676842014
       },
       "nextControl": {
-        "x": 7.167159640448635,
-        "y": 7.338247104699754
+        "x": 7.717707743107795,
+        "y": 5.3281491178366975
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.28012348332389,
-        "y": 7.459408764971376
+        "x": 8.230788769269848,
+        "y": 5.79664060091479
       },
       "prevControl": {
-        "x": 8.307155869043592,
-        "y": 7.458396340484143
+        "x": 8.094392435655381,
+        "y": 5.802817755894718
       },
       "nextControl": {
-        "x": 8.25309109760419,
-        "y": 7.460421189458609
+        "x": 8.367185102884314,
+        "y": 5.790463445934862
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.190306528972544,
-        "y": 7.237296985292972
+        "x": 4.915495984838125,
+        "y": 4.223051523026124
       },
       "prevControl": {
-        "x": 7.122112634167423,
-        "y": 7.338651880971497
+        "x": 5.945264380500299,
+        "y": 3.9067174406985288
       },
       "nextControl": {
-        "x": 3.6278614424041704,
-        "y": 7.155321129472501
+        "x": 3.4058537347843933,
+        "y": 4.686797835134132
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.004958988519973,
-        "y": 6.710309340732804
+        "x": 2.3204900255954373,
+        "y": 5.535354916863679
       },
       "prevControl": {
-        "x": 1.868562654905506,
-        "y": 6.716486495712732
+        "x": 3.1690471073249853,
+        "y": 5.762294601512281
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BlueAmpWing1Center1_1B"
+      "linkedName": "BlueAmpWing3Center3_C"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.1,
       "rotationDegrees": 180.0,
-      "rotateFast": false
+      "rotateFast": true
     },
     {
-      "waypointRelativePos": 2,
+      "waypointRelativePos": 0.6,
       "rotationDegrees": 180.0,
-      "rotateFast": false
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.65,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -153.43494882292202,
+    "rotation": 180.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "BlueAmpWing1Center2",
+  "folder": "BlueAmpWing3Center3",
   "previewStartingState": {
-    "rotation": -146.58,
+    "rotation": -157.27,
     "velocity": 0
   },
   "useDefaultConstraints": false
