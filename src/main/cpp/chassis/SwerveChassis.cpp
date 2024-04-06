@@ -291,6 +291,7 @@ void SwerveChassis::UpdateOdometry()
     if (m_vision != nullptr)
     {
         std::optional<VisionPose> visionPose = m_vision->GetRobotPosition();
+        ///@TODO: use m_vision->GetRobotPositionMegaTag2() instead of GetRobotPosition() when ready
         if (visionPose)
         {
 

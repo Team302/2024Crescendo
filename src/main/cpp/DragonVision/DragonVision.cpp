@@ -30,6 +30,7 @@
 #include "utils/DragonField.h"
 #include <string>
 // Third Party Includes
+#include "Limelight/LimelightHelpers.h"
 
 DragonVision *DragonVision::m_dragonVision = nullptr;
 DragonVision *DragonVision::GetDragonVision()
@@ -284,7 +285,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	// double check selectedCam is not nullptr
 	if (selectedCam != nullptr)
 	{
-		if (!selectedCam->HealthCheck()){
+		if (!selectedCam->HealthCheck())
+		{
 			return std::nullopt;
 		}
 
@@ -473,10 +475,9 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 				return std::nullopt;
 			}
 
-
 			// get the pose from limelight
 			DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
-			std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight();
+			std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight(false); // false since megatag1
 			return estimatedPose;
 		}
 	}
@@ -528,6 +529,36 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 
 	// if we aren't able to calculate our pose from vision, return a null optional
 	return std::nullopt;
+}
+
+std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::degree_t yaw,
+																 units::angular_velocity::degrees_per_second_t yawRate,
+																 units::angle::degree_t pitch,
+																 units::angular_velocity::degrees_per_second_t pitchRate,
+																 units::angle::degree_t roll,
+																 units::angular_velocity::degrees_per_second_t rollRate)
+{
+	// this is for single camera limelight odometry
+	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
+	{
+		if (!m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->HealthCheck())
+		{
+			return std::nullopt;
+		}
+
+		// get the pose from limelight
+		LimelightHelpers::SetRobotOrientation(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetCameraName(),
+											  yaw.value(),
+											  yawRate.value(),
+											  pitch.value(),
+											  pitchRate.value(),
+											  roll.value(),
+											  rollRate.value());
+
+		DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
+		std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight(true); // true since megatag2
+		return estimatedPose;
+	}
 }
 
 bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, RobotElementNames::CAMERA_USAGE position)

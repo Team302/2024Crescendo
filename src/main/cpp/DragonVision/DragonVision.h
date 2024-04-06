@@ -70,6 +70,10 @@ public:
     /// @return std::optional<VisionPose> - the estimated position, timestamp of estimation, and confidence as array of std devs
     std::optional<VisionPose> GetRobotPosition();
 
+    /// @brief gets the field position of the robot (Limelight only) (right blue driverstation origin)
+    /// @return std::optional<VisionPose> - the estimated position, timestamp of estimation, and confidence as array of std devs
+    std::optional<VisionPose> GetRobotPositionMegaTag2(units::angle::degree_t yaw, units::angular_velocity::degrees_per_second_t yawRate, units::angle::degree_t pitch, units::angular_velocity::degrees_per_second_t pitchRate, units::angle::degree_t roll, units::angular_velocity::degrees_per_second_t rollRate);
+
     /// @brief gets the distances and angles to the specified field element based on AprilTag readings or detections
     /// @param element the specified game element to get data to
     /// @return std::optional<VisionData> - a transform containg x, y, z distances and yaw, pitch, roll to target, and AprilTag Id
