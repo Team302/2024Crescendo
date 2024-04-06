@@ -15,7 +15,7 @@ noteOption="STATE_HOLD_FEEDER"
 <primitive id= "DO_NOTHING"
     pathname= "BlueAmpWing3Center3_A"
     time= "0.25"
-noteOption="STATE_READY_AUTO_LAUNCH"
+noteOption="STATE_READY"
 />
 <!-- visionAligment = "SPEAKER"/> -->
 
