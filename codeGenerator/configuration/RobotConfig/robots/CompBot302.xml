@@ -7326,6 +7326,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>165</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <Enabled>
@@ -7344,6 +7345,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>165</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <Enabled>
