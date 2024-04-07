@@ -54,7 +54,9 @@ private:
     void InitializeDriveteamFeedback();
     void InitializeDataTracing();
     void UpdateDriveTeamFeedback();
+    void LogDiagnosticData();
     void LogSensorData();
+    void LogMotorData();
 
     TeleopControl *m_controller;
     SwerveChassis *m_chassis;

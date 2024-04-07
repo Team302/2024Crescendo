@@ -366,3 +366,13 @@ Logger::Logger() : m_option(LOGGER_OPTION::DASHBOARD),
                    m_levelChooser()
 {
 }
+
+/// @brief log a message
+/// @param [in] std::string: network table name or classname to group messages.
+/// @param [in] std::string: message identifier: within a grouping multiple messages may be displayed this is the prefix/look up key
+/// @param [in] double: value to display
+void Logger::LogDataDirectlyOverNT(const string &group, const string &identifier, double value) const
+{
+    auto table = nt::NetworkTableInstance::GetDefault().GetTable(group);
+    table.get()->PutNumber(identifier, value);
+}
