@@ -2975,7 +2975,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -2993,7 +2993,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3186,7 +3186,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3205,7 +3205,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3383,7 +3383,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3402,7 +3402,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3580,7 +3580,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3599,7 +3599,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3777,7 +3777,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3796,7 +3796,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3967,7 +3967,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -3986,7 +3986,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4181,7 +4181,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4200,7 +4200,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4388,7 +4388,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4407,7 +4407,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4574,7 +4574,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4593,7 +4593,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4753,7 +4753,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4772,7 +4772,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4936,7 +4936,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -4955,7 +4955,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5119,7 +5119,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5138,7 +5138,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5312,7 +5312,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5331,7 +5331,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5491,7 +5491,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5510,7 +5510,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5685,7 +5685,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5704,7 +5704,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5879,7 +5879,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -5898,7 +5898,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6060,7 +6060,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6079,7 +6079,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6241,7 +6241,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6260,7 +6260,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6431,7 +6431,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6450,7 +6450,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6617,7 +6617,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6636,7 +6636,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6802,7 +6802,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6821,7 +6821,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6965,7 +6965,7 @@
               <motorTarget>
                 <name>launcherTop</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
@@ -6984,7 +6984,7 @@
               <motorTarget>
                 <name>launcherBottom</name>
                 <target>
-                  <unitsFamily>none</unitsFamily>
+                  <unitsFamily>angularVelocity</unitsFamily>
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
