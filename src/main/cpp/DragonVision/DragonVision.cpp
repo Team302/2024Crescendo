@@ -31,7 +31,7 @@
 #include <string>
 // Third Party Includes
 #include "Limelight/LimelightHelpers.h"
-
+using namespace std;
 DragonVision *DragonVision::m_dragonVision = nullptr;
 DragonVision *DragonVision::GetDragonVision()
 {
@@ -532,7 +532,7 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 }
 
 std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::degree_t yaw,
-																 units::angular_velocity::degrees_per_second_t yawRate,
+																 units::velocity::degrees_per_second_t yawRate,
 																 units::angle::degree_t pitch,
 																 units::angular_velocity::degrees_per_second_t pitchRate,
 																 units::angle::degree_t roll,
