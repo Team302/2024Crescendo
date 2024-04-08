@@ -31,7 +31,6 @@
 #include <string>
 // Third Party Includes
 #include "Limelight/LimelightHelpers.h"
-using namespace std;
 DragonVision *DragonVision::m_dragonVision = nullptr;
 DragonVision *DragonVision::GetDragonVision()
 {
@@ -59,6 +58,7 @@ DragonVision::DragonVision()
 void DragonVision::AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USAGE position)
 {
 	m_dragonCameraMap[position] = camera;
+	
 
 	// check if we should add camera to photon pose estimator
 	if ((position == RobotElementNames::CAMERA_USAGE::LAUNCHE) || (position == RobotElementNames::CAMERA_USAGE::PLACER))
@@ -532,7 +532,7 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 }
 
 std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::degree_t yaw,
-																 units::velocity::degrees_per_second_t yawRate,
+																 units::angular_velocity::degrees_per_second_t yawRate,
 																 units::angle::degree_t pitch,
 																 units::angular_velocity::degrees_per_second_t pitchRate,
 																 units::angle::degree_t roll,
