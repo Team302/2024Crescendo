@@ -85,6 +85,9 @@ public:
 	units::angular_velocity::radians_per_second_t GetLauncherTopWheelsTarget() const { return m_LauncherTopWheelsTarget; }
 	units::angular_velocity::radians_per_second_t GetLauncherBottomWheelsTarget() const { return m_LauncherBottomWheelsTarget; }
 
+	void SetManualLaunchTarget();
+	units::angle::degree_t GetManualLaunchTarget() { return m_manualLaunchTarget; }
+
 	void SetLauncherAngleTarget(units::angle::degree_t valueDeg) { m_LauncherAngleTarget = valueDeg; }
 	void SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherTopWheelsTarget = valueRadPerSec; }
 	void SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherBottomWheelsTarget = valueRadPerSec; }
@@ -116,9 +119,11 @@ private:
 	bool m_noteInIntake = false;
 	bool m_noteInFeeder = false;
 
+	units::angle::degree_t m_manualLaunchTarget = units::angle::degree_t(55);
 	units::angle::degree_t m_LauncherAngleTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherTopWheelsTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherBottomWheelsTarget;
 	const double m_similarDistToleranceMeters = 0.5;
 	bool m_TransitionFromHoldFeedToReady = false;
+	bool m_manualTargetChangeAllowed = true;
 };

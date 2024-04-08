@@ -97,20 +97,14 @@ void noteManager::RunCommonTasks()
 	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
+	SetManualLaunchTarget();
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Front"), getfrontIntakeSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Back"), getbackIntakeSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Feeder"), getfeederSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher"), getlauncherSensor()->Get());
 	// Processing related to current monitor
 	// MonitorMotorCurrents();
 
 #ifdef INCLUDE_DATA_TRACE
-	double intakeDifferentialCurrent =
-#endif
-		MonitorForNoteInIntakes();
+	double intakeDifferentialCurrent = MonitorForNoteInIntakes();
 
-#ifdef INCLUDE_DATA_TRACE
 	// double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
 	double wheelSetTop = GetLauncherAngleTarget().to<double>();
 
@@ -329,6 +323,31 @@ units::length::meter_t noteManager::GetDistanceFromSpeaker() const
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance"), distanceFromTarget.to<double>());
 
 	return distanceFromTarget;
+}
+
+void noteManager::SetManualLaunchTarget()
+{
+
+	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH_INC))
+	{
+		if (m_manualTargetChangeAllowed)
+		{
+			m_manualLaunchTarget++;
+			m_manualTargetChangeAllowed = false;
+		}
+	}
+	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH_DEC))
+	{
+		if (m_manualTargetChangeAllowed)
+		{
+			m_manualLaunchTarget--;
+			m_manualTargetChangeAllowed = false;
+		}
+	}
+	else
+	{
+		m_manualTargetChangeAllowed = true;
+	}
 }
 
 double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)
