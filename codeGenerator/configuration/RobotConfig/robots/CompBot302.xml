@@ -3228,7 +3228,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>-1</value>
+                  <value>-0.045</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <Enabled>
@@ -3238,7 +3238,7 @@
                   <type>Boolean</type>
                   <value>true</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -7324,8 +7324,9 @@
                 <target>
                   <unitsFamily>none</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
+                  <value>165</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <Enabled>
@@ -7342,8 +7343,9 @@
                 <target>
                   <unitsFamily>none</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>rad/s</__units__>
                   <type>Double</type>
+                  <value>165</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <Enabled>

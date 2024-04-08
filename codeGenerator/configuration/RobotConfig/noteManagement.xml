@@ -3224,7 +3224,7 @@
             <type>Boolean</type>
             <value>true</value>
           </Enabled>
-          <controlDataName>LauncherSafePositionControl</controlDataName>
+          <controlDataName>percentOutput</controlDataName>
         </motorTarget>
       </motorTargets>
     </state>
