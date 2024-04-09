@@ -105,7 +105,8 @@ void noteManager::RunCommonTasks()
 							(m_noteManager->GetCurrentState() != m_noteManager->STATE_AUTO_LAUNCH) ||
 							(m_noteManager->GetCurrentState() != m_noteManager->STATE_PASS) ||
 							(m_noteManager->GetCurrentState() != m_noteManager->STATE_LOW_PASS) ||
-							(m_noteManager->GetCurrentState() != m_noteManager->STATE_READY_MANUAL_LAUNCH));
+							(m_noteManager->GetCurrentState() != m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
+							(m_noteManager->GetCurrentState() != m_noteManager->STATE_MANUAL_LAUNCH));
 
 	if (protectLauncher)
 	{
