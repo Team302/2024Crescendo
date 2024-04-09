@@ -2885,7 +2885,7 @@
                 <name>stringParameterConstInMechInstance_1</name>
                 <__units__ />
                 <type>String</type>
-                <value>Initialize</value>
+                <value>Ready</value>
               </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
@@ -3261,7 +3261,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
                 <controlDataName>percentOutput</controlDataName>
               </motorTarget>
@@ -3458,9 +3458,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -3655,9 +3655,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -3852,9 +3852,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -4042,9 +4042,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -4263,9 +4263,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -4470,9 +4470,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>posDegreeAbs</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -4656,9 +4656,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>posDegreeAbs</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -4835,9 +4835,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>posDegreeAbs</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -5020,7 +5020,7 @@
                   <type>Boolean</type>
                   <value>false</value>
                 </Enabled>
-                <controlDataName>posDegreeAbs</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -5201,9 +5201,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>posDegreeAbs</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -5251,6 +5251,13 @@
                 <__units__ />
                 <type>String</type>
                 <value>lowPass</value>
+              </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_7</name>
+                <__units__ />
+                <type>String</type>
+                <value>holdFeeder</value>
               </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
@@ -5415,9 +5422,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>posDegreeAbs</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -5609,9 +5616,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -5803,9 +5810,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -5984,9 +5991,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -6165,9 +6172,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -6355,9 +6362,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>LauncherSafePositionControl</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
             </motorTargets>
           </state>
@@ -6540,7 +6547,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
                 <controlDataName>percentOutput</controlDataName>
               </motorTarget>
@@ -6725,7 +6732,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
                 <controlDataName>percentOutput</controlDataName>
               </motorTarget>
@@ -6889,7 +6896,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
                 <controlDataName>percentOutput</controlDataName>
               </motorTarget>
@@ -7067,9 +7074,9 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
-                <controlDataName>posDegreeAbs</controlDataName>
+                <controlDataName>percentOutput</controlDataName>
               </motorTarget>
               <motorTarget>
                 <name>Placer</name>
