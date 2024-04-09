@@ -369,7 +369,10 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
         auto yaw = chassis->GetYaw();
         auto z = units::degree_t(rotation.Z());
 
-        if ((units::math::abs(yaw - z) > units::degree_t(20)) || (averageTagDistance > 6.0))
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MegaTag2"), std::string("yaw-z"), units::math::abs(yaw - z).value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("MegaTag2"), std::string("average tag distance"), averageTagDistance);
+
+        if ((units::degree_t(180) - (units::math::abs(yaw - z)) > units::degree_t(20)) || (averageTagDistance > 6.0))
         {
             return std::nullopt;
         }
