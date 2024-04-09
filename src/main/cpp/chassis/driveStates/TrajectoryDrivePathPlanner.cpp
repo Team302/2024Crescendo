@@ -148,6 +148,15 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
     return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
+void TrajectoryDrivePathPlanner::CheckForDriveToNote()
+{
+    auto currentTime = m_timer.get()->Get();
+
+    if ((currentTime) / m_totalTrajectoryTime >= m_percentageCompleteThreshold)
+    {
+    }
+}
+
 bool TrajectoryDrivePathPlanner::IsDone()
 {
 
@@ -159,6 +168,7 @@ bool TrajectoryDrivePathPlanner::IsDone()
         auto currentTime = m_timer.get()->Get();
         if ((currentTime) / m_totalTrajectoryTime > 0.9)
         {
+
             isDone = IsSamePose(currentPose, m_finalState.getTargetHolonomicPose(), m_chassis->GetChassisSpeeds(), 10.0, 3.0, 1.5);
         }
     }

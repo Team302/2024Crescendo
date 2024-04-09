@@ -43,6 +43,8 @@ public:
     bool IsDone() override;
 
 private:
+    void Init2();
+
     SwerveChassis *m_chassis;
     DriveToNote *m_driveToNote;
     std::unique_ptr<frc::Timer> m_timer;

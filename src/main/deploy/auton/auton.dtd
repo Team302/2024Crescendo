@@ -28,6 +28,7 @@
 		                      STATE_PLACER_TO_LAUNCHER_BACK | STATE_BACKUP_MANUAL_LAUNCH | 
 							  STATE_BACKUP_MANUAL_PLACE ) "STATE_OFF"
 		  visionAligment    ( UNKNOWN | NOTE | SPEAKER ) "UNKNOWN"
+		  updateOption    (NOTE | NONE) "NONE"
 >
 
 

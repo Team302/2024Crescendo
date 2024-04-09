@@ -80,6 +80,17 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_visionAlignment = params->GetVisionAlignment();
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), m_pathname, m_chassis->GetPose().Rotation().Degrees().to<double>());
 
+    // Start timeout timer for path
+
+    Init2();
+
+    m_timer.get()->Reset();
+    m_timer.get()->Start();
+}
+
+void DrivePathPlanner::Init2()
+{
+
     m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
     m_moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER;
@@ -89,6 +100,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     auto speed = m_chassis->GetChassisSpeeds();
     auto robotDrive = new RobotDrive(m_chassis);
     auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(robotDrive);
+
     if (m_pathname == "DRIVE_TO_NOTE")
     {
         m_driveToNote = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
@@ -115,10 +127,6 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     }
 
     m_moveInfo.pathplannerTrajectory = m_trajectory;
-
-    // Start timeout timer for path
-    m_timer.get()->Reset();
-    m_timer.get()->Start();
 }
 void DrivePathPlanner::Run()
 {
