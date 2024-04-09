@@ -32,6 +32,7 @@
 #include "configs/RobotElementNames.h"
 #include "utils/FieldConstants.h"
 
+#include "units/angular_velocity.h"
 class DragonCamera;
 class DragonVision
 {
