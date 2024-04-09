@@ -90,6 +90,7 @@ public:
 	void SetManualLaunchTarget();
 	units::angle::degree_t GetManualLaunchTarget() { return m_manualLaunchTarget; }
 
+	void SetLauncherToProtectedPosition();
 	void UpdateLauncherAngleTarget();
 
 	void SetLauncherAngleTarget(units::angle::degree_t valueDeg) { m_LauncherAngleTarget = valueDeg; }

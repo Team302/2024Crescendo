@@ -50,6 +50,9 @@ void PassState::Init()
 void PassState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("PassState"), string("run"));
+	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
+	m_mechanism->UpdateLauncherAngleTarget();
+
 	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
 	if (angleIsWithinTolerance)
 	{

@@ -98,6 +98,14 @@ void noteManager::RunCommonTasks()
 	ResetElevator();
 	SetManualLaunchTarget();
 
+	bool protectLauncher = (m_noteManager->GetCurrentState() != (m_noteManager->STATE_READY_AUTO_LAUNCH ||
+																 m_noteManager->STATE_READY_ODOMETRY_LAUNCH || m_noteManager->STATE_AUTO_LAUNCH ||
+																 m_noteManager->STATE_PASS || m_noteManager->STATE_LOW_PASS || m_noteManager->STATE_READY_MANUAL_LAUNCH));
+
+	if (protectLauncher)
+	{
+		SetLauncherToProtectedPosition();
+	}
 	// Processing related to current monitor
 	// MonitorMotorCurrents();
 
@@ -353,6 +361,12 @@ void noteManager::UpdateLauncherAngleTarget()
 {
 	double voltageOut = launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>());
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, voltageOut);
+}
+
+void noteManager::SetLauncherToProtectedPosition()
+{
+	SetLauncherAngleTarget(units::angle::degree_t(0.0));
+	UpdateLauncherAngleTarget();
 }
 
 double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)
