@@ -132,5 +132,5 @@ private:
 	bool m_TransitionFromHoldFeedToReady = false;
 	bool m_manualTargetChangeAllowed = true;
 
-	frc::PIDController launcherAnglePID = frc::PIDController(0.0, 0.0, 0.0, units::second_t(20));
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0, 0.0, 0.0, units::second_t(20));
 };
