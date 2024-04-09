@@ -292,9 +292,12 @@ void SwerveChassis::UpdateOdometry()
     {
         std::optional<VisionPose> visionPose = m_vision->GetRobotPosition();
 
-        std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(m_pigeon->GetYaw().GetValue(), m_pigeon->GetAngularVelocityZDevice().GetValue(),
-                                                                                    m_pigeon->GetPitch().GetValue(), m_pigeon->GetAngularVelocityYDevice().GetValue(),
-                                                                                    m_pigeon->GetRoll().GetValue(), m_pigeon->GetAngularVelocityXDevice().GetValue());
+        std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(),
+                                                                                    units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                    units::angle::degree_t(0.0),
+                                                                                    units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                    units::angle::degree_t(0.0),
+                                                                                    units::angular_velocity::degrees_per_second_t(0.0));
         if (megaTag2Pose)
         {
             m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
