@@ -124,7 +124,6 @@ void noteManager::CreateAndRegisterStates()
 	lowPassState* lowPassStateInst = new lowPassState ( string ( "lowPass" ), 21, new noteManagerAllStatesStateGen ( m_activeRobotId, string ( "lowPass" ), 21, this ), this );
 	AddToStateVector ( lowPassStateInst );
 
-	OffStateInst->RegisterTransitionState ( InitializeStateInst );
 	ReadyStateInst->RegisterTransitionState ( feederIntakeStateInst );
 	ReadyStateInst->RegisterTransitionState ( ExpelStateInst );
 	ReadyStateInst->RegisterTransitionState ( placerIntakeStateInst );
