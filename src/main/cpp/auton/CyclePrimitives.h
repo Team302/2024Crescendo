@@ -25,6 +25,7 @@
 #include "units/time.h"
 
 // Team 302 includes
+#include "chassis/ChassisOptionEnums.h"
 #include "State.h"
 
 // Third Party Includes
