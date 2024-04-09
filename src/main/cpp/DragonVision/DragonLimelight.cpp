@@ -34,6 +34,7 @@
 // Team 302 includes
 #include "DragonVision/DragonLimelight.h"
 #include "utils/logging/Logger.h"
+#include "chassis/ChassisConfigMgr.h"
 #include "DragonVision/DragonVision.h"
 
 // Third Party Includes
@@ -87,12 +88,11 @@ bool DragonLimelight::HealthCheck()
             m_repeatingHeartbeat = 0; // reset when we see a new heartbeat
             return true;
         }
-        else if (m_repeatingHeartbeat < 10) //repeats on the same heartbeat before it's considered dead
+        else if (m_repeatingHeartbeat < 10) // repeats on the same heartbeat before it's considered dead
         {
             m_repeatingHeartbeat++;
             return true;
         }
-        
     }
     return false;
 }
@@ -348,6 +348,7 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
         frc::Pose3d pose3d = frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation};
 
         double numberOfTagsDetected = position[7];
+        double averageTagDistance = position[9];
         double averageTagTargetArea = position[10];
 
         // in case of invalid Limelight targets
@@ -358,29 +359,21 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
 
         double xyStds;
         double degStds;
+
         // multiple targets detected
-        if (numberOfTagsDetected >= 2)
-        {
-            xyStds = 0.5;
-            degStds = 6;
-        }
-        // 1 target with large area and close to estimated pose
-        else if (averageTagTargetArea > 0.8)
-        {
-            xyStds = 1.0;
-            degStds = 12;
-        }
-        // 1 target farther away and estimated pose is close
-        else if (averageTagTargetArea > 0.1)
-        {
-            xyStds = 2.0;
-            degStds = 30;
-        }
-        // conditions don't match to add a vision measurement
-        else
+        auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+        auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+
+        auto robotPose = chassis->GetPose();
+
+        auto yaw = chassis->GetYaw();
+        auto z = units::degree_t(rotation.Z());
+
+        if ((units::math::abs(yaw - z) > units::degree_t(20)) || (averageTagDistance > 6.0))
         {
             return std::nullopt;
         }
+
         VisionPose LimelightVisionPose = {pose3d, timestamp, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG};
         return LimelightVisionPose;
     }
