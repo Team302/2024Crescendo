@@ -54,6 +54,7 @@ void readyAutoLaunchState::Run()
 	m_genState->Run();
 
 	m_mechanism->SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY);
+	m_mechanism->UpdateLauncherAngleTarget();
 }
 
 void readyAutoLaunchState::Exit()

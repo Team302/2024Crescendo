@@ -88,6 +88,8 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+
+	m_launcherAnglePID.SetIZone(0.5);
 }
 
 void noteManager::RunCommonTasks()
@@ -98,9 +100,12 @@ void noteManager::RunCommonTasks()
 	ResetElevator();
 	SetManualLaunchTarget();
 
-	bool protectLauncher = (m_noteManager->GetCurrentState() != (m_noteManager->STATE_READY_AUTO_LAUNCH ||
-																 m_noteManager->STATE_READY_ODOMETRY_LAUNCH || m_noteManager->STATE_AUTO_LAUNCH ||
-																 m_noteManager->STATE_PASS || m_noteManager->STATE_LOW_PASS || m_noteManager->STATE_READY_MANUAL_LAUNCH));
+	bool protectLauncher = ((m_noteManager->GetCurrentState() != m_noteManager->STATE_READY_AUTO_LAUNCH) ||
+							(m_noteManager->GetCurrentState() != m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
+							(m_noteManager->GetCurrentState() != m_noteManager->STATE_AUTO_LAUNCH) ||
+							(m_noteManager->GetCurrentState() != m_noteManager->STATE_PASS) ||
+							(m_noteManager->GetCurrentState() != m_noteManager->STATE_LOW_PASS) ||
+							(m_noteManager->GetCurrentState() != m_noteManager->STATE_READY_MANUAL_LAUNCH));
 
 	if (protectLauncher)
 	{
@@ -252,14 +257,14 @@ void noteManager::SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDE
 
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()));
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
-	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetLauncherAngleTarget());
+	UpdateLauncherAngleTarget();
 }
 
 void noteManager::MaintainCurrentLauncherTargetsForAutoLaunch()
 {
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()));
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
-	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetLauncherAngleTarget());
+	UpdateLauncherAngleTarget();
 }
 
 bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
@@ -359,8 +364,8 @@ void noteManager::SetManualLaunchTarget()
 
 void noteManager::UpdateLauncherAngleTarget()
 {
-	double voltageOut = launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>());
-	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, voltageOut);
+	double voltageOut = m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>());
+	getlauncherAngle()->SetVoltage(units::voltage::volt_t(voltageOut));
 }
 
 void noteManager::SetLauncherToProtectedPosition()
