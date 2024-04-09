@@ -45,14 +45,14 @@ void manualLaunchState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("manualLaunchState"), string("init"));
 
 	m_genState->Init();
+	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
+	m_mechanism->UpdateLauncherAngleTarget();
 }
 
 void manualLaunchState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("manualLaunchState"), string("run"));
 	m_genState->Run();
-	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
-	m_mechanism->UpdateLauncherAngleTarget();
 }
 
 void manualLaunchState::Exit()
@@ -63,7 +63,7 @@ void manualLaunchState::Exit()
 bool manualLaunchState::AtTarget()
 {
 	bool attarget = false;
-	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
+	bool angleIsWithinTolerance = abs(m_mechanism->GetLauncherAngleFromEncoder().to<double>() - m_targetAngle) <= 0.5;
 
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();

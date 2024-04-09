@@ -53,7 +53,7 @@ void PassState::Run()
 	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
 	m_mechanism->UpdateLauncherAngleTarget();
 
-	bool angleIsWithinTolerance = abs(m_mechanism->getlauncherAngle()->GetCounts() - m_targetAngle) <= 0.5;
+	bool angleIsWithinTolerance = abs(m_mechanism->GetLauncherAngleFromEncoder().to<double>() - m_targetAngle) <= 0.5;
 	if (angleIsWithinTolerance)
 	{
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 1);
