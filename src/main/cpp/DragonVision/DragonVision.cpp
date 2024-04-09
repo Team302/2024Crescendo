@@ -409,7 +409,7 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose, int idToSearch)
 {
 	std::optional<VisionData> launcherAprilTagData = std::nullopt;
-	std::optional<VisionData> selectedData = std::nullopt;
+	// std::optional<VisionData> selectedData = std::nullopt;
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
 	{
