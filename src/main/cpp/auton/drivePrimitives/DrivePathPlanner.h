@@ -25,6 +25,7 @@
 #include "chassis/driveStates/DriveToNote.h"
 
 // FRC,WPI Includes
+#include "frc/geometry/Pose2d.h"
 #include "frc/Timer.h"
 #include "units/time.h"
 
@@ -43,7 +44,8 @@ public:
     bool IsDone() override;
 
 private:
-    void Init2();
+    void InitMoveInfo();
+    void CheckForDriveToNote();
 
     SwerveChassis *m_chassis;
     DriveToNote *m_driveToNote;
@@ -58,4 +60,9 @@ private:
     ChassisMovement m_moveInfo;
     units::length::meter_t m_centerLine = units::length::meter_t(8.27);
     units::length::meter_t m_offset = units::length::meter_t(1.0);
+
+    bool m_checkDriveToNote;
+    const double m_percentageCompleteThreshold = 0.90;
+    units::time::second_t m_totalTrajectoryTime;
+    frc::Pose2d m_finalPose;
 };

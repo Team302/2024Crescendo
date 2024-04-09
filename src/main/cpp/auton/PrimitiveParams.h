@@ -70,7 +70,7 @@ public:
     ChassisOptionEnums::PathGainsType GetPathGainsType() const { return m_pathGainsType; }
     ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
     VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
-    ChassisOptionEnums::PathUpdateOption GetUpdateHeadingOption() const { return m_updateHeadingOption; }
+    ChassisOptionEnums::PathUpdateOption GetPathUpdateOption() const { return m_pathUpdateOption; }
 
     bool IsNoteStateChanging() const { return m_changeNoteState; }
     noteManagerGen::STATE_NAMES GetNoteState() const { return m_noteState; }
@@ -96,7 +96,7 @@ private:
     bool m_changeClimberState;
     ClimberManagerGen::STATE_NAMES m_climberState;
     ZoneParamsVector m_zones;
-    ChassisOptionEnums::PathUpdateOption m_updateHeadingOption;
+    ChassisOptionEnums::PathUpdateOption m_pathUpdateOption;
 };
 
 typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;

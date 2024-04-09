@@ -47,7 +47,7 @@ PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
 																							 m_changeClimberState(climberStateChanged),
 																							 m_climberState(climberState),
 																							 m_zones(zones),
-																							 m_updateHeadingOption(updateHeadingOption)
+																							 m_pathUpdateOption(updateHeadingOption)
 
 // @ADDMECH initilize state mgr attribute
 {

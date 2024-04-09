@@ -78,17 +78,18 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_maxTime = params->GetTime();
     m_switchedToVisionDrive = false;
     m_visionAlignment = params->GetVisionAlignment();
+    m_checkDriveToNote = params->GetPathUpdateOption() == ChassisOptionEnums::PathUpdateOption::NOTE;
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), m_pathname, m_chassis->GetPose().Rotation().Degrees().to<double>());
 
     // Start timeout timer for path
 
-    Init2();
+    InitMoveInfo();
 
     m_timer.get()->Reset();
     m_timer.get()->Start();
 }
 
-void DrivePathPlanner::Init2()
+void DrivePathPlanner::InitMoveInfo()
 {
 
     m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
@@ -126,7 +127,10 @@ void DrivePathPlanner::Init2()
         }
     }
 
+    auto endstate = m_trajectory.getEndState();
+    m_finalPose = endstate.getTargetHolonomicPose();
     m_moveInfo.pathplannerTrajectory = m_trajectory;
+    m_totalTrajectoryTime = m_trajectory.getTotalTime();
 }
 void DrivePathPlanner::Run()
 {
@@ -154,8 +158,12 @@ bool DrivePathPlanner::IsDone()
     if (m_timer.get()->Get() > m_maxTime && m_timer.get()->Get().to<double>() > 0.0)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "Time Out");
-
         return true;
+    }
+
+    if (m_checkDriveToNote)
+    {
+        CheckForDriveToNote();
     }
     // TO DO Figure out how to be able to drive back don't just stop your trajectory (Cause next trajectory to also stop)
     /*
@@ -175,4 +183,23 @@ bool DrivePathPlanner::IsDone()
     }
     auto *trajectoryDrive = dynamic_cast<TrajectoryDrivePathPlanner *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER));
     return trajectoryDrive != nullptr ? trajectoryDrive->IsDone() : false;
+}
+
+void DrivePathPlanner::CheckForDriveToNote()
+{
+    auto currentTime = m_timer.get()->Get();
+    if (((currentTime) / m_totalTrajectoryTime >= m_percentageCompleteThreshold))
+    {
+        m_pathname = "DRIVE_TO_NOTE";
+        InitMoveInfo();
+    }
+    else if (m_chassis != nullptr)
+    {
+        auto currentPose = m_chassis->GetPose();
+        if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(1.0))
+        {
+            m_pathname = "DRIVE_TO_NOTE";
+            InitMoveInfo();
+        }
+    }
 }
