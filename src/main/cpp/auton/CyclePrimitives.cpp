@@ -208,7 +208,7 @@ void CyclePrimitives::RunDriveStop()
 										  noteManagerGen::STATE_NAMES::STATE_OFF,
 										  false,
 										  ClimberManagerGen::STATE_NAMES::STATE_OFF,
-										  ChassisOptionEnums::UpdateHeadingOptions::NONE);
+										  ChassisOptionEnums::PathUpdateOption::NONE);
 		m_driveStop = m_primFactory->GetIPrimitive(params);
 		m_driveStop->Init(params);
 	}

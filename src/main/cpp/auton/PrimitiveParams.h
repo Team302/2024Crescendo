@@ -56,7 +56,7 @@ public:
                     noteManagerGen::STATE_NAMES noteState,
                     bool changeClimberState,
                     ClimberManagerGen::STATE_NAMES climberState,
-                    ChassisOptionEnums::UpdateHeadingOptions updateHeadingOption); // create zones parameter of type ZonesParamsVector
+                    ChassisOptionEnums::PathUpdateOption updateHeadingOption); // create zones parameter of type ZonesParamsVector
 
     PrimitiveParams() = delete;
     virtual ~PrimitiveParams() = default; // Destructor
@@ -70,7 +70,7 @@ public:
     ChassisOptionEnums::PathGainsType GetPathGainsType() const { return m_pathGainsType; }
     ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
     VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
-    ChassisOptionEnums::UpdateHeadingOptions GetUpdateHeadingOption() const { return m_updateHeadingOption; }
+    ChassisOptionEnums::PathUpdateOption GetUpdateHeadingOption() const { return m_updateHeadingOption; }
 
     bool IsNoteStateChanging() const { return m_changeNoteState; }
     noteManagerGen::STATE_NAMES GetNoteState() const { return m_noteState; }
@@ -96,7 +96,7 @@ private:
     bool m_changeClimberState;
     ClimberManagerGen::STATE_NAMES m_climberState;
     ZoneParamsVector m_zones;
-    ChassisOptionEnums::UpdateHeadingOptions m_updateHeadingOption;
+    ChassisOptionEnums::PathUpdateOption m_updateHeadingOption;
 };
 
 typedef std::vector<PrimitiveParams *> PrimitiveParamsVector;

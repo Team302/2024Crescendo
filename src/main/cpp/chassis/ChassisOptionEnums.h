@@ -82,7 +82,7 @@ public:
         LONG
     };
 
-    enum UpdateHeadingOptions
+    enum PathUpdateOption
     {
         NOTE,
         NONE

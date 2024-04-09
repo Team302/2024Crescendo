@@ -284,7 +284,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	// double check selectedCam is not nullptr
 	if (selectedCam != nullptr)
 	{
-		if (!selectedCam->HealthCheck()){
+		if (!selectedCam->HealthCheck())
+		{
 			return std::nullopt;
 		}
 
@@ -408,7 +409,6 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose, int idToSearch)
 {
 	std::optional<VisionData> launcherAprilTagData = std::nullopt;
-	std::optional<VisionData> placerAprilTagData = std::nullopt;
 	std::optional<VisionData> selectedData = std::nullopt;
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
@@ -472,7 +472,6 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 			{
 				return std::nullopt;
 			}
-
 
 			// get the pose from limelight
 			DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);

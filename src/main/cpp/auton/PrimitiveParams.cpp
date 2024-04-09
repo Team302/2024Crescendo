@@ -35,19 +35,19 @@ PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
 								 noteManagerGen::STATE_NAMES noteState,
 								 bool climberStateChanged,
 								 ClimberManagerGen::STATE_NAMES climberState,
-								 ChassisOptionEnums::UpdateHeadingOptions updateHeadingOption) : m_id(id), // Primitive ID
-																								 m_time(time),
-																								 m_headingOption(headingOpt),
-																								 m_heading(heading),
-																								 m_pathName(pathName),
-																								 m_pathGainsType(pathgainstype),
-																								 m_visionAlignment(visionAlignment),
-																								 m_changeNoteState(noteStateChanged),
-																								 m_noteState(noteState),
-																								 m_changeClimberState(climberStateChanged),
-																								 m_climberState(climberState),
-																								 m_zones(zones),
-																								 m_updateHeadingOption(updateHeadingOption)
+								 ChassisOptionEnums::PathUpdateOption updateHeadingOption) : m_id(id), // Primitive ID
+																							 m_time(time),
+																							 m_headingOption(headingOpt),
+																							 m_heading(heading),
+																							 m_pathName(pathName),
+																							 m_pathGainsType(pathgainstype),
+																							 m_visionAlignment(visionAlignment),
+																							 m_changeNoteState(noteStateChanged),
+																							 m_noteState(noteState),
+																							 m_changeClimberState(climberStateChanged),
+																							 m_climberState(climberState),
+																							 m_zones(zones),
+																							 m_updateHeadingOption(updateHeadingOption)
 
 // @ADDMECH initilize state mgr attribute
 {

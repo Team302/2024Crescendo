@@ -71,9 +71,9 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
         {"SPEAKER", PrimitiveParams::VISION_ALIGNMENT::SPEAKER},
     };
 
-    map<string, ChassisOptionEnums::UpdateHeadingOptions> updateOptionsMap{
-        {"NOTE", ChassisOptionEnums::UpdateHeadingOptions::NOTE},
-        {"NONE", ChassisOptionEnums::UpdateHeadingOptions::NONE},
+    map<string, ChassisOptionEnums::PathUpdateOption> pathUpdateOptionsMap{
+        {"NOTE", ChassisOptionEnums::PathUpdateOption::NOTE},
+        {"NONE", ChassisOptionEnums::PathUpdateOption::NONE},
     };
 
     xml_document doc;
@@ -145,7 +145,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     std::string pathName;
                     ChassisOptionEnums::PathGainsType pathGainsType = ChassisOptionEnums::PathGainsType::LONG;
                     ZoneParamsVector zones;
-                    ChassisOptionEnums::UpdateHeadingOptions updateHeadingOption = ChassisOptionEnums::UpdateHeadingOptions::NONE;
+                    ChassisOptionEnums::PathUpdateOption updateHeadingOption = ChassisOptionEnums::PathUpdateOption::NONE;
 
                     Logger::GetLogger()
                         ->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("About to parse primitive"), (double)paramVector.size());
@@ -185,10 +185,10 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                 hasError = true;
                             }
                         }
-                        else if (strcmp(attr.name(), "updateHeadingOption") == 0)
+                        else if (strcmp(attr.name(), "pathUpdateOption") == 0)
                         {
-                            auto updateHeadingItr = updateOptionsMap.find(attr.value());
-                            if (updateHeadingItr != updateOptionsMap.end())
+                            auto updateHeadingItr = pathUpdateOptionsMap.find(attr.value());
+                            if (updateHeadingItr != pathUpdateOptionsMap.end())
                             {
                                 updateHeadingOption = updateHeadingItr->second;
                             }

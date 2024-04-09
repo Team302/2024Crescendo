@@ -65,5 +65,5 @@ private:
 	bool m_isDone;
 	SwerveChassis *m_chassis;
 	static void SetMechanismStatesFromParam(PrimitiveParams *params);
-	ChassisOptionEnums::UpdateHeadingOptions m_updatedHeadingOption;
+	ChassisOptionEnums::PathUpdateOption m_updatedHeadingOption;
 };
