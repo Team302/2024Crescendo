@@ -18,6 +18,8 @@
 #include <map>
 #include <string>
 
+#include "units/angular_velocity.h"
+
 // FRC Includes
 #include "frc/apriltag/AprilTagFieldLayout.h"
 #include "frc/apriltag/AprilTagFields.h"
