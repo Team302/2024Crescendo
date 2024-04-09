@@ -62,6 +62,7 @@ private:
 	std::unique_ptr<frc::Timer> m_timer;
 	units::time::second_t m_maxTime;
 	bool m_isDone;
-	SwerveChassis* m_chassis;
+	SwerveChassis *m_chassis;
 	static void SetMechanismStatesFromParam(PrimitiveParams *params);
+	ChassisOptionEnums::UpdateHeadingOptions m_updatedHeadingOption;
 };

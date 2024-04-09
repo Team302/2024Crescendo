@@ -70,6 +70,12 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
         {"NOTE", PrimitiveParams::VISION_ALIGNMENT::NOTE},
         {"SPEAKER", PrimitiveParams::VISION_ALIGNMENT::SPEAKER},
     };
+
+    map<string, ChassisOptionEnums::UpdateHeadingOptions> updateOptionsMap{
+        {"NOTE", ChassisOptionEnums::UpdateHeadingOptions::NOTE},
+        {"NONE", ChassisOptionEnums::UpdateHeadingOptions::NONE},
+    };
+
     xml_document doc;
     xml_parse_result result = doc.load_file(fulldirfile.c_str());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "PrimitiveParser", "Original File", fulldirfile.c_str());
@@ -139,8 +145,10 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     std::string pathName;
                     ChassisOptionEnums::PathGainsType pathGainsType = ChassisOptionEnums::PathGainsType::LONG;
                     ZoneParamsVector zones;
+                    ChassisOptionEnums::UpdateHeadingOptions updateHeadingOption = ChassisOptionEnums::UpdateHeadingOptions::NONE;
 
-                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("About to parse primitive"), (double)paramVector.size());
+                    Logger::GetLogger()
+                        ->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("About to parse primitive"), (double)paramVector.size());
 
                     for (xml_attribute attr = primitiveNode.first_attribute(); attr; attr = attr.next_attribute())
                     {
@@ -159,6 +167,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                 hasError = true;
                             }
                         }
+
                         else if (strcmp(attr.name(), "time") == 0)
                         {
                             time = units::time::second_t(attr.as_float());
@@ -173,6 +182,19 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                             else
                             {
                                 Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML invalid heading option"), attr.value());
+                                hasError = true;
+                            }
+                        }
+                        else if (strcmp(attr.name(), "updateHeadingOption") == 0)
+                        {
+                            auto updateHeadingItr = updateOptionsMap.find(attr.value());
+                            if (updateHeadingItr != updateOptionsMap.end())
+                            {
+                                updateHeadingOption = updateHeadingItr->second;
+                            }
+                            else
+                            {
+                                Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML invalid update heading option"), attr.value());
                                 hasError = true;
                             }
                         }
@@ -267,7 +289,8 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      changeNoteState,
                                                                      noteStates,
                                                                      changeClimberState,
-                                                                     climberState));
+                                                                     climberState,
+                                                                     updateHeadingOption));
                     }
                     else
                     {

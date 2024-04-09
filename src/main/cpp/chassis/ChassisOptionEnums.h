@@ -82,6 +82,12 @@ public:
         LONG
     };
 
+    enum UpdateHeadingOptions
+    {
+        NOTE,
+        NONE
+    };
+
     ChassisOptionEnums() = delete;
     ~ChassisOptionEnums() = delete;
 };
