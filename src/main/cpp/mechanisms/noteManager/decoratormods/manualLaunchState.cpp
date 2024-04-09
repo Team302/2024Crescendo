@@ -45,7 +45,7 @@ void manualLaunchState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("manualLaunchState"), string("init"));
 
 	m_genState->Init();
-	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
+	m_mechanism->SetLauncherAngleTarget(m_mechanism->GetManualLaunchTarget());
 	m_mechanism->UpdateLauncherAngleTarget();
 }
 
@@ -63,7 +63,7 @@ void manualLaunchState::Exit()
 bool manualLaunchState::AtTarget()
 {
 	bool attarget = false;
-	bool angleIsWithinTolerance = abs(m_mechanism->GetLauncherAngleFromEncoder().to<double>() - m_targetAngle) <= 0.5;
+	bool angleIsWithinTolerance = abs(m_mechanism->GetLauncherAngleFromEncoder().to<double>() - m_mechanism->GetManualLaunchTarget()) <= 0.5;
 
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();

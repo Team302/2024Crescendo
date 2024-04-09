@@ -44,6 +44,5 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
-		units::angle::degree_t m_targetAngle = units::angle::degree_t(55.0);
 	};
 }
