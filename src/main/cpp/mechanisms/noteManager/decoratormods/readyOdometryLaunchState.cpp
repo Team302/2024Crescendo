@@ -71,6 +71,7 @@ void readyOdometryLaunchState::Run()
 	m_genState->Run();
 
 	m_mechanism->SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY);
+	m_mechanism->UpdateLauncherAngleTarget();
 }
 
 void readyOdometryLaunchState::Exit()
