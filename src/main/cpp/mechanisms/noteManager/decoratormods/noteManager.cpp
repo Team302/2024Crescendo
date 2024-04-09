@@ -40,7 +40,6 @@
 #include "mechanisms/noteManager/decoratormods/autoLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/manualLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/readyOdometryLaunchState.h"
-#include "mechanisms/noteManager/decoratormods/autoLaunchOdometryState.h"
 #include "mechanisms/noteManager/decoratormods/preparePlaceAmpState.h"
 #include "mechanisms/noteManager/decoratormods/preparePlaceTrapState.h"
 #include "mechanisms/noteManager/decoratormods/placeAmpState.h"
