@@ -90,5 +90,5 @@ bool readyOdometryLaunchState::IsTransitionCondition(bool considerGamepadTransit
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	units::length::meter_t distanceFromSpeaker = m_mechanism->GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY);
-	return ((distanceFromSpeaker < units::length::meter_t(5)) && (m_mechanism->GetCurrentState() == m_mechanism->STATE_HOLD_FEEDER));
+	return ((distanceFromSpeaker < units::length::meter_t(5.0)) && (m_mechanism->GetCurrentState() == m_mechanism->STATE_HOLD_FEEDER));
 }
