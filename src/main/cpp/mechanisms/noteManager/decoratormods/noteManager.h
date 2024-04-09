@@ -26,6 +26,7 @@
 #include "units/angle.h"
 #include "units/angular_velocity.h"
 #include "units/length.h"
+#include "frc/controller/PIDController.h"
 
 // Team 302 includes
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
@@ -82,11 +83,14 @@ public:
 	bool LauncherTargetsForAutoLaunchAchieved() const;
 
 	units::angle::degree_t GetLauncherAngleTarget() const { return m_LauncherAngleTarget; }
+	units::angle::degree_t GetLauncherAngleFromEncoder() { return getlauncherAngleEncoder()->GetAbsolutePosition(); }
 	units::angular_velocity::radians_per_second_t GetLauncherTopWheelsTarget() const { return m_LauncherTopWheelsTarget; }
 	units::angular_velocity::radians_per_second_t GetLauncherBottomWheelsTarget() const { return m_LauncherBottomWheelsTarget; }
 
 	void SetManualLaunchTarget();
 	units::angle::degree_t GetManualLaunchTarget() { return m_manualLaunchTarget; }
+
+	void UpdateLauncherAngleTarget();
 
 	void SetLauncherAngleTarget(units::angle::degree_t valueDeg) { m_LauncherAngleTarget = valueDeg; }
 	void SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherTopWheelsTarget = valueRadPerSec; }
@@ -126,4 +130,6 @@ private:
 	const double m_similarDistToleranceMeters = 0.5;
 	bool m_TransitionFromHoldFeedToReady = false;
 	bool m_manualTargetChangeAllowed = true;
+
+	frc::PIDController launcherAnglePID = frc::PIDController(0.0, 0.0, 0.0, units::second_t(20));
 };

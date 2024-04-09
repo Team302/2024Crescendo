@@ -350,6 +350,12 @@ void noteManager::SetManualLaunchTarget()
 	}
 }
 
+void noteManager::UpdateLauncherAngleTarget()
+{
+	double voltageOut = launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>());
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, voltageOut);
+}
+
 double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)
 {
 	double average = 0.0;
