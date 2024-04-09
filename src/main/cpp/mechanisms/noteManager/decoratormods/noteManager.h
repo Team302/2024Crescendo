@@ -78,7 +78,7 @@ public:
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	bool HasNote() const;
 
-	void SetLauncherTargetsForAutoLaunch();
+	void SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option);
 	void MaintainCurrentLauncherTargetsForAutoLaunch();
 	bool LauncherTargetsForAutoLaunchAchieved() const;
 
@@ -99,10 +99,10 @@ public:
 	bool GetTransitionFromHoldFeedToReady() { return m_TransitionFromHoldFeedToReady; }
 	void SetTransitionFromHoldFeedToReady(bool state) { m_TransitionFromHoldFeedToReady = state; }
 
-	units::length::meter_t GetDistanceFromSpeaker() const;
+	units::length::meter_t GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION option) const;
 
 private:
-	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters();
+	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option);
 
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
 

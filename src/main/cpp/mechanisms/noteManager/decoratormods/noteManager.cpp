@@ -242,9 +242,9 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
-void noteManager::SetLauncherTargetsForAutoLaunch()
+void noteManager::SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option)
 {
-	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters();
+	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters(option);
 
 	SetLauncherTopWheelsTarget(std::get<0>(launchParameters));
 	SetLauncherBottomWheelsTarget(std::get<1>(launchParameters));
@@ -276,13 +276,13 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 
 /// @brief
 /// @return top wheel speed, bottom wheel speed, launcher angle
-std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters()
+std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option)
 {
 	double launcherAngle = 55;		// 50 deg is the angle for manualLaunch
 	double topLaunchSpeed = 400;	// 400 rad/sec is the default for manualLaunch
 	double bottomLaunchSpeed = 400; // 400 rad/sec is the default for manualLaunch
 
-	double distanceFromTarget_m = ((GetDistanceFromSpeaker())).to<double>();
+	double distanceFromTarget_m = ((GetDistanceFromSpeaker(option)).to<double>());
 
 	auto transitionMeters = 1.5;
 
@@ -310,13 +310,13 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
 }
 
-units::length::meter_t noteManager::GetDistanceFromSpeaker() const
+units::length::meter_t noteManager::GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION option) const
 {
 	auto distanceFromTarget = units::length::meter_t(6.0);
 	auto finder = DragonDriveTargetFinder::GetInstance();
 	if (finder != nullptr)
 	{
-		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto distinfo = finder->GetDistance(option, DragonVision::VISION_ELEMENT::SPEAKER);
 		auto type = get<0>(distinfo);
 		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
 		{
