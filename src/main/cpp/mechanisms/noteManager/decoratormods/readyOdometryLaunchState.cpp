@@ -50,24 +50,6 @@ void readyOdometryLaunchState::Init()
 
 void readyOdometryLaunchState::Run()
 {
-	/*auto finder = DragonDriveTargetFinder::GetInstance();
-	auto dist = units::length::meter_t(1.0);
-	if (finder != nullptr)
-	{
-		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
-		auto type = get<0>(distinfo);
-		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
-		{
-			auto odomdist = get<1>(distinfo);
-			if (odomdist.value() > 0.5 && odomdist.value() < 5.0)
-			{
-				dist = odomdist;
-			}
-		}
-	}
-	auto targetAngle = m_mechanism->GetRequiredLaunchAngle();
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, targetAngle);
-*/
 	m_genState->Run();
 
 	m_mechanism->SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY);
@@ -88,7 +70,8 @@ bool readyOdometryLaunchState::AtTarget()
 bool readyOdometryLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 
 	units::length::meter_t distanceFromSpeaker = m_mechanism->GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY);
-	return ((distanceFromSpeaker < units::length::meter_t(5.0)) && (m_mechanism->GetCurrentState() == m_mechanism->STATE_HOLD_FEEDER));
+	return ((distanceFromSpeaker < units::length::meter_t(5.0)) && (currentState == m_mechanism->STATE_HOLD_FEEDER));
 }

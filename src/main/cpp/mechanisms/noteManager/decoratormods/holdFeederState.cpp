@@ -81,10 +81,10 @@ bool holdFeederState::AtTarget()
 
 bool holdFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 {
-	// To get the current state use m_mechanism->GetCurrentState()
+	// To get the current state use m_mechanism->GetcurrentState()
 	bool feederSensor = m_mechanism->getfeederSensor()->Get();
 	bool launcherSensor = m_mechanism->getlauncherSensor()->Get();
-	auto currentstate = m_mechanism->GetCurrentState();
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 	bool visionTargetAcquired = m_mechanism->HasVisionTarget();
 	units::length::meter_t distanceFromSpeaker = m_mechanism->GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY);
 
