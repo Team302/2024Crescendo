@@ -285,24 +285,18 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 /// @return top wheel speed, bottom wheel speed, launcher angle
 std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option)
 {
-	double launcherAngle = 55;		// 50 deg is the angle for manualLaunch
-	double topLaunchSpeed = 400;	// 400 rad/sec is the default for manualLaunch
-	double bottomLaunchSpeed = 400; // 400 rad/sec is the default for manualLaunch
-
-	double distanceFromTarget_m = ((GetDistanceFromSpeaker(option)).to<double>());
-
-	auto transitionMeters = 1.5;
+	units::length::meter_t distanceFromTarget_m = GetDistanceFromSpeaker(option);
 
 	// launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
 	// 102 + -43.2x + 5.95x^2
-	launcherAngle = 101.5 + (-43.2 * distanceFromTarget_m) + (5.95 * distanceFromTarget_m * distanceFromTarget_m);
+	m_autoLaunchTarget = units::angle::degree_t(101.5 + (-43.2 * distanceFromTarget_m.to<double>()) + (5.95 * distanceFromTarget_m.to<double>() * distanceFromTarget_m.to<double>()));
 
 	// limit the resulting launcher angle
-	launcherAngle = launcherAngle > 55 ? 55 : launcherAngle;
-	launcherAngle = launcherAngle < 20 ? 5 : launcherAngle;
+	m_autoLaunchTarget = m_autoLaunchTarget > units::angle::degree_t(55) ? units::angle::degree_t(55) : m_autoLaunchTarget;
+	m_autoLaunchTarget = m_autoLaunchTarget < units::angle::degree_t(0) ? units::angle::degree_t(0) : m_autoLaunchTarget;
 
-	topLaunchSpeed = distanceFromTarget_m < transitionMeters /*inch*/ ? 400 : 550;
-	bottomLaunchSpeed = distanceFromTarget_m < transitionMeters /*inch*/ ? 400 : 550;
+	m_topLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? units::angular_velocity::radians_per_second_t(400) : units::angular_velocity::radians_per_second_t(550);
+	m_bottomLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? units::angular_velocity::radians_per_second_t(400) : units::angular_velocity::radians_per_second_t(550);
 
 	/* keep for tuning purposes
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
@@ -314,7 +308,7 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 		else if (m_LauncherAngleTarget < units::angle::degree_t(2))
 			m_LauncherAngleTarget = units::angle::degree_t(2);
 	}*/
-	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
+	return make_tuple(m_topLaunchSpeed, m_bottomLaunchSpeed, m_autoLaunchTarget);
 }
 
 units::length::meter_t noteManager::GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION option) const

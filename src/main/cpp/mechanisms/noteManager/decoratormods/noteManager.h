@@ -126,6 +126,10 @@ private:
 
 	units::angle::degree_t m_manualLaunchTarget = units::angle::degree_t(55);
 	units::angle::degree_t m_LauncherAngleTarget;
+	units::angle::degree_t m_autoLaunchTarget = units::angle::degree_t(55);
+	units::length::meter_t m_transitionMeters = units::length::meter_t(1.5);
+	units::angular_velocity::radians_per_second_t m_topLaunchSpeed = units::angular_velocity::radians_per_second_t(400);
+	units::angular_velocity::radians_per_second_t m_bottomLaunchSpeed = units::angular_velocity::radians_per_second_t(400);
 	units::angular_velocity::radians_per_second_t m_LauncherTopWheelsTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherBottomWheelsTarget;
 	const double m_similarDistToleranceMeters = 0.5;
