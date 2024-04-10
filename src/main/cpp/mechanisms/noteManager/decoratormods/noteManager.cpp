@@ -100,14 +100,14 @@ void noteManager::RunCommonTasks()
 	ResetElevator();
 	SetManualLaunchTarget();
 
-	bool protectLauncher = ((m_noteManager->GetCurrentState() != m_noteManager->STATE_READY_AUTO_LAUNCH) ||
-							(m_noteManager->GetCurrentState() != m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
-							(m_noteManager->GetCurrentState() != m_noteManager->STATE_AUTO_LAUNCH) ||
-							(m_noteManager->GetCurrentState() != m_noteManager->STATE_PASS) ||
-							(m_noteManager->GetCurrentState() != m_noteManager->STATE_LOW_PASS) ||
-							(m_noteManager->GetCurrentState() != m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
-							(m_noteManager->GetCurrentState() != m_noteManager->STATE_MANUAL_LAUNCH) ||
-							(m_noteManager->GetCurrentState() != m_noteManager->STATE_BACKUP_MANUAL_LAUNCH));
+	bool protectLauncher = !((m_noteManager->GetCurrentState() == m_noteManager->STATE_READY_AUTO_LAUNCH) ||
+							 (m_noteManager->GetCurrentState() == m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
+							 (m_noteManager->GetCurrentState() == m_noteManager->STATE_AUTO_LAUNCH) ||
+							 (m_noteManager->GetCurrentState() == m_noteManager->STATE_PASS) ||
+							 (m_noteManager->GetCurrentState() == m_noteManager->STATE_LOW_PASS) ||
+							 (m_noteManager->GetCurrentState() == m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
+							 (m_noteManager->GetCurrentState() == m_noteManager->STATE_MANUAL_LAUNCH) ||
+							 (m_noteManager->GetCurrentState() == m_noteManager->STATE_BACKUP_MANUAL_LAUNCH));
 
 	if (protectLauncher)
 	{
