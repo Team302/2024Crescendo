@@ -92,7 +92,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	bool transition = false;
-	auto currentState = m_mechanism->GetCurrentState();
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 	bool placerInSensor = m_mechanism->getplacerInSensor()->Get();
 	bool placerMidSensor = m_mechanism->getplacerMidSensor()->Get();
 	bool placerOutSensor = m_mechanism->getplacerOutSensor()->Get();
@@ -103,7 +103,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	int reason = 0;
 
-	if ((currentState == static_cast<int>(m_mechanism->STATE_OFF)) && (m_mechanism->IsEnabled()))
+	if ((currentState == (m_mechanism->STATE_OFF)) && (m_mechanism->IsEnabled()))
 	{
 		transition = true;
 		reason = 1;
@@ -114,14 +114,14 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		reason = 2;
 	}
 	else if (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) &&
-			 ((currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_PLACE))))
+			 ((currentState == (m_mechanism->STATE_BACKUP_MANUAL_LAUNCH)) || (currentState == (m_mechanism->STATE_BACKUP_MANUAL_PLACE))))
 	{
 		transition = true;
 		reason = 3;
 	}
 	else if ((launcherSensor == false) &&
 			 (feederSensor == false) &&
-			 ((currentState == static_cast<int>(m_mechanism->STATE_READY_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_LOW_PASS))))
+			 ((currentState == (m_mechanism->STATE_READY_MANUAL_LAUNCH)) || (currentState == (m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == (m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == (m_mechanism->STATE_PASS)) || (currentState == (m_mechanism->STATE_LOW_PASS))))
 	{
 		m_launchTimer->Start();
 		if (m_launchTimer->Get().to<double>() > 0.25)
@@ -135,27 +135,27 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 	else if ((placerInSensor == false) &&
 			 (placerMidSensor == false) &&
 			 (placerOutSensor == false) &&
-			 ((currentState == static_cast<int>(m_mechanism->STATE_PLACE_AMP))))
+			 ((currentState == (m_mechanism->STATE_PLACE_AMP))))
 	{
 		transition = true;
 		reason = 5;
 	}
 	else if (considerGamepadTransitions && ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) == false) && (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_NOTE) == false)) &&
 			 ((frontIntakeSensor == false) && (backIntakeSensor == false)) &&
-			 (((currentState == static_cast<int>(m_mechanism->STATE_PLACER_INTAKE)) && ((placerInSensor == false) && (placerMidSensor == false))) ||
-			  ((currentState == static_cast<int>(m_mechanism->STATE_FEEDER_INTAKE)) && ((launcherSensor == false) && (feederSensor == false)))))
+			 (((currentState == (m_mechanism->STATE_PLACER_INTAKE)) && ((placerInSensor == false) && (placerMidSensor == false))) ||
+			  ((currentState == (m_mechanism->STATE_FEEDER_INTAKE)) && ((launcherSensor == false) && (feederSensor == false)))))
 	{
 
 		transition = true;
 		reason = 6;
 	}
 	else if ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL) == false) &&
-			 (currentState == static_cast<int>(m_mechanism->STATE_EXPEL)))
+			 (currentState == (m_mechanism->STATE_EXPEL)))
 	{
 		transition = true;
 		reason = 7;
 	}
-	else if (currentState == static_cast<int>(m_mechanism->STATE_HOLD_FEEDER) && (m_mechanism->GetTransitionFromHoldFeedToReady()))
+	else if (currentState == (m_mechanism->STATE_HOLD_FEEDER) && (m_mechanism->GetTransitionFromHoldFeedToReady()))
 	{
 		transition = true;
 		reason = 8;
