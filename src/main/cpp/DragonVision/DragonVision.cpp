@@ -41,6 +41,12 @@ DragonVision *DragonVision::GetDragonVision()
 	return DragonVision::m_dragonVision;
 }
 
+bool DragonVision::HealthCheck(RobotElementNames::CAMERA_USAGE position)
+{
+	auto camera = m_dragonCameraMap[position];
+	return camera->HealthCheck();
+}
+
 frc::AprilTagFieldLayout DragonVision::m_aprilTagLayout = frc::AprilTagFieldLayout();
 frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
 {
@@ -284,7 +290,8 @@ std::optional<VisionData> DragonVision::GetVisionDataFromNote(VISION_ELEMENT ele
 	// double check selectedCam is not nullptr
 	if (selectedCam != nullptr)
 	{
-		if (!selectedCam->HealthCheck()){
+		if (!selectedCam->HealthCheck())
+		{
 			return std::nullopt;
 		}
 
@@ -472,7 +479,6 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 			{
 				return std::nullopt;
 			}
-
 
 			// get the pose from limelight
 			DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);

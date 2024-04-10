@@ -234,6 +234,8 @@ void Robot::LogDiagnosticData()
         LogSensorData();
     else if (step == 1)
         LogMotorData();
+    else if (step == 3)
+        LogCameraData();
 
     loopCounter++;
 }
@@ -248,15 +250,6 @@ void Robot::LogSensorData()
         auto noteMgr = stateMgr != nullptr ? dynamic_cast<noteManagerGen *>(stateMgr) : nullptr;
         if (noteMgr != nullptr)
         {
-            // delete this block when you verify that LogDataDirectlyOverNT works
-            // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Front Intake"), noteMgr->getfrontIntakeSensor()->Get());
-            // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Back Intake"), noteMgr->getbackIntakeSensor()->Get());
-            // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Feeder"), noteMgr->getfeederSensor()->Get());
-            // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher"), noteMgr->getlauncherSensor()->Get());
-            // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerIn"), noteMgr->getplacerInSensor()->Get());
-            // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerMid"), noteMgr->getplacerMidSensor()->Get());
-            // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerOut"), noteMgr->getplacerOutSensor()->Get());
-
             Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsIntake"), string("Front Intake"), noteMgr->getfrontIntakeSensor()->Get());
             Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsIntake"), string("Back Intake"), noteMgr->getbackIntakeSensor()->Get());
 
@@ -290,7 +283,7 @@ void Robot::LogMotorData()
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsPlacer"), string("Placer"), noteMgr->getPlacer()->GetCounts());
 
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Feeder"), noteMgr->getFeeder()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher angle"), noteMgr->getlauncherAngle()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher angle"), noteMgr->getlauncherAngle()->GetCounts()); // change this to use cancoder
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher top"), noteMgr->getlauncherTop()->GetCounts());
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher bottom"), noteMgr->getlauncherBottom()->GetCounts());
         }
@@ -303,6 +296,14 @@ void Robot::LogMotorData()
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsClimber"), string("Right climber"), climberMgr->getrightClimber()->GetCounts());
         }
     }
+}
+
+void Robot::LogCameraData()
+{
+    // TODO: implement encoder logging for chassis
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("LAUNCHER Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LAUNCHE));
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("PLACER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::PINTAKE));
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("LAUNCHER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LINTAKE));
 }
 
 void Robot::SimulationInit()
