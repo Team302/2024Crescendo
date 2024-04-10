@@ -46,7 +46,7 @@ private:
     // bool keepIntaking = false;
 
     int m_intakeNoteTimer = 0;
-    int m_finishTime = 20; // 0.4 seconds
+    int m_finishTime = 25; // 0.50 seconds
 
     void ResetIntakeNoteTimer() { m_intakeNoteTimer = 0; };
     void IntakeNoteTimerIncrement() { m_intakeNoteTimer++; };
