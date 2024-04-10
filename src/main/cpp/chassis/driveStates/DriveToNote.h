@@ -43,6 +43,14 @@ public:
     bool IsDone();
 
 private:
+    // bool keepIntaking = false;
+
+    int m_intakeNoteTimer = 0;
+    int m_finishTime = 20; // 0.4 seconds
+
+    void ResetIntakeNoteTimer() { m_intakeNoteTimer = 0; };
+    void IntakeNoteTimerIncrement() { m_intakeNoteTimer++; };
+
     DragonDriveTargetFinder *m_dragonDriveTargetFinder;
     TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
     // DragonVision *m_visiondata;

@@ -46,9 +46,11 @@ DriveToNote::DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *tra
 
 void DriveToNote::Init(ChassisMovement &chassisMovement)
 {
+
     m_trajectory = CreateDriveToNote();
     if (!m_trajectory.getStates().empty())
     {
+        ResetIntakeNoteTimer();
         chassisMovement.pathplannerTrajectory = m_trajectory;
         chassisMovement.pathnamegains = ChassisOptionEnums::PathGainsType::LONG;
         TrajectoryDrivePathPlanner::Init(chassisMovement);
@@ -97,31 +99,16 @@ bool DriveToNote::IsDone()
     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
     if (config != nullptr)
     {
-        auto vision = DragonVision::GetDragonVision();
-        if (vision != nullptr)
-        {
-            auto data = vision->GetVisionData(DragonVision::VISION_ELEMENT::NOTE);
-            if (!data.has_value())
-            {
-                Logger ::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "No Note Found");
-                return true;
-            }
-        }
-
         auto noteStateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
         if (noteStateMgr != nullptr)
         {
-            auto notemgr = dynamic_cast<noteManager *>(noteStateMgr);
-            if (notemgr != nullptr)
+            if (TrajectoryDrivePathPlanner::IsDone())
             {
-                if (notemgr->HasNote())
-                    Logger ::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "Note Aquired");
-                else if (TrajectoryDrivePathPlanner::IsDone())
-                    Logger ::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "End of Trajectory");
+                IntakeNoteTimerIncrement();
 
-                return notemgr->HasNote() || TrajectoryDrivePathPlanner::IsDone();
+                return dynamic_cast<noteManager *>(noteStateMgr)->HasNote() || m_intakeNoteTimer >= m_finishTime;
             }
         }
     }
-    return true;
+    return false;
 }
