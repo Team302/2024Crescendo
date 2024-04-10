@@ -100,6 +100,7 @@ void noteManager::RunCommonTasks()
 	ResetElevator();
 	SetManualLaunchTarget();
 
+
 	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_noteManager->GetCurrentState());
 
 	bool protectLauncher = !((currentState != m_noteManager->STATE_READY_AUTO_LAUNCH) ||
