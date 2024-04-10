@@ -3,6 +3,9 @@
 
 <auton>
  <primitive id="DO_NOTHING"
-               noteOption="STATE_AUTO_LAUNCH"
+    noteOption="STATE_READY_ODOMETRY_LAUNCH"
+    time="0.375"/>
+ <primitive id="DO_NOTHING"
+                noteOption="STATE_AUTO_LAUNCH"
                time="0.375"/>
 </auton>

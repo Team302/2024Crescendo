@@ -3,7 +3,7 @@
 
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+<primitive id= "RESET_POSITION_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_A"/>
 
 <snippet file= "ShootWhenStopManual.xml"/>
@@ -13,11 +13,6 @@ pathname= "BlueSubwooferWing2Center2_A"
 time= "3.0"
 noteOption="STATE_FEEDER_INTAKE"
 visionAligment= "SPEAKER"/>
- 
-<!-- <primitive id= "DRIVE_PATH_PLANNER"
-pathname= "DRIVE_TO_NOTE"
-noteOption="STATE_FEEDER_INTAKE"
-pathgains= "ShortPath"/> -->
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
@@ -26,12 +21,6 @@ pathname= "BlueSubwooferWing2Center2_B"
 time= "3.0"
 noteOption="STATE_FEEDER_INTAKE"
 pathUpdateOption = "NOTE"/>
-
-<!--<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "DRIVE_TO_NOTE"
-noteOption="STATE_FEEDER_INTAKE"
-time="2.0"
-pathgains= "ShortPath"/>-->
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_C"
