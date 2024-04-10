@@ -322,6 +322,27 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
                                          m_backLeft->GetState(),
                                          m_backRight->GetState()});
 }
+//==================================================================================
+
+void SwerveChassis::LogSwerveEncoderData(SwerveModule::SWERVE_MODULES swerveModule)
+{
+    if (swerveModule == SwerveModule::SWERVE_MODULES::RIGHT_FRONT)
+    {
+        m_frontRight->LogInformation();
+    }
+    else if (swerveModule == SwerveModule::SWERVE_MODULES::RIGHT_BACK)
+    {
+        m_backRight->LogInformation();
+    }
+    else if (swerveModule == SwerveModule::SWERVE_MODULES::LEFT_FRONT)
+    {
+        m_frontLeft->LogInformation();
+    }
+    else if (swerveModule == SwerveModule::SWERVE_MODULES::LEFT_BACK)
+    {
+        m_backLeft->LogInformation();
+    }
+}
 
 //==================================================================================
 void SwerveChassis::ResetPose(const Pose2d &pose)

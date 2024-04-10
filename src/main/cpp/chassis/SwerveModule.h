@@ -54,6 +54,13 @@ public:
                  std::string configfilename,
                  std::string networkTableName);
 
+    enum SWERVE_MODULES
+    {
+        RIGHT_FRONT,
+        LEFT_FRONT,
+        RIGHT_BACK,
+        LEFT_BACK
+    };
     /// @brief Turn all of the wheel to zero degrees yaw according to the pigeon
     /// @returns void
     void ZeroAlignModule();

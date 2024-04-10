@@ -82,7 +82,7 @@ public:
     void ResetYaw();
     void SetYaw(units::angle::degree_t newYaw);
 
-    void LogSwerveEncoderData();
+    void LogSwerveEncoderData(SwerveModule::SWERVE_MODULES swerveModule);
 
     units::length::inch_t GetWheelDiameter() const override;
     units::length::inch_t GetWheelBase() const { return m_wheelBase; }
