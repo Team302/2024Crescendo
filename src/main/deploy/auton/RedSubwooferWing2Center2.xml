@@ -11,47 +11,47 @@ pathname= "BlueSubwooferWing2Center2_A"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_A"
 time= "3.0"
-noteOption="STATE_FEEDER_INTAKE"/>
-
-<primitive id= "DRIVE_PATH_PLANNER"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment= "SPEAKER"/>
+ 
+<!-- <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "DRIVE_TO_NOTE"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains= "ShortPath"/>
+pathgains= "ShortPath"/> -->
 
-<snippet file= "ShootWhenStopManual.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_B"
 time= "3.0"
-noteOption="STATE_FEEDER_INTAKE"/>
+noteOption="STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
+<!--<primitive id= "DRIVE_PATH_PLANNER"
 pathname= "DRIVE_TO_NOTE"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains= "ShortPath"/>
+time="2.0"
+pathgains= "ShortPath"/>-->
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_C"
 time= "3.0"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains= "ShortPath"/>
+visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_D"
 time= "3.0"
-noteOption="STATE_FEEDER_INTAKE"/>
-
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "DRIVE_TO_NOTE"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains= "ShortPath"/>
+pathUpdateOption = "NOTE"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_E"
 time= "3.0"
-noteOption="STATE_FEEDER_INTAKE"/>
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
