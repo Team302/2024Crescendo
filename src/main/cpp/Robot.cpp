@@ -234,6 +234,8 @@ void Robot::LogDiagnosticData()
         LogSensorData();
     else if (step == 1)
         LogMotorData();
+    else if (step == 3)
+        LogCameraData();
 
     loopCounter++;
 }
@@ -294,6 +296,14 @@ void Robot::LogMotorData()
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsClimber"), string("Right climber"), climberMgr->getrightClimber()->GetCounts());
         }
     }
+}
+
+void Robot::LogCameraData()
+{
+    // TODO: implement encoder logging for chassis
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("LAUNCHER Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LAUNCHE));
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("PLACER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::PINTAKE));
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("LAUNCHER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LINTAKE));
 }
 
 void Robot::SimulationInit()

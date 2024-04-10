@@ -242,10 +242,10 @@ void SwerveModule::LogInformation()
         ntRotorPositionName += string("rightfront rotor");
     }
     auto turns = m_turnTalon->GetPosition().GetValueAsDouble();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntMotorPositionName, turns);
+    Logger::GetLogger()->LogDataDirectlyOverNT(m_networkTableName, ntMotorPositionName, turns);
 
     auto rotor = m_turnTalon->GetRotorPosition().GetValueAsDouble();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntRotorPositionName, rotor);
+    Logger::GetLogger()->LogDataDirectlyOverNT(m_networkTableName, ntRotorPositionName, rotor);
 }
 
 //==================================================================================

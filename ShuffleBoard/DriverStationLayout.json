@@ -1,0 +1,418 @@
+{
+  "tabPane": [
+    {
+      "title": "Driver Dashboard",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Compressor/Compressor on",
+              "_title": "Compressor/Compressor on",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "0,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Alliance If NO FMS",
+              "_title": "SmartDashboard/Alliance If NO FMS",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,0": {
+            "size": [
+              6,
+              5
+            ],
+            "content": {
+              "_type": "Field",
+              "_source0": "network_table:///SmartDashboard/Field",
+              "_title": "SmartDashboard/Field",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Game/Game": "k2024Crescendo",
+              "Visuals/Robot Icon Size": 50.0,
+              "Visuals/Show Outside Circles": false
+            }
+          },
+          "0,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Logging Levels",
+              "_title": "SmartDashboard/Logging Levels",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Logging Options",
+              "_title": "SmartDashboard/Logging Options",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/StartPos",
+              "_title": "SmartDashboard/StartPos",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///XBOX Controller/Controller0",
+              "_title": "XBOX Controller/Controller0",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "3,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///XBOX Controller/Controller1",
+              "_title": "XBOX Controller/Controller1",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "1,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/NumofWingpcs",
+              "_title": "SmartDashboard/NumofWingpcs",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/NumofCenterpcs",
+              "_title": "SmartDashboard/NumofCenterpcs",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,2": {
+            "size": [
+              6,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///auton file",
+              "_title": "auton file",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Grid Layout",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 3,
+              "Layout/Number of rows": 3,
+              "Layout/Label position": "BOTTOM",
+              "_children": {}
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Grid Layout",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 3,
+              "Layout/Number of rows": 3,
+              "Layout/Label position": "BOTTOM",
+              "_children": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Debugging",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "6,0": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///Ready",
+              "_title": "/Ready",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,0": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///State Transition",
+              "_title": "/State Transition",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///ClimberManager/Enable Tuning for ClimberManager",
+              "_title": "ClimberManager/Enable Tuning for ClimberManager",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,2": {
+            "size": [
+              5,
+              4
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///Launcher",
+              "_title": "/Launcher",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,0": {
+            "size": [
+              4,
+              6
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///photonvision/Launcher",
+              "_title": "photonvision/Launcher",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,0": {
+            "size": [
+              3,
+              4
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///ArrivedAt",
+              "_title": "ArrivedAt",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "PIT Debug",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LimelightDiagnostics",
+              "_title": "LimelightDiagnostics",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///MotorDiagnosticsClimber",
+              "_title": "MotorDiagnosticsClimber",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///MotorDiagnosticsIntake",
+              "_title": "MotorDiagnosticsIntake",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///MotorDiagnosticsLauncher",
+              "_title": "MotorDiagnosticsLauncher",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///MotorDiagnosticsPlacer",
+              "_title": "MotorDiagnosticsPlacer",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,4": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SensorsIntake",
+              "_title": "SensorsIntake",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,4": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SensorsLauncher",
+              "_title": "SensorsLauncher",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,4": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SensorsPlacer",
+              "_title": "SensorsPlacer",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "windowGeometry": {
+    "x": -8.0,
+    "y": -8.0,
+    "width": 1936.0,
+    "height": 1056.0
+  }
+}
