@@ -97,14 +97,6 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             frc::Pose2d currentTargetPos = m_trajectory.getEndState().getTargetHolonomicPose();
             units::length::meter_t distance = currentTargetPos.Translation().Distance(newNotePos.Translation());
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Note Distance", distance.to<double>());
-
-            /*if (distance > units::length::meter_t(0.3))
-            {
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "trajectory drive", "New Trajectory Created", "True");
-
-                DriveToNote *driveToNote = new DriveToNote(m_robotDrive, this);
-                driveToNote->Init(chassisMovement);
-            }*/
         }
 
         auto desiredState = m_trajectory.sample(m_timer.get()->Get() + units::time::second_t(0.02));
@@ -146,15 +138,6 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
     }
 
     return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
-}
-
-void TrajectoryDrivePathPlanner::CheckForDriveToNote()
-{
-    auto currentTime = m_timer.get()->Get();
-
-    if ((currentTime) / m_totalTrajectoryTime >= m_percentageCompleteThreshold)
-    {
-    }
 }
 
 bool TrajectoryDrivePathPlanner::IsDone()

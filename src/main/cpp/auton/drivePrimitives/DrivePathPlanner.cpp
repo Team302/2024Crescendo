@@ -136,19 +136,6 @@ void DrivePathPlanner::Run()
 {
     if (m_chassis != nullptr)
     {
-        /*
-         if (!m_switchedToVisionDrive)
-        {
-            auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-            auto type = get<0>(info);
-            if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
-            {
-                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-                m_driveToNote->Init(m_moveInfo);
-                m_switchedToVisionDrive = true;
-            }
-        }
-        */
         m_chassis->Drive(m_moveInfo);
     }
 }
@@ -165,16 +152,6 @@ bool DrivePathPlanner::IsDone()
     {
         CheckForDriveToNote();
     }
-    // TO DO Figure out how to be able to drive back don't just stop your trajectory (Cause next trajectory to also stop)
-    /*
-    else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
-    {
-        return m_chassis->GetPose().X() >= (m_centerLine + m_offset);
-    }
-    else
-    {
-        return m_chassis->GetPose().X() <= (m_centerLine - m_offset);
-    }*/
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Switched To Vision Drive", m_switchedToVisionDrive);
 
     if (m_switchedToVisionDrive)
