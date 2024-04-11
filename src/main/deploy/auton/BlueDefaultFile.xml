@@ -2,5 +2,5 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 <primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname = "BlueSubwooferWing0Center0"/>
+pathname = "BlueDefault"/>
 </auton>
