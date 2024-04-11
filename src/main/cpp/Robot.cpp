@@ -220,7 +220,6 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic()
 {
-    LogDiagnosticData();
 }
 
 void Robot::LogDiagnosticData()
