@@ -36,8 +36,7 @@ class DrivePathPlanner : public IPrimitive
 {
 public:
     DrivePathPlanner();
-
-    virtual ~DrivePathPlanner() = default;
+    ~DrivePathPlanner() = default;
 
     void Init(PrimitiveParams *params) override;
     void Run() override;
@@ -49,7 +48,6 @@ private:
 
     SwerveChassis *m_chassis;
 
-    RobotDrive *m_robotDrive;
     TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
     DriveToNote *m_driveToNote;
     std::unique_ptr<frc::Timer> m_timer;
