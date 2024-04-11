@@ -55,6 +55,9 @@ using namespace wpi::math;
 
 DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
                                        m_chassis(nullptr),
+                                       m_robotDrive(nullptr),
+                                       m_trajectoryDrivePathPlanner(nullptr),
+                                       m_driveToNote(nullptr),
                                        m_timer(make_unique<Timer>()),
                                        m_trajectory(),
                                        m_pathname(),
@@ -99,12 +102,12 @@ void DrivePathPlanner::InitMoveInfo()
 
     auto pose = m_chassis->GetPose();
     auto speed = m_chassis->GetChassisSpeeds();
-    auto robotDrive = new RobotDrive(m_chassis);
-    auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(robotDrive);
+    m_robotDrive = m_robotDrive == nullptr ? new RobotDrive(m_chassis) : m_robotDrive;
+    m_trajectoryDrivePathPlanner = m_trajectoryDrivePathPlanner == nullptr ? new TrajectoryDrivePathPlanner(m_robotDrive) : m_trajectoryDrivePathPlanner;
 
     if (m_pathname == "DRIVE_TO_NOTE")
     {
-        m_driveToNote = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
+        m_driveToNote = m_driveToNote == nullptr ? new DriveToNote(m_robotDrive, m_trajectoryDrivePathPlanner) : m_driveToNote;
         m_driveToNote->Init(m_moveInfo);
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_switchedToVisionDrive = true;
