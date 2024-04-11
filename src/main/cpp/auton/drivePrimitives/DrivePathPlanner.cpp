@@ -169,7 +169,9 @@ void DrivePathPlanner::CheckForDriveToNote()
 {
     // Need to check if there is a note
     auto currentTime = m_timer.get()->Get();
-    if (((currentTime) / m_totalTrajectoryTime >= m_percentageCompleteThreshold))
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Percent Done", "Done Percent:", static_cast<double>((currentTime.value()) / m_totalTrajectoryTime.value()));
+    if (((currentTime.value()) / m_totalTrajectoryTime.value() >= m_percentageCompleteThreshold))
     {
         m_pathname = "DRIVE_TO_NOTE";
         InitMoveInfo();

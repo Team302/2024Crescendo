@@ -2,9 +2,9 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 
 <auton>
- <primitive id="DO_NOTHING"
+ <!-- <primitive id="DO_NOTHING"
     noteOption="STATE_READY_ODOMETRY_LAUNCH"
-    time="0.375"/>
+    time="0.375"/> -->
  <primitive id="DO_NOTHING"
                 noteOption="STATE_AUTO_LAUNCH"
                time="0.375"/>
