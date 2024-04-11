@@ -290,47 +290,20 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backRight->GetPosition()});
     if (m_vision != nullptr)
     {
-        std::optional<VisionPose> visionPose = m_vision->GetRobotPosition();
-        // Rotation2d mtAngle = GetYaw();
-        // if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
-        // {
-        //     mtAngle.RotateBy(units::degree_t(180));
-        // }
         std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(), // mtAngle.Degrees(),
                                                                                     units::angular_velocity::degrees_per_second_t(0.0),
                                                                                     units::angle::degree_t(0.0),
                                                                                     units::angular_velocity::degrees_per_second_t(0.0),
                                                                                     units::angle::degree_t(0.0),
                                                                                     units::angular_velocity::degrees_per_second_t(0.0));
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "OdometrySwerveChassisLogging", string("UpdateOdometryPigeonYawBeforeMT2"), m_pigeon->GetYaw().GetValue().value());
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "OdometrySwerveChassisLogging", string("UpdateOdometryEstimatedYawBeforeMT2"), m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value());
-        // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "OdometrySwerveChassisLogging", string("mtAngle"), mtAngle.Degrees().value());
+
         if (megaTag2Pose)
         {
             m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
-                                                 megaTag2Pose.value().timeStamp); //,
-            //  megaTag2Pose.value().visionMeasurementStdDevs);
+                                                 megaTag2Pose.value().timeStamp);
         }
-        /*else if (visionPose)
-        {
-
-            // only updated based on vision if std deviations are met and difference is under thresholds
-            frc::Pose2d chassisPose2d = GetPose();
-            frc::Pose2d visionPose2d = visionPose.value().estimatedPose.ToPose2d();
-            wpi::array<double, 3> visionMeasurementStdDevs = visionPose.value().visionMeasurementStdDevs;
-            units::length::meter_t poseDifference = chassisPose2d.Translation().Distance(visionPose2d.Translation());
-
-            if ((visionMeasurementStdDevs[0] == 0.5) || (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0) || (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0) && !frc::DriverStation::IsTeleopEnabled())
-            {
-
-                m_poseEstimator.AddVisionMeasurement(visionPose.value().estimatedPose.ToPose2d(),
-                                                     visionPose.value().timeStamp,
-                                                     visionPose.value().visionMeasurementStdDevs);
-            }
-        }*/
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "OdometrySwerveChassisLogging", string("UpdateOdometryPigeonYawAfterMT2"), m_pigeon->GetYaw().GetValue().value());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "OdometrySwerveChassisLogging", string("UpdateOdometryEstimatedYawAfterMT2"), m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value());
+
     LogInformation();
 }
 
