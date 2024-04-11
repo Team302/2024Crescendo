@@ -103,8 +103,9 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	int reason = 0;
 
-	if (m_mechanism->IsEnabled() && (currentState == static_cast<int>(m_mechanism->STATE_OFF)))
+	if ((currentState == static_cast<int>(m_mechanism->STATE_INITIALIZE)) && (m_mechanism->getlauncherAngle()->IsReverseLimitSwitchClosed()))
 	{
+		m_mechanism->getlauncherAngle()->SetSelectedSensorPosition(0);
 		transition = true;
 		reason = 1;
 	}
@@ -121,7 +122,7 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 	}
 	else if ((launcherSensor == false) &&
 			 (feederSensor == false) &&
-			 ((currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH_ODOMETRY))))
+			 ((currentState == static_cast<int>(m_mechanism->STATE_READY_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == static_cast<int>(m_mechanism->STATE_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_LOW_PASS)) || (currentState == static_cast<int>(m_mechanism->STATE_AUTO_LAUNCH_ODOMETRY))))
 	{
 		m_launchTimer->Start();
 		if (m_launchTimer->Get().to<double>() > 0.25)
@@ -140,11 +141,12 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		transition = true;
 		reason = 5;
 	}
-	else if (considerGamepadTransitions && (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) == false) &&
+	else if (considerGamepadTransitions && ((TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) == false) && (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_NOTE) == false)) &&
 			 ((frontIntakeSensor == false) && (backIntakeSensor == false)) &&
 			 (((currentState == static_cast<int>(m_mechanism->STATE_PLACER_INTAKE)) && ((placerInSensor == false) && (placerMidSensor == false))) ||
 			  ((currentState == static_cast<int>(m_mechanism->STATE_FEEDER_INTAKE)) && ((launcherSensor == false) && (feederSensor == false)))))
 	{
+
 		transition = true;
 		reason = 6;
 	}
@@ -153,6 +155,11 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 	{
 		transition = true;
 		reason = 7;
+	}
+	else if (currentState == static_cast<int>(m_mechanism->STATE_HOLD_FEEDER) && (m_mechanism->GetTransitionFromHoldFeedToReady()))
+	{
+		transition = true;
+		reason = 8;
 	}
 
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason); // Remove logging after Note management is all verifed

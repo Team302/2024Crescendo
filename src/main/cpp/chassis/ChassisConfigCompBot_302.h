@@ -33,7 +33,7 @@ private:
 	std::string m_canbusName = std::string("canivore");
 	const int m_leftfrontdriveID = 10;
 	const int m_leftfrontturnID = 11;
-	const double m_leftfrontOffset = -0.336426;
+	const double m_leftfrontOffset = -0.1804;
 	const bool m_leftfrontdriveInvert = false;
 	const bool m_leftfrontturnInvert = true;
 	const bool m_leftfrontcancoderInvert = false;
@@ -47,7 +47,7 @@ private:
 
 	const int m_rightfrontdriveID = 12;
 	const int m_rightfrontturnID = 13;
-	const double m_rightfrontOffset = 0.39404296875;
+	const double m_rightfrontOffset = 0.40063476;
 	const bool m_rightfrontdriveInvert = true;
 	const bool m_rightfrontturnInvert = false;
 	const bool m_rightfrontcancoderInvert = false;

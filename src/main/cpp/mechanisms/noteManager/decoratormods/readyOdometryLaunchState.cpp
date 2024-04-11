@@ -21,6 +21,7 @@
 // FRC includes
 
 // Team 302 includes
+#include "chassis/DragonDriveTargetFinder.h"
 #include "mechanisms/noteManager/decoratormods/readyOdometryLaunchState.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "teleopcontrol/TeleopControlFunctions.h"
@@ -49,7 +50,24 @@ void readyOdometryLaunchState::Init()
 
 void readyOdometryLaunchState::Run()
 {
-	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyOdometryLaunchState"), string("run"));
+	/*auto finder = DragonDriveTargetFinder::GetInstance();
+	auto dist = units::length::meter_t(1.0);
+	if (finder != nullptr)
+	{
+		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto type = get<0>(distinfo);
+		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
+		{
+			auto odomdist = get<1>(distinfo);
+			if (odomdist.value() > 0.5 && odomdist.value() < 5.0)
+			{
+				dist = odomdist;
+			}
+		}
+	}
+	auto targetAngle = m_mechanism->GetRequiredLaunchAngle();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, targetAngle);
+*/
 	m_genState->Run();
 }
 

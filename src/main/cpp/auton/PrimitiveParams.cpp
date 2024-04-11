@@ -16,7 +16,6 @@
 
 #include "auton/PrimitiveEnums.h"
 #include "auton/PrimitiveParams.h"
-#include "chassis/IChassis.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
@@ -29,6 +28,7 @@ PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
 								 ChassisOptionEnums::HeadingOption headingOpt,
 								 float heading,
 								 std::string pathName,
+								 ChassisOptionEnums::PathGainsType pathgainstype,
 								 ZoneParamsVector zones,
 								 VISION_ALIGNMENT visionAlignment,
 								 bool noteStateChanged,
@@ -39,6 +39,7 @@ PrimitiveParams::PrimitiveParams(PRIMITIVE_IDENTIFIER id,
 																				m_headingOption(headingOpt),
 																				m_heading(heading),
 																				m_pathName(pathName),
+																				m_pathGainsType(pathgainstype),
 																				m_visionAlignment(visionAlignment),
 																				m_changeNoteState(noteStateChanged),
 																				m_noteState(noteState),

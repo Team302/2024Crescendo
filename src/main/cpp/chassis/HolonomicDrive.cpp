@@ -113,7 +113,7 @@ void HolonomicDrive::Run()
 
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
-        auto isAlignGamePieceSelected = false; // controller->IsButtonPressed(TeleopControlFunctions::INTAKE);
+        auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_NOTE);
         auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::ROBOT_ORIENTED_DRIVE);
         auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
         auto isAlignWithStageSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE);
@@ -123,23 +123,14 @@ void HolonomicDrive::Run()
         auto isFaceBackward = controller->IsButtonPressed(TeleopControlFunctions::AUTO_TURN_BACKWARD);
         auto isSlowMode = controller->IsButtonPressed(TeleopControlFunctions::SLOW_MODE);
         auto checkTipping = controller->IsButtonPressed(TeleopControlFunctions::TIPCORRECTION_TOGGLE);
+        auto isTurnToPassAngle = controller->IsButtonPressed(TeleopControlFunctions::TURN_TO_PASS_ANGLE);
 
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
         {
-            StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
-            auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManager *>(noteStateManager) : nullptr;
-            if (!noteMgr->HasNote())
-            {
-                auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-                auto type = get<0>(info);
-                if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
-                {
-                    AlignGamePiece();
-                    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                }
-            }
+            DriveToGamePiece(forward, strafe, rotate);
         }
+
         else if (isAlignWithAmpSelected)
         {
             AlignToAmp();
@@ -153,8 +144,7 @@ void HolonomicDrive::Run()
         }
         else if (isAlignWithSpeakerSelected)
         {
-            // AlignToSpeaker();
-            TurnBackward();
+            AlignToSpeaker();
         }
         else
         {
@@ -170,6 +160,10 @@ void HolonomicDrive::Run()
             else if (isFaceBackward)
             {
                 TurnBackward();
+            }
+            else if (isTurnToPassAngle)
+            {
+                TurnToPassAngle();
             }
             // Switch Drive Modes
             if (isHoldPositionSelected)
@@ -193,11 +187,6 @@ void HolonomicDrive::Run()
                 if ((m_moveInfo.driveOption != ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER))
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
-                    if ((abs(forward) < 0.05 && abs(strafe) < 0.05 && abs(rotate) < 0.05) && (m_moveInfo.headingOption != ChassisOptionEnums::HeadingOption::FACE_SPEAKER))
-                    {
-                        m_previousDriveState = m_moveInfo.driveOption;
-                        m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
-                    }
                 }
             }
         }
@@ -216,6 +205,8 @@ void HolonomicDrive::Run()
         CheckTipping(checkTipping);
 
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Heading Option", m_moveInfo.headingOption);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "AlignDebugging", "Drive Option", m_moveInfo.driveOption);
+
         m_swerve->Drive(m_moveInfo);
     }
     else
@@ -290,13 +281,15 @@ void HolonomicDrive::HoldPosition()
     m_previousDriveState = m_moveInfo.driveOption;
     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::HOLD_DRIVE;
 }
-void HolonomicDrive::DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose)
+void HolonomicDrive::DriveToGamePiece(double forward, double strafe, double rot)
 {
-    if (abs(forward) < 0.05 && abs(strafe) < 0.05)
+
+    StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+    auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManager *>(noteStateManager) : nullptr;
+    if (!noteMgr->HasNote() && abs(forward) < 0.2 && abs(strafe) < 0.2 && abs(rot) < 0.2)
     {
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::IGNORE;
-        m_moveInfo.targetPose = targetPose;
     }
     else
     {
@@ -327,6 +320,20 @@ void HolonomicDrive::TurnBackward()
     else
     {
         m_moveInfo.yawAngle = units::angle::degree_t(0.0);
+    }
+}
+
+void HolonomicDrive::TurnToPassAngle()
+{
+    m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::SPECIFIED_ANGLE;
+
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
+    {
+        m_moveInfo.yawAngle = units::angle::degree_t(150.0);
+    }
+    else
+    {
+        m_moveInfo.yawAngle = units::angle::degree_t(-150.0);
     }
 }
 void HolonomicDrive::SlowMode()

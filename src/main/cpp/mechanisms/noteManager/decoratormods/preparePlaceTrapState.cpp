@@ -56,6 +56,8 @@ void preparePlaceTrapState::Run()
 		m_target += delta;
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, m_target);
 	}
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Placer Debugging", "Elevator Position (in)", m_mechanism->getElevator()->GetCounts());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Placer Debugging", "Elevator Target", m_target);
 	m_genState->Run();
 }
 
@@ -76,6 +78,8 @@ bool preparePlaceTrapState::IsTransitionCondition(bool considerGamepadTransition
 
 	auto currentState = m_mechanism->GetCurrentState();
 
-	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE) && (m_mechanism->IsClimbMode())) ||
-			((currentState == m_mechanism->STATE_PREPARE_PLACE_AMP) && (m_mechanism->IsClimbMode())));
+	bool buttonsPressed = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) || TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE);
+
+	return (considerGamepadTransitions && buttonsPressed && (m_mechanism->IsClimbMode())) ||
+		   ((currentState == m_mechanism->STATE_PREPARE_PLACE_AMP) && (m_mechanism->IsClimbMode()));
 }

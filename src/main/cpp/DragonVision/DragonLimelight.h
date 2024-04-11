@@ -91,6 +91,7 @@ public:
     ///-----------------------------------------------------------------------------------
     ~DragonLimelight() = default;
 
+    bool HealthCheck();
     bool HasTarget();
 
     std::optional<units::angle::degree_t> GetTargetYaw();
@@ -106,6 +107,8 @@ public:
 
     std::optional<VisionPose> GetFieldPosition();
     std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
+
+    std::optional<VisionPose> EstimatePoseOdometryLimelight();
 
     std::optional<VisionPose> GetRedFieldPosition();
     std::optional<VisionPose> GetBlueFieldPosition();
@@ -133,6 +136,7 @@ public:
     void SetCrosshairPos(double crosshairPosX, double crosshairPosY);
     void SetSecondaryCrosshairPos(double crosshairPosX, double crosshairPosY);
 
+
     bool UpdatePipeline();
 
     void PrintValues(); // Prints out all values to ensure everything is working and connected
@@ -140,6 +144,10 @@ public:
 protected:
     units::angle::degree_t GetTx() const;
     units::angle::degree_t GetTy() const;
-
+    units::length::inch_t m_driveThroughOffset = units::length::inch_t(0.0);
     std::shared_ptr<nt::NetworkTable> m_networktable;
+    const double START_HB = -9999;
+    const double MAX_HB = 2000000000;
+    double m_lastHeartbeat = START_HB;
+    double m_repeatingHeartbeat = 0;
 };

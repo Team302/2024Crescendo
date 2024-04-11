@@ -1,0 +1,100 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.3204900255954373,
+        "y": 5.535354916863679
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.2282487641898383,
+        "y": 5.486020202808577
+      },
+      "isLocked": false,
+      "linkedName": "BlueAmpWing3Center3_C"
+    },
+    {
+      "anchor": {
+        "x": 5.104201266094842,
+        "y": 4.55359410718742
+      },
+      "prevControl": {
+        "x": 4.230360143412597,
+        "y": 4.758333170511568
+      },
+      "nextControl": {
+        "x": 5.978042388777087,
+        "y": 4.3488550438632725
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.28012348332389,
+        "y": 4.1046482092964185
+      },
+      "prevControl": {
+        "x": 6.721146519216118,
+        "y": 3.966511009944037
+      },
+      "nextControl": {
+        "x": 8.723384822168228,
+        "y": 4.143924530460142
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.104201266094842,
+        "y": 4.449991207673663
+      },
+      "prevControl": {
+        "x": 6.766701656794008,
+        "y": 3.961156141338205
+      },
+      "nextControl": {
+        "x": 4.214943045270708,
+        "y": 4.711465192159828
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.3204900255954373,
+        "y": 5.535354916863679
+      },
+      "prevControl": {
+        "x": 3.2085148785682196,
+        "y": 5.564955745296107
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "BlueAmpWing3Center3",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

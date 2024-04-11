@@ -24,21 +24,23 @@
 
 // Team302 Includes
 #include "chassis/driveStates/RobotDrive.h"
-#include "chassis/SwerveChassis.h"
 #include "DragonVision/DragonVision.h"
 #include "chassis/DragonDriveTargetFinder.h"
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "utils/FMSData.h"
+#include "chassis/SwerveChassis.h"
 
 class DriveToNote : public TrajectoryDrivePathPlanner
 {
 public:
     DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
 
-    pathplanner::PathPlannerTrajectory CreateDriveToNote(frc::Pose2d targetPose);
+    pathplanner::PathPlannerTrajectory CreateDriveToNote();
     void Init(ChassisMovement &chassisMovement) override;
     pathplanner::PathPlannerTrajectory GetTrajectory() const { return m_trajectory; }
+
+    bool IsDone();
 
 private:
     DragonDriveTargetFinder *m_dragonDriveTargetFinder;
@@ -49,9 +51,4 @@ private:
     frc::Pose2d m_oldTargetPose;
 
     pathplanner::PathPlannerTrajectory m_trajectory;
-
-    const units::meters_per_second_t m_maxVel = 3.0_mps;
-    const units::meters_per_second_squared_t m_maxAccel = 3.0_mps_sq;
-    const units::radians_per_second_t m_maxAngularVel = 360_deg_per_s;
-    const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
 };

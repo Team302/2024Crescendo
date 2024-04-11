@@ -20,6 +20,9 @@
 #include "chassis/ChassisConfigMgr.h"
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose2d.h"
+#include "utils/FMSData.h"
+
+#include "utils/logging/Logger.h"
 
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : SpecifiedHeading(headingOption)
 {
@@ -33,8 +36,20 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
         auto info = finder->GetPose(GetVisionElement());
         if (get<0>(info) != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
         {
-            auto targetPose = get<1>(info);
-            return targetPose.Rotation().Degrees();
+            auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+            auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+            auto currentPose = chassis->GetPose();
+            frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
+
+            if (chassis != nullptr)
+            {
+                auto targetPose = get<1>(info);
+
+                units::angle::degree_t fieldRelativeAngle = (allianceColor == frc::DriverStation::Alliance::kBlue) ? (units::angle::degree_t(180) + targetPose.Rotation().Degrees()) : targetPose.Rotation().Degrees();
+
+                chassisMovement.yawAngle = fieldRelativeAngle;
+                return fieldRelativeAngle;
+            }
         }
     }
 

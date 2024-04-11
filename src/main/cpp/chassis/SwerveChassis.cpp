@@ -25,11 +25,12 @@
 #include "frc/kinematics/SwerveModulePosition.h"
 
 // Team 302 includes
+#include "chassis/driveStates/DriveToNote.h"
 #include "chassis/driveStates/FieldDrive.h"
 #include "chassis/driveStates/HoldDrive.h"
 #include "chassis/driveStates/RobotDrive.h"
-#include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/StageDrive.h"
+#include "chassis/driveStates/StopDrive.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "chassis/headingStates/FaceAmp.h"
 #include "chassis/headingStates/FaceCenterStage.h"
@@ -44,9 +45,7 @@
 #include "chassis/headingStates/SpecifiedHeading.h"
 #include "chassis/LogChassisMovement.h"
 #include "chassis/SwerveChassis.h"
-#include "utils/FMSData.h"
 #include "utils/logging/Logger.h"
-#include "chassis/driveStates/DriveToNote.h"
 
 // Third Party Includes
 #include "pugixml/pugixml.hpp"
@@ -102,7 +101,8 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                                         {0.1, 0.1, 0.1}),
                                                         m_storedYaw(units::angle::degree_t(0.0)),
                                                         m_targetHeading(units::angle::degree_t(0.0)),
-                                                        m_networkTableName(networkTableName)
+                                                        m_networkTableName(networkTableName),
+                                                        m_vision(DragonVision::GetDragonVision())
 {
     ReadConstants(configfilename);
     InitStates();
@@ -228,37 +228,16 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
 {
     auto state = GetSpecifiedDriveState(moveInfo.driveOption);
 
-    auto isHoldDrive = moveInfo.driveOption == ChassisOptionEnums::HOLD_DRIVE;
-    auto isStopDrive = moveInfo.driveOption == ChassisOptionEnums::STOP_DRIVE;
-    auto hasTrajectory = moveInfo.driveOption == ChassisOptionEnums::TRAJECTORY_DRIVE_PLANNER;
-
-    if (!hasTrajectory && !isHoldDrive && !isStopDrive &&
-        (units::math::abs(moveInfo.chassisSpeeds.vx) < m_velocityDeadband) &&
-        (units::math::abs(moveInfo.chassisSpeeds.vy) < m_velocityDeadband) &&
-        (units::math::abs(moveInfo.chassisSpeeds.omega) < m_angularDeadband))
+    auto itr = m_driveStateMap.find(moveInfo.driveOption);
+    if (itr == m_driveStateMap.end())
     {
-        if (moveInfo.noMovementOption == ChassisOptionEnums::NoMovementOption::HOLD_POSITION)
-        {
-            state = m_driveStateMap[ChassisOptionEnums::HOLD_DRIVE];
-        }
-        else
-        {
-            state = m_driveStateMap[ChassisOptionEnums::STOP_DRIVE];
-        }
+        return m_robotDrive;
     }
-    else
-    {
-        auto itr = m_driveStateMap.find(moveInfo.driveOption);
-        if (itr == m_driveStateMap.end())
-        {
-            return m_robotDrive;
-        }
-        state = itr->second;
+    state = itr->second;
 
-        if (m_currentDriveState == nullptr)
-        {
-            m_currentDriveState = m_robotDrive;
-        }
+    if (m_currentDriveState == nullptr)
+    {
+        m_currentDriveState = m_robotDrive;
     }
 
     if (state != m_currentDriveState)
@@ -271,6 +250,7 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
         state->Init(moveInfo);
         m_initialized = true;
     }
+
     return state;
 }
 
@@ -308,6 +288,27 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_frontRight->GetPosition(),
                                                                            m_backLeft->GetPosition(),
                                                                            m_backRight->GetPosition()});
+    if (m_vision != nullptr)
+    {
+        std::optional<VisionPose> visionPose = m_vision->GetRobotPosition();
+        if (visionPose)
+        {
+
+            // only updated based on vision if std deviations are met and difference is under thresholds
+            frc::Pose2d chassisPose2d = GetPose();
+            frc::Pose2d visionPose2d = visionPose.value().estimatedPose.ToPose2d();
+            wpi::array<double, 3> visionMeasurementStdDevs = visionPose.value().visionMeasurementStdDevs;
+            units::length::meter_t poseDifference = chassisPose2d.Translation().Distance(visionPose2d.Translation());
+
+            if ((visionMeasurementStdDevs[0] == 0.5) || (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0) || (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0) && !frc::DriverStation::IsTeleopEnabled())
+            {
+
+                m_poseEstimator.AddVisionMeasurement(visionPose.value().estimatedPose.ToPose2d(),
+                                                     visionPose.value().timeStamp,
+                                                     visionPose.value().visionMeasurementStdDevs);
+            }
+        }
+    }
     LogInformation();
 }
 

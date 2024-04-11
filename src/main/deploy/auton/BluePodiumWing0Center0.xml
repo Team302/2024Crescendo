@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+        pathname= "BluePodiumWing0Center0"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    pathname= "BluePodiumWing0Center0"
+    time= "5.0"
+noteOption="STATE_READY"/>
+
+
+
+</auton>

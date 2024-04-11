@@ -22,6 +22,7 @@
 #include "auton/PrimitiveParser.h"
 #include "auton/ZoneParams.h"
 #include "auton/ZoneParser.h"
+#include "chassis/ChassisOptionEnums.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/MechanismTypes.h"
@@ -47,6 +48,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     primStringToEnumMap["RESET_POSITION_PATH_PLANNER"] = RESET_POSITION_PATH_PLANNER;
     primStringToEnumMap["RESET_POSITION_PATH_PLANNER_NO_VISION"] = RESET_POSITION_PATH_PLANNER_NO_VISION;
     primStringToEnumMap["VISION_ALIGN"] = VISION_ALIGN;
+    primStringToEnumMap["DRIVE_TO_NOTE"] = DRIVE_TO_NOTE;
 
     map<string, ChassisOptionEnums::HeadingOption> headingOptionMap;
     headingOptionMap["MAINTAIN"] = ChassisOptionEnums::HeadingOption::MAINTAIN;
@@ -58,6 +60,10 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
     headingOptionMap["FACE_LEFT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_LEFT_STAGE;
     headingOptionMap["FACE_RIGHT_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE;
     headingOptionMap["FACE_CENTER_STAGE"] = ChassisOptionEnums::HeadingOption::FACE_CENTER_STAGE;
+
+    map<string, ChassisOptionEnums::PathGainsType> pathGainsMap;
+    pathGainsMap["LongPath"] = ChassisOptionEnums::PathGainsType::LONG;
+    pathGainsMap["ShortPath"] = ChassisOptionEnums::PathGainsType::SHORT;
 
     map<string, PrimitiveParams::VISION_ALIGNMENT> xmlStringToVisionAlignmentEnumMap{
         {"UNKNOWN", PrimitiveParams::VISION_ALIGNMENT::UNKNOWN},
@@ -131,6 +137,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     bool changeClimberState = false;
                     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
                     std::string pathName;
+                    ChassisOptionEnums::PathGainsType pathGainsType = ChassisOptionEnums::PathGainsType::LONG;
                     ZoneParamsVector zones;
 
                     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("About to parse primitive"), (double)paramVector.size());
@@ -176,6 +183,19 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         else if (strcmp(attr.name(), "pathname") == 0)
                         {
                             pathName = attr.value();
+                        }
+                        else if (strcmp(attr.name(), "pathgains") == 0)
+                        {
+                            auto pathitr = pathGainsMap.find(attr.value());
+                            if (pathitr != pathGainsMap.end())
+                            {
+                                pathGainsType = pathitr->second;
+                            }
+                            else
+                            {
+                                Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML invalid path gains option"), attr.value());
+                                hasError = true;
+                            }
                         }
                         else if (strcmp(attr.name(), "noteOption") == 0)
                         {
@@ -240,6 +260,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      headingOption,
                                                                      heading,
                                                                      pathName,
+                                                                     pathGainsType,
                                                                      zones, // vector of all zones included as part of the path
                                                                             // can have multiple zones as part of a complex path
                                                                      visionAlignment,

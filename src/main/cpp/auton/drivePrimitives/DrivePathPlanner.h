@@ -20,7 +20,9 @@
 // Team302 Includes
 #include "auton/PrimitiveParams.h"
 #include "auton/drivePrimitives/IPrimitive.h"
+#include "chassis/ChassisOptionEnums.h"
 #include "chassis/SwerveChassis.h"
+#include "chassis/driveStates/DriveToNote.h"
 
 // FRC,WPI Includes
 #include "frc/Timer.h"
@@ -42,11 +44,16 @@ public:
 
 private:
     SwerveChassis *m_chassis;
+    DriveToNote *m_driveToNote;
     std::unique_ptr<frc::Timer> m_timer;
     pathplanner::PathPlannerTrajectory m_trajectory;
     std::string m_pathname;
+    ChassisOptionEnums::PathGainsType m_pathGainsType;
     units::time::second_t m_maxTime;
     std::string m_ntName;
     bool m_switchedToVisionDrive;
     PrimitiveParams::VISION_ALIGNMENT m_visionAlignment;
+    ChassisMovement m_moveInfo;
+    units::length::meter_t m_centerLine = units::length::meter_t(8.27);
+    units::length::meter_t m_offset = units::length::meter_t(1.0);
 };

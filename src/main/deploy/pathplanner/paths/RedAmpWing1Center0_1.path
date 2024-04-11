@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -156.98351086546967,
+    "rotation": -156.98,
     "rotateFast": true
   },
   "reversed": false,
   "folder": "RedAmpWing1Center2",
   "previewStartingState": {
-    "rotation": -146.58,
+    "rotation": -136.02,
     "velocity": 0
   },
   "useDefaultConstraints": false

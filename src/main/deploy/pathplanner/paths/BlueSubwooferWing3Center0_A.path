@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.3140196323188638,
+        "y": 5.55
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.3140196323188638,
+        "y": 5.561710836545783
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.915175607984318,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 2.929096301907125,
+        "y": 5.561710836545783
+      },
+      "nextControl": {
+        "x": 2.901254914061511,
+        "y": 5.538289163454217
+      },
+      "isLocked": false,
+      "linkedName": "BlueSubwooferWing3Center0_A"
+    },
+    {
+      "anchor": {
+        "x": 1.3287569764701164,
+        "y": 5.56072346635434
+      },
+      "prevControl": {
+        "x": 2.1150059452658136,
+        "y": 5.549506314904279
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -179.25594079711132,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "BlueSubwooferWing3Center0",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

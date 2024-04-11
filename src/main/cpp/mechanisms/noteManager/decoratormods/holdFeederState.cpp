@@ -46,12 +46,28 @@ void holdFeederState::Init()
 
 	m_genState->Init();
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->getlauncherAngle()->GetCounts());
+
+	m_NoteMisdetectionCounter = 0;
 }
 
 void holdFeederState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederState"), string("run"));
 	m_genState->Run();
+
+	bool launcherSensor = m_mechanism->getlauncherSensor()->Get();
+	bool feederSensor = m_mechanism->getfeederSensor()->Get();
+	if ((launcherSensor == false) && (feederSensor == false))
+	{
+		if (m_NoteMisdetectionCounter < m_NoteMisdetectionThreshhold)
+			m_NoteMisdetectionCounter++;
+	}
+	else
+	{
+		if (m_NoteMisdetectionCounter > 0)
+			m_NoteMisdetectionCounter--;
+	}
+	m_mechanism->SetTransitionFromHoldFeedToReady(m_NoteMisdetectionCounter == m_NoteMisdetectionThreshhold);
 }
 
 void holdFeederState::Exit()

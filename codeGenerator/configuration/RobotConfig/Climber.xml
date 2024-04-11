@@ -548,6 +548,13 @@
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPercetOut</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -559,6 +566,13 @@
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPercetOut</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -584,6 +598,13 @@
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -595,6 +616,13 @@
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -628,6 +656,13 @@
             <value>30</value>
           </target>
           <motorName>leftClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -639,6 +674,13 @@
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -671,6 +713,13 @@
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -682,6 +731,13 @@
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
       </motorTargets>
@@ -707,6 +763,13 @@
             <type>Double</type>
           </target>
           <motorName>leftClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
         <motorTarget>
@@ -718,6 +781,13 @@
             <type>Double</type>
           </target>
           <motorName>rightClimber</motorName>
+          <Enabled>
+            <unitsFamily>none</unitsFamily>
+            <name>boolParameter</name>
+            <__units__ />
+            <type>Boolean</type>
+            <value>true</value>
+          </Enabled>
           <controlDataName>climberPosInch</controlDataName>
         </motorTarget>
       </motorTargets>

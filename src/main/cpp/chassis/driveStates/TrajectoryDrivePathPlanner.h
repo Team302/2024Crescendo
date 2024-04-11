@@ -40,14 +40,21 @@ public:
     bool IsDone();
     units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kPFine, double kPCoarse);
 
+protected:
+    const units::meters_per_second_t m_maxVel = 4.65_mps;
+    const units::meters_per_second_squared_t m_maxAccel = 10.0_mps_sq;
+    const units::radians_per_second_t m_maxAngularVel = 540_deg_per_s;
+    const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
+
 private:
-    bool IsSamePose(frc::Pose2d currentPose, frc::Pose2d previousPose, double xyTolerance, double rotTolerance);
+    bool IsSamePose(frc::Pose2d currentPose, frc::Pose2d previousPose, frc::ChassisSpeeds velocity, double xyTolerance, double rotTolerance, double speedTolerance);
 
     void LogPose(frc::Pose2d pose) const;
     void LogState(pathplanner::PathPlannerTrajectory::State state) const;
     pathplanner::PathPlannerTrajectory m_trajectory;
     RobotDrive *m_robotDrive;
-    pathplanner::PPHolonomicDriveController m_holonomicController;
+    pathplanner::PPHolonomicDriveController m_longpathHolonomicController;
+    pathplanner::PPHolonomicDriveController m_shortpathHolonomicController;
     std::vector<pathplanner::PathPlannerTrajectory::State> m_trajectoryStates;
     pathplanner::PathPlannerTrajectory::State m_finalState;
     frc::Pose2d m_prevPose;
@@ -58,6 +65,7 @@ private:
     std::string m_whyDone;
     units::time::second_t m_totalTrajectoryTime;
 
-    double m_kPCoarse = 6.0;
-    double m_kPFine = 9.5;
+    double m_kPCoarse = 5.0;
+    double m_kPFine = 9.0;
+    int m_firstGen = 0;
 };

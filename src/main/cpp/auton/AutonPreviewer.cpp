@@ -87,12 +87,13 @@ std::vector<frc::Trajectory> AutonPreviewer::GetTrajectories()
     {
         std::vector<Trajectory::State> states;
 
-        if (param->GetID() == PRIMITIVE_IDENTIFIER::DRIVE_PATH_PLANNER)
+        if (param->GetID() == PRIMITIVE_IDENTIFIER::DRIVE_PATH_PLANNER && false)
         {
             auto pathname = param->GetPathName();
             auto path = PathPlannerPath::fromPathFile(pathname);
             if (path.get() != nullptr)
             {
+
                 auto pptrajectory = path.get()->getTrajectory(speeds, heading);
                 auto endstate = pptrajectory.getEndState();
                 heading = endstate.heading;

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.461622332817334,
-        "y": 5.084042833672975
+        "x": 7.26312459757587,
+        "y": 2.48269734770568
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.461622332817333,
-        "y": 4.584042833672975
+        "x": 8.263124597575871,
+        "y": 1.9826973477056802
       },
       "isLocked": false,
       "linkedName": "PodiumWing1Center2B"
@@ -54,8 +54,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.65,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

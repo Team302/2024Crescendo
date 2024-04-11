@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+
+<auton>
+
+<snippet file= "ShootWhenStopManual.xml"/>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+pathname= "BlueSubwooferWing3Center0_A"
+time = "1.75"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment="NOTE"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferWing3Center0_A"
+time = "2.0"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment="NOTE"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferWing3Center0_B"
+time = "1.75"
+noteOption="STATE_HOLD_FEEDER"/>
+
+<snippet file= "ShootWhenStopManual.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferWing3Center0_E"
+time = "1.75"
+noteOption="STATE_FEEDER_INTAKE"
+visionAligment="NOTE"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferWing3Center0_F"
+time = "1.75"
+noteOption="STATE_FEEDER_INTAKE"/>
+
+<snippet file= "ShootWhenStopManual.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferWing2Center1_A"
+noteoption = "DRIVE_TO_NOTE"
+time = "10.0"
+visionAligment="NOTE"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+noteOption="STATE_FEEDER_INTAKE"
+pathname="DRIVE_TO_NOTE"
+visionAligment="NOTE"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueSubwooferWing2Center1_B"
+time = "10.0"
+noteOption="STATE_FEEDER_INTAKE"/>
+
+<snippet file= "ShootWhenStopManual.xml"/>
+
+</auton>

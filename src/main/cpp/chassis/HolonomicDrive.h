@@ -50,7 +50,9 @@ private:
     void AlignToSpeaker();
     void AlignToAmp();
     void AlignToStage();
-    void DriveToGamePiece(double forward, double strafe, frc::Pose2d targetPose);
+    void TurnToPassAngle();
+
+    void DriveToGamePiece(double forward, double strafe, double rot);
 
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;

@@ -3,50 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.461622332817334,
-        "y": 5.084042833672975
+        "x": 8.281967377058862,
+        "y": 2.435854001522554
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.461622332817333,
-        "y": 4.584042833672975
-      },
-      "isLocked": false,
-      "linkedName": "PodiumWing1Center2B"
-    },
-    {
-      "anchor": {
-        "x": 8.435999207331989,
-        "y": 2.1851357672163503
-      },
-      "prevControl": {
-        "x": 7.845192624819345,
-        "y": 2.197722849378198
-      },
-      "nextControl": {
-        "x": 8.732524900877225,
-        "y": 2.1788183134535988
+        "x": 8.98461756980575,
+        "y": 2.17821559751536
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.461622332817334,
-        "y": 5.084042833672975
+        "x": 2.9066934025451485,
+        "y": 5.550936522700434
       },
       "prevControl": {
-        "x": 4.543251612941086,
-        "y": 5.007815508934283
+        "x": 3.7967169800245437,
+        "y": 5.28158728214746
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "bluepodiumwing1center2_cEnd"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.1,
       "rotationDegrees": 146.57365206914795,
       "rotateFast": false
     }
@@ -54,8 +38,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.65,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

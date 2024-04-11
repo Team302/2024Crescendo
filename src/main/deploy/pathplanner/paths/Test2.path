@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.63,
+        "y": 5.42
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.63,
+        "y": 4.301966011250105
+      },
+      "isLocked": false,
+      "linkedName": "Test1"
+    },
+    {
+      "anchor": {
+        "x": 8.63,
+        "y": 2.42
+      },
+      "prevControl": {
+        "x": 8.63,
+        "y": 3.9406906325745545
+      },
+      "nextControl": null,
+      "isLocked": true,
+      "linkedName": "Test2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Square Test",
+  "previewStartingState": {
+    "rotation": 90.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

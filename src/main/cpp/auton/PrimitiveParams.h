@@ -27,7 +27,6 @@
 #include "auton/PrimitiveEnums.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "DragonVision/DragonVision.h"
-#include "chassis/IChassis.h"
 #include "auton/ZoneParams.h"
 #include "mechanisms/ClimberManager/generated/ClimberManagerGen.h"
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
@@ -50,6 +49,7 @@ public:
                     ChassisOptionEnums::HeadingOption headingOption,
                     float heading,
                     std::string pathName,
+                    ChassisOptionEnums::PathGainsType pahtgainsType,
                     ZoneParamsVector zones, // create zones parameter of type
                     VISION_ALIGNMENT visionAlignment,
                     bool changeNoteState,
@@ -66,6 +66,7 @@ public:
     ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
     float GetHeading() const { return m_heading; };
     std::string GetPathName() const { return m_pathName; };
+    ChassisOptionEnums::PathGainsType GetPathGainsType() const { return m_pathGainsType; }
     ZoneParamsVector GetZones() const { return m_zones; }; // create a GetZones() method to return the instance of zones m_zones
     VISION_ALIGNMENT GetVisionAlignment() const { return m_visionAlignment; }
 
@@ -86,7 +87,7 @@ private:
     ChassisOptionEnums::HeadingOption m_headingOption;
     float m_heading;
     std::string m_pathName;
-
+    ChassisOptionEnums::PathGainsType m_pathGainsType;
     VISION_ALIGNMENT m_visionAlignment;
     bool m_changeNoteState;
     noteManagerGen::STATE_NAMES m_noteState;
