@@ -48,6 +48,9 @@ private:
     void CheckForDriveToNote();
 
     SwerveChassis *m_chassis;
+
+    RobotDrive *m_robotDrive;
+    TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
     DriveToNote *m_driveToNote;
     std::unique_ptr<frc::Timer> m_timer;
     pathplanner::PathPlannerTrajectory m_trajectory;
