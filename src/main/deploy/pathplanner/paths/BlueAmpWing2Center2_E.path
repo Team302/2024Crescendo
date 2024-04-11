@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.87557603686636,
-        "y": 6.992561413694256
+        "x": 8.29957545629377,
+        "y": 5.761166950905331
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7295660754309283,
-        "y": 6.7787549197111865
+        "x": 7.845132261693095,
+        "y": 5.8051453245763645
       },
       "isLocked": false,
-      "linkedName": "BlueAmpWing2Center2A"
+      "linkedName": "BlueAmpWing2Center2D"
     },
     {
       "anchor": {
-        "x": 7.219269034530545,
-        "y": 7.443134019369891
+        "x": 3.1834246525635916,
+        "y": 6.083675024492907
       },
       "prevControl": {
-        "x": 6.045564639234023,
-        "y": 7.3698648314542
+        "x": 6.525781051562102,
+        "y": 7.256431655720455
       },
       "nextControl": null,
       "isLocked": false,
@@ -40,12 +40,12 @@
   "goalEndState": {
     "velocity": 0.0,
     "rotation": 180.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "BlueAmpWing2Center2",
   "previewStartingState": {
-    "rotation": -150.0,
+    "rotation": 180.0,
     "velocity": 0.0
   },
   "useDefaultConstraints": true
