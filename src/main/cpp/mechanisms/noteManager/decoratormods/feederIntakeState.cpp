@@ -51,6 +51,7 @@ void feederIntakeState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("feederIntakeState"), string("run"));
 	m_genState->Run();
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Intake"), string("Current"), m_mechanism->getbackIntake()->GetCurrent());
 }
 
 void feederIntakeState::Exit()
