@@ -362,7 +362,11 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight(bool me
             double xyStds;
             double degStds;
             // multiple targets detected
-            if (numberOfTagsDetected >= 2)
+            if (numberOfTagsDetected == 0)
+            {
+                return std::nullopt;
+            }
+            else if (numberOfTagsDetected >= 2)
             {
                 xyStds = 0.5;
                 degStds = 6;
@@ -395,7 +399,11 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight(bool me
             double xyStds;
             double degStds;
             // multiple targets detected
-            if (poseEstimate.tagCount >= 2)
+            if (poseEstimate.tagCount == 0)
+            {
+                return std::nullopt;
+            }
+            else if (poseEstimate.tagCount >= 2)
             {
                 xyStds = 0.5;
                 degStds = 6;
