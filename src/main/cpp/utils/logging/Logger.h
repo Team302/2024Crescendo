@@ -69,6 +69,15 @@ public:
     /// @brief Read logging option from dashboard, but not every 20ms
     void PeriodicLog();
 
+    /// @brief Logs some data directly to the network tables, so that the rest of logging does not need to be enabled
+    void LogDataDirectlyOverNT(const std::string &group, const std::string &identifier, double value) const;
+
+    /// @brief Logs some data directly to the network tables, so that the rest of logging does not need to be enabled
+    void LogDataDirectlyOverNT(const std::string &group, const std::string &identifier, bool value) const;
+
+    /// @brief Logs some motor data directly to the network tables, so that the rest of logging does not need to be enabled
+    void LogDataDirectlyOverNT(const std::string &group, const std::string &identifier, const std::string &message) const;
+
 protected:
 private:
     /// @brief Determines whether a message should be displayed or not.   For instance if EAT_IT is the logging option, this will return false or if the level is xxx_ONCE, it may return false if the message was already logged.
