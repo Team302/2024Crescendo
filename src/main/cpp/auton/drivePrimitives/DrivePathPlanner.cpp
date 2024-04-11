@@ -167,6 +167,7 @@ bool DrivePathPlanner::IsDone()
 
 void DrivePathPlanner::CheckForDriveToNote()
 {
+    // Need to check if there is a note
     auto currentTime = m_timer.get()->Get();
     if (((currentTime) / m_totalTrajectoryTime >= m_percentageCompleteThreshold))
     {
