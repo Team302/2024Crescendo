@@ -51,7 +51,6 @@ void lowPassState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("lowPassState"), string("run"));
 	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
-	m_mechanism->UpdateLauncherAngleTarget();
 
 	bool angleIsWithinTolerance = abs(m_mechanism->GetLauncherAngleFromEncoder().to<double>() - m_targetAngle) <= 0.5;
 	if (angleIsWithinTolerance)

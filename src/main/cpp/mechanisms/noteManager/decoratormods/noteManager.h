@@ -91,7 +91,6 @@ public:
 	units::angle::degree_t GetManualLaunchTarget() { return m_manualLaunchTarget; }
 
 	void SetLauncherToProtectedPosition();
-	void UpdateLauncherAngleTarget();
 
 	void SetLauncherAngleTarget(units::angle::degree_t valueDeg) { m_LauncherAngleTarget = valueDeg; }
 	void SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherTopWheelsTarget = valueRadPerSec; }
@@ -103,6 +102,7 @@ public:
 
 private:
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option);
+	void UpdateLauncherAngleTarget();
 
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
 

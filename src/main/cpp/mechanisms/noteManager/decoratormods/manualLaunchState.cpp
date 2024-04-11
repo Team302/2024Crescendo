@@ -46,7 +46,6 @@ void manualLaunchState::Init()
 
 	m_genState->Init();
 	m_mechanism->SetLauncherAngleTarget(m_mechanism->GetManualLaunchTarget());
-	m_mechanism->UpdateLauncherAngleTarget();
 }
 
 void manualLaunchState::Run()

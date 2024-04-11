@@ -100,7 +100,6 @@ void noteManager::RunCommonTasks()
 	ResetElevator();
 	SetManualLaunchTarget();
 
-
 	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_noteManager->GetCurrentState());
 
 	bool protectLauncher = !((currentState != m_noteManager->STATE_READY_AUTO_LAUNCH) ||
@@ -113,11 +112,12 @@ void noteManager::RunCommonTasks()
 							 (currentState != m_noteManager->STATE_BACKUP_MANUAL_LAUNCH));
 
 	if (protectLauncher)
-	{
 		SetLauncherToProtectedPosition();
-	}
+
 	// Processing related to current monitor
 	// MonitorMotorCurrents();
+
+	UpdateLauncherAngleTarget();
 
 #ifdef INCLUDE_DATA_TRACE
 	double intakeDifferentialCurrent = MonitorForNoteInIntakes();
@@ -262,14 +262,12 @@ void noteManager::SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDE
 
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()));
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
-	UpdateLauncherAngleTarget();
 }
 
 void noteManager::MaintainCurrentLauncherTargetsForAutoLaunch()
 {
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()));
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
-	UpdateLauncherAngleTarget();
 }
 
 bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
@@ -370,7 +368,6 @@ void noteManager::UpdateLauncherAngleTarget()
 void noteManager::SetLauncherToProtectedPosition()
 {
 	SetLauncherAngleTarget(units::angle::degree_t(0.0));
-	UpdateLauncherAngleTarget();
 }
 
 double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)

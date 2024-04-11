@@ -60,6 +60,7 @@ void backupManualLaunchState::Run()
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE));
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED));
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR) * 0.5);
+
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
 	{
 		double delta = 6.0 * 0.02 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)); // changing by 6 in/s * 0.02 for 20 ms loop time * controller input
@@ -69,7 +70,6 @@ void backupManualLaunchState::Run()
 		else if (m_target < m_minAngle)
 			m_target = m_minAngle;
 		m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_target));
-		m_mechanism->UpdateLauncherAngleTarget();
 	}
 
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("target angle"), m_target);
