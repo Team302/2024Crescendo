@@ -18,13 +18,11 @@
 DragonSparkFlexMonitored::DragonSparkFlexMonitored(int id,
                                                    RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                                                    CANSparkFlex::MotorType motorType,
-                                                   rev::SparkRelativeEncoder::Type feedbackType,
                                                    rev::SparkLimitSwitch::Type forwardType,
                                                    rev::SparkLimitSwitch::Type reverseType,
                                                    const DistanceAngleCalcStruc &calcStruc) : DragonSparkFlex(id,
                                                                                                               deviceType,
                                                                                                               motorType,
-                                                                                                              feedbackType,
                                                                                                               forwardType,
                                                                                                               reverseType,
                                                                                                               calcStruc)

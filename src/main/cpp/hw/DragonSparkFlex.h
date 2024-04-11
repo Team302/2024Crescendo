@@ -41,7 +41,6 @@ public:
     DragonSparkFlex(int id,
                     RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                     rev::CANSparkFlex::MotorType motorType,
-                    rev::SparkRelativeEncoder::Type feedbackType,
                     rev::SparkLimitSwitch::Type forwardType,
                     rev::SparkLimitSwitch::Type reverseType,
                     const DistanceAngleCalcStruc &calcStruc);

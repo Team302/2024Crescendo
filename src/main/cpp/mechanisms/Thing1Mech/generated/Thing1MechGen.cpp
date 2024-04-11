@@ -156,7 +156,7 @@ void Thing1MechGen::CreateThing1()
 	Neo550CalcStruct.countsPerInch = 0 ;
 	Neo550CalcStruct.countsPerDegree = 0 ;
 
-	Neo550DragonSparkMax = new DragonSparkMax ( 4,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_NEO550,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,Neo550CalcStruct );
+	Neo550DragonSparkMax = new DragonSparkMax ( 4,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_NEO550,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,Neo550CalcStruct );
 
 	m_motorMap[Neo550DragonSparkMax->GetType()] = new BaseMechMotor ( m_ntName,
 	    Neo550DragonSparkMax,
@@ -171,7 +171,7 @@ void Thing1MechGen::CreateThing1()
 	VortexCalcStruct.countsPerInch = 0 ;
 	VortexCalcStruct.countsPerDegree = 0 ;
 
-	VortexDragonSparkFlex = new DragonSparkFlex ( 5,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,VortexCalcStruct );
+	VortexDragonSparkFlex = new DragonSparkFlex ( 5,RobotElementNames::MOTOR_CONTROLLER_USAGE::THING1MECH_VORTEX,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,VortexCalcStruct );
 
 	m_motorMap[VortexDragonSparkFlex->GetType()] = new BaseMechMotor ( m_ntName,
 	    VortexDragonSparkFlex,

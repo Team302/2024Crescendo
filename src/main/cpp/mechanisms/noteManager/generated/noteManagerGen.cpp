@@ -79,7 +79,7 @@ void noteManagerGen::CreateCompBot302()
 	frontIntakeCalcStruct.countsPerInch = 0 ;
 	frontIntakeCalcStruct.countsPerDegree = 0 ;
 
-	frontIntakeDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 5,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,frontIntakeCalcStruct );
+	frontIntakeDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 5,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,frontIntakeCalcStruct );
 
 	m_motorMap[frontIntakeDragonSparkMaxMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    frontIntakeDragonSparkMaxMonitored,
@@ -94,7 +94,7 @@ void noteManagerGen::CreateCompBot302()
 	backIntakeCalcStruct.countsPerInch = 0 ;
 	backIntakeCalcStruct.countsPerDegree = 0 ;
 
-	backIntakeDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 19,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,backIntakeCalcStruct );
+	backIntakeDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 19,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,backIntakeCalcStruct );
 
 	m_motorMap[backIntakeDragonSparkMaxMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    backIntakeDragonSparkMaxMonitored,
@@ -109,7 +109,7 @@ void noteManagerGen::CreateCompBot302()
 	TransferCalcStruct.countsPerInch = 0 ;
 	TransferCalcStruct.countsPerDegree = 0 ;
 
-	TransferDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 6,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,TransferCalcStruct );
+	TransferDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 6,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,TransferCalcStruct );
 
 	m_motorMap[TransferDragonSparkMaxMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    TransferDragonSparkMaxMonitored,
@@ -124,7 +124,7 @@ void noteManagerGen::CreateCompBot302()
 	FeederCalcStruct.countsPerInch = 0 ;
 	FeederCalcStruct.countsPerDegree = 0 ;
 
-	FeederDragonSparkFlexMonitored = new DragonSparkFlexMonitored ( 2,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,FeederCalcStruct );
+	FeederDragonSparkFlexMonitored = new DragonSparkFlexMonitored ( 2,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,FeederCalcStruct );
 
 	m_motorMap[FeederDragonSparkFlexMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    FeederDragonSparkFlexMonitored,
@@ -175,7 +175,7 @@ void noteManagerGen::CreateCompBot302()
 	launcherAngleCalcStruct.countsPerInch = 0 ;
 	launcherAngleCalcStruct.countsPerDegree = 2.352 ;
 
-	launcherAngleDragonSparkMax = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
+	launcherAngleDragonSparkMax = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
 
 	m_motorMap[launcherAngleDragonSparkMax->GetType()] = new BaseMechMotor ( m_ntName,
 	    launcherAngleDragonSparkMax,
@@ -190,7 +190,7 @@ void noteManagerGen::CreateCompBot302()
 	PlacerCalcStruct.countsPerInch = 0 ;
 	PlacerCalcStruct.countsPerDegree = 0 ;
 
-	PlacerDragonSparkFlexMonitored = new DragonSparkFlexMonitored ( 7,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,PlacerCalcStruct );
+	PlacerDragonSparkFlexMonitored = new DragonSparkFlexMonitored ( 7,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,PlacerCalcStruct );
 
 	m_motorMap[PlacerDragonSparkFlexMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    PlacerDragonSparkFlexMonitored,
@@ -205,7 +205,7 @@ void noteManagerGen::CreateCompBot302()
 	ElevatorCalcStruct.countsPerInch = 0.18452194564 ;
 	ElevatorCalcStruct.countsPerDegree = 0 ;
 
-	ElevatorDragonSparkMax = new DragonSparkMax ( 3,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,ElevatorCalcStruct );
+	ElevatorDragonSparkMax = new DragonSparkMax ( 3,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,ElevatorCalcStruct );
 
 	m_motorMap[ElevatorDragonSparkMax->GetType()] = new BaseMechMotor ( m_ntName,
 	    ElevatorDragonSparkMax,
@@ -222,7 +222,7 @@ void noteManagerGen::CreateCompBot302()
 		launcherTopCalcStruct.countsPerInch = 0 ;
 		launcherTopCalcStruct.countsPerDegree = 0 ;
 
-		launcherTopDragonSparkFlex = new DragonSparkFlex ( 17,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherTopCalcStruct );
+		launcherTopDragonSparkFlex = new DragonSparkFlex ( 17,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherTopCalcStruct );
 
 		m_motorMap[launcherTopDragonSparkFlex->GetType()] = new BaseMechMotor ( m_ntName,
 		    launcherTopDragonSparkFlex,
@@ -240,7 +240,7 @@ void noteManagerGen::CreateCompBot302()
 		launcherBottomCalcStruct.countsPerInch = 0 ;
 		launcherBottomCalcStruct.countsPerDegree = 0 ;
 
-		launcherBottomDragonSparkFlex = new DragonSparkFlex ( 16,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherBottomCalcStruct );
+		launcherBottomDragonSparkFlex = new DragonSparkFlex ( 16,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherBottomCalcStruct );
 
 		m_motorMap[launcherBottomDragonSparkFlex->GetType()] = new BaseMechMotor ( m_ntName,
 		    launcherBottomDragonSparkFlex,
@@ -375,7 +375,7 @@ void noteManagerGen::CreatepracticeBot9999()
 	frontIntakeCalcStruct.countsPerInch = 0 ;
 	frontIntakeCalcStruct.countsPerDegree = 0 ;
 
-	frontIntakeDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 17,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,frontIntakeCalcStruct );
+	frontIntakeDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 17,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FRONT_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,frontIntakeCalcStruct );
 
 	m_motorMap[frontIntakeDragonSparkMaxMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    frontIntakeDragonSparkMaxMonitored,
@@ -390,7 +390,7 @@ void noteManagerGen::CreatepracticeBot9999()
 	backIntakeCalcStruct.countsPerInch = 0 ;
 	backIntakeCalcStruct.countsPerDegree = 0 ;
 
-	backIntakeDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 13,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,backIntakeCalcStruct );
+	backIntakeDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 13,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_BACK_INTAKE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,backIntakeCalcStruct );
 
 	m_motorMap[backIntakeDragonSparkMaxMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    backIntakeDragonSparkMaxMonitored,
@@ -405,7 +405,7 @@ void noteManagerGen::CreatepracticeBot9999()
 	TransferCalcStruct.countsPerInch = 0 ;
 	TransferCalcStruct.countsPerDegree = 0 ;
 
-	TransferDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 14,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,TransferCalcStruct );
+	TransferDragonSparkMaxMonitored = new DragonSparkMaxMonitored ( 14,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,TransferCalcStruct );
 
 	m_motorMap[TransferDragonSparkMaxMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    TransferDragonSparkMaxMonitored,
@@ -420,7 +420,7 @@ void noteManagerGen::CreatepracticeBot9999()
 	FeederCalcStruct.countsPerInch = 0 ;
 	FeederCalcStruct.countsPerDegree = 0 ;
 
-	FeederDragonSparkFlexMonitored = new DragonSparkFlexMonitored ( 12,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,FeederCalcStruct );
+	FeederDragonSparkFlexMonitored = new DragonSparkFlexMonitored ( 12,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,FeederCalcStruct );
 
 	m_motorMap[FeederDragonSparkFlexMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    FeederDragonSparkFlexMonitored,
@@ -471,7 +471,7 @@ void noteManagerGen::CreatepracticeBot9999()
 	launcherAngleCalcStruct.countsPerInch = 0 ;
 	launcherAngleCalcStruct.countsPerDegree = 2.352 ;
 
-	launcherAngleDragonSparkMax = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
+	launcherAngleDragonSparkMax = new DragonSparkMax ( 1,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherAngleCalcStruct );
 
 	m_motorMap[launcherAngleDragonSparkMax->GetType()] = new BaseMechMotor ( m_ntName,
 	    launcherAngleDragonSparkMax,
@@ -486,7 +486,7 @@ void noteManagerGen::CreatepracticeBot9999()
 	PlacerCalcStruct.countsPerInch = 0 ;
 	PlacerCalcStruct.countsPerDegree = 0 ;
 
-	PlacerDragonSparkFlexMonitored = new DragonSparkFlexMonitored ( 19,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,PlacerCalcStruct );
+	PlacerDragonSparkFlexMonitored = new DragonSparkFlexMonitored ( 19,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,PlacerCalcStruct );
 
 	m_motorMap[PlacerDragonSparkFlexMonitored->GetType()] = new BaseMechMotor ( m_ntName,
 	    PlacerDragonSparkFlexMonitored,
@@ -501,7 +501,7 @@ void noteManagerGen::CreatepracticeBot9999()
 	ElevatorCalcStruct.countsPerInch = 0.146875229492546 ;
 	ElevatorCalcStruct.countsPerDegree = 0 ;
 
-	ElevatorDragonSparkMax = new DragonSparkMax ( 62,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkMax::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kHallSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,ElevatorCalcStruct );
+	ElevatorDragonSparkMax = new DragonSparkMax ( 62,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR,rev::CANSparkMax::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,ElevatorCalcStruct );
 
 	m_motorMap[ElevatorDragonSparkMax->GetType()] = new BaseMechMotor ( m_ntName,
 	    ElevatorDragonSparkMax,
@@ -518,7 +518,7 @@ void noteManagerGen::CreatepracticeBot9999()
 		launcherTopCalcStruct.countsPerInch = 0 ;
 		launcherTopCalcStruct.countsPerDegree = 0 ;
 
-		launcherTopDragonSparkFlex = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kNoSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherTopCalcStruct );
+		launcherTopDragonSparkFlex = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherTopCalcStruct );
 
 		m_motorMap[launcherTopDragonSparkFlex->GetType()] = new BaseMechMotor ( m_ntName,
 		    launcherTopDragonSparkFlex,
@@ -536,7 +536,7 @@ void noteManagerGen::CreatepracticeBot9999()
 		launcherBottomCalcStruct.countsPerInch = 0 ;
 		launcherBottomCalcStruct.countsPerDegree = 0 ;
 
-		launcherBottomDragonSparkFlex = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkRelativeEncoder::Type::kNoSensor,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherBottomCalcStruct );
+		launcherBottomDragonSparkFlex = new DragonSparkFlex ( 0,RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM,rev::CANSparkFlex::MotorType::kBrushless,rev::SparkLimitSwitch::Type::kNormallyOpen,rev::SparkLimitSwitch::Type::kNormallyOpen,launcherBottomCalcStruct );
 
 		m_motorMap[launcherBottomDragonSparkFlex->GetType()] = new BaseMechMotor ( m_ntName,
 		    launcherBottomDragonSparkFlex,

@@ -18,13 +18,11 @@
 DragonSparkMaxMonitored::DragonSparkMaxMonitored(int id,
                                                  RobotElementNames::MOTOR_CONTROLLER_USAGE deviceType,
                                                  CANSparkMax::MotorType motorType,
-                                                 rev::SparkRelativeEncoder::Type feedbackType,
                                                  rev::SparkLimitSwitch::Type forwardType,
                                                  rev::SparkLimitSwitch::Type reverseType,
                                                  const DistanceAngleCalcStruc &calcStruc) : DragonSparkMax(id,
                                                                                                            deviceType,
                                                                                                            motorType,
-                                                                                                           feedbackType,
                                                                                                            forwardType,
                                                                                                            reverseType,
                                                                                                            calcStruc)
