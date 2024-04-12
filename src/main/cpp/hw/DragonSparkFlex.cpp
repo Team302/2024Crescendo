@@ -197,6 +197,7 @@ void DragonSparkFlex::EnableBrakeMode(bool enabled)
 
 void DragonSparkFlex::Invert(bool inverted)
 {
+    m_isInverted = inverted;
     m_spark->SetInverted(inverted);
 }
 
@@ -263,6 +264,7 @@ bool DragonSparkFlex::IsReverseLimitSwitchClosed()
 
 void DragonSparkFlex::EnableDisableLimitSwitches(bool enable)
 {
+    m_limitSiwtchEnabled = enable;
     m_forwardLimitSwitch.EnableLimitSwitch(enable);
     m_reverseLimitSwitch.EnableLimitSwitch(enable);
 }
@@ -293,5 +295,9 @@ void DragonSparkFlex::MonitorCurrent()
 
 void DragonSparkFlex::BurnFlash()
 {
-    m_spark->BurnFlash();
+    bool limitSwitchCheck = (m_forwardLimitSwitch.IsLimitSwitchEnabled() == m_limitSiwtchEnabled) && (m_reverseLimitSwitch.IsLimitSwitchEnabled() == m_limitSiwtchEnabled);
+    bool invertedCheck = m_spark->GetInverted() == m_isInverted;
+    if ()
+
+        m_spark->BurnFlash();
 }

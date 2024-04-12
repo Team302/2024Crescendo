@@ -124,4 +124,6 @@ private:
     double m_velConversion = 1.0;
 
     const double m_chgTolerance = 0.0000001;
+    bool m_limitSiwtchEnabled = false;
+    bool m_isInverted = false;
 };
