@@ -90,6 +90,7 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 
 	m_launcherAnglePID.SetIZone(0.5);
+	m_launcherAnglePID.EnableContinuousInput(0.0, 360.0); // Enables continuous input on a range from 0 to 360, allows the CANCoder to roll over)
 }
 
 void noteManager::RunCommonTasks()
@@ -102,14 +103,14 @@ void noteManager::RunCommonTasks()
 
 	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_noteManager->GetCurrentState());
 
-	bool protectLauncher = !((currentState != m_noteManager->STATE_READY_AUTO_LAUNCH) ||
-							 (currentState != m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
-							 (currentState != m_noteManager->STATE_AUTO_LAUNCH) ||
-							 (currentState != m_noteManager->STATE_PASS) ||
-							 (currentState != m_noteManager->STATE_LOW_PASS) ||
-							 (currentState != m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
-							 (currentState != m_noteManager->STATE_MANUAL_LAUNCH) ||
-							 (currentState != m_noteManager->STATE_BACKUP_MANUAL_LAUNCH));
+	bool protectLauncher = !((currentState == m_noteManager->STATE_READY_AUTO_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_AUTO_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_PASS) ||
+							 (currentState == m_noteManager->STATE_LOW_PASS) ||
+							 (currentState == m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_MANUAL_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_BACKUP_MANUAL_LAUNCH));
 
 	if (protectLauncher)
 		SetLauncherToProtectedPosition();
