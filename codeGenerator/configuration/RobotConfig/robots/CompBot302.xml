@@ -2321,7 +2321,7 @@
               <name>uintParameter</name>
               <__units__ />
               <type>UInt32</type>
-              <value>4</value>
+              <value>2</value>
             </digitalId>
             <reversed>
               <unitsFamily>none</unitsFamily>
@@ -2345,7 +2345,7 @@
               <name>uintParameter</name>
               <__units__ />
               <type>UInt32</type>
-              <value>2</value>
+              <value>4</value>
             </digitalId>
             <reversed>
               <unitsFamily>none</unitsFamily>
