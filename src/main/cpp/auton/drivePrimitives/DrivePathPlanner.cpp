@@ -107,6 +107,8 @@ void DrivePathPlanner::InitMoveInfo()
     auto speed = m_chassis->GetChassisSpeeds();
     if (m_pathname == "DRIVE_TO_NOTE")
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "In DriveToNote", true);
+
         m_driveToNote = dynamic_cast<DriveToNote *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE));
         m_driveToNote->Init(m_moveInfo);
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
@@ -151,7 +153,7 @@ bool DrivePathPlanner::IsDone()
         return true;
     }
 
-    if (m_checkDriveToNote)
+    if (m_checkDriveToNote && !m_switchedToVisionDrive)
     {
         CheckForDriveToNote();
     }
@@ -170,19 +172,33 @@ void DrivePathPlanner::CheckForDriveToNote()
     // Need to check if there is a note
     auto currentTime = m_timer.get()->Get();
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Percent Done", "Done Percent:", static_cast<double>((currentTime.value()) / m_totalTrajectoryTime.value()));
-    if (((currentTime.value()) / m_totalTrajectoryTime.value() >= m_percentageCompleteThreshold))
+    DragonDriveTargetFinder *dt = DragonDriveTargetFinder::GetInstance();
+    auto distanceToNote = dt->GetDistance(DragonDriveTargetFinder::VISION_ONLY, DragonVision::NOTE);
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Done Percent:", static_cast<double>((currentTime.value()) / m_totalTrajectoryTime.value()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Distance: ", (double)(get<1>(distanceToNote)));
+
+    if (get<0>(dt->GetPose(DragonVision::NOTE)) != DragonDriveTargetFinder::NOT_FOUND)
     {
-        m_pathname = "DRIVE_TO_NOTE";
-        InitMoveInfo();
-    }
-    else if (m_chassis != nullptr)
-    {
-        auto currentPose = m_chassis->GetPose();
-        if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(1.0))
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", true);
+
+        if (((currentTime.value() / m_totalTrajectoryTime.value()) >= m_percentageCompleteThreshold))
         {
             m_pathname = "DRIVE_TO_NOTE";
             InitMoveInfo();
         }
+        else if (m_chassis != nullptr)
+        {
+            auto currentPose = m_chassis->GetPose();
+            if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(1.0))
+            {
+                m_pathname = "DRIVE_TO_NOTE";
+                InitMoveInfo();
+            }
+        }
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", false);
     }
 }
