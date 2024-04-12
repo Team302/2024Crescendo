@@ -113,6 +113,7 @@ void DrivePathPlanner::InitMoveInfo()
         m_driveToNote->Init(m_moveInfo);
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_switchedToVisionDrive = true;
+        m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
     }
     else
     {
