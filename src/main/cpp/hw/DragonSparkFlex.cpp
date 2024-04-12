@@ -290,3 +290,8 @@ void DragonSparkFlex::SetRemoteSensor(int canID, ctre::phoenix::motorcontrol::Re
 void DragonSparkFlex::MonitorCurrent()
 {
 }
+
+void DragonSparkFlex::BurnFlash()
+{
+    m_spark->BurnFlash();
+}
