@@ -72,9 +72,6 @@ void backupManualPlaceState::Run()
 	{
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 0.0);
 	}
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ManualPlacer"), string("ElevatorCounts"), m_mechanism->getElevator()->GetCounts());
-
 	m_genState->Run();
 }
 

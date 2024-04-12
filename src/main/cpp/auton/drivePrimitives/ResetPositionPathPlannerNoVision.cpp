@@ -52,6 +52,7 @@ void ResetPositionPathPlannerNoVision::Init(PrimitiveParams *param)
         }
         auto pose = path.get()->getPreviewStartingHolonomicPose();
 
+        chassis->SetYaw(pose.Rotation().Degrees());
         chassis->ResetPose(pose);
     }
 }

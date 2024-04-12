@@ -51,6 +51,7 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
         if (position)
         {
             auto pose = position.value().estimatedPose.ToPose2d();
+            chassis->SetYaw(pose.Rotation().Degrees());
             chassis->ResetPose(pose);
         }
         else
@@ -61,6 +62,7 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
                 path = path.get()->flipPath();
             }
             auto pose = path.get()->getPreviewStartingHolonomicPose();
+            chassis->SetYaw(pose.Rotation().Degrees());
             chassis->ResetPose(pose);
         }
     }

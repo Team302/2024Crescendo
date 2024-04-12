@@ -4,11 +4,12 @@ area_similarity:0
 aspect_max:20.000000
 aspect_min:0.000000
 barcode_type:qrzx
-black_level:0
+black_level:21
 blue_balance:1344
 botfloorsnap:0
-botlength:0.7112
-botwidth:0.7112
+botlength:0.6962
+bottype:swerve
+botwidth:0.69
 calibration_type:0
 classifier_conf:0.100000
 contour_grouping:0
@@ -27,7 +28,7 @@ cross_b_a:1
 cross_b_x:0
 cross_b_y:0
 debugpipe:0
-desc:placerapriltaglimelight
+desc:ll3_9999_launche_apriltag
 desired_contour_region:0
 detector_conf:0.54
 detector_idfilters:
@@ -35,7 +36,7 @@ dilation_steps:0
 direction_filter:0
 dual_close_sort_origin:0
 erosion_steps:0
-exposure:1704
+exposure:989
 fiducial_backend:umich
 fiducial_decoder_strictness:strict
 fiducial_denoise:0.000000
@@ -48,7 +49,7 @@ fiducial_resdiv:2
 fiducial_size:165.1
 fiducial_skip3d:0
 fiducial_type:aprilClassic36h11
-fiducial_vis_mode:3dtargposebotspace
+fiducial_vis_mode:3dbotposefieldspace
 flicker_correction:0
 force_convex:1
 hue_max:85
@@ -58,7 +59,7 @@ image_source:0
 img_to_show:0
 intersection_filter:0
 invert_hue:0
-lcgain:19.9
+lcgain:21.1
 multigroup_max:7
 multigroup_min:1
 multigroup_rejector:0
@@ -68,12 +69,13 @@ pipeline_res:3
 pipeline_type:4
 python_snapscript_name:
 red_balance:1200
+reverse_morpho:0
 roi_x:0.000000
 roi_y:0.000000
 rsf:0.3683
-rspitch:31
+rspitch:30
 rsroll:0
-rss:0
+rss:-0.015
 rsu:0.387
 rsyaw:0
 sat_max:255
