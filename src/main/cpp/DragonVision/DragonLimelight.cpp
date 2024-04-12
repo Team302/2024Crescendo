@@ -37,6 +37,7 @@
 #include "DragonVision/DragonVision.h"
 
 // Third Party Includes
+#include "Limelight/LimelightHelpers.h"
 
 /// TODO
 /// Need to support DragonLimelight becoming a child of DragonCamera
@@ -87,12 +88,11 @@ bool DragonLimelight::HealthCheck()
             m_repeatingHeartbeat = 0; // reset when we see a new heartbeat
             return true;
         }
-        else if (m_repeatingHeartbeat < 10) //repeats on the same heartbeat before it's considered dead
+        else if (m_repeatingHeartbeat < 10) // repeats on the same heartbeat before it's considered dead
         {
             m_repeatingHeartbeat++;
             return true;
         }
-        
     }
     return false;
 }
@@ -333,56 +333,103 @@ std::optional<units::angle::degree_t> DragonLimelight::GetTargetSkew()
  * @brief Get the Pose object for the current location of the robot
  * https://docs.limelightvision.io/docs/docs-limelight/pipeline-apriltag/apriltag-robot-localization
  */
-std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight()
+std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight(bool megatag2)
 {
-
+    // Megatag 1
     if (m_networktable.get() != nullptr)
     {
-        nt::DoubleArrayTopic topic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpiblue");
-        std::vector<double> position = topic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
-
-        units::time::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
-        units::time::millisecond_t timestamp = currentTime - units::millisecond_t(position[6] / 1000.0);
-
-        frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
-        frc::Pose3d pose3d = frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation};
-
-        double numberOfTagsDetected = position[7];
-        double averageTagTargetArea = position[10];
-
-        // in case of invalid Limelight targets
-        if (pose3d.ToPose2d().X() == units::meter_t(0.0))
+        // Megatag 1
+        if (!megatag2)
         {
-            return std::nullopt;
+            nt::DoubleArrayTopic topic = m_networktable.get()->GetDoubleArrayTopic("botpose_wpiblue");
+            std::vector<double> position = topic.GetEntry(std::array<double, 7>{}).Get(); // default value is empty array
+
+            units::time::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
+            units::time::millisecond_t timestamp = currentTime - units::millisecond_t(position[6] / 1000.0);
+
+            frc::Rotation3d rotation = frc::Rotation3d{units::angle::degree_t(position[3]), units::angle::degree_t(position[4]), units::angle::degree_t(position[5])};
+            frc::Pose3d pose3d = frc::Pose3d{units::meter_t(position[0]), units::meter_t(position[1]), units::meter_t(position[2]), rotation};
+
+            double numberOfTagsDetected = position[7];
+            double averageTagTargetArea = position[10];
+
+            // in case of invalid Limelight targets
+            if (pose3d.ToPose2d().X() == units::meter_t(0.0))
+            {
+                return std::nullopt;
+            }
+
+            double xyStds;
+            double degStds;
+            // multiple targets detected
+            if (numberOfTagsDetected == 0)
+            {
+                return std::nullopt;
+            }
+            else if (numberOfTagsDetected >= 2)
+            {
+                xyStds = 0.5;
+                degStds = 6;
+            }
+            // 1 target with large area and close to estimated pose
+            else if (averageTagTargetArea > 0.8)
+            {
+                xyStds = 1.0;
+                degStds = 12;
+            }
+            // 1 target farther away and estimated pose is close
+            else if (averageTagTargetArea > 0.1)
+            {
+                xyStds = 2.0;
+                degStds = 30;
+            }
+            // conditions don't match to add a vision measurement
+            else
+            {
+                return std::nullopt;
+            }
+            VisionPose LimelightVisionPose = {pose3d, timestamp, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG};
+            return LimelightVisionPose;
         }
 
-        double xyStds;
-        double degStds;
-        // multiple targets detected
-        if (numberOfTagsDetected >= 2)
-        {
-            xyStds = 0.5;
-            degStds = 6;
-        }
-        // 1 target with large area and close to estimated pose
-        else if (averageTagTargetArea > 0.8)
-        {
-            xyStds = 1.0;
-            degStds = 12;
-        }
-        // 1 target farther away and estimated pose is close
-        else if (averageTagTargetArea > 0.1)
-        {
-            xyStds = 2.0;
-            degStds = 30;
-        }
-        // conditions don't match to add a vision measurement
+        // Megatag 2
         else
         {
-            return std::nullopt;
+            LimelightHelpers::PoseEstimate poseEstimate = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2(m_cameraName);
+            double xyStds;
+            double degStds;
+            // multiple targets detected
+            if (poseEstimate.tagCount == 0)
+            {
+                return std::nullopt;
+            }
+            else if (poseEstimate.tagCount >= 2)
+            {
+                xyStds = 0.5;
+                degStds = 6;
+            }
+            // 1 target with large area and close to estimated pose
+            /// TODO, USE avgTagDist instead?
+            else if (poseEstimate.avgTagArea > 0.8)
+            {
+                xyStds = 1.0;
+                degStds = 12;
+            }
+            // 1 target farther away and estimated pose is close
+            /// TODO, USE avgTagDist instead?`
+            else if (poseEstimate.avgTagArea > 0.1)
+            {
+                xyStds = 2.0;
+                degStds = 30;
+            }
+            // conditions don't match to add a vision measurement
+            else
+            {
+                return std::nullopt;
+            }
+            VisionPose pose = {frc::Pose3d{poseEstimate.pose}, poseEstimate.timestampSeconds, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG_2};
+            return pose;
         }
-        VisionPose LimelightVisionPose = {pose3d, timestamp, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG};
-        return LimelightVisionPose;
     }
     return std::nullopt;
 }

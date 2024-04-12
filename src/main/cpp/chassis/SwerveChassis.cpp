@@ -282,7 +282,7 @@ units::angle::degree_t SwerveChassis::GetRoll() const
 /// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
 void SwerveChassis::UpdateOdometry()
 {
-    Rotation2d rot2d{m_pigeon->GetYaw().GetValue()};
+    Rotation2d rot2d{GetYaw()};
 
     m_poseEstimator.Update(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(),
                                                                            m_frontRight->GetPosition(),
@@ -290,28 +290,20 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backRight->GetPosition()});
     if (m_vision != nullptr)
     {
-        std::optional<VisionPose> visionPose = m_vision->GetRobotPosition();
-        if (visionPose)
+        std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(), // mtAngle.Degrees(),
+                                                                                    units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                    units::angle::degree_t(0.0),
+                                                                                    units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                    units::angle::degree_t(0.0),
+                                                                                    units::angular_velocity::degrees_per_second_t(0.0));
+
+        if (megaTag2Pose)
         {
-
-            // only updated based on vision if std deviations are met and difference is under thresholds
-            frc::Pose2d chassisPose2d = GetPose();
-            frc::Pose2d visionPose2d = visionPose.value().estimatedPose.ToPose2d();
-            wpi::array<double, 3> visionMeasurementStdDevs = visionPose.value().visionMeasurementStdDevs;
-            units::length::meter_t poseDifference = chassisPose2d.Translation().Distance(visionPose2d.Translation());
-
-            if (((visionMeasurementStdDevs[0] == 0.5) ||
-                 (poseDifference < units::length::meter_t(0.5) && visionMeasurementStdDevs[0] == 1.0) ||
-                 (poseDifference < units::length::meter_t(0.3) && visionMeasurementStdDevs[0] == 2.0)) &&
-                !frc::DriverStation::IsTeleopEnabled())
-            {
-
-                m_poseEstimator.AddVisionMeasurement(visionPose.value().estimatedPose.ToPose2d(),
-                                                     visionPose.value().timeStamp,
-                                                     visionPose.value().visionMeasurementStdDevs);
-            }
+            m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
+                                                 megaTag2Pose.value().timeStamp);
         }
     }
+
     LogInformation();
 }
 
@@ -338,11 +330,14 @@ void SwerveChassis::ResetPose(const Pose2d &pose)
     Rotation2d rot2d{GetYaw()};
 
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("ResetPosePigeonYaw"), m_pigeon->GetYaw().GetValue().value());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("ResetPoseEstimatedYaw"), m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value());
 }
 //=================================================================================
 void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
 {
     m_pigeon->SetYaw(newYaw);
+    SetStoredHeading(newYaw);
 }
 
 //==================================================================================
