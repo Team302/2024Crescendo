@@ -295,9 +295,8 @@ void DragonSparkFlex::MonitorCurrent()
 
 void DragonSparkFlex::BurnFlash()
 {
-    bool limitSwitchCheck = (m_forwardLimitSwitch.IsLimitSwitchEnabled() == m_limitSiwtchEnabled) && (m_reverseLimitSwitch.IsLimitSwitchEnabled() == m_limitSiwtchEnabled);
-    bool invertedCheck = m_spark->GetInverted() == m_isInverted;
-    if ()
-
-        m_spark->BurnFlash();
+    /*  bool limitSwitchCheck = (m_forwardLimitSwitch.IsLimitSwitchEnabled() == m_limitSiwtchEnabled) && (m_reverseLimitSwitch.IsLimitSwitchEnabled() == m_limitSiwtchEnabled);
+      bool invertedCheck = m_spark->GetInverted() == m_isInverted;
+    */
+    m_spark->BurnFlash();
 }
