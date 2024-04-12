@@ -2402,14 +2402,14 @@
               <name>doubleParameter</name>
               <__units__ />
               <type>Double</type>
-              <value>0</value>
+              <value>-0.349853515625</value>
             </offset>
             <reverse>
               <unitsFamily>none</unitsFamily>
               <name>boolParameter</name>
               <__units__ />
               <type>Boolean</type>
-              <value>false</value>
+              <value>true</value>
             </reverse>
           </CANcoder>
         </cancoder>
