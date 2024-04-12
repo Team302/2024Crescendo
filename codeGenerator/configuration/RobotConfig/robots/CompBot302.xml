@@ -1707,7 +1707,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.18452194564</value>
+                <value>1</value>
               </countsPerInch>
               <countsPerDegree>
                 <unitsFamily>none</unitsFamily>
