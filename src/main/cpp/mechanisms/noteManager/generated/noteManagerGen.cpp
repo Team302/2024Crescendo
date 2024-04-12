@@ -278,8 +278,8 @@ void noteManagerGen::CreateCompBot302()
 	    ControlModes::CONTROL_TYPE::POSITION_INCH, // ControlModes::CONTROL_TYPE mode
 	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
 	    "positionInch", // std::string indentifier
-	    0.3, // double proportional
-	    1E-05, // double integral
+	    0.75, // double proportional
+	    3E-05, // double integral
 	    0, // double derivative
 	    0, // double feedforward
 	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
@@ -326,8 +326,8 @@ void noteManagerGen::CreateCompBot302()
 	    ControlModes::CONTROL_TYPE::POSITION_INCH, // ControlModes::CONTROL_TYPE mode
 	    ControlModes::CONTROL_RUN_LOCS::MOTOR_CONTROLLER, // ControlModes::CONTROL_RUN_LOCS server
 	    "positionInchUp", // std::string indentifier
-	    0.3, // double proportional
-	    1E-05, // double integral
+	    2.0, // double proportional
+	    3E-05, // double integral
 	    0, // double derivative
 	    0, // double feedforward
 	    ControlData::FEEDFORWARD_TYPE::VOLTAGE, // FEEDFORWARD_TYPE feedforwadType
@@ -659,8 +659,8 @@ void noteManagerGen::InitializeCompBot302()
 	        ctre::phoenix::motorcontrol::RemoteSensorSource::RemoteSensorSource_Off );
 	frontIntakeDragonSparkMaxMonitored->Invert ( true );
 	frontIntakeDragonSparkMaxMonitored->EnableBrakeMode ( true );
-	frontIntakeDragonSparkMaxMonitored->SetSmartCurrentLimiting ( 40 );
-	frontIntakeDragonSparkMaxMonitored->SetSecondaryCurrentLimiting ( 40, 0 );
+	frontIntakeDragonSparkMaxMonitored->SetSmartCurrentLimiting ( 25 );
+	frontIntakeDragonSparkMaxMonitored->SetSecondaryCurrentLimiting (25, 0 );
 	frontIntakeDragonSparkMaxMonitored->SetDiameter ( units::length::inch_t ( units::length::meter_t ( 1 ) ).to<double>() );
 	frontIntakeDragonSparkMaxMonitored->EnableDisableLimitSwitches ( false );
 // frontIntake : Follower motor mode is not enabled
@@ -748,7 +748,7 @@ void noteManagerGen::InitializeCompBot302()
 	ElevatorDragonSparkMax->EnableDisableLimitSwitches ( true );
 // Elevator : Follower motor mode is not enabled
 	ElevatorDragonSparkMax->SetVoltageRamping ( units::time::second_t ( units::time::second_t ( 0.25 ) ).to<double>(),
-	        units::time::second_t ( units::time::second_t ( 0.1 ) ).to<double>() );
+	        units::time::second_t ( units::time::second_t ( 0.0 ) ).to<double>() );
 	ElevatorDragonSparkMax->SetSensorInverted ( false );
 
 	launcherTopDragonSparkFlex->SetRemoteSensor ( 0,
