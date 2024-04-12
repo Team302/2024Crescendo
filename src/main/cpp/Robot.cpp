@@ -78,6 +78,7 @@ void Robot::RobotPeriodic()
     }
 
     UpdateDriveTeamFeedback();
+    LogDiagnosticData();
 }
 
 /**
@@ -219,7 +220,22 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic()
 {
-    LogSensorData();
+    LogDiagnosticData();
+}
+
+void Robot::LogDiagnosticData()
+{
+    const unsigned int loggingEveyNloops = 20;
+    static unsigned int loopCounter = 0;
+
+    unsigned int step = loopCounter % loggingEveyNloops;
+
+    if (step == 0)
+        LogSensorData();
+    else if (step == 1)
+        LogMotorData();
+
+    loopCounter++;
 }
 
 void Robot::LogSensorData()
@@ -232,15 +248,50 @@ void Robot::LogSensorData()
         auto noteMgr = stateMgr != nullptr ? dynamic_cast<noteManagerGen *>(stateMgr) : nullptr;
         if (noteMgr != nullptr)
         {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Front Intake"), noteMgr->getfrontIntakeSensor()->Get());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Back Intake"), noteMgr->getbackIntakeSensor()->Get());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Feeder"), noteMgr->getfeederSensor()->Get());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher"), noteMgr->getlauncherSensor()->Get());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerIn"), noteMgr->getplacerInSensor()->Get());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerMid"), noteMgr->getplacerMidSensor()->Get());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("PlacerOut"), noteMgr->getplacerOutSensor()->Get());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher Angle (degrees)"), noteMgr->getlauncherAngle()->GetCounts());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Elevator Height"), noteMgr->getElevator()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsIntake"), string("Front Intake"), noteMgr->getfrontIntakeSensor()->Get());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsIntake"), string("Back Intake"), noteMgr->getbackIntakeSensor()->Get());
+
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsLauncher"), string("Feeder"), noteMgr->getfeederSensor()->Get());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsLauncher"), string("Launcher"), noteMgr->getlauncherSensor()->Get());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsLauncher"), string("LauncherAngleHomeSwitch"), noteMgr->getlauncherAngle()->IsReverseLimitSwitchClosed());
+
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsPlacer"), string("PlacerIn"), noteMgr->getplacerInSensor()->Get());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsPlacer"), string("PlacerMid"), noteMgr->getplacerMidSensor()->Get());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsPlacer"), string("PlacerOut"), noteMgr->getplacerOutSensor()->Get());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsPlacer"), string("PlacerHomeSwitch"), noteMgr->getPlacer()->IsReverseLimitSwitchClosed());
+        }
+    }
+}
+
+void Robot::LogMotorData()
+{
+    auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+
+    if (config != nullptr)
+    {
+        auto stateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+        auto noteMgr = stateMgr != nullptr ? dynamic_cast<noteManagerGen *>(stateMgr) : nullptr;
+        if (noteMgr != nullptr)
+        {
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsIntake"), string("Front Intake"), noteMgr->getfrontIntake()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsIntake"), string("Back Intake"), noteMgr->getbackIntake()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsIntake"), string("Transfer"), noteMgr->getTransfer()->GetCounts());
+
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsPlacer"), string("Elevator"), noteMgr->getElevator()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsPlacer"), string("Placer"), noteMgr->getPlacer()->GetCounts());
+
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Feeder"), noteMgr->getFeeder()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher angle"), noteMgr->getlauncherAngle()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher top"), noteMgr->getlauncherTop()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher bottom"), noteMgr->getlauncherBottom()->GetCounts());
+        }
+
+        stateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
+        auto climberMgr = stateMgr != nullptr ? dynamic_cast<ClimberManagerGen *>(stateMgr) : nullptr;
+        if (climberMgr != nullptr)
+        {
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsClimber"), string("Left climber"), climberMgr->getleftClimber()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsClimber"), string("Right climber"), climberMgr->getrightClimber()->GetCounts());
         }
     }
 }
