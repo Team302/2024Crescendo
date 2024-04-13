@@ -68,7 +68,15 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
 
             chassis->SetYaw(pose.Rotation().Degrees());
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("GetYaw"), chassis->GetYaw().to<double>());
+
             chassis->ResetPose(pose);
+
+            auto newPose = chassis->GetPose();
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("new x position"), newPose.X().to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("new y position"), newPose.Y().to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("new rotation position"), newPose.Rotation().Degrees().to<double>());
         }
     }
 }
