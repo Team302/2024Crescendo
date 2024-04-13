@@ -148,6 +148,17 @@ void DrivePathPlanner::Run()
 
 bool DrivePathPlanner::IsDone()
 {
+    CheckIfPastCenterLine();
+
+    if (m_checkIsPastCenterLine = true)
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", true);
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", false);
+    }
+
     if (m_timer.get()->Get() > m_maxTime && m_timer.get()->Get().to<double>() > 0.0)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "Time Out");
@@ -208,6 +219,7 @@ void DrivePathPlanner::CheckIfPastCenterLine()
 {
     if (m_chassis->GetPose().X() >= (m_centerLine + m_offset))
     {
+        m_checkIsPastCenterLine = true;
         if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
         {
             frc::Pose2d currentPose2d = m_chassis->GetPose();
@@ -242,5 +254,9 @@ void DrivePathPlanner::CheckIfPastCenterLine()
                                                               GoalEndState(1.0_mps, m_chassis->GetPose().Rotation().Degrees(), true));
             m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
         }
+    }
+    else
+    {
+        m_checkIsPastCenterLine = false;
     }
 }

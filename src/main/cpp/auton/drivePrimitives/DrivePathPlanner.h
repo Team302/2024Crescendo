@@ -64,6 +64,7 @@ private:
     units::length::meter_t m_offset = units::length::meter_t(1.0);
 
     bool m_checkDriveToNote;
+    bool m_checkIsPastCenterLine;
     const double m_percentageCompleteThreshold = 0.80;
     units::time::second_t m_totalTrajectoryTime;
     frc::Pose2d m_finalPose;
