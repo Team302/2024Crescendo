@@ -9,6 +9,7 @@ pathname= "BlueWideWing0Center0"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueWideWing0Center0"
 time = "10.0"
+pathgains = "ShortPath"
 />
 
 </auton>
