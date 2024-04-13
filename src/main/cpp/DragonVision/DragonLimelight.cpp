@@ -68,11 +68,11 @@ DragonLimelight::DragonLimelight(
     SetCamMode(camMode);
     SetStreamMode(streamMode);
     ToggleSnapshot(snapMode);
+    m_healthTimer = new frc::Timer();
 }
 
 bool DragonLimelight::HealthCheck()
 {
-    return true;
     auto nt = m_networktable.get();
     if (nt != nullptr)
     {
@@ -86,12 +86,12 @@ bool DragonLimelight::HealthCheck()
         else if (m_lastHeartbeat != currentHb)
         {
             m_lastHeartbeat = currentHb;
-            m_repeatingHeartbeat = 0; // reset when we see a new heartbeat
+            m_healthTimer->Reset(); // reset when we see a new heartbeat
+            m_healthTimer->Start();
             return true;
         }
-        else if (m_repeatingHeartbeat < 10) // repeats on the same heartbeat before it's considered dead
+        else if (m_healthTimer->Get().to<double>() < 0.5) // if we haven't seen a new heartbeat in 0.5 seconds
         {
-            m_repeatingHeartbeat++;
             return true;
         }
     }
