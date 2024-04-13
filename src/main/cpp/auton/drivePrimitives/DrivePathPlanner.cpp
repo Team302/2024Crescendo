@@ -146,16 +146,16 @@ void DrivePathPlanner::Run()
 {
     if (m_chassis != nullptr)
     {
-        CheckIfPastCenterLine();
+        // CheckIfPastCenterLine();
 
-        if (m_checkIsPastCenterLine)
-        {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", true);
-        }
-        else
-        {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", false);
-        }
+        /* if (m_checkIsPastCenterLine)
+         {
+             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", true);
+         }
+         else
+         {
+             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", false);
+         }*/
 
         m_chassis->Drive(m_moveInfo);
     }
