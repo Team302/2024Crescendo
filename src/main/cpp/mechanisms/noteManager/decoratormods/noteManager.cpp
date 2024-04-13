@@ -89,7 +89,7 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 
-	m_launcherAnglePID.SetIZone(0.5);
+	m_launcherAnglePID.SetIZone(1.0);
 	m_launcherAnglePID.EnableContinuousInput(0.0, 360.0); // Enables continuous input on a range from 0 to 360, allows the CANCoder to roll over)
 }
 
@@ -294,24 +294,24 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 
 	// launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
 	// 102 + -43.2x + 5.95x^2
-	m_autoLaunchTarget = units::angle::degree_t(101.5 + (-43.2 * distanceFromTarget_m.to<double>()) + (5.95 * distanceFromTarget_m.to<double>() * distanceFromTarget_m.to<double>()));
+	m_autoLaunchTarget = units::angle::degree_t(100 + (-43.2 * distanceFromTarget_m.to<double>()) + (5.95 * distanceFromTarget_m.to<double>() * distanceFromTarget_m.to<double>()));
 
 	// limit the resulting launcher angle
-	m_autoLaunchTarget = m_autoLaunchTarget > units::angle::degree_t(55) ? units::angle::degree_t(55) : m_autoLaunchTarget;
+	m_autoLaunchTarget = m_autoLaunchTarget > units::angle::degree_t(55.0) ? units::angle::degree_t(55.0) : m_autoLaunchTarget;
 	m_autoLaunchTarget = m_autoLaunchTarget < units::angle::degree_t(0) ? units::angle::degree_t(0) : m_autoLaunchTarget;
 
-	m_topLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? units::angular_velocity::radians_per_second_t(400) : units::angular_velocity::radians_per_second_t(550);
-	m_bottomLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? units::angular_velocity::radians_per_second_t(400) : units::angular_velocity::radians_per_second_t(550);
+	m_topLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? m_manualLaunchingSpeed : m_autoLaunchingSpeed;
+	m_bottomLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? m_manualLaunchingSpeed : m_autoLaunchingSpeed;
 
 	// keep for tuning purposes
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
 	{
 		units::angle::degree_t delta = units::angle::degree_t(6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE))); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
 		m_LauncherAngleTarget += delta;
-		if (m_LauncherAngleTarget > units::angle::degree_t(55)) // limiting the travel to 0 through 16.5
-			m_LauncherAngleTarget = units::angle::degree_t(55);
-		else if (m_LauncherAngleTarget < units::angle::degree_t(2))
-			m_LauncherAngleTarget = units::angle::degree_t(2);
+		if (m_LauncherAngleTarget > units::angle::degree_t(55.0)) // limiting the travel to 0 through 16.5
+			m_LauncherAngleTarget = units::angle::degree_t(55.0);
+		else if (m_LauncherAngleTarget < units::angle::degree_t(2.0))
+			m_LauncherAngleTarget = units::angle::degree_t(0.0);
 	}
 	return make_tuple(m_topLaunchSpeed, m_bottomLaunchSpeed, m_autoLaunchTarget);
 }
@@ -404,4 +404,9 @@ bool noteManager::HasNote() const
 		return (getbackIntakeSensor()->Get() || getfrontIntakeSensor()->Get());
 	}
 	return true;
+}
+
+bool noteManager::isLauncherAtTargert()
+{
+	return units::math::abs((m_LauncherAngleTarget - GetLauncherAngleFromEncoder())) < m_angleTolerance;
 }

@@ -52,7 +52,7 @@ void lowPassState::Run()
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("lowPassState"), string("run"));
 	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
 
-	bool angleIsWithinTolerance = abs(m_mechanism->GetLauncherAngleFromEncoder().to<double>() - m_targetAngle) <= 0.5;
+	bool angleIsWithinTolerance = m_mechanism->isLauncherAtTargert();;
 	if (angleIsWithinTolerance)
 	{
 		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 1);

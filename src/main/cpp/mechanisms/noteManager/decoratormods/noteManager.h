@@ -81,9 +81,11 @@ public:
 	void SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option);
 	void MaintainCurrentLauncherTargetsForAutoLaunch();
 	bool LauncherTargetsForAutoLaunchAchieved();
+	bool isLauncherAtTargert();
 
 	units::angle::degree_t GetLauncherAngleTarget() const { return m_LauncherAngleTarget; }
 	units::angle::degree_t GetLauncherAngleFromEncoder() { return getlauncherAngleEncoder()->GetAbsolutePosition(); }
+
 	units::angular_velocity::radians_per_second_t GetLauncherTopWheelsTarget() const { return m_LauncherTopWheelsTarget; }
 	units::angular_velocity::radians_per_second_t GetLauncherBottomWheelsTarget() const { return m_LauncherBottomWheelsTarget; }
 
@@ -124,17 +126,20 @@ private:
 	bool m_noteInIntake = false;
 	bool m_noteInFeeder = false;
 
-	units::angle::degree_t m_manualLaunchTarget = units::angle::degree_t(55);
+	units::angle::degree_t m_manualLaunchTarget = units::angle::degree_t(55.0);
 	units::angle::degree_t m_LauncherAngleTarget;
-	units::angle::degree_t m_autoLaunchTarget = units::angle::degree_t(55);
+	units::angle::degree_t m_autoLaunchTarget = units::angle::degree_t(55.0);
 	units::length::meter_t m_transitionMeters = units::length::meter_t(1.5);
-	units::angular_velocity::radians_per_second_t m_topLaunchSpeed = units::angular_velocity::radians_per_second_t(400);
-	units::angular_velocity::radians_per_second_t m_bottomLaunchSpeed = units::angular_velocity::radians_per_second_t(400);
+	units::angular_velocity::radians_per_second_t m_topLaunchSpeed = units::angular_velocity::radians_per_second_t(400.0);
+	units::angular_velocity::radians_per_second_t m_bottomLaunchSpeed = units::angular_velocity::radians_per_second_t(400.0);
 	units::angular_velocity::radians_per_second_t m_LauncherTopWheelsTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherBottomWheelsTarget;
 	const double m_similarDistToleranceMeters = 0.5;
 	bool m_TransitionFromHoldFeedToReady = false;
 	bool m_manualTargetChangeAllowed = true;
+	units::angle::degree_t m_angleTolerance = units::angle::degree_t(0.5);
+	units::angular_velocity::radians_per_second_t m_manualLaunchingSpeed = units::angular_velocity::radians_per_second_t(400);
+	units::angular_velocity::radians_per_second_t m_autoLaunchingSpeed = units::angular_velocity::radians_per_second_t(550);
 
 	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0195, 0.00045, 0.0, units::second_t(20));
 };
