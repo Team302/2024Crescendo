@@ -44,5 +44,8 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
+		double m_target = 0.0;
+		double m_minAngle = 0.0;
+		double m_maxAngle = 55.0;
 	};
 }

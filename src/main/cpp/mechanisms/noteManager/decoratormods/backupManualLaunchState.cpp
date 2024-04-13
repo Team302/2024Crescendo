@@ -60,10 +60,20 @@ void backupManualLaunchState::Run()
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_PLACER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_PLACE));
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED));
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_ELEVATOR, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::ELEVATOR) * 0.5);
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE) * 0.5);
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("upper rps"), units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherTop()->GetRPS()).to<double>());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("lower rps"), units::angular_velocity::radians_per_second_t(m_mechanism->getlauncherBottom()->GetRPS()).to<double>());
+	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
+	{
+		double delta = 6.0 * 0.02 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)); // changing by 6 in/s * 0.02 for 20 ms loop time * controller input
+		m_target += delta;
+		if (m_target > m_maxAngle) // limiting the travel to 0 through 55.0
+			m_target = m_maxAngle;
+		else if (m_target < m_minAngle)
+			m_target = m_minAngle;
+		m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_target));
+	}
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("target angle"), m_target);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("launcher angle"), m_mechanism->getlauncherAngleEncoder()->GetAbsolutePosition().to<double>());
 
 	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) ||
 		TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_FEED) > 0)
@@ -92,8 +102,8 @@ bool backupManualLaunchState::AtTarget()
 
 bool backupManualLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
-	int currentState = m_mechanism->GetCurrentState();
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 
 	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) && m_mechanism->IsLauncherMode()) ||
-			(currentState == static_cast<int>(m_mechanism->STATE_BACKUP_MANUAL_PLACE) && m_mechanism->IsLauncherMode()));
+			((currentState == m_mechanism->STATE_BACKUP_MANUAL_PLACE) && m_mechanism->IsLauncherMode()));
 }
