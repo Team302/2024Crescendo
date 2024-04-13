@@ -560,6 +560,7 @@ std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::d
 		std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight(true); // true since megatag2
 		return estimatedPose;
 	}
+	return std::nullopt;
 }
 
 bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, RobotElementNames::CAMERA_USAGE position)
@@ -584,10 +585,7 @@ void DragonVision::testAndLogVisionData()
 {
 	try
 	{
-		// std::optional<VisionData> visionData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
 		std::optional<VisionPose> visionPose = GetRobotPosition();
-		// DragonVisionStructLogger::logVisionData("VisionData", visionData);
-		// DragonVisionStructLogger::logVisionPose("VisionPose", visionPose);
 
 		DragonField::GetInstance()->UpdateObjectVisionPose("VisionPose", visionPose);
 	}
