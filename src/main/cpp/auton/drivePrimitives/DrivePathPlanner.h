@@ -62,9 +62,10 @@ private:
     ChassisMovement m_moveInfo;
     units::length::meter_t m_centerLine = units::length::meter_t(8.27);
     units::length::meter_t m_offset = units::length::meter_t(1.0);
+    units::length::meter_t m_chassisOffset = units::length::meter_t(0.5);
 
-    bool m_checkDriveToNote;
-    bool m_checkIsPastCenterLine;
+    bool m_checkDriveToNote = false;
+    bool m_checkIsPastCenterLine = false;
     const double m_percentageCompleteThreshold = 0.80;
     units::time::second_t m_totalTrajectoryTime;
     frc::Pose2d m_finalPose;
