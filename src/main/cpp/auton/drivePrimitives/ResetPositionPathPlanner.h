@@ -15,11 +15,8 @@
 
 #pragma once
 
-// C++ Includes
+#include "frc/geometry/Pose2d.h"
 
-// Third party includes
-
-// Team 302 Includes
 #include "auton/drivePrimitives/IPrimitive.h"
 
 // Forward Declares
@@ -34,4 +31,7 @@ public:
     void Init(PrimitiveParams *param) override;
     void Run() override;
     bool IsDone() override;
+
+private:
+    void ResetPose(frc::Pose2d pose);
 };

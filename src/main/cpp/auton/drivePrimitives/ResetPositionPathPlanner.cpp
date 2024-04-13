@@ -50,9 +50,7 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
         auto position = vision->GetRobotPosition();
         if (position)
         {
-            auto pose = position.value().estimatedPose.ToPose2d();
-            chassis->SetYaw(pose.Rotation().Degrees());
-            chassis->ResetPose(pose);
+            ResetPose(position.value().estimatedPose.ToPose2d());
         }
         else
         {
@@ -61,23 +59,20 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
             {
                 path = path.get()->flipPath();
             }
-            auto pose = path.get()->getPreviewStartingHolonomicPose();
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("current x position"), pose.X().to<double>());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("current y position"), pose.Y().to<double>());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
-
-            chassis->SetYaw(pose.Rotation().Degrees());
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("GetYaw"), chassis->GetYaw().to<double>());
-
-            chassis->ResetPose(pose);
-
-            auto newPose = chassis->GetPose();
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("new x position"), newPose.X().to<double>());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("new y position"), newPose.Y().to<double>());
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("new rotation position"), newPose.Rotation().Degrees().to<double>());
+            ResetPose(path.get()->getPreviewStartingHolonomicPose());
         }
+    }
+}
+
+void ResetPositionPathPlanner::ResetPose(Pose2d pose)
+{
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+
+    if (chassis != nullptr)
+    {
+        chassis->SetYaw(pose.Rotation().Degrees());
+        chassis->ResetPose(pose);
     }
 }
 
