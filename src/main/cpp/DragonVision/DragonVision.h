@@ -98,6 +98,8 @@ public:
 
     void testAndLogVisionData();
 
+    bool HealthCheck(RobotElementNames::CAMERA_USAGE position);
+
 private:
     DragonVision();
     ~DragonVision() = default;

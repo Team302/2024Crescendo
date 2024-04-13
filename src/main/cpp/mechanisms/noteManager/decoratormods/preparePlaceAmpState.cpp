@@ -77,7 +77,7 @@ bool preparePlaceAmpState::IsTransitionCondition(bool considerGamepadTransitions
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	auto currentState = m_mechanism->GetCurrentState();
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 
 	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE) && (m_mechanism->IsClimbMode() == false)) ||
 			((currentState == m_mechanism->STATE_PREPARE_PLACE_TRAP) && (m_mechanism->IsClimbMode() == false)));

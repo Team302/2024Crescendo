@@ -67,6 +67,7 @@ bool placerToLauncherState::AtTarget()
 bool placerToLauncherState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 
-	return ((m_mechanism->GetCurrentState() == m_mechanism->STATE_HOLD_PLACER) && m_mechanism->IsLauncherMode());
+	return ((currentState == m_mechanism->STATE_HOLD_PLACER) && m_mechanism->IsLauncherMode());
 }

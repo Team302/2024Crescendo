@@ -42,6 +42,12 @@ DragonVision *DragonVision::GetDragonVision()
 	return DragonVision::m_dragonVision;
 }
 
+bool DragonVision::HealthCheck(RobotElementNames::CAMERA_USAGE position)
+{
+	auto camera = m_dragonCameraMap[position];
+	return camera->HealthCheck();
+}
+
 frc::AprilTagFieldLayout DragonVision::m_aprilTagLayout = frc::AprilTagFieldLayout();
 frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
 {

@@ -53,7 +53,7 @@ void readyAutoLaunchState::Run()
 
 	m_genState->Run();
 
-	m_mechanism->SetLauncherTargetsForAutoLaunch();
+	m_mechanism->SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY);
 }
 
 void readyAutoLaunchState::Exit()

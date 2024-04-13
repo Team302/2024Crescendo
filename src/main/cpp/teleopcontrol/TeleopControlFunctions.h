@@ -79,5 +79,8 @@ public:
         LAUNCH_ANGLE,
         ELEVATOR,
         AUTO_CLIMB,
+
+        MANUAL_LAUNCH_INC,
+        MANUAL_LAUNCH_DEC,
     };
 };
