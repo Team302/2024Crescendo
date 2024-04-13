@@ -260,6 +260,9 @@ void noteManager::SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDE
 {
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters(option);
 
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Speed"), std::get<0>(launchParameters).value());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bottom Speed"), std::get<1>(launchParameters).value());
+
 	SetLauncherTopWheelsTarget(std::get<0>(launchParameters));
 	SetLauncherBottomWheelsTarget(std::get<1>(launchParameters));
 	SetLauncherAngleTarget(std::get<2>(launchParameters));

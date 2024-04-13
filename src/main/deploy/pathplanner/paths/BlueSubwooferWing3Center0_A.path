@@ -61,7 +61,7 @@
   "reversed": false,
   "folder": "BlueSubwooferWing3Center0",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 179.99,
     "velocity": 0
   },
   "useDefaultConstraints": true

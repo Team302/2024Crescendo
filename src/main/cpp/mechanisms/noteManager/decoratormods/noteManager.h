@@ -141,5 +141,5 @@ private:
 	units::angular_velocity::radians_per_second_t m_manualLaunchingSpeed = units::angular_velocity::radians_per_second_t(400);
 	units::angular_velocity::radians_per_second_t m_autoLaunchingSpeed = units::angular_velocity::radians_per_second_t(550);
 
-	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0195, 0.00045, 0.0, units::second_t(20));
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0195, 0.00035, 0.0, units::second_t(20));
 };

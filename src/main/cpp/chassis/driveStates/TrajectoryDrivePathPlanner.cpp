@@ -112,7 +112,7 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
             refChassisSpeeds = m_shortpathHolonomicController.calculateRobotRelativeSpeeds(m_chassis->GetPose(), desiredState);
         }
 
-        if (chassisMovement.headingOption == ChassisOptionEnums::HeadingOption::IGNORE)
+        if (chassisMovement.headingOption != ChassisOptionEnums::HeadingOption::IGNORE)
         {
             if (m_firstGen == 1)
             {

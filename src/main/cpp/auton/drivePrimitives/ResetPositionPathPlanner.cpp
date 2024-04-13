@@ -51,6 +51,11 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
         if (position)
         {
             auto pose = position.value().estimatedPose.ToPose2d();
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("vision x position"), pose.X().to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("vision y position"), pose.Y().to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("vision rotation position"), pose.Rotation().Degrees().to<double>());
+
             chassis->SetYaw(pose.Rotation().Degrees());
             chassis->ResetPose(pose);
         }
