@@ -220,7 +220,6 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic()
 {
-    LogDiagnosticData();
 }
 
 void Robot::LogDiagnosticData()
@@ -234,7 +233,15 @@ void Robot::LogDiagnosticData()
         LogSensorData();
     else if (step == 1)
         LogMotorData();
-
+    else if (step == 3)
+        LogCameraData();
+    else if (step == 4)
+    {
+        m_chassis->LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES::LEFT_BACK);
+        m_chassis->LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES::RIGHT_BACK);
+        m_chassis->LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES::LEFT_FRONT);
+        m_chassis->LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES::RIGHT_FRONT);
+    }
     loopCounter++;
 }
 
@@ -281,7 +288,7 @@ void Robot::LogMotorData()
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsPlacer"), string("Placer"), noteMgr->getPlacer()->GetCounts());
 
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Feeder"), noteMgr->getFeeder()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher angle"), noteMgr->getlauncherAngle()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher angle"), units::angle::degree_t(noteMgr->getlauncherAngleEncoder()->GetAbsolutePosition()).value());
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher top"), noteMgr->getlauncherTop()->GetCounts());
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher bottom"), noteMgr->getlauncherBottom()->GetCounts());
         }
@@ -294,6 +301,14 @@ void Robot::LogMotorData()
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsClimber"), string("Right climber"), climberMgr->getrightClimber()->GetCounts());
         }
     }
+}
+
+void Robot::LogCameraData()
+{
+    // TODO: implement encoder logging for chassis
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("LAUNCHER Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LAUNCHE));
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("PLACER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::PINTAKE));
+    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("LAUNCHER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LINTAKE));
 }
 
 void Robot::SimulationInit()

@@ -217,35 +217,40 @@ void SwerveModule::LogInformation()
     string ntAngleName;
     string ntMotorPositionName;
     string ntRotorPositionName;
+    string ntName;
     if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_BACK)
     {
-        ntAngleName += string("leftback Angle");
-        ntMotorPositionName += string("leftback turns");
-        ntRotorPositionName += string("leftback rotor");
+        ntAngleName += string("Left Back Angle");
+        ntMotorPositionName += string("Left Back Turn");
+        ntRotorPositionName += string("Left Back Drive");
+        ntName = string("Left Back Swerve Encoders");
     }
     else if (m_moduleID == SwerveModuleConstants::ModuleID::LEFT_FRONT)
     {
-        ntAngleName += string("leftfront Angle");
-        ntMotorPositionName += string("leftfront turns");
-        ntRotorPositionName += string("leftfront rotor");
+        ntAngleName += string("Left Front Angle");
+        ntMotorPositionName += string("Left Front Turn");
+        ntRotorPositionName += string("Left Front Drive");
+        ntName = string("Left Front Swerve Encoders");
     }
     else if (m_moduleID == SwerveModuleConstants::ModuleID::RIGHT_BACK)
     {
-        ntAngleName += string("rightback Angle");
-        ntMotorPositionName += string("rightback turns");
-        ntRotorPositionName += string("rightback rotor");
+        ntAngleName += string("Right Back Angle");
+        ntMotorPositionName += string("Right Back Turn");
+        ntRotorPositionName += string("Right Back Drive");
+        ntName = string("Right Back Swerve Encoders");
     }
     else
     {
-        ntAngleName += string("rightfront Angle");
-        ntMotorPositionName += string("rightfront turns");
-        ntRotorPositionName += string("rightfront rotor");
+        ntAngleName += string("Right Front Angle");
+        ntMotorPositionName += string("Right Front Turn");
+        ntRotorPositionName += string("Right Front Drive");
+        ntName = string("Right Front Swerve Encoders");
     }
     auto turns = m_turnTalon->GetPosition().GetValueAsDouble();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntMotorPositionName, turns);
+    Logger::GetLogger()->LogDataDirectlyOverNT(ntName, ntMotorPositionName, turns);
 
     auto rotor = m_turnTalon->GetRotorPosition().GetValueAsDouble();
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, ntRotorPositionName, rotor);
+    Logger::GetLogger()->LogDataDirectlyOverNT(ntName, ntRotorPositionName, rotor);
 }
 
 //==================================================================================

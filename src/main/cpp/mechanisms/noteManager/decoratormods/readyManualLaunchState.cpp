@@ -51,6 +51,7 @@ void readyManualLaunchState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyManualLaunchState"), string("run"));
 	m_genState->Run();
+	m_mechanism->SetLauncherAngleTarget(m_mechanism->GetManualLaunchTarget());
 }
 
 void readyManualLaunchState::Exit()

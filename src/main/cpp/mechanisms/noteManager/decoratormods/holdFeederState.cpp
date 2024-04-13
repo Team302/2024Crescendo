@@ -45,8 +45,6 @@ void holdFeederState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("holdFeederState"), string("init"));
 
 	m_genState->Init();
-	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, m_mechanism->getlauncherAngle()->GetCounts());
-
 	m_NoteMisdetectionCounter = 0;
 }
 
@@ -83,11 +81,12 @@ bool holdFeederState::AtTarget()
 
 bool holdFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 {
-	// To get the current state use m_mechanism->GetCurrentState()
+	// To get the current state use m_mechanism->GetcurrentState()
 	bool feederSensor = m_mechanism->getfeederSensor()->Get();
 	bool launcherSensor = m_mechanism->getlauncherSensor()->Get();
-	auto currentstate = m_mechanism->GetCurrentState();
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 	bool visionTargetAcquired = m_mechanism->HasVisionTarget();
+	units::length::meter_t distanceFromSpeaker = m_mechanism->GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY);
 
-	return ((feederSensor && launcherSensor && (currentstate == m_mechanism->STATE_FEEDER_INTAKE)) || ((currentstate == m_mechanism->STATE_READY_AUTO_LAUNCH) && visionTargetAcquired == false));
+	return ((feederSensor && launcherSensor && (currentState == m_mechanism->STATE_FEEDER_INTAKE)) || ((currentState == m_mechanism->STATE_READY_AUTO_LAUNCH) && visionTargetAcquired == false) || ((distanceFromSpeaker > m_odometryLaunchThreshold) && (currentState == m_mechanism->STATE_READY_ODOMETRY_LAUNCH)));
 }
