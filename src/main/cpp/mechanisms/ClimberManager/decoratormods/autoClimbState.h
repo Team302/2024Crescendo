@@ -46,5 +46,6 @@ namespace ClimberManagerStates
 		ClimberManager *m_mechanism;
 		bool m_bottomReached = false;
 		double m_target = 7.5;
+		bool m_autoClimbManualAdjustmentLatch = false;
 	};
 }

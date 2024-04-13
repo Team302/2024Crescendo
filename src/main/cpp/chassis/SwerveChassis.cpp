@@ -352,8 +352,7 @@ void SwerveChassis::ResetPose(const Pose2d &pose)
 //=================================================================================
 void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
 {
-    m_pigeon->SetYaw(newYaw);
-    // SetStoredHeading(newYaw);
+    m_pigeon->SetYaw(newYaw, units::time::second_t(0.1));
 }
 
 //==================================================================================
