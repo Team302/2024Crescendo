@@ -50,7 +50,7 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>4</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
@@ -237,7 +237,7 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>4</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
@@ -424,7 +424,7 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>4</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
@@ -1524,7 +1524,7 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>4</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
@@ -1712,7 +1712,7 @@
           <name>doubleParameter</name>
           <__units__>s</__units__>
           <type>Double</type>
-          <value>4</value>
+          <value>0.25</value>
         </openLoopRampTime>
         <closedLoopRampTime>
           <unitsFamily>time</unitsFamily>
