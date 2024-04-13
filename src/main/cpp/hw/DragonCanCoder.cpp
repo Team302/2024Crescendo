@@ -35,7 +35,14 @@ DragonCanCoder::DragonCanCoder(string networkTableName,
                                                m_usage(usage),
                                                m_cancoder(CANcoder(canID, canBusName))
 {
-    m_cancoder.GetConfigurator().Apply(CANcoderConfiguration{});
+
+    CANcoderConfiguration configs{};
+    m_cancoder.GetConfigurator().Refresh(configs);
+    configs.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue::Unsigned_0To1;
+    configs.MagnetSensor.SensorDirection = reverse ? SensorDirectionValue::Clockwise_Positive : SensorDirectionValue::CounterClockwise_Positive;
+    configs.MagnetSensor.MagnetOffset = offset;
+
+    m_cancoder.GetConfigurator().Apply(configs);
 }
 
 void DragonCanCoder::SetRange(AbsoluteSensorRangeValue range)

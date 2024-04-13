@@ -99,6 +99,11 @@ void DriverFeedback::UpdateLEDStates()
                 currentState = DragonLeds::PURPLE;
                 m_LEDStates->SolidColorPattern(currentState);
             }
+            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY_ODOMETRY_LAUNCH)
+            {
+                currentState = DragonLeds::AZUL;
+                m_LEDStates->SolidColorPattern(currentState);
+            }
             else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY_AUTO_LAUNCH || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_AUTO_LAUNCH)
             {
                 if (noteStateManager->GetCurrentStatePtr()->AtTarget())

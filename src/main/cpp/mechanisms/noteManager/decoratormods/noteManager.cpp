@@ -40,7 +40,6 @@
 #include "mechanisms/noteManager/decoratormods/autoLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/manualLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/readyOdometryLaunchState.h"
-#include "mechanisms/noteManager/decoratormods/autoLaunchOdometryState.h"
 #include "mechanisms/noteManager/decoratormods/preparePlaceAmpState.h"
 #include "mechanisms/noteManager/decoratormods/preparePlaceTrapState.h"
 #include "mechanisms/noteManager/decoratormods/placeAmpState.h"
@@ -89,6 +88,9 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
+
+	m_launcherAnglePID.SetIZone(1.0);
+	m_launcherAnglePID.EnableContinuousInput(0.0, 360.0); // Enables continuous input on a range from 0 to 360, allows the CANCoder to roll over)
 }
 
 void noteManager::RunCommonTasks()
@@ -97,20 +99,33 @@ void noteManager::RunCommonTasks()
 	Cyclic();
 	ResetLauncherAngle();
 	ResetElevator();
+	SetManualLaunchTarget();
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Front"), getfrontIntakeSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Back"), getbackIntakeSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Feeder"), getfeederSensor()->Get());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Sensors"), string("Launcher"), getlauncherSensor()->Get());
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(GetCurrentState());
+
+	bool protectLauncher = !((currentState == m_noteManager->STATE_READY_AUTO_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_AUTO_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_PASS) ||
+							 (currentState == m_noteManager->STATE_LOW_PASS) ||
+							 (currentState == m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_MANUAL_LAUNCH) ||
+							 (currentState == m_noteManager->STATE_BACKUP_MANUAL_LAUNCH));
+
+	if (protectLauncher)
+		SetLauncherToProtectedPosition();
+
 	// Processing related to current monitor
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), GetLauncherAngleFromEncoder().value());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Target"), m_LauncherAngleTarget.value());
+
 	// MonitorMotorCurrents();
+	UpdateLauncherAngleTarget();
 
 #ifdef INCLUDE_DATA_TRACE
-	double intakeDifferentialCurrent =
-#endif
-		MonitorForNoteInIntakes();
+	double intakeDifferentialCurrent = MonitorForNoteInIntakes();
 
-#ifdef INCLUDE_DATA_TRACE
 	// double wheelSetTop = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60)).to<double>();
 	double wheelSetTop = GetLauncherAngleTarget().to<double>();
 
@@ -241,9 +256,9 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 		m_gamePeriod = static_cast<RobotStateChanges::GamePeriod>(value);
 }
 
-void noteManager::SetLauncherTargetsForAutoLaunch()
+void noteManager::SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option)
 {
-	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters();
+	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters(option);
 
 	SetLauncherTopWheelsTarget(std::get<0>(launchParameters));
 	SetLauncherBottomWheelsTarget(std::get<1>(launchParameters));
@@ -251,21 +266,19 @@ void noteManager::SetLauncherTargetsForAutoLaunch()
 
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()));
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
-	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetLauncherAngleTarget());
 }
 
 void noteManager::MaintainCurrentLauncherTargetsForAutoLaunch()
 {
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(GetLauncherTopWheelsTarget()));
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
-	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, GetLauncherAngleTarget());
 }
 
-bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
+bool noteManager::LauncherTargetsForAutoLaunchAchieved()
 {
 	units::angular_velocity::revolutions_per_minute_t topSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60); // RPS is revs/sec not rad/sec
 	units::angular_velocity::revolutions_per_minute_t botSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60);
-	units::angle::degree_t launcherAngle = units::angle::degree_t(getlauncherAngle()->GetCounts());
+	units::angle::degree_t launcherAngle = GetLauncherAngleFromEncoder();
 
 	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() * 0.9)) && (botSpeed > (GetLauncherBottomWheelsTarget() * 0.9));
 	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.5;
@@ -275,47 +288,41 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
 
 /// @brief
 /// @return top wheel speed, bottom wheel speed, launcher angle
-std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters()
+std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option)
 {
-	double launcherAngle = 55;		// 50 deg is the angle for manualLaunch
-	double topLaunchSpeed = 400;	// 400 rad/sec is the default for manualLaunch
-	double bottomLaunchSpeed = 400; // 400 rad/sec is the default for manualLaunch
-
-	double distanceFromTarget_m = ((GetDistanceFromSpeaker())).to<double>();
-
-	auto transitionMeters = 1.5;
+	units::length::meter_t distanceFromTarget_m = GetDistanceFromSpeaker(option);
 
 	// launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
 	// 102 + -43.2x + 5.95x^2
-	launcherAngle = 101.5 + (-43.2 * distanceFromTarget_m) + (5.95 * distanceFromTarget_m * distanceFromTarget_m);
+	m_autoLaunchTarget = units::angle::degree_t(100 + (-43.2 * distanceFromTarget_m.to<double>()) + (5.95 * distanceFromTarget_m.to<double>() * distanceFromTarget_m.to<double>()));
 
 	// limit the resulting launcher angle
-	launcherAngle = launcherAngle > 55 ? 55 : launcherAngle;
-	launcherAngle = launcherAngle < 20 ? 5 : launcherAngle;
+	m_autoLaunchTarget = m_autoLaunchTarget > units::angle::degree_t(55.0) ? units::angle::degree_t(55.0) : m_autoLaunchTarget;
+	m_autoLaunchTarget = m_autoLaunchTarget < units::angle::degree_t(0) ? units::angle::degree_t(0) : m_autoLaunchTarget;
 
-	topLaunchSpeed = distanceFromTarget_m < transitionMeters /*inch*/ ? 400 : 550;
-	bottomLaunchSpeed = distanceFromTarget_m < transitionMeters /*inch*/ ? 400 : 550;
+	m_topLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? m_manualLaunchingSpeed : m_autoLaunchingSpeed;
+	m_bottomLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? m_manualLaunchingSpeed : m_autoLaunchingSpeed;
 
-	/* keep for tuning purposes
+	// keep for tuning purposes
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
 	{
 		units::angle::degree_t delta = units::angle::degree_t(6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE))); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
 		m_LauncherAngleTarget += delta;
-		if (m_LauncherAngleTarget > units::angle::degree_t(55)) // limiting the travel to 0 through 16.5
-			m_LauncherAngleTarget = units::angle::degree_t(55);
-		else if (m_LauncherAngleTarget < units::angle::degree_t(2))
-			m_LauncherAngleTarget = units::angle::degree_t(2);
-	}*/
-	return make_tuple(units::angular_velocity::radians_per_second_t(topLaunchSpeed), units::angular_velocity::radians_per_second_t(bottomLaunchSpeed), units::angle::degree_t(launcherAngle));
+		if (m_LauncherAngleTarget > units::angle::degree_t(55.0)) // limiting the travel to 0 through 16.5
+			m_LauncherAngleTarget = units::angle::degree_t(55.0);
+		else if (m_LauncherAngleTarget < units::angle::degree_t(2.0))
+			m_LauncherAngleTarget = units::angle::degree_t(0.0);
+	}
+	return make_tuple(m_topLaunchSpeed, m_bottomLaunchSpeed, m_autoLaunchTarget);
 }
 
-units::length::meter_t noteManager::GetDistanceFromSpeaker() const
+units::length::meter_t noteManager::GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION option) const
 {
 	auto distanceFromTarget = units::length::meter_t(6.0);
 	auto finder = DragonDriveTargetFinder::GetInstance();
 	if (finder != nullptr)
 	{
-		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE, DragonVision::VISION_ELEMENT::SPEAKER);
+		auto distinfo = finder->GetDistance(option, DragonVision::VISION_ELEMENT::SPEAKER);
 		auto type = get<0>(distinfo);
 		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
 		{
@@ -329,6 +336,43 @@ units::length::meter_t noteManager::GetDistanceFromSpeaker() const
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance"), distanceFromTarget.to<double>());
 
 	return distanceFromTarget;
+}
+
+void noteManager::SetManualLaunchTarget()
+{
+
+	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH_INC))
+	{
+		if (m_manualTargetChangeAllowed)
+		{
+			m_manualLaunchTarget++;
+			m_manualTargetChangeAllowed = false;
+		}
+	}
+	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH_DEC))
+	{
+		if (m_manualTargetChangeAllowed)
+		{
+			m_manualLaunchTarget--;
+			m_manualTargetChangeAllowed = false;
+		}
+	}
+	else
+	{
+		m_manualTargetChangeAllowed = true;
+	}
+}
+
+void noteManager::UpdateLauncherAngleTarget()
+{
+	double percentOut = std::clamp(m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Voltage"), percentOut);
+}
+
+void noteManager::SetLauncherToProtectedPosition()
+{
+	SetLauncherAngleTarget(units::angle::degree_t(0.0));
 }
 
 double noteManager::GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage)
@@ -360,4 +404,9 @@ bool noteManager::HasNote() const
 		return (getbackIntakeSensor()->Get() || getfrontIntakeSensor()->Get());
 	}
 	return true;
+}
+
+bool noteManager::isLauncherAtTargert()
+{
+	return units::math::abs((m_LauncherAngleTarget - GetLauncherAngleFromEncoder())) < m_angleTolerance;
 }
