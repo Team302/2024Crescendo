@@ -72,6 +72,7 @@ DragonLimelight::DragonLimelight(
 
 bool DragonLimelight::HealthCheck()
 {
+    return true;
     auto nt = m_networktable.get();
     if (nt != nullptr)
     {

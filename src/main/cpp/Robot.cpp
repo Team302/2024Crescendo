@@ -281,7 +281,7 @@ void Robot::LogMotorData()
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsPlacer"), string("Placer"), noteMgr->getPlacer()->GetCounts());
 
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Feeder"), noteMgr->getFeeder()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher angle"), noteMgr->getlauncherAngle()->GetCounts());
+            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher angle"), noteMgr->getlauncherAngleEncoder());
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher top"), noteMgr->getlauncherTop()->GetCounts());
             Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher bottom"), noteMgr->getlauncherBottom()->GetCounts());
         }

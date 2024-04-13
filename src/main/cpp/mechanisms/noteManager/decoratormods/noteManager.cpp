@@ -101,7 +101,7 @@ void noteManager::RunCommonTasks()
 	ResetElevator();
 	SetManualLaunchTarget();
 
-	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_noteManager->GetCurrentState());
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(GetCurrentState());
 
 	bool protectLauncher = !((currentState == m_noteManager->STATE_READY_AUTO_LAUNCH) ||
 							 (currentState == m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
@@ -117,7 +117,6 @@ void noteManager::RunCommonTasks()
 
 	// Processing related to current monitor
 	// MonitorMotorCurrents();
-
 	UpdateLauncherAngleTarget();
 
 #ifdef INCLUDE_DATA_TRACE
@@ -271,11 +270,11 @@ void noteManager::MaintainCurrentLauncherTargetsForAutoLaunch()
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(GetLauncherBottomWheelsTarget()));
 }
 
-bool noteManager::LauncherTargetsForAutoLaunchAchieved() const
+bool noteManager::LauncherTargetsForAutoLaunchAchieved()
 {
 	units::angular_velocity::revolutions_per_minute_t topSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60); // RPS is revs/sec not rad/sec
 	units::angular_velocity::revolutions_per_minute_t botSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60);
-	units::angle::degree_t launcherAngle = units::angle::degree_t(getlauncherAngle()->GetCounts());
+	units::angle::degree_t launcherAngle = GetLauncherAngleFromEncoder();
 
 	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() * 0.9)) && (botSpeed > (GetLauncherBottomWheelsTarget() * 0.9));
 	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.5;
@@ -362,8 +361,9 @@ void noteManager::SetManualLaunchTarget()
 
 void noteManager::UpdateLauncherAngleTarget()
 {
-	double voltageOut = m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>());
-	getlauncherAngle()->SetVoltage(units::voltage::volt_t(voltageOut));
+	double percentOut = std::clamp(m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
+	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Voltage"), percentOut);
 }
 
 void noteManager::SetLauncherToProtectedPosition()

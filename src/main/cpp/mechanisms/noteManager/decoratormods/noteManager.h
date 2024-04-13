@@ -80,7 +80,7 @@ public:
 
 	void SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option);
 	void MaintainCurrentLauncherTargetsForAutoLaunch();
-	bool LauncherTargetsForAutoLaunchAchieved() const;
+	bool LauncherTargetsForAutoLaunchAchieved();
 
 	units::angle::degree_t GetLauncherAngleTarget() const { return m_LauncherAngleTarget; }
 	units::angle::degree_t GetLauncherAngleFromEncoder() { return getlauncherAngleEncoder()->GetAbsolutePosition(); }
@@ -136,5 +136,5 @@ private:
 	bool m_TransitionFromHoldFeedToReady = false;
 	bool m_manualTargetChangeAllowed = true;
 
-	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0, 0.0, 0.0, units::second_t(20));
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0195, 0.00045, 0.0, units::second_t(20));
 };
