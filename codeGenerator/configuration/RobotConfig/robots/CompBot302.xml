@@ -2499,14 +2499,14 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.3</value>
+                <value>0.75</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>1E-05</value>
+                <value>3E-05</value>
               </iGain>
               <dGain>
                 <unitsFamily>none</unitsFamily>
@@ -2730,14 +2730,14 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.3</value>
+                <value>1</value>
               </pGain>
               <iGain>
                 <unitsFamily>none</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>1E-05</value>
+                <value>3E-05</value>
               </iGain>
               <dGain>
                 <unitsFamily>none</unitsFamily>
