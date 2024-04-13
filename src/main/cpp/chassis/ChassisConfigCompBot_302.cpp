@@ -27,6 +27,9 @@ using std::string;
 void ChassisConfigCompBot_302::DefinePigeon()
 {
     m_pigeon2 = new Pigeon2(0, m_canbusName);
+    MountPoseConfigs config{};
+    config.MountPoseYaw = 0;
+    m_pigeon2->GetConfigurator().Apply(config);
     m_pigeon2->Reset();
 }
 
