@@ -172,14 +172,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
@@ -358,14 +358,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
@@ -544,14 +544,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
@@ -1460,14 +1460,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
@@ -1826,14 +1826,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
