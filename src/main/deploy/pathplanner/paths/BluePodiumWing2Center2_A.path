@@ -16,19 +16,41 @@
     },
     {
       "anchor": {
-        "x": 2.5677274211691286,
-        "y": 4.251242788199862
+        "x": 2.7826937000083496,
+        "y": 4.15
       },
       "prevControl": {
-        "x": 2.5177274211691287,
-        "y": 4.251242788199862
+        "x": 2.7326937000083498,
+        "y": 4.15
+      },
+      "nextControl": {
+        "x": 2.8326937000083494,
+        "y": 4.15
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.110068655286327,
+        "y": 4.3727584694029344
+      },
+      "prevControl": {
+        "x": 2.4713811776473382,
+        "y": 4.261379234701467
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BluePodiumWing2Center2_A"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -38,9 +60,9 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": 152.2414593989401,
-    "rotateFast": false
+    "velocity": 0.0,
+    "rotation": 160.24,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "BluePodiumWing2Center2",
