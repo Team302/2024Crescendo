@@ -62,6 +62,11 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
                 path = path.get()->flipPath();
             }
             auto pose = path.get()->getPreviewStartingHolonomicPose();
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("current x position"), pose.X().to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("current y position"), pose.Y().to<double>());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ResetPosition"), string("current rotation position"), pose.Rotation().Degrees().to<double>());
+
             chassis->SetYaw(pose.Rotation().Degrees());
             chassis->ResetPose(pose);
         }
