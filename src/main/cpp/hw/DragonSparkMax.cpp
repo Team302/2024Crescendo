@@ -161,18 +161,18 @@ void DragonSparkMax::EnableCurrentLimiting(bool enabled)
 
 void DragonSparkMax::Set(double value)
 {
-    // if (m_controlType == CANSparkBase::ControlType::kDutyCycle)
-    // {
-    //     m_spark->Set(value);
-    // }
-    // else if (m_controlType == CANSparkBase::ControlType::kVelocity)
-    // {
-    //     m_pidController.SetReference(value * 60, m_controlType, m_velSlot);
-    // }
-    // else
-    // {
-    //     m_pidController.SetReference(value, m_controlType, m_posSlot);
-    // }
+    if (m_controlType == CANSparkBase::ControlType::kDutyCycle)
+    {
+        m_spark->Set(value);
+    }
+    else if (m_controlType == CANSparkBase::ControlType::kVelocity)
+    {
+        m_pidController.SetReference(value * 60, m_controlType, m_velSlot);
+    }
+    else
+    {
+        m_pidController.SetReference(value, m_controlType, m_posSlot);
+    }
 }
 
 void DragonSparkMax::SetRotationOffset(double rotations)
@@ -270,13 +270,13 @@ void DragonSparkMax::EnableDisableLimitSwitches(bool enable)
 
 void DragonSparkMax::EnableVoltageCompensation(double fullvoltage)
 {
-    m_spark->EnableVoltageCompensation(fullvoltage);
+    // m_spark->EnableVoltageCompensation(fullvoltage);
 }
 
 void DragonSparkMax::SetSelectedSensorPosition(
     double initialPosition)
 {
-    m_encoder.SetPosition(initialPosition);
+    // m_encoder.SetPosition(initialPosition);
 }
 
 double DragonSparkMax::GetCounts()
