@@ -50,11 +50,6 @@
 // Third Party Includes
 #include "pugixml/pugixml.hpp"
 
-constexpr int LEFT_FRONT = 0;
-constexpr int RIGHT_FRONT = 1;
-constexpr int LEFT_BACK = 2;
-constexpr int RIGHT_BACK = 3;
-
 using std::map;
 using std::string;
 
@@ -324,21 +319,21 @@ ChassisSpeeds SwerveChassis::GetChassisSpeeds() const
 }
 //==================================================================================
 
-void SwerveChassis::LogSwerveEncoderData(SwerveModule::SWERVE_MODULES swerveModule)
+void SwerveChassis::LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES swerveModule)
 {
-    if (swerveModule == SwerveModule::SWERVE_MODULES::RIGHT_FRONT)
+    if (swerveModule == SwerveChassis::SWERVE_MODULES::RIGHT_FRONT)
     {
         m_frontRight->LogInformation();
     }
-    else if (swerveModule == SwerveModule::SWERVE_MODULES::RIGHT_BACK)
+    else if (swerveModule == SwerveChassis::SWERVE_MODULES::RIGHT_BACK)
     {
         m_backRight->LogInformation();
     }
-    else if (swerveModule == SwerveModule::SWERVE_MODULES::LEFT_FRONT)
+    else if (swerveModule == SwerveChassis::SWERVE_MODULES::LEFT_FRONT)
     {
         m_frontLeft->LogInformation();
     }
-    else if (swerveModule == SwerveModule::SWERVE_MODULES::LEFT_BACK)
+    else if (swerveModule == SwerveChassis::SWERVE_MODULES::LEFT_BACK)
     {
         m_backLeft->LogInformation();
     }

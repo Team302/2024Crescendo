@@ -237,10 +237,10 @@ void Robot::LogDiagnosticData()
         LogCameraData();
     else if (step == 4)
     {
-        m_chassis->LogSwerveEncoderData(SwerveModule::SWERVE_MODULES::LEFT_BACK);
-        m_chassis->LogSwerveEncoderData(SwerveModule::SWERVE_MODULES::RIGHT_BACK);
-        m_chassis->LogSwerveEncoderData(SwerveModule::SWERVE_MODULES::LEFT_FRONT);
-        m_chassis->LogSwerveEncoderData(SwerveModule::SWERVE_MODULES::RIGHT_FRONT);
+        m_chassis->LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES::LEFT_BACK);
+        m_chassis->LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES::RIGHT_BACK);
+        m_chassis->LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES::LEFT_FRONT);
+        m_chassis->LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES::RIGHT_FRONT);
     }
     loopCounter++;
 }
