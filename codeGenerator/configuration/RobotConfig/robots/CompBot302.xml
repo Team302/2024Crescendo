@@ -69,7 +69,7 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.25</value>
+                <value>4</value>
               </openLoopRampTime>
               <closedLoopRampTime>
                 <unitsFamily>time</unitsFamily>
@@ -255,7 +255,7 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.25</value>
+                <value>4</value>
               </openLoopRampTime>
               <closedLoopRampTime>
                 <unitsFamily>time</unitsFamily>
@@ -441,7 +441,7 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.25</value>
+                <value>4</value>
               </openLoopRampTime>
               <closedLoopRampTime>
                 <unitsFamily>time</unitsFamily>
@@ -1536,7 +1536,7 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.25</value>
+                <value>4</value>
               </openLoopRampTime>
               <closedLoopRampTime>
                 <unitsFamily>time</unitsFamily>
@@ -1630,7 +1630,7 @@
                 <name>boolParameter</name>
                 <__units__ />
                 <type>Boolean</type>
-                <value>true</value>
+                <value>false</value>
               </LimitSwitchesEnabled>
             </limitSwitches>
             <currentLimits>
@@ -1723,7 +1723,7 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.25</value>
+                <value>4</value>
               </openLoopRampTime>
               <closedLoopRampTime>
                 <unitsFamily>time</unitsFamily>
@@ -1737,7 +1737,7 @@
                 <name>boolParameter</name>
                 <__units__ />
                 <type>Boolean</type>
-                <value>true</value>
+                <value>false</value>
               </enableClosedLoop>
             </voltageRamping>
             <motorType>NEOMOTOR</motorType>
@@ -1902,14 +1902,14 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.1</value>
+                <value>0</value>
               </openLoopRampTime>
               <closedLoopRampTime>
                 <unitsFamily>time</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.1</value>
+                <value>0</value>
               </closedLoopRampTime>
               <enableClosedLoop>
                 <unitsFamily>none</unitsFamily>
@@ -2088,7 +2088,7 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.1</value>
+                <value>0</value>
               </closedLoopRampTime>
               <enableClosedLoop>
                 <unitsFamily>none</unitsFamily>
@@ -3249,7 +3249,7 @@
               <motorTarget>
                 <name>launcherAngle</name>
                 <target>
-                  <unitsFamily>angle</unitsFamily>
+                  <unitsFamily>none</unitsFamily>
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
@@ -4251,7 +4251,7 @@
               <motorTarget>
                 <name>launcherAngle</name>
                 <target>
-                  <unitsFamily>angle</unitsFamily>
+                  <unitsFamily>none</unitsFamily>
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
@@ -4458,7 +4458,7 @@
               <motorTarget>
                 <name>launcherAngle</name>
                 <target>
-                  <unitsFamily>angle</unitsFamily>
+                  <unitsFamily>none</unitsFamily>
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
@@ -4644,7 +4644,7 @@
               <motorTarget>
                 <name>launcherAngle</name>
                 <target>
-                  <unitsFamily>angle</unitsFamily>
+                  <unitsFamily>none</unitsFamily>
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
@@ -4823,7 +4823,7 @@
               <motorTarget>
                 <name>launcherAngle</name>
                 <target>
-                  <unitsFamily>angle</unitsFamily>
+                  <unitsFamily>none</unitsFamily>
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
@@ -5006,7 +5006,7 @@
               <motorTarget>
                 <name>launcherAngle</name>
                 <target>
-                  <unitsFamily>angle</unitsFamily>
+                  <unitsFamily>none</unitsFamily>
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
@@ -7171,21 +7171,21 @@
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.2</value>
+                <value>0</value>
               </openLoopRampTime>
               <closedLoopRampTime>
                 <unitsFamily>time</unitsFamily>
                 <name>doubleParameter</name>
                 <__units__>s</__units__>
                 <type>Double</type>
-                <value>0.2</value>
+                <value>0</value>
               </closedLoopRampTime>
               <enableClosedLoop>
                 <unitsFamily>none</unitsFamily>
                 <name>boolParameter</name>
                 <__units__ />
                 <type>Boolean</type>
-                <value>true</value>
+                <value>false</value>
               </enableClosedLoop>
             </voltageRamping>
             <motorType>NEOMOTOR</motorType>
@@ -7274,14 +7274,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>
@@ -7454,14 +7454,14 @@
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </PrimaryLimit>
               <SecondaryLimit>
                 <unitsFamily>current</unitsFamily>
                 <name>intParameter</name>
                 <__units__>A</__units__>
                 <type>Int32</type>
-                <value>40</value>
+                <value>25</value>
               </SecondaryLimit>
               <SecondaryLimitCycles>
                 <unitsFamily>none</unitsFamily>

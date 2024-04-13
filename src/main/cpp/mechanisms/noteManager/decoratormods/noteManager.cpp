@@ -116,6 +116,10 @@ void noteManager::RunCommonTasks()
 		SetLauncherToProtectedPosition();
 
 	// Processing related to current monitor
+
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), GetLauncherAngleFromEncoder().value());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Target"), m_LauncherAngleTarget.value());
+
 	// MonitorMotorCurrents();
 	UpdateLauncherAngleTarget();
 
@@ -299,7 +303,7 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	m_topLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? units::angular_velocity::radians_per_second_t(400) : units::angular_velocity::radians_per_second_t(550);
 	m_bottomLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? units::angular_velocity::radians_per_second_t(400) : units::angular_velocity::radians_per_second_t(550);
 
-	/* keep for tuning purposes
+	// keep for tuning purposes
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
 	{
 		units::angle::degree_t delta = units::angle::degree_t(6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE))); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
@@ -308,7 +312,7 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 			m_LauncherAngleTarget = units::angle::degree_t(55);
 		else if (m_LauncherAngleTarget < units::angle::degree_t(2))
 			m_LauncherAngleTarget = units::angle::degree_t(2);
-	}*/
+	}
 	return make_tuple(m_topLaunchSpeed, m_bottomLaunchSpeed, m_autoLaunchTarget);
 }
 
