@@ -8,7 +8,7 @@
 
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2Start"
-noteOption= "STATE_READY_AUTO_LAUNCH"
+noteOption= "STATE_READY_ODOMETRY_LAUNCH"
 time= "0.5"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
@@ -16,8 +16,11 @@ time= "0.5"/>
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
-pathgains= "ShortPath"
-time= "2.0"/>
+time= "2.5"/>
+
+<primitive id = "DO_NOTHING"
+time= "0.5"
+noteOption= "STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 

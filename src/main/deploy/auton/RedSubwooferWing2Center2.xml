@@ -18,7 +18,7 @@ visionAligment= "SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_B"
-time= "3.0"
+time= "3.5"
 noteOption="STATE_FEEDER_INTAKE"
 pathUpdateOption = "NOTE"/>
 
@@ -32,7 +32,7 @@ visionAligment= "SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing2Center2_D"
-time= "3.0"
+time= "3.5"
 noteOption="STATE_FEEDER_INTAKE"
 pathUpdateOption = "NOTE"/>
 
