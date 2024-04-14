@@ -11,7 +11,7 @@ pathname= "BluePodiumWing2Center2Start"
 noteOption= "STATE_READY_ODOMETRY_LAUNCH"
 time= "0.5"/>
 
-<snippet file= "ShootWhenStopAuto"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2_A"
