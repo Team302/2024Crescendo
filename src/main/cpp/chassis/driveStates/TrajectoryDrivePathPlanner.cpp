@@ -19,6 +19,7 @@
 #include "frc/controller/PIDController.h"
 #include "frc/controller/ProfiledPIDController.h"
 #include "utils/AngleUtils.h"
+#include "utils/FMSData.h"
 
 // Team302 Includes
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
@@ -58,6 +59,8 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
 
 void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
 {
+    m_firstGen++;
+
     m_trajectoryStates.clear();
     m_trajectory = chassisMovement.pathplannerTrajectory;
     m_trajectoryStates = m_trajectory.getStates();
@@ -113,9 +116,16 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
 
         if (chassisMovement.headingOption != ChassisOptionEnums::HeadingOption::IGNORE)
         {
+            if (m_firstGen == 1) //&& FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
+            {
+                chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
+                refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
+            }
+        }
+        else
+        {
             refChassisSpeeds.omega = chassisMovement.chassisSpeeds.omega;
         }
-
         chassisMovement.chassisSpeeds = refChassisSpeeds;
 
         m_chassis->SetStoredHeading(m_chassis->GetPose().Rotation().Degrees());
@@ -142,8 +152,20 @@ bool TrajectoryDrivePathPlanner::IsDone()
     if (!m_trajectoryStates.empty()) // If we have states...
     {
         auto currentTime = m_timer.get()->Get();
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "current time", currentTime.value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "total time", m_totalTrajectoryTime.value());
+
         if ((currentTime) / m_totalTrajectoryTime > 0.9)
         {
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "current pose X", currentPose.X().value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "current pose Y", currentPose.Y().value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "current pose Rotation", currentPose.Rotation().Degrees().value());
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "target pose X", m_finalState.getTargetHolonomicPose().X().value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "target pose Y", m_finalState.getTargetHolonomicPose().Y().value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "target pose Rotation", m_finalState.getTargetHolonomicPose().Rotation().Degrees().value());
 
             isDone = IsSamePose(currentPose, m_finalState.getTargetHolonomicPose(), m_chassis->GetChassisSpeeds(), 10.0, 3.0, 1.5);
         }
