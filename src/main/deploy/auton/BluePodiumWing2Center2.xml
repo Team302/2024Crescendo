@@ -16,6 +16,7 @@ time= "0.5"/>
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
+pathgains= "ShortPath"
 time= "2.0"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
