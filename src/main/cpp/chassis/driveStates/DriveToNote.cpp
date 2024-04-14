@@ -108,6 +108,10 @@ bool DriveToNote::IsDone()
 
                 return dynamic_cast<noteManager *>(noteStateMgr)->HasNote() || m_intakeNoteTimer >= m_finishTime;
             }
+            else
+            {
+                return dynamic_cast<noteManager *>(noteStateMgr)->HasNote();
+            }
         }
     }
     return false;
