@@ -113,7 +113,13 @@ void DrivePathPlanner::InitMoveInfo()
         m_driveToNote->Init(m_moveInfo);
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_switchedToVisionDrive = true;
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Original time", "Original time: ", m_maxTime.value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Added time", "Added time", m_moveInfo.pathplannerTrajectory.getTotalTime().value());
+
         m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Total time", "Total time", m_maxTime.value());
     }
     else if (m_checkIsPastCenterLine)
     {

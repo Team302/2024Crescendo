@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.110068655286327,
-        "y": 4.3727584694029344
+        "x": 2.4357923001560295,
+        "y": 4.3245400776515845
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.910864271850585,
-        "y": 0.6821507520974719
-      },
-      "isLocked": false,
-      "linkedName": "BluePodiumWing2Center2_A"
-    },
-    {
-      "anchor": {
-        "x": 6.821173010603856,
-        "y": 2.2583598937671425
-      },
-      "prevControl": {
-        "x": 5.303893746240469,
-        "y": 1.3871429477221113
-      },
-      "nextControl": {
-        "x": 7.136867266787239,
-        "y": 2.439630535379347
+        "x": 4.747757957054377,
+        "y": -0.03946777124323338
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.345580984637085,
-        "y": 2.411821355254401
+        "x": 8.284915998403426,
+        "y": 2.4041510940164743
       },
       "prevControl": {
-        "x": 7.139852635608049,
-        "y": 2.3592160751306457
+        "x": 7.234227545378168,
+        "y": 2.7232762157832022
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BluePodiumWing2Center2_B"
+      "linkedName": "bluepodiumwing2center2_bEnd"
     }
   ],
   "rotationTargets": [],
@@ -54,9 +38,9 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
+    "velocity": 2.0,
     "rotation": 180.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "BluePodiumWing2Center2",

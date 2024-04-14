@@ -30,7 +30,7 @@ pathUpdateOption = "NOTE"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_C"
 noteOption= "STATE_FEEDER_INTAKE"
-time="2.5"
+time="3.5"
 visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
@@ -45,7 +45,7 @@ pathUpdateOption = "NOTE"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_E"
 noteOption= "STATE_READY_ODOMETRY_LAUNCH"
-time= "2.5"
+time= "3.5"
 visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
