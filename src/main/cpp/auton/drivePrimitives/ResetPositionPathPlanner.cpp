@@ -73,7 +73,7 @@ void ResetPositionPathPlanner::ResetPose(Pose2d pose)
     if (chassis != nullptr)
     {
         chassis->SetYaw(pose.Rotation().Degrees());
-        sleep(1.0);
+        sleep(0.5);
         chassis->ResetPose(pose);
     }
 }
