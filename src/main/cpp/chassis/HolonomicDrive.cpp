@@ -176,6 +176,7 @@ void HolonomicDrive::Run()
                 if (m_robotOrientedDrive)
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+                    InitSpeeds(-forward, -strafe, rotate);
                 }
                 else
                 {
