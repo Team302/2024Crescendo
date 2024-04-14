@@ -19,6 +19,7 @@
 #include "frc/controller/PIDController.h"
 #include "frc/controller/ProfiledPIDController.h"
 #include "utils/AngleUtils.h"
+#include "utils/FMSData.h"
 
 // Team302 Includes
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
@@ -115,7 +116,7 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
 
         if (chassisMovement.headingOption != ChassisOptionEnums::HeadingOption::IGNORE)
         {
-            if (m_firstGen == 1)
+            if (m_firstGen == 1 && FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
             {
                 chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
                 refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
