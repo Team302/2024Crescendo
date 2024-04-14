@@ -295,27 +295,33 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 {
 	units::length::meter_t distanceFromTarget_m = GetDistanceFromSpeaker(option);
 
-	// launcherAngle = 71.4283 - 0.416817 * distanceFromTarget_in;
-	// 102 + -43.2x + 5.95x^2
-	m_autoLaunchTarget = units::angle::degree_t(100 + (-43.2 * distanceFromTarget_m.to<double>()) + (5.95 * distanceFromTarget_m.to<double>() * distanceFromTarget_m.to<double>()));
+	// The following values are the coefficients for the polynomial that determines the launcher angle based on distance from the target
+	m_autoLaunchTarget = units::angle::degree_t(m_autoLaunchCalcYOffset +
+												m_autoLaunchCalcFirstDegree * distanceFromTarget_m.value() +
+												m_autoLaunchCalcSecondDegree * units::math::pow<2>(distanceFromTarget_m).value() +
+												m_autoLaunchCalcThirdDegree * units::math::pow<3>(distanceFromTarget_m).value() +
+												m_autoLaunchCalcFourthDegree * units::math::pow<4>(distanceFromTarget_m).value());
 
 	// limit the resulting launcher angle
 	m_autoLaunchTarget = m_autoLaunchTarget > units::angle::degree_t(55.0) ? units::angle::degree_t(55.0) : m_autoLaunchTarget;
-	m_autoLaunchTarget = m_autoLaunchTarget < units::angle::degree_t(0) ? units::angle::degree_t(0) : m_autoLaunchTarget;
+	m_autoLaunchTarget = m_autoLaunchTarget < units::angle::degree_t(17.3) ? units::angle::degree_t(17.3) : m_autoLaunchTarget;
+
+	if (distanceFromTarget_m > units::length::meter_t(3.65))
+	{
+		m_autoLaunchTarget = units::angle::degree_t(17.3);
+	}
 
 	m_topLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? m_manualLaunchingSpeed : m_autoLaunchingSpeed;
 	m_bottomLaunchSpeed = distanceFromTarget_m < m_transitionMeters ? m_manualLaunchingSpeed : m_autoLaunchingSpeed;
 
 	// keep for tuning purposes
-	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
-	{
-		units::angle::degree_t delta = units::angle::degree_t(6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE))); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
-		m_LauncherAngleTarget += delta;
-		if (m_LauncherAngleTarget > units::angle::degree_t(55.0)) // limiting the travel to 0 through 16.5
-			m_LauncherAngleTarget = units::angle::degree_t(55.0);
-		else if (m_LauncherAngleTarget < units::angle::degree_t(2.0))
-			m_LauncherAngleTarget = units::angle::degree_t(0.0);
-	}
+	// if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE)) > 0.05) // Allows manual cotrol of the elevator if you need to adujst
+	// {
+	// 	units::angle::degree_t delta = units::angle::degree_t(6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::LAUNCH_ANGLE))); // changing by 6 in/s * 0.05 for 20 ms loop time * controller input
+	// 	m_autoLaunchTarget += delta;
+	// 	if (m_autoLaunchTarget > units::angle::degree_t(55.0)) // limiting the travel to 0 through 16.5
+	// 		m_autoLaunchTarget = units::angle::degree_t(55.0);
+	// }
 	return make_tuple(m_topLaunchSpeed, m_bottomLaunchSpeed, m_autoLaunchTarget);
 }
 

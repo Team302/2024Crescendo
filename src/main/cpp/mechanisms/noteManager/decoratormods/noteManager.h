@@ -126,20 +126,27 @@ private:
 	bool m_noteInIntake = false;
 	bool m_noteInFeeder = false;
 
-	units::angle::degree_t m_manualLaunchTarget = units::angle::degree_t(55.0);
-	units::angle::degree_t m_LauncherAngleTarget;
-	units::angle::degree_t m_autoLaunchTarget = units::angle::degree_t(55.0);
+	units::angle::degree_t m_manualLaunchTarget = units::angle::degree_t(50.0);
+	units::angle::degree_t m_LauncherAngleTarget = units::angle::degree_t(0.0);
+	units::angle::degree_t m_autoLaunchTarget = units::angle::degree_t(50.0);
 	units::length::meter_t m_transitionMeters = units::length::meter_t(1.5);
-	units::angular_velocity::radians_per_second_t m_topLaunchSpeed = units::angular_velocity::radians_per_second_t(400.0);
-	units::angular_velocity::radians_per_second_t m_bottomLaunchSpeed = units::angular_velocity::radians_per_second_t(400.0);
+	units::angular_velocity::radians_per_second_t m_topLaunchSpeed = units::angular_velocity::radians_per_second_t(450.0);
+	units::angular_velocity::radians_per_second_t m_bottomLaunchSpeed = units::angular_velocity::radians_per_second_t(450.0);
 	units::angular_velocity::radians_per_second_t m_LauncherTopWheelsTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherBottomWheelsTarget;
 	const double m_similarDistToleranceMeters = 0.5;
 	bool m_TransitionFromHoldFeedToReady = false;
 	bool m_manualTargetChangeAllowed = true;
 	units::angle::degree_t m_angleTolerance = units::angle::degree_t(0.5);
-	units::angular_velocity::radians_per_second_t m_manualLaunchingSpeed = units::angular_velocity::radians_per_second_t(400);
-	units::angular_velocity::radians_per_second_t m_autoLaunchingSpeed = units::angular_velocity::radians_per_second_t(550);
+	units::angular_velocity::radians_per_second_t m_manualLaunchingSpeed = units::angular_velocity::radians_per_second_t(450);
+	units::angular_velocity::radians_per_second_t m_autoLaunchingSpeed = units::angular_velocity::radians_per_second_t(620);
 
-	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0195, 0.00035, 0.0, units::second_t(20));
+	// auto launch function parameters
+	const double m_autoLaunchCalcYOffset = 60.2;
+	const double m_autoLaunchCalcFirstDegree = 18.8;
+	const double m_autoLaunchCalcSecondDegree = -32.4;
+	const double m_autoLaunchCalcThirdDegree = 10.3;
+	const double m_autoLaunchCalcFourthDegree = -1.02;
+
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.025, 0.000075, 0.0);
 };
