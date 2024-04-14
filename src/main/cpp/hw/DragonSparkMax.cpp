@@ -43,15 +43,15 @@ DragonSparkMax::DragonSparkMax(int id,
                                                                           m_calcStruc(calcStruc)
 {
     // m_spark->RestoreFactoryDefaults();
-    // m_spark->SetCANTimeout(0);
+    // // m_spark->SetCANTimeout(0);
     m_pidController.SetOutputRange(-1.0, 1.0, 0);
     m_pidController.SetOutputRange(-1.0, 1.0, 1);
-    m_spark->SetOpenLoopRampRate(0.09); // 0.2 0.25
-    m_spark->SetClosedLoopRampRate(0.02);
-    m_encoder.SetPosition(0);
-    SetRotationOffset(0);
-    m_forwardLimitSwitch.EnableLimitSwitch(false);
-    m_reverseLimitSwitch.EnableLimitSwitch(false);
+    // m_spark->SetOpenLoopRampRate(0.09); // 0.2 0.25
+    // m_spark->SetClosedLoopRampRate(0.02);
+    // m_encoder.SetPosition(0);
+    // SetRotationOffset(0);
+    // m_forwardLimitSwitch.EnableLimitSwitch(false);
+    // m_reverseLimitSwitch.EnableLimitSwitch(false);
 }
 
 double DragonSparkMax::GetRotations()
@@ -177,23 +177,23 @@ void DragonSparkMax::Set(double value)
 
 void DragonSparkMax::SetRotationOffset(double rotations)
 {
-    m_outputRotationOffset = GetRotationsWithGearNoOffset() - rotations;
+    // m_outputRotationOffset = GetRotationsWithGearNoOffset() - rotations;
 }
 
 void DragonSparkMax::SetVoltageRamping(double ramping, double rampingClosedLoop)
 {
-    m_spark->SetOpenLoopRampRate(ramping);
-    m_spark->SetClosedLoopRampRate(ramping); // TODO: should closed and open be separate
+    // m_spark->SetOpenLoopRampRate(ramping);
+    // m_spark->SetClosedLoopRampRate(ramping); // TODO: should closed and open be separate
 
-    if (rampingClosedLoop >= 0)
-    {
-        m_spark->SetClosedLoopRampRate(rampingClosedLoop);
-    }
+    // if (rampingClosedLoop >= 0)
+    // {
+    //     m_spark->SetClosedLoopRampRate(rampingClosedLoop);
+    // }
 }
 
 void DragonSparkMax::EnableBrakeMode(bool enabled)
 {
-    m_spark->SetIdleMode(enabled ? rev::CANSparkMax::IdleMode::kBrake : rev::CANSparkMax::IdleMode::kCoast);
+    // m_spark->SetIdleMode(enabled ? rev::CANSparkMax::IdleMode::kBrake : rev::CANSparkMax::IdleMode::kCoast);
 }
 
 void DragonSparkMax::Invert(bool inverted)
@@ -208,7 +208,7 @@ double DragonSparkMax::GetRotationsWithGearNoOffset() const
 
 void DragonSparkMax::InvertEncoder(bool inverted)
 {
-    m_encoder.SetInverted(inverted);
+    // m_encoder.SetInverted(inverted);
 }
 
 CANSparkMax *DragonSparkMax::GetSparkMax()
@@ -218,12 +218,12 @@ CANSparkMax *DragonSparkMax::GetSparkMax()
 
 void DragonSparkMax::SetSmartCurrentLimiting(int limit)
 {
-    m_spark->SetSmartCurrentLimit(limit);
+    // m_spark->SetSmartCurrentLimit(limit);
 }
 
 void DragonSparkMax::SetSecondaryCurrentLimiting(int limit, int duration)
 {
-    m_spark->SetSecondaryCurrentLimit(limit, duration);
+    // m_spark->SetSecondaryCurrentLimit(limit, duration);
 }
 
 double DragonSparkMax::GetCurrent()
