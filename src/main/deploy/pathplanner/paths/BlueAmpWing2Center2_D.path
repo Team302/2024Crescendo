@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0514895315504917,
-        "y": 6.33288580862876
+        "x": 2.0442156268927936,
+        "y": 6.176706199566246
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.939402735948329,
-        "y": 7.417685692514242
+        "x": 6.178464664621639,
+        "y": 7.8738203630253425
       },
       "isLocked": false,
       "linkedName": "BlueAmpWing2Center2C"
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "BlueAmpWing2Center2",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -168.6900675259798,
     "velocity": 0.0
   },
   "useDefaultConstraints": true
