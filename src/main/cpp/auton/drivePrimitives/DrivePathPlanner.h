@@ -66,7 +66,7 @@ private:
 
     bool m_checkDriveToNote = false;
     bool m_checkIsPastCenterLine = false;
-    const double m_percentageCompleteThreshold = 0.80;
+    const double m_percentageCompleteThreshold = 0.75;
     units::time::second_t m_totalTrajectoryTime;
     frc::Pose2d m_finalPose;
 };
