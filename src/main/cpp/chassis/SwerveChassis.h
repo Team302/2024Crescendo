@@ -125,6 +125,14 @@ public:
 
     void LogInformation() override;
 
+    void InitOrchestra(std::string chirp);
+
+    void StartOrchestra();
+
+    void StopOrchestra();
+
+    bool IsOrchestraPlaying();
+
 private:
     ISwerveDriveOrientation *GetHeadingState(const ChassisMovement &moveInfo);
     ISwerveDriveState *GetDriveState(ChassisMovement &moveInfo);

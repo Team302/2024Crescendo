@@ -23,6 +23,10 @@
 #include "chassis/ChassisMovement.h"
 #include "State.h"
 
+// Third Party Includes
+
+#include "frc/smartdashboard/SendableChooser.h"
+
 class SwerveChassis;
 
 class HolonomicDrive : public State
@@ -54,6 +58,8 @@ private:
 
     void DriveToGamePiece(double forward, double strafe, double rot);
 
+    void ManageOrchestra();
+
     SwerveChassis *m_swerve;
     ChassisOptionEnums::DriveStateType m_previousDriveState;
     const double m_slowModeMultiplier = 0.5;
@@ -64,4 +70,6 @@ private:
     bool m_robotOrientedLatch = false;
     bool m_robotOrientedDrive = false;
     bool m_stageDrive = false;
+
+    frc::SendableChooser<std::string> m_musicChooser;
 };

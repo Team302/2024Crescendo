@@ -37,6 +37,8 @@
 #include "utils/logging/Logger.h"
 #include "chassis/driveStates/DriveToNote.h"
 #include "mechanisms/noteManager/decoratormods/noteManager.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "networktables/NetworkTableInstance.h"
 
 using std::string;
 using namespace frc;
@@ -213,6 +215,7 @@ void HolonomicDrive::Run()
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("HolonomicDrive"), string("Run"), string("nullptr"));
     }
+    ManageOrchestra();
 }
 
 void HolonomicDrive::InitChassisMovement()
@@ -385,4 +388,28 @@ void HolonomicDrive::Exit()
 bool HolonomicDrive::AtTarget()
 {
     return false;
+}
+
+void HolonomicDrive::ManageOrchestra()
+{
+    m_musicChooser.SetDefaultOption("no music", "no music");
+    m_musicChooser.AddOption("default", "default");
+    frc::SmartDashboard::PutData("music chooser", &m_musicChooser);
+
+    if (!m_swerve->IsOrchestraPlaying())
+    {
+
+        if (m_musicChooser.GetSelected() == "no music")
+        {
+            m_swerve->StopOrchestra();
+        }
+        else if (m_musicChooser.GetSelected() == "default")
+        {
+            m_swerve->InitOrchestra("default");
+        }
+        else
+        {
+        }
+        m_swerve->StartOrchestra();
+    }
 }

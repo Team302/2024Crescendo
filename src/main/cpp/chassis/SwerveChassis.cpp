@@ -450,3 +450,43 @@ void SwerveChassis::ReadConstants(string configfilename)
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
     }
 }
+
+//==================================================================================
+void SwerveChassis::InitOrchestra(std::string chirp)
+{
+    m_frontLeft->InitOrchestra(chirp);
+    m_frontRight->InitOrchestra(chirp);
+    m_backLeft->InitOrchestra(chirp);
+    m_backRight->InitOrchestra(chirp);
+}
+
+//==================================================================================
+
+void SwerveChassis::StartOrchestra()
+{
+    m_frontLeft->StartOrchestra();
+    m_frontRight->StartOrchestra();
+    m_backLeft->StartOrchestra();
+    m_backRight->StartOrchestra();
+}
+
+//==================================================================================
+
+void SwerveChassis::StopOrchestra()
+{
+    m_frontLeft->StopOrchestra();
+    m_frontRight->StopOrchestra();
+    m_backLeft->StopOrchestra();
+    m_backRight->StopOrchestra();
+}
+
+//==================================================================================
+
+bool SwerveChassis::IsOrchestraPlaying()
+{
+    if (m_frontLeft->IsOrchestraPlaying() && m_frontRight->IsOrchestraPlaying() && m_backLeft->IsOrchestraPlaying() && m_backRight->IsOrchestraPlaying())
+    {
+        return true;
+    }
+    return false;
+}

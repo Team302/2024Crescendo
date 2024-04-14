@@ -373,3 +373,36 @@ void SwerveModule::ReadConstants(string configfilename)
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_networkTableName, string("Config File not found"), configfilename);
     }
 }
+
+//==================================================================================
+
+void SwerveModule::InitOrchestra(string music)
+{
+    m_orchestra.AddInstrument(*m_driveTalon);
+    m_orchestra.AddInstrument(*m_turnTalon);
+    m_orchestra.LoadMusic("chirp/default.chrp");
+    m_orchestra.Play();
+}
+
+//==================================================================================
+
+void SwerveModule::StartOrchestra()
+{
+    m_orchestra.Play();
+}
+
+//==================================================================================
+
+void SwerveModule::StopOrchestra()
+{
+    m_orchestra.Stop();
+}
+
+//==================================================================================
+
+bool SwerveModule::IsOrchestraPlaying()
+{
+    return m_orchestra.IsPlaying();
+}
+
+//==================================================================================

@@ -36,6 +36,7 @@
 // Third Party
 #include "ctre/phoenix6/TalonFX.hpp"
 #include "ctre/phoenix6/CANcoder.hpp"
+#include "ctre/phoenix6/Orchestra.hpp"
 
 class SwerveModule : public LoggableItem
 {
@@ -74,9 +75,21 @@ public:
 
     void RunCurrentState();
 
+    void InitOrchestra(std::string music);
+
+    void StartOrchestra();
+
+    void StopOrchestra();
+
+    bool IsOrchestraPlaying();
+
     /// @brief Return which module this is
     /// @returns SwerveModuleConstants.ModuleID
-    SwerveModuleConstants::ModuleID GetModuleID() { return m_moduleID; }
+    SwerveModuleConstants::ModuleID
+    GetModuleID()
+    {
+        return m_moduleID;
+    }
     units::length::inch_t GetWheelDiameter() const { return m_wheelDiameter; }
     units::velocity::feet_per_second_t GetMaxSpeed() const { return m_maxSpeed; }
 
@@ -113,4 +126,5 @@ private:
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
     units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(16.0);
     std::string m_networkTableName;
+    ctre::phoenix6::Orchestra m_orchestra;
 };
