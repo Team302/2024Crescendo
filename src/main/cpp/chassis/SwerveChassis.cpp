@@ -352,7 +352,10 @@ void SwerveChassis::ResetPose(const Pose2d &pose)
 //=================================================================================
 void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
 {
-    m_pigeon->SetYaw(newYaw, units::time::second_t(0.1));
+    auto status = m_pigeon->SetYaw(newYaw, units::time::second_t(0.1));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassis::SetYaw", string("status"), status.GetName());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassis::SetYaw", string("status error"), status.IsError() ? "true" : "false");
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassis::SetYaw", string("status ok"), status.IsOK() ? "true" : "false");
 }
 
 //==================================================================================
