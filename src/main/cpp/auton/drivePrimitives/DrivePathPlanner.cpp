@@ -216,7 +216,7 @@ void DrivePathPlanner::CheckForDriveToNote()
         else if (m_chassis != nullptr)
         {
             auto currentPose = m_chassis->GetPose();
-            if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(1.0))
+            if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(2.0))
             {
                 m_pathname = "DRIVE_TO_NOTE";
                 InitMoveInfo();
