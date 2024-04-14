@@ -58,6 +58,8 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
 
 void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
 {
+    m_firstGen++;
+
     m_trajectoryStates.clear();
     m_trajectory = chassisMovement.pathplannerTrajectory;
     m_trajectoryStates = m_trajectory.getStates();
@@ -113,9 +115,16 @@ std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveMo
 
         if (chassisMovement.headingOption != ChassisOptionEnums::HeadingOption::IGNORE)
         {
+            if (m_firstGen == 1)
+            {
+                chassisMovement.yawAngle = units::angle::degree_t(desiredState.getTargetHolonomicPose().Rotation().Degrees());
+                refChassisSpeeds.omega = CalcHeadingCorrection(chassisMovement.yawAngle, m_kPFine, m_kPCoarse);
+            }
+        }
+        else
+        {
             refChassisSpeeds.omega = chassisMovement.chassisSpeeds.omega;
         }
-
         chassisMovement.chassisSpeeds = refChassisSpeeds;
 
         m_chassis->SetStoredHeading(m_chassis->GetPose().Rotation().Degrees());
