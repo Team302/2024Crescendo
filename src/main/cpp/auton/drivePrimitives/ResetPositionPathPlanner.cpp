@@ -16,6 +16,7 @@
 // C++ Includes
 #include <memory>
 #include <string>
+#include <unistd.h>
 
 // Team 302 includes
 #include "auton/drivePrimitives/IPrimitive.h"
@@ -72,6 +73,7 @@ void ResetPositionPathPlanner::ResetPose(Pose2d pose)
     if (chassis != nullptr)
     {
         chassis->SetYaw(pose.Rotation().Degrees());
+        sleep(1.0);
         chassis->ResetPose(pose);
     }
 }
