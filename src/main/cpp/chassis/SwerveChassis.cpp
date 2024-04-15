@@ -258,7 +258,7 @@ Pose2d SwerveChassis::GetPose() const
 //==================================================================================
 units::angle::degree_t SwerveChassis::GetYaw() const
 {
-    return m_pigeon->GetYaw().GetValue();
+    return m_pigeon->GetYaw().Refresh().GetValue();
 }
 
 //==================================================================================
@@ -343,7 +343,7 @@ void SwerveChassis::LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES swerveMod
 void SwerveChassis::ResetPose(const Pose2d &pose)
 {
     ZeroAlignSwerveModules();
-    Rotation2d rot2d{GetYaw()};
+    Rotation2d rot2d{pose.Rotation().Degrees()};
 
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("ResetPosePigeonYaw"), m_pigeon->GetYaw().GetValue().value());
@@ -352,8 +352,10 @@ void SwerveChassis::ResetPose(const Pose2d &pose)
 //=================================================================================
 void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
 {
-    m_pigeon->SetYaw(newYaw);
-    SetStoredHeading(newYaw);
+    auto status = m_pigeon->SetYaw(newYaw, units::time::second_t(0.1));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassis::SetYaw", string("status"), status.GetName());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassis::SetYaw", string("status error"), status.IsError() ? "true" : "false");
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassis::SetYaw", string("status ok"), status.IsOK() ? "true" : "false");
 }
 
 //==================================================================================

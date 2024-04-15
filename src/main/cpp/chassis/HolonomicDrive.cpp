@@ -176,6 +176,8 @@ void HolonomicDrive::Run()
                 if (m_robotOrientedDrive)
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+                    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
+                        InitSpeeds(-forward, -strafe, rotate);
                 }
                 else
                 {
@@ -333,7 +335,7 @@ void HolonomicDrive::TurnToPassAngle()
     }
     else
     {
-        m_moveInfo.yawAngle = units::angle::degree_t(-150.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(30.0);
     }
 }
 void HolonomicDrive::SlowMode()

@@ -416,8 +416,7 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose, int idToSearch)
 {
 	std::optional<VisionData> launcherAprilTagData = std::nullopt;
-	std::optional<VisionData> placerAprilTagData = std::nullopt;
-	std::optional<VisionData> selectedData = std::nullopt;
+	// std::optional<VisionData> selectedData = std::nullopt;
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
 	{
@@ -561,6 +560,7 @@ std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::d
 		std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight(true); // true since megatag2
 		return estimatedPose;
 	}
+	return std::nullopt;
 }
 
 bool DragonVision::SetPipeline(DragonCamera::PIPELINE mode, RobotElementNames::CAMERA_USAGE position)
@@ -585,10 +585,7 @@ void DragonVision::testAndLogVisionData()
 {
 	try
 	{
-		// std::optional<VisionData> visionData = GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE::LAUNCHE);
 		std::optional<VisionPose> visionPose = GetRobotPosition();
-		// DragonVisionStructLogger::logVisionData("VisionData", visionData);
-		// DragonVisionStructLogger::logVisionPose("VisionPose", visionPose);
 
 		DragonField::GetInstance()->UpdateObjectVisionPose("VisionPose", visionPose);
 	}

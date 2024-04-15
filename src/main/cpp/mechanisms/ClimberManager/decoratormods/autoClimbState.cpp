@@ -61,8 +61,11 @@ void autoClimbState::Run()
 		{
 			if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
 				m_target = 30.0;
-			else
+			else if (!m_autoClimbManualAdjustmentLatch)
+			{
 				m_target = 7.5;
+				m_autoClimbManualAdjustmentLatch = true;
+			}
 		}
 		else
 		{

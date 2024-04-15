@@ -2758,7 +2758,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.5</value>
+                <value>1</value>
               </iZone>
             </PID>
             <peakValue>
@@ -5727,7 +5727,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>18.5</value>
+                  <value>19</value>
                 </target>
                 <motorName>Elevator</motorName>
                 <Enabled>
@@ -6089,7 +6089,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>18.5</value>
+                  <value>19</value>
                 </target>
                 <motorName>Elevator</motorName>
                 <Enabled>

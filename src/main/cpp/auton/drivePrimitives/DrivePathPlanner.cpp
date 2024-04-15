@@ -55,6 +55,7 @@ using namespace wpi::math;
 
 DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
                                        m_chassis(nullptr),
+                                       m_driveToNote(nullptr),
                                        m_timer(make_unique<Timer>()),
                                        m_trajectory(),
                                        m_pathname(),
@@ -68,7 +69,12 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     m_chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    if (m_chassis != nullptr)
+    {
+        m_driveToNote = dynamic_cast<DriveToNote *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE));
+    }
 }
+
 void DrivePathPlanner::Init(PrimitiveParams *params)
 {
     m_pathname = params->GetPathName(); // Grabs path name from auton xml
@@ -78,7 +84,19 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
     m_maxTime = params->GetTime();
     m_switchedToVisionDrive = false;
     m_visionAlignment = params->GetVisionAlignment();
+    m_checkDriveToNote = params->GetPathUpdateOption() == ChassisOptionEnums::PathUpdateOption::NOTE;
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), m_pathname, m_chassis->GetPose().Rotation().Degrees().to<double>());
+
+    // Start timeout timer for path
+
+    InitMoveInfo();
+
+    m_timer.get()->Reset();
+    m_timer.get()->Start();
+}
+
+void DrivePathPlanner::InitMoveInfo()
+{
 
     m_moveInfo.controllerType = ChassisOptionEnums::AutonControllerType::HOLONOMIC;
     m_moveInfo.headingOption = (m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::SPEAKER) ? ChassisOptionEnums::HeadingOption::FACE_SPEAKER : ChassisOptionEnums::HeadingOption::IGNORE;
@@ -87,14 +105,25 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
 
     auto pose = m_chassis->GetPose();
     auto speed = m_chassis->GetChassisSpeeds();
-    auto robotDrive = new RobotDrive(m_chassis);
-    auto trajectoryDrivePathPlanner = new TrajectoryDrivePathPlanner(robotDrive);
     if (m_pathname == "DRIVE_TO_NOTE")
     {
-        m_driveToNote = new DriveToNote(robotDrive, trajectoryDrivePathPlanner);
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "In DriveToNote", true);
+
+        m_driveToNote = dynamic_cast<DriveToNote *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE));
         m_driveToNote->Init(m_moveInfo);
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
         m_switchedToVisionDrive = true;
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Original time", "Original time: ", m_maxTime.value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Added time", "Added time", m_moveInfo.pathplannerTrajectory.getTotalTime().value());
+
+        m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Total time", "Total time", m_maxTime.value());
+    }
+    else if (m_checkIsPastCenterLine)
+    {
+        // no op
     }
     else
     {
@@ -114,51 +143,43 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
         }
     }
 
+    auto endstate = m_trajectory.getEndState();
+    m_finalPose = endstate.getTargetHolonomicPose();
     m_moveInfo.pathplannerTrajectory = m_trajectory;
-
-    // Start timeout timer for path
-    m_timer.get()->Reset();
-    m_timer.get()->Start();
+    m_totalTrajectoryTime = m_trajectory.getTotalTime();
 }
 void DrivePathPlanner::Run()
 {
     if (m_chassis != nullptr)
     {
-        /*
-         if (!m_switchedToVisionDrive)
-        {
-            auto info = DragonDriveTargetFinder::GetInstance()->GetPose(DragonVision::VISION_ELEMENT::NOTE);
-            auto type = get<0>(info);
-            if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && m_visionAlignment == PrimitiveParams::VISION_ALIGNMENT::NOTE)
-            {
-                m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-                m_driveToNote->Init(m_moveInfo);
-                m_switchedToVisionDrive = true;
-            }
-        }
-        */
+        // CheckIfPastCenterLine();
+
+        /* if (m_checkIsPastCenterLine)
+         {
+             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", true);
+         }
+         else
+         {
+             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", false);
+         }*/
+
         m_chassis->Drive(m_moveInfo);
     }
 }
 
 bool DrivePathPlanner::IsDone()
 {
+
     if (m_timer.get()->Get() > m_maxTime && m_timer.get()->Get().to<double>() > 0.0)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "Time Out");
-
         return true;
     }
-    // TO DO Figure out how to be able to drive back don't just stop your trajectory (Cause next trajectory to also stop)
-    /*
-    else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
+
+    if (m_checkDriveToNote && !m_switchedToVisionDrive)
     {
-        return m_chassis->GetPose().X() >= (m_centerLine + m_offset);
+        CheckForDriveToNote();
     }
-    else
-    {
-        return m_chassis->GetPose().X() <= (m_centerLine - m_offset);
-    }*/
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Switched To Vision Drive", m_switchedToVisionDrive);
 
     if (m_switchedToVisionDrive)
@@ -166,5 +187,117 @@ bool DrivePathPlanner::IsDone()
         return m_driveToNote->IsDone();
     }
     auto *trajectoryDrive = dynamic_cast<TrajectoryDrivePathPlanner *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::TRAJECTORY_DRIVE_PLANNER));
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "TrajectoryDrive", "Trajectory drive is done:", trajectoryDrive->IsDone());
+
     return trajectoryDrive != nullptr ? trajectoryDrive->IsDone() : false;
+}
+
+void DrivePathPlanner::CheckForDriveToNote()
+{
+    // Need to check if there is a note
+    auto currentTime = m_timer.get()->Get();
+
+    DragonDriveTargetFinder *dt = DragonDriveTargetFinder::GetInstance();
+    auto distanceToNote = dt->GetDistance(DragonDriveTargetFinder::VISION_ONLY, DragonVision::NOTE);
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Done Percent:", static_cast<double>((currentTime.value()) / m_totalTrajectoryTime.value()));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Distance: ", (double)(get<1>(distanceToNote)));
+
+    if (get<0>(dt->GetPose(DragonVision::NOTE)) != DragonDriveTargetFinder::NOT_FOUND)
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", true);
+
+        if (((currentTime.value() / m_totalTrajectoryTime.value()) >= m_percentageCompleteThreshold))
+        {
+            m_pathname = "DRIVE_TO_NOTE";
+            InitMoveInfo();
+        }
+        else if (m_chassis != nullptr)
+        {
+            auto currentPose = m_chassis->GetPose();
+            if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(2.0))
+            {
+                m_pathname = "DRIVE_TO_NOTE";
+                InitMoveInfo();
+            }
+        }
+    }
+    else
+    {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", false);
+    }
+}
+
+void DrivePathPlanner::CheckIfPastCenterLine()
+{
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "X-position", "X- position: ", m_chassis->GetPose().X().value());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Center line and offset", "Centerline and offset: ", (m_centerLine + m_offset).value());
+
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
+    {
+        if ((m_chassis->GetPose().X() >= (m_centerLine + m_offset)))
+        {
+            m_checkIsPastCenterLine = true;
+
+            frc::Pose2d currentPose2d = m_chassis->GetPose();
+            frc::Pose2d targetPose = Pose2d(m_chassis->GetPose().X() - m_chassisOffset, m_chassis->GetPose().Y(), m_chassis->GetPose().Rotation());
+
+            auto path = PathPlannerPath::fromPathFile(m_pathname);
+            auto pathConstraints = path.get()->getGlobalConstraints();
+
+            std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
+
+            std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+            auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
+                                                              PathConstraints(pathConstraints.getMaxVelocity(),
+                                                                              pathConstraints.getMaxAcceleration(),
+                                                                              pathConstraints.getMaxAngularVelocity(),
+                                                                              pathConstraints.getMaxAngularAcceleration()),
+                                                              GoalEndState(1.0_mps,
+                                                                           m_chassis->GetPose().Rotation().Degrees(),
+                                                                           true));
+            m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
+            notepath->preventFlipping = true;
+
+            m_trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+        }
+        else
+        {
+            m_checkIsPastCenterLine = false;
+        }
+    }
+    else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kRed)
+    {
+        if ((m_chassis->GetPose().X() <= (m_centerLine + m_offset)))
+        {
+            m_checkIsPastCenterLine = true;
+
+            if (m_checkIsPastCenterLine)
+            {
+                frc::Pose2d currentPose2d = m_chassis->GetPose();
+                frc::Pose2d targetPose = Pose2d(m_chassis->GetPose().X() + units::meter_t(0.5), m_chassis->GetPose().Y(), m_chassis->GetPose().Rotation());
+
+                auto path = PathPlannerPath::fromPathFile(m_pathname);
+                auto pathConstraints = path.get()->getGlobalConstraints();
+
+                std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
+
+                std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+                auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
+                                                                  PathConstraints(pathConstraints.getMaxVelocity(), pathConstraints.getMaxAcceleration(), pathConstraints.getMaxAngularVelocity(), pathConstraints.getMaxAngularAcceleration()),
+                                                                  GoalEndState(1.0_mps, m_chassis->GetPose().Rotation().Degrees(), true));
+                m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
+                notepath->preventFlipping = true;
+
+                m_trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Centerline path is complete", "Centerline path is complete", true);
+            }
+        }
+    }
+    else
+    {
+        m_checkIsPastCenterLine = false;
+    }
 }
