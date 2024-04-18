@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8335710517574895,
-        "y": 6.85
+        "x": 2.883271729453586,
+        "y": 6.991369417831561
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.392548015865264,
-        "y": 7.057205799026982
+        "x": 4.4422486935613605,
+        "y": 7.1985752168585435
       },
       "isLocked": false,
       "linkedName": "BlueAmpWing2Center2A"
