@@ -3,15 +3,31 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.83,
-        "y": 4.6
+        "x": 1.4028643441902284,
+        "y": 4.282253179890976
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.482069010333434,
-        "y": 0.397325455910126
+        "x": 2.103417283757646,
+        "y": 2.851546472323715
       },
-      "isLocked": true,
+      "isLocked": false,
+      "linkedName": "BlueWideWing0Center2_A1"
+    },
+    {
+      "anchor": {
+        "x": 4.175475274027472,
+        "y": 1.3715050507024094
+      },
+      "prevControl": {
+        "x": 3.272076022402907,
+        "y": 1.6805626894160755
+      },
+      "nextControl": {
+        "x": 4.925362927648931,
+        "y": 1.1149645376213844
+      },
+      "isLocked": false,
       "linkedName": null
     },
     {
@@ -24,7 +40,7 @@
         "y": 0.7612043754757987
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "BlueWideWing0Center2_B"
     }
   ],
@@ -40,7 +56,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "BlueWideWing0Center2",
