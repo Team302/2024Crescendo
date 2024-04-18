@@ -5,7 +5,6 @@
 <primitive id= "RESET_POSITION_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2Start"
 noteOption="STATE_READY_ODOMETRY_LAUNCH"
-time= "0.5"
 />
 
 <primitive id= "DO_NOTHING"
@@ -17,12 +16,12 @@ time= "0.25"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
-time= "3.0"
+time= "2.0"
 pathgains= "ShortPath"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_FEEDER_INTAKE"
-time= "0.25"/>
+time= "1.0"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
