@@ -20,12 +20,12 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.929096301907125,
-        "y": 5.561710836545783
+        "x": 2.896988068800958,
+        "y": 5.5503779290253314
       },
       "nextControl": {
-        "x": 2.901254914061511,
-        "y": 5.538289163454217
+        "x": 3.433681047105317,
+        "y": 5.539225686154654
       },
       "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_A"
@@ -36,15 +36,21 @@
         "y": 5.56072346635434
       },
       "prevControl": {
-        "x": 2.1150059452658136,
-        "y": 5.549506314904279
+        "x": 1.325730468864645,
+        "y": 5.562647359246215
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 180.0,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
