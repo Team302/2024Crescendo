@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8598500563620233,
-        "y": 4.075371117931965
+        "x": 1.4194171612308972,
+        "y": 4.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8644289499705953,
-        "y": 3.9114194062910244
+        "x": 6.0100650871772485,
+        "y": -0.45672262528547897
       },
-      "isLocked": false,
-      "linkedName": "BlueSubwooferWing3Center0_E"
+      "isLocked": true,
+      "linkedName": "BlueWideWing0Center2_A"
     },
     {
       "anchor": {
-        "x": 1.1734895937694858,
-        "y": 5.55
+        "x": 8.235124030875737,
+        "y": 2.4241431649767726
       },
       "prevControl": {
-        "x": 1.046433218563087,
-        "y": 5.1710572435980815
+        "x": 5.70558333698693,
+        "y": 2.6115165497092763
       },
       "nextControl": null,
-      "isLocked": false,
-      "linkedName": "BlueSubwooferWing3Center0_B"
+      "isLocked": true,
+      "linkedName": "BlueWIdeWing0Center2_D"
     }
   ],
   "rotationTargets": [],
@@ -40,12 +40,12 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "BlueSubwooferWing3Center0",
+  "folder": "BlueWideWing0Center2",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 134.38,
     "velocity": 0
   },
   "useDefaultConstraints": true
