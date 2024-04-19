@@ -1707,7 +1707,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.10515</value>
+                <value>0.1168333</value>
               </countsPerInch>
               <countsPerDegree>
                 <unitsFamily>none</unitsFamily>
@@ -4827,7 +4827,7 @@
                   <name>Target</name>
                   <__units__>deg</__units__>
                   <type>Double</type>
-                  <value>32.5</value>
+                  <value>35</value>
                 </target>
                 <motorName>launcherAngle</motorName>
                 <Enabled>
@@ -5727,7 +5727,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>19</value>
+                  <value>18.35</value>
                 </target>
                 <motorName>Elevator</motorName>
                 <Enabled>

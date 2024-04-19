@@ -277,6 +277,8 @@ units::angle::degree_t SwerveChassis::GetRoll() const
 /// @brief update the chassis odometry based on current states of the swerve modules and the pigeon
 void SwerveChassis::UpdateOdometry()
 {
+
+    bool updateWithVision = false;
     Rotation2d rot2d{GetYaw()};
 
     m_poseEstimator.Update(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(),
@@ -296,9 +298,10 @@ void SwerveChassis::UpdateOdometry()
         {
             m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
                                                  megaTag2Pose.value().timeStamp);
+            updateWithVision = true;
         }
     }
-
+    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Update With Vision"), std::string("Update With Vision:"), updateWithVision);
     LogInformation();
 }
 
