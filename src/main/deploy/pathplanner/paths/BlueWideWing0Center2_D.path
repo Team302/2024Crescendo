@@ -3,54 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1852004303152672,
-        "y": 5.446552431566402
+        "x": 2.103417283757646,
+        "y": 3.41396221253981
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.19691126686105,
-        "y": 5.446552431566402
+        "x": 2.784236337703446,
+        "y": 2.387800160215706
+      },
+      "isLocked": false,
+      "linkedName": "BlueWideWing0Center2_A"
+    },
+    {
+      "anchor": {
+        "x": 5.033899298567829,
+        "y": 1.3813719935132178
+      },
+      "prevControl": {
+        "x": 4.362947187432837,
+        "y": 1.4208397647564535
+      },
+      "nextControl": {
+        "x": 5.693917183335612,
+        "y": 1.3425474120562886
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.915175607984318,
-        "y": 5.55
+        "x": 8.235124030875737,
+        "y": 2.4241431649767726
       },
       "prevControl": {
-        "x": 2.896988068800958,
-        "y": 5.5503779290253314
-      },
-      "nextControl": {
-        "x": 3.433681047105317,
-        "y": 5.539225686154654
-      },
-      "isLocked": false,
-      "linkedName": "BlueSubwooferWing3Center0_A"
-    },
-    {
-      "anchor": {
-        "x": 1.1852004303152672,
-        "y": 5.446552431566402
-      },
-      "prevControl": {
-        "x": 0.8979132726293736,
-        "y": 5.446552431566402
+        "x": 7.352630859107873,
+        "y": 2.042457161837401
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BlueWIdeWing0Center2_D"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 180.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -61,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -179.25594079711132,
+    "rotation": 180.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "BlueSubwooferWing3Center0",
+  "folder": "BlueWideWing0Center2",
   "previewStartingState": {
-    "rotation": 179.99,
+    "rotation": 134.38,
     "velocity": 0
   },
   "useDefaultConstraints": true

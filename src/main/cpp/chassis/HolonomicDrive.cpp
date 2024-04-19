@@ -259,7 +259,17 @@ void HolonomicDrive::InitSpeeds(double forwardScale,
 
 void HolonomicDrive::ResetPose()
 {
-    m_swerve->ResetYaw();
+
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
+    {
+        m_swerve->SetYaw(units::angle::degree_t(180.0));
+    }
+    else
+    {
+        m_swerve->SetYaw(units::angle::degree_t(0.0));
+    }
+
+    // m_swerve->ResetYaw();
 }
 void HolonomicDrive::AlignGamePiece()
 {
@@ -331,11 +341,11 @@ void HolonomicDrive::TurnToPassAngle()
 
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
     {
-        m_moveInfo.yawAngle = units::angle::degree_t(150.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(135.0);
     }
     else
     {
-        m_moveInfo.yawAngle = units::angle::degree_t(30.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(45.0);
     }
 }
 void HolonomicDrive::SlowMode()
