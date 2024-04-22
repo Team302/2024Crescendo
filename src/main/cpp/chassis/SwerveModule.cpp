@@ -381,7 +381,6 @@ void SwerveModule::InitOrchestra(string music)
     m_orchestra.AddInstrument(*m_driveTalon);
     m_orchestra.AddInstrument(*m_turnTalon);
     m_orchestra.LoadMusic("chirp/default.chrp");
-    m_orchestra.Play();
 }
 
 //==================================================================================
@@ -396,6 +395,13 @@ void SwerveModule::StartOrchestra()
 void SwerveModule::StopOrchestra()
 {
     m_orchestra.Stop();
+}
+
+//==================================================================================
+
+void SwerveModule::PauseOrchestra()
+{
+    m_orchestra.Pause();
 }
 
 //==================================================================================

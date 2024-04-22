@@ -83,6 +83,8 @@ public:
 
     bool IsOrchestraPlaying();
 
+    void PauseOrchestra();
+
     /// @brief Return which module this is
     /// @returns SwerveModuleConstants.ModuleID
     SwerveModuleConstants::ModuleID

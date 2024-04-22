@@ -394,22 +394,30 @@ void HolonomicDrive::ManageOrchestra()
 {
     m_musicChooser.SetDefaultOption("no music", "no music");
     m_musicChooser.AddOption("default", "default");
+    m_musicChooser.AddOption("nyancat", "nyancat");
+    m_musicChooser.AddOption("rideofthevalkyries", "rideofthevalkyries");
+    m_musicChooser.AddOption("play list", "play list");
     frc::SmartDashboard::PutData("music chooser", &m_musicChooser);
 
-    if (!m_swerve->IsOrchestraPlaying())
+    if (m_musicChooser.GetSelected() == "no music")
+    {
+        m_swerve->StopOrchestra();
+    }
+
+    if (m_musicChooser.GetSelected() != "no music")
     {
 
-        if (m_musicChooser.GetSelected() == "no music")
+        if (!m_swerve->IsOrchestraPlaying())
         {
-            m_swerve->StopOrchestra();
+            if (m_musicChooser.GetSelected() == "nyancat")
+            {
+                m_swerve->InitOrchestra("nyancat");
+            }
+            else if (m_musicChooser.GetSelected() == "rideofthevalkyries")
+            {
+                m_swerve->InitOrchestra("rideofthevalkyries");
+            }
+            m_swerve->StartOrchestra();
         }
-        else if (m_musicChooser.GetSelected() == "default")
-        {
-            m_swerve->InitOrchestra("default");
-        }
-        else
-        {
-        }
-        m_swerve->StartOrchestra();
     }
 }
