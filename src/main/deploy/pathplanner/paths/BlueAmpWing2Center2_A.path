@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.58,
-        "y": 6.85
+        "x": 2.250886555981385,
+        "y": 6.628333484912334
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 6.991369417831561
       },
       "prevControl": {
-        "x": 2.1725372240725385,
-        "y": 6.820353543681756
+        "x": 2.250886555981385,
+        "y": 6.628333484912334
       },
       "nextControl": null,
       "isLocked": false,

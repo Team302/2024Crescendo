@@ -69,5 +69,6 @@ bool launcherToPlacerState::IsTransitionCondition(bool considerGamepadTransition
 	// To get the current state use m_mechanism->GetCurrentState()
 	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 
+	return false;
 	return ((currentState == m_mechanism->STATE_HOLD_FEEDER) && m_mechanism->IsPlacerMode());
 }
