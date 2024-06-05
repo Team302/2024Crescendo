@@ -151,7 +151,7 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
 
-    auto isRotating = (abs(moveInfo.rawOmega) > 0.1);
+    auto isRotating = (abs(moveInfo.rawOmega) > 0.05);
     if (!isRotating)
     {
         if (m_isRotating)
