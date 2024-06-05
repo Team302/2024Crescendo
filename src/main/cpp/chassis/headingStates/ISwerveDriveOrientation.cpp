@@ -19,11 +19,19 @@
 #include "chassis/ChassisConfigMgr.h"
 #include "utils/AngleUtils.h"
 
+frc::PIDController *ISwerveDriveOrientation::m_pid = new frc::PIDController(1.0, 1.0, 1.0);
+
 ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption) : m_headingOption(headingOption)
 {
+    m_pid->EnableContinuousInput(0, 360.0);
 }
 
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
+{
+    return CalcHeadingCorrection(targetAngle, {kP, 0.0});
+}
+
+units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, std::pair<double, double> gains)
 {
     units::angle::degree_t currentAngle = units::angle::degree_t(0.0);
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
@@ -34,7 +42,10 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     }
     auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(currentAngle, targetAngle));
 
-    auto correction = units::angular_velocity::degrees_per_second_t(errorAngle.to<double>() * kP);
+    m_pid->SetP(gains.first);
+    m_pid->SetI(gains.second);
+
+    auto correction = units::angular_velocity::degrees_per_second_t(m_pid->Calculate(errorAngle.to<double>()));
 
     return correction;
 }

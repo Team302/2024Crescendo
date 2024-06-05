@@ -17,6 +17,8 @@
 
 #include "units/angle.h"
 
+#include "frc/controller/PIDController.h"
+
 // Team302 Includes
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/ChassisMovement.h"
@@ -38,6 +40,11 @@ public:
     /// @param [in] kP - porportional constant to correct with
     static units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP);
 
+    /// @brief Calculate heading correction
+    /// @param [in] rot - incoming rotation to correct for
+    /// @param [in] gains - porportional and integral constant to correct with
+    static units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, std::pair<double, double> gains);
+
     /// @brief Returns the heading option
     /// @return ChassisOptionEnums::HeadingOption - current heading option
     ChassisOptionEnums::HeadingOption GetHeadingOption() const { return m_headingOption; };
@@ -51,5 +58,7 @@ protected:
     const units::angle::degree_t m_fineCoarseAngle = units::angle::degree_t(5.0);
 
     const double kPMaintain[2] = {7.0, 5.0};
-    const double kPSpecifiedHeading[2] = {10.0, 8.0};
+    const std::pair<double, double> kPSpecifiedHeading[2] = {{10.0, 0.0}, {8.0, 0.0}}; // kP, kI
+
+    static frc::PIDController *m_pid;
 };
