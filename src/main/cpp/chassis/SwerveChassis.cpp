@@ -151,7 +151,10 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
 
-    auto isRotating = (abs(moveInfo.rawOmega) > 0.05);
+    // auto isRotating = (abs(moveInfo.rawOmega) > 0.05);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("pigeon rate"), m_pigeon->GetRate());
+
+    auto isRotating = (abs(m_pigeon->GetRate()) > 2.0);
     if (!isRotating)
     {
         if (m_isRotating)
@@ -258,7 +261,7 @@ Pose2d SwerveChassis::GetPose() const
 //==================================================================================
 units::angle::degree_t SwerveChassis::GetYaw() const
 {
-    return m_pigeon->GetYaw().Refresh().GetValue();
+    return m_pigeon->GetYaw().WaitForUpdate(100_ms).Refresh().GetValue();
 }
 
 //==================================================================================
