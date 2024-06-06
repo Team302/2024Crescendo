@@ -25,6 +25,7 @@
 #include "units/time.h"
 
 // Team 302 includes
+#include "chassis/ChassisOptionEnums.h"
 #include "State.h"
 
 // Third Party Includes
@@ -62,6 +63,7 @@ private:
 	std::unique_ptr<frc::Timer> m_timer;
 	units::time::second_t m_maxTime;
 	bool m_isDone;
-	SwerveChassis* m_chassis;
+	SwerveChassis *m_chassis;
 	static void SetMechanismStatesFromParam(PrimitiveParams *params);
+	ChassisOptionEnums::PathUpdateOption m_updatedHeadingOption;
 };

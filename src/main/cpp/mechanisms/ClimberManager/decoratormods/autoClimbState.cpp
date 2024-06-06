@@ -57,28 +57,29 @@ void autoClimbState::Run()
 	if (noteMgr != nullptr)
 	{
 		double elevatorPosition = noteMgr->getElevator()->GetCounts();
-		if (elevatorPosition < 10.0)
+		if (elevatorPosition < 15.0)
 		{
 			if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
 				m_target = 30.0;
-			else
-				m_target = 8.5;
 		}
-		else
+		else if (!m_autoClimbManualAdjustmentLatch)
 		{
-			m_target = 8.5;
+			m_target = 7.5;
+			m_autoClimbManualAdjustmentLatch = true;
 		}
 	}
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)
 	{
-		double delta = 6.0 * 0.035 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.035 for 20 ms loop time * controller input
+		double delta = 6.0 * 0.1 * (TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)); // changing by 6 in/s * 0.035 for 20 ms loop time * controller input
 		m_target += delta;
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CLIMBERDEBUGGING"), string("Delta"), delta);
 		if (m_target < 4.0)
 			m_target = 4.0;
 	}
 
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_RIGHT_CLIMBER, m_target);
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER, m_target);
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CLIMBERDEBUGGING"), string("m_target"), m_target);
 
 	m_genState->Run();
 }

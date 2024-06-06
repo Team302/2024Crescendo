@@ -38,7 +38,6 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
         {
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-            auto currentPose = chassis->GetPose();
             frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 
             if (chassis != nullptr)

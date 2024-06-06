@@ -16,6 +16,7 @@
 // C++ Includes
 #include <memory>
 #include <string>
+#include <unistd.h>
 
 // Team 302 includes
 #include "auton/drivePrimitives/IPrimitive.h"
@@ -50,8 +51,7 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
         auto position = vision->GetRobotPosition();
         if (position)
         {
-            auto pose = position.value().estimatedPose.ToPose2d();
-            chassis->ResetPose(pose);
+            ResetPose(position.value().estimatedPose.ToPose2d());
         }
         else
         {
@@ -60,9 +60,20 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
             {
                 path = path.get()->flipPath();
             }
-            auto pose = path.get()->getPreviewStartingHolonomicPose();
-            chassis->ResetPose(pose);
+            ResetPose(path.get()->getPreviewStartingHolonomicPose());
         }
+    }
+}
+
+void ResetPositionPathPlanner::ResetPose(Pose2d pose)
+{
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+
+    if (chassis != nullptr)
+    {
+        chassis->SetYaw(pose.Rotation().Degrees());
+        chassis->ResetPose(pose);
     }
 }
 

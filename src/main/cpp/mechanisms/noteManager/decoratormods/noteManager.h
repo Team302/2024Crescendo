@@ -26,6 +26,7 @@
 #include "units/angle.h"
 #include "units/angular_velocity.h"
 #include "units/length.h"
+#include "frc/controller/PIDController.h"
 
 // Team 302 includes
 #include "mechanisms/noteManager/generated/noteManagerGen.h"
@@ -77,13 +78,21 @@ public:
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	bool HasNote() const;
 
-	void SetLauncherTargetsForAutoLaunch();
+	void SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option);
 	void MaintainCurrentLauncherTargetsForAutoLaunch();
-	bool LauncherTargetsForAutoLaunchAchieved() const;
+	bool LauncherTargetsForAutoLaunchAchieved();
+	bool isLauncherAtTargert();
 
 	units::angle::degree_t GetLauncherAngleTarget() const { return m_LauncherAngleTarget; }
+	units::angle::degree_t GetLauncherAngleFromEncoder() { return getlauncherAngleEncoder()->GetAbsolutePosition(); }
+
 	units::angular_velocity::radians_per_second_t GetLauncherTopWheelsTarget() const { return m_LauncherTopWheelsTarget; }
 	units::angular_velocity::radians_per_second_t GetLauncherBottomWheelsTarget() const { return m_LauncherBottomWheelsTarget; }
+
+	void SetManualLaunchTarget();
+	units::angle::degree_t GetManualLaunchTarget() { return m_manualLaunchTarget; }
+
+	void SetLauncherToProtectedPosition();
 
 	void SetLauncherAngleTarget(units::angle::degree_t valueDeg) { m_LauncherAngleTarget = valueDeg; }
 	void SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherTopWheelsTarget = valueRadPerSec; }
@@ -91,10 +100,11 @@ public:
 	bool GetTransitionFromHoldFeedToReady() { return m_TransitionFromHoldFeedToReady; }
 	void SetTransitionFromHoldFeedToReady(bool state) { m_TransitionFromHoldFeedToReady = state; }
 
-	units::length::meter_t GetDistanceFromSpeaker() const;
+	units::length::meter_t GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION option) const;
 
 private:
-	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters();
+	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option);
+	void UpdateLauncherAngleTarget();
 
 	double GetFilteredValue(double latestValue, std::deque<double> &previousValues, double previousAverage);
 
@@ -116,9 +126,27 @@ private:
 	bool m_noteInIntake = false;
 	bool m_noteInFeeder = false;
 
-	units::angle::degree_t m_LauncherAngleTarget;
+	units::angle::degree_t m_manualLaunchTarget = units::angle::degree_t(50.0);
+	units::angle::degree_t m_LauncherAngleTarget = units::angle::degree_t(0.0);
+	units::angle::degree_t m_autoLaunchTarget = units::angle::degree_t(50.0);
+	units::length::meter_t m_transitionMeters = units::length::meter_t(1.5);
+	units::angular_velocity::radians_per_second_t m_topLaunchSpeed = units::angular_velocity::radians_per_second_t(450.0);
+	units::angular_velocity::radians_per_second_t m_bottomLaunchSpeed = units::angular_velocity::radians_per_second_t(450.0);
 	units::angular_velocity::radians_per_second_t m_LauncherTopWheelsTarget;
 	units::angular_velocity::radians_per_second_t m_LauncherBottomWheelsTarget;
 	const double m_similarDistToleranceMeters = 0.5;
 	bool m_TransitionFromHoldFeedToReady = false;
+	bool m_manualTargetChangeAllowed = true;
+	units::angle::degree_t m_angleTolerance = units::angle::degree_t(0.5);
+	units::angular_velocity::radians_per_second_t m_manualLaunchingSpeed = units::angular_velocity::radians_per_second_t(450);
+	units::angular_velocity::radians_per_second_t m_autoLaunchingSpeed = units::angular_velocity::radians_per_second_t(620);
+
+	// auto launch function parameters
+	const double m_autoLaunchCalcYOffset = 60.2;
+	const double m_autoLaunchCalcFirstDegree = 18.8;
+	const double m_autoLaunchCalcSecondDegree = -32.4;
+	const double m_autoLaunchCalcThirdDegree = 10.3;
+	const double m_autoLaunchCalcFourthDegree = -1.02;
+
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.025, 0.000075, 0.0);
 };

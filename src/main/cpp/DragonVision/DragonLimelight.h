@@ -20,6 +20,7 @@
 #include <vector>
 
 // FRC includes
+#include "frc/Timer.h"
 #include "networktables/NetworkTable.h"
 #include "units/angle.h"
 #include "units/length.h"
@@ -108,7 +109,7 @@ public:
     std::optional<VisionPose> GetFieldPosition();
     std::optional<VisionPose> GetFieldPosition(frc::DriverStation::Alliance alliance);
 
-    std::optional<VisionPose> EstimatePoseOdometryLimelight();
+    std::optional<VisionPose> EstimatePoseOdometryLimelight(bool megatag2);
 
     std::optional<VisionPose> GetRedFieldPosition();
     std::optional<VisionPose> GetBlueFieldPosition();
@@ -149,5 +150,5 @@ protected:
     const double START_HB = -9999;
     const double MAX_HB = 2000000000;
     double m_lastHeartbeat = START_HB;
-    double m_repeatingHeartbeat = 0;
+    frc::Timer *m_healthTimer;
 };

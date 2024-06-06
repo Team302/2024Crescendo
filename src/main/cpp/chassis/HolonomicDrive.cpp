@@ -176,6 +176,8 @@ void HolonomicDrive::Run()
                 if (m_robotOrientedDrive)
                 {
                     m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+                    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
+                        InitSpeeds(-forward, -strafe, rotate);
                 }
                 else
                 {
@@ -244,9 +246,9 @@ void HolonomicDrive::InitSpeeds(double forwardScale,
 
     auto maxSpeed = m_swerve->GetMaxSpeed();
     auto maxAngSpeed = m_swerve->GetMaxAngularSpeed();
-    // auto scale = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 1.0 : -1.0;
-    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed * -1.0;
-    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed * -1.0;
+    auto scale = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue) ? 1.0 : -1.0;
+    m_moveInfo.chassisSpeeds.vx = forwardScale * maxSpeed * scale;
+    m_moveInfo.chassisSpeeds.vy = strafeScale * maxSpeed * scale;
     m_moveInfo.chassisSpeeds.omega = rotateScale * maxAngSpeed;
 
     if ((abs(forwardScale) > 0.05) || (abs(strafeScale) > 0.05) || (abs(rotateScale) > 0.05))
@@ -257,7 +259,17 @@ void HolonomicDrive::InitSpeeds(double forwardScale,
 
 void HolonomicDrive::ResetPose()
 {
-    m_swerve->ResetYaw();
+
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
+    {
+        m_swerve->SetYaw(units::angle::degree_t(180.0));
+    }
+    else
+    {
+        m_swerve->SetYaw(units::angle::degree_t(0.0));
+    }
+
+    // m_swerve->ResetYaw();
 }
 void HolonomicDrive::AlignGamePiece()
 {
@@ -329,11 +341,11 @@ void HolonomicDrive::TurnToPassAngle()
 
     if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kBlue)
     {
-        m_moveInfo.yawAngle = units::angle::degree_t(150.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(135.0);
     }
     else
     {
-        m_moveInfo.yawAngle = units::angle::degree_t(-150.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(45.0);
     }
 }
 void HolonomicDrive::SlowMode()

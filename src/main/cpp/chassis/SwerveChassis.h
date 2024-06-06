@@ -57,6 +57,14 @@ public:
 
     ~SwerveChassis() noexcept override = default;
 
+    enum SWERVE_MODULES
+    {
+        LEFT_FRONT,
+        RIGHT_FRONT,
+        LEFT_BACK,
+        RIGHT_BACK,
+    };
+
     void InitStates();
 
     /// @brief Align all of the swerve modules to point forward
@@ -81,6 +89,8 @@ public:
     /// @brief Reset yaw to 0 or 180 degrees depending on alliance
     void ResetYaw();
     void SetYaw(units::angle::degree_t newYaw);
+
+    void LogSwerveEncoderData(SwerveChassis::SWERVE_MODULES swerveModule);
 
     units::length::inch_t GetWheelDiameter() const override;
     units::length::inch_t GetWheelBase() const { return m_wheelBase; }

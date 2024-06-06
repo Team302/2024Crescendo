@@ -47,5 +47,6 @@ namespace noteManagerStates
 
 		int m_NoteMisdetectionCounter;
 		const int m_NoteMisdetectionThreshhold = 500 / 20; // Half a second
+		units::length::meter_t m_odometryLaunchThreshold = units::length::meter_t(5.1);
 	};
 }

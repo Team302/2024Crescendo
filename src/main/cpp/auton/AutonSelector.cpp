@@ -142,7 +142,7 @@ void AutonSelector::PutChoicesOnDashboard()
 	m_numofgamepiecewing.AddOption("1", "Wing1");
 	m_numofgamepiecewing.AddOption("2", "Wing2");
 	m_numofgamepiecewing.AddOption("3", "Wing3");
-	m_numofgamepiecewing.SetDefaultOption("1", "Wing1");
+	m_numofgamepiecewing.SetDefaultOption("0", "Wing0");
 	frc::SmartDashboard::PutData("NumofWingpcs", &m_numofgamepiecewing);
 
 	m_numofgamepiececenter.AddOption("0", "Center0");

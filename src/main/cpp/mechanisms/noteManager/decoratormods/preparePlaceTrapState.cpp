@@ -76,7 +76,7 @@ bool preparePlaceTrapState::IsTransitionCondition(bool considerGamepadTransition
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	auto currentState = m_mechanism->GetCurrentState();
+	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
 
 	bool buttonsPressed = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_CLIMB) || TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE);
 

@@ -16,16 +16,32 @@
     },
     {
       "anchor": {
-        "x": 2.5677274211691286,
-        "y": 4.251242788199862
+        "x": 2.912506594243959,
+        "y": 4.15
       },
       "prevControl": {
-        "x": 2.5177274211691287,
-        "y": 4.251242788199862
+        "x": 2.7447685664602113,
+        "y": 3.9073093530802447
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 3.0554637199922237,
+        "y": 4.35683656406384
+      },
       "isLocked": false,
       "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.281022254352202,
+        "y": 4.627596178269281
+      },
+      "prevControl": {
+        "x": 2.5079619390008028,
+        "y": 4.509192864539576
+      },
+      "nextControl": null,
+      "isLocked": true,
+      "linkedName": "BluePodiumWIng2Center2A"
     }
   ],
   "rotationTargets": [],
