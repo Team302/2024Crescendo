@@ -4789,7 +4789,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>400</value>
+                  <value>340</value>
                 </target>
                 <motorName>launcherTop</motorName>
                 <Enabled>
@@ -4808,7 +4808,7 @@
                   <name>Target</name>
                   <__units__>rad/s</__units__>
                   <type>Double</type>
-                  <value>400</value>
+                  <value>340</value>
                 </target>
                 <motorName>launcherBottom</motorName>
                 <Enabled>
