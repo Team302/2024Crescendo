@@ -17,7 +17,8 @@ time= "0.25"/>
 pathname= "BlueAmpWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "2.0"
-pathgains= "ShortPath"/>
+pathgains= "ShortPath"
+visionAligment= "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_FEEDER_INTAKE"
@@ -34,7 +35,8 @@ pathUpdateOption = "NOTE"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_C"
 noteOption= "STATE_FEEDER_INTAKE"
-time="4.0"/>
+time="4.0"
+visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
@@ -47,6 +49,7 @@ pathUpdateOption = "NOTE"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_E"
 noteOption= "STATE_PLACER_INTAKE"
-time= "4.0"/>
+time= "4.0"
+visionAligment= "SPEAKER"/>
 
 </auton>
