@@ -6,16 +6,16 @@
 <primitive id= "RESET_POSITION_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_A"/>
 
-<snippet file= "ShootWhenStopManual.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_A"
-time = "3.0"
+time = "1.5"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"
 />
 
-<snippet file= "ShootWhenStopManual.xml"/> 
+<snippet file= "ShootWhenStopAuto.xml"/> 
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_E"
@@ -24,15 +24,16 @@ noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"
 />
 
-<snippet file= "ShootWhenStopManual.xml"/> 
+<snippet file= "ShootWhenStopAuto.xml"/> 
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueSubwooferWing3Center0_C"
-time = "3.65"
+time = "2.5"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains = "ShortPath"/>
+pathgains = "ShortPath"
+visionAligment = "SPEAKER"/>
 
-<snippet file= "ShootWhenStopManual.xml"/> 
+<snippet file= "ShootWhenStopAuto.xml"/> 
 
 </auton>
  
