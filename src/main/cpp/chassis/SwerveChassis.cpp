@@ -154,18 +154,18 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     // auto isRotating = (abs(moveInfo.rawOmega) > 0.05);
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("pigeon rate"), m_pigeon->GetRate());
 
-    auto isRotating = (abs(m_pigeon->GetRate()) > 2.0);
-    if (!isRotating)
+    if (abs(moveInfo.rawOmega) > 0.05)
     {
-        if (m_isRotating)
-        {
-            m_isRotating = false;
-            SetStoredHeading(GetYaw());
-        }
+        m_rotatingLatch = true;
     }
-    else
+    else if (abs(m_pigeon->GetRate()) < 5.0) // degrees per second
     {
-        m_isRotating = true;
+        m_rotatingLatch = false;
+    }
+
+    if (m_rotatingLatch)
+    {
+        SetStoredHeading(GetYaw());
     }
 
     m_currentOrientationState = GetHeadingState(moveInfo);
