@@ -6,6 +6,10 @@
             pathname= "BluePodiumWing3Center0_A"
             noteOption="STATE_READY_AUTO_LAUNCH"/>
 
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"/>
+
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
@@ -13,12 +17,20 @@ pathname= "BluePodiumWing3Center0_A"
 time= "2.5"
 noteOption="STATE_FEEDER_INTAKE"/>
 
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"/>
+
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center0_B"
-time= "1.8"
+time= "2.3"
 noteOption="STATE_FEEDER_INTAKE"/>
+
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
@@ -26,6 +38,10 @@ noteOption="STATE_FEEDER_INTAKE"/>
 pathname= "BluePodiumWing3Center0_C"
 time= "2.5"
 noteOption="STATE_FEEDER_INTAKE"/>
+
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5131038535971493,
-        "y": 5.328430628330586
+        "x": 1.0212487186743262,
+        "y": 5.796864090161846
       },
       "isLocked": false,
       "linkedName": "BluePodiumWing3Center0_A"
@@ -20,8 +20,8 @@
         "y": 5.527514849608872
       },
       "prevControl": {
-        "x": 2.2977299021645106,
-        "y": 5.539225686154654
+        "x": 2.286019065618729,
+        "y": 5.550936522700434
       },
       "nextControl": null,
       "isLocked": false,
