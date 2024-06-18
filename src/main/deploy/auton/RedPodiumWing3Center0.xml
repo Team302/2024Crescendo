@@ -6,11 +6,7 @@
             pathname= "BluePodiumWing3Center0_A"
             noteOption="STATE_READY_AUTO_LAUNCH"/>
 
-<!-- <primitive id = "DRIVE_PATH_PLANNER"
-pathname = "BluePodiumWing3Center0_0"
-time = "0.5"
-visionAligment = "SPEAKER"
-noteOption = "STATE_READY_ODOMETRY_LAUNCH" /> -->
+<!-- gotta add drive to note to paths on wednesday -->
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_READY_ODOMETRY_LAUNCH"
@@ -22,8 +18,7 @@ visionAligment = "SPEAKER"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center0_A"
 time= "2.5"
-noteOption="STATE_FEEDER_INTAKE"
-/>
+noteOption="STATE_FEEDER_INTAKE"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_READY_ODOMETRY_LAUNCH"
