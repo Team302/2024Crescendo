@@ -7,7 +7,13 @@ pathname= "BlueAmpWing2Center2Start"
 noteOption="STATE_READY_ODOMETRY_LAUNCH"
 />
 
-<primitive id= "DO_NOTHING"
+<primitive id= "DRIVE_PATH_PLANNER"
+pathname= "BlueAmpWing2Center2Start"
+time= "0.5"
+pathgains= "ShortPath"
+visionAligment= "SPEAKER"/>
+
+<primitive id= "RESET_POSITION_PATH_PLANNER"
 noteOption = "STATE_READY_ODOMETRY_LAUNCH"
 time= "0.25"/>
 
@@ -35,21 +41,23 @@ pathUpdateOption = "NOTE"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_C"
 noteOption= "STATE_FEEDER_INTAKE"
-time="4.0"
+time="2.5"
 visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_D"
-noteOption= "STATE_PLACER_INTAKE"
+noteOption= "STATE_FEEDER_INTAKE"
 time= "3.5"
 pathUpdateOption = "NOTE"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_E"
-noteOption= "STATE_PLACER_INTAKE"
+noteOption= "STATE_FEEDER_INTAKE"
 time= "4.0"
 visionAligment= "SPEAKER"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 </auton>

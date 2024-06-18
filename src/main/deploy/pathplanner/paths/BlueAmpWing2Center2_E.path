@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.251413761030089,
-        "y": 6.347273407813577
+        "x": 5.796755603001123,
+        "y": 7.128357032514777
       },
       "isLocked": false,
       "linkedName": "BlueAmpWing2Center2D"
@@ -20,8 +20,8 @@
         "y": 6.456421738466253
       },
       "prevControl": {
-        "x": 5.709111868994794,
-        "y": 7.118618839847407
+        "x": 4.706078024255693,
+        "y": 6.719352940485241
       },
       "nextControl": null,
       "isLocked": false,
