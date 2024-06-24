@@ -44,6 +44,6 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
-		units::length::meter_t m_odometryLaunchThreshold = units::length::meter_t(4.9);
+		units::length::meter_t m_odometryLaunchThreshold = units::length::meter_t(6.0);
 	};
 }

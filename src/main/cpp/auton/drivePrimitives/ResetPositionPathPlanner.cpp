@@ -48,7 +48,12 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
     if (chassis != nullptr)
     {
         auto vision = DragonVision::GetDragonVision();
-        auto position = vision->GetRobotPosition();
+        auto position = vision->GetRobotPositionMegaTag2(chassis->GetYaw(), // mtAngle.Degrees(),
+                                                         units::angular_velocity::degrees_per_second_t(0.0),
+                                                         units::angle::degree_t(0.0),
+                                                         units::angular_velocity::degrees_per_second_t(0.0),
+                                                         units::angle::degree_t(0.0),
+                                                         units::angular_velocity::degrees_per_second_t(0.0));
         if (position)
         {
             ResetPose(position.value().estimatedPose.ToPose2d());
