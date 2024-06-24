@@ -261,7 +261,7 @@ Pose2d SwerveChassis::GetPose() const
 //==================================================================================
 units::angle::degree_t SwerveChassis::GetYaw() const
 {
-    return m_pigeon->GetYaw().WaitForUpdate(100_ms).GetValue();
+    return m_pigeon->GetYaw().WaitForUpdate(100_ms).Refresh().GetValue();
 }
 
 //==================================================================================
