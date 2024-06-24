@@ -2,7 +2,7 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER"
+<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
 pathname= "BlueAmpWing2Center2Start"
 />
 
