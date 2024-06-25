@@ -57,7 +57,7 @@ private:
     pathplanner::PPHolonomicDriveController m_longpathHolonomicController;
     pathplanner::PPHolonomicDriveController m_shortpathHolonomicController;
     std::vector<pathplanner::PathPlannerTrajectory::State> m_trajectoryStates;
-    pathplanner::PathPlannerTrajectory::State m_finalState;
+    pathplanner::PathPlannerTrajectory::State m_finalState = pathplanner::PathPlannerTrajectory::State();
     frc::Pose2d m_prevPose;
     bool m_wasMoving;
     frc::Transform2d m_delta;
