@@ -3,29 +3,46 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER"
-            pathname= "BluePodiumWing3Center0_A"
-            noteOption="STATE_READY_AUTO_LAUNCH"/>
+            pathname= "BluePodiumWing3Center0_A"/>
 
-<snippet file= "ShootWhenStopAuto.xml"/>
+<snippet file= "ShootWhenStopManual.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center0_A"
-time= "2.5"
-noteOption="STATE_FEEDER_INTAKE"/>
+time= "2.0"
+noteOption="STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"/>
+
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"
+visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center0_B"
-time= "1.8"
-noteOption="STATE_FEEDER_INTAKE"/>
+time= "2.5"
+noteOption="STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"/>
+
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"
+visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center0_C"
 time= "2.5"
-noteOption="STATE_FEEDER_INTAKE"/>
+noteOption="STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"/>
+
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"
+visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
