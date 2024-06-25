@@ -86,7 +86,7 @@ private:
     // Primitive Parameters
     PRIMITIVE_IDENTIFIER m_id; // Primitive ID
     units::time::second_t m_time;
-    ChassisOptionEnums::HeadingOption m_headingOption;
+    ChassisOptionEnums::HeadingOption m_headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
     float m_heading;
     std::string m_pathName;
     ChassisOptionEnums::PathGainsType m_pathGainsType;

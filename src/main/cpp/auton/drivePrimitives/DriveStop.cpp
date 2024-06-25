@@ -68,6 +68,7 @@ void DriveStop::Init(PrimitiveParams *params)
 	m_timer->Reset();
 	m_timer->Start();
 	m_heading = params->GetHeading();
+	m_headingOption = params->GetHeadingOption();
 }
 
 /// @brief run the primitive (periodic routine)
@@ -78,6 +79,8 @@ void DriveStop::Run()
 	{
 		ChassisMovement moveInfo;
 		moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
+		moveInfo.headingOption = m_headingOption;
+		moveInfo.yawAngle = units::angle::degree_t(m_heading);
 		moveInfo.chassisSpeeds.vx = 0_mps;
 		moveInfo.chassisSpeeds.vy = 0_mps;
 		moveInfo.chassisSpeeds.omega = units::degrees_per_second_t(0.0);
