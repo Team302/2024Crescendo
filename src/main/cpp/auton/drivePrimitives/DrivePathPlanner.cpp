@@ -182,7 +182,7 @@ bool DrivePathPlanner::IsDone()
     }
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Switched To Vision Drive", m_switchedToVisionDrive);
 
-    if (m_switchedToVisionDrive)
+    if (m_switchedToVisionDrive || m_checkDriveToNote)
     {
         return m_driveToNote->IsDone();
     }

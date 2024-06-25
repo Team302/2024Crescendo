@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.2040432097982583,
-        "y": 5.012238041594486
+        "x": 2.895296810271618,
+        "y": 4.111991050457951
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.7753211512129142,
-        "y": 5.597779868883561
+        "x": 1.4665747516862737,
+        "y": 4.697532877747026
       },
       "isLocked": false,
       "linkedName": "BluePodiumWing3Center0_A"
@@ -20,8 +20,8 @@
         "y": 5.527514849608872
       },
       "prevControl": {
-        "x": 1.8292964403332503,
-        "y": 5.960815801802787
+        "x": 1.2945574370576298,
+        "y": 5.9770727054870925
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "BluePodiumWing3Center0",
   "previewStartingState": {
-    "rotation": 132.27368900609372,
+    "rotation": 145.00797980144145,
     "velocity": 0
   },
   "useDefaultConstraints": true

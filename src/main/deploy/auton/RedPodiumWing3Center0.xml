@@ -3,22 +3,17 @@
 <auton>
 
 <primitive id= "RESET_POSITION_PATH_PLANNER"
-            pathname= "BluePodiumWing3Center0_A"
-            noteOption="STATE_READY_AUTO_LAUNCH"/>
+            pathname= "BluePodiumWing3Center0_A"/>
 
 <!-- gotta add drive to note to paths on wednesday -->
-
-<primitive id= "DO_NOTHING"
-noteOption = "STATE_READY_ODOMETRY_LAUNCH"
-time= "0.5"
-visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopManual.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center0_A"
 time= "2.5"
-noteOption="STATE_FEEDER_INTAKE"/>
+noteOption="STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_READY_ODOMETRY_LAUNCH"
@@ -30,7 +25,8 @@ visionAligment = "SPEAKER"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center0_B"
 time= "2.3"
-noteOption="STATE_FEEDER_INTAKE"/>
+noteOption="STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_READY_ODOMETRY_LAUNCH"
@@ -42,7 +38,8 @@ visionAligment = "SPEAKER"/>
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center0_C"
 time= "2.5"
-noteOption="STATE_FEEDER_INTAKE"/>
+noteOption="STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_READY_ODOMETRY_LAUNCH"
