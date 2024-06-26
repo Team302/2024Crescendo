@@ -204,22 +204,44 @@ void DrivePathPlanner::CheckForDriveToNote()
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Done Percent:", static_cast<double>((currentTime.value()) / m_totalTrajectoryTime.value()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Distance: ", (double)(get<1>(distanceToNote)));
 
-    if (get<0>(dt->GetPose(DragonVision::NOTE)) != DragonDriveTargetFinder::NOT_FOUND)
-    {
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", true);
+    auto noteInfo = dt->GetPose(DragonVision::NOTE);
 
-        if (((currentTime.value() / m_totalTrajectoryTime.value()) >= m_percentageCompleteThreshold))
+    if (get<0>(noteInfo) != DragonDriveTargetFinder::NOT_FOUND)
+    {
+        auto chaseNote = false;
+        auto notePose = get<1>(noteInfo);
+        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
         {
-            m_pathname = "DRIVE_TO_NOTE";
-            InitMoveInfo();
+            if ((notePose.X() <= (m_centerLine + m_offset)))
+            {
+                chaseNote = true;
+            }
         }
-        else if (m_chassis != nullptr)
+        else
         {
-            auto currentPose = m_chassis->GetPose();
-            if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(2.0))
+            if ((notePose.X() >= (m_centerLine - m_offset)))
+            {
+                chaseNote = true;
+            }
+        }
+
+        if (chaseNote)
+        {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", true);
+
+            if (((currentTime.value() / m_totalTrajectoryTime.value()) >= m_percentageCompleteThreshold))
             {
                 m_pathname = "DRIVE_TO_NOTE";
                 InitMoveInfo();
+            }
+            else if (m_chassis != nullptr)
+            {
+                auto currentPose = m_chassis->GetPose();
+                if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(2.0))
+                {
+                    m_pathname = "DRIVE_TO_NOTE";
+                    InitMoveInfo();
+                }
             }
         }
     }
