@@ -11,12 +11,12 @@
 pathname= "BluePodiumWing3Center0_A"
 time= "2.0"
 noteOption="STATE_FEEDER_INTAKE"
-pathUpdateOption = "NOTE"
-pathgains = "ShortPath"/>
+pathgains = "ShortPath"
+visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
-noteOption = "STATE_READY_ODOMETRY_LAUNCH"
-time= "0.5"
+noteOption = "STATE_FEEDER_INTAKE"
+time= "1.0"
 visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
@@ -25,12 +25,12 @@ visionAligment = "SPEAKER"/>
 pathname= "BluePodiumWing3Center0_B"
 time= "2.5"
 noteOption="STATE_FEEDER_INTAKE"
-pathUpdateOption = "NOTE"
-pathgains = "ShortPath"/>
+pathgains = "ShortPath"
+visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
-noteOption = "STATE_READY_ODOMETRY_LAUNCH"
-time= "0.5"
+noteOption = "STATE_FEEDER_INTAKE"
+time= "1.0"
 visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
@@ -39,12 +39,12 @@ visionAligment = "SPEAKER"/>
 pathname= "BluePodiumWing3Center0_C"
 time= "2.5"
 noteOption="STATE_FEEDER_INTAKE"
-pathUpdateOption = "NOTE"
-pathgains = "ShortPath"/>
+pathgains = "ShortPath"
+visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
-noteOption = "STATE_READY_ODOMETRY_LAUNCH"
-time= "0.5"
+noteOption = "STATE_FEEDER_INTAKE"
+time= "1.0"
 visionAligment = "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
