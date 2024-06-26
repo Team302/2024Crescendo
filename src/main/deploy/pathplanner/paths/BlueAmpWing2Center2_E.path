@@ -8,49 +8,27 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.251413761030089,
-        "y": 6.347273407813577
+        "x": 5.796755603001123,
+        "y": 7.128357032514777
       },
       "isLocked": false,
       "linkedName": "BlueAmpWing2Center2D"
     },
     {
       "anchor": {
-        "x": 5.682161663888545,
-        "y": 6.921104398553114
+        "x": 3.615400445510263,
+        "y": 6.456421738466253
       },
       "prevControl": {
-        "x": 7.115987608268837,
-        "y": 6.549121961599338
-      },
-      "nextControl": {
-        "x": 4.248335719508252,
-        "y": 7.293086835506889
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.7824530941501242,
-        "y": 7.412959533479694
-      },
-      "prevControl": {
-        "x": 3.5625002491089135,
-        "y": 7.471513716208602
+        "x": 4.706078024255693,
+        "y": 6.719352940485241
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 90.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -61,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 90.0,
+    "rotation": -169.5625246488818,
     "rotateFast": true
   },
   "reversed": false,
