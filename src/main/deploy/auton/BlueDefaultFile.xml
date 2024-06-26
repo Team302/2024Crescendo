@@ -3,4 +3,16 @@
 <auton>
 <primitive id= "RESET_POSITION_PATH_PLANNER"
 pathname = "BlueDefault"/>
+
+<primitive id= "DO_NOTHING"
+heading= "75.0"
+headingOption= "SPECIFIED_ANGLE"
+time= "3.0"
+/>
+
+<primitive id= "DO_NOTHING"
+headingOption= "FACE_SPEAKER"
+time= "3.0"
+/>
+
 </auton>

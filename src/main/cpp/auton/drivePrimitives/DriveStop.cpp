@@ -78,7 +78,7 @@ void DriveStop::Run()
 	if (m_chassis != nullptr)
 	{
 		ChassisMovement moveInfo;
-		moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
+		moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
 		moveInfo.headingOption = m_headingOption;
 		moveInfo.yawAngle = units::angle::degree_t(m_heading);
 		moveInfo.chassisSpeeds.vx = 0_mps;
