@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.754979732498693,
-        "y": 7.29585116802188
+        "x": 6.010995841683261,
+        "y": 7.021236913173707
       },
       "isLocked": false,
       "linkedName": "BlueAmpWing2Center2B"
     },
     {
       "anchor": {
-        "x": 2.3500908540278633,
-        "y": 6.186573142377054
+        "x": 4.384717666232486,
+        "y": 5.881868371091429
       },
       "prevControl": {
-        "x": 2.6841875081753006,
-        "y": 6.241875878901544
+        "x": 5.2416786209610375,
+        "y": 7.040713298508448
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,15 +38,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": -162.05462069409128,
-    "rotateFast": true
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "BlueAmpWing2Center2",
   "previewStartingState": {
     "rotation": 180.0,
-    "velocity": 0.0
+    "velocity": 0
   },
   "useDefaultConstraints": true
 }

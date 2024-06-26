@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.58,
-        "y": 6.85
+        "x": 2.097617630349765,
+        "y": 6.653081194203101
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "blueampwing2center2start"
     },
     {
       "anchor": {
-        "x": 2.883271729453586,
-        "y": 6.991369417831561
+        "x": 2.87050304380507,
+        "y": 6.976857516056
       },
       "prevControl": {
-        "x": 2.1725372240725385,
-        "y": 6.820353543681756
+        "x": 2.1161821371386265,
+        "y": 6.669902484864916
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -155.0,
+    "rotation": -157.62692917060352,
     "rotateFast": true
   },
   "reversed": false,

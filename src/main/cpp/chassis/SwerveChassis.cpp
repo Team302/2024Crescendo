@@ -151,18 +151,21 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
 
-    auto isRotating = (abs(moveInfo.rawOmega) > 0.1);
-    if (!isRotating)
+    // auto isRotating = (abs(moveInfo.rawOmega) > 0.05);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("pigeon rate"), m_pigeon->GetRate());
+
+    if (abs(moveInfo.rawOmega) > 0.05)
     {
-        if (m_isRotating)
-        {
-            m_isRotating = false;
-            SetStoredHeading(GetYaw());
-        }
+        m_rotatingLatch = true;
     }
-    else
+    else if (abs(m_pigeon->GetRate()) < 5.0) // degrees per second
     {
-        m_isRotating = true;
+        m_rotatingLatch = false;
+    }
+
+    if (m_rotatingLatch)
+    {
+        SetStoredHeading(GetYaw());
     }
 
     m_currentOrientationState = GetHeadingState(moveInfo);
@@ -258,7 +261,7 @@ Pose2d SwerveChassis::GetPose() const
 //==================================================================================
 units::angle::degree_t SwerveChassis::GetYaw() const
 {
-    return m_pigeon->GetYaw().Refresh().GetValue();
+    return m_pigeon->GetYaw().WaitForUpdate(100_ms).Refresh().GetValue();
 }
 
 //==================================================================================
