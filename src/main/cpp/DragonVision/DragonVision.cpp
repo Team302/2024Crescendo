@@ -78,6 +78,19 @@ void DragonVision::AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USA
 		m_poseEstimators.back().SetMultiTagFallbackStrategy(photon::PoseStrategy::AVERAGE_BEST_TARGETS);
 	}
 }
+void DragonVision::HardWareZoomChecker(RobotElementNames::CAMERA_USAGE position)
+{
+	auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+	chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
+	frc::Pose2d robotpose = chassis->GetPose();
+	units::length::meter_t xdistance = robotpose.X();
+	if (xdistance.to<double>() < m_hardwareZoomDistanceLower && xdistance.to<double>() > m_hardwareZoomDistanceUpper)
+	{
+		m_dragonCameraMap[position]->SetPipeline(DragonCamera::PIPELINE::TAG_ZOOM);
+	}
+	else
+		m_dragonCameraMap[position]->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG);
+}
 
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
 {
@@ -550,6 +563,7 @@ std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::d
 		{
 			return std::nullopt;
 		}
+		HardWareZoomChecker(RobotElementNames::CAMERA_USAGE::LAUNCHE);
 
 		// get the pose from limelight
 		LimelightHelpers::SetRobotOrientation(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetCameraName(),

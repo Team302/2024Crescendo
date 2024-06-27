@@ -31,10 +31,13 @@
 #include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonCamera.h"
 
+#include "chassis/SwerveChassis.h"
+
 #include "configs/RobotElementNames.h"
 #include "utils/FieldConstants.h"
 
 #include "units/angular_velocity.h"
+#include "chassis/ChassisConfigMgr.h"
 class DragonCamera;
 class DragonVision
 {
@@ -87,6 +90,7 @@ public:
     /// @return /// @return std::optional<VisionData> - a transform containg x, y, z distances and yaw, pitch, roll to target, and AprilTag Id
     std::optional<VisionData> GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position);
 
+    void HardWareZoomChecker(RobotElementNames::CAMERA_USAGE position);
     /// @brief adds a camera at the specified position to DragonVision
     /// @param camera pointer to the camera object that should be added
     /// @param position the physical position of the camera
@@ -118,4 +122,8 @@ private:
 
     std::vector<photon::PhotonPoseEstimator> m_poseEstimators = std::vector<photon::PhotonPoseEstimator>();
     bool m_photonVisionOdometry = false;
+
+    double m_hardwareZoomDistanceLower = 3.0;
+    double m_hardwareZoomDistanceUpper = 13.0;
+    SwerveChassis *chassis;
 };

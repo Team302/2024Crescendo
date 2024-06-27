@@ -33,7 +33,8 @@ public:
         OFF,
         MACHINE_LEARNING,
         APRIL_TAG,
-        COLOR_THRESHOLD
+        COLOR_THRESHOLD,
+        TAG_ZOOM
     };
 
     DragonCamera(
