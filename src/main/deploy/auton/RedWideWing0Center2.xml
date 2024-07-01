@@ -2,19 +2,41 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-        <primitive id= "RESET_POSITION_PATH_PLANNER"
-                    pathname= "BlueWideWing0Center2"
-                noteOption="STATE_HOLD_FEEDER"/>
+  <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "BlueWideWing0Center2_A"
+                noteOption="STATE_READY_ODOMETRY_LAUNCH"/>
 
-                    <zone filename = "StartingLaunchingRedWideWing0Center2.xml"/>
+<primitive id= "DO_NOTHING"
+noteOption="STATE_READY_ODOMETRY_LAUNCH" 
+time= "0.35"/>
 
-        <primitive id= "DRIVE_PATH_PLANNER"
-                    pathname= "BlueWideWing0Center2">
-            <zone filename = "RedLaunchingZoneWingNote2.xml"/>
-            <zone filename="RedIntakeCenterNote5.xml"/>
-            <zone filename= "LaunchingRedWideWing0Center3and2.xml"/>
-            <zone filename="RedIntakeCenterNote4.xml"/>
-            <zone filename= "LaunchingRedWideWing0Center3and2.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BlueWideWing0Center2_B"
+noteOption= "STATE_FEEDER_INTAKE"
+time= "3.0"
+pathUpdateOption = "NOTE"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BlueWideWing0Center2_C"
+noteOption= "STATE_FEEDER_INTAKE"
+time= "3.0"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BlueWideWing0Center2_D"
+noteOption= "STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"
+time= "3.2"
+/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BlueWideWing0Center2_E"
+noteOption= "STATE_FEEDER_INTAKE"
+time= "3.3"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 </auton>

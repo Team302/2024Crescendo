@@ -58,7 +58,8 @@ CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 									 m_timer(make_unique<Timer>()),
 									 m_maxTime(units::time::second_t(0.0)),
 									 m_isDone(false),
-									 m_chassis()
+									 m_chassis(),
+									 m_updatedHeadingOption()
 {
 	auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 	m_chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
@@ -126,6 +127,15 @@ void CyclePrimitives::Run()
 							if (zone->GetAvoidOption() != ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION)
 							{
 								// TODO:  plug in avoid options
+							}
+
+							if (config != nullptr && zone->IsNoteStateChanging())
+							{
+								auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+								if (noteMgr != nullptr)
+								{
+									noteMgr->SetCurrentState(zone->GetNoteOption(), true);
+								}
 							}
 						}
 					}
@@ -197,7 +207,8 @@ void CyclePrimitives::RunDriveStop()
 										  false,
 										  noteManagerGen::STATE_NAMES::STATE_OFF,
 										  false,
-										  ClimberManagerGen::STATE_NAMES::STATE_OFF);
+										  ClimberManagerGen::STATE_NAMES::STATE_OFF,
+										  ChassisOptionEnums::PathUpdateOption::NONE);
 		m_driveStop = m_primFactory->GetIPrimitive(params);
 		m_driveStop->Init(params);
 	}

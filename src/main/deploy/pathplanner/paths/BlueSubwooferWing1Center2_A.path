@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2684962050384607,
+        "x": 1.268496205038461,
         "y": 5.5605080775090645
       },
       "isLocked": false,
@@ -24,7 +24,7 @@
         "y": 5.539491922490935
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "BlueSuwooferWig1Center2_A"
     }
   ],

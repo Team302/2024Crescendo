@@ -20,7 +20,7 @@ noteOption="STATE_FEEDER_INTAKE"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
-<!--<snippet file= "ShootWhenStopAuto.xml"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing1Center0_2"
@@ -38,6 +38,6 @@ noteOption="STATE_FEEDER_INTAKE"/>
 
 </primitive>
 
-<snippet file= "ShootWhenStopAuto.xml"/>-->
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 </auton>

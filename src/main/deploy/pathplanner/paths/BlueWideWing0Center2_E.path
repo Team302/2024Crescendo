@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.235124030875737,
+        "y": 2.4241431649767726
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.298257107213216,
+        "y": 2.365588982247864
+      },
+      "isLocked": false,
+      "linkedName": "BlueWIdeWing0Center2_D"
+    },
+    {
+      "anchor": {
+        "x": 5.063500127000255,
+        "y": 1.4405736503780713
+      },
+      "prevControl": {
+        "x": 5.951697978471678,
+        "y": 1.4496368937604336
+      },
+      "nextControl": {
+        "x": 4.096539731541003,
+        "y": 1.4307067075672617
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.103417283757646,
+        "y": 3.41396221253981
+      },
+      "prevControl": {
+        "x": 2.9026396514331507,
+        "y": 2.5259373595670285
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "BlueWideWing0Center2_A"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 134.38,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "BlueWideWing0Center2",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

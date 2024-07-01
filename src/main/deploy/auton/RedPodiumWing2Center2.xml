@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+  <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "BluePodiumWing2Center2Start"
+                noteOption="STATE_READY_ODOMETRY_LAUNCH"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2Start"
+noteOption= "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_A"
+noteOption= "STATE_FEEDER_INTAKE"
+time= "2.5"/>
+
+<primitive id = "DO_NOTHING"
+time= "0.5"
+noteOption= "STATE_FEEDER_INTAKE"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_B"
+noteOption= "STATE_FEEDER_INTAKE"
+time= "4.0"
+pathUpdateOption = "NOTE"/>
+
+<!--<primitive id= "DRIVE_TO_NOTE"
+noteOption= "STATE_FEEDER_INTAKE"/>-->
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_C"
+noteOption= "STATE_FEEDER_INTAKE"
+pathUpdateOption = "NOTE"
+time= "3.0"
+/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_D"
+noteOption= "STATE_FEEDER_INTAKE"
+time= "3.0"
+pathUpdateOption = "NOTE"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+pathname= "BluePodiumWing2Center2_E"
+noteOption= "STATE_FEEDER_INTAKE"
+time= "3.0"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+</auton>

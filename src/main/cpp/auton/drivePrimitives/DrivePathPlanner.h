@@ -25,6 +25,7 @@
 #include "chassis/driveStates/DriveToNote.h"
 
 // FRC,WPI Includes
+#include "frc/geometry/Pose2d.h"
 #include "frc/Timer.h"
 #include "units/time.h"
 
@@ -35,15 +36,20 @@ class DrivePathPlanner : public IPrimitive
 {
 public:
     DrivePathPlanner();
-
-    virtual ~DrivePathPlanner() = default;
+    ~DrivePathPlanner() = default;
 
     void Init(PrimitiveParams *params) override;
     void Run() override;
     bool IsDone() override;
 
 private:
+    void InitMoveInfo();
+    void CheckForDriveToNote();
+    void CheckIfPastCenterLine();
+
     SwerveChassis *m_chassis;
+
+    TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
     DriveToNote *m_driveToNote;
     std::unique_ptr<frc::Timer> m_timer;
     pathplanner::PathPlannerTrajectory m_trajectory;
@@ -56,4 +62,11 @@ private:
     ChassisMovement m_moveInfo;
     units::length::meter_t m_centerLine = units::length::meter_t(8.27);
     units::length::meter_t m_offset = units::length::meter_t(1.0);
+    units::length::meter_t m_chassisOffset = units::length::meter_t(0.5);
+
+    bool m_checkDriveToNote = false;
+    bool m_checkIsPastCenterLine = false;
+    const double m_percentageCompleteThreshold = 0.75;
+    units::time::second_t m_totalTrajectoryTime;
+    frc::Pose2d m_finalPose;
 };

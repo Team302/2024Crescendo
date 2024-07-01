@@ -57,16 +57,15 @@ void autoClimbState::Run()
 	if (noteMgr != nullptr)
 	{
 		double elevatorPosition = noteMgr->getElevator()->GetCounts();
-		if (elevatorPosition < 10.0)
+		if (elevatorPosition < 15.0)
 		{
 			if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
 				m_target = 30.0;
-			else
-				m_target = 7.5;
 		}
-		else
+		else if (!m_autoClimbManualAdjustmentLatch)
 		{
 			m_target = 7.5;
+			m_autoClimbManualAdjustmentLatch = true;
 		}
 	}
 	if (abs(TeleopControl::GetInstance()->GetAxisValue(TeleopControlFunctions::MANUAL_CLIMB)) > 0.05)

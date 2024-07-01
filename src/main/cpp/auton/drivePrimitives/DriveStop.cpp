@@ -68,7 +68,7 @@ void DriveStop::Init(PrimitiveParams *params)
 	m_timer->Reset();
 	m_timer->Start();
 	m_heading = params->GetHeading();
-
+	m_headingOption = params->GetHeadingOption();
 }
 
 /// @brief run the primitive (periodic routine)
@@ -78,7 +78,9 @@ void DriveStop::Run()
 	if (m_chassis != nullptr)
 	{
 		ChassisMovement moveInfo;
-		moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STOP_DRIVE;
+		moveInfo.driveOption = ChassisOptionEnums::DriveStateType::ROBOT_DRIVE;
+		moveInfo.headingOption = m_headingOption;
+		moveInfo.yawAngle = units::angle::degree_t(m_heading);
 		moveInfo.chassisSpeeds.vx = 0_mps;
 		moveInfo.chassisSpeeds.vy = 0_mps;
 		moveInfo.chassisSpeeds.omega = units::degrees_per_second_t(0.0);
@@ -99,11 +101,7 @@ bool DriveStop::IsDone()
 	// don't end the drive stop state as we haven't launched yet
 	if (m_noteManager != nullptr)
 	{
-		if ((m_noteManager->GetCurrentState() == noteManagerGen::STATE_AUTO_LAUNCH) 
-			|| (m_noteManager->GetCurrentState() == noteManagerGen::STATE_MANUAL_LAUNCH)
-			|| (m_noteManager->GetCurrentState() == noteManagerGen::STATE_READY_AUTO_LAUNCH)
-			|| (m_noteManager->GetCurrentState() == noteManagerGen::STATE_READY_MANUAL_LAUNCH)
-			|| (m_noteManager->GetCurrentState() == noteManagerGen::STATE_READY_ODOMETRY_LAUNCH))
+		if ((m_noteManager->GetCurrentState() == noteManagerGen::STATE_AUTO_LAUNCH) || (m_noteManager->GetCurrentState() == noteManagerGen::STATE_MANUAL_LAUNCH))
 		{
 			if (m_noteManager->HasNote())
 				return false;

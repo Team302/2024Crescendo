@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+
+        <primitive id= "RESET_POSITION_PATH_PLANNER"
+                    pathname= "BlueWideWing0Center2"
+                noteOption="STATE_HOLD_FEEDER"/>
+
+                    <zone filename = "StartingLaunchingRedWideWing0Center2.xml"/>
+
+        <primitive id= "DRIVE_PATH_PLANNER"
+                    pathname= "BlueWideWing0Center2">
+            <zone filename = "RedLaunchingZoneWingNote2.xml"/>
+            <zone filename="RedIntakeCenterNote5.xml"/>
+            <zone filename= "LaunchingRedWideWing0Center3and2.xml"/>
+            <zone filename="RedIntakeCenterNote4.xml"/>
+            <zone filename= "LaunchingRedWideWing0Center3and2.xml"/>
+
+
+</auton>

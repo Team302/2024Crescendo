@@ -82,6 +82,12 @@ public:
         LONG
     };
 
+    enum PathUpdateOption
+    {
+        NOTE,
+        NONE
+    };
+
     ChassisOptionEnums() = delete;
     ~ChassisOptionEnums() = delete;
 };

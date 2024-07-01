@@ -65,10 +65,11 @@ public:
 	bool IsDone() override;
 
 private:
-	units::time::second_t m_maxTime;	 // Target time
-	float m_currentTime; // Time since init
+	units::time::second_t m_maxTime; // Target time
+	float m_currentTime;			 // Time since init
 	SwerveChassis *m_chassis;
 	std::unique_ptr<frc::Timer> m_timer;
 	double m_heading;
 	noteManager *m_noteManager;
+	ChassisOptionEnums::HeadingOption m_headingOption;
 };
