@@ -290,18 +290,22 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backRight->GetPosition()});
     if (m_vision != nullptr)
     {
-        std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(), // mtAngle.Degrees(),
-                                                                                    units::angular_velocity::degrees_per_second_t(0.0),
-                                                                                    units::angle::degree_t(0.0),
-                                                                                    units::angular_velocity::degrees_per_second_t(0.0),
-                                                                                    units::angle::degree_t(0.0),
-                                                                                    units::angular_velocity::degrees_per_second_t(0.0));
-
-        if (megaTag2Pose)
+        auto useVision = (m_pigeon != nullptr && std::abs(m_pigeon->GetRate()) < 720.0);
+        if (useVision)
         {
-            m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
-                                                 megaTag2Pose.value().timeStamp);
-            updateWithVision = true;
+            std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(), // mtAngle.Degrees(),
+                                                                                        units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                        units::angle::degree_t(0.0),
+                                                                                        units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                        units::angle::degree_t(0.0),
+                                                                                        units::angular_velocity::degrees_per_second_t(0.0));
+
+            if (megaTag2Pose)
+            {
+                m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
+                                                     megaTag2Pose.value().timeStamp);
+                updateWithVision = true;
+            }
         }
     }
     Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Update With Vision"), std::string("Update With Vision:"), updateWithVision);

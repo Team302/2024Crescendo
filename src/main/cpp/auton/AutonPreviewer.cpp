@@ -32,6 +32,7 @@
 #include "auton/PrimitiveEnums.h"
 #include "auton/PrimitiveParams.h"
 #include "auton/PrimitiveParser.h"
+#include "auton/drivePrimitives/AutonUtils.h"
 #include "utils/logging/Logger.h"
 
 // Thirdparty includes
@@ -90,10 +91,9 @@ std::vector<frc::Trajectory> AutonPreviewer::GetTrajectories()
         if (param->GetID() == PRIMITIVE_IDENTIFIER::DRIVE_PATH_PLANNER && false)
         {
             auto pathname = param->GetPathName();
-            auto path = PathPlannerPath::fromPathFile(pathname);
-            if (path.get() != nullptr)
+            auto path = AutonUtils::GetPathFromPathFile(pathname);
+            if (AutonUtils::IsValidPath(path))
             {
-
                 auto pptrajectory = path.get()->getTrajectory(speeds, heading);
                 auto endstate = pptrajectory.getEndState();
                 heading = endstate.heading;
