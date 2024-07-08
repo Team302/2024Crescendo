@@ -57,9 +57,9 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 
             auto visionPosition = vision->GetRobotPosition();
             auto hasVisionPose = visionPosition.has_value();
-
+            auto initialRot = hasVisionPose ? visionPosition.value().estimatedPose.ToPose2d().Rotation().Degrees() : initialPose.Rotation().Degrees();
             // use the path angle as an initial guess for the MegaTag2 calc; chassis is most-likely 0.0 right now which may cause issues based on color
-            auto megaTag2Position = vision->GetRobotPositionMegaTag2(initialPose.Rotation().Degrees(), // chassis->GetYaw(), // mtAngle.Degrees(),
+            auto megaTag2Position = vision->GetRobotPositionMegaTag2(initialRot, // chassis->GetYaw(), // mtAngle.Degrees(),
                                                                      units::angular_velocity::degrees_per_second_t(0.0),
                                                                      units::angle::degree_t(0.0),
                                                                      units::angular_velocity::degrees_per_second_t(0.0),
