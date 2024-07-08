@@ -152,13 +152,13 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_rotate = moveInfo.chassisSpeeds.omega;
 
     // auto isRotating = (abs(moveInfo.rawOmega) > 0.05);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("pigeon rate"), m_pigeon->GetRate());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("pigeon rate"), GetRotationRateDegreesPerSecond());
 
     if (abs(moveInfo.rawOmega) > 0.05)
     {
         m_rotatingLatch = true;
     }
-    else if (abs(m_pigeon->GetRate()) < 5.0) // degrees per second
+    else if (abs(GetRotationRateDegreesPerSecond()) < 5.0) // degrees per second
     {
         m_rotatingLatch = false;
     }
@@ -290,7 +290,7 @@ void SwerveChassis::UpdateOdometry()
                                                                            m_backRight->GetPosition()});
     if (m_vision != nullptr)
     {
-        auto useVision = (m_pigeon != nullptr && std::abs(m_pigeon->GetRate()) < 720.0);
+        auto useVision = (m_pigeon != nullptr && std::abs(GetRotationRateDegreesPerSecond()) < 720.0);
         if (useVision)
         {
             std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(), // mtAngle.Degrees(),
