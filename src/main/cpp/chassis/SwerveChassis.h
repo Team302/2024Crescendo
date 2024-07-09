@@ -38,6 +38,7 @@
 #include "chassis/ChassisMovement.h"
 #include "DragonVision/DragonVision.h"
 #include "utils/logging/LoggableItem.h"
+#include "robotstate/RobotState.h"
 
 #include "ctre/phoenix6/Pigeon2.hpp"
 
@@ -177,4 +178,5 @@ private:
     std::string m_networkTableName;
     bool m_isRotating = false;
     DragonVision *m_vision;
+    RobotState *m_robotState;
 };

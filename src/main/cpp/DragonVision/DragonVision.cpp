@@ -58,10 +58,16 @@ frc::AprilTagFieldLayout DragonVision::GetAprilTagLayout()
 	return DragonVision::m_aprilTagLayout;
 }
 
-DragonVision::DragonVision()
+DragonVision::DragonVision() : IRobotStateChangeSubscriber::IRobotStateChangeSubscriber()
 {
+	m_robotState = RobotState::GetInstance();
+	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::FieldPoseX);
 }
 
+void DragonVision::Update(RobotStateChanges::StateChange change, int value)
+{
+	m_robotXPose = value;
+}
 void DragonVision::AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USAGE position)
 {
 	m_dragonCameraMap[position] = camera;
@@ -78,18 +84,15 @@ void DragonVision::AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USA
 		m_poseEstimators.back().SetMultiTagFallbackStrategy(photon::PoseStrategy::AVERAGE_BEST_TARGETS);
 	}
 }
-void DragonVision::HardWareZoomChecker(RobotElementNames::CAMERA_USAGE position)
+bool DragonVision::HardWareZoomChecker(RobotElementNames::CAMERA_USAGE position)
 {
-	auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-	chassis = chassisConfig != nullptr ? chassisConfig->GetSwerveChassis() : nullptr;
-	frc::Pose2d robotpose = chassis->GetPose();
-	units::length::meter_t xdistance = robotpose.X();
-	if (xdistance.to<double>() < m_hardwareZoomDistanceLower && xdistance.to<double>() > m_hardwareZoomDistanceUpper)
+
+	if (m_robotXPose < m_hardwareZoomDistanceLower && m_robotXPose > m_hardwareZoomDistanceUpper)
 	{
-		m_dragonCameraMap[position]->SetPipeline(DragonCamera::PIPELINE::TAG_ZOOM);
+		return false;
 	}
 	else
-		m_dragonCameraMap[position]->SetPipeline(DragonCamera::PIPELINE::APRIL_TAG);
+		return true;
 }
 
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
@@ -492,6 +495,12 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 			{
 				return std::nullopt;
 			}
+			if (HardWareZoomChecker(RobotElementNames::CAMERA_USAGE::LAUNCHE))
+			{
+				SetPipeline(DragonCamera::PIPELINE::TAG_ZOOM, RobotElementNames::CAMERA_USAGE::LAUNCHE);
+			}
+			else
+				SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, RobotElementNames::CAMERA_USAGE::LAUNCHE);
 
 			// get the pose from limelight
 			DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
@@ -563,8 +572,12 @@ std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::d
 		{
 			return std::nullopt;
 		}
-		HardWareZoomChecker(RobotElementNames::CAMERA_USAGE::LAUNCHE);
-
+		if (HardWareZoomChecker(RobotElementNames::CAMERA_USAGE::LAUNCHE))
+		{
+			SetPipeline(DragonCamera::PIPELINE::TAG_ZOOM, RobotElementNames::CAMERA_USAGE::LAUNCHE);
+		}
+		else
+			SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, RobotElementNames::CAMERA_USAGE::LAUNCHE);
 		// get the pose from limelight
 		LimelightHelpers::SetRobotOrientation(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetCameraName(),
 											  yaw.value(),

@@ -28,7 +28,8 @@ public:
         GameState,
         CompressorChange,
         HasNote,
-        LoopCounter
+        LoopCounter,
+        FieldPoseX
     };
 
     enum ScoringMode

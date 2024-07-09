@@ -30,16 +30,13 @@
 // Team 302 Includes
 #include "DragonVision/DragonVisionStructs.h"
 #include "DragonVision/DragonCamera.h"
-
-#include "chassis/SwerveChassis.h"
-
 #include "configs/RobotElementNames.h"
 #include "utils/FieldConstants.h"
-
 #include "units/angular_velocity.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "robotstate/RobotState.h"
+#include "robotstate/IRobotStateChangeSubscriber.h"
 class DragonCamera;
-class DragonVision
+class DragonVision : IRobotStateChangeSubscriber
 {
 public:
     static DragonVision *GetDragonVision();
@@ -90,7 +87,7 @@ public:
     /// @return /// @return std::optional<VisionData> - a transform containg x, y, z distances and yaw, pitch, roll to target, and AprilTag Id
     std::optional<VisionData> GetDataToNearestAprilTag(RobotElementNames::CAMERA_USAGE position);
 
-    void HardWareZoomChecker(RobotElementNames::CAMERA_USAGE position);
+    bool HardWareZoomChecker(RobotElementNames::CAMERA_USAGE position);
     /// @brief adds a camera at the specified position to DragonVision
     /// @param camera pointer to the camera object that should be added
     /// @param position the physical position of the camera
@@ -104,6 +101,8 @@ public:
 
     bool HealthCheck(RobotElementNames::CAMERA_USAGE position);
 
+    void Update(RobotStateChanges::StateChange change, int value) override;
+
 private:
     DragonVision();
     ~DragonVision() = default;
@@ -115,15 +114,14 @@ private:
 
     std::optional<VisionData> MultiTagToElement(frc::Pose3d elementPose);
     std::optional<VisionData> SingleTagToElement(frc::Pose3d elementPose, int idToSearch);
-
     static DragonVision *m_dragonVision;
 
     std::map<RobotElementNames::CAMERA_USAGE, DragonCamera *> m_dragonCameraMap;
 
     std::vector<photon::PhotonPoseEstimator> m_poseEstimators = std::vector<photon::PhotonPoseEstimator>();
     bool m_photonVisionOdometry = false;
-
+    int m_robotXPose = 0;
     double m_hardwareZoomDistanceLower = 3.0;
     double m_hardwareZoomDistanceUpper = 13.0;
-    SwerveChassis *chassis;
+    RobotState *m_robotState;
 };

@@ -105,6 +105,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
     ResetYaw();
     ResetPose(frc::Pose2d());
     SetStoredHeading(units::angle::degree_t(0.0));
+    m_robotState = RobotState::GetInstance();
 }
 
 //==================================================================================
@@ -252,6 +253,7 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
 //==================================================================================
 Pose2d SwerveChassis::GetPose() const
 {
+    m_robotState->PublishStateChange(RobotStateChanges::StateChange::FieldPoseX, m_poseEstimator.GetEstimatedPosition().X().to<int>());
     return m_poseEstimator.GetEstimatedPosition();
 }
 

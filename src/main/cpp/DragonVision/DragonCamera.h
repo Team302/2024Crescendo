@@ -32,9 +32,9 @@ public:
         UNKNOWN = -1,
         OFF,
         MACHINE_LEARNING,
-        APRIL_TAG,
+        APRIL_TAG = 0,
         COLOR_THRESHOLD,
-        TAG_ZOOM
+        TAG_ZOOM = 1
     };
 
     DragonCamera(
