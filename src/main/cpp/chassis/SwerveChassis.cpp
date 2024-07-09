@@ -302,6 +302,8 @@ void SwerveChassis::UpdateOdometry()
 
             if (megaTag2Pose)
             {
+                m_poseEstimator.SetVisionMeasurementStdDevs(megaTag2Pose->visionMeasurementStdDevs); // wpi::array<double, 3>(.7, .7, 9999999));
+
                 m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
                                                      megaTag2Pose.value().timeStamp);
                 updateWithVision = true;

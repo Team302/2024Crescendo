@@ -58,6 +58,10 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
             auto visionPosition = vision->GetRobotPosition();
             auto hasVisionPose = visionPosition.has_value();
             auto initialRot = hasVisionPose ? visionPosition.value().estimatedPose.ToPose2d().Rotation().Degrees() : initialPose.Rotation().Degrees();
+
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pose"), string("Path Rotation"), initialPose.Rotation().Degrees().value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pose"), string("Vision Rotation"), initialRot.value());
+
             // use the path angle as an initial guess for the MegaTag2 calc; chassis is most-likely 0.0 right now which may cause issues based on color
             auto megaTag2Position = vision->GetRobotPositionMegaTag2(initialRot, // chassis->GetYaw(), // mtAngle.Degrees(),
                                                                      units::angular_velocity::degrees_per_second_t(0.0),
@@ -68,28 +72,18 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 
             auto hasMegaTag2Position = megaTag2Position.has_value() && std::abs(chassis->GetRotationRateDegreesPerSecond()) < m_maxAngularVelocityDegreesPerSecond;
 
-            if (hasVisionPose && hasMegaTag2Position)
+            if (hasMegaTag2Position)
             {
-                auto pose1 = visionPosition.value().estimatedPose.ToPose2d();
-                auto pose2 = megaTag2Position.value().estimatedPose.ToPose2d();
+                auto pose = megaTag2Position.value().estimatedPose.ToPose2d();
 
-                if (frc::DriverStation::IsDisabled())
-                {
-                    Pose2d mergedVisionPose{pose2.X(), pose2.Y(), pose1.Rotation().Degrees()};
-                    ResetPose(mergedVisionPose);
-                }
-                else
-                {
-                    ResetPose(pose2);
-                }
+                ResetPose(pose);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pose"), string("Mega2 Reset Pose Rotation"), pose.Rotation().Degrees().value());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pose"), string("Mega2 Reset Pose X"), pose.X().value());
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pose"), string("Mega2 Reset Pose Y"), pose.Y().value());
             }
             else if (hasVisionPose)
             {
                 ResetPose(visionPosition.value().estimatedPose.ToPose2d());
-            }
-            else if (hasMegaTag2Position)
-            {
-                ResetPose(megaTag2Position.value().estimatedPose.ToPose2d());
             }
             else
             {
@@ -106,7 +100,12 @@ void ResetPositionPathPlanner::ResetPose(Pose2d pose)
 
     if (chassis != nullptr)
     {
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pose"), string("Reset Pose Rotation"), pose.Rotation().Degrees().value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pose"), string("Reset Pose X"), pose.X().value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Pose"), string("Reset Pose Y"), pose.Y().value());
+
         chassis->SetYaw(pose.Rotation().Degrees());
+
         chassis->ResetPose(pose);
     }
 }

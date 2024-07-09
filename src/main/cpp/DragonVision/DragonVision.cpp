@@ -555,6 +555,7 @@ std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::d
 		LimelightHelpers::SetRobotOrientation(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetCameraName(),
 											  yaw.value(),
 											  0, 0, 0, 0, 0);
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, std::string("Pose"), std::string("Limelight Yaw"), yaw.value());
 
 		DragonLimelight *launcheLimelightCam = dynamic_cast<DragonLimelight *>(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]);
 		std::optional<VisionPose> estimatedPose = launcheLimelightCam->EstimatePoseOdometryLimelight(true); // true since megatag2
