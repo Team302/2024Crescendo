@@ -19,6 +19,7 @@
 #include <unistd.h>
 
 // Team 302 includes
+#include "auton/drivePrimitives/AutonUtils.h"
 #include "auton/drivePrimitives/IPrimitive.h"
 #include "auton/drivePrimitives/ResetPositionPathPlanner.h"
 #include "auton/PrimitiveParams.h"
@@ -47,25 +48,39 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 
     if (chassis != nullptr)
     {
-        auto vision = DragonVision::GetDragonVision();
-        auto position = vision->GetRobotPositionMegaTag2(chassis->GetYaw(), // mtAngle.Degrees(),
-                                                         units::angular_velocity::degrees_per_second_t(0.0),
-                                                         units::angle::degree_t(0.0),
-                                                         units::angular_velocity::degrees_per_second_t(0.0),
-                                                         units::angle::degree_t(0.0),
-                                                         units::angular_velocity::degrees_per_second_t(0.0));
-        if (position)
+        auto path = AutonUtils::GetPathFromPathFile(param->GetPathName());
+        if (AutonUtils::IsValidPath(path))
         {
-            ResetPose(position.value().estimatedPose.ToPose2d());
-        }
-        else
-        {
-            auto path = PathPlannerPath::fromPathFile(param->GetPathName());
-            if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
+            auto initialPose = path.get()->getPreviewStartingHolonomicPose();
+
+            auto vision = DragonVision::GetDragonVision();
+
+            auto visionPosition = vision->GetRobotPosition();
+            auto hasVisionPose = visionPosition.has_value();
+            auto initialRot = hasVisionPose ? visionPosition.value().estimatedPose.ToPose2d().Rotation().Degrees() : initialPose.Rotation().Degrees();
+
+            // use the path angle as an initial guess for the MegaTag2 calc; chassis is most-likely 0.0 right now which may cause issues based on color
+            auto megaTag2Position = vision->GetRobotPositionMegaTag2(initialRot, // chassis->GetYaw(), // mtAngle.Degrees(),
+                                                                     units::angular_velocity::degrees_per_second_t(0.0),
+                                                                     units::angle::degree_t(0.0),
+                                                                     units::angular_velocity::degrees_per_second_t(0.0),
+                                                                     units::angle::degree_t(0.0),
+                                                                     units::angular_velocity::degrees_per_second_t(0.0));
+
+            auto hasMegaTag2Position = megaTag2Position.has_value() && std::abs(chassis->GetRotationRateDegreesPerSecond()) < m_maxAngularVelocityDegreesPerSecond;
+
+            if (hasMegaTag2Position)
             {
-                path = path.get()->flipPath();
+                ResetPose(megaTag2Position.value().estimatedPose.ToPose2d());
             }
-            ResetPose(path.get()->getPreviewStartingHolonomicPose());
+            else if (hasVisionPose)
+            {
+                ResetPose(visionPosition.value().estimatedPose.ToPose2d());
+            }
+            else
+            {
+                ResetPose(initialPose);
+            }
         }
     }
 }

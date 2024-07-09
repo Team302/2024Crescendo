@@ -404,29 +404,11 @@ std::optional<VisionPose> DragonLimelight::EstimatePoseOdometryLimelight(bool me
             {
                 return std::nullopt;
             }
-            else if (poseEstimate.tagCount >= 2)
-            {
-                xyStds = 0.5;
-                degStds = 6;
-            }
-            // 1 target with large area and close to estimated pose
-            /// TODO, USE avgTagDist instead?
-            else if (poseEstimate.avgTagArea > 0.8)
-            {
-                xyStds = 1.0;
-                degStds = 12;
-            }
-            // 1 target farther away and estimated pose is close
-            /// TODO, USE avgTagDist instead?`
-            else if (poseEstimate.avgTagArea > 0.1)
-            {
-                xyStds = 2.0;
-                degStds = 30;
-            }
             // conditions don't match to add a vision measurement
             else
             {
-                return std::nullopt;
+                xyStds = .7;
+                degStds = 9999999;
             }
             VisionPose pose = {frc::Pose3d{poseEstimate.pose}, poseEstimate.timestampSeconds, {xyStds, xyStds, degStds}, PoseEstimationStrategy::MEGA_TAG_2};
             return pose;
