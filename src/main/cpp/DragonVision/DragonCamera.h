@@ -118,6 +118,7 @@ public:
     void SetPipeline(PIPELINE pipeline)
     {
         m_pipeline = pipeline;
+        UpdatePipeline();
     }
 
     void SetCameraPosition(
