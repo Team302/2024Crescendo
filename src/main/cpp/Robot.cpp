@@ -232,11 +232,12 @@ void Robot::DisabledPeriodic()
 
         if (megaTag2Position.has_value())
         {
-            ResetPose(megaTag2Position.value().estimatedPose.ToPose2d());
+            chassis->SetYaw(initialRot);
+            chassis->ResetPose(megaTag2Position.value().estimatedPose.ToPose2d());
         }
         else if (hasVisionPose)
         {
-            ResetPose(visionPosition.value().estimatedPose.ToPose2d());
+            chassis->ResetPose(visionPosition.value().estimatedPose.ToPose2d());
         }
     }
 }
