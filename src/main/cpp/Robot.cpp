@@ -211,6 +211,7 @@ void Robot::DisabledInit()
 
 void Robot::DisabledPeriodic()
 {
+    // TODO Make method in DragonVision for next year
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 
