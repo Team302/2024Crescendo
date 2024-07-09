@@ -211,8 +211,35 @@ void Robot::DisabledInit()
 
 void Robot::DisabledPeriodic()
 {
-}
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
 
+    if (chassis != nullptr)
+    {
+        auto vision = DragonVision::GetDragonVision();
+
+        auto visionPosition = vision->GetRobotPosition();
+        auto hasVisionPose = visionPosition.has_value();
+        auto initialRot = hasVisionPose ? visionPosition.value().estimatedPose.ToPose2d().Rotation().Degrees() : units::angle::degree_t(0.0);
+
+        // use the path angle as an initial guess for the MegaTag2 calc; chassis is most-likely 0.0 right now which may cause issues based on color
+        auto megaTag2Position = vision->GetRobotPositionMegaTag2(initialRot, // chassis->GetYaw(), // mtAngle.Degrees(),
+                                                                 units::angular_velocity::degrees_per_second_t(0.0),
+                                                                 units::angle::degree_t(0.0),
+                                                                 units::angular_velocity::degrees_per_second_t(0.0),
+                                                                 units::angle::degree_t(0.0),
+                                                                 units::angular_velocity::degrees_per_second_t(0.0));
+
+        if (megaTag2Position.has_value())
+        {
+            ResetPose(megaTag2Position.value().estimatedPose.ToPose2d());
+        }
+        else if (hasVisionPose)
+        {
+            ResetPose(visionPosition.value().estimatedPose.ToPose2d());
+        }
+    }
+}
 void Robot::TestInit()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TestInit"), string("arrived"));
