@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.1,
+        "y": 4.32
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.5248146901429311,
+        "y": 4.051949444840401
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.89,
+        "y": 4.13
+      },
+      "prevControl": {
+        "x": 2.2210379109345957,
+        "y": 3.4211697176318747
+      },
+      "nextControl": {
+        "x": 3.5589620890654046,
+        "y": 4.838830282368125
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.775848356261618,
+        "y": 7.155321129472502
+      },
+      "prevControl": {
+        "x": 4.775848356261618,
+        "y": 7.155321129472502
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "BluePodiumWing3Center1",
+  "previewStartingState": {
+    "rotation": 121.48098697848121,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
