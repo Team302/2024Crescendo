@@ -237,6 +237,7 @@ void Robot::DisabledPeriodic()
         }
         else if (hasVisionPose)
         {
+            chassis->SetYaw(initialRot);
             chassis->ResetPose(visionPosition.value().estimatedPose.ToPose2d());
         }
     }
