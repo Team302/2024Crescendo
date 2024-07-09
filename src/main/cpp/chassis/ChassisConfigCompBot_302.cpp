@@ -15,6 +15,8 @@
 
 #include <string>
 
+#include "ctre/phoenix6/StatusSignal.hpp"
+
 #include "chassis/SwerveModule.h"
 #include "chassis/SwerveModuleConstants.h"
 #include "chassis/ChassisConfigCompBot_302.h"
@@ -31,6 +33,7 @@ void ChassisConfigCompBot_302::DefinePigeon()
     config.MountPoseYaw = 0;
     m_pigeon2->GetConfigurator().Apply(config);
     m_pigeon2->Reset();
+    ctre::phoenix6::BaseStatusSignal::SetUpdateFrequencyForAll(200_Hz, m_pigeon2->GetYaw());
 }
 
 void ChassisConfigCompBot_302::DefineChassis()
