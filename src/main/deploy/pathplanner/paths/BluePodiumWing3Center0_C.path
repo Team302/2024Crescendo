@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1,
-        "y": 5.446552431566402
+        "x": 2.883271729453586,
+        "y": 5.527514849608872
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6056491491233862,
-        "y": 6.487670229186613
+        "x": 2.0752240077946618,
+        "y": 5.668044888158249
       },
       "isLocked": false,
-      "linkedName": "BlueSubwooferWing3Center0_A"
+      "linkedName": "BluePodiumWing3Center0_B"
     },
     {
       "anchor": {
-        "x": 2.8730388230007247,
-        "y": 6.9956624528633675
+        "x": 1.5735854011958479,
+        "y": 6.4910715867943365
       },
       "prevControl": {
-        "x": 1.748207342568533,
-        "y": 6.985795510052559
+        "x": 1.4854713072574635,
+        "y": 6.153300893363863
       },
       "nextControl": {
-        "x": 3.2678246645007376,
-        "y": 6.999125486560736
+        "x": 1.6663608493867443,
+        "y": 6.846710804859439
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.1,
-        "y": 5.446552431566402
+        "x": 2.883271729453586,
+        "y": 6.991369417831561
       },
       "prevControl": {
-        "x": 1.8819235478260299,
-        "y": 4.632684980754577
+        "x": 2.262597392527166,
+        "y": 7.003080254377342
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BlueSubwooferWing3Center0_A"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
+      "waypointRelativePos": 1.8,
       "rotationDegrees": 180.0,
       "rotateFast": true
     }
@@ -61,11 +61,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
-    "rotateFast": true
+    "rotation": -155.0952311919047,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "BlueSubwooferWing3Center0",
+  "folder": "BluePodiumWing3Center0",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

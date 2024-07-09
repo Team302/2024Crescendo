@@ -41,7 +41,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                                                robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                                units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                                units::time::second_t(0.02)),
-                                                                                 m_shortpathHolonomicController(pathplanner::PIDConstants(2.25, 0.45, 0.0),
+                                                                                 m_shortpathHolonomicController(pathplanner::PIDConstants(2.5, 0.5, 0.0),
                                                                                                                 pathplanner::PIDConstants(3.0, 2.5, 0.0),
                                                                                                                 robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                                 units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
@@ -73,11 +73,11 @@ void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
         m_timer.get()->Reset(); // Restarts and starts timer
         m_timer.get()->Start();
     }
-    m_delta = m_finalState.getTargetHolonomicPose() - m_chassis->GetPose();
 }
 
 std::array<frc::SwerveModuleState, 4> TrajectoryDrivePathPlanner::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
+
     auto states = chassisMovement.pathplannerTrajectory.getStates();
     if (states.size() != m_trajectoryStates.size())
     {
