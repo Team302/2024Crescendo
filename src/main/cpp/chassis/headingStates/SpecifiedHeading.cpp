@@ -38,9 +38,7 @@ void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {
-        auto error = chassis->GetPose().Rotation().Degrees() - m_targetAngle;
-        auto slot = abs(error.value()) < m_fineCoarseAngle.value() ? m_fineSlot : m_coarseSlot;
-        auto correction = CalcHeadingCorrection(m_targetAngle, kPSpecifiedHeading[slot]);
+        auto correction = CalcHeadingCorrection(m_targetAngle, kPSpecifiedHeading);
         chassisMovement.chassisSpeeds.omega += correction;
         chassis->SetStoredHeading(m_targetAngle);
     }

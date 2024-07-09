@@ -345,7 +345,7 @@ void HolonomicDrive::TurnToPassAngle()
     }
     else
     {
-        m_moveInfo.yawAngle = units::angle::degree_t(45.0);
+        m_moveInfo.yawAngle = units::angle::degree_t(35.0);
     }
 }
 void HolonomicDrive::SlowMode()

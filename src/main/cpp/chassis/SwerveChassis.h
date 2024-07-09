@@ -177,6 +177,7 @@ private:
     bool m_initialized = false;
     std::string m_networkTableName;
     bool m_isRotating = false;
+    bool m_rotatingLatch = false;
     DragonVision *m_vision;
     RobotState *m_robotState;
 };
