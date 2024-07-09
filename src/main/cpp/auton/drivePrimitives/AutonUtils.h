@@ -1,3 +1,4 @@
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -13,54 +14,17 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-// C++ Includes
+#pragma once
+
 #include <memory>
 #include <string>
-
-// Team 302 includes
-#include "auton/drivePrimitives/AutonUtils.h"
-#include "auton/drivePrimitives/IPrimitive.h"
-#include "auton/drivePrimitives/ResetPositionPathPlannerNoVision.h"
-#include "auton/PrimitiveParams.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
-#include "chassis/SwerveChassis.h"
-#include "utils/logging/Logger.h"
-#include "utils/FMSData.h"
 
 // Third Party Includes
 #include "pathplanner/lib/path/PathPlannerPath.h"
 
-using namespace std;
-using namespace frc;
-using namespace pathplanner;
-
-ResetPositionPathPlannerNoVision::ResetPositionPathPlannerNoVision() : IPrimitive()
+class AutonUtils
 {
-}
-
-void ResetPositionPathPlannerNoVision::Init(PrimitiveParams *param)
-{
-    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-
-    if (chassis != nullptr)
-    {
-        auto path = AutonUtils::GetPathFromPathFile(param->GetPathName());
-        if (AutonUtils::IsValidPath(path))
-        {
-            auto initialPose = path.get()->getPreviewStartingHolonomicPose();
-            chassis->SetYaw(initialPose.Rotation().Degrees());
-            chassis->ResetPose(initialPose);
-        }
-    }
-}
-
-void ResetPositionPathPlannerNoVision::Run()
-{
-}
-
-bool ResetPositionPathPlannerNoVision::IsDone()
-{
-    return true;
-}
+public:
+    static std::shared_ptr<pathplanner::PathPlannerPath> GetPathFromPathFile(std::string pathName);
+    static bool IsValidPath(std::shared_ptr<pathplanner::PathPlannerPath> path);
+};
