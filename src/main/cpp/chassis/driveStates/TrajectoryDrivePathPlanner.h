@@ -43,7 +43,7 @@ public:
 
 protected:
     const units::meters_per_second_t m_maxVel = 4.65_mps;
-    const units::meters_per_second_squared_t m_maxAccel = 10.0_mps_sq;
+    const units::meters_per_second_squared_t m_maxAccel = 5.0_mps_sq;
     const units::radians_per_second_t m_maxAngularVel = 540_deg_per_s;
     const units::radians_per_second_squared_t m_maxAngularAccel = 720_deg_per_s_sq;
 
@@ -57,7 +57,7 @@ private:
     pathplanner::PPHolonomicDriveController m_longpathHolonomicController;
     pathplanner::PPHolonomicDriveController m_shortpathHolonomicController;
     std::vector<pathplanner::PathPlannerTrajectory::State> m_trajectoryStates;
-    pathplanner::PathPlannerTrajectory::State m_finalState;
+    pathplanner::PathPlannerTrajectory::State m_finalState = pathplanner::PathPlannerTrajectory::State();
     frc::Pose2d m_prevPose;
     bool m_wasMoving;
     frc::Transform2d m_delta;
