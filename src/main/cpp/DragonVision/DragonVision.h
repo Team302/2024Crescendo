@@ -120,6 +120,7 @@ private:
 
     std::vector<photon::PhotonPoseEstimator> m_poseEstimators = std::vector<photon::PhotonPoseEstimator>();
     bool m_photonVisionOdometry = false;
+    bool m_hardwareZomeLatch = false;
     int m_robotXPose = 0;
     double m_hardwareZoomDistanceLower = 3.0;
     double m_hardwareZoomDistanceUpper = 13.0;

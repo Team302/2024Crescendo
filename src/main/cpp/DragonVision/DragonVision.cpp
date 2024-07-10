@@ -574,10 +574,17 @@ std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::d
 		}
 		if (HardWareZoomChecker(RobotElementNames::CAMERA_USAGE::LAUNCHE))
 		{
-			SetPipeline(DragonCamera::PIPELINE::TAG_ZOOM, RobotElementNames::CAMERA_USAGE::LAUNCHE);
+			m_hardwareZomeLatch = true;
+			if (m_hardwareZomeLatch == false)
+			{
+				SetPipeline(DragonCamera::PIPELINE::TAG_ZOOM, RobotElementNames::CAMERA_USAGE::LAUNCHE);
+			}
 		}
 		else
+		{
+			m_hardwareZomeLatch = false;
 			SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, RobotElementNames::CAMERA_USAGE::LAUNCHE);
+		}
 		// get the pose from limelight
 		LimelightHelpers::SetRobotOrientation(m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE]->GetCameraName(),
 											  yaw.value(),

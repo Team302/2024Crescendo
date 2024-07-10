@@ -29,7 +29,6 @@
 #include "units/angular_velocity.h"
 #include "units/length.h"
 #include "units/velocity.h"
-
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/driveStates/ISwerveDriveState.h"
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
@@ -39,6 +38,7 @@
 #include "DragonVision/DragonVision.h"
 #include "utils/logging/LoggableItem.h"
 #include "robotstate/RobotState.h"
+#include "frc/DriverStation.h"
 
 #include "ctre/phoenix6/Pigeon2.hpp"
 

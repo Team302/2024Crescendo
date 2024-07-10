@@ -253,7 +253,10 @@ ISwerveDriveState *SwerveChassis::GetDriveState(ChassisMovement &moveInfo)
 //==================================================================================
 Pose2d SwerveChassis::GetPose() const
 {
-    m_robotState->PublishStateChange(RobotStateChanges::StateChange::FieldPoseX, m_poseEstimator.GetEstimatedPosition().X().to<int>());
+    if (!frc::DriverStation::IsDisabled())
+    {
+        m_robotState->PublishStateChange(RobotStateChanges::StateChange::FieldPoseX, m_poseEstimator.GetEstimatedPosition().X().to<int>());
+    }
     return m_poseEstimator.GetEstimatedPosition();
 }
 
