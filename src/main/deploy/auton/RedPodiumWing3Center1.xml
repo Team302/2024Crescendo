@@ -10,6 +10,7 @@ time= "0.5"
 noteOption= "STATE_READY_ODOMETRY_LAUNCH"
 headingOption = "FACE_SPEAKER"/>
 
+
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
@@ -25,7 +26,7 @@ headingOption = "FACE_SPEAKER"
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center1B"
 time = "3.5"
-pathgains = "ShortPath"
+pathUpdateOption = "NOTE"`
 noteOption="STATE_FEEDER_INTAKE"
 visionAligment = "NOTE"
 />
@@ -33,8 +34,7 @@ visionAligment = "NOTE"
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center1_C"
 time = "3.0"
-noteOption="STATE_FEEDER_INTAKE"
-pathgains = "ShortPath"
+noteOption="STATE_HOLD_FEEDER"
 headingOption = "FACE_SPEAKER"
 />
 
