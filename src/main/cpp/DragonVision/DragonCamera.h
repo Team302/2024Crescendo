@@ -30,11 +30,11 @@ public:
     enum PIPELINE
     {
         UNKNOWN = -1,
+        APRIL_TAG,
+        TAG_ZOOM,
         OFF,
         MACHINE_LEARNING,
-        APRIL_TAG = 0,
         COLOR_THRESHOLD,
-        TAG_ZOOM = 1
     };
 
     DragonCamera(

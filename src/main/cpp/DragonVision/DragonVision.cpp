@@ -87,12 +87,12 @@ void DragonVision::AddCamera(DragonCamera *camera, RobotElementNames::CAMERA_USA
 bool DragonVision::HardWareZoomChecker(RobotElementNames::CAMERA_USAGE position)
 {
 
-	if (m_robotXPose < m_hardwareZoomDistanceLower && m_robotXPose > m_hardwareZoomDistanceUpper)
+	if (m_robotXPose > m_hardwareZoomDistanceLower && m_robotXPose < m_hardwareZoomDistanceUpper)
 	{
-		return false;
+		return true;
 	}
 	else
-		return true;
+		return false;
 }
 
 std::optional<VisionData> DragonVision::GetVisionData(VISION_ELEMENT element)
@@ -574,15 +574,15 @@ std::optional<VisionPose> DragonVision::GetRobotPositionMegaTag2(units::angle::d
 		}
 		if (HardWareZoomChecker(RobotElementNames::CAMERA_USAGE::LAUNCHE))
 		{
-			m_hardwareZomeLatch = true;
-			if (m_hardwareZomeLatch == false)
+			if (m_hardwareZoomLatch == false)
 			{
 				SetPipeline(DragonCamera::PIPELINE::TAG_ZOOM, RobotElementNames::CAMERA_USAGE::LAUNCHE);
+				m_hardwareZoomLatch = true;
 			}
 		}
 		else
 		{
-			m_hardwareZomeLatch = false;
+			m_hardwareZoomLatch = false;
 			SetPipeline(DragonCamera::PIPELINE::APRIL_TAG, RobotElementNames::CAMERA_USAGE::LAUNCHE);
 		}
 		// get the pose from limelight
