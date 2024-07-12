@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.883271729453586,
-        "y": 5.527514849608872
+        "x": 2.882905765811533,
+        "y": 5.841230143998749
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0752240077946618,
-        "y": 5.668044888158249
+        "x": 2.0748580441526085,
+        "y": 5.981760182548126
       },
       "isLocked": false,
       "linkedName": "BluePodiumWing3Center0_B"
@@ -20,24 +20,24 @@
         "y": 6.4910715867943365
       },
       "prevControl": {
-        "x": 1.4854713072574635,
-        "y": 6.153300893363863
+        "x": 1.5706023719739761,
+        "y": 6.137238428323012
       },
       "nextControl": {
-        "x": 1.6663608493867443,
-        "y": 6.846710804859439
+        "x": 1.5766838874937432,
+        "y": 6.858599730744757
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.883271729453586,
-        "y": 6.991369417831561
+        "x": 2.882905765811533,
+        "y": 7.094331880971454
       },
       "prevControl": {
-        "x": 2.262597392527166,
-        "y": 7.003080254377342
+        "x": 2.281022254352202,
+        "y": 7.400207108106525
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,9 +46,14 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.8,
+      "waypointRelativePos": 2.0,
       "rotationDegrees": 180.0,
       "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
