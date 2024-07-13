@@ -15,7 +15,7 @@ pathgains = "ShortPath"
 visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
-noteOption = "STATE_FEEDER_INTAKE"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
 time= "0.5"
 visionAligment = "SPEAKER"/>
 
@@ -29,7 +29,7 @@ pathgains = "ShortPath"
 visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
-noteOption = "STATE_FEEDER_INTAKE"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
 time= "0.5"
 visionAligment = "SPEAKER"/>
 
@@ -43,7 +43,7 @@ pathgains = "ShortPath"
 visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
-noteOption = "STATE_FEEDER_INTAKE"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
 time= "0.5"
 visionAligment = "SPEAKER"/>
 
