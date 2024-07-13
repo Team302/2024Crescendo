@@ -5769,7 +5769,7 @@
                   <name>Target</name>
                   <__units__>in</__units__>
                   <type>Double</type>
-                  <value>19.35</value>
+                  <value>18.85</value>
                 </target>
                 <motorName>Elevator</motorName>
                 <Enabled>
