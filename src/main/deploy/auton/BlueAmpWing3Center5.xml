@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+<auton>
+<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+pathname= "BlueAmpWing3Center5"
+/>
+    <snippet file= "ShootWhenStopManual.xml"/>
+<primitive id="DO_NOTHING"
+time="2.0"/>
+</auton>
