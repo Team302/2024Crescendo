@@ -369,8 +369,16 @@ void noteManager::SetManualLaunchTarget()
 
 void noteManager::UpdateLauncherAngleTarget()
 {
-	double percentOut = std::clamp(m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
-	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
+	if (GetLauncherAngleTarget().to<double>() < m_lowAnglePIDThreshold)
+	{
+		double percentOut = std::clamp(m_launcherAnglePIDLowAngle.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
+		UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
+	}
+	else
+	{
+		double percentOut = std::clamp(m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
+		UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
+	}
 }
 
 void noteManager::SetLauncherToProtectedPosition()
