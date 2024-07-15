@@ -90,7 +90,9 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 
 	m_launcherAnglePID.SetIZone(1.0);
+	m_launcherAnglePIDLowAngle.SetIZone(1.0);
 	m_launcherAnglePID.EnableContinuousInput(0.0, 360.0); // Enables continuous input on a range from 0 to 360, allows the CANCoder to roll over)
+	m_launcherAnglePIDLowAngle.EnableContinuousInput(0.0, 360.0);
 }
 
 void noteManager::RunCommonTasks()
@@ -369,8 +371,16 @@ void noteManager::SetManualLaunchTarget()
 
 void noteManager::UpdateLauncherAngleTarget()
 {
+	// if (GetLauncherAngleTarget().to<double>() < m_lowAnglePIDThreshold)
+	// {
+	// 	double percentOut = std::clamp(m_launcherAnglePIDLowAngle.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
+	// 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
+	// }
+	// else
+	// {
 	double percentOut = std::clamp(m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
+	// }
 }
 
 void noteManager::SetLauncherToProtectedPosition()
