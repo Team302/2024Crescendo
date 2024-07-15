@@ -25,6 +25,7 @@
 #include "frc/kinematics/ChassisSpeeds.h"
 
 // 302 Includes
+#include "auton/drivePrimitives/AutonUtils.h"
 #include "auton/drivePrimitives/DrivePathPlanner.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
@@ -127,14 +128,9 @@ void DrivePathPlanner::InitMoveInfo()
     }
     else
     {
-        auto path = PathPlannerPath::fromPathFile(m_pathname);
-        if (path.get() != nullptr)
+        auto path = AutonUtils::GetPathFromPathFile(m_pathname);
+        if (AutonUtils::IsValidPath(path))
         {
-            if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::Alliance::kRed)
-            {
-                path = path.get()->flipPath();
-            }
-
             m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
         }
         else
@@ -152,17 +148,6 @@ void DrivePathPlanner::Run()
 {
     if (m_chassis != nullptr)
     {
-        // CheckIfPastCenterLine();
-
-        /* if (m_checkIsPastCenterLine)
-         {
-             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", true);
-         }
-         else
-         {
-             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Past center line", " in CheckIfPastCenterLine", false);
-         }*/
-
         m_chassis->Drive(m_moveInfo);
     }
 }
@@ -182,7 +167,7 @@ bool DrivePathPlanner::IsDone()
     }
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Switched To Vision Drive", m_switchedToVisionDrive);
 
-    if (m_switchedToVisionDrive)
+    if (m_switchedToVisionDrive || m_checkDriveToNote)
     {
         return m_driveToNote->IsDone();
     }
@@ -265,24 +250,27 @@ void DrivePathPlanner::CheckIfPastCenterLine()
             frc::Pose2d currentPose2d = m_chassis->GetPose();
             frc::Pose2d targetPose = Pose2d(m_chassis->GetPose().X() - m_chassisOffset, m_chassis->GetPose().Y(), m_chassis->GetPose().Rotation());
 
-            auto path = PathPlannerPath::fromPathFile(m_pathname);
-            auto pathConstraints = path.get()->getGlobalConstraints();
+            auto path = AutonUtils::GetPathFromPathFile(m_pathname);
+            if (AutonUtils::IsValidPath(path))
+            {
+                auto pathConstraints = path.get()->getGlobalConstraints();
 
-            std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
+                std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
 
-            std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-            auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
-                                                              PathConstraints(pathConstraints.getMaxVelocity(),
-                                                                              pathConstraints.getMaxAcceleration(),
-                                                                              pathConstraints.getMaxAngularVelocity(),
-                                                                              pathConstraints.getMaxAngularAcceleration()),
-                                                              GoalEndState(1.0_mps,
-                                                                           m_chassis->GetPose().Rotation().Degrees(),
-                                                                           true));
-            m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
-            notepath->preventFlipping = true;
+                std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+                auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
+                                                                  PathConstraints(pathConstraints.getMaxVelocity(),
+                                                                                  pathConstraints.getMaxAcceleration(),
+                                                                                  pathConstraints.getMaxAngularVelocity(),
+                                                                                  pathConstraints.getMaxAngularAcceleration()),
+                                                                  GoalEndState(1.0_mps,
+                                                                               m_chassis->GetPose().Rotation().Degrees(),
+                                                                               true));
+                m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
+                notepath->preventFlipping = true;
 
-            m_trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+                m_trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+            }
         }
         else
         {
@@ -300,21 +288,24 @@ void DrivePathPlanner::CheckIfPastCenterLine()
                 frc::Pose2d currentPose2d = m_chassis->GetPose();
                 frc::Pose2d targetPose = Pose2d(m_chassis->GetPose().X() + units::meter_t(0.5), m_chassis->GetPose().Y(), m_chassis->GetPose().Rotation());
 
-                auto path = PathPlannerPath::fromPathFile(m_pathname);
-                auto pathConstraints = path.get()->getGlobalConstraints();
+                auto path = AutonUtils::GetPathFromPathFile(m_pathname);
+                if (AutonUtils::IsValidPath(path))
+                {
+                    auto pathConstraints = path.get()->getGlobalConstraints();
 
-                std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
+                    std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
 
-                std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-                auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
-                                                                  PathConstraints(pathConstraints.getMaxVelocity(), pathConstraints.getMaxAcceleration(), pathConstraints.getMaxAngularVelocity(), pathConstraints.getMaxAngularAcceleration()),
-                                                                  GoalEndState(1.0_mps, m_chassis->GetPose().Rotation().Degrees(), true));
-                m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
-                notepath->preventFlipping = true;
+                    std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+                    auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
+                                                                      PathConstraints(pathConstraints.getMaxVelocity(), pathConstraints.getMaxAcceleration(), pathConstraints.getMaxAngularVelocity(), pathConstraints.getMaxAngularAcceleration()),
+                                                                      GoalEndState(1.0_mps, m_chassis->GetPose().Rotation().Degrees(), true));
+                    m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
+                    notepath->preventFlipping = true;
 
-                m_trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+                    m_trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
 
-                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Centerline path is complete", "Centerline path is complete", true);
+                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Centerline path is complete", "Centerline path is complete", true);
+                }
             }
         }
     }

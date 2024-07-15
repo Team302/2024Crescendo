@@ -57,6 +57,7 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
     }
     else
     {
+        
         chassisMovement.headingOption = ChassisOptionEnums::MAINTAIN;
     }
 }
