@@ -3291,6 +3291,13 @@
                 <type>String</type>
                 <value>Expel</value>
               </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_4</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
+              </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
               <motorTarget>
@@ -3487,6 +3494,13 @@
                 <__units__ />
                 <type>String</type>
                 <value>placerIntake</value>
+              </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_4</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
               </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
@@ -3685,6 +3699,13 @@
                 <type>String</type>
                 <value>Expel</value>
               </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_4</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
+              </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
               <motorTarget>
@@ -3874,6 +3895,13 @@
                 <__units__ />
                 <type>String</type>
                 <value>placerIntake</value>
+              </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_3</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
               </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
@@ -4672,6 +4700,13 @@
                 <type>String</type>
                 <value>Ready</value>
               </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_2</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
+              </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
               <motorTarget>
@@ -4850,6 +4885,13 @@
                 <__units__ />
                 <type>String</type>
                 <value>Ready</value>
+              </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_2</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
               </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
@@ -6195,6 +6237,13 @@
                 <type>String</type>
                 <value>feederIntake</value>
               </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_3</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
+              </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
               <motorTarget>
@@ -6385,6 +6434,13 @@
                 <type>String</type>
                 <value>backupManualPlace</value>
               </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_3</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
+              </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
               <motorTarget>
@@ -6569,6 +6625,13 @@
                 <__units__ />
                 <type>String</type>
                 <value>backupManualLaunch</value>
+              </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_3</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
               </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>
@@ -6946,6 +7009,13 @@
                 <__units__ />
                 <type>String</type>
                 <value>Ready</value>
+              </stringParameterConstInMechInstance>
+              <stringParameterConstInMechInstance>
+                <unitsFamily>none</unitsFamily>
+                <name>stringParameterConstInMechInstance_2</name>
+                <__units__ />
+                <type>String</type>
+                <value>readyManualLaunch</value>
               </stringParameterConstInMechInstance>
             </transitionsTo>
             <motorTargets>

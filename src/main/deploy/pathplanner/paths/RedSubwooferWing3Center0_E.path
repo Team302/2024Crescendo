@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.19691126686105,
-        "y": 5.562647359246215
+        "x": 1.3860474783907504,
+        "y": 4.696981977558819
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BlueSubwooferWing3Center0_A"
     },
     {
       "anchor": {
-        "x": 2.883271729453586,
-        "y": 5.562647359246215
+        "x": 2.8481392198162414,
+        "y": 4.379852868122284
       },
       "prevControl": {
-        "x": 2.8651292834185265,
-        "y": 5.561312794238657
+        "x": 2.145489027069351,
+        "y": 3.384431761730856
       },
       "nextControl": {
-        "x": 3.214403783842081,
-        "y": 5.587005555038212
+        "x": 3.1723748085029833,
+        "y": 4.839186618761834
       },
       "isLocked": false,
       "linkedName": null
@@ -36,21 +36,15 @@
         "y": 5.562647359246215
       },
       "prevControl": {
-        "x": 0.8979132726293735,
-        "y": 5.562647359246215
+        "x": 1.8881884356548275,
+        "y": 5.804542789190922
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "BlueSubwooferWing3Center0_A"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 180.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -61,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -179.25594079711132,
+    "rotation": 180.0,
     "rotateFast": true
   },
   "reversed": false,
   "folder": "BlueSubwooferWing3Center0",
   "previewStartingState": {
-    "rotation": 179.99,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

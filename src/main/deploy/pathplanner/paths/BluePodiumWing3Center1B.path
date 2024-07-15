@@ -3,54 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1852004303152672,
-        "y": 5.562647359246215
+        "x": 2.89,
+        "y": 4.894003634161114
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.19691126686105,
-        "y": 5.562647359246215
+        "x": 4.19520915964909,
+        "y": 5.00254000508001
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BluePodiumWing3Center1"
     },
     {
       "anchor": {
-        "x": 2.883271729453586,
-        "y": 5.562647359246215
+        "x": 5.053633184189446,
+        "y": 4.25265235145855
       },
       "prevControl": {
-        "x": 2.8651292834185265,
-        "y": 5.561312794238657
+        "x": 4.213418602982159,
+        "y": 4.70682239535438
       },
       "nextControl": {
-        "x": 3.214403783842081,
-        "y": 5.587005555038212
+        "x": 5.783786952189291,
+        "y": 3.8579746390262013
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.1852004303152672,
-        "y": 5.562647359246215
+        "x": 8.230788769269848,
+        "y": 4.124382094918037
       },
       "prevControl": {
-        "x": 0.8979132726293735,
-        "y": 5.562647359246215
+        "x": 7.372364744729491,
+        "y": 4.02571266680995
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BlueSubwooferWing3Center0_A"
+      "linkedName": "BluePodiumWing3Center1B"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 180.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -61,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -179.25594079711132,
-    "rotateFast": true
+    "rotation": 180.0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "BlueSubwooferWing3Center0",
+  "folder": "BluePodiumWing3Center1",
   "previewStartingState": {
-    "rotation": 179.99,
+    "rotation": 177.51,
     "velocity": 0
   },
   "useDefaultConstraints": true

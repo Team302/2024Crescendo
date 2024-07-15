@@ -3,54 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1852004303152672,
-        "y": 5.562647359246215
+        "x": 1.1,
+        "y": 4.32
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.19691126686105,
-        "y": 5.562647359246215
+        "x": 1.5248146901429311,
+        "y": 4.051949444840401
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.883271729453586,
-        "y": 5.562647359246215
+        "x": 2.89,
+        "y": 4.13
       },
       "prevControl": {
-        "x": 2.8651292834185265,
-        "y": 5.561312794238657
+        "x": 2.616498309919698,
+        "y": 3.6211680115667924
       },
       "nextControl": {
-        "x": 3.214403783842081,
-        "y": 5.587005555038212
+        "x": 3.078218382252834,
+        "y": 4.4801679776577314
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.1852004303152672,
-        "y": 5.562647359246215
+        "x": 2.89,
+        "y": 4.894003634161114
       },
       "prevControl": {
-        "x": 0.8979132726293735,
-        "y": 5.562647359246215
+        "x": 2.843437994568298,
+        "y": 4.716398663566559
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BlueSubwooferWing3Center0_A"
+      "linkedName": "BluePodiumWing3Center1"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 180.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -61,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -179.25594079711132,
-    "rotateFast": true
+    "rotation": 177.51,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "BlueSubwooferWing3Center0",
+  "folder": "BluePodiumWing3Center1",
   "previewStartingState": {
-    "rotation": 179.99,
+    "rotation": 121.48098697848121,
     "velocity": 0
   },
   "useDefaultConstraints": true
