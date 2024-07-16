@@ -96,9 +96,9 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
             else if (item == DragonVision::VISION_ELEMENT::STAGE)
             {
                 if (chassis->GetPose().Y() > centerYLine)
-                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants->GetFieldElement(fieldConstants->FIELD_ELEMENT::BLUE_LEFT_STAGE));
+                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants->GetFieldElement(fieldConstants->FIELD_ELEMENT::BLUE_LEFT_STAGE).ToPose2d());
                 else
-                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants->GetFieldElement(fieldConstants->FIELD_ELEMENT::BLUE_RIGHT_STAGE));
+                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants->GetFieldElement(fieldConstants->FIELD_ELEMENT::BLUE_RIGHT_STAGE).ToPose2d());
                 return targetInfo;
             }
         }
@@ -112,9 +112,9 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
             else if (item == DragonVision::VISION_ELEMENT::STAGE)
             {
                 if (chassis->GetPose().Y() > centerYLine)
-                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants->GetFieldElement(fieldConstants->FIELD_ELEMENT::RED_RIGHT_STAGE));
+                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants->GetFieldElement(fieldConstants->FIELD_ELEMENT::RED_RIGHT_STAGE).ToPose2d());
                 else
-                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants->GetFieldElement(fieldConstants->FIELD_ELEMENT::RED_LEFT_STAGE));
+                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants->GetFieldElement(fieldConstants->FIELD_ELEMENT::RED_LEFT_STAGE).ToPose2d());
                 return targetInfo;
             }
         }
