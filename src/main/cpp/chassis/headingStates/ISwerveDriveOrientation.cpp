@@ -25,6 +25,7 @@ frc::PIDController *ISwerveDriveOrientation::m_pid = new frc::PIDController(0.0,
 ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption) : m_headingOption(headingOption)
 {
     m_pid->EnableContinuousInput(-180.0, 180.0);
+    m_pid->SetIZone(10.0);
 }
 
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
