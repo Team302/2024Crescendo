@@ -27,6 +27,7 @@
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "DragonVision/DragonVisionStructLogger.h"
 #include "utils/FMSData.h"
+#include "utils/FieldConstants.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"
@@ -82,6 +83,8 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
         }
 
         int aprilTag = -1;
+        auto fieldConstants = FieldConstants::GetInstance();
+        units::length::meter_t centerYLine = fieldConstants::GetFieldElement(FIELD_ELEMENT::BLUE_CENTER_STAGE);
 
         if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
         {
@@ -92,7 +95,10 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
             }
             else if (item == DragonVision::VISION_ELEMENT::STAGE)
             {
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, m_blueStage);
+                if (chassis->GetPose().Y() > centerYLine)
+                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants::GetFieldElement(FIELD_ELEMENT::BLUE_LEFT_STAGE));
+                else
+                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants::GetFieldElement(FIELD_ELEMENT::BLUE_RIGHT_STAGE));
                 return targetInfo;
             }
         }
@@ -105,7 +111,10 @@ tuple<DragonDriveTargetFinder::TARGET_INFO, Pose2d> DragonDriveTargetFinder::Get
             }
             else if (item == DragonVision::VISION_ELEMENT::STAGE)
             {
-                targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, m_redStage);
+                if (chassis->GetPose().Y() > centerYLine)
+                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants::GetFieldElement(FIELD_ELEMENT::RED_RIGHT_STAGE));
+                else
+                    targetInfo = make_tuple(DragonDriveTargetFinder::TARGET_INFO::ODOMETRY_BASED, fieldConstants::GetFieldElement(FIELD_ELEMENT::RED_LEFT_STAGE));
                 return targetInfo;
             }
         }

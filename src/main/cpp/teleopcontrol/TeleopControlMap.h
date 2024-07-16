@@ -159,12 +159,9 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
 
     {TeleopControlFunctions::RESET_POSITION, driverDPad90},
     {TeleopControlFunctions::RESET_POSITION, driverDPad270},
-    {TeleopControlFunctions::ROBOT_ORIENTED_DRIVE, driverRStickPressed},
+    {TeleopControlFunctions::AUTO_STAGE, driverRStickPressed},
     //{TeleopControlFunctions::HOLD_POSITION, driverLBumper},need to re assign
     //{TeleopControlFunctions::SLOW_MODE, driverRBumper}, need to re assign
-
-    // {TeleopControlFunctions::RESET_POSITION, driverLStickPressed},
-    // {TeleopControlFunctions::AUTO_TURN_BACKWARD, driverRStickPressed},
 
     {TeleopControlFunctions::DEBUG_INC_P, driverDPad0},
     {TeleopControlFunctions::DEBUG_DEC_P, driverDPad180},
@@ -192,7 +189,6 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::TURN_TO_PASS_ANGLE, copilotDPad90},
 
     {TeleopControlFunctions::AUTO_AMP, driverAButton},
-    // {TeleopControlFunctions::AUTO_STAGE, driverBButton},
     {TeleopControlFunctions::BACKUP_FRONT_INTAKE, copilotRBumper},
     {TeleopControlFunctions::BACKUP_BACK_INTAKE, copilotLBumper},
     {TeleopControlFunctions::AUTO_CLIMB, driverYButton},

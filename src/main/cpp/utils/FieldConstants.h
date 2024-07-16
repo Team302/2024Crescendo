@@ -75,7 +75,7 @@ private:
         units::length::meter_t(4.64),
         units::length::meter_t(3.71),
         units::length::meter_t(1.32),
-        frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(120.0)));
+        frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(-120.0)));
     const frc::Pose3d m_BlueLeftStage = frc::Pose3d(
         units::length::meter_t(4.64),
         units::length::meter_t(4.5),
@@ -106,11 +106,11 @@ private:
         units::length::meter_t(11.9),
         units::length::meter_t(3.71),
         units::length::meter_t(1.32),
-        frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(0.0)));
+        frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(60.0)));
     const frc::Pose3d m_RedLeftStage = frc::Pose3d(
         units::length::meter_t(11.9),
         units::length::meter_t(4.5),
         units::length::meter_t(1.32),
-        frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(60.0)));
+        frc::Rotation3d(units::angle::degree_t(0.0), units::angle::degree_t(0.0), units::angle::degree_t(-60.0)));
     std::map<FIELD_ELEMENT, frc::Pose3d> fieldConstantsPoseMap;
 };
