@@ -2,10 +2,6 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
-pathname= "BlueAmpWing2Center2Start"
-/>
-
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2Start"
 time= "0.65"

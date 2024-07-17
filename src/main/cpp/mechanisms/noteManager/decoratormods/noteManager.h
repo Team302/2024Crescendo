@@ -148,6 +148,6 @@ private:
 	const double m_autoLaunchCalcThirdDegree = -1.8437;
 	const double m_lowAnglePIDThreshold = 10.0;
 
-	frc::PIDController m_launcherAnglePID = frc::PIDController(0.025, 0.000075, 0.0);
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.05, 0.000065, 0.0);
 	frc::PIDController m_launcherAnglePIDLowAngle = frc::PIDController(0.02, 0.00075, 0.0);
 };
