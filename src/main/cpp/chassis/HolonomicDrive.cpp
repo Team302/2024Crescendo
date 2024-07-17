@@ -139,8 +139,6 @@ void HolonomicDrive::Run()
         {
             AlignToStage();
             m_previousDriveState = m_moveInfo.driveOption;
-            m_stageDrive = true;
-            m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::STAGE_DRIVE;
         }
         else if (isAlignWithSpeakerSelected)
         {
