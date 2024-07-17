@@ -147,6 +147,8 @@ void SwerveChassis::ZeroAlignSwerveModules()
 /// @brief Drive the chassis
 void SwerveChassis::Drive(ChassisMovement &moveInfo)
 {
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisYaw", string("Yaw"), GetYaw().value());
+
     m_drive = moveInfo.chassisSpeeds.vx;
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
