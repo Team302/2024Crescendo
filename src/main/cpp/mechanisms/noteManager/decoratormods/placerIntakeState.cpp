@@ -75,11 +75,7 @@ bool placerIntakeState::IsTransitionCondition(bool considerGamepadTransitions)
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	auto currentState = static_cast<noteManagerGen::STATE_NAMES>(m_mechanism->GetCurrentState());
-	bool noNoteDetected = (m_mechanism->getfeederSensor()->Get() == false) &&
-						  (m_mechanism->getbackIntakeSensor()->Get() == false);
-
 	bool buttonsPressed = TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::INTAKE) || TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_NOTE);
 
-	return ((considerGamepadTransitions && buttonsPressed && m_mechanism->IsPlacerMode()) ||
-			(noNoteDetected && (currentState == m_mechanism->STATE_LAUNCHER_TO_PLACER)));
+	return ((considerGamepadTransitions && buttonsPressed && m_mechanism->IsPlacerMode()));
 }
