@@ -57,7 +57,7 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
     }
     else
     {
-        
+        chassisMovement.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
         chassisMovement.headingOption = ChassisOptionEnums::MAINTAIN;
     }
 }
