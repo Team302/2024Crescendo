@@ -55,7 +55,7 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
         chassisMovement.pathnamegains = ChassisOptionEnums::PathGainsType::LONG;
         TrajectoryDrivePathPlanner::Init(chassisMovement);
     }
-    else
+    else if (frc::DriverStation::IsTeleopEnabled())
     {
         chassisMovement.driveOption = ChassisOptionEnums::DriveStateType::FIELD_DRIVE;
         chassisMovement.headingOption = ChassisOptionEnums::MAINTAIN;
