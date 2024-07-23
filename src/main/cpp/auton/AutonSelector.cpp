@@ -65,18 +65,19 @@ string AutonSelector::GetSelectedAutoFile()
 
 	table.get()->PutString("determined name", autonfile);
 
-	if (!FileExists(autonfile))
+
+	bool fileExists = FileExists(autonfile);
+	bool fileValid =  FileValid(autonfile);
+
+	table.get()->PutBoolean("File Exists", fileExists);
+	table.get()->PutBoolean("File Valid", fileValid);
+
+	if (!fileExists || !fileValid)
 	{
 		autonfile = frc::filesystem::GetDeployDirectory();
 		autonfile += std::string("/auton/");
 		autonfile += GetAlianceColor();
-		autonfile += ("DefaultFile.xml");
-
-		table.get()->PutBoolean("File Exists", false);
-	}
-	else
-	{
-		table.get()->PutBoolean("File Exists", true);
+		autonfile += ("DefaultFile.xml");	
 	}
 
 	table.get()->PutString("actual file", autonfile);
@@ -86,6 +87,12 @@ string AutonSelector::GetSelectedAutoFile()
 
 bool AutonSelector::FileExists(const std::string &name)
 {
+	struct stat buffer;
+	return (stat(name.c_str(), &buffer) == 0);
+}
+
+bool AutonSelector::FileValid(const std::string &name)
+{
 
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(name.c_str());
@@ -93,6 +100,8 @@ bool AutonSelector::FileExists(const std::string &name)
 	{
 		return true;
 	}
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("AutonSelector"), string("FileInvalid: Description ") + name, result.description());
+	Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("AutonSelector"), string("FileInvalid: Offset ") + name, result.offset);
 	return false;
 }
 
