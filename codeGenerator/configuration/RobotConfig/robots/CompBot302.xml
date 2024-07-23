@@ -2402,7 +2402,7 @@
               <name>doubleParameter</name>
               <__units__ />
               <type>Double</type>
-              <value>-0.349853515625</value>
+              <value>-0.3115234375</value>
             </offset>
             <reverse>
               <unitsFamily>none</unitsFamily>
@@ -2597,7 +2597,7 @@
                 <name>doubleParameter</name>
                 <__units__ />
                 <type>Double</type>
-                <value>0.00015</value>
+                <value>0.0001325</value>
               </fGain>
               <iZone>
                 <unitsFamily>none</unitsFamily>
