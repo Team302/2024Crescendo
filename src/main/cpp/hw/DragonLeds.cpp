@@ -121,6 +121,15 @@ void DragonLeds::setBufferAllLEDsAlternatingColor(std::array<int, 3> color1, std
     }
 }
 
+void DragonLeds::setbufferAllLEDsRainbow()
+{
+    std::array<int, 3> color[0] = 0;
+    for (unsigned int i = 0; i < m_ledBuffer.size(); i++)
+    {
+        m_ledBuffer[i].SetRGB(color[0], color[1], color[2]);
+    }
+}
+
 void DragonLeds::setBufferAllLEDsBlack()
 {
     setBufferAllLEDsColor(getColorValues(BLACK));

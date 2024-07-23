@@ -48,6 +48,7 @@ public:
 	void setBufferAllLEDsColor(std::array<int, 3> color);
 	void setBufferAllLEDsAlternatingColor(std::array<int, 3> color1, std::array<int, 3> color2);
 	void setBufferAllLEDsBlack();
+	void setbufferAllLEDsRainbow();
 
 	std::array<int, 3> getColorValues(Colors c);
 
@@ -57,6 +58,5 @@ private:
 	static DragonLeds *m_instance;
 	frc::AddressableLED *m_addressibleLeds;
 
-	~DragonLeds();
 	DragonLeds();
 };

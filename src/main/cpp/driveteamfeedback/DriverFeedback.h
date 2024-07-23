@@ -52,6 +52,7 @@ private:
 
     LEDStates *m_LEDStates = LEDStates::GetInstance();
     int m_controllerCounter = 0;
+    bool m_rumble = false;
 
     static DriverFeedback *m_instance;
     RobotStateChanges::ScoringMode m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
