@@ -119,10 +119,13 @@ void DriverFeedback::UpdateLEDStates()
                     else
                         currentState = DragonLeds::YELLOW;
                 }
-                else if (m_rumble == true)
+                else
                 {
-                    m_rumble = false;
-                    TeleopControl::GetInstance()->SetRumble(0, false, false);
+                    if (m_rumble == true)
+                    {
+                        m_rumble = false;
+                        TeleopControl::GetInstance()->SetRumble(0, false, false);
+                    }
                 }
                 m_LEDStates->BlinkingPattern(currentState);
             }
