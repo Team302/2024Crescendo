@@ -108,6 +108,11 @@ void LEDStates::ChaserPattern(DragonLeds::Colors c)
     }
 }
 
+void LEDStates::RainbowPattern()
+{
+    m_LEDstring->setBufferAllLEDsRainbow();
+}
+
 void LEDStates::ResetVariables()
 {
     loopThroughIndividualLEDs = -1;

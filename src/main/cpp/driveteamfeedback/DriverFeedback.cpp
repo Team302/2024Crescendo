@@ -23,6 +23,7 @@
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableEntry.h>
 #include <driveteamfeedback/LEDStates.h>
+#include <frc/DriverStation.h>
 
 #include "teleopcontrol/TeleopControl.h"
 #include "configs/RobotConfigMgr.h"
@@ -48,8 +49,11 @@ void DriverFeedback::UpdateFeedback()
 }
 void DriverFeedback::UpdateLEDStates()
 {
-
     oldState = currentState;
+    if (frc::DriverStation::IsDisabled())
+    {
+        m_LEDStates->RainbowPattern();
+    }
     if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
     {
         currentState = DragonLeds::RED;
@@ -71,9 +75,43 @@ void DriverFeedback::UpdateLEDStates()
             if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)
             {
                 if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+                {
                     currentState = DragonLeds::GREEN;
+                    if (m_rumbleLoopCounter <= 50)
+                    {
+                        TeleopControl::GetInstance()->SetRumble(0, true, true);
+                    }
+                    else
+                    {
+                        m_rumbleLoopCounter = 0;
+                        TeleopControl::GetInstance()->SetRumble(0, false, false);
+                    }
+                }
                 else
+                {
                     currentState = DragonLeds::WHITE;
+                    if (m_rumbleLoopCounter <= 50)
+                    {
+                        TeleopControl::GetInstance()->SetRumble(0, true, true);
+                    }
+                    else if (m_rumbleLoopCounter <= 100 && m_rumbleLoopCounter > 50)
+                    {
+                        TeleopControl::GetInstance()->SetRumble(0, false, false);
+                    }
+                    else if (m_rumbleLoopCounter <= 150 && m_rumbleLoopCounter > 100)
+                    {
+                        TeleopControl::GetInstance()->SetRumble(0, true, true);
+                    }
+                    else if (m_rumbleLoopCounter <= 200 && m_rumbleLoopCounter > 150)
+                    {
+                        TeleopControl::GetInstance()->SetRumble(0, false, false);
+                    }
+                    else
+                    {
+                        m_rumbleLoopCounter = 0;
+                        TeleopControl::GetInstance()->SetRumble(0, false, false);
+                    }
+                }
                 m_LEDStates->SolidColorPattern(currentState);
             }
             else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
@@ -141,7 +179,6 @@ DriverFeedback::DriverFeedback() : IRobotStateChangeSubscriber()
 {
 
     RobotState *RobotStates = RobotState::GetInstance();
-    TeleopControl::GetInstance()->SetRumble(0, false, false);
 
     RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
     RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
