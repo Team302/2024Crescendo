@@ -135,3 +135,23 @@ void LEDStates::setLEDsOn()
 {
     m_LEDstring->setOn();
 }
+
+void LEDStates::RainbowPattern()
+{
+    int firstPixelHue = 0;
+    int kLength = m_LEDstring->m_ledBuffer.size();
+    // For every pixel
+    for (int i = 0; i < kLength; i++)
+    {
+        // Calculate the hue - hue is easier for rainbows because the color
+        // shape is a circle so only one value needs to precess
+        const auto pixelHue = (firstPixelHue + (i * 180 / kLength)) % 180;
+        // Set the value
+        m_LEDstring->m_ledBuffer[i].SetHSV(pixelHue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    firstPixelHue += 3;
+    // Check bounds
+    firstPixelHue %= 180;
+    m_LEDstring->commitLedData();
+}
