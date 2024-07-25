@@ -26,7 +26,7 @@ ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOpti
 {
     m_pid->EnableContinuousInput(-180.0, 180.0);
     m_pid->SetIZone(30.0);
-    pid.SetIntegratorRange(-0.5, 0.5);
+    m_pid.SetIntegratorRange(-1.0, 1.0);
 }
 
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
