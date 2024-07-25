@@ -30,7 +30,7 @@ using std::string;
 MaintainHeading::MaintainHeading() : ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption::MAINTAIN)
 {
     m_controller.EnableContinuousInput(-PI / 2.0, PI / 2.0);
-    m_controller.SetIZone(0.008732); // half of a degree in radians
+    m_controller.SetIZone(0.174533); // 10 degrees in radians
 }
 
 void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)

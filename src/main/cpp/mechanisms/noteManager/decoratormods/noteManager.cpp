@@ -89,7 +89,7 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 
-	m_launcherAnglePID.SetIZone(1.0);
+	m_launcherAnglePID.SetIZone(1.5);
 	m_launcherAnglePIDLowAngle.SetIZone(1.0);
 	m_launcherAnglePID.EnableContinuousInput(0.0, 360.0); // Enables continuous input on a range from 0 to 360, allows the CANCoder to roll over)
 	m_launcherAnglePIDLowAngle.EnableContinuousInput(0.0, 360.0);
@@ -302,7 +302,8 @@ std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocit
 	m_autoLaunchTarget = units::angle::degree_t(m_autoLaunchCalcYOffset +
 												m_autoLaunchCalcFirstDegree * distanceFromTarget_m.value() +
 												m_autoLaunchCalcSecondDegree * units::math::pow<2>(distanceFromTarget_m).value() +
-												m_autoLaunchCalcThirdDegree * units::math::pow<3>(distanceFromTarget_m).value());
+												m_autoLaunchCalcThirdDegree * units::math::pow<3>(distanceFromTarget_m).value() +
+												m_autoLaunchCalcFourthDegree * units::math::pow<4>(distanceFromTarget_m).value());
 
 	// limit the resulting launcher angle
 	m_autoLaunchTarget = m_autoLaunchTarget > units::angle::degree_t(55.0) ? units::angle::degree_t(55.0) : m_autoLaunchTarget;

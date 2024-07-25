@@ -61,6 +61,7 @@ private:
 
 	void PutChoicesOnDashboard();
 	bool FileExists(const std::string &name);
+	bool FileValid(const std::string &name);
 	// Attributues
 	frc::SendableChooser<std::string> m_startposchooser;
 	frc::SendableChooser<std::string> m_numofgamepiecewing;
