@@ -29,6 +29,8 @@ SpecifiedHeading::SpecifiedHeading() : ISwerveDriveOrientation(ChassisOptionEnum
 SpecifiedHeading::SpecifiedHeading(ChassisOptionEnums::HeadingOption option) : ISwerveDriveOrientation(option),
                                                                                m_targetAngle(units::angle::degree_t(0.0))
 {
+    m_pid.EnableContinuousInput(-180.0, 180.0);
+    m_pid.SetIZone(30.0);
 }
 void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
@@ -38,7 +40,7 @@ void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
     auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
     if (chassis != nullptr)
     {
-        auto correction = CalcHeadingCorrection(m_targetAngle, kPSpecifiedHeading);
+        auto correction = CalcCorrection(m_targetAngle);
         chassisMovement.chassisSpeeds.omega += correction;
         chassis->SetStoredHeading(m_targetAngle);
     }
@@ -47,4 +49,19 @@ void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 units::angle::degree_t SpecifiedHeading::GetTargetAngle(ChassisMovement &chassisMovement) const
 {
     return chassisMovement.yawAngle;
+}
+
+units::angular_velocity::degrees_per_second_t SpecifiedHeading::CalcCorrection(units::angle::degree_t targetAngle)
+{
+    units::angle::degree_t currentAngle = units::angle::degree_t(0.0);
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    if (chassis != nullptr)
+    {
+        currentAngle = chassis->GetPose().Rotation().Degrees();
+    }
+
+    auto correction = units::angular_velocity::degrees_per_second_t(m_pid.Calculate(currentAngle.value(), targetAngle.value()));
+
+    return correction;
 }

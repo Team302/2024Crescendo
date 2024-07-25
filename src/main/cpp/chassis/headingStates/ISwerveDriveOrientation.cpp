@@ -17,15 +17,16 @@
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
-#include "utils/AngleUtils.h"
 
 #include "utils/logging/Logger.h"
 
+frc::PIDController *ISwerveDriveOrientation::m_pid = new frc::PIDController(6.0, 5.0, 0.0);
+
 ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption) : m_headingOption(headingOption)
 {
-    m_pid.EnableContinuousInput(-180.0, 180.0);
-    m_pid.SetIZone(30.0);
-    m_pid.SetIntegratorRange(-1.0, 1.0);
+    m_pid->EnableContinuousInput(-180.0, 180.0);
+    m_pid->SetIZone(30.0);
+    m_pid->SetIntegratorRange(-1.0, 1.0);
 }
 
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
@@ -44,11 +45,6 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     {
         currentAngle = chassis->GetPose().Rotation().Degrees();
     }
-    auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(targetAngle, currentAngle));
-
-    m_pid.SetP(gains.first);
-    m_pid.SetI(gains.second);
-
     auto correction = units::angular_velocity::degrees_per_second_t(m_pid->Calculate(currentAngle.value(), targetAngle.value()));
 
     return correction;

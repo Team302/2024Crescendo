@@ -58,6 +58,5 @@ protected:
     const units::angle::degree_t m_fineCoarseAngle = units::angle::degree_t(5.0);
 
     const std::pair<double, double> kPSpecifiedHeading = {6.0, 5.0}; // kP, kI
-
-    frc::PIDController m_pid{6.0, 5.0, 0.0};
+    static frc::PIDController *m_pid;
 };
