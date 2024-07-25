@@ -20,16 +20,18 @@
 #include "utils/AngleUtils.h"
 
 #include "utils/logging/Logger.h"
-frc::PIDController *ISwerveDriveOrientation::m_pid = new frc::PIDController(0.0, 0.0, 0.0);
+frc::PIDController *ISwerveDriveOrientation::m_pid = new frc::PIDController(6.0, 5.0, 0.0);
 
 ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption) : m_headingOption(headingOption)
 {
     m_pid->EnableContinuousInput(-180.0, 180.0);
-    m_pid->SetIZone(10.0);
+    m_pid->SetIZone(30.0);
 }
 
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
 {
+    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), std::string("Wrong Meathod"), "True");
+
     return CalcHeadingCorrection(targetAngle, {kP, 0.0});
 }
 
@@ -44,12 +46,12 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     }
     auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(targetAngle, currentAngle));
 
-    m_pid->SetP(gains.first);
-    m_pid->SetI(gains.second);
+    if (errorAngle.value() > 20)
+        m_pid->SetP(gains.first);
+    else
+        m_pid->SetP(gains.second);
 
-    auto correction = units::angular_velocity::degrees_per_second_t(m_pid->Calculate(errorAngle.to<double>()));
-
-    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), std::string("Error"), errorAngle.value());
+    auto correction = units::angular_velocity::degrees_per_second_t(m_pid->Calculate(currentAngle.value(), targetAngle.value()));
 
     return correction;
 }
