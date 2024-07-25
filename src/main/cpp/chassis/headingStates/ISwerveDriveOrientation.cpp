@@ -26,6 +26,7 @@ ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOpti
 {
     m_pid->EnableContinuousInput(-180.0, 180.0);
     m_pid->SetIZone(30.0);
+    pid.SetIntegratorRange(-0.5, 0.5);
 }
 
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
@@ -46,10 +47,8 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     }
     auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(targetAngle, currentAngle));
 
-    if (errorAngle.value() > 20)
-        m_pid->SetP(gains.first);
-    else
-        m_pid->SetP(gains.second);
+    m_pid->SetP(gains.first);
+    m_pid->SetI(gains.second);
 
     auto correction = units::angular_velocity::degrees_per_second_t(m_pid->Calculate(currentAngle.value(), targetAngle.value()));
 
