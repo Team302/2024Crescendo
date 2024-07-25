@@ -59,5 +59,5 @@ protected:
 
     const std::pair<double, double> kPSpecifiedHeading = {6.0, 5.0}; // kP, kI
 
-    static frc::PIDController *m_pid;
+    frc::PIDController m_pid{6.0, 5.0, 0.0};
 };
