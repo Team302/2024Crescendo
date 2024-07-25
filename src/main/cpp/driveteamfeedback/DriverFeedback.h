@@ -52,7 +52,9 @@ private:
 
     LEDStates *m_LEDStates = LEDStates::GetInstance();
     int m_controllerCounter = 0;
-    bool m_rumble = false;
+    bool m_rumbleLauncher = false;
+    bool m_rumblePlacer = false;
+    bool m_rumbleIntake = false;
     int m_rumbleLoopCounter = 0;
 
     static DriverFeedback *m_instance;
