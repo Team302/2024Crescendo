@@ -32,6 +32,7 @@ public:
     void Update(RobotStateChanges::StateChange change, int value) override;
 
 private:
+    void UpdateRumble();
     void CheckControllers();
     void DisplayPressure() const;
     void DisplayDesiredGamePiece();

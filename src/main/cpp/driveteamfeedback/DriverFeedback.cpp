@@ -46,15 +46,102 @@ void DriverFeedback::UpdateFeedback()
 {
     UpdateLEDStates();
     CheckControllers();
+    UpdateRumble();
 }
+
+void DriverFeedback::UpdateRumble()
+{
+    if (frc::DriverStation::IsDisabled())
+    {
+        TeleopControl::GetInstance()->SetRumble(0, false, false);
+        TeleopControl::GetInstance()->SetRumble(1, false, false);
+    }
+    else
+    {
+        StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+        auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+        if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
+        {
+            if (noteMgr->getbackIntakeSensor()->Get() || noteMgr->getfrontIntakeSensor()->Get())
+            {
+                if (!m_rumbleIntake)
+                {
+                    TeleopControl::GetInstance()->SetRumble(0, true, true);
+                    TeleopControl::GetInstance()->SetRumble(1, true, true);
+                    m_rumbleIntake = true;
+                }
+            }
+            else
+            {
+                if (m_rumbleIntake == true)
+                {
+                    m_rumbleIntake = false;
+                    TeleopControl::GetInstance()->SetRumble(0, false, false);
+                    TeleopControl::GetInstance()->SetRumble(1, false, false);
+                }
+            }
+        }
+
+        if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher && !m_rumbleLauncher)
+        {
+            if (m_rumbleLoopCounter <= 20)
+            {
+                TeleopControl::GetInstance()->SetRumble(0, true, true);
+                TeleopControl::GetInstance()->SetRumble(1, true, true);
+                m_rumbleLoopCounter++;
+            }
+            else
+            {
+                m_rumbleLoopCounter = 0;
+                m_rumbleLauncher = true;
+                m_rumblePlacer = false;
+                TeleopControl::GetInstance()->SetRumble(0, false, false);
+                TeleopControl::GetInstance()->SetRumble(1, false, false);
+            }
+        }
+        else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer && !m_rumblePlacer)
+        {
+            if (m_rumbleLoopCounter <= 20)
+            {
+                TeleopControl::GetInstance()->SetRumble(0, true, true);
+                TeleopControl::GetInstance()->SetRumble(1, true, true);
+                m_rumbleLoopCounter++;
+            }
+            else if (m_rumbleLoopCounter <= 40 && m_rumbleLoopCounter > 20)
+            {
+                TeleopControl::GetInstance()->SetRumble(0, false, false);
+                TeleopControl::GetInstance()->SetRumble(1, false, false);
+                m_rumbleLoopCounter++;
+            }
+            else if (m_rumbleLoopCounter <= 60 && m_rumbleLoopCounter > 40)
+            {
+                TeleopControl::GetInstance()->SetRumble(0, true, true);
+                TeleopControl::GetInstance()->SetRumble(1, true, true);
+                m_rumbleLoopCounter++;
+            }
+            else
+            {
+                m_rumbleLoopCounter = 0;
+                m_rumblePlacer = true;
+                m_rumbleLauncher = false;
+                TeleopControl::GetInstance()->SetRumble(0, false, false);
+                TeleopControl::GetInstance()->SetRumble(1, false, false);
+            }
+        }
+        else if (m_scoringMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+        {
+            m_rumbleLauncher = false;
+            m_rumblePlacer = false;
+        }
+    }
+}
+
 void DriverFeedback::UpdateLEDStates()
 {
     oldState = currentState;
     if (frc::DriverStation::IsDisabled())
     {
         m_LEDStates->RainbowPattern();
-        TeleopControl::GetInstance()->SetRumble(0, false, false);
-        TeleopControl::GetInstance()->SetRumble(1, false, false);
     }
     else
     {
@@ -74,50 +161,10 @@ void DriverFeedback::UpdateLEDStates()
             if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher && !m_rumbleLauncher)
             {
                 currentState = DragonLeds::GREEN;
-                if (m_rumbleLoopCounter <= 20)
-                {
-                    TeleopControl::GetInstance()->SetRumble(0, true, true);
-                    TeleopControl::GetInstance()->SetRumble(1, true, true);
-                    m_rumbleLoopCounter++;
-                }
-                else
-                {
-                    m_rumbleLoopCounter = 0;
-                    m_rumbleLauncher = true;
-                    TeleopControl::GetInstance()->SetRumble(0, false, false);
-                    TeleopControl::GetInstance()->SetRumble(1, false, false);
-                }
             }
             else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer && m_rumblePlacer)
             {
                 currentState = DragonLeds::WHITE;
-                if (m_rumbleLoopCounter <= 20)
-                {
-                    TeleopControl::GetInstance()->SetRumble(0, true, true);
-                    TeleopControl::GetInstance()->SetRumble(1, true, true);
-                    m_rumbleLoopCounter++;
-                }
-                else if (m_rumbleLoopCounter <= 40 && m_rumbleLoopCounter > 20)
-                {
-                    TeleopControl::GetInstance()->SetRumble(0, false, false);
-                    TeleopControl::GetInstance()->SetRumble(1, false, false);
-
-                    m_rumbleLoopCounter++;
-                }
-                else if (m_rumbleLoopCounter <= 60 && m_rumbleLoopCounter > 40)
-                {
-                    TeleopControl::GetInstance()->SetRumble(0, true, true);
-                    TeleopControl::GetInstance()->SetRumble(1, true, true);
-
-                    m_rumbleLoopCounter++;
-                }
-                else
-                {
-                    m_rumbleLoopCounter = 0;
-                    m_rumblePlacer = false;
-                    TeleopControl::GetInstance()->SetRumble(0, false, false);
-                    TeleopControl::GetInstance()->SetRumble(1, false, false);
-                }
             }
             StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
             auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
@@ -160,12 +207,6 @@ void DriverFeedback::UpdateLEDStates()
                 {
                     if (noteMgr->getbackIntakeSensor()->Get() || noteMgr->getfrontIntakeSensor()->Get())
                     {
-                        if (!m_rumbleIntake)
-                        {
-                            TeleopControl::GetInstance()->SetRumble(0, true, true);
-                            TeleopControl::GetInstance()->SetRumble(1, true, true);
-                            m_rumbleIntake = true;
-                        }
                         if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
                             currentState = DragonLeds::PURPLE;
                         else
@@ -173,12 +214,6 @@ void DriverFeedback::UpdateLEDStates()
                     }
                     else
                     {
-                        if (m_rumbleIntake == true)
-                        {
-                            m_rumbleIntake = false;
-                            TeleopControl::GetInstance()->SetRumble(0, false, false);
-                            TeleopControl::GetInstance()->SetRumble(0, false, false);
-                        }
                     }
                     m_LEDStates->BlinkingPattern(currentState);
                 }
