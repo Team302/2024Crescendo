@@ -19,7 +19,7 @@ time= "0.5"
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
-time= "2.0"
+time= "1.0"
 pathgains= "ShortPath"
 visionAligment= "SPEAKER"/>
 
