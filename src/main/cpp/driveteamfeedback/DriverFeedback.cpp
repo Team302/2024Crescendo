@@ -107,13 +107,13 @@ void DriverFeedback::UpdateRumble()
                 TeleopControl::GetInstance()->SetRumble(1, true, true);
                 m_rumbleLoopCounter++;
             }
-            else if (m_rumbleLoopCounter <= 40 && m_rumbleLoopCounter > 20)
+            else if (m_rumbleLoopCounter <= 30 && m_rumbleLoopCounter > 20)
             {
                 TeleopControl::GetInstance()->SetRumble(0, false, false);
                 TeleopControl::GetInstance()->SetRumble(1, false, false);
                 m_rumbleLoopCounter++;
             }
-            else if (m_rumbleLoopCounter <= 60 && m_rumbleLoopCounter > 40)
+            else if (m_rumbleLoopCounter <= 50 && m_rumbleLoopCounter > 30)
             {
                 TeleopControl::GetInstance()->SetRumble(0, true, true);
                 TeleopControl::GetInstance()->SetRumble(1, true, true);
@@ -158,11 +158,11 @@ void DriverFeedback::UpdateLEDStates()
 
             if (oldState != currentState)
                 m_LEDStates->ResetVariables();
-            if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher && !m_rumbleLauncher)
+            if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
             {
                 currentState = DragonLeds::GREEN;
             }
-            else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer && m_rumblePlacer)
+            else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
             {
                 currentState = DragonLeds::WHITE;
             }
