@@ -296,7 +296,7 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved()
 /// @return top wheel speed, bottom wheel speed, launcher angle
 std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> noteManager::GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option)
 {
-	units::length::meter_t distanceFromTarget_m = GetDistanceFromSpeaker(option) - units::length::inch_t(12);
+	units::length::meter_t distanceFromTarget_m = GetDistanceFromSpeaker(option);
 
 	// The following values are the coefficients for the polynomial that determines the launcher angle based on distance from the target
 	m_autoLaunchTarget = units::angle::degree_t(m_autoLaunchCalcYOffset +

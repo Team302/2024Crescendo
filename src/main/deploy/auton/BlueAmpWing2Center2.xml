@@ -25,7 +25,11 @@ visionAligment= "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_FEEDER_INTAKE"
-time= "1.5"/>
+time= "1.0"/>
+
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.5"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
