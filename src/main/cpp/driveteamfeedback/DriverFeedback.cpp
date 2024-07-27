@@ -128,7 +128,7 @@ void DriverFeedback::UpdateRumble()
                 TeleopControl::GetInstance()->SetRumble(1, false, false);
             }
         }
-        else if (m_scoringMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+        else if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
         {
             m_rumbleLauncher = false;
             m_rumblePlacer = false;
