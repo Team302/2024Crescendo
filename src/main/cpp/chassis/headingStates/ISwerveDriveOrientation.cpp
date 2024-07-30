@@ -17,7 +17,7 @@
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
-
+#include "utils/AngleUtils.h"
 #include "utils/logging/Logger.h"
 
 frc::PIDController *ISwerveDriveOrientation::m_pid = new frc::PIDController(6.0, 5.0, 0.0);
@@ -44,6 +44,12 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     if (chassis != nullptr)
     {
         currentAngle = chassis->GetPose().Rotation().Degrees();
+        auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(targetAngle, currentAngle));
+
+        if (errorAngle.value() > 20)
+            m_pid->SetP(gains.first);
+        else
+            m_pid->SetP(gains.second);
     }
     auto correction = units::angular_velocity::degrees_per_second_t(m_pid->Calculate(currentAngle.value(), targetAngle.value()));
 

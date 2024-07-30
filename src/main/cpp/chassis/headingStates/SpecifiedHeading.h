@@ -35,5 +35,5 @@ protected:
 
 private:
     units::angle::degree_t m_targetAngle;
-    frc::PIDController m_pid{6.0, 5.0, 0.0};
+    frc::PIDController m_pid{6.0, 6.0, 0.0};
 };

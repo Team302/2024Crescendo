@@ -18,6 +18,7 @@
 #include "chassis/headingStates/SpecifiedHeading.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "utils/AngleUtils.h"
 
 #include "utils/logging/Logger.h"
 
@@ -60,8 +61,12 @@ units::angular_velocity::degrees_per_second_t SpecifiedHeading::CalcCorrection(u
     {
         currentAngle = chassis->GetPose().Rotation().Degrees();
     }
+    auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(targetAngle, currentAngle));
 
-    auto correction = units::angular_velocity::degrees_per_second_t(m_pid.Calculate(currentAngle.value(), targetAngle.value()));
+    auto correction = units::angular_velocity::degrees_per_second_t(m_pid.Calculate(errorAngle.value()));
+    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), "Correction", correction.value());
+    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), "Current Anlge", currentAngle.value());
+    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), "Target Angle", targetAngle.value());
 
     return correction;
 }
