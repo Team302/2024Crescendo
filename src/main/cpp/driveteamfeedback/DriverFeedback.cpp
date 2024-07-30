@@ -86,8 +86,12 @@ void DriverFeedback::UpdateRumble()
         {
             if (m_rumbleLoopCounter <= 20)
             {
-                TeleopControl::GetInstance()->SetRumble(0, true, true);
-                TeleopControl::GetInstance()->SetRumble(1, true, true);
+                if (m_firstloop == false)
+                {
+                    TeleopControl::GetInstance()->SetRumble(0, true, true);
+                    TeleopControl::GetInstance()->SetRumble(1, true, true);
+                }
+                m_firstloop = false;
                 m_rumbleLoopCounter++;
             }
             else
@@ -139,9 +143,21 @@ void DriverFeedback::UpdateRumble()
 void DriverFeedback::UpdateLEDStates()
 {
     oldState = currentState;
+
+    StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+    auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+
     if (frc::DriverStation::IsDisabled())
     {
         m_LEDStates->RainbowPattern();
+        bool backintake = noteMgr->getbackIntakeSensor()->Get();
+        bool frontintake = noteMgr->getfrontIntakeSensor()->Get();
+        bool feeder = noteMgr->getfeederSensor()->Get();
+        bool launcher = noteMgr->getlauncherSensor()->Get();
+        bool placerin = noteMgr->getplacerInSensor()->Get();
+        bool placermid = noteMgr->getplacerMidSensor()->Get();
+        bool placerout = noteMgr->getplacerOutSensor()->Get();
+        m_LEDStates->DiagnosticPattern(FMSData::GetInstance()->GetAllianceColor(), backintake, frontintake, feeder, launcher, placerin, placermid, placerout);
     }
     else
     {
@@ -166,8 +182,6 @@ void DriverFeedback::UpdateLEDStates()
             {
                 currentState = DragonLeds::WHITE;
             }
-            StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
-            auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
             if (noteMgr != nullptr)
             {
                 if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)

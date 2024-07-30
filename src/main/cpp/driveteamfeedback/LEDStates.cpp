@@ -114,6 +114,75 @@ void LEDStates::RainbowPattern()
     m_LEDstring->commitLedData();
 }
 
+void LEDStates::DiagnosticPattern(frc::DriverStation::Alliance alliancecolor, bool bintake, bool fintake, bool feeder, bool launcher, bool placerin, bool placermid, bool placerout)
+{
+    if (alliancecolor == frc::DriverStation::Alliance::kBlue)
+    {
+        m_LEDstring->setSpecificLED(0, m_LEDstring->getColorValues(DragonLeds::BLUE));
+    }
+    else
+    {
+        m_LEDstring->setSpecificLED(0, m_LEDstring->getColorValues(DragonLeds::RED));
+    }
+    if (fintake)
+    {
+        m_LEDstring->setSpecificLED(1, m_LEDstring->getColorValues(DragonLeds::YELLOW));
+    }
+    else
+    {
+        m_LEDstring->setSpecificLED(1, m_LEDstring->getColorValues(DragonLeds::BLACK));
+    }
+    if (bintake)
+    {
+        m_LEDstring->setSpecificLED(2, m_LEDstring->getColorValues(DragonLeds::YELLOW));
+    }
+    else
+    {
+        m_LEDstring->setSpecificLED(1, m_LEDstring->getColorValues(DragonLeds::BLACK));
+    }
+    if (feeder)
+    {
+        m_LEDstring->setSpecificLED(3, m_LEDstring->getColorValues(DragonLeds::YELLOW));
+    }
+    else
+    {
+        m_LEDstring->setSpecificLED(3, m_LEDstring->getColorValues(DragonLeds::BLACK));
+    }
+    if (launcher)
+    {
+        m_LEDstring->setSpecificLED(4, m_LEDstring->getColorValues(DragonLeds::YELLOW));
+    }
+    else
+    {
+        m_LEDstring->setSpecificLED(4, m_LEDstring->getColorValues(DragonLeds::BLACK));
+    }
+    if (placerin)
+    {
+        m_LEDstring->setSpecificLED(5, m_LEDstring->getColorValues(DragonLeds::YELLOW));
+    }
+    else
+    {
+        m_LEDstring->setSpecificLED(5, m_LEDstring->getColorValues(DragonLeds::BLACK));
+    }
+    if (placermid)
+    {
+        m_LEDstring->setSpecificLED(6, m_LEDstring->getColorValues(DragonLeds::YELLOW));
+    }
+    else
+    {
+        m_LEDstring->setSpecificLED(6, m_LEDstring->getColorValues(DragonLeds::BLACK));
+    }
+    if (placerout)
+    {
+        m_LEDstring->setSpecificLED(7, m_LEDstring->getColorValues(DragonLeds::YELLOW));
+    }
+    else
+    {
+        m_LEDstring->setSpecificLED(7, m_LEDstring->getColorValues(DragonLeds::BLACK));
+    }
+    m_LEDstring->commitLedData();
+}
+
 void LEDStates::ResetVariables()
 {
     loopThroughIndividualLEDs = -1;

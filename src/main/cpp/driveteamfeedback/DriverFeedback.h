@@ -57,6 +57,7 @@ private:
     bool m_rumblePlacer = false;
     bool m_rumbleIntake = false;
     int m_rumbleLoopCounter = 0;
+    int m_firstloop = true;
 
     static DriverFeedback *m_instance;
     RobotStateChanges::ScoringMode m_scoringMode = RobotStateChanges::ScoringMode::Launcher;

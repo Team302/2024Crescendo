@@ -49,6 +49,7 @@ public:
 	void setBufferAllLEDsAlternatingColor(std::array<int, 3> color1, std::array<int, 3> color2);
 	void setBufferAllLEDsBlack();
 	void setBufferAllLEDsRainbow();
+	void setSpecificLED(int id, std::array<int, 3> color);
 
 	std::array<int, 3> getColorValues(Colors c);
 
