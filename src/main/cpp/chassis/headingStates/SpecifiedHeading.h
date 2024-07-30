@@ -28,12 +28,10 @@ public:
     SpecifiedHeading(ChassisOptionEnums::HeadingOption option);
     ~SpecifiedHeading() = default;
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
-    units::angular_velocity::degrees_per_second_t CalcCorrection(units::angle::degree_t targetAngle);
 
 protected:
     virtual units::angle::degree_t GetTargetAngle(ChassisMovement &chassisMovement) const;
 
 private:
     units::angle::degree_t m_targetAngle;
-    frc::PIDController m_pid{6.0, 6.0, 0.0};
 };
