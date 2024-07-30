@@ -4766,6 +4766,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>1</value>
                 </target>
                 <motorName>Transfer</motorName>
                 <Enabled>
@@ -4820,6 +4821,7 @@
                   <name>Target</name>
                   <__units__ />
                   <type>Double</type>
+                  <value>1</value>
                 </target>
                 <motorName>Feeder</motorName>
                 <Enabled>
@@ -7355,7 +7357,7 @@
                 <target>
                   <unitsFamily>angle</unitsFamily>
                   <name>Target</name>
-                  <__units__ />
+                  <__units__>deg</__units__>
                   <type>Double</type>
                 </target>
                 <motorName>launcherAngle</motorName>
