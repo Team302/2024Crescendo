@@ -68,7 +68,7 @@ bool autoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 
-	bool readyToLaunch = (m_mechanism->LauncherTargetsForAutoLaunchAchieved()) || (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999);
+	bool readyToLaunch = (m_mechanism->LauncherTargetsForAutoLaunchAchieved());
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH)) && readyToLaunch;
 }

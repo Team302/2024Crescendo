@@ -26,23 +26,24 @@ using namespace std;
 
 namespace noteManagerStates
 {
-class readyHighPassState : public State
-{
-public:
-	readyHighPassState() = delete;
-	readyHighPassState ( std::string stateName,
-	                     int stateId,
-	                     noteManagerAllStatesStateGen *generatedState,
-	                     noteManager *mech );
-	~readyHighPassState() = default;
-	void Init() override;
-	void Run() override;
-	void Exit() override;
-	bool AtTarget() override;
-	bool IsTransitionCondition ( bool considerGamepadTransitions ) override;
+	class readyHighPassState : public State
+	{
+	public:
+		readyHighPassState() = delete;
+		readyHighPassState(std::string stateName,
+						   int stateId,
+						   noteManagerAllStatesStateGen *generatedState,
+						   noteManager *mech);
+		~readyHighPassState() = default;
+		void Init() override;
+		void Run() override;
+		void Exit() override;
+		bool AtTarget() override;
+		bool IsTransitionCondition(bool considerGamepadTransitions) override;
 
-private:
-	noteManagerAllStatesStateGen *m_genState;
-	noteManager *m_mechanism;
-};
+	private:
+		noteManagerAllStatesStateGen *m_genState;
+		noteManager *m_mechanism;
+		double m_targetAngle = 35.0;
+	};
 }

@@ -57,6 +57,7 @@
 #include "utils/FMSData.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "frc/kinematics/ChassisSpeeds.h"
 
 #include "chassis/DragonDriveTargetFinder.h"
 
@@ -423,4 +424,26 @@ bool noteManager::HasNote() const
 bool noteManager::isLauncherAtTargert()
 {
 	return units::math::abs((m_LauncherAngleTarget - GetLauncherAngleFromEncoder())) < m_angleTolerance;
+}
+
+units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpeed()
+{
+	units::angular_velocity::radians_per_second_t targetSpeed = units::angular_velocity::radians_per_second_t(380.511); // rad/sec based on passing with no chassis speed
+	auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+
+	if (chassisConfig != nullptr)
+	{
+		auto chassis = chassisConfig->GetSwerveChassis();
+		auto chassisSpeeds = chassis->GetChassisSpeeds();
+		auto rot2d = frc::Rotation2d(chassis->GetYaw());
+
+		auto fieldSpeeds = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassisSpeeds, rot2d); // don't know if you need to this?
+
+		units::velocity::meters_per_second_t vTan = units::velocity::meters_per_second_t(targetSpeed.value() * 0.0508); // 2 in radius of wheel in meters
+																														// units::velocity::meters_per_second_t vTanX = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue) ? (vTan * units::velocity::meters_per_second_t(units::math::cos(GetLauncherAngleFromEncoder())) - fieldSpeeds.vx) : (vTan * units::velocity::meters_per_second_t(units::math::cos(GetLauncherAngleFromEncoder())) + fieldSpeeds.vx);
+
+		// targetSpeed = units::angular_velocity::radians_per_second_t((vTanX / units::math::cos(GetLauncherAngleFromEncoder())).value() / 0.0508); // 2 in radius of wheel in meters
+	}
+
+	return targetSpeed;
 }

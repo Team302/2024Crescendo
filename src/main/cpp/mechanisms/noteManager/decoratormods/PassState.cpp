@@ -62,15 +62,23 @@ void PassState::Exit()
 
 bool PassState::AtTarget()
 {
-	return true;
+	bool attarget = false;
+	bool angleIsWithinTolerance = m_mechanism->isLauncherAtTargert();
+
+	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
+	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
+	double targetSpeed = m_mechanism->getlauncherTargetSpeed().value();
+
+	bool topSpeedIsWithinTolerance = topSpeed > (targetSpeed * 0.95);
+	bool bottomSpeedIsWithinTolerance = botSpeed > (targetSpeed * 0.95);
+
+	attarget = angleIsWithinTolerance && topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
+
+	return (attarget);
 }
 
 bool PassState::IsTransitionCondition(bool considerGamepadTransitions)
 {
-	// To get the current state use m_mechanism->GetCurrentState()
-	bool angleIsWithinTolerance = m_mechanism->isLauncherAtTargert();
-	if (angleIsWithinTolerance)
-		return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS));
 
-	return false;
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS) && AtTarget());
 }
