@@ -51,10 +51,11 @@ void DriverFeedback::UpdateFeedback()
 
 void DriverFeedback::UpdateRumble()
 {
+    auto controller = TeleopControl::GetInstance();
     if (frc::DriverStation::IsDisabled())
     {
-        m_controller->SetRumble(0, false, false);
-        m_controller->SetRumble(1, false, false);
+        controller->SetRumble(0, false, false);
+        controller->SetRumble(1, false, false);
     }
     else
     {
@@ -66,8 +67,8 @@ void DriverFeedback::UpdateRumble()
             {
                 if (!m_rumbleIntake)
                 {
-                    m_controller->SetRumble(0, true, true);
-                    m_controller->SetRumble(1, true, true);
+                    controller->SetRumble(0, true, true);
+                    controller->SetRumble(1, true, true);
                     m_rumbleIntake = true;
                 }
             }
@@ -76,8 +77,8 @@ void DriverFeedback::UpdateRumble()
                 if (m_rumbleIntake == true)
                 {
                     m_rumbleIntake = false;
-                    m_controller->SetRumble(0, false, false);
-                    m_controller->SetRumble(1, false, false);
+                    controller->SetRumble(0, false, false);
+                    controller->SetRumble(1, false, false);
                 }
             }
         }
@@ -88,8 +89,8 @@ void DriverFeedback::UpdateRumble()
             {
                 if (m_firstloop == false)
                 {
-                    m_controller->SetRumble(0, true, true);
-                    m_controller->SetRumble(1, true, true);
+                    controller->SetRumble(0, true, true);
+                    controller->SetRumble(1, true, true);
                 }
                 m_firstloop = false;
                 m_rumbleLoopCounter++;
@@ -99,28 +100,28 @@ void DriverFeedback::UpdateRumble()
                 m_rumbleLoopCounter = 0;
                 m_rumbleLauncher = true;
                 m_rumblePlacer = false;
-                m_controller->SetRumble(0, false, false);
-                m_controller->SetRumble(1, false, false);
+                controller->SetRumble(0, false, false);
+                controller->SetRumble(1, false, false);
             }
         }
         else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer && !m_rumblePlacer)
         {
             if (m_rumbleLoopCounter <= 20)
             {
-                m_controller->SetRumble(0, true, true);
-                m_controller->SetRumble(1, true, true);
+                controller->SetRumble(0, true, true);
+                controller->SetRumble(1, true, true);
                 m_rumbleLoopCounter++;
             }
             else if (m_rumbleLoopCounter <= 30 && m_rumbleLoopCounter > 20)
             {
-                m_controller->SetRumble(0, false, false);
-                m_controller->SetRumble(1, false, false);
+                controller->SetRumble(0, false, false);
+                controller->SetRumble(1, false, false);
                 m_rumbleLoopCounter++;
             }
             else if (m_rumbleLoopCounter <= 50 && m_rumbleLoopCounter > 30)
             {
-                m_controller->SetRumble(0, true, true);
-                m_controller->SetRumble(1, true, true);
+                controller->SetRumble(0, true, true);
+                controller->SetRumble(1, true, true);
                 m_rumbleLoopCounter++;
             }
             else
@@ -128,8 +129,8 @@ void DriverFeedback::UpdateRumble()
                 m_rumbleLoopCounter = 0;
                 m_rumblePlacer = true;
                 m_rumbleLauncher = false;
-                m_controller->SetRumble(0, false, false);
-                m_controller->SetRumble(1, false, false);
+                controller->SetRumble(0, false, false);
+                controller->SetRumble(1, false, false);
             }
         }
         else if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
@@ -244,7 +245,6 @@ DriverFeedback::DriverFeedback() : IRobotStateChangeSubscriber()
 {
 
     RobotState *RobotStates = RobotState::GetInstance();
-    m_controller = m_controller;
     RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
     RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 }
