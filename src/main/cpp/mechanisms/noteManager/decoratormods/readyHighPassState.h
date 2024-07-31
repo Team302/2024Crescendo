@@ -45,5 +45,6 @@ namespace noteManagerStates
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
 		double m_targetAngle = 35.0;
+		units::length::meter_t m_passLaunchThreshold = units::length::meter_t(7.0);
 	};
 }

@@ -50,8 +50,8 @@ void readyHighPassState::Run()
 {
 	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
 	units::angular_velocity::radians_per_second_t targetSpeed = m_mechanism->getlauncherTargetSpeed();
-	// m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
-	// m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
 
 	m_genState->Run();
 }
@@ -70,6 +70,7 @@ bool readyHighPassState::AtTarget()
 bool readyHighPassState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
+	units::length::meter_t distanceFromSpeaker = m_mechanism->GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE);
 
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXAMPLE_MECH_FORWARD));
+	return (considerGamepadTransitions && distanceFromSpeaker >= m_passLaunchThreshold);
 }
