@@ -440,9 +440,9 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 		auto fieldSpeeds = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassisSpeeds, rot2d); // don't know if you need to this?
 
 		units::velocity::meters_per_second_t vTan = units::velocity::meters_per_second_t(targetSpeed.value() * 0.0508); // 2 in radius of wheel in meters
-																														// units::velocity::meters_per_second_t vTanX = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue) ? (vTan * units::velocity::meters_per_second_t(units::math::cos(GetLauncherAngleFromEncoder())) - fieldSpeeds.vx) : (vTan * units::velocity::meters_per_second_t(units::math::cos(GetLauncherAngleFromEncoder())) + fieldSpeeds.vx);
+		units::velocity::meters_per_second_t vTanX = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue) ? (vTan * units::math::cos(GetLauncherAngleFromEncoder()) - fieldSpeeds.vx) : (vTan * units::math::cos(GetLauncherAngleFromEncoder()) + fieldSpeeds.vx);
 
-		// targetSpeed = units::angular_velocity::radians_per_second_t((vTanX / units::math::cos(GetLauncherAngleFromEncoder())).value() / 0.0508); // 2 in radius of wheel in meters
+		targetSpeed = units::angular_velocity::radians_per_second_t((vTanX / units::math::cos(GetLauncherAngleFromEncoder())).value() / 0.0508); // 2 in radius of wheel in meters
 	}
 
 	return targetSpeed;
