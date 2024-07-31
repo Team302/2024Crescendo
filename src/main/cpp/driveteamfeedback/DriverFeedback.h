@@ -59,6 +59,7 @@ private:
     int m_rumbleLoopCounter = 0;
     int m_firstloop = true;
 
+    TeleopControl *m_controller;
     static DriverFeedback *m_instance;
     RobotStateChanges::ScoringMode m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
     RobotStateChanges::ClimbMode m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
