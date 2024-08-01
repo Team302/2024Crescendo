@@ -33,8 +33,6 @@ ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOpti
 
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
 {
-    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), std::string("Wrong Meathod"), "True");
-
     return CalcHeadingCorrection(targetAngle, {kP, 0.0});
 }
 
@@ -49,7 +47,10 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     }
 
     m_pid->SetP(gains.first);
-    m_pid->SetI(gains.second);
+    if (units::math::abs(currentAngle - targetAngle) > units::angle::degree_t(2.5))
+        m_pid->SetI(gains.second);
+    else
+        m_pid->SetI(0);
 
     auto correction = units::angular_velocity::degrees_per_second_t(m_pid->Calculate(currentAngle.value(), targetAngle.value()));
 

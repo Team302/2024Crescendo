@@ -32,7 +32,6 @@
 #include "mechanisms/noteManager/decoratormods/feederIntakeState.h"
 #include "mechanisms/noteManager/decoratormods/ExpelState.h"
 #include "mechanisms/noteManager/decoratormods/placerIntakeState.h"
-#include "mechanisms/noteManager/decoratormods/launcherToPlacerState.h"
 #include "mechanisms/noteManager/decoratormods/holdFeederState.h"
 #include "mechanisms/noteManager/decoratormods/readyAutoLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/readyManualLaunchState.h"
@@ -44,10 +43,8 @@
 #include "mechanisms/noteManager/decoratormods/preparePlaceTrapState.h"
 #include "mechanisms/noteManager/decoratormods/placeAmpState.h"
 #include "mechanisms/noteManager/decoratormods/placeTrapState.h"
-#include "mechanisms/noteManager/decoratormods/placerToLauncherState.h"
-#include "mechanisms/noteManager/decoratormods/backupManualLaunchState.h"
-#include "mechanisms/noteManager/decoratormods/backupManualPlaceState.h"
 #include "mechanisms/noteManager/decoratormods/holdPlacerState.h"
+#include "mechanisms/noteManager/decoratormods/readyPassState.h"
 #include "teleopcontrol/TeleopControl.h"
 
 #include "DragonVision/DragonVision.h"
@@ -110,10 +107,9 @@ void noteManager::RunCommonTasks()
 							 (currentState == m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
 							 (currentState == m_noteManager->STATE_AUTO_LAUNCH) ||
 							 (currentState == m_noteManager->STATE_PASS) ||
-							 (currentState == m_noteManager->STATE_LOW_PASS) ||
+							 (currentState == m_noteManager->STATE_READY_PASS) ||
 							 (currentState == m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
-							 (currentState == m_noteManager->STATE_MANUAL_LAUNCH) ||
-							 (currentState == m_noteManager->STATE_BACKUP_MANUAL_LAUNCH));
+							 (currentState == m_noteManager->STATE_MANUAL_LAUNCH));
 
 	if (protectLauncher)
 		SetLauncherToProtectedPosition();
@@ -335,10 +331,7 @@ units::length::meter_t noteManager::GetDistanceFromSpeaker(DragonDriveTargetFind
 		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
 		{
 			auto visionDist = get<1>(distinfo);
-			if (visionDist.value() > 0.5 && visionDist.value() < 5.0)
-			{
-				distanceFromTarget = visionDist;
-			}
+			distanceFromTarget = visionDist;
 		}
 	}
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance"), distanceFromTarget.to<double>());
