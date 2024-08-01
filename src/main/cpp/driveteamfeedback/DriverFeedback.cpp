@@ -92,7 +92,6 @@ void DriverFeedback::UpdateRumble()
                     controller->SetRumble(0, true, true);
                     controller->SetRumble(1, true, true);
                 }
-                m_firstloop = false;
                 m_rumbleLoopCounter++;
             }
             else
@@ -100,6 +99,7 @@ void DriverFeedback::UpdateRumble()
                 m_rumbleLoopCounter = 0;
                 m_rumbleLauncher = true;
                 m_rumblePlacer = false;
+                m_firstloop = false;
                 controller->SetRumble(0, false, false);
                 controller->SetRumble(1, false, false);
             }
@@ -150,18 +150,8 @@ void DriverFeedback::UpdateLEDStates()
 
     if (frc::DriverStation::IsDisabled())
     {
-        if (noteMgr != nullptr)
-        {
-            m_LEDStates->RainbowPattern();
-            bool backintake = noteMgr->getbackIntakeSensor()->Get();
-            bool frontintake = noteMgr->getfrontIntakeSensor()->Get();
-            bool feeder = noteMgr->getfeederSensor()->Get();
-            bool launcher = noteMgr->getlauncherSensor()->Get();
-            bool placerin = noteMgr->getplacerInSensor()->Get();
-            bool placermid = noteMgr->getplacerMidSensor()->Get();
-            bool placerout = noteMgr->getplacerOutSensor()->Get();
-            m_LEDStates->DiagnosticPattern(FMSData::GetInstance()->GetAllianceColor(), backintake, frontintake, feeder, launcher, placerin, placermid, placerout);
-        }
+        m_LEDStates->RainbowPattern();
+        UpdateDiagnosticLEDs();
     }
     else
     {
@@ -235,9 +225,25 @@ void DriverFeedback::UpdateLEDStates()
                     }
                     m_LEDStates->BlinkingPattern(currentState);
                 }
+                UpdateDiagnosticLEDs();
             }
         }
     }
+}
+
+void DriverFeedback::UpdateDiagnosticLEDs()
+{
+    StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+    auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+
+    bool backintake = noteMgr->getbackIntakeSensor()->Get();
+    bool frontintake = noteMgr->getfrontIntakeSensor()->Get();
+    bool feeder = noteMgr->getfeederSensor()->Get();
+    bool launcher = noteMgr->getlauncherSensor()->Get();
+    bool placerin = noteMgr->getplacerInSensor()->Get();
+    bool placermid = noteMgr->getplacerMidSensor()->Get();
+    bool placerout = noteMgr->getplacerOutSensor()->Get();
+    m_LEDStates->DiagnosticPattern(FMSData::GetInstance()->GetAllianceColor(), backintake, frontintake, feeder, launcher, placerin, placermid, placerout);
 }
 
 void DriverFeedback::ResetRequests(void)

@@ -33,6 +33,7 @@ public:
 
 private:
     void UpdateRumble();
+    void UpdateDiagnosticLEDs();
     void CheckControllers();
     void DisplayPressure() const;
     void DisplayDesiredGamePiece();
