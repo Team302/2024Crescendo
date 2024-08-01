@@ -48,6 +48,11 @@ void readyPassState::Init()
 
 void readyPassState::Run()
 {
+	if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::HIGH_PASS))
+		m_targetAngle = 35.0;
+	else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::LOW_PASS))
+		m_targetAngle = 5.0;
+
 	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
 	units::angular_velocity::radians_per_second_t targetSpeed = m_mechanism->getlauncherTargetSpeed();
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
@@ -73,5 +78,5 @@ bool readyPassState::IsTransitionCondition(bool considerGamepadTransitions)
 	units::length::meter_t distanceFromSpeaker = m_mechanism->GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE);
 	Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), "distance", distanceFromSpeaker.value());
 
-	return (considerGamepadTransitions && (distanceFromSpeaker >= m_passLaunchThreshold));
+	return (considerGamepadTransitions && ((distanceFromSpeaker >= m_passLaunchThreshold) || TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::READY_PASS)));
 }
