@@ -138,7 +138,7 @@ void LEDStates::DiagnosticPattern(frc::DriverStation::Alliance alliancecolor, bo
     }
     else
     {
-        m_LEDstring->setSpecificLED(1, m_LEDstring->getColorValues(DragonLeds::BLACK));
+        m_LEDstring->setSpecificLED(2, m_LEDstring->getColorValues(DragonLeds::BLACK));
     }
     if (feeder)
     {

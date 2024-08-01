@@ -150,15 +150,18 @@ void DriverFeedback::UpdateLEDStates()
 
     if (frc::DriverStation::IsDisabled())
     {
-        m_LEDStates->RainbowPattern();
-        bool backintake = noteMgr->getbackIntakeSensor()->Get();
-        bool frontintake = noteMgr->getfrontIntakeSensor()->Get();
-        bool feeder = noteMgr->getfeederSensor()->Get();
-        bool launcher = noteMgr->getlauncherSensor()->Get();
-        bool placerin = noteMgr->getplacerInSensor()->Get();
-        bool placermid = noteMgr->getplacerMidSensor()->Get();
-        bool placerout = noteMgr->getplacerOutSensor()->Get();
-        m_LEDStates->DiagnosticPattern(FMSData::GetInstance()->GetAllianceColor(), backintake, frontintake, feeder, launcher, placerin, placermid, placerout);
+        if (noteMgr != nullptr)
+        {
+            m_LEDStates->RainbowPattern();
+            bool backintake = noteMgr->getbackIntakeSensor()->Get();
+            bool frontintake = noteMgr->getfrontIntakeSensor()->Get();
+            bool feeder = noteMgr->getfeederSensor()->Get();
+            bool launcher = noteMgr->getlauncherSensor()->Get();
+            bool placerin = noteMgr->getplacerInSensor()->Get();
+            bool placermid = noteMgr->getplacerMidSensor()->Get();
+            bool placerout = noteMgr->getplacerOutSensor()->Get();
+            m_LEDStates->DiagnosticPattern(FMSData::GetInstance()->GetAllianceColor(), backintake, frontintake, feeder, launcher, placerin, placermid, placerout);
+        }
     }
     else
     {
