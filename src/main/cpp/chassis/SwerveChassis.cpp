@@ -148,6 +148,8 @@ void SwerveChassis::ZeroAlignSwerveModules()
 /// @brief Drive the chassis
 void SwerveChassis::Drive(ChassisMovement &moveInfo)
 {
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisYaw", string("Yaw"), GetYaw().value());
+
     m_drive = moveInfo.chassisSpeeds.vx;
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
@@ -358,6 +360,7 @@ void SwerveChassis::ResetPose(const Pose2d &pose)
 {
     ZeroAlignSwerveModules();
     Rotation2d rot2d{pose.Rotation().Degrees()};
+    SetStoredHeading(pose.Rotation().Degrees());
 
     m_poseEstimator.ResetPosition(rot2d, wpi::array<frc::SwerveModulePosition, 4>{m_frontLeft->GetPosition(), m_frontRight->GetPosition(), m_backLeft->GetPosition(), m_backRight->GetPosition()}, pose);
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisLogging", string("ResetPosePigeonYaw"), m_pigeon->GetYaw().GetValue().value());
@@ -376,6 +379,7 @@ void SwerveChassis::SetYaw(units::angle::degree_t newYaw)
 void SwerveChassis::ResetYaw()
 {
     m_pigeon->Reset();
+    SetStoredHeading(units::angle::degree_t(0));
     ZeroAlignSwerveModules();
 }
 

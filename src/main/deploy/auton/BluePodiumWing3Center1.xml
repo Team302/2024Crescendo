@@ -18,8 +18,7 @@ pathname= "BluePodiumWing3Center1_A"
 time = "3.0"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"
-headingOption = "FACE_SPEAKER"
-/>
+visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/> 
 
@@ -28,15 +27,13 @@ pathname= "BluePodiumWing3Center1B"
 time = "3.5"
 pathUpdateOption = "NOTE"
 noteOption="STATE_FEEDER_INTAKE"
-visionAligment = "NOTE"
 />
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BluePodiumWing3Center1_C"
 time = "3.0"
 noteOption="STATE_HOLD_FEEDER"
-headingOption = "FACE_SPEAKER"
-/>
+visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/> 
 
@@ -45,8 +42,7 @@ pathname= "BluePodiumWing3Center1_D"
 time = "1.5"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"
-headingOption = "FACE_SPEAKER"
-/>
+visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/> 
 
@@ -56,8 +52,7 @@ pathname= "BluePodiumWing3Center1_E"
 time = "2.0"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"
-headingOption = "FACE_SPEAKER"
-/>
+visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/> 
 

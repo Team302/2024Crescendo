@@ -30,6 +30,7 @@ public:
     void AlternatingColorBlinkingPattern(DragonLeds::Colors c);
     void AlternatingColorBlinkingPattern(DragonLeds::Colors c1, DragonLeds::Colors c2);
     void ClosingInChaserPattern(DragonLeds::Colors c);
+    void RainbowPattern();
     DragonLeds *m_LEDstring = DragonLeds::GetInstance();
     static LEDStates *GetInstance();
 

@@ -32,6 +32,7 @@ public:
     void Update(RobotStateChanges::StateChange change, int value) override;
 
 private:
+    void UpdateRumble();
     void CheckControllers();
     void DisplayPressure() const;
     void DisplayDesiredGamePiece();
@@ -52,6 +53,10 @@ private:
 
     LEDStates *m_LEDStates = LEDStates::GetInstance();
     int m_controllerCounter = 0;
+    bool m_rumbleLauncher = false;
+    bool m_rumblePlacer = false;
+    bool m_rumbleIntake = false;
+    int m_rumbleLoopCounter = 0;
 
     static DriverFeedback *m_instance;
     RobotStateChanges::ScoringMode m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
