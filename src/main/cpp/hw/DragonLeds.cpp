@@ -104,7 +104,7 @@ void DragonLeds::commitLedData()
 
 void DragonLeds::setBufferAllLEDsColor(std::array<int, 3> color)
 {
-    for (unsigned int i = 0; i < m_ledBuffer.size(); i++)
+    for (unsigned int i = m_numberofDiagnosticLEDs; i < m_ledBuffer.size(); i++)
     {
         m_ledBuffer[i].SetRGB(color[0], color[1], color[2]);
     }
@@ -112,7 +112,7 @@ void DragonLeds::setBufferAllLEDsColor(std::array<int, 3> color)
 
 void DragonLeds::setBufferAllLEDsAlternatingColor(std::array<int, 3> color1, std::array<int, 3> color2)
 {
-    for (unsigned int i = 0; i < m_ledBuffer.size(); i++)
+    for (unsigned int i = m_numberofDiagnosticLEDs; i < m_ledBuffer.size(); i++)
     {
         if (i % 2 == 0)
             m_ledBuffer[i].SetRGB(color1[0], color1[1], color1[2]);
@@ -123,13 +123,18 @@ void DragonLeds::setBufferAllLEDsAlternatingColor(std::array<int, 3> color1, std
 
 void DragonLeds::setBufferAllLEDsRainbow()
 {
-    for (int i = 0; i < m_ledBuffer.size(); i++)
+    for (unsigned int i = m_numberofDiagnosticLEDs; i < m_ledBuffer.size(); i++)
     {
-        auto pixelHue = (rainbowFirstPixelHue + (i * 180 / m_ledBuffer.size())) % 180;
+        auto pixelHue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.size())) % 180;
         m_ledBuffer[i].SetHSV(pixelHue, 255, 128);
     }
-    rainbowFirstPixelHue += 3;
-    rainbowFirstPixelHue %= 180;
+    m_rainbowFirstPixelHue += 3;
+    m_rainbowFirstPixelHue %= 180;
+}
+
+void DragonLeds::setSpecificLED(int id, std::array<int, 3> color)
+{
+    m_ledBuffer[id].SetRGB(color[0], color[1], color[2]);
 }
 
 void DragonLeds::setBufferAllLEDsBlack()
