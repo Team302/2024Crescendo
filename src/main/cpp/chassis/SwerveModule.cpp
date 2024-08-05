@@ -183,13 +183,19 @@ void SwerveModule::RunCurrentState()
 /// @returns void
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
-    // Run Open Loop
-    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
-    // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
-    auto driveTarget = m_activeState.speed.to<double>() / (units::length::meter_t(m_wheelDiameter).to<double>() * numbers::pi);
-    auto percent = driveTarget / m_maxSpeed.to<double>();
-    DutyCycleOut out{percent};
-    m_driveTalon->SetControl(out);
+    if (m_velocityControlled)
+    {
+        m_activeState.speed = speed;
+    }
+    else // Run Open Loop
+    {
+        m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
+        // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
+        auto driveTarget = m_activeState.speed.to<double>() / (units::length::meter_t(m_wheelDiameter).to<double>() * numbers::pi);
+        auto percent = driveTarget / m_maxSpeed.to<double>();
+        DutyCycleOut out{percent};
+        m_driveTalon->SetControl(out);
+    }
 }
 
 //==================================================================================
@@ -260,22 +266,37 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
     {
         m_driveTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
 
+        TalonFXConfiguration fxconfigs{};
+        m_driveTalon->GetConfigurator().Refresh(fxconfigs);
+        m_driveTalon->SetControl(ctre::phoenix6::controls::VelocityDutyCycle)
+            fxconfigs.MotorOutput.NeutralMode = NeutralModeValue::Brake;
+        fxconfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
+        fxconfigs.MotorOutput.PeakReverseDutyCycle = -1.0;
+        fxconfigs.MotorOutput.DutyCycleNeutralDeadband = 0.0;
+
+        fxconfigs.Slot0.kP = m_turnKp; /// change to m_driveKp
+        fxconfigs.Slot0.kI = m_turnKi; /// change to m_driveKi
+        fxconfigs.Slot0.kD = m_turnKd; /// change to m_driveKd
+
+        fxconfigs.ClosedLoopGeneral.ContinuousWrap = false;
+
+        m_turnTalon->GetConfigurator().Apply(fxconfigs);
+
+        m_driveTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
+
         MotorOutputConfigs motorconfig{};
         motorconfig.Inverted = driveInverted ? InvertedValue::Clockwise_Positive : InvertedValue::CounterClockwise_Positive;
         motorconfig.NeutralMode = NeutralModeValue::Brake;
         motorconfig.PeakForwardDutyCycle = 1.0;
         motorconfig.PeakReverseDutyCycle = -1.0;
         motorconfig.DutyCycleNeutralDeadband = 0.0;
+
         m_driveTalon->GetConfigurator().Apply(motorconfig);
 
         CurrentLimitsConfigs currconfig{};
         currconfig.StatorCurrentLimit = 80.0;
         currconfig.StatorCurrentLimitEnable = true;
 
-        // currconfig.SupplyCurrentLimit = 40.0;
-        // currconfig.SupplyCurrentLimitEnable = true;
-        // currconfig.SupplyCurrentThreshold = 30.0;
-        // currconfig.SupplyTimeThreshold = 0.25;
         m_driveTalon->GetConfigurator().Apply(currconfig);
 
         VoltageConfigs voltconfig{};
