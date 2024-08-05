@@ -106,37 +106,40 @@ void DriverFeedback::UpdateRumble()
         }
         else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer && !m_rumblePlacer)
         {
-            if (m_rumbleLoopCounter <= 20)
-            {
-                controller->SetRumble(0, true, true);
-                controller->SetRumble(1, true, true);
-                m_rumbleLoopCounter++;
-            }
-            else if (m_rumbleLoopCounter <= 30 && m_rumbleLoopCounter > 20)
+            if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
             {
                 controller->SetRumble(0, false, false);
                 controller->SetRumble(1, false, false);
-                m_rumbleLoopCounter++;
-            }
-            else if (m_rumbleLoopCounter <= 50 && m_rumbleLoopCounter > 30)
-            {
-                controller->SetRumble(0, true, true);
-                controller->SetRumble(1, true, true);
-                m_rumbleLoopCounter++;
             }
             else
             {
-                m_rumbleLoopCounter = 0;
-                m_rumblePlacer = true;
-                m_rumbleLauncher = false;
-                controller->SetRumble(0, false, false);
-                controller->SetRumble(1, false, false);
+                if (m_rumbleLoopCounter <= 20)
+                {
+                    controller->SetRumble(0, true, true);
+                    controller->SetRumble(1, true, true);
+                    m_rumbleLoopCounter++;
+                }
+                else if (m_rumbleLoopCounter <= 30 && m_rumbleLoopCounter > 20)
+                {
+                    controller->SetRumble(0, false, false);
+                    controller->SetRumble(1, false, false);
+                    m_rumbleLoopCounter++;
+                }
+                else if (m_rumbleLoopCounter <= 50 && m_rumbleLoopCounter > 30)
+                {
+                    controller->SetRumble(0, true, true);
+                    controller->SetRumble(1, true, true);
+                    m_rumbleLoopCounter++;
+                }
+                else
+                {
+                    m_rumbleLoopCounter = 0;
+                    m_rumblePlacer = true;
+                    m_rumbleLauncher = false;
+                    controller->SetRumble(0, false, false);
+                    controller->SetRumble(1, false, false);
+                }
             }
-        }
-        else if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
-        {
-            m_rumbleLauncher = false;
-            m_rumblePlacer = false;
         }
     }
 }
