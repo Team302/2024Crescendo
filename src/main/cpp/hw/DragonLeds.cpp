@@ -123,7 +123,7 @@ void DragonLeds::setBufferAllLEDsAlternatingColor(std::array<int, 3> color1, std
 
 void DragonLeds::setBufferAllLEDsRainbow()
 {
-    for (int i = 0; i < m_ledBuffer.size(); i++)
+    for (unsigned i = 0; i < m_ledBuffer.size(); i++)
     {
         auto pixelHue = (rainbowFirstPixelHue + (i * 180 / m_ledBuffer.size())) % 180;
         m_ledBuffer[i].SetHSV(pixelHue, 255, 128);
