@@ -36,12 +36,12 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_longpathHolonomicController(pathplanner::PIDConstants(2.75, 0.75, 0.0), //(0.65, 0.3755, 0.0)
+                                                                                 m_longpathHolonomicController(pathplanner::PIDConstants(2.5, 0.65, 0.0), //(0.65, 0.3755, 0.0)
                                                                                                                pathplanner::PIDConstants(1.2, 0.375, 0.0),
                                                                                                                robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                                units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
                                                                                                                units::time::second_t(0.02)),
-                                                                                 m_shortpathHolonomicController(pathplanner::PIDConstants(2.0, 0.45, 0.0),
+                                                                                 m_shortpathHolonomicController(pathplanner::PIDConstants(2.5, 0.65, 0.0),
                                                                                                                 pathplanner::PIDConstants(3.0, 2.5, 0.0),
                                                                                                                 robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                                 units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),

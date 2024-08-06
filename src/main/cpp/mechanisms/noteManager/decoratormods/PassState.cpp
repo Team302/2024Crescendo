@@ -75,7 +75,7 @@ bool PassState::AtTarget()
 	bool topSpeedIsWithinTolerance = topSpeed > (targetSpeed * 0.95);
 	bool bottomSpeedIsWithinTolerance = botSpeed > (targetSpeed * 0.95);
 
-	attarget = angleIsWithinTolerance && topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
+	attarget = angleIsWithinTolerance; //&& topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
 
 	return (attarget);
 }
