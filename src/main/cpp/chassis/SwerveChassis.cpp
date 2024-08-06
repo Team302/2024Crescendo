@@ -467,12 +467,12 @@ void SwerveChassis::ReadConstants(string configfilename)
 }
 
 //==================================================================================
-void SwerveChassis::InitOrchestra(std::string chirp)
+void SwerveChassis::InitOrchestra(HolonomicDrive::ORCHESTRA_OPTIONS option)
 {
-    m_frontLeft->InitOrchestra(chirp);
-    m_frontRight->InitOrchestra(chirp);
-    m_backLeft->InitOrchestra(chirp);
-    m_backRight->InitOrchestra(chirp);
+    m_frontLeft->InitOrchestra(option);
+    m_frontRight->InitOrchestra(option);
+    m_backLeft->InitOrchestra(option);
+    m_backRight->InitOrchestra(option);
 }
 
 //==================================================================================

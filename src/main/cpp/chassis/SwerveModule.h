@@ -28,6 +28,7 @@
 #include "networktables/NetworkTable.h"
 #include "units/angular_velocity.h"
 #include "units/velocity.h"
+#include "HolonomicDrive.h"
 #include "utils/logging/LoggableItem.h"
 
 // Team 302 Includes
@@ -75,7 +76,7 @@ public:
 
     void RunCurrentState();
 
-    void InitOrchestra(std::string music);
+    void InitOrchestra(HolonomicDrive::ORCHESTRA_OPTIONS option);
 
     void StartOrchestra();
 

@@ -36,6 +36,7 @@
 #include "chassis/IChassis.h"
 #include "chassis/SwerveModule.h"
 #include "chassis/ChassisMovement.h"
+#include "HolonomicDrive.h"
 #include "DragonVision/DragonVision.h"
 #include "utils/logging/LoggableItem.h"
 
@@ -126,7 +127,7 @@ public:
 
     void LogInformation() override;
 
-    void InitOrchestra(std::string chirp);
+    void InitOrchestra(HolonomicDrive::ORCHESTRA_OPTIONS option);
 
     void StartOrchestra();
 

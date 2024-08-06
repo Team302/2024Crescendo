@@ -376,11 +376,26 @@ void SwerveModule::ReadConstants(string configfilename)
 
 //==================================================================================
 
-void SwerveModule::InitOrchestra(string music)
+void SwerveModule::InitOrchestra(HolonomicDrive::ORCHESTRA_OPTIONS option)
 {
     m_orchestra.AddInstrument(*m_driveTalon);
     m_orchestra.AddInstrument(*m_turnTalon);
-    m_orchestra.LoadMusic("chirp/default.chrp");
+    if (option == HolonomicDrive::ORCHESTRA_OPTIONS::FUR_ELISE)
+    {
+        m_orchestra.LoadMusic("chirp/FurElise.chrp");
+    }
+    else if (option == HolonomicDrive::ORCHESTRA_OPTIONS::IMPERIAL_DEATH_MARCH)
+    {
+        m_orchestra.LoadMusic("chirp/Imperial Death March.chrp");
+    }
+    else if (option == HolonomicDrive::ORCHESTRA_OPTIONS::NYAN_CAT)
+    {
+        m_orchestra.LoadMusic("chirp/Nyan Cat.chrp");
+    }
+    else if (option == HolonomicDrive::ORCHESTRA_OPTIONS::RIDE_OF_THE_VALKRIES)
+    {
+        m_orchestra.LoadMusic("chirp/Ride of the Valkries.chrp");
+    }
 }
 
 //==================================================================================

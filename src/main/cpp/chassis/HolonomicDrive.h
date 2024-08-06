@@ -40,6 +40,14 @@ public:
     void Exit() override;
     bool AtTarget() override;
 
+    enum ORCHESTRA_OPTIONS
+    {
+        RIDE_OF_THE_VALKRIES,
+        NYAN_CAT,
+        FUR_ELISE,
+        IMPERIAL_DEATH_MARCH
+    };
+
 private:
     void InitChassisMovement();
     void InitSpeeds(double forwardScale, double strafeScale, double rotateScale);

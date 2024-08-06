@@ -403,11 +403,12 @@ bool HolonomicDrive::AtTarget()
 void HolonomicDrive::ManageOrchestra()
 {
     m_musicChooser.SetDefaultOption("no music", "no music");
-    m_musicChooser.AddOption("default", "default");
-    m_musicChooser.AddOption("nyancat", "nyancat");
-    m_musicChooser.AddOption("rideofthevalkyries", "rideofthevalkyries");
-    m_musicChooser.AddOption("play list", "play list");
-    frc::SmartDashboard::PutData("music chooser", &m_musicChooser);
+    m_musicChooser.AddOption("Nyancat", "Nyancat");
+    m_musicChooser.AddOption("Ride of the Valkyries", "Ride of the Valkyries");
+    m_musicChooser.AddOption("Fur Elise", "Fur Elise");
+    m_musicChooser.AddOption("Imperial Death March", "Imperial Death March");
+    m_musicChooser.AddOption("Playlist", "Playlist");
+    frc::SmartDashboard::PutData("Music Chooser", &m_musicChooser);
 
     if (m_musicChooser.GetSelected() == "no music")
     {
@@ -419,13 +420,25 @@ void HolonomicDrive::ManageOrchestra()
 
         if (!m_swerve->IsOrchestraPlaying())
         {
-            if (m_musicChooser.GetSelected() == "nyancat")
+            if (m_musicChooser.GetSelected() == "Nyancat")
             {
-                m_swerve->InitOrchestra("nyancat");
+                m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::NYAN_CAT);
             }
-            else if (m_musicChooser.GetSelected() == "rideofthevalkyries")
+            else if (m_musicChooser.GetSelected() == "Ride of the Valkyries")
             {
-                m_swerve->InitOrchestra("rideofthevalkyries");
+                m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::RIDE_OF_THE_VALKRIES);
+            }
+            // else if (m_musicChooser.GetSelected() == "Playlist")
+            // {
+            //     m_swerve->InitOrchestra("playlist");
+            // }
+            else if (m_musicChooser.GetSelected() == "Fur Elise")
+            {
+                m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::FUR_ELISE);
+            }
+            else if (m_musicChooser.GetSelected() == "Imperial Death March")
+            {
+                m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::IMPERIAL_DEATH_MARCH);
             }
             m_swerve->StartOrchestra();
         }
