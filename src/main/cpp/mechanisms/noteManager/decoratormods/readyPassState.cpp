@@ -76,7 +76,6 @@ bool readyPassState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
 	units::length::meter_t distanceFromSpeaker = m_mechanism->GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE);
-	Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), "distance", distanceFromSpeaker.value());
 
 	return (considerGamepadTransitions && ((distanceFromSpeaker >= m_passLaunchThreshold) || TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::READY_PASS)));
 }
