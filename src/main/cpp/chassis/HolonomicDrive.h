@@ -45,7 +45,8 @@ public:
         RIDE_OF_THE_VALKRIES,
         NYAN_CAT,
         FUR_ELISE,
-        IMPERIAL_DEATH_MARCH
+        IMPERIAL_DEATH_MARCH,
+        PLAY_LIST
     };
 
 private:

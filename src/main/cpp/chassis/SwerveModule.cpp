@@ -396,6 +396,10 @@ void SwerveModule::InitOrchestra(HolonomicDrive::ORCHESTRA_OPTIONS option)
     {
         m_orchestra.LoadMusic("chirp/Ride of the Valkries.chrp");
     }
+    else if (option == HolonomicDrive::ORCHESTRA_OPTIONS::PLAY_LIST)
+    {
+        m_orchestra.LoadMusic("chirp/FurElise.chrp");
+    }
 }
 
 //==================================================================================

@@ -428,10 +428,10 @@ void HolonomicDrive::ManageOrchestra()
             {
                 m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::RIDE_OF_THE_VALKRIES);
             }
-            // else if (m_musicChooser.GetSelected() == "Playlist")
-            // {
-            //     m_swerve->InitOrchestra("playlist");
-            // }
+            else if (m_musicChooser.GetSelected() == "Playlist")
+            {
+                m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::PLAY_LIST);
+            }
             else if (m_musicChooser.GetSelected() == "Fur Elise")
             {
                 m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::FUR_ELISE);
