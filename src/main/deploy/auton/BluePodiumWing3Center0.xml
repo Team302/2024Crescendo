@@ -11,7 +11,6 @@
 pathname= "BluePodiumWing3Center0_A"
 time= "3.0"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains = "ShortPath"
 visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
@@ -25,7 +24,6 @@ visionAligment = "SPEAKER"/>
 pathname= "BluePodiumWing3Center0_B"
 time= "2.5"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains = "ShortPath"
 visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
@@ -39,7 +37,6 @@ visionAligment = "SPEAKER"/>
 pathname= "BluePodiumWing3Center0_C"
 time= "2.5"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains = "ShortPath"
 visionAligment = "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"

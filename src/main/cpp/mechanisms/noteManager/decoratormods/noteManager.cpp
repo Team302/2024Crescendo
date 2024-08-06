@@ -32,7 +32,6 @@
 #include "mechanisms/noteManager/decoratormods/feederIntakeState.h"
 #include "mechanisms/noteManager/decoratormods/ExpelState.h"
 #include "mechanisms/noteManager/decoratormods/placerIntakeState.h"
-#include "mechanisms/noteManager/decoratormods/launcherToPlacerState.h"
 #include "mechanisms/noteManager/decoratormods/holdFeederState.h"
 #include "mechanisms/noteManager/decoratormods/readyAutoLaunchState.h"
 #include "mechanisms/noteManager/decoratormods/readyManualLaunchState.h"
@@ -44,10 +43,8 @@
 #include "mechanisms/noteManager/decoratormods/preparePlaceTrapState.h"
 #include "mechanisms/noteManager/decoratormods/placeAmpState.h"
 #include "mechanisms/noteManager/decoratormods/placeTrapState.h"
-#include "mechanisms/noteManager/decoratormods/placerToLauncherState.h"
-#include "mechanisms/noteManager/decoratormods/backupManualLaunchState.h"
-#include "mechanisms/noteManager/decoratormods/backupManualPlaceState.h"
 #include "mechanisms/noteManager/decoratormods/holdPlacerState.h"
+#include "mechanisms/noteManager/decoratormods/readyPassState.h"
 #include "teleopcontrol/TeleopControl.h"
 
 #include "DragonVision/DragonVision.h"
@@ -57,6 +54,7 @@
 #include "utils/FMSData.h"
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
+#include "frc/kinematics/ChassisSpeeds.h"
 
 #include "chassis/DragonDriveTargetFinder.h"
 
@@ -109,10 +107,9 @@ void noteManager::RunCommonTasks()
 							 (currentState == m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
 							 (currentState == m_noteManager->STATE_AUTO_LAUNCH) ||
 							 (currentState == m_noteManager->STATE_PASS) ||
-							 (currentState == m_noteManager->STATE_LOW_PASS) ||
+							 (currentState == m_noteManager->STATE_READY_PASS) ||
 							 (currentState == m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
-							 (currentState == m_noteManager->STATE_MANUAL_LAUNCH) ||
-							 (currentState == m_noteManager->STATE_BACKUP_MANUAL_LAUNCH));
+							 (currentState == m_noteManager->STATE_MANUAL_LAUNCH));
 
 	if (protectLauncher)
 		SetLauncherToProtectedPosition();
@@ -334,10 +331,7 @@ units::length::meter_t noteManager::GetDistanceFromSpeaker(DragonDriveTargetFind
 		if (type != DragonDriveTargetFinder::TARGET_INFO::NOT_FOUND)
 		{
 			auto visionDist = get<1>(distinfo);
-			if (visionDist.value() > 0.5 && visionDist.value() < 5.0)
-			{
-				distanceFromTarget = visionDist;
-			}
+			distanceFromTarget = visionDist;
 		}
 	}
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Distance"), distanceFromTarget.to<double>());
@@ -423,4 +417,27 @@ bool noteManager::HasNote() const
 bool noteManager::isLauncherAtTargert()
 {
 	return units::math::abs((m_LauncherAngleTarget - GetLauncherAngleFromEncoder())) < m_angleTolerance;
+}
+
+units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpeed()
+{
+
+	units::angular_velocity::radians_per_second_t targetSpeed = (GetLauncherAngleFromEncoder() > units::angle::degree_t(10.0)) ? units::angular_velocity::radians_per_second_t(400.0) : units::angular_velocity::radians_per_second_t(500.0); // rad/sec based on passing with no chassis speed
+	/*auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+
+	if (chassisConfig != nullptr)
+	{
+		auto chassis = chassisConfig->GetSwerveChassis();
+		auto chassisSpeeds = chassis->GetChassisSpeeds();
+		auto rot2d = frc::Rotation2d(chassis->GetYaw());
+
+		auto fieldSpeeds = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassisSpeeds, rot2d); // don't know if you need to this?
+
+		units::velocity::meters_per_second_t vTan = units::velocity::meters_per_second_t(targetSpeed.value() * 0.0508); // 2 in radius of wheel in meters
+		units::velocity::meters_per_second_t vTanX = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue) ? (vTan * units::math::cos(GetLauncherAngleFromEncoder()) + fieldSpeeds.vx / units::velocity::meters_per_second_t(2.0)) : (vTan * units::math::cos(GetLauncherAngleFromEncoder()) - fieldSpeeds.vx / units::velocity::meters_per_second_t(2.0));
+
+		targetSpeed = units::angular_velocity::radians_per_second_t((vTanX / units::math::cos(GetLauncherAngleFromEncoder())).value() / 0.0508); // 2 in radius of wheel in meters
+	}*/
+
+	return targetSpeed;
 }

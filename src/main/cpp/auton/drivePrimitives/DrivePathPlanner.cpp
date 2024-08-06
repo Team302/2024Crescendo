@@ -158,6 +158,9 @@ bool DrivePathPlanner::IsDone()
     if (m_timer.get()->Get() > m_maxTime && m_timer.get()->Get().to<double>() > 0.0)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "why done", "Time Out");
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "time:", m_timer.get()->Get().value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Max time:", m_maxTime.value());
+
         return true;
     }
 
@@ -185,6 +188,8 @@ void DrivePathPlanner::CheckForDriveToNote()
 
     DragonDriveTargetFinder *dt = DragonDriveTargetFinder::GetInstance();
     auto distanceToNote = dt->GetDistance(DragonDriveTargetFinder::VISION_ONLY, DragonVision::NOTE);
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "time:", currentTime.value());
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Done Percent:", static_cast<double>((currentTime.value()) / m_totalTrajectoryTime.value()));
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Distance: ", (double)(get<1>(distanceToNote)));
@@ -222,7 +227,7 @@ void DrivePathPlanner::CheckForDriveToNote()
             else if (m_chassis != nullptr)
             {
                 auto currentPose = m_chassis->GetPose();
-                if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(2.0))
+                if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(0.50))
                 {
                     m_pathname = "DRIVE_TO_NOTE";
                     InitMoveInfo();
@@ -233,84 +238,5 @@ void DrivePathPlanner::CheckForDriveToNote()
     else
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", false);
-    }
-}
-
-void DrivePathPlanner::CheckIfPastCenterLine()
-{
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "X-position", "X- position: ", m_chassis->GetPose().X().value());
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Center line and offset", "Centerline and offset: ", (m_centerLine + m_offset).value());
-
-    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
-    {
-        if ((m_chassis->GetPose().X() >= (m_centerLine + m_offset)))
-        {
-            m_checkIsPastCenterLine = true;
-
-            frc::Pose2d currentPose2d = m_chassis->GetPose();
-            frc::Pose2d targetPose = Pose2d(m_chassis->GetPose().X() - m_chassisOffset, m_chassis->GetPose().Y(), m_chassis->GetPose().Rotation());
-
-            auto path = AutonUtils::GetPathFromPathFile(m_pathname);
-            if (AutonUtils::IsValidPath(path))
-            {
-                auto pathConstraints = path.get()->getGlobalConstraints();
-
-                std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
-
-                std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-                auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
-                                                                  PathConstraints(pathConstraints.getMaxVelocity(),
-                                                                                  pathConstraints.getMaxAcceleration(),
-                                                                                  pathConstraints.getMaxAngularVelocity(),
-                                                                                  pathConstraints.getMaxAngularAcceleration()),
-                                                                  GoalEndState(1.0_mps,
-                                                                               m_chassis->GetPose().Rotation().Degrees(),
-                                                                               true));
-                m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
-                notepath->preventFlipping = true;
-
-                m_trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-            }
-        }
-        else
-        {
-            m_checkIsPastCenterLine = false;
-        }
-    }
-    else if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kRed)
-    {
-        if ((m_chassis->GetPose().X() <= (m_centerLine + m_offset)))
-        {
-            m_checkIsPastCenterLine = true;
-
-            if (m_checkIsPastCenterLine)
-            {
-                frc::Pose2d currentPose2d = m_chassis->GetPose();
-                frc::Pose2d targetPose = Pose2d(m_chassis->GetPose().X() + units::meter_t(0.5), m_chassis->GetPose().Y(), m_chassis->GetPose().Rotation());
-
-                auto path = AutonUtils::GetPathFromPathFile(m_pathname);
-                if (AutonUtils::IsValidPath(path))
-                {
-                    auto pathConstraints = path.get()->getGlobalConstraints();
-
-                    std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
-
-                    std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-                    auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
-                                                                      PathConstraints(pathConstraints.getMaxVelocity(), pathConstraints.getMaxAcceleration(), pathConstraints.getMaxAngularVelocity(), pathConstraints.getMaxAngularAcceleration()),
-                                                                      GoalEndState(1.0_mps, m_chassis->GetPose().Rotation().Degrees(), true));
-                    m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
-                    notepath->preventFlipping = true;
-
-                    m_trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
-
-                    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Centerline path is complete", "Centerline path is complete", true);
-                }
-            }
-        }
-    }
-    else
-    {
-        m_checkIsPastCenterLine = false;
     }
 }
