@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 134.42,
+    "rotation": 145.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "BluePodiumWing2Center2",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 145.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
