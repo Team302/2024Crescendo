@@ -69,17 +69,24 @@ void ResetPositionPathPlanner::Init(PrimitiveParams *param)
 
             auto hasMegaTag2Position = megaTag2Position.has_value() && std::abs(chassis->GetRotationRateDegreesPerSecond()) < m_maxAngularVelocityDegreesPerSecond;
 
-            if (hasMegaTag2Position)
+            // Check to see if current post is within 1 meter (distanceThreshold) of path position (initialPose), if it is, don't reset pose
+            auto poseDiff = chassis->GetPose().Translation().Distance(initialPose.Translation());
+            bool poseNeedsUpdating = poseDiff > distanceThreshold;
+
+            if (poseNeedsUpdating)
             {
-                ResetPose(megaTag2Position.value().estimatedPose.ToPose2d());
-            }
-            else if (hasVisionPose)
-            {
-                ResetPose(visionPosition.value().estimatedPose.ToPose2d());
-            }
-            else
-            {
-                ResetPose(initialPose);
+                if (hasMegaTag2Position)
+                {
+                    ResetPose(megaTag2Position.value().estimatedPose.ToPose2d());
+                }
+                else if (hasVisionPose)
+                {
+                    ResetPose(visionPosition.value().estimatedPose.ToPose2d());
+                }
+                else
+                {
+                    ResetPose(initialPose);
+                }
             }
         }
     }

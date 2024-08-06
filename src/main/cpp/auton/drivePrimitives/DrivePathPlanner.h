@@ -45,8 +45,6 @@ public:
 private:
     void InitMoveInfo();
     void CheckForDriveToNote();
-    void CheckIfPastCenterLine();
-
     SwerveChassis *m_chassis;
 
     TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;

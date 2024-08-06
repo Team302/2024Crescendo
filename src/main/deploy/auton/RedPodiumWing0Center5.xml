@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
-<primitive id= "RESET_POSITION_PATH_PLANNER_NO_VISION"
+<primitive id= "RESET_POSITION_PATH_PLANNER"
            pathname="Sab1"
            noteOption="STATE_READY_AUTO_LAUNCH"/>
 
@@ -14,7 +14,7 @@
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    pathname= "RedSab2"
+    pathname= "Sab2"
     time= "12.0"
     noteOption="STATE_OFF"
     />

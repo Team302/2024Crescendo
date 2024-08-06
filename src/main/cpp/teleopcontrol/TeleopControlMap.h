@@ -166,8 +166,8 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::DEBUG_INC_P, driverDPad0},
     {TeleopControlFunctions::DEBUG_DEC_P, driverDPad180},
 
-    {TeleopControlFunctions::MANUAL_LAUNCH_INC, copilotDPad0},
-    {TeleopControlFunctions::MANUAL_LAUNCH_DEC, copilotDPad180},
+    {TeleopControlFunctions::HIGH_PASS, copilotDPad0},
+    {TeleopControlFunctions::LOW_PASS, copilotDPad180},
     // {TeleopControlFunctions::TIPCORRECTION_TOGGLE, driverRStickPressed},
 
     {TeleopControlFunctions::DRIVE_TO_NOTE, driverBButton},
@@ -175,13 +175,13 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::SCORING_MODE, copilotSelectButton},
 
     {TeleopControlFunctions::READY, copilotYButton},
-    {TeleopControlFunctions::MANUAL_MODE, copilotLStickPressed},
+    {TeleopControlFunctions::MANUAL_LAUNCH_INC, copilotLStickPressed},
+    {TeleopControlFunctions::MANUAL_LAUNCH_DEC, copilotRStickPressed},
     {TeleopControlFunctions::INTAKE, driverRBumper},
     {TeleopControlFunctions::EXPEL, driverLBumper},
     {TeleopControlFunctions::AUTO_LAUNCH, copilotAButton},
     {TeleopControlFunctions::MANUAL_LAUNCH, copilotXButton},
     {TeleopControlFunctions::PASS, copilotBButton},
-    {TeleopControlFunctions::LOW_PASS, copilotDPad270},
     {TeleopControlFunctions::PREP_PLACE, copilotXButton},
     {TeleopControlFunctions::PLACE, copilotRBumper},
     {TeleopControlFunctions::AUTO_TURN_BACKWARD, driverXButton},
@@ -189,8 +189,7 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     {TeleopControlFunctions::TURN_TO_PASS_ANGLE, copilotDPad90},
 
     {TeleopControlFunctions::AUTO_AMP, driverAButton},
-    {TeleopControlFunctions::BACKUP_FRONT_INTAKE, copilotRBumper},
-    {TeleopControlFunctions::BACKUP_BACK_INTAKE, copilotLBumper},
+    {TeleopControlFunctions::READY_PASS, copilotRBumper},
     {TeleopControlFunctions::AUTO_CLIMB, driverYButton},
 };
 
