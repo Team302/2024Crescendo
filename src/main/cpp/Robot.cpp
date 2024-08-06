@@ -236,11 +236,13 @@ void Robot::DisabledPeriodic()
             if (megaTag2Position.has_value())
             {
                 chassis->SetYaw(initialRot);
+                chassis->SetStoredHeading(initialRot);
                 chassis->ResetPose(megaTag2Position.value().estimatedPose.ToPose2d());
             }
             else if (hasVisionPose)
             {
                 chassis->SetYaw(initialRot);
+                chassis->SetStoredHeading(initialRot);
                 chassis->ResetPose(visionPosition.value().estimatedPose.ToPose2d());
             }
         }
@@ -357,6 +359,10 @@ void Robot::SimulationPeriodic()
 void Robot::InitializeRobot()
 {
     int32_t teamNumber = frc::RobotController::GetTeamNumber();
+    if (teamNumber == 302)
+    {
+        m_isCompBot = true;
+    }
     RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
     ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
     auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
@@ -394,7 +400,7 @@ void Robot::UpdateDriveTeamFeedback()
     auto feedback = DriverFeedback::GetInstance();
     if (feedback != nullptr)
     {
-        feedback->UpdateFeedback();
+        feedback->UpdateFeedback(m_isCompBot);
     }
 }
 

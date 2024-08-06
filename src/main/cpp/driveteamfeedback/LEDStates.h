@@ -16,6 +16,8 @@
 
 #pragma once
 #include "hw/DragonLeds.h"
+#include <frc/DriverStation.h>
+#include <utils/FMSData.h>
 #include <vector>
 
 class LEDStates
@@ -30,6 +32,8 @@ public:
     void AlternatingColorBlinkingPattern(DragonLeds::Colors c);
     void AlternatingColorBlinkingPattern(DragonLeds::Colors c1, DragonLeds::Colors c2);
     void ClosingInChaserPattern(DragonLeds::Colors c);
+    void RainbowPattern();
+    void DiagnosticPattern(frc::DriverStation::Alliance alliancecolor, bool bintake, bool fintake, bool feeder, bool launcher, bool placerin, bool placermid, bool placerout);
     DragonLeds *m_LEDstring = DragonLeds::GetInstance();
     static LEDStates *GetInstance();
 

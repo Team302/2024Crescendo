@@ -142,10 +142,13 @@ private:
 	units::angular_velocity::radians_per_second_t m_autoLaunchingSpeed = units::angular_velocity::radians_per_second_t(620);
 
 	// auto launch function parameters
-	const double m_autoLaunchCalcYOffset = 110.25;
-	const double m_autoLaunchCalcFirstDegree = -72.637;
-	const double m_autoLaunchCalcSecondDegree = 19.491;
-	const double m_autoLaunchCalcThirdDegree = -1.8437;
+	const double m_autoLaunchCalcYOffset = 103;
+	const double m_autoLaunchCalcFirstDegree = -55.8;
+	const double m_autoLaunchCalcSecondDegree = 15.1;
+	const double m_autoLaunchCalcThirdDegree = -1.98;
+	const double m_autoLaunchCalcFourthDegree = 0.109;
+	const double m_lowAnglePIDThreshold = 10.0;
 
-	frc::PIDController m_launcherAnglePID = frc::PIDController(0.025, 0.000075, 0.0);
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0225, 0.00007, 0.0);
+	frc::PIDController m_launcherAnglePIDLowAngle = frc::PIDController(0.02, 0.00075, 0.0);
 };

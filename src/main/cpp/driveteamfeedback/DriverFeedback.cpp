@@ -23,6 +23,7 @@
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableEntry.h>
 #include <driveteamfeedback/LEDStates.h>
+#include <frc/DriverStation.h>
 
 #include "teleopcontrol/TeleopControl.h"
 #include "configs/RobotConfigMgr.h"
@@ -41,85 +42,213 @@ DriverFeedback *DriverFeedback::GetInstance()
     return DriverFeedback::m_instance;
 }
 
-void DriverFeedback::UpdateFeedback()
+void DriverFeedback::UpdateFeedback(bool iscompbot)
 {
+    if (iscompbot)
+    {
+        UpdateRumble();
+        UpdateDiagnosticLEDs();
+    }
     UpdateLEDStates();
     CheckControllers();
 }
-void DriverFeedback::UpdateLEDStates()
+
+void DriverFeedback::UpdateRumble()
 {
-    // reset controller rumble
-    // TeleopControl::GetInstance()->SetRumble(0, false, false);
-
-    oldState = currentState;
-    if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+    auto controller = TeleopControl::GetInstance();
+    if (frc::DriverStation::IsDisabled())
     {
-        currentState = DragonLeds::RED;
-        if (oldState != currentState)
-            m_LEDStates->ResetVariables();
-
-        m_LEDStates->SolidColorPattern(currentState);
+        controller->SetRumble(0, false, false);
+        controller->SetRumble(1, false, false);
     }
     else
     {
-
-        if (oldState != currentState)
-            m_LEDStates->ResetVariables();
-
         StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
         auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
-        if (noteMgr != nullptr)
+        if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
         {
-            if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)
+            if (noteMgr->getbackIntakeSensor()->Get() || noteMgr->getfrontIntakeSensor()->Get())
             {
-                if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
-                    currentState = DragonLeds::GREEN;
+                if (!m_rumbleIntake)
+                {
+                    controller->SetRumble(0, true, true);
+                    controller->SetRumble(1, true, true);
+                    m_rumbleIntake = true;
+                }
+            }
+            else
+            {
+                if (m_rumbleIntake == true)
+                {
+                    m_rumbleIntake = false;
+                    controller->SetRumble(0, false, false);
+                    controller->SetRumble(1, false, false);
+                }
+            }
+        }
+
+        if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher && !m_rumbleLauncher)
+        {
+            if (m_rumbleLoopCounter <= 20)
+            {
+                if (m_firstloop == false)
+                {
+                    controller->SetRumble(0, true, true);
+                    controller->SetRumble(1, true, true);
+                }
+                m_rumbleLoopCounter++;
+            }
+            else
+            {
+                m_rumbleLoopCounter = 0;
+                m_rumbleLauncher = true;
+                m_rumblePlacer = false;
+                m_firstloop = false;
+                controller->SetRumble(0, false, false);
+                controller->SetRumble(1, false, false);
+            }
+        }
+        else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer && !m_rumblePlacer)
+        {
+            if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+            {
+                controller->SetRumble(0, false, false);
+                controller->SetRumble(1, false, false);
+            }
+            else
+            {
+                if (m_rumbleLoopCounter <= 20)
+                {
+                    controller->SetRumble(0, true, true);
+                    controller->SetRumble(1, true, true);
+                    m_rumbleLoopCounter++;
+                }
+                else if (m_rumbleLoopCounter <= 30 && m_rumbleLoopCounter > 20)
+                {
+                    controller->SetRumble(0, false, false);
+                    controller->SetRumble(1, false, false);
+                    m_rumbleLoopCounter++;
+                }
+                else if (m_rumbleLoopCounter <= 50 && m_rumbleLoopCounter > 30)
+                {
+                    controller->SetRumble(0, true, true);
+                    controller->SetRumble(1, true, true);
+                    m_rumbleLoopCounter++;
+                }
                 else
-                    currentState = DragonLeds::WHITE;
-                m_LEDStates->SolidColorPattern(currentState);
-            }
-            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
-            {
-                if (noteMgr->getbackIntakeSensor()->Get() || noteMgr->getfrontIntakeSensor()->Get())
                 {
-                    if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
-                        currentState = DragonLeds::PURPLE;
-                    else
-                        currentState = DragonLeds::YELLOW;
-                }
-                m_LEDStates->BlinkingPattern(currentState);
-            }
-            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
-            {
-                currentState = DragonLeds::YELLOW;
-                m_LEDStates->SolidColorPattern(currentState);
-            }
-            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_FEEDER)
-            {
-                currentState = DragonLeds::PURPLE;
-                m_LEDStates->SolidColorPattern(currentState);
-            }
-            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY_ODOMETRY_LAUNCH)
-            {
-                currentState = DragonLeds::AZUL;
-                m_LEDStates->SolidColorPattern(currentState);
-            }
-            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY_AUTO_LAUNCH || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_AUTO_LAUNCH)
-            {
-                if (noteStateManager->GetCurrentStatePtr()->AtTarget())
-                {
-                    m_LEDStates->AlternatingColorBlinkingPattern(currentState, DragonLeds::YELLOW);
-                }
-            }
-            else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACE_TRAP || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACE_AMP)
-            {
-                if (noteStateManager->GetCurrentStatePtr()->AtTarget())
-                {
-                    m_LEDStates->AlternatingColorBlinkingPattern(currentState, DragonLeds::PURPLE);
+                    m_rumbleLoopCounter = 0;
+                    m_rumblePlacer = true;
+                    m_rumbleLauncher = false;
+                    controller->SetRumble(0, false, false);
+                    controller->SetRumble(1, false, false);
                 }
             }
         }
     }
+}
+
+void DriverFeedback::UpdateLEDStates()
+{
+    oldState = currentState;
+
+    StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+    auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+
+    if (frc::DriverStation::IsDisabled())
+    {
+        m_LEDStates->RainbowPattern();
+    }
+    else
+    {
+        if (m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn)
+        {
+            currentState = DragonLeds::RED;
+            if (oldState != currentState)
+                m_LEDStates->ResetVariables();
+
+            m_LEDStates->SolidColorPattern(currentState);
+        }
+        else
+        {
+
+            if (oldState != currentState)
+                m_LEDStates->ResetVariables();
+            if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+            {
+                currentState = DragonLeds::GREEN;
+            }
+            else if (m_scoringMode == RobotStateChanges::ScoringMode::Placer)
+            {
+                currentState = DragonLeds::WHITE;
+            }
+            if (noteMgr != nullptr)
+            {
+                if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY)
+                {
+                    m_LEDStates->SolidColorPattern(currentState);
+                }
+                else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_PLACER)
+                {
+                    currentState = DragonLeds::YELLOW;
+                    m_LEDStates->SolidColorPattern(currentState);
+                }
+                else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_HOLD_FEEDER)
+                {
+                    currentState = DragonLeds::PURPLE;
+                    m_LEDStates->SolidColorPattern(currentState);
+                }
+                else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY_ODOMETRY_LAUNCH)
+                {
+                    currentState = DragonLeds::AZUL;
+                    m_LEDStates->SolidColorPattern(currentState);
+                }
+                else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_READY_AUTO_LAUNCH || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_AUTO_LAUNCH)
+                {
+                    if (noteStateManager->GetCurrentStatePtr()->AtTarget())
+                    {
+                        m_LEDStates->AlternatingColorBlinkingPattern(currentState, DragonLeds::YELLOW);
+                    }
+                }
+                else if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACE_TRAP || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACE_AMP)
+                {
+                    if (noteStateManager->GetCurrentStatePtr()->AtTarget())
+                    {
+                        m_LEDStates->AlternatingColorBlinkingPattern(currentState, DragonLeds::PURPLE);
+                    }
+                }
+                if (noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_FEEDER_INTAKE || noteStateManager->GetCurrentState() == noteManager::STATE_NAMES::STATE_PLACER_INTAKE)
+                {
+                    if (noteMgr->getbackIntakeSensor()->Get() || noteMgr->getfrontIntakeSensor()->Get())
+                    {
+                        if (m_scoringMode == RobotStateChanges::ScoringMode::Launcher)
+                            currentState = DragonLeds::PURPLE;
+                        else
+                            currentState = DragonLeds::YELLOW;
+                    }
+                    else
+                    {
+                    }
+                    m_LEDStates->BlinkingPattern(currentState);
+                }
+            }
+        }
+    }
+}
+
+void DriverFeedback::UpdateDiagnosticLEDs()
+{
+    StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
+    auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
+
+    bool backintake = noteMgr->getbackIntakeSensor()->Get();
+    bool frontintake = noteMgr->getfrontIntakeSensor()->Get();
+    bool feeder = noteMgr->getfeederSensor()->Get();
+    bool launcher = noteMgr->getlauncherSensor()->Get();
+    bool placerin = noteMgr->getplacerInSensor()->Get();
+    bool placermid = noteMgr->getplacerMidSensor()->Get();
+    bool placerout = noteMgr->getplacerOutSensor()->Get();
+    m_LEDStates->DiagnosticPattern(FMSData::GetInstance()->GetAllianceColor(), backintake, frontintake, feeder, launcher, placerin, placermid, placerout);
 }
 
 void DriverFeedback::ResetRequests(void)
@@ -130,7 +259,6 @@ DriverFeedback::DriverFeedback() : IRobotStateChangeSubscriber()
 {
 
     RobotState *RobotStates = RobotState::GetInstance();
-
     RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::DesiredScoringMode);
     RobotStates->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 }
