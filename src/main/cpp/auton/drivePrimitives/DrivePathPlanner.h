@@ -63,8 +63,8 @@ private:
     units::length::meter_t m_chassisOffset = units::length::meter_t(0.5);
 
     bool m_checkDriveToNote = false;
-    bool m_checkIsPastCenterLine = false;
     const double m_percentageCompleteThreshold = 0.75;
+    const units::length::meter_t m_distanceThreshold = units::length::meter_t(0.5);
     units::time::second_t m_totalTrajectoryTime;
     frc::Pose2d m_finalPose;
 };

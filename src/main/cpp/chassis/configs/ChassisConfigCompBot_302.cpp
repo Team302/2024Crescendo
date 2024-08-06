@@ -19,7 +19,7 @@
 
 #include "chassis/SwerveModule.h"
 #include "chassis/SwerveModuleConstants.h"
-#include "chassis/ChassisConfigCompBot_302.h"
+#include "chassis/configs/ChassisConfigCompBot_302.h"
 #include "utils/logging/Logger.h"
 
 using ctre::phoenix6::configs::MountPoseConfigs;

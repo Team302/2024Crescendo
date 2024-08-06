@@ -15,7 +15,7 @@
 
 // Team302 includes
 #include "auton/DriveToSpeaker.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "chassis/DragonDriveTargetFinder.h"
 #include "pathplanner/lib/path/PathPlannerTrajectory.h"
 #include "chassis/driveStates/RobotDrive.h"

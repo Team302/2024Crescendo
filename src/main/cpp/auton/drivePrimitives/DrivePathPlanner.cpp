@@ -27,8 +27,8 @@
 // 302 Includes
 #include "auton/drivePrimitives/AutonUtils.h"
 #include "auton/drivePrimitives/DrivePathPlanner.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "chassis/ChassisMovement.h"
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/DragonDriveTargetFinder.h"
@@ -121,10 +121,6 @@ void DrivePathPlanner::InitMoveInfo()
         m_maxTime += m_moveInfo.pathplannerTrajectory.getTotalTime();
 
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Total time", "Total time", m_maxTime.value());
-    }
-    else if (m_checkIsPastCenterLine)
-    {
-        // no op
     }
     else
     {
@@ -227,7 +223,7 @@ void DrivePathPlanner::CheckForDriveToNote()
             else if (m_chassis != nullptr)
             {
                 auto currentPose = m_chassis->GetPose();
-                if (currentPose.Translation().Distance(m_finalPose.Translation()) < units::length::meter_t(0.50))
+                if (currentPose.Translation().Distance(m_finalPose.Translation()) < m_distanceThreshold)
                 {
                     m_pathname = "DRIVE_TO_NOTE";
                     InitMoveInfo();
