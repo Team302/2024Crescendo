@@ -42,11 +42,15 @@ DriverFeedback *DriverFeedback::GetInstance()
     return DriverFeedback::m_instance;
 }
 
-void DriverFeedback::UpdateFeedback()
+void DriverFeedback::UpdateFeedback(bool iscompbot)
 {
+    if (iscompbot)
+    {
+        UpdateRumble();
+        UpdateDiagnosticLEDs();
+    }
     UpdateLEDStates();
     CheckControllers();
-    UpdateRumble();
 }
 
 void DriverFeedback::UpdateRumble()
@@ -154,7 +158,6 @@ void DriverFeedback::UpdateLEDStates()
     if (frc::DriverStation::IsDisabled())
     {
         m_LEDStates->RainbowPattern();
-        UpdateDiagnosticLEDs();
     }
     else
     {
@@ -228,7 +231,6 @@ void DriverFeedback::UpdateLEDStates()
                     }
                     m_LEDStates->BlinkingPattern(currentState);
                 }
-                UpdateDiagnosticLEDs();
             }
         }
     }

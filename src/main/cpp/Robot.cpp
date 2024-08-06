@@ -359,6 +359,10 @@ void Robot::SimulationPeriodic()
 void Robot::InitializeRobot()
 {
     int32_t teamNumber = frc::RobotController::GetTeamNumber();
+    if (teamNumber == 302)
+    {
+        m_isCompBot = true;
+    }
     RobotConfigMgr::GetInstance()->InitRobot((RobotConfigMgr::RobotIdentifier)teamNumber);
     ChassisConfigMgr::GetInstance()->InitChassis(static_cast<RobotConfigMgr::RobotIdentifier>(teamNumber));
     auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
@@ -396,7 +400,7 @@ void Robot::UpdateDriveTeamFeedback()
     auto feedback = DriverFeedback::GetInstance();
     if (feedback != nullptr)
     {
-        feedback->UpdateFeedback();
+        feedback->UpdateFeedback(m_isCompBot);
     }
 }
 
