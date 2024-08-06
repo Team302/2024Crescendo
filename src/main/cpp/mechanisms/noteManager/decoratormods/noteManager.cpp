@@ -366,16 +366,8 @@ void noteManager::SetManualLaunchTarget()
 
 void noteManager::UpdateLauncherAngleTarget()
 {
-	// if (GetLauncherAngleTarget().to<double>() < m_lowAnglePIDThreshold)
-	// {
-	// 	double percentOut = std::clamp(m_launcherAnglePIDLowAngle.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
-	// 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
-	// }
-	// else
-	// {
 	double percentOut = std::clamp(m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
-	// }
 }
 
 void noteManager::SetLauncherToProtectedPosition()
@@ -423,7 +415,7 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 {
 
 	units::angular_velocity::radians_per_second_t targetSpeed = (GetLauncherAngleFromEncoder() > units::angle::degree_t(10.0)) ? units::angular_velocity::radians_per_second_t(400.0) : units::angular_velocity::radians_per_second_t(500.0); // rad/sec based on passing with no chassis speed
-	/*auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+	auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
 
 	if (chassisConfig != nullptr)
 	{
@@ -431,13 +423,19 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 		auto chassisSpeeds = chassis->GetChassisSpeeds();
 		auto rot2d = frc::Rotation2d(chassis->GetYaw());
 
-		auto fieldSpeeds = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassisSpeeds, rot2d); // don't know if you need to this?
+		auto fieldSpeeds = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassisSpeeds, rot2d);
 
 		units::velocity::meters_per_second_t vTan = units::velocity::meters_per_second_t(targetSpeed.value() * 0.0508); // 2 in radius of wheel in meters
-		units::velocity::meters_per_second_t vTanX = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue) ? (vTan * units::math::cos(GetLauncherAngleFromEncoder()) + fieldSpeeds.vx / units::velocity::meters_per_second_t(2.0)) : (vTan * units::math::cos(GetLauncherAngleFromEncoder()) - fieldSpeeds.vx / units::velocity::meters_per_second_t(2.0));
+		units::velocity::meters_per_second_t vTanX = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue) ? (vTan * units::math::cos(GetLauncherAngleFromEncoder()) + fieldSpeeds.vx) : (vTan * units::math::cos(GetLauncherAngleFromEncoder()) - fieldSpeeds.vx);
+
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Field Speed X"), fieldSpeeds.vx.value());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("vTan"), vTan.value());
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("vTanX"), vTanX.value());
 
 		targetSpeed = units::angular_velocity::radians_per_second_t((vTanX / units::math::cos(GetLauncherAngleFromEncoder())).value() / 0.0508); // 2 in radius of wheel in meters
-	}*/
+
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Target Speed"), targetSpeed.value());
+	}
 
 	return targetSpeed;
 }
