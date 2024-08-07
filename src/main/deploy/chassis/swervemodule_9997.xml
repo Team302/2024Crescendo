@@ -2,7 +2,10 @@
 <swervemodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!--- TO BE TUNED -->
   <attributes
-    proportional="15.0"
-    integral="5.0"
-    derivative="0.0" />
+    turn_proportional="25.0"
+    turn_integral="12.5"
+    turn_derivative="0.0"
+    drive_proportional="5.0"
+    drive_integral="0.0"
+    drive_derivative="0.0" />
 </swervemodule>
