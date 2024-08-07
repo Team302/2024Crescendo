@@ -188,15 +188,13 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 
     if (m_velocityControlled)
     {
-        units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (2.0 * numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
+        units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
         m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
     }
     else // Run Open Loop
     {
-        // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
-        auto driveTarget = m_activeState.speed.to<double>() / (units::length::meter_t(m_wheelDiameter).to<double>() * numbers::pi);
-        auto percent = driveTarget / m_maxSpeed.to<double>();
-        DutyCycleOut out{percent};
+        auto percent = m_activeState.speed / m_maxSpeed;
+        DutyCycleOut out{percent.value()};
         m_driveTalon->SetControl(out);
     }
 }
