@@ -64,7 +64,7 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
                                        // max velocity of 1 rotation per second and a max acceleration of 180 degrees per second squared.
                                        m_maxTime(units::time::second_t(-1.0)),
                                        m_ntName("DrivePathPlanner"),
-                                       m_switchedToVisionDrive(false),
+                                       m_isVisionDrive(false),
                                        m_visionAlignment(PrimitiveParams::VISION_ALIGNMENT::UNKNOWN)
 
 {
@@ -83,7 +83,7 @@ void DrivePathPlanner::Init(PrimitiveParams *params)
 
     m_ntName = string("DrivePathPlanner: ") + m_pathname;
     m_maxTime = params->GetTime();
-    m_switchedToVisionDrive = false;
+    m_isVisionDrive = (m_pathname == "DRIVE_TO_NOTE");
     m_visionAlignment = params->GetVisionAlignment();
     m_checkDriveToNote = params->GetPathUpdateOption() == ChassisOptionEnums::PathUpdateOption::NOTE;
     Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("DrivePathPlanner"), m_pathname, m_chassis->GetPose().Rotation().Degrees().to<double>());
@@ -106,14 +106,14 @@ void DrivePathPlanner::InitMoveInfo()
 
     auto pose = m_chassis->GetPose();
     auto speed = m_chassis->GetChassisSpeeds();
-    if (m_pathname == "DRIVE_TO_NOTE")
+    if (m_isVisionDrive)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "In DriveToNote", true);
 
         m_driveToNote = dynamic_cast<DriveToNote *>(m_chassis->GetSpecifiedDriveState(ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE));
-        m_driveToNote->Init(m_moveInfo);
+
+        m_driveToNote->InitFromTrajectory(m_moveInfo, m_trajectory);
         m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::DRIVE_TO_NOTE;
-        m_switchedToVisionDrive = true;
 
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Original time", "Original time: ", m_maxTime.value());
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Added time", "Added time", m_moveInfo.pathplannerTrajectory.getTotalTime().value());
@@ -160,13 +160,13 @@ bool DrivePathPlanner::IsDone()
         return true;
     }
 
-    if (m_checkDriveToNote && !m_switchedToVisionDrive)
+    if (m_checkDriveToNote && !m_isVisionDrive)
     {
         CheckForDriveToNote();
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Switched To Vision Drive", m_switchedToVisionDrive);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "DrivePathPlanner", "Switched To Vision Drive", m_isVisionDrive);
 
-    if (m_switchedToVisionDrive || m_checkDriveToNote)
+    if (m_isVisionDrive || m_checkDriveToNote)
     {
         return m_driveToNote->IsDone();
     }
@@ -206,7 +206,9 @@ void DrivePathPlanner::CheckForDriveToNote()
                 Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Switch to Drive To Note: ", true);
 
                 m_pathname = "DRIVE_TO_NOTE";
+                m_isVisionDrive = true;
                 m_visionAlignment = PrimitiveParams::VISION_ALIGNMENT::NOTE;
+                m_trajectory = m_driveToNote->CreateDriveToNoteTrajectory(chassispose, notePose);
                 InitMoveInfo();
             }
             else

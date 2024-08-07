@@ -57,7 +57,7 @@ private:
     ChassisOptionEnums::PathGainsType m_pathGainsType;
     units::time::second_t m_maxTime;
     std::string m_ntName;
-    bool m_switchedToVisionDrive;
+    bool m_isVisionDrive;
     PrimitiveParams::VISION_ALIGNMENT m_visionAlignment;
     ChassisMovement m_moveInfo;
     units::length::meter_t m_centerLine = units::length::meter_t(8.27);
