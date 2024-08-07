@@ -419,7 +419,7 @@ void HolonomicDrive::ManageOrchestra()
     if (m_musicChooser.GetSelected() != "no music")
     {
 
-        if (m_previousOption != m_musicChooser.GetSelected())
+        if (m_previousOption != m_musicChooser.GetSelected() || !m_swerve->IsOrchestraPlaying())
         {
             if (m_musicChooser.GetSelected() == "Nyancat")
             {
