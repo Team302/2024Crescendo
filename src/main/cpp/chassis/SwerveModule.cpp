@@ -400,6 +400,10 @@ void SwerveModule::InitOrchestra(HolonomicDrive::ORCHESTRA_OPTIONS option)
     {
         m_orchestra.LoadMusic("chirp/FurElise.chrp");
     }
+    else if (option == HolonomicDrive::ORCHESTRA_OPTIONS::FUNKY)
+    {
+        m_orchestra.LoadMusic("chirp/Funky.chrp");
+    }
 }
 
 //==================================================================================

@@ -407,6 +407,7 @@ void HolonomicDrive::ManageOrchestra()
     m_musicChooser.AddOption("Ride of the Valkyries", "Ride of the Valkyries");
     m_musicChooser.AddOption("Fur Elise", "Fur Elise");
     m_musicChooser.AddOption("Imperial Death March", "Imperial Death March");
+    m_musicChooser.AddOption("Funky", "Funky");
     m_musicChooser.AddOption("Playlist", "Playlist");
     frc::SmartDashboard::PutData("Music Chooser", &m_musicChooser);
 
@@ -418,27 +419,37 @@ void HolonomicDrive::ManageOrchestra()
     if (m_musicChooser.GetSelected() != "no music")
     {
 
-        if (!m_swerve->IsOrchestraPlaying())
+        if (m_previousOption != m_musicChooser.GetSelected())
         {
             if (m_musicChooser.GetSelected() == "Nyancat")
             {
                 m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::NYAN_CAT);
+                m_previousOption = "Nyancat";
             }
             else if (m_musicChooser.GetSelected() == "Ride of the Valkyries")
             {
                 m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::RIDE_OF_THE_VALKRIES);
+                m_previousOption = "Ride of the Valkyries";
             }
             else if (m_musicChooser.GetSelected() == "Playlist")
             {
                 m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::PLAY_LIST);
+                m_previousOption = "Playlist";
             }
             else if (m_musicChooser.GetSelected() == "Fur Elise")
             {
                 m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::FUR_ELISE);
+                m_previousOption = "Fur Elise";
             }
             else if (m_musicChooser.GetSelected() == "Imperial Death March")
             {
                 m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::IMPERIAL_DEATH_MARCH);
+                m_previousOption = "Imperial Death March";
+            }
+            else if (m_musicChooser.GetSelected() == "Funky")
+            {
+                m_swerve->InitOrchestra(ORCHESTRA_OPTIONS::FUNKY);
+                m_previousOption = "Funky";
             }
             m_swerve->StartOrchestra();
         }

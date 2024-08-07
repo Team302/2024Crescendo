@@ -46,7 +46,8 @@ public:
         NYAN_CAT,
         FUR_ELISE,
         IMPERIAL_DEATH_MARCH,
-        PLAY_LIST
+        PLAY_LIST,
+        FUNKY
     };
 
 private:
@@ -79,6 +80,8 @@ private:
     bool m_robotOrientedLatch = false;
     bool m_robotOrientedDrive = false;
     bool m_stageDrive = false;
+
+    std::string m_previousOption = "";
 
     frc::SendableChooser<std::string> m_musicChooser;
 };
