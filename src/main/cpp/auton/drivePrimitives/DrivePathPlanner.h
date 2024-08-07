@@ -27,6 +27,7 @@
 // FRC,WPI Includes
 #include "frc/geometry/Pose2d.h"
 #include "frc/Timer.h"
+#include "units/length.h"
 #include "units/time.h"
 
 // third party includes
@@ -45,6 +46,7 @@ public:
 private:
     void InitMoveInfo();
     void CheckForDriveToNote();
+    bool ShouldConsiderNote(units::length::meter_t xposition);
     SwerveChassis *m_chassis;
 
     TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;

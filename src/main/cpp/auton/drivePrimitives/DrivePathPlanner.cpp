@@ -180,59 +180,58 @@ bool DrivePathPlanner::IsDone()
 void DrivePathPlanner::CheckForDriveToNote()
 {
     // Need to check if there is a note
-    auto currentTime = m_timer.get()->Get();
-
     DragonDriveTargetFinder *dt = DragonDriveTargetFinder::GetInstance();
-    auto distanceToNote = dt->GetDistance(DragonDriveTargetFinder::VISION_ONLY, DragonVision::NOTE);
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "time:", currentTime.value());
-
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Done Percent:", static_cast<double>((currentTime.value()) / m_totalTrajectoryTime.value()));
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Distance: ", (double)(get<1>(distanceToNote)));
-
     auto noteInfo = dt->GetPose(DragonVision::NOTE);
-
-    if (get<0>(noteInfo) != DragonDriveTargetFinder::NOT_FOUND)
+    if (get<0>(noteInfo) != DragonDriveTargetFinder::NOT_FOUND) // see a note
     {
-        auto chaseNote = false;
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", true);
         auto notePose = get<1>(noteInfo);
-        if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
+
+        // check if we see a note is one we want to get
+        if (ShouldConsiderNote(notePose.X())) // chase this note: need to check if we should switch to drive to note or not
         {
-            if ((notePose.X() <= (m_centerLine + m_offset)))
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Consider Note: ", true);
+
+            auto chassispose = m_chassis->GetPose();
+            auto distanceToNote = chassispose.Translation().Distance(notePose.Translation());
+
+            auto currentTime = m_timer.get()->Get();
+            auto percent = currentTime.value() / m_totalTrajectoryTime.value();
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "time:", currentTime.value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Done Percent:", static_cast<double>((currentTime.value()) / m_totalTrajectoryTime.value()));
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Distance: ", distanceToNote.value());
+
+            if (percent >= m_percentageCompleteThreshold || distanceToNote <= m_distanceThreshold) // switch to drive to note
             {
-                chaseNote = true;
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Switch to Drive To Note: ", true);
+
+                m_pathname = "DRIVE_TO_NOTE";
+                m_visionAlignment = PrimitiveParams::VISION_ALIGNMENT::NOTE;
+                InitMoveInfo();
+            }
+            else
+            {
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Switch to Drive To Note: ", false);
             }
         }
         else
         {
-            if ((notePose.X() >= (m_centerLine - m_offset)))
-            {
-                chaseNote = true;
-            }
-        }
-
-        if (chaseNote)
-        {
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", true);
-
-            if (((currentTime.value() / m_totalTrajectoryTime.value()) >= m_percentageCompleteThreshold))
-            {
-                m_pathname = "DRIVE_TO_NOTE";
-                InitMoveInfo();
-            }
-            else if (m_chassis != nullptr)
-            {
-                auto currentPose = m_chassis->GetPose();
-                if (currentPose.Translation().Distance(m_finalPose.Translation()) < m_distanceThreshold)
-                {
-                    m_pathname = "DRIVE_TO_NOTE";
-                    InitMoveInfo();
-                }
-            }
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Consider Note: ", false);
         }
     }
     else
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Distance To Note", "Note Found: ", false);
     }
+}
+
+bool DrivePathPlanner::ShouldConsiderNote(units::length::meter_t xposition)
+{
+    // check if note is one we want to get
+    if (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue)
+    {
+        return ((xposition <= (m_centerLine + m_offset)));
+    }
+
+    return ((xposition >= (m_centerLine - m_offset)));
 }
