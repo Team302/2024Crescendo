@@ -108,6 +108,9 @@ private:
     double m_turnKp = 5.0;
     double m_turnKi = 0.0;
     double m_turnKd = 0.0;
+    double m_driveKp = 5.0;
+    double m_driveKi = 0.0;
+    double m_driveKd = 0.0;
     double m_turnKf = 0.0;
     double m_turnCruiseVel = 0.0;
     double m_turnMaxAcc = 0.0;
