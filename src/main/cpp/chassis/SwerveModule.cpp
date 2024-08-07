@@ -271,11 +271,11 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
 
         configs::TalonFXConfiguration configs{};
 
-        // Peak output of 11 volts
         configs.Voltage.PeakForwardVoltage = 11;
         configs.Voltage.PeakReverseVoltage = -11;
 
         /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
+        /// TO DO Add memeber variables for PID values, need code gen updates to be able to be implemented
         configs.Slot1.kS = 2.5; // To account for friction, add 2.5 A of static feedforward
         configs.Slot1.kP = 5;   // An error of 1 rotation per second results in 5 A output
         configs.Slot1.kI = 0;   // No output for integrated error
@@ -373,7 +373,7 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
 }
 
 //==================================================================================
-void SwerveModule::ReadConstants(string configfilename)
+void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update the XML file/Code generator to add the both Velocity and Position Degree PID values
 {
     auto deployDir = frc::filesystem::GetDeployDirectory();
     auto filename = deployDir + string("/chassis/") + configfilename;
