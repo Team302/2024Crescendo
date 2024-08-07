@@ -189,7 +189,9 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
     if (m_velocityControlled)
     {
         units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
-        m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Swerve Module", string("omega"), omega.value());
+        // m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
+        m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
     }
     else // Run Open Loop
     {
@@ -269,12 +271,13 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
 
         configs::TalonFXConfiguration configs{};
 
-        configs.Voltage.PeakForwardVoltage = 11;
-        configs.Voltage.PeakReverseVoltage = -11;
+        configs.Voltage.PeakForwardVoltage = 10.0;
+        configs.Voltage.PeakReverseVoltage = -10.0;
 
         /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
         /// TO DO : Need code gen updates to be able to be implemented
-        configs.Slot1.kS = 2.5;       // To account for friction, add 2.5 A of static feedforward
+        configs.Slot1.kS = 0.1;       // To account for friction, add 0.1 V of static feedforward
+        configs.Slot1.kV = 0.12;      // To account for friction, add 2.5 A of static feedforward
         configs.Slot1.kP = m_driveKp; // An error of 1 rotation per second results in 5 A output
         configs.Slot1.kI = m_driveKi; // No output for integrated error
         configs.Slot1.kD = m_driveKd; // No output for error derivative
