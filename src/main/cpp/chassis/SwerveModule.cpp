@@ -65,6 +65,7 @@ using ctre::phoenix6::signals::InvertedValue;
 using ctre::phoenix6::signals::NeutralModeValue;
 using ctre::phoenix6::signals::SensorDirectionValue;
 
+using namespace ctre::phoenix6;
 //==================================================================================
 SwerveModule::SwerveModule(string canbusname,
                            SwerveModuleConstants::ModuleID id,
@@ -185,7 +186,9 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
     if (m_velocityControlled)
     {
-        m_activeState.speed = speed;
+        m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
+        units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (2.0 * numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
+        m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
     }
     else // Run Open Loop
     {
@@ -264,8 +267,22 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
 {
     if (m_driveTalon != nullptr)
     {
-
         m_driveTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
+
+        configs::TalonFXConfiguration configs{};
+
+        // Peak output of 11 volts
+        configs.Voltage.PeakForwardVoltage = 11;
+        configs.Voltage.PeakReverseVoltage = -11;
+
+        /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
+        configs.Slot1.kS = 2.5; // To account for friction, add 2.5 A of static feedforward
+        configs.Slot1.kP = 5;   // An error of 1 rotation per second results in 5 A output
+        configs.Slot1.kI = 0;   // No output for integrated error
+        configs.Slot1.kD = 0;   // No output for error derivative
+        // Peak output of 40 A
+        configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
+        configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
 
         MotorOutputConfigs motorconfig{};
         motorconfig.Inverted = driveInverted ? InvertedValue::Clockwise_Positive : InvertedValue::CounterClockwise_Positive;
@@ -273,13 +290,29 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         motorconfig.PeakForwardDutyCycle = 1.0;
         motorconfig.PeakReverseDutyCycle = -1.0;
         motorconfig.DutyCycleNeutralDeadband = 0.0;
-
         m_driveTalon->GetConfigurator().Apply(motorconfig);
+
+        /* Retry config apply up to 5 times, report if failure */
+        ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
+        for (int i = 0; i < 5; ++i)
+        {
+            status = m_driveTalon->GetConfigurator().Apply(configs);
+            if (status.IsOK())
+                break;
+        }
+        if (!status.IsOK())
+        {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, "SwerveModule::InitDriveMotor", string("Could not apply configs, error code"), status.GetName());
+        }
 
         CurrentLimitsConfigs currconfig{};
         currconfig.StatorCurrentLimit = 80.0;
         currconfig.StatorCurrentLimitEnable = true;
 
+        // currconfig.SupplyCurrentLimit = 40.0;
+        // currconfig.SupplyCurrentLimitEnable = true;
+        // currconfig.SupplyCurrentThreshold = 30.0;
+        // currconfig.SupplyTimeThreshold = 0.25;
         m_driveTalon->GetConfigurator().Apply(currconfig);
 
         VoltageConfigs voltconfig{};
