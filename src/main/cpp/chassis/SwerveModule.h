@@ -102,6 +102,7 @@ private:
     frc::SwerveModuleState m_activeState;
 
     ctre::phoenix6::controls::PositionTorqueCurrentFOC m_torquePosition{0_tr, 0_tps, 0_A, 1, false};
+    ctre::phoenix6::controls::VelocityTorqueCurrentFOC m_velocityTorque = ctre::phoenix6::controls::VelocityTorqueCurrentFOC{0_tps}.WithSlot(1);
     ctre::phoenix6::controls::PositionVoltage m_voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
 
     double m_turnKp = 5.0;
@@ -111,7 +112,7 @@ private:
     double m_turnCruiseVel = 0.0;
     double m_turnMaxAcc = 0.0;
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
-    units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(16.0);
+    units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(17.3);
     bool m_velocityControlled = true;
     std::string m_networkTableName;
 };

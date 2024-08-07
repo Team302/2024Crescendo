@@ -264,23 +264,6 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
 {
     if (m_driveTalon != nullptr)
     {
-        m_driveTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
-
-        TalonFXConfiguration fxconfigs{};
-        m_driveTalon->GetConfigurator().Refresh(fxconfigs);
-        m_driveTalon->SetControl(ctre::phoenix6::controls::VelocityDutyCycle)
-            fxconfigs.MotorOutput.NeutralMode = NeutralModeValue::Brake;
-        fxconfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
-        fxconfigs.MotorOutput.PeakReverseDutyCycle = -1.0;
-        fxconfigs.MotorOutput.DutyCycleNeutralDeadband = 0.0;
-
-        fxconfigs.Slot0.kP = m_turnKp; /// change to m_driveKp
-        fxconfigs.Slot0.kI = m_turnKi; /// change to m_driveKi
-        fxconfigs.Slot0.kD = m_turnKd; /// change to m_driveKd
-
-        fxconfigs.ClosedLoopGeneral.ContinuousWrap = false;
-
-        m_turnTalon->GetConfigurator().Apply(fxconfigs);
 
         m_driveTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
 
