@@ -209,7 +209,10 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
     m_activeState.angle = targetAngle;
-    m_turnTalon->SetControl(m_positionVoltage.WithPosition(targetAngle));
+    if (m_useFOC)
+        m_turnTalon->SetControl(m_positionVoltage.WithPosition(targetAngle));
+    else
+        m_turnTalon->SetControl(m_positionTorque.WithPosition(targetAngle));
 }
 
 //==================================================================================
@@ -350,9 +353,22 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         fxconfigs.Voltage.PeakForwardVoltage = 10.0;
         fxconfigs.Voltage.PeakReverseVoltage = -10.0;
 
-        fxconfigs.Slot0.kP = m_turnKp;
-        fxconfigs.Slot0.kI = m_turnKi;
-        fxconfigs.Slot0.kD = m_turnKd;
+        // Peak output of 120 amps
+        fxconfigs.TorqueCurrent.PeakForwardTorqueCurrent = 120;
+        fxconfigs.TorqueCurrent.PeakReverseTorqueCurrent = -120;
+
+        if (m_useFOC)
+        {
+            fxconfigs.Slot1.kP = m_turnKp;
+            fxconfigs.Slot1.kI = m_turnKi;
+            fxconfigs.Slot1.kD = m_turnKd;
+        }
+        else
+        {
+            fxconfigs.Slot0.kP = m_turnKp;
+            fxconfigs.Slot0.kI = m_turnKi;
+            fxconfigs.Slot0.kD = m_turnKd;
+        }
 
         fxconfigs.ClosedLoopGeneral.ContinuousWrap = true;
 
