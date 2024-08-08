@@ -45,20 +45,16 @@ void PassState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("PassState"), string("init"));
 
 	m_genState->Init();
+	m_targetAngle = m_mechanism->GetLauncherAngleFromEncoder().value();
 }
 
 void PassState::Run()
 {
 	// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("PassState"), string("run"));
 	m_mechanism->SetLauncherAngleTarget(units::angle::degree_t(m_targetAngle));
-
-	bool angleIsWithinTolerance = m_mechanism->isLauncherAtTargert();
-	if (angleIsWithinTolerance)
-	{
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_FEEDER, 1);
-		m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_TRANSFER, 1);
-	}
-
+	units::angular_velocity::radians_per_second_t targetSpeed = m_mechanism->getlauncherTargetSpeed();
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
+	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
 	m_genState->Run();
 }
 
@@ -69,12 +65,20 @@ void PassState::Exit()
 
 bool PassState::AtTarget()
 {
-	return true;
+	bool attarget = false;
+	bool angleIsWithinTolerance = m_mechanism->isLauncherAtTargert();
+
+	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
+	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
+	double targetSpeed = m_mechanism->getlauncherTargetSpeed().value();
+
+	attarget = angleIsWithinTolerance;
+
+	return (attarget);
 }
 
 bool PassState::IsTransitionCondition(bool considerGamepadTransitions)
 {
-	// To get the current state use m_mechanism->GetCurrentState()
 
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS));
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS) && AtTarget());
 }

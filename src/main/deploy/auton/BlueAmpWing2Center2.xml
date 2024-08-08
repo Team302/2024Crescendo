@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
-
+<primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "BlueAmpWing2Center2Start"
+                noteOption="STATE_READY_ODOMETRY_LAUNCH"/>
+                
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2Start"
 time= "0.7"
-pathgains= "ShortPath"
 noteOption = "STATE_READY_ODOMETRY_LAUNCH"
 visionAligment= "SPEAKER"/>
 
@@ -20,7 +22,6 @@ time= "1.0"
 pathname= "BlueAmpWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "1.0"
-pathgains= "ShortPath"
 visionAligment= "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
@@ -42,7 +43,6 @@ time= "3.0"/>
 pathname= "BlueAmpWing2Center2_C"
 noteOption= "STATE_FEEDER_INTAKE"
 time="3.5"
-pathgains= "LongPath"
 visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>

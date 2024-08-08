@@ -16,12 +16,11 @@
 #include <string>
 
 #include "utils/logging/Logger.h"
-#include "chassis/ChassisConfigMgr.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigCompBot_302.h"
-#include "chassis/ChassisConfigChassis_9998.h"
-#include "chassis/ChassisConfigPracticeBot_9999.h"
-#include "chassis/ChassisConfigChassis_9997.h"
+#include "chassis/configs/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigCompBot_302.h"
+#include "chassis/configs/ChassisConfigChassis_9998.h"
+#include "chassis/configs/ChassisConfigChassis_9997.h"
 
 using namespace std;
 
@@ -49,10 +48,6 @@ void ChassisConfigMgr::InitChassis(RobotConfigMgr::RobotIdentifier id)
 
 	case RobotConfigMgr::RobotIdentifier::CHASSISBOT_9998:
 		m_config = new ChassisConfigChassis_9998();
-		break;
-
-	case RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999:
-		m_config = new ChassisConfigPracticeBot_9999();
 		break;
 
 	case RobotConfigMgr::RobotIdentifier::CHASSIS_BOT_9997:

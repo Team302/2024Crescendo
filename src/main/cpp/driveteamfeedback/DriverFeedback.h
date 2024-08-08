@@ -21,7 +21,7 @@
 class DriverFeedback : public IRobotStateChangeSubscriber
 {
 public:
-    void UpdateFeedback(bool iscompbot);
+    void UpdateFeedback();
 
     static DriverFeedback *GetInstance();
 

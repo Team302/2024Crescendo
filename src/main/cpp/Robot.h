@@ -71,5 +71,4 @@ private:
     SomeMech *m_someMech;
     RobotDefinition *m_robot;
     bool isFMSAttached = false;
-    bool m_isCompBot = false;
 };

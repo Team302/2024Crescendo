@@ -15,8 +15,8 @@
 
 // Team302 Includes
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "utils/AngleUtils.h"
 
 #include "utils/logging/Logger.h"
@@ -24,14 +24,15 @@ frc::PIDController *ISwerveDriveOrientation::m_pid = new frc::PIDController(6.0,
 
 ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption) : m_headingOption(headingOption)
 {
+    m_pid->SetSetpoint(0);
     m_pid->EnableContinuousInput(-180.0, 180.0);
-    m_pid->SetIZone(30.0);
+    m_pid->SetIZone(20.0);
+    m_pid->SetIntegratorRange(-360.0, 360.0);
+    m_pid->Reset();
 }
 
 units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadingCorrection(units::angle::degree_t targetAngle, double kP)
 {
-    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), std::string("Wrong Meathod"), "True");
-
     return CalcHeadingCorrection(targetAngle, {kP, 0.0});
 }
 
@@ -44,12 +45,12 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     {
         currentAngle = chassis->GetPose().Rotation().Degrees();
     }
-    auto errorAngle = AngleUtils::GetEquivAngle(AngleUtils::GetDeltaAngle(targetAngle, currentAngle));
 
-    if (errorAngle.value() > 20)
-        m_pid->SetP(gains.first);
+    m_pid->SetP(gains.first);
+    if (units::math::abs(currentAngle - targetAngle) > units::angle::degree_t(2.5))
+        m_pid->SetI(gains.second);
     else
-        m_pid->SetP(gains.second);
+        m_pid->SetI(0);
 
     auto correction = units::angular_velocity::degrees_per_second_t(m_pid->Calculate(currentAngle.value(), targetAngle.value()));
 

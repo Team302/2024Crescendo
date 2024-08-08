@@ -38,7 +38,6 @@ public:
 
     std::string WhyDone() const { return m_whyDone; };
     bool IsDone();
-    void CheckForDriveToNote();
     units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kPFine, double kPCoarse);
 
 protected:
@@ -69,5 +68,4 @@ private:
     double m_kPCoarse = 5.0;
     double m_kPFine = 9.0;
     const double m_percentageCompleteThreshold = 0.90;
-    int m_firstGen = 0;
 };

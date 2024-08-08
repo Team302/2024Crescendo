@@ -27,6 +27,7 @@
 // FRC,WPI Includes
 #include "frc/geometry/Pose2d.h"
 #include "frc/Timer.h"
+#include "units/length.h"
 #include "units/time.h"
 
 // third party includes
@@ -45,8 +46,7 @@ public:
 private:
     void InitMoveInfo();
     void CheckForDriveToNote();
-    void CheckIfPastCenterLine();
-
+    bool ShouldConsiderNote(units::length::meter_t xposition);
     SwerveChassis *m_chassis;
 
     TrajectoryDrivePathPlanner *m_trajectoryDrivePathPlanner;
@@ -57,7 +57,7 @@ private:
     ChassisOptionEnums::PathGainsType m_pathGainsType;
     units::time::second_t m_maxTime;
     std::string m_ntName;
-    bool m_switchedToVisionDrive;
+    bool m_isVisionDrive;
     PrimitiveParams::VISION_ALIGNMENT m_visionAlignment;
     ChassisMovement m_moveInfo;
     units::length::meter_t m_centerLine = units::length::meter_t(8.27);
@@ -65,8 +65,8 @@ private:
     units::length::meter_t m_chassisOffset = units::length::meter_t(0.5);
 
     bool m_checkDriveToNote = false;
-    bool m_checkIsPastCenterLine = false;
     const double m_percentageCompleteThreshold = 0.75;
+    const units::length::meter_t m_distanceThreshold = units::length::meter_t(0.5);
     units::time::second_t m_totalTrajectoryTime;
     frc::Pose2d m_finalPose;
 };

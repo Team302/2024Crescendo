@@ -15,36 +15,33 @@
 
 #include <string>
 
-#include "ctre/phoenix6/StatusSignal.hpp"
-
 #include "chassis/SwerveModule.h"
 #include "chassis/SwerveModuleConstants.h"
-#include "chassis/ChassisConfigCompBot_302.h"
+#include "chassis/configs/ChassisConfigChassis_9997.h"
 #include "utils/logging/Logger.h"
+#include <ctre/phoenix/sensors/PigeonIMU.h>
 
 using ctre::phoenix6::configs::MountPoseConfigs;
 using ctre::phoenix6::hardware::Pigeon2;
 using std::string;
 
-void ChassisConfigCompBot_302::DefinePigeon()
+void ChassisConfigChassis_9997::DefinePigeon()
 {
-    m_pigeon2 = new Pigeon2(0, m_canbusName);
+    m_pigeon2 = new Pigeon2(50, m_canbusName);
     MountPoseConfigs config{};
     config.MountPoseYaw = 0;
     m_pigeon2->GetConfigurator().Apply(config);
-    m_pigeon2->Reset();
-    ctre::phoenix6::BaseStatusSignal::SetUpdateFrequencyForAll(200_Hz, m_pigeon2->GetYaw());
 }
 
-void ChassisConfigCompBot_302::DefineChassis()
+void ChassisConfigChassis_9997::DefineChassis()
 {
-    string moduleconfig{string("swervemodule_302.xml")};
-    string chassisconfig{string("swervechassis_302.xml")};
+    string moduleconfig{string("swervemodule_9997.xml")};
+    string chassisconfig{string("swervechassis_9997.xml")};
     string networkTableName{string("swerve")};
 
     m_leftFrontModule = new SwerveModule(m_canbusName,
                                          SwerveModuleConstants::ModuleID::LEFT_FRONT,
-                                         SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
+                                         SwerveModuleConstants::ModuleType::SDS_MK4_L2,
                                          m_leftfrontdriveID, m_leftfrontdriveInvert,
                                          m_leftfrontturnID, m_leftfrontturnInvert,
                                          m_leftfrontturnID, m_leftfrontcancoderInvert, m_leftfrontOffset,
@@ -52,7 +49,7 @@ void ChassisConfigCompBot_302::DefineChassis()
                                          networkTableName);
     m_leftBackModule = new SwerveModule(m_canbusName,
                                         SwerveModuleConstants::ModuleID::LEFT_BACK,
-                                        SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
+                                        SwerveModuleConstants::ModuleType::SDS_MK4_L2,
                                         m_leftbackdriveID, m_leftbackdriveInvert,
                                         m_leftbackturnID, m_leftbackturnInvert,
                                         m_leftbackturnID, m_leftbackcancoderInvert, m_leftbackOffset,
@@ -60,7 +57,7 @@ void ChassisConfigCompBot_302::DefineChassis()
                                         networkTableName);
     m_rightFrontModule = new SwerveModule(m_canbusName,
                                           SwerveModuleConstants::ModuleID::RIGHT_FRONT,
-                                          SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
+                                          SwerveModuleConstants::ModuleType::SDS_MK4_L2,
                                           m_rightfrontdriveID, m_rightfrontdriveInvert,
                                           m_rightfrontturnID, m_rightfrontturnInvert,
                                           m_rightfrontturnID, m_rightfrontcancoderInvert, m_rightfrontOffset,
@@ -68,7 +65,7 @@ void ChassisConfigCompBot_302::DefineChassis()
                                           networkTableName);
     m_rightBackModule = new SwerveModule(m_canbusName,
                                          SwerveModuleConstants::ModuleID::RIGHT_BACK,
-                                         SwerveModuleConstants::ModuleType::SDS_MK4I_L3_COLSON,
+                                         SwerveModuleConstants::ModuleType::SDS_MK4_L2,
                                          m_rightbackdriveID, m_rightbackdriveInvert,
                                          m_rightbackturnID, m_rightbackturnInvert,
                                          m_rightbackturnID, m_rightbackcancoderInvert, m_rightbackOffset,

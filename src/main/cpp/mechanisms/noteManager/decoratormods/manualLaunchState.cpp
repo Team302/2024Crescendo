@@ -70,14 +70,6 @@ bool manualLaunchState::AtTarget()
 	bool topSpeedIsWithinTolerance = topSpeed > (m_targetSpeed * 0.95);
 	bool bottomSpeedIsWithinTolerance = botSpeed > (m_targetSpeed * 0.95);
 
-	if (m_mechanism->getActiveRobotId() == RobotConfigMgr::RobotIdentifier::PRACTICE_BOT_9999)
-	{
-		// in the practice bot do not check the launcher speed because speed control is not implemented
-		topSpeedIsWithinTolerance = true;
-		bottomSpeedIsWithinTolerance = true;
-		angleIsWithinTolerance = true;
-	}
-
 	attarget = angleIsWithinTolerance && topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
 
 	return (attarget);

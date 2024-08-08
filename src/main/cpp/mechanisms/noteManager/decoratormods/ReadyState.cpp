@@ -113,15 +113,9 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 		transition = true;
 		reason = 2;
 	}
-	else if (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_MODE) &&
-			 ((currentState == (m_mechanism->STATE_BACKUP_MANUAL_LAUNCH)) || (currentState == (m_mechanism->STATE_BACKUP_MANUAL_PLACE))))
-	{
-		transition = true;
-		reason = 3;
-	}
 	else if ((launcherSensor == false) &&
 			 (feederSensor == false) &&
-			 ((currentState == (m_mechanism->STATE_READY_MANUAL_LAUNCH)) || (currentState == (m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == (m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == (m_mechanism->STATE_PASS)) || (currentState == (m_mechanism->STATE_LOW_PASS))))
+			 ((currentState == (m_mechanism->STATE_READY_MANUAL_LAUNCH)) || (currentState == (m_mechanism->STATE_MANUAL_LAUNCH)) || (currentState == (m_mechanism->STATE_AUTO_LAUNCH)) || (currentState == (m_mechanism->STATE_PASS))))
 	{
 		m_launchTimer->Start();
 		if (m_launchTimer->Get().to<double>() > 0.25)

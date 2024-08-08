@@ -82,6 +82,7 @@ public:
 	void MaintainCurrentLauncherTargetsForAutoLaunch();
 	bool LauncherTargetsForAutoLaunchAchieved();
 	bool isLauncherAtTargert();
+	units::angular_velocity::radians_per_second_t getlauncherTargetSpeed();
 
 	units::angle::degree_t GetLauncherAngleTarget() const { return m_LauncherAngleTarget; }
 	units::angle::degree_t GetLauncherAngleFromEncoder() { return getlauncherAngleEncoder()->GetAbsolutePosition(); }
