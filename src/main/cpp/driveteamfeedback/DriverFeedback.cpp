@@ -53,12 +53,12 @@ void DriverFeedback::UpdateFeedback()
 void DriverFeedback::UpdateRumble()
 {
     auto controller = TeleopControl::GetInstance();
-    if (frc::DriverStation::IsDisabled())
+    if (!frc::DriverStation::IsTeleop())
     {
         controller->SetRumble(0, false, false);
         controller->SetRumble(1, false, false);
     }
-    else if (frc::DriverStation::IsTeleop())
+    else
     {
         StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
         auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
