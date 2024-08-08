@@ -72,7 +72,7 @@ bool PassState::AtTarget()
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
 	double targetSpeed = m_mechanism->getlauncherTargetSpeed().value();
 
-	attarget = angleIsWithinTolerance;
+	attarget = angleIsWithinTolerance && topSpeed > 0.85 * targetSpeed && botSpeed > 0.85 * targetSpeed;
 
 	return (attarget);
 }
@@ -80,5 +80,5 @@ bool PassState::AtTarget()
 bool PassState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS) && AtTarget());
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS) && m_mechanism->isLauncherAtTargert());
 }
