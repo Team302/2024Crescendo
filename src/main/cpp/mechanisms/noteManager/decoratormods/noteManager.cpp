@@ -55,9 +55,9 @@
 #include "chassis/ChassisConfig.h"
 #include "chassis/ChassisConfigMgr.h"
 #include "frc/kinematics/ChassisSpeeds.h"
-
 #include "chassis/DragonDriveTargetFinder.h"
 
+#include "algorithm"
 using std::string;
 using namespace noteManagerStates;
 
@@ -428,14 +428,8 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 		units::velocity::meters_per_second_t vTan = units::velocity::meters_per_second_t(targetSpeed.value() * 0.0508); // 2 in radius of wheel in meters
 		units::velocity::meters_per_second_t vTanX = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue) ? (vTan * units::math::cos(GetLauncherAngleFromEncoder()) + fieldSpeeds.vx) : (vTan * units::math::cos(GetLauncherAngleFromEncoder()) - fieldSpeeds.vx);
 
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Field Speed X"), fieldSpeeds.vx.value());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("vTan"), vTan.value());
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("vTanX"), vTanX.value());
-
 		targetSpeed = units::angular_velocity::radians_per_second_t((vTanX / units::math::cos(GetLauncherAngleFromEncoder())).value() / 0.0508); // 2 in radius of wheel in meters
-
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Target Speed"), targetSpeed.value());
 	}
 
-	return targetSpeed;
+	return units::angular_velocity::radians_per_second_t(std::clamp(targetSpeed.value(), m_minPassSpeed, m_maxPassSpeed));
 }
