@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -14,41 +13,55 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include "chassis/ChassisConfig.h"
-#include "chassis/SwerveChassis.h"
+#include <string>
 
-ChassisConfig::ChassisConfig()
+#include "utils/logging/Logger.h"
+#include "chassis/configs/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigCompBot_302.h"
+#include "chassis/configs/ChassisConfigChassis_9998.h"
+#include "chassis/configs/ChassisConfigChassis_9997.h"
+
+using namespace std;
+
+ChassisConfigMgr *ChassisConfigMgr::m_instance = nullptr;
+ChassisConfigMgr *ChassisConfigMgr::GetInstance()
+{
+	if (ChassisConfigMgr::m_instance == nullptr)
+	{
+		ChassisConfigMgr::m_instance = new ChassisConfigMgr();
+	}
+	return ChassisConfigMgr::m_instance;
+}
+
+ChassisConfigMgr::ChassisConfigMgr() : m_config(nullptr)
 {
 }
 
-void ChassisConfig::BuildChassis()
+void ChassisConfigMgr::InitChassis(RobotConfigMgr::RobotIdentifier id)
 {
-    DefinePigeon();
-    DefineChassis();
-}
+	switch (id)
+	{
+	case RobotConfigMgr::RobotIdentifier::COMP_BOT_302:
+		m_config = new ChassisConfigCompBot_302();
+		break;
 
-ChassisConfig::~ChassisConfig()
-{
-}
+	case RobotConfigMgr::RobotIdentifier::CHASSISBOT_9998:
+		m_config = new ChassisConfigChassis_9998();
+		break;
 
-void ChassisConfig::DefinePigeon()
-{
-}
+	case RobotConfigMgr::RobotIdentifier::CHASSIS_BOT_9997:
+		m_config = new ChassisConfigChassis_9997();
+		break;
 
-void ChassisConfig::DefineChassis()
-{
-}
+	default:
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("Skipping chassis initialization because of unknown robot id "), string(""), id);
+		break;
+	}
 
-SwerveModule *ChassisConfig::GetSwerveModule(ChassisConfig::SWERVE_MODULE module) const
-{
-    if (module == SWERVE_MODULE::LEFT_BACK)
-        return m_leftBackModule;
-
-    if (module == SWERVE_MODULE::LEFT_FRONT)
-        return m_leftFrontModule;
-
-    if (module == SWERVE_MODULE::RIGHT_BACK)
-        return m_rightBackModule;
-
-    return m_rightFrontModule;
+	if (m_config != nullptr)
+	{
+		m_config->BuildChassis();
+		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Initialization completed for robot "), string(""), id);
+	}
 }

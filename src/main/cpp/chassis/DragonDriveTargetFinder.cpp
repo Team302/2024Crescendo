@@ -21,8 +21,8 @@
 #include "frc/geometry/Transform3d.h"
 #include "units/angle.h"
 
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "chassis/DragonDriveTargetFinder.h"
 #include "chassis/headingStates/ISwerveDriveOrientation.h"
 #include "DragonVision/DragonVisionStructLogger.h"

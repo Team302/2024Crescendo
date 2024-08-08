@@ -72,10 +72,7 @@ bool PassState::AtTarget()
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
 	double targetSpeed = m_mechanism->getlauncherTargetSpeed().value();
 
-	bool topSpeedIsWithinTolerance = topSpeed > (targetSpeed * 0.95);
-	bool bottomSpeedIsWithinTolerance = botSpeed > (targetSpeed * 0.95);
-
-	attarget = angleIsWithinTolerance; //&& topSpeedIsWithinTolerance && bottomSpeedIsWithinTolerance;
+	attarget = angleIsWithinTolerance;
 
 	return (attarget);
 }

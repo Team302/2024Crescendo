@@ -18,8 +18,8 @@
 #include <string>
 #include <vector>
 
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "chassis/SwerveChassis.h"
 #include "robotstate/RobotStateChangeBroker.h"
 #include "teleopcontrol/TeleopControl.h"

@@ -17,7 +17,7 @@
 
 // Team302 Includes
 #include "chassis/DragonDriveTargetFinder.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose2d.h"
 #include "utils/FMSData.h"

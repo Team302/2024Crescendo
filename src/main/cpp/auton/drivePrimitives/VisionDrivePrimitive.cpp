@@ -22,8 +22,8 @@
 #include <auton/drivePrimitives/VisionDrivePrimitive.h>
 #include <chassis/ChassisMovement.h>
 #include <chassis/ChassisOptionEnums.h>
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 
 /// DEBUGGING
 #include "utils/logging/Logger.h"

@@ -13,55 +13,49 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include <string>
+#pragma once
+#include "chassis/configs/ChassisConfig.h"
 
-#include "utils/logging/Logger.h"
-#include "chassis/ChassisConfigMgr.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigCompBot_302.h"
-#include "chassis/ChassisConfigChassis_9998.h"
-#include "chassis/ChassisConfigChassis_9997.h"
+#include "units/length.h"
+#include "ctre/phoenix6/Pigeon2.hpp"
 
-using namespace std;
-
-ChassisConfigMgr *ChassisConfigMgr::m_instance = nullptr;
-ChassisConfigMgr *ChassisConfigMgr::GetInstance()
+class ChassisConfigCompBot_302 : public ChassisConfig
 {
-	if (ChassisConfigMgr::m_instance == nullptr)
-	{
-		ChassisConfigMgr::m_instance = new ChassisConfigMgr();
-	}
-	return ChassisConfigMgr::m_instance;
-}
+public:
+	ChassisConfigCompBot_302() = default;
+	~ChassisConfigCompBot_302() = default;
 
-ChassisConfigMgr::ChassisConfigMgr() : m_config(nullptr)
-{
-}
+protected:
+	void DefinePigeon() override;
+	void DefineChassis() override;
 
-void ChassisConfigMgr::InitChassis(RobotConfigMgr::RobotIdentifier id)
-{
-	switch (id)
-	{
-	case RobotConfigMgr::RobotIdentifier::COMP_BOT_302:
-		m_config = new ChassisConfigCompBot_302();
-		break;
+private:
+	std::string m_canbusName = std::string("canivore");
+	const int m_leftfrontdriveID = 10;
+	const int m_leftfrontturnID = 11;
+	const double m_leftfrontOffset = -0.18310546875;
+	const bool m_leftfrontdriveInvert = false;
+	const bool m_leftfrontturnInvert = true;
+	const bool m_leftfrontcancoderInvert = false;
 
-	case RobotConfigMgr::RobotIdentifier::CHASSISBOT_9998:
-		m_config = new ChassisConfigChassis_9998();
-		break;
+	const int m_leftbackdriveID = 14;
+	const int m_leftbackturnID = 15;
+	const double m_leftbackOffset = 0.332763671875;
+	const bool m_leftbackdriveInvert = true;
+	const bool m_leftbackturnInvert = false;
+	const bool m_leftbackcancoderInvert = false;
 
-	case RobotConfigMgr::RobotIdentifier::CHASSIS_BOT_9997:
-		m_config = new ChassisConfigChassis_9997();
-		break;
+	const int m_rightfrontdriveID = 12;
+	const int m_rightfrontturnID = 13;
+	const double m_rightfrontOffset = 0.40063476;
+	const bool m_rightfrontdriveInvert = true;
+	const bool m_rightfrontturnInvert = false;
+	const bool m_rightfrontcancoderInvert = false;
 
-	default:
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("Skipping chassis initialization because of unknown robot id "), string(""), id);
-		break;
-	}
-
-	if (m_config != nullptr)
-	{
-		m_config->BuildChassis();
-		Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT_ONCE, string("Initialization completed for robot "), string(""), id);
-	}
-}
+	const int m_rightbackdriveID = 8;
+	const int m_rightbackturnID = 9;
+	const double m_rightbackOffset = 0.35571289;
+	const bool m_rightbackdriveInvert = false;
+	const bool m_rightbackturnInvert = true;
+	const bool m_rightbackcancoderInvert = false;
+};

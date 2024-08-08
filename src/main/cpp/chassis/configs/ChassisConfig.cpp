@@ -1,3 +1,4 @@
+
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -13,49 +14,41 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-#include "chassis/ChassisConfig.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/SwerveChassis.h"
 
-#include "units/length.h"
-#include "ctre/phoenix6/Pigeon2.hpp"
-
-class ChassisConfigCompBot_302 : public ChassisConfig
+ChassisConfig::ChassisConfig()
 {
-public:
-	ChassisConfigCompBot_302() = default;
-	~ChassisConfigCompBot_302() = default;
+}
 
-protected:
-	void DefinePigeon() override;
-	void DefineChassis() override;
+void ChassisConfig::BuildChassis()
+{
+    DefinePigeon();
+    DefineChassis();
+}
 
-private:
-	std::string m_canbusName = std::string("canivore");
-	const int m_leftfrontdriveID = 10;
-	const int m_leftfrontturnID = 11;
-	const double m_leftfrontOffset = -0.18310546875;
-	const bool m_leftfrontdriveInvert = false;
-	const bool m_leftfrontturnInvert = true;
-	const bool m_leftfrontcancoderInvert = false;
+ChassisConfig::~ChassisConfig()
+{
+}
 
-	const int m_leftbackdriveID = 14;
-	const int m_leftbackturnID = 15;
-	const double m_leftbackOffset = 0.332763671875;
-	const bool m_leftbackdriveInvert = true;
-	const bool m_leftbackturnInvert = false;
-	const bool m_leftbackcancoderInvert = false;
+void ChassisConfig::DefinePigeon()
+{
+}
 
-	const int m_rightfrontdriveID = 12;
-	const int m_rightfrontturnID = 13;
-	const double m_rightfrontOffset = 0.40063476;
-	const bool m_rightfrontdriveInvert = true;
-	const bool m_rightfrontturnInvert = false;
-	const bool m_rightfrontcancoderInvert = false;
+void ChassisConfig::DefineChassis()
+{
+}
 
-	const int m_rightbackdriveID = 8;
-	const int m_rightbackturnID = 9;
-	const double m_rightbackOffset = 0.35571289;
-	const bool m_rightbackdriveInvert = false;
-	const bool m_rightbackturnInvert = true;
-	const bool m_rightbackcancoderInvert = false;
-};
+SwerveModule *ChassisConfig::GetSwerveModule(ChassisConfig::SWERVE_MODULE module) const
+{
+    if (module == SWERVE_MODULE::LEFT_BACK)
+        return m_leftBackModule;
+
+    if (module == SWERVE_MODULE::LEFT_FRONT)
+        return m_leftFrontModule;
+
+    if (module == SWERVE_MODULE::RIGHT_BACK)
+        return m_rightBackModule;
+
+    return m_rightFrontModule;
+}

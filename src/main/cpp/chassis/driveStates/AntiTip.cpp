@@ -20,8 +20,8 @@
 // Team302 Includes
 #include "chassis/ChassisMovement.h"
 #include "chassis/driveStates/AntiTip.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "utils/FMSData.h"
 
 void AntiTip::CorrectForTipping(ChassisMovement &chassisMovement, units::velocity::feet_per_second_t m_maxspeed)

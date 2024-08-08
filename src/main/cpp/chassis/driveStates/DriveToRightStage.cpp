@@ -24,7 +24,7 @@
 // Team302 Includes
 #include "DragonVision/DragonVision.h"
 #include "chassis/SwerveChassis.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "chassis/driveStates/DriveToRightStage.h"
 #include "chassis/driveStates/TrajectoryDrivePathPlanner.h"
 #include "utils/FMSData.h"

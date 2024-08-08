@@ -9,8 +9,8 @@
 
 #include "auton/AutonPreviewer.h"
 #include "auton/CyclePrimitives.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "chassis/HolonomicDrive.h"
 #include "chassis/SwerveChassis.h"
 #include "configs/RobotConfig.h"

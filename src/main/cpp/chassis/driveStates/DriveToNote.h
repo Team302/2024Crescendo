@@ -21,6 +21,7 @@
 // FRC Includes
 #include <frc/geometry/Rotation3d.h>
 #include <frc/geometry/Rotation2d.h>
+#include <frc/geometry/Pose2d.h>
 
 // Team302 Includes
 #include "chassis/driveStates/RobotDrive.h"
@@ -37,7 +38,9 @@ public:
     DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
 
     pathplanner::PathPlannerTrajectory CreateDriveToNote();
+    pathplanner::PathPlannerTrajectory CreateDriveToNoteTrajectory(frc::Pose2d currentPose, frc::Pose2d notePose);
     void Init(ChassisMovement &chassisMovement) override;
+    void InitFromTrajectory(ChassisMovement &chassisMovement, pathplanner::PathPlannerTrajectory trajectory);
     pathplanner::PathPlannerTrajectory GetTrajectory() const { return m_trajectory; }
 
     bool IsDone();

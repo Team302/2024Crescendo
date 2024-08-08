@@ -52,8 +52,8 @@
 #include "utils/logging/Logger.h"
 #include "utils/logging/DataTrace.h"
 #include "utils/FMSData.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "frc/kinematics/ChassisSpeeds.h"
 
 #include "chassis/DragonDriveTargetFinder.h"
