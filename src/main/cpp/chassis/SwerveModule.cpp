@@ -189,9 +189,10 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
     if (m_velocityControlled)
     {
         units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Swerve Module", string("omega"), omega.value());
-        // m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
-        m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
+        if (m_useFOC)
+            m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
+        else
+            m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
     }
     else // Run Open Loop
     {
@@ -207,9 +208,8 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 /// @returns void
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
-    PositionVoltage voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
     m_activeState.angle = targetAngle;
-    m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
+    m_turnTalon->SetControl(m_positionVoltage.WithPosition(targetAngle));
 }
 
 //==================================================================================
@@ -276,11 +276,12 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
 
         /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
         /// TO DO : Need code gen updates to be able to be implemented
-        configs.Slot1.kS = 0.1;       // To account for friction, add 0.1 V of static feedforward
-        configs.Slot1.kV = 0.12;      // To account for friction, add 2.5 A of static feedforward
-        configs.Slot1.kP = m_driveKp; // An error of 1 rotation per second results in 5 A output
-        configs.Slot1.kI = m_driveKi; // No output for integrated error
-        configs.Slot1.kD = m_driveKd; // No output for error derivative
+        configs.Slot1.kS = m_driveKs; // To account for friction, static feedforward
+        configs.Slot1.kV = m_driveKf; // Kraken X60 is a 500 kV motor, 500 rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / rotation per second(Free wheeling)
+        configs.Slot1.kP = m_driveKp;
+        configs.Slot1.kI = m_driveKi;
+        configs.Slot1.kD = m_driveKd;
+
         // Peak output of 40 A
         configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
         configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
@@ -310,16 +311,7 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         currconfig.StatorCurrentLimit = 80.0;
         currconfig.StatorCurrentLimitEnable = true;
 
-        // currconfig.SupplyCurrentLimit = 40.0;
-        // currconfig.SupplyCurrentLimitEnable = true;
-        // currconfig.SupplyCurrentThreshold = 30.0;
-        // currconfig.SupplyTimeThreshold = 0.25;
         m_driveTalon->GetConfigurator().Apply(currconfig);
-
-        VoltageConfigs voltconfig{};
-        voltconfig.PeakForwardVoltage = 11.0;
-        voltconfig.PeakReverseVoltage = -11.0;
-        m_driveTalon->GetConfigurator().Apply(voltconfig);
 
         m_driveTalon->SetInverted(driveInverted);
     }
@@ -390,29 +382,76 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
             {
                 for (pugi::xml_attribute attr = control.first_attribute(); attr; attr = attr.next_attribute())
                 {
-                    if (strcmp(attr.name(), "turn_proportional") == 0)
+                    if (strcmp(attr.name(), "useFOC") == 0)
                     {
-                        m_turnKp = attr.as_double();
+                        m_useFOC = attr.as_bool();
                     }
-                    else if (strcmp(attr.name(), "turn_integral") == 0)
+                    if (m_useFOC)
                     {
-                        m_turnKi = attr.as_double();
+                        if (strcmp(attr.name(), "turn_FOC_proportional") == 0)
+                        {
+                            m_turnKp = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "turn_FOC_integral") == 0)
+                        {
+                            m_turnKi = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "turn_FOC_derivative") == 0)
+                        {
+                            m_turnKd = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_proportional") == 0)
+                        {
+                            m_driveKp = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_integral") == 0)
+                        {
+                            m_driveKi = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_derivative") == 0)
+                        {
+                            m_driveKd = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_staticFeedForward") == 0)
+                        {
+                            m_driveKs = (attr.as_double());
+                        }
+                        m_driveKf = 0.0;
                     }
-                    else if (strcmp(attr.name(), "turn_derivative") == 0)
+                    else
                     {
-                        m_turnKd = attr.as_double();
-                    }
-                    else if (strcmp(attr.name(), "drive_proportional") == 0)
-                    {
-                        m_driveKp = (attr.as_double());
-                    }
-                    else if (strcmp(attr.name(), "drive_integral") == 0)
-                    {
-                        m_driveKi = (attr.as_double());
-                    }
-                    else if (strcmp(attr.name(), "drive_derivative") == 0)
-                    {
-                        m_driveKd = (attr.as_double());
+                        if (strcmp(attr.name(), "turn_proportional") == 0)
+                        {
+                            m_turnKp = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "turn_integral") == 0)
+                        {
+                            m_turnKi = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "turn_derivative") == 0)
+                        {
+                            m_turnKd = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "drive_proportional") == 0)
+                        {
+                            m_driveKp = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_integral") == 0)
+                        {
+                            m_driveKi = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_derivative") == 0)
+                        {
+                            m_driveKd = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_staticFeedForward") == 0)
+                        {
+                            m_driveKs = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_feedforward") == 0)
+                        {
+                            m_driveKf = (attr.as_double());
+                        }
                     }
                 }
             }

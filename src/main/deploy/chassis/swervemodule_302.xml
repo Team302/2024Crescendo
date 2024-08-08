@@ -4,8 +4,18 @@
     turn_proportional="100.0"
     turn_integral="75.0"
     turn_derivative="0.0"
+    turn_FOC_proportional="100.0"
+    turn_FOC_integral="75.0"
+    turn_FOC_derivative="0.0"
+    drive_staticFF="0.1"
+    drive_feedforward="0.12"
     drive_proportional="5.0"
     drive_integral="0.0"
     drive_derivative="0.0"
+    drive_FOC_proportional="5.0"
+    drive_FOC_integral="0.0"
+    drive_FOC_derivative="0.0"
+    drive_FOC_staticFeedForward="2.5"
+    useFOC="true"
      />
 </swervemodule>
