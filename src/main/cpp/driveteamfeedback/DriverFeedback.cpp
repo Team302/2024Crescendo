@@ -44,7 +44,6 @@ DriverFeedback *DriverFeedback::GetInstance()
 
 void DriverFeedback::UpdateFeedback()
 {
-
     UpdateRumble();
     UpdateDiagnosticLEDs();
     UpdateLEDStates();
@@ -59,7 +58,7 @@ void DriverFeedback::UpdateRumble()
         controller->SetRumble(0, false, false);
         controller->SetRumble(1, false, false);
     }
-    else
+    else if (frc::DriverStation::IsTeleop())
     {
         StateMgr *noteStateManager = RobotConfigMgr::GetInstance()->GetCurrentConfig()->GetMechanism(MechanismTypes::NOTE_MANAGER);
         auto noteMgr = noteStateManager != nullptr ? dynamic_cast<noteManagerGen *>(noteStateManager) : nullptr;
