@@ -2,10 +2,20 @@
 <swervemodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!--- TO BE TUNED -->
   <attributes
-    turn_proportional="25.0"
-    turn_integral="12.5"
+    turn_proportional="20.0"
+    turn_integral="10.0"
     turn_derivative="0.0"
-    drive_proportional="0.11"
+    turn_FOC_proportional="20.0"
+    turn_FOC_integral="10.0"
+    turn_FOC_derivative="0.0"
+    drive_staticFF="0.1"
+    drive_feedforward="0.12"
+    drive_proportional="5.0"
     drive_integral="0.0"
-    drive_derivative="0.0" />
+    drive_derivative="0.0"
+    drive_FOC_proportional="5.0"
+    drive_FOC_integral="0.0"
+    drive_FOC_derivative="0.0"
+    drive_FOC_staticFeedForward="2.5"
+    useFOC="false" />
 </swervemodule>
