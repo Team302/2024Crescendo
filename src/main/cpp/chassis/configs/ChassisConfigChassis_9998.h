@@ -14,7 +14,7 @@
 //====================================================================================================================================================
 
 #pragma once
-#include "chassis/ChassisConfig.h"
+#include "chassis/configs/ChassisConfig.h"
 
 #include "units/length.h"
 #include "ctre/phoenix6/Pigeon2.hpp"

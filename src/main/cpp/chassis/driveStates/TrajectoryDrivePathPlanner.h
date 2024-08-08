@@ -38,7 +38,6 @@ public:
 
     std::string WhyDone() const { return m_whyDone; };
     bool IsDone();
-    void CheckForDriveToNote();
     units::angular_velocity::degrees_per_second_t CalcHeadingCorrection(units::angle::degree_t targetAngle, double kPFine, double kPCoarse);
 
 protected:

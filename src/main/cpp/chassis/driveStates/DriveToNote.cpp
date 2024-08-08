@@ -24,7 +24,7 @@
 
 // Team302 Includes
 #include "DragonVision/DragonVision.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 #include "chassis/driveStates/DriveToNote.h"
 #include "utils/FMSData.h"
 #include "DragonVision/DragonVisionStructs.h"
@@ -48,6 +48,12 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
 {
 
     m_trajectory = CreateDriveToNote();
+    InitFromTrajectory(chassisMovement, m_trajectory);
+}
+
+void DriveToNote::InitFromTrajectory(ChassisMovement &chassisMovement, pathplanner::PathPlannerTrajectory trajectory)
+{
+    m_trajectory = trajectory;
     if (!m_trajectory.getStates().empty())
     {
         ResetIntakeNoteTimer();
@@ -76,23 +82,26 @@ pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNote()
         auto data = get<1>(info);
         if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED)
         {
-            frc::Pose2d currentPose2d = m_chassis->GetPose();
-            frc::Pose2d targetPose = data;
-            std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
-
-            DragonVisionStructLogger::logPose2d("current pose", currentPose2d);
-            DragonVisionStructLogger::logPose2d("note pose", targetPose);
-
-            std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
-            auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
-                                                              PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
-                                                              GoalEndState(1.0_mps, data.Rotation().Degrees(), true));
-            notepath->preventFlipping = true;
-
-            trajectory = notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
+            trajectory = CreateDriveToNoteTrajectory(m_chassis->GetPose(), data);
         }
     }
     return trajectory;
+}
+pathplanner::PathPlannerTrajectory DriveToNote::CreateDriveToNoteTrajectory(frc::Pose2d currentPose2d, frc::Pose2d targetPose)
+{
+    pathplanner::PathPlannerTrajectory trajectory;
+    std::vector<frc::Pose2d> poses{currentPose2d, targetPose};
+
+    DragonVisionStructLogger::logPose2d("current pose", currentPose2d);
+    DragonVisionStructLogger::logPose2d("note pose", targetPose);
+
+    std::vector<frc::Translation2d> notebezierPoints = PathPlannerPath::bezierFromPoses(poses);
+    auto notepath = std::make_shared<PathPlannerPath>(notebezierPoints,
+                                                      PathConstraints(m_maxVel, m_maxAccel, m_maxAngularVel, m_maxAngularAccel),
+                                                      GoalEndState(1.0_mps, targetPose.Rotation().Degrees(), true));
+    notepath->preventFlipping = true;
+
+    return notepath->getTrajectory(m_chassis->GetChassisSpeeds(), currentPose2d.Rotation());
 }
 
 bool DriveToNote::IsDone()

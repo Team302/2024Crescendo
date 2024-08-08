@@ -18,8 +18,8 @@
 #include "chassis/driveStates/AntiTip.h"
 #include "chassis/driveStates/RobotDrive.h"
 #include "chassis/driveStates/StopDrive.h"
-#include "chassis/ChassisConfig.h"
-#include "chassis/ChassisConfigMgr.h"
+#include "chassis/configs/ChassisConfig.h"
+#include "chassis/configs/ChassisConfigMgr.h"
 
 #include "utils/logging/Logger.h"
 

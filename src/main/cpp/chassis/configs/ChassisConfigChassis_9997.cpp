@@ -17,7 +17,7 @@
 
 #include "chassis/SwerveModule.h"
 #include "chassis/SwerveModuleConstants.h"
-#include "chassis/ChassisConfigChassis_9997.h"
+#include "chassis/configs/ChassisConfigChassis_9997.h"
 #include "utils/logging/Logger.h"
 #include <ctre/phoenix/sensors/PigeonIMU.h>
 
