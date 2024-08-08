@@ -277,24 +277,12 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         configs.Voltage.PeakForwardVoltage = 10.0;
         configs.Voltage.PeakReverseVoltage = -10.0;
 
-        /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
         /// TO DO : Need code gen updates to be able to be implemented
-        if (m_useFOC)
-        {
-            configs.Slot1.kS = m_driveKs; // To account for friction, static feedforward
-            configs.Slot1.kV = 0;         // Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself
-            configs.Slot1.kP = m_driveKp;
-            configs.Slot1.kI = m_driveKi;
-            configs.Slot1.kD = m_driveKd;
-        }
-        else
-        {
-            configs.Slot0.kS = m_driveKs; // To account for friction, static feedforward
-            configs.Slot0.kV = m_driveKf; // Kraken X60 is a 500 kV motor, 500 rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / rotation per second(Free wheeling)
-            configs.Slot0.kP = m_driveKp;
-            configs.Slot0.kI = m_driveKi;
-            configs.Slot0.kD = m_driveKd;
-        }
+        configs.Slot0.kS = m_driveKs; // To account for friction, static feedforward
+        configs.Slot0.kV = m_driveKf; // Kraken X60 is a 500 kV motor, 500 rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / rotation per second(Free wheeling)
+        configs.Slot0.kP = m_driveKp;
+        configs.Slot0.kI = m_driveKi;
+        configs.Slot0.kD = m_driveKd;
 
         // Peak output of 40 A
         configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
@@ -357,18 +345,9 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         fxconfigs.TorqueCurrent.PeakForwardTorqueCurrent = 120;
         fxconfigs.TorqueCurrent.PeakReverseTorqueCurrent = -120;
 
-        if (m_useFOC)
-        {
-            fxconfigs.Slot1.kP = m_turnKp;
-            fxconfigs.Slot1.kI = m_turnKi;
-            fxconfigs.Slot1.kD = m_turnKd;
-        }
-        else
-        {
-            fxconfigs.Slot0.kP = m_turnKp;
-            fxconfigs.Slot0.kI = m_turnKi;
-            fxconfigs.Slot0.kD = m_turnKd;
-        }
+        fxconfigs.Slot0.kP = m_turnKp;
+        fxconfigs.Slot0.kI = m_turnKi;
+        fxconfigs.Slot0.kD = m_turnKd;
 
         fxconfigs.ClosedLoopGeneral.ContinuousWrap = true;
 
@@ -443,6 +422,7 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                         {
                             m_driveKs = (attr.as_double());
                         }
+                        m_driveKf = 0; // Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself
                     }
                     else
                     {
