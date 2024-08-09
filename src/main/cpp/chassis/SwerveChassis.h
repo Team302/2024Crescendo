@@ -123,7 +123,7 @@ public:
 
     bool IsRotating() const { return m_isRotating; }
     double GetRotationRateDegreesPerSecond() const { return m_pigeon != nullptr ? m_pigeon->GetRate() : 0.0; }
-
+    bool IsSkidding();
     void LogInformation() override;
 
 private:

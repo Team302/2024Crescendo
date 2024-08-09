@@ -184,7 +184,11 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
         m_backRight->SetDesiredState(states[RIGHT_BACK]);
     }
 
-    UpdateOdometry();
+    // Skid/Slip detection logic
+    if (!IsSkidding()) // Implement this method to detect skidding
+    {
+        UpdateOdometry();
+    }
 }
 
 //==================================================================================
@@ -464,4 +468,37 @@ void SwerveChassis::ReadConstants(string configfilename)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
     }
+}
+
+//==================================================================================
+bool SwerveChassis::IsSkidding()
+{
+    // Getting the rotational velocity of the chassis in degrees per second and converting it to radians per second
+    units::angular_velocity::radians_per_second_t rotationalVelocity = units::angular_velocity::radians_per_second_t(GetRotationRateDegreesPerSecond() * 180.0 / std::numbers::pi);
+
+    // Getting the translational velocity of the swerve modules
+    units::velocity::meters_per_second_t frontLeftVelocity = m_frontLeft->GetState().speed;
+    units::velocity::meters_per_second_t frontRightVelocity = m_frontRight->GetState().speed;
+    units::velocity::meters_per_second_t backLeftVelocity = m_backLeft->GetState().speed;
+    units::velocity::meters_per_second_t backRightVelocity = m_backRight->GetState().speed;
+
+    // Getting the average velocity of the swerve modules (chassis translational velocity?)
+    units::velocity::meters_per_second_t averageVelocity = (frontLeftVelocity + frontRightVelocity + backLeftVelocity + backRightVelocity) / units::scalar_t(4.0);
+
+    // Getting the rotational velocity of the modules
+    units::angular_velocity::radians_per_second_t frontLeftRotationalVelocity = m_frontLeft->GetRotationalVelocity();
+    units::angular_velocity::radians_per_second_t frontRightRotationalVelocity = m_frontRight->GetRotationalVelocity();
+    units::angular_velocity::radians_per_second_t backLeftRotationalVelocity = m_backLeft->GetRotationalVelocity();
+    units::angular_velocity::radians_per_second_t backRightRotationalVelocity = m_backRight->GetRotationalVelocity();
+
+    // Tune in tolerance for detecting skidding
+    double tolerance = 0.1;
+
+    // If the difference between any wheel's translational velocity and the average is greater than the tolerance, skidding is occurring
+    if ()
+    {
+        return true; // Skidding detected
+    }
+
+    return false; // No skidding detected
 }

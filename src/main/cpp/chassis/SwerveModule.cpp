@@ -373,3 +373,12 @@ void SwerveModule::ReadConstants(string configfilename)
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_networkTableName, string("Config File not found"), configfilename);
     }
 }
+
+units::angular_velocity::radians_per_second_t SwerveModule::GetRotationalVelocity()
+{
+    if (m_turnTalon != nullptr)
+    {
+        return units::angular_velocity::radians_per_second_t(m_turnTalon->GetVelocity().GetValue());
+    }
+    return units::angular_velocity::radians_per_second_t(0.0);
+}

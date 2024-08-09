@@ -79,6 +79,7 @@ public:
     SwerveModuleConstants::ModuleID GetModuleID() { return m_moduleID; }
     units::length::inch_t GetWheelDiameter() const { return m_wheelDiameter; }
     units::velocity::feet_per_second_t GetMaxSpeed() const { return m_maxSpeed; }
+    units::angular_velocity::radians_per_second_t GetRotationalVelocity();
 
     void StopMotors();
     void LogInformation() override;
