@@ -111,7 +111,7 @@ private:
     // Slew rate limiter
 
     frc::SlewRateLimiter<units::volt> m_openLoopSlewLimter{6_V / 1_s, -3_V / 1_s, 0.0_V};
-    // frc::SlewRateLimiter<units::meters_per_second_t> m_velocitySlewLimiter{units::meters_per_second_t(3.0)};
+    frc::SlewRateLimiter<units::meters_per_second> m_velocitySlewLimiter{3.0_mps / 1_s, -3.0_mps / 1_s, 0.0_mps};
     //  Turn Motor Gains
     double m_turnKp = 0.0;
     double m_turnKi = 0.0;
