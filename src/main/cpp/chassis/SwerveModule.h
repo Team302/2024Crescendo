@@ -29,6 +29,8 @@
 #include "units/angular_velocity.h"
 #include "units/velocity.h"
 #include "utils/logging/LoggableItem.h"
+#include <frc/filter/SlewRateLimiter.h>
+#include <units/dimensionless.h>
 
 // Team 302 Includes
 #include "chassis/SwerveModuleConstants.h"
@@ -106,7 +108,11 @@ private:
     ctre::phoenix6::controls::VelocityTorqueCurrentFOC m_velocityTorque = ctre::phoenix6::controls::VelocityTorqueCurrentFOC{0_tps}.WithSlot(0);
     ctre::phoenix6::controls::VelocityVoltage m_velocityVoltage = ctre::phoenix6::controls::VelocityVoltage{0_tps}.WithSlot(0);
 
-    // Turn Motor Gains
+    // Slew rate limiter
+
+    frc::SlewRateLimiter<units::volt> m_openLoopSlewLimter{6_V / 1_s, -3_V / 1_s, 0.0_V};
+    // frc::SlewRateLimiter<units::meters_per_second_t> m_velocitySlewLimiter{units::meters_per_second_t(3.0)};
+    //  Turn Motor Gains
     double m_turnKp = 0.0;
     double m_turnKi = 0.0;
     double m_turnKd = 0.0;

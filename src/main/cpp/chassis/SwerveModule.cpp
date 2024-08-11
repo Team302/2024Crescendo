@@ -197,7 +197,7 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
     else // Run Open Loop
     {
         auto percent = m_activeState.speed / m_maxSpeed;
-        DutyCycleOut out{percent.value()};
+        DutyCycleOut out{m_openLoopSlewLimter.Calculate(units::volt_t(percent.value() * 12.0)).value() / 12.0}; // convert percent out to volts and then back to DC assuming 12V battery
         m_driveTalon->SetControl(out);
     }
 }
