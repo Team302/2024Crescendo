@@ -35,7 +35,7 @@ public:
     ~FaceTarget() = default;
     // void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
-    frc::DriverStation::Alliance m_allianceColor = FMSData::GetInstance()->GetAllianceColor();
+    frc::DriverStation::Alliance m_allianceColor;
     frc::Pose2d *m_targetPose;
 
     bool
