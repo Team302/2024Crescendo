@@ -299,13 +299,13 @@ void SwerveChassis::UpdateOdometry()
             if (m_pigeon->GetStickyFault_Undervoltage().GetValue()) // Brownout
             {
                 hasValidRotation = false;
-                m_pigeon->ClearStickyFault_Undervoltage();
 
                 auto visionPosition = m_vision->GetRobotPosition();
                 auto hasVisionPose = visionPosition.has_value();
                 if (hasVisionPose)
                 {
                     rotation = visionPosition.value().estimatedPose.ToPose2d().Rotation().Degrees();
+                    m_pigeon->ClearStickyFault_Undervoltage();
                     hasValidRotation = true;
                 }
             }
