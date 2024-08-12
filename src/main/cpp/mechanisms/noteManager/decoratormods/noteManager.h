@@ -74,6 +74,7 @@ public:
 	bool IsPlacerMode() const { return m_scoringMode == RobotStateChanges::ScoringMode::Placer; }
 	bool IsClimbMode() const { return m_climbMode == RobotStateChanges::ClimbMode::ClimbModeOn; }
 	bool IsEnabled() const { return m_gamePeriod != RobotStateChanges::GamePeriod::Disabled; }
+	bool IsAuton() const { return m_gamePeriod == RobotStateChanges::GamePeriod::Auton; }
 
 	void Update(RobotStateChanges::StateChange change, int value) override;
 	bool HasNote() const;

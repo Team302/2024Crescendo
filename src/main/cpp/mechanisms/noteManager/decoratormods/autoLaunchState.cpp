@@ -70,5 +70,5 @@ bool autoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	bool readyToLaunch = (m_mechanism->LauncherTargetsForAutoLaunchAchieved());
 
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH)) && readyToLaunch;
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH)) && readyToLaunch && (m_mechanism->AllignedToSpeaker() || m_mechanism->IsAuton()); // If in auton just launch anyway to get the game piece and get another
 }
