@@ -21,13 +21,13 @@
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose2d.h"
 #include "utils/FMSData.h"
-#include <algorithm>
+#include "utils/AngleUtils.h"
 
 #include "utils/logging/Logger.h"
 
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : SpecifiedHeading(headingOption)
 {
-    frc::DriverStation::Alliance m_allianceColor = FMSData::GetInstance()->GetAllianceColor();
+    m_allianceColor = FMSData::GetInstance()->GetAllianceColor();
 }
 
 units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMovement) const
@@ -75,14 +75,22 @@ bool FaceTarget::AtTarget()
         if (GetVisionElement() == DragonVision::VISION_ELEMENT::SPEAKER)
         {
 
-            units::length::meter_t targetMin = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Translation().Y() - 1.051_m : m_targetPose->Translation().Y() + 1.051_m;
-            units::length::meter_t targetMax = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Translation().Y() + 1.051_m : m_targetPose->Translation().Y() - 1.051_m;
+            units::length::meter_t targetMin = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Y() - 1.051_m : m_targetPose->Y() + 1.051_m;
+            units::length::meter_t targetMax = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Y() + 1.051_m : m_targetPose->Y() - 1.051_m;
 
-            units::angle::degree_t thetaMin = units::math::atan2(targetMin / m_targetPose->Translation.X());
-            units::angle::degree_t thetaMax = units::math::atan2(targetMax / m_targetPose->Translation.X());
+            // Need to do this for the Red and Blue Speakers
+            targetMin = units::math::min(targetMin, targetMax);
+            targetMax = units::math::max(targetMin, targetMax);
 
-            units::angle::degree_t minError = thetaMin + chassis.GetStoredHeading();
-            units::angle::degree_t maxError = thetaMax - chassis.GetStoredHeading();
+            units::angle::degree_t thetaMin = AngleUtils::GetEquivAngle(units::math::atan2(targetMin, m_targetPose->X()));
+            units::angle::degree_t thetaMax = AngleUtils::GetEquivAngle(units::math::atan2(targetMax, m_targetPose->X()));
+
+            // Need to do this for Red and Blue Speakers
+            thetaMin = units::math::min(thetaMin, thetaMax);
+            thetaMax = units::math::max(thetaMin, thetaMax);
+
+            units::angle::degree_t minError = thetaMin + chassis->GetStoredHeading();
+            units::angle::degree_t maxError = thetaMax - chassis->GetStoredHeading();
 
             return (chassis->GetYaw() >= minError && chassis->GetYaw() <= maxError);
         }

@@ -38,8 +38,7 @@ public:
     frc::DriverStation::Alliance m_allianceColor;
     frc::Pose2d *m_targetPose;
 
-    bool
-    AtTarget();
+    bool AtTarget();
 
 protected:
     virtual DragonVision::VISION_ELEMENT GetVisionElement() const = 0;

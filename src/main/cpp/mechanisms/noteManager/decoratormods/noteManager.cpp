@@ -55,7 +55,7 @@
 #include "chassis/configs/ChassisConfig.h"
 #include "chassis/configs/ChassisConfigMgr.h"
 #include "frc/kinematics/ChassisSpeeds.h"
-
+#include "chassis/headingStates/FaceTarget.h"
 #include "chassis/DragonDriveTargetFinder.h"
 
 using std::string;
@@ -444,5 +444,5 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 
 bool noteManager::AllignedToSpeaker()
 {
-	
+	return FaceTarget::AtTarget();
 }
