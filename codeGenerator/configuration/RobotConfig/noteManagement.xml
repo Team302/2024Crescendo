@@ -4084,7 +4084,7 @@
           <name>stringParameterConstInMechInstance_5</name>
           <__units__ />
           <type>String</type>
-          <value>Pass</value>
+          <value>readyPass</value>
         </stringParameterConstInMechInstance>
       </transitionsTo>
       <motorTargets>
