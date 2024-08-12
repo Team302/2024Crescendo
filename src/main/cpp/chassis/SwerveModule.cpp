@@ -392,6 +392,10 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                     {
                         m_useFOC = attr.as_bool();
                     }
+                    if (strcmp(attr.name(), "useVelocityControl") == 0)
+                    {
+                        m_velocityControlled = attr.as_bool();
+                    }
                     if (m_useFOC)
                     {
                         if (strcmp(attr.name(), "turn_FOC_proportional") == 0)

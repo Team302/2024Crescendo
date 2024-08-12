@@ -130,7 +130,7 @@ private:
     double m_turnMaxAcc = 0.0;
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
     units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(17.3);
-    bool m_velocityControlled = true;
+    bool m_velocityControlled = false;
     bool m_useFOC = false;
     std::string m_networkTableName;
 };
