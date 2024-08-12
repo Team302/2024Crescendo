@@ -77,10 +77,10 @@ bool FaceTarget::AtTarget()
             units::length::meter_t targetMin = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Translation().Y() - 1.051_m : m_targetPose->Translation().Y() + 1.051_m;
             units::length::meter_t targetMax = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Translation().Y() + 1.051_m : m_targetPose->Translation().Y() - 1.051_m;
 
-            units::angle::degree_t minError = units::math::atan2(targetMin - currentPose.X(), m_targetPose->Y() - currentPose.Y()) - units::math::atan2(m_targetPose->Y() - currentPose.Y(), m_targetPose->X() - currentPose.X());
-            units::angle::degree_t maxError = units::math::atan2(targetMax - currentPose.X(), m_targetPose->Y() - currentPose.Y()) + units::math::atan2(m_targetPose->Y() - currentPose.Y(), m_targetPose->X() - currentPose.X());
+            units::angle::degree_t minError =
+                units::angle::degree_t maxError =
 
-            return (currentPose.Rotation().Degrees() >= (currentPose.Rotation().Degrees() - minError) && error <= (maxError + currentPose.Rotation().Degrees()));
+                    return
         }
 
         else
