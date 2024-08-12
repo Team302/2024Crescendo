@@ -100,8 +100,10 @@ public:
 	void SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t valueRadPerSec) { m_LauncherBottomWheelsTarget = valueRadPerSec; }
 	bool GetTransitionFromHoldFeedToReady() { return m_TransitionFromHoldFeedToReady; }
 	void SetTransitionFromHoldFeedToReady(bool state) { m_TransitionFromHoldFeedToReady = state; }
+	bool AllignedToSpeaker();
 
-	units::length::meter_t GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION option) const;
+	units::length::meter_t
+	GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION option) const;
 
 private:
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option);

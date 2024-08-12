@@ -26,6 +26,7 @@
 
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : SpecifiedHeading(headingOption)
 {
+    frc::DriverStation::Alliance m_allianceColor = FMSData::GetInstance()->GetAllianceColor();
 }
 
 units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMovement) const
@@ -38,15 +39,15 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
         {
             auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
             auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
-            frc::DriverStation::Alliance allianceColor = FMSData::GetInstance()->GetAllianceColor();
 
             if (chassis != nullptr)
             {
                 auto targetPose = get<1>(info);
 
-                units::angle::degree_t fieldRelativeAngle = (allianceColor == frc::DriverStation::Alliance::kBlue && GetVisionElement() == DragonVision::VISION_ELEMENT::SPEAKER) ? (units::angle::degree_t(180) + targetPose.Rotation().Degrees()) : targetPose.Rotation().Degrees();
+                units::angle::degree_t fieldRelativeAngle = (m_allianceColor == frc::DriverStation::Alliance::kBlue && GetVisionElement() == DragonVision::VISION_ELEMENT::SPEAKER) ? (units::angle::degree_t(180) + targetPose.Rotation().Degrees()) : targetPose.Rotation().Degrees();
 
                 chassisMovement.yawAngle = fieldRelativeAngle;
+                *m_targetPose = targetPose;
                 return fieldRelativeAngle;
             }
         }
@@ -60,4 +61,33 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
     }
 
     return chassisMovement.yawAngle;
+}
+
+bool FaceTarget::AtTarget()
+{
+    auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
+    auto chassis = config != nullptr ? config->GetSwerveChassis() : nullptr;
+    if (chassis != nullptr)
+    {
+        auto currentPose = chassis->GetPose();
+        units::angle::degree_t error = units::math::abs(chassis->GetStoredHeading() - chassis->GetYaw());
+        if (GetVisionElement() == DragonVision::VISION_ELEMENT::SPEAKER)
+        {
+
+            units::length::meter_t targetMin = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Translation().X() - 1.051_m : m_targetPose->Translation().X() + 1.051_m;
+            units::length::meter_t targetMax = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Translation().X() + 1.051_m : m_targetPose->Translation().X() - 1.051_m;
+
+            units::angle::degree_t minError = units::math::atan2(targetMin - currentPose.X(), m_targetPose->Y() - currentPose.Y());
+            units::angle::degree_t maxError = units::math::atan2(targetMax - currentPose.X(), m_targetPose->Y() - currentPose.Y());
+
+            return (currentPose.Rotation().Degrees() >= (currentPose.Rotation().Degrees() - minError) && error <= (maxError + currentPose.Rotation().Degrees()));
+        }
+
+        else
+        {
+            return error <= units::angle::degree_t(2.5);
+        }
+    }
+
+    return false;
 }

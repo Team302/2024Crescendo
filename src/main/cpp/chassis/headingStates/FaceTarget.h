@@ -35,6 +35,12 @@ public:
     ~FaceTarget() = default;
     // void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
+    frc::DriverStation::Alliance m_allianceColor = FMSData::GetInstance()->GetAllianceColor();
+    frc::Pose2d *m_targetPose;
+
+    bool
+    AtTarget();
+
 protected:
     virtual DragonVision::VISION_ELEMENT GetVisionElement() const = 0;
     units::angle::degree_t GetTargetAngle(ChassisMovement &chassisMovement) const override;

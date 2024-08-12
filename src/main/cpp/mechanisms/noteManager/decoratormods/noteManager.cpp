@@ -441,3 +441,8 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 
 	return targetSpeed;
 }
+
+bool noteManager::AllignedToSpeaker()
+{
+	
+}
