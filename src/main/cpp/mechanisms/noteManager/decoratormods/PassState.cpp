@@ -65,16 +65,7 @@ void PassState::Exit()
 
 bool PassState::AtTarget()
 {
-	bool attarget = false;
-	bool angleIsWithinTolerance = m_mechanism->isLauncherAtTargert();
-
-	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
-	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();
-	double targetSpeed = m_mechanism->getlauncherTargetSpeed().value();
-
-	attarget = angleIsWithinTolerance;
-
-	return (attarget);
+	return m_mechanism->isLauncherAtTarget();
 }
 
 bool PassState::IsTransitionCondition(bool considerGamepadTransitions)

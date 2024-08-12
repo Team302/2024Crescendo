@@ -14,23 +14,43 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-#include <vector>
+#include "utils/logging/DragonDataLoggerMgr.h"
+#include "frc/DataLogManager.h"
+#include "frc/DriverStation.h"
+#include "wpi/DataLog.h"
 
-#include "utils/logging/LoggableItem.h"
+using namespace std;
 
-class LoggableItemMgr
+DragonDataLoggerMgr *DragonDataLoggerMgr::m_instance = nullptr;
+DragonDataLoggerMgr *DragonDataLoggerMgr::GetInstance()
 {
-public:
-    static LoggableItemMgr *GetInstance();
-    void RegisterLoggableItem(LoggableItem *item);
-    void LogData() const;
+    if (DragonDataLoggerMgr::m_instance == nullptr)
+    {
+        DragonDataLoggerMgr::m_instance = new DragonDataLoggerMgr();
+    }
+    return DragonDataLoggerMgr::m_instance;
+}
 
-private:
-    LoggableItemMgr();
-    ~LoggableItemMgr() = default;
+DragonDataLoggerMgr::DragonDataLoggerMgr() : m_items()
+{
+    frc::DataLogManager::Start();
+    frc::DriverStation::StartDataLog(frc::DataLogManager::GetLog());
+}
 
-    std::vector<LoggableItem *> m_loggableItems;
+DragonDataLoggerMgr::~DragonDataLoggerMgr()
+{
+    frc::DataLogManager::Stop();
+}
 
-    static LoggableItemMgr *m_instance;
-};
+void DragonDataLoggerMgr::RegisterItem(DragonDataLogger *item)
+{
+    m_items.emplace_back(item);
+}
+
+void DragonDataLoggerMgr::PeriodicDataLog() const
+{
+    for (auto item : m_items)
+    {
+        item->DataLog();
+    }
+}

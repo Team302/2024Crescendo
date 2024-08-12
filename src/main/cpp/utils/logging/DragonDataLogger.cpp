@@ -14,23 +14,10 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-#include <vector>
+#include "utils/logging/DragonDataLogger.h"
+#include "utils/logging/DragonDataLoggerMgr.h"
 
-#include "utils/logging/LoggableItem.h"
-
-class LoggableItemMgr
+DragonDataLogger::DragonDataLogger()
 {
-public:
-    static LoggableItemMgr *GetInstance();
-    void RegisterLoggableItem(LoggableItem *item);
-    void LogData() const;
-
-private:
-    LoggableItemMgr();
-    ~LoggableItemMgr() = default;
-
-    std::vector<LoggableItem *> m_loggableItems;
-
-    static LoggableItemMgr *m_instance;
-};
+    DragonDataLoggerMgr::GetInstance()->RegisterItem(this);
+}

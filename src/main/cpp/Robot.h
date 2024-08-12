@@ -28,6 +28,7 @@ class AutonPreviewer;
 class RobotState;
 class SomeMech;
 class RobotDefinition;
+class DragonDataLoggerMgr;
 
 class Robot : public frc::TimedRobot
 {
@@ -70,5 +71,6 @@ private:
     RobotState *m_robotState;
     SomeMech *m_someMech;
     RobotDefinition *m_robot;
+    DragonDataLoggerMgr *m_datalogger;
     bool isFMSAttached = false;
 };

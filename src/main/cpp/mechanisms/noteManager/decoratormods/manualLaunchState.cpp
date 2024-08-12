@@ -62,7 +62,7 @@ void manualLaunchState::Exit()
 bool manualLaunchState::AtTarget()
 {
 	bool attarget = false;
-	bool angleIsWithinTolerance = m_mechanism->isLauncherAtTargert();
+	bool angleIsWithinTolerance = m_mechanism->isLauncherAtTarget();
 
 	double topSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherTop()->GetRPS() * 60)).to<double>();
 	double botSpeed = units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(m_mechanism->getlauncherBottom()->GetRPS() * 60)).to<double>();

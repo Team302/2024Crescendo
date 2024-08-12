@@ -414,7 +414,7 @@ bool noteManager::HasNote() const
 	return true;
 }
 
-bool noteManager::isLauncherAtTargert()
+bool noteManager::isLauncherAtTarget()
 {
 	return units::math::abs((m_LauncherAngleTarget - GetLauncherAngleFromEncoder())) < m_angleTolerance;
 }

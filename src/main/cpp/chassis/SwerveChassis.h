@@ -29,6 +29,7 @@
 #include "units/angular_velocity.h"
 #include "units/length.h"
 #include "units/velocity.h"
+#include "wpi/DataLog.h"
 
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/driveStates/ISwerveDriveState.h"
@@ -37,13 +38,14 @@
 #include "chassis/SwerveModule.h"
 #include "chassis/ChassisMovement.h"
 #include "DragonVision/DragonVision.h"
+#include "utils/logging/DragonDataLogger.h"
 #include "utils/logging/LoggableItem.h"
 
 #include "ctre/phoenix6/Pigeon2.hpp"
 
 class RobotDrive;
 
-class SwerveChassis : public IChassis, public LoggableItem
+class SwerveChassis : public IChassis, public LoggableItem, public DragonDataLogger
 {
 public:
     /// @brief Construct a swerve chassis
@@ -125,6 +127,8 @@ public:
     double GetRotationRateDegreesPerSecond() const { return m_pigeon != nullptr ? m_pigeon->GetRate() : 0.0; }
 
     void LogInformation() override;
+    void InitDataLogging() override;
+    void DataLog() override;
 
 private:
     ISwerveDriveOrientation *GetHeadingState(const ChassisMovement &moveInfo);
@@ -178,5 +182,8 @@ private:
     std::string m_networkTableName;
     bool m_isRotating = false;
     bool m_rotatingLatch = false;
+    wpi::log::DoubleLogEntry m_logPoseX;
+    wpi::log::DoubleLogEntry m_logPoseY;
+    wpi::log::DoubleLogEntry m_logPoseRotation;
     DragonVision *m_vision;
 };

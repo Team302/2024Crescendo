@@ -23,6 +23,7 @@
 #include "robotstate/RobotState.h"
 #include "teleopcontrol/TeleopControl.h"
 #include "utils/DragonField.h"
+#include "utils/logging/DragonDataLoggerMgr.h"
 #include "utils/logging/LoggableItemMgr.h"
 #include "utils/logging/Logger.h"
 #include "utils/logging/LoggerData.h"
@@ -49,6 +50,8 @@ void Robot::RobotInit()
     InitializeAutonOptions();
     InitializeDriveteamFeedback();
 
+    m_datalogger = DragonDataLoggerMgr::GetInstance();
+
     if (!isFMSAttached)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("RobotInit"), string("end"));
@@ -70,6 +73,11 @@ void Robot::RobotPeriodic()
     {
         LoggableItemMgr::GetInstance()->LogData();
         Logger::GetLogger()->PeriodicLog();
+    }
+
+    if (m_datalogger != nullptr)
+    {
+        m_datalogger->PeriodicDataLog();
     }
 
     if (m_robotState != nullptr)

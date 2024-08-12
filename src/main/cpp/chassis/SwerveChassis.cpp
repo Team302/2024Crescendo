@@ -23,6 +23,8 @@
 #include "frc/geometry/Rotation2d.h"
 #include "units/angular_acceleration.h"
 #include "frc/kinematics/SwerveModulePosition.h"
+#include "frc/DataLogManager.h"
+#include "wpi/DataLog.h"
 
 // Team 302 includes
 #include "chassis/driveStates/DriveToNote.h"
@@ -292,20 +294,38 @@ void SwerveChassis::UpdateOdometry()
         auto useVision = (m_pigeon != nullptr && std::abs(GetRotationRateDegreesPerSecond()) < 720.0);
         if (useVision)
         {
-            std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(), // mtAngle.Degrees(),
-                                                                                        units::angular_velocity::degrees_per_second_t(0.0),
-                                                                                        units::angle::degree_t(0.0),
-                                                                                        units::angular_velocity::degrees_per_second_t(0.0),
-                                                                                        units::angle::degree_t(0.0),
-                                                                                        units::angular_velocity::degrees_per_second_t(0.0));
-
-            if (megaTag2Pose)
+            auto hasValidRotation = true;
+            auto rotation = GetYaw();
+            if (m_pigeon->GetStickyFault_Undervoltage().GetValue()) // Brownout
             {
-                m_poseEstimator.SetVisionMeasurementStdDevs(megaTag2Pose->visionMeasurementStdDevs); // wpi::array<double, 3>(.7, .7, 9999999));
+                hasValidRotation = false;
+                m_pigeon->ClearStickyFault_Undervoltage();
 
-                m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
-                                                     megaTag2Pose.value().timeStamp);
-                updateWithVision = true;
+                auto visionPosition = m_vision->GetRobotPosition();
+                auto hasVisionPose = visionPosition.has_value();
+                if (hasVisionPose)
+                {
+                    rotation = visionPosition.value().estimatedPose.ToPose2d().Rotation().Degrees();
+                    hasValidRotation = true;
+                }
+            }
+            if (hasValidRotation)
+            {
+                std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(rotation,
+                                                                                            units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                            units::angle::degree_t(0.0),
+                                                                                            units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                            units::angle::degree_t(0.0),
+                                                                                            units::angular_velocity::degrees_per_second_t(0.0));
+
+                if (megaTag2Pose)
+                {
+                    m_poseEstimator.SetVisionMeasurementStdDevs(megaTag2Pose->visionMeasurementStdDevs); // wpi::array<double, 3>(.7, .7, 9999999));
+
+                    m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
+                                                         megaTag2Pose.value().timeStamp);
+                    updateWithVision = true;
+                }
             }
         }
     }
@@ -421,6 +441,22 @@ void SwerveChassis::LogInformation()
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current x position"), pose.X().to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current y position"), pose.Y().to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current rotation position"), pose.Rotation().Degrees().to<double>());
+}
+
+void SwerveChassis::InitDataLogging()
+{
+    wpi::log::DataLog &log = frc::DataLogManager::GetLog();
+    m_logPoseX = wpi::log::DoubleLogEntry(log, "RobotPoseX");
+    m_logPoseY = wpi::log::DoubleLogEntry(log, "RobotPoseY");
+    m_logPoseRotation = wpi::log::DoubleLogEntry(log, "RobotPoseAngle");
+}
+
+void SwerveChassis::DataLog()
+{
+    auto pose = GetPose();
+    m_logPoseX.Append(pose.X().value());
+    m_logPoseY.Append(pose.X().value());
+    m_logPoseRotation.Append(pose.Rotation().Degrees().value());
 }
 
 //==================================================================================

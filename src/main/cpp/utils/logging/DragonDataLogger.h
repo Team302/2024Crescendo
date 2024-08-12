@@ -15,22 +15,13 @@
 //====================================================================================================================================================
 
 #pragma once
-#include <vector>
 
-#include "utils/logging/LoggableItem.h"
-
-class LoggableItemMgr
+class DragonDataLogger
 {
 public:
-    static LoggableItemMgr *GetInstance();
-    void RegisterLoggableItem(LoggableItem *item);
-    void LogData() const;
+    DragonDataLogger();
+    virtual ~DragonDataLogger() = default;
 
-private:
-    LoggableItemMgr();
-    ~LoggableItemMgr() = default;
-
-    std::vector<LoggableItem *> m_loggableItems;
-
-    static LoggableItemMgr *m_instance;
+    virtual void InitDataLogging() = 0;
+    virtual void DataLog() = 0;
 };

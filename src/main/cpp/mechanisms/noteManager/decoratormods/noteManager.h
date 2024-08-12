@@ -81,7 +81,7 @@ public:
 	void SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option);
 	void MaintainCurrentLauncherTargetsForAutoLaunch();
 	bool LauncherTargetsForAutoLaunchAchieved();
-	bool isLauncherAtTargert();
+	bool isLauncherAtTarget();
 	units::angular_velocity::radians_per_second_t getlauncherTargetSpeed();
 
 	units::angle::degree_t GetLauncherAngleTarget() const { return m_LauncherAngleTarget; }
