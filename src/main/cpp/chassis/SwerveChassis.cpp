@@ -296,7 +296,8 @@ void SwerveChassis::UpdateOdometry()
         {
             auto hasValidRotation = true;
             auto rotation = GetYaw();
-            if (m_pigeon->GetStickyFault_Undervoltage().GetValue()) // Brownout
+            auto hadBrownOut = m_pigeon->GetStickyFault_Undervoltage().GetValue();
+            if (hadBrownOut)
             {
                 hasValidRotation = false;
 
@@ -307,6 +308,8 @@ void SwerveChassis::UpdateOdometry()
                     rotation = visionPosition.value().estimatedPose.ToPose2d().Rotation().Degrees();
                     m_pigeon->ClearStickyFault_Undervoltage();
                     hasValidRotation = true;
+                    SetYaw(rotation);
+                    SetStoredHeading(rotation);
                 }
             }
             if (hasValidRotation)
@@ -320,10 +323,17 @@ void SwerveChassis::UpdateOdometry()
 
                 if (megaTag2Pose)
                 {
-                    m_poseEstimator.SetVisionMeasurementStdDevs(megaTag2Pose->visionMeasurementStdDevs); // wpi::array<double, 3>(.7, .7, 9999999));
+                    if (hadBrownOut)
+                    {
+                        ResetPose(megaTag2Pose.value().estimatedPose.ToPose2d());
+                    }
+                    else
+                    {
+                        m_poseEstimator.SetVisionMeasurementStdDevs(megaTag2Pose->visionMeasurementStdDevs); // wpi::array<double, 3>(.7, .7, 9999999));
 
-                    m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
-                                                         megaTag2Pose.value().timeStamp);
+                        m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
+                                                             megaTag2Pose.value().timeStamp);
+                    }
                     updateWithVision = true;
                 }
             }
