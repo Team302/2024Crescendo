@@ -21,6 +21,7 @@
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose2d.h"
 #include "utils/FMSData.h"
+#include <algorithm>
 
 #include "utils/logging/Logger.h"
 
@@ -77,10 +78,13 @@ bool FaceTarget::AtTarget()
             units::length::meter_t targetMin = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Translation().Y() - 1.051_m : m_targetPose->Translation().Y() + 1.051_m;
             units::length::meter_t targetMax = (m_allianceColor == frc::DriverStation::Alliance::kBlue) ? m_targetPose->Translation().Y() + 1.051_m : m_targetPose->Translation().Y() - 1.051_m;
 
-            units::angle::degree_t minError =
-                units::angle::degree_t maxError =
+            units::angle::degree_t thetaMin = units::math::atan2(targetMin / m_targetPose->Translation.X());
+            units::angle::degree_t thetaMax = units::math::atan2(targetMax / m_targetPose->Translation.X());
 
-                    return
+            units::angle::degree_t minError = thetaMin + chassis.GetStoredHeading();
+            units::angle::degree_t maxError = thetaMax - chassis.GetStoredHeading();
+
+            return (chassis->GetYaw() >= minError && chassis->GetYaw() <= maxError);
         }
 
         else
