@@ -444,5 +444,5 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 
 bool noteManager::AllignedToSpeaker()
 {
-	return FaceTarget::AtTarget();
+	//return FaceTarget::AtTarget();
 }

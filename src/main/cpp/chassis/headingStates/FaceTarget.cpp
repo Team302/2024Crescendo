@@ -28,9 +28,9 @@
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : SpecifiedHeading(headingOption)
 {
     m_allianceColor = FMSData::GetInstance()->GetAllianceColor();
-    FaceTarget *FaceTarget::m_instance = nullptr;
 }
 
+FaceTarget *FaceTarget::m_instance = nullptr;
 FaceTarget *FaceTarget::GetInstance()
 {
     if (FaceTarget::m_instance == nullptr)

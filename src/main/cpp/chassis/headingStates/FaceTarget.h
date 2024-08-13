@@ -45,4 +45,7 @@ public:
 protected:
     virtual DragonVision::VISION_ELEMENT GetVisionElement() const = 0;
     units::angle::degree_t GetTargetAngle(ChassisMovement &chassisMovement) const override;
+
+private:
+    static FaceTarget *m_instance;
 };
