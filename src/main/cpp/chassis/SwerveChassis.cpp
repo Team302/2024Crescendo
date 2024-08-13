@@ -459,6 +459,7 @@ void SwerveChassis::InitDataLogging()
     m_logPoseX = wpi::log::DoubleLogEntry(log, "RobotPoseX");
     m_logPoseY = wpi::log::DoubleLogEntry(log, "RobotPoseY");
     m_logPoseRotation = wpi::log::DoubleLogEntry(log, "RobotPoseAngle");
+    log.Flush();
 }
 
 void SwerveChassis::DataLog()
@@ -467,6 +468,8 @@ void SwerveChassis::DataLog()
     m_logPoseX.Append(pose.X().value());
     m_logPoseY.Append(pose.X().value());
     m_logPoseRotation.Append(pose.Rotation().Degrees().value());
+    wpi::log::DataLog &log = frc::DataLogManager::GetLog();
+    log.Flush();
 }
 
 //==================================================================================
