@@ -28,6 +28,16 @@
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : SpecifiedHeading(headingOption)
 {
     m_allianceColor = FMSData::GetInstance()->GetAllianceColor();
+    FaceTarget *FaceTarget::m_instance = nullptr;
+}
+
+FaceTarget *FaceTarget::GetInstance()
+{
+    if (FaceTarget::m_instance == nullptr)
+    {
+        FaceTarget::m_instance = new FaceTarget();
+    }
+    return FaceTarget::m_instance;
 }
 
 units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMovement) const
