@@ -33,13 +33,14 @@
 
 // Team 302 Includes
 #include "chassis/SwerveModuleConstants.h"
+#include "driveteamfeedback/DragonOrchestra.h"
 
 // Third Party
 #include "ctre/phoenix6/TalonFX.hpp"
 #include "ctre/phoenix6/CANcoder.hpp"
 #include "ctre/phoenix6/Orchestra.hpp"
 
-class SwerveModule : public LoggableItem
+class SwerveModule : public LoggableItem, public DragonOrchestra
 {
 public:
     /// @brief Constructs a Swerve Module.  This is assuming 2 TalonFX (Falcons) with a CanCoder for the turn angle
