@@ -108,10 +108,6 @@ private:
     ctre::phoenix6::controls::VelocityTorqueCurrentFOC m_velocityTorque = ctre::phoenix6::controls::VelocityTorqueCurrentFOC{0_tps}.WithSlot(0);
     ctre::phoenix6::controls::VelocityVoltage m_velocityVoltage = ctre::phoenix6::controls::VelocityVoltage{0_tps}.WithSlot(0);
 
-    // Slew rate limiter
-
-    frc::SlewRateLimiter<units::volt> m_openLoopSlewLimter{6_V / 1_s, -3_V / 1_s, 0.0_V};
-    frc::SlewRateLimiter<units::meters_per_second> m_velocitySlewLimiter{3.0_mps / 1_s, -3.0_mps / 1_s, 0.0_mps};
     //  Turn Motor Gains
     double m_turnKp = 0.0;
     double m_turnKi = 0.0;

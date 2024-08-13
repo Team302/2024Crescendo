@@ -184,8 +184,7 @@ void SwerveModule::RunCurrentState()
 /// @returns void
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
-    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : m_velocitySlewLimiter.Calculate(speed);
-
+    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
     if (m_velocityControlled)
     {
         units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
@@ -193,13 +192,18 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
             m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
         else
             m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
+
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega Sp", omega.value());
     }
     else // Run Open Loop
     {
         auto percent = m_activeState.speed / m_maxSpeed;
-        DutyCycleOut out{m_openLoopSlewLimter.Calculate(units::volt_t(percent.value() * 12.0)).value() / 12.0}; // convert percent out to volts and then back to DC assuming 12V battery
+        DutyCycleOut out{percent};
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Percent", percent.value());
+
         m_driveTalon->SetControl(out);
     }
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega", m_driveTalon->GetVelocity().GetValue().value());
 }
 
 //==================================================================================
@@ -283,18 +287,16 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         configs.Slot0.kP = m_driveKp;
         configs.Slot0.kI = m_driveKi;
         configs.Slot0.kD = m_driveKd;
-
+        configs.MotorOutput.NeutralMode = NeutralModeValue::Brake;
+        configs.MotorOutput.Inverted = driveInverted ? InvertedValue::Clockwise_Positive : InvertedValue::CounterClockwise_Positive;
+        configs.MotorOutput.PeakForwardDutyCycle = 1.0;
+        configs.MotorOutput.PeakReverseDutyCycle = -1.0;
+        configs.MotorOutput.DutyCycleNeutralDeadband = 0.0;
         // Peak output of 40 A
         configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
         configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
-
-        MotorOutputConfigs motorconfig{};
-        motorconfig.Inverted = driveInverted ? InvertedValue::Clockwise_Positive : InvertedValue::CounterClockwise_Positive;
-        motorconfig.NeutralMode = NeutralModeValue::Brake;
-        motorconfig.PeakForwardDutyCycle = 1.0;
-        motorconfig.PeakReverseDutyCycle = -1.0;
-        motorconfig.DutyCycleNeutralDeadband = 0.0;
-        m_driveTalon->GetConfigurator().Apply(motorconfig);
+        configs.CurrentLimits.StatorCurrentLimit = 80.0;
+        configs.CurrentLimits.StatorCurrentLimitEnable = true;
 
         /* Retry config apply up to 5 times, report if failure */
         ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
@@ -308,12 +310,6 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         {
             Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, "SwerveModule::InitDriveMotor", string("Could not apply configs, error code"), status.GetName());
         }
-
-        CurrentLimitsConfigs currconfig{};
-        currconfig.StatorCurrentLimit = 80.0;
-        currconfig.StatorCurrentLimitEnable = true;
-
-        m_driveTalon->GetConfigurator().Apply(currconfig);
 
         m_driveTalon->SetInverted(driveInverted);
     }
