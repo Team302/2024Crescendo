@@ -30,6 +30,15 @@ shared_ptr<PathPlannerPath> AutonUtils::GetPathFromPathFile(string pathName)
     }
     return path;
 }
+shared_ptr<PathPlannerPath> AutonUtils::GetPathFromTrajectory(string trajectoryName)
+{
+    auto path = PathPlannerPath::fromChoreoTrajectory(trajectoryName);
+    if (path.get() != nullptr && FMSData::GetInstance()->GetAllianceColor() == DriverStation::Alliance::kRed)
+    {
+        return path.get()->flipPath();
+    }
+    return path;
+}
 
 bool AutonUtils::IsValidPath(shared_ptr<pathplanner::PathPlannerPath> path)
 {
