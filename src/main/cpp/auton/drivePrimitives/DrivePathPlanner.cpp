@@ -125,17 +125,15 @@ void DrivePathPlanner::InitMoveInfo()
     }
     else
     {
-        if (m_pathName.empty())
-            auto path = AutonUtils::GetPathFromTrajectory(m_cheroTrajectoryName);
+        shared_ptr<PathPlannerPath> path;
+        if (m_pathname.empty())
+            path = AutonUtils::GetPathFromTrajectory(m_cheroTrajectoryName);
         else
-            auto path = AutonUtils::GetPathFromPathFile(m_pathname);
+            path = AutonUtils::GetPathFromPathFile(m_pathname);
 
         if (AutonUtils::IsValidPath(path))
         {
             m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());
-        }
-        else if ()
-        {
         }
         else
         {
