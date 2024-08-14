@@ -95,6 +95,7 @@ SwerveModule::SwerveModule(string canbusname,
     auto attrs = SwerveModuleConstants::GetSwerveModuleAttrs(type);
     m_wheelDiameter = attrs.wheelDiameter;
     m_maxSpeed = attrs.maxSpeed;
+    m_gearRatio = attrs.driveGearRatio;
 
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
@@ -141,7 +142,7 @@ SwerveModuleState SwerveModule::GetState() const
 frc::SwerveModulePosition SwerveModule::GetPosition() const
 {
     double rotations = 0.0;
-    rotations = m_driveTalon->GetPosition().GetValueAsDouble() / 6.12;
+    rotations = m_driveTalon->GetPosition().GetValueAsDouble();
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
 
@@ -297,6 +298,7 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
         configs.CurrentLimits.StatorCurrentLimit = 80.0;
         configs.CurrentLimits.StatorCurrentLimitEnable = true;
+        configs.Feedback.SensorToMechanismRatio = m_gearRatio;
 
         /* Retry config apply up to 5 times, report if failure */
         ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
@@ -387,10 +389,12 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                     if (strcmp(attr.name(), "useFOC") == 0)
                     {
                         m_useFOC = attr.as_bool();
+                        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "useFOC", m_useFOC);
                     }
                     if (strcmp(attr.name(), "useVelocityControl") == 0)
                     {
                         m_velocityControlled = attr.as_bool();
+                        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Velocity Control", m_velocityControlled);
                     }
                     if (m_useFOC)
                     {
@@ -450,7 +454,7 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                         {
                             m_driveKd = (attr.as_double());
                         }
-                        else if (strcmp(attr.name(), "drive_FOC_staticFeedForward") == 0)
+                        else if (strcmp(attr.name(), "drive_staticFF") == 0)
                         {
                             m_driveKs = (attr.as_double());
                         }
@@ -467,4 +471,8 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_networkTableName, string("Config File not found"), configfilename);
     }
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "kS", m_driveKs);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "kF", m_driveKf);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "kP", m_driveKp);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "kI", m_driveKi);
 }

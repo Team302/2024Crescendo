@@ -2,6 +2,8 @@
 <swervemodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!--- TO BE TUNED -->
   <attributes
+    useFOC="false" 
+    useVelocityControl="true"
     turn_proportional="20.0"
     turn_integral="10.0"
     turn_derivative="0.0"
@@ -17,7 +19,5 @@
     drive_FOC_integral="0.0"
     drive_FOC_derivative="0.0"
     drive_FOC_staticFeedForward="2.5"
-    useFOC="false" 
-    useVelocityControl="true"
   />
 </swervemodule>

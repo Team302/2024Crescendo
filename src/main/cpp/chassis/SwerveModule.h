@@ -122,6 +122,7 @@ private:
     double m_driveKs = 0.0;
     double m_driveKf = 0.0;
 
+    double m_gearRatio = 0.0;
     double m_turnCruiseVel = 0.0;
     double m_turnMaxAcc = 0.0;
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
