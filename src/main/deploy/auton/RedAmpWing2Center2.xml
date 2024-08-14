@@ -10,7 +10,7 @@ time= "0.2s5"
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-cheroname= "BlueAmpWing2Center2_A"
+choreoname= "BlueAmpWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "1.0"
 pathUpdateOption="NOTE"
@@ -28,13 +28,13 @@ time= "0.5"/>
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-cheroname= "BlueAmpWing2Center2_B"
+choreoname= "BlueAmpWing2Center2_B"
 noteOption= "STATE_FEEDER_INTAKE"
 pathUpdateOption="NOTE"
 time= "3.0"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-cheroname= "BlueAmpWing2Center2_C"
+choreoname= "BlueAmpWing2Center2_C"
 noteOption= "STATE_FEEDER_INTAKE"
 pathgains="ShortPath"
 time="2.5"

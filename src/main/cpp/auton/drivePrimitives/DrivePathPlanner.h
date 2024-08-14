@@ -54,7 +54,7 @@ private:
     std::unique_ptr<frc::Timer> m_timer;
     pathplanner::PathPlannerTrajectory m_trajectory;
     std::string m_pathname;
-    std::string m_cheroTrajectoryName;
+    std::string m_choreoTrajectoryName;
     ChassisOptionEnums::PathGainsType m_pathGainsType;
     units::time::second_t m_maxTime;
     std::string m_ntName;
