@@ -185,5 +185,8 @@ private:
     wpi::log::DoubleLogEntry m_logPoseX;
     wpi::log::DoubleLogEntry m_logPoseY;
     wpi::log::DoubleLogEntry m_logPoseRotation;
+    int m_logPoseXEntry;
+    int m_logPoseYEntry;
+    int m_logPoseRotationEntry;
     DragonVision *m_vision;
 };
