@@ -17,15 +17,17 @@ visionAligment= "SPEAKER"/>
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
+visionAligment= "SPEAKER"
 time= "2.0"
-visionAligment= "SPEAKER"/>
+/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2_B"
 noteOption= "STATE_FEEDER_INTAKE"
-time= "4.0"
+pathUpdateOption = "NOTE"
+time= "3.5"
 />
 
 <primitive id= "DRIVE_PATH_PLANNER" 
