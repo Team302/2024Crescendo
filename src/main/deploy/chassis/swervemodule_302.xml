@@ -14,8 +14,8 @@
     drive_proportional="0.0"
     drive_integral="0.0"
     drive_derivative="0.0"
-    drive_FOC_proportional="20.0"
-    drive_FOC_integral="5.0"
+    drive_FOC_proportional="25.0"
+    drive_FOC_integral="15.0"
     drive_FOC_derivative="0.0"
     drive_FOC_staticFeedForward="2.5"
   />
