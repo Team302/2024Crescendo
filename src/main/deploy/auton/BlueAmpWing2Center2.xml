@@ -7,7 +7,7 @@
                 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_READY_ODOMETRY_LAUNCH"
-time= "1.0"
+time= "0.5"
 />
 
 <snippet file= "ShootWhenStopAuto.xml"/>
