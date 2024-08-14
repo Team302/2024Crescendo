@@ -14,10 +14,20 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include "networktables/NetworkTableInstance.h"
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableEntry.h"
+
 #include "utils/logging/DragonDataLogger.h"
 #include "utils/logging/DragonDataLoggerMgr.h"
 
 DragonDataLogger::DragonDataLogger()
 {
     DragonDataLoggerMgr::GetInstance()->RegisterItem(this);
+}
+
+void DragonDataLogger::LogDouble(std::string identifier, double value)
+{
+    auto table = nt::NetworkTableInstance::GetDefault().GetTable(std::string("Team302DataLogger"));
+    table.get()->PutNumber(identifier, value);
 }

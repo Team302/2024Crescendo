@@ -15,6 +15,7 @@
 //====================================================================================================================================================
 
 #pragma once
+#include <string>
 
 class DragonDataLogger
 {
@@ -22,6 +23,8 @@ public:
     DragonDataLogger();
     virtual ~DragonDataLogger() = default;
 
-    virtual void InitDataLogging() = 0;
     virtual void DataLog() = 0;
+
+protected:
+    void LogDouble(std::string identifier, double value);
 };

@@ -453,22 +453,24 @@ void SwerveChassis::LogInformation()
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current rotation position"), pose.Rotation().Degrees().to<double>());
 }
 
-void SwerveChassis::InitDataLogging()
-{
-    wpi::log::DataLog &log = frc::DataLogManager::GetLog();
-    m_logPoseX = wpi::log::DoubleLogEntry(log, "/Pose/RobotPoseX");
-    m_logPoseY = wpi::log::DoubleLogEntry(log, "/Pose/RobotPoseY");
-    m_logPoseRotation = wpi::log::DoubleLogEntry(log, "RobotPoseAngle");
-    log.Flush();
-}
-
 void SwerveChassis::DataLog()
 {
-    wpi::log::DataLog &log = frc::DataLogManager::GetLog();
     auto pose = GetPose();
 
+    LogDouble(std::string("RobotPoseX"), pose.X().value());
+    LogDouble(std::string("RobotPoseY"), pose.Y().value());
+    LogDouble(std::string("RobotPoseRotation"), pose.Rotation().Degrees().value());
+
+    wpi::log::DataLog &log = frc::DataLogManager::GetLog();
+    if (!m_initDataLog)
+    {
+        m_logPoseX = wpi::log::DoubleLogEntry(log, "/Pose/RobotPoseX");
+        m_logPoseY = wpi::log::DoubleLogEntry(log, "/Pose/RobotPoseY");
+        m_logPoseRotation = wpi::log::DoubleLogEntry(log, "/Pose/RobotPoseAngle");
+        m_initDataLog = true;
+    }
     m_logPoseX.Append(pose.X().value());
-    m_logPoseY.Append(pose.X().value());
+    m_logPoseY.Append(pose.Y().value());
     m_logPoseRotation.Append(pose.Rotation().Degrees().value());
     log.Flush();
 }

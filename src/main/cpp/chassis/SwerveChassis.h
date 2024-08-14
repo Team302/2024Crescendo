@@ -127,7 +127,6 @@ public:
     double GetRotationRateDegreesPerSecond() const { return m_pigeon != nullptr ? m_pigeon->GetRate() : 0.0; }
 
     void LogInformation() override;
-    void InitDataLogging() override;
     void DataLog() override;
 
 private:
@@ -182,6 +181,7 @@ private:
     std::string m_networkTableName;
     bool m_isRotating = false;
     bool m_rotatingLatch = false;
+    bool m_initDataLog = false;
     wpi::log::DoubleLogEntry m_logPoseX;
     wpi::log::DoubleLogEntry m_logPoseY;
     wpi::log::DoubleLogEntry m_logPoseRotation;
