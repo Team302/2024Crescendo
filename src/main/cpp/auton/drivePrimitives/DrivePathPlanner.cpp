@@ -60,6 +60,7 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
                                        m_timer(make_unique<Timer>()),
                                        m_trajectory(),
                                        m_pathname(),
+                                       m_choreoTrajectoryName(),
                                        m_pathGainsType(ChassisOptionEnums::PathGainsType::LONG),
                                        // max velocity of 1 rotation per second and a max acceleration of 180 degrees per second squared.
                                        m_maxTime(units::time::second_t(-1.0)),
@@ -79,6 +80,7 @@ DrivePathPlanner::DrivePathPlanner() : IPrimitive(),
 void DrivePathPlanner::Init(PrimitiveParams *params)
 {
     m_pathname = params->GetPathName(); // Grabs path name from auton xml
+    m_choreoTrajectoryName = params->GetTrajectoryName();
     m_pathGainsType = params->GetPathGainsType();
 
     m_ntName = string("DrivePathPlanner: ") + m_pathname;
@@ -123,7 +125,12 @@ void DrivePathPlanner::InitMoveInfo()
     }
     else
     {
-        auto path = AutonUtils::GetPathFromPathFile(m_pathname);
+        shared_ptr<PathPlannerPath> path;
+        if (m_pathname.empty())
+            path = AutonUtils::GetPathFromTrajectory(m_choreoTrajectoryName);
+        else
+            path = AutonUtils::GetPathFromPathFile(m_pathname);
+
         if (AutonUtils::IsValidPath(path))
         {
             m_trajectory = path.get()->getTrajectory(speed, pose.Rotation());

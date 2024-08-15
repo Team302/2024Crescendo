@@ -143,6 +143,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                     bool changeClimberState = false;
                     auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
                     std::string pathName;
+                    std::string choreoTrajectoryName;
                     ChassisOptionEnums::PathGainsType pathGainsType = ChassisOptionEnums::PathGainsType::LONG;
                     ZoneParamsVector zones;
                     ChassisOptionEnums::PathUpdateOption updateHeadingOption = ChassisOptionEnums::PathUpdateOption::NONE;
@@ -205,6 +206,10 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                         else if (strcmp(attr.name(), "pathname") == 0)
                         {
                             pathName = attr.value();
+                        }
+                        else if (strcmp(attr.name(), "choreoname") == 0)
+                        {
+                            choreoTrajectoryName = attr.value();
                         }
                         else if (strcmp(attr.name(), "pathgains") == 0)
                         {
@@ -282,6 +287,7 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
                                                                      headingOption,
                                                                      heading,
                                                                      pathName,
+                                                                     choreoTrajectoryName,
                                                                      pathGainsType,
                                                                      zones, // vector of all zones included as part of the path
                                                                             // can have multiple zones as part of a complex path
@@ -322,6 +328,7 @@ void PrimitiveParser::Print(PrimitiveParamsVector paramVector)
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading Option"), to_string(param->GetHeadingOption()));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Heading"), param->GetHeading());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Path Name"), param->GetPathName());
+        logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("Choreo Trajectory Name"), param->GetTrajectoryName());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("vision alignment"), param->GetVisionAlignment());
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("note change"), param->IsNoteStateChanging() ? string("true") : string("false"));
         logger->LogData(LOGGER_LEVEL::PRINT, ntName, string("note state"), param->GetNoteState());
