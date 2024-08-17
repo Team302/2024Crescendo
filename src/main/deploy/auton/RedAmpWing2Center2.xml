@@ -46,14 +46,16 @@ visionAligment= "SPEAKER"/>
 pathname= "BlueAmpWing2Center2_D"
 noteOption= "STATE_FEEDER_INTAKE"
 pathUpdateOption="NOTE"
-time= "3.0"/>
+time= "2.5"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
 pathname= "BlueAmpWing2Center2_E"
 noteOption= "STATE_FEEDER_INTAKE"
-time= "4.0"
+time= "2.85"
 visionAligment= "SPEAKER"/>
 
-<snippet file= "ShootWhenStopAuto.xml"/>
+ <primitive id="DO_NOTHING"
+                noteOption="STATE_LOW_PASS"
+               time="0.5"/>
 
 </auton>
