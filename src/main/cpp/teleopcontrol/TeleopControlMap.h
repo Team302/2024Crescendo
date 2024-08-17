@@ -163,7 +163,9 @@ robin_hood::unordered_map<TeleopControlFunctions::FUNCTION, const TeleopControlB
     //{TeleopControlFunctions::HOLD_POSITION, driverLBumper},need to re assign
     //{TeleopControlFunctions::SLOW_MODE, driverRBumper}, need to re assign
 
-    {TeleopControlFunctions::DEBUG_INC_P, driverDPad0},
+    // {TeleopControlFunctions::DEBUG_INC_P, driverDPad0},
+    {TeleopControlFunctions::ROBOT_ORIENTED_DRIVE, driverDPad0},
+
     {TeleopControlFunctions::DEBUG_DEC_P, driverDPad180},
 
     {TeleopControlFunctions::HIGH_PASS, copilotDPad0},
