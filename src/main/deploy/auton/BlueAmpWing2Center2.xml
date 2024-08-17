@@ -13,6 +13,7 @@ time= "0.25"
 choreoname= "BlueAmpWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "1.0"
+pathUpdateOption="NOTE"
 visionAligment= "SPEAKER"/>
 
 <primitive id= "DO_NOTHING"

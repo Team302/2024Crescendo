@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7779158761164506,
-        "y": 4.15
+        "x": 2.309440738710292,
+        "y": 4.637491272129477
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.469268045625081,
-        "y": 3.5226920529255845
+        "x": 2.0007929082189224,
+        "y": 4.010183325055062
       },
       "isLocked": false,
       "linkedName": "BluePodiumWIng2Center2A"

@@ -12,7 +12,7 @@ time= "0.25"
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
-time= "1.5"
+time= "2.0"
 visionAligment= "SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
