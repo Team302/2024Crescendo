@@ -290,7 +290,7 @@ void SwerveChassis::UpdateOdometry()
     if (m_vision != nullptr)
     {
         auto useVision = (m_pigeon != nullptr && std::abs(GetRotationRateDegreesPerSecond()) < 720.0);
-        if (useVision)
+        if (useVision && false)
         {
             std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(), // mtAngle.Degrees(),
                                                                                         units::angular_velocity::degrees_per_second_t(0.0),

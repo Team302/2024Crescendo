@@ -272,10 +272,10 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         currconfig.StatorCurrentLimit = 80.0;
         currconfig.StatorCurrentLimitEnable = true;
 
-        // currconfig.SupplyCurrentLimit = 40.0;
-        // currconfig.SupplyCurrentLimitEnable = true;
-        // currconfig.SupplyCurrentThreshold = 30.0;
-        // currconfig.SupplyTimeThreshold = 0.25;
+        currconfig.SupplyCurrentLimit = 60.0;
+        currconfig.SupplyCurrentLimitEnable = true;
+        currconfig.SupplyCurrentThreshold = 80.0;
+        currconfig.SupplyTimeThreshold = 0.15;
         m_driveTalon->GetConfigurator().Apply(currconfig);
 
         VoltageConfigs voltconfig{};
