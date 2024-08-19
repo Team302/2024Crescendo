@@ -2,9 +2,6 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname= "BluePodiumWing3Center1_A"/>
-
 <primitive id= "DO_NOTHING"
 time= "0.5"
 noteOption= "STATE_READY_ODOMETRY_LAUNCH"
@@ -17,7 +14,6 @@ headingOption = "FACE_SPEAKER"/>
 pathname= "BluePodiumWing3Center1_A"
 time = "3.0"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains = "ShortPath"
 headingOption = "FACE_SPEAKER"
 />
 
@@ -28,7 +24,6 @@ pathname= "BluePodiumWing3Center1B"
 time = "3.5"
 pathUpdateOption = "NOTE"`
 noteOption="STATE_FEEDER_INTAKE"
-visionAligment = "NOTE"
 />
 
 <primitive id= "DRIVE_PATH_PLANNER"
@@ -44,7 +39,6 @@ headingOption = "FACE_SPEAKER"
 pathname= "BluePodiumWing3Center1_D"
 time = "1.5"
 noteOption="STATE_FEEDER_INTAKE"
-pathgains = "ShortPath"
 headingOption = "FACE_SPEAKER"
 />
 
