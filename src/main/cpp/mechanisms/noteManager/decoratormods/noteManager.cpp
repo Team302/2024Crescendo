@@ -87,7 +87,7 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 
-	m_launcherAnglePID.SetIZone(1.5);
+	m_launcherAnglePID.SetIZone(3.0);
 	m_launcherAnglePIDLowAngle.SetIZone(1.0);
 	m_launcherAnglePID.EnableContinuousInput(0.0, 360.0); // Enables continuous input on a range from 0 to 360, allows the CANCoder to roll over)
 	m_launcherAnglePIDLowAngle.EnableContinuousInput(0.0, 360.0);

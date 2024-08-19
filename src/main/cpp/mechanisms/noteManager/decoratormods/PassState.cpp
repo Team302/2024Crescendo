@@ -80,5 +80,5 @@ bool PassState::AtTarget()
 bool PassState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 
-	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS) && m_mechanism->isLauncherAtTargert());
+	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS));
 }

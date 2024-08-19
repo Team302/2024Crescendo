@@ -2,15 +2,10 @@
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER"
-                pathname= "BluePodiumWing2Center2Start"
-                noteOption="STATE_READY_ODOMETRY_LAUNCH"/>
-
-<primitive id= "DRIVE_PATH_PLANNER" 
-pathname= "BluePodiumWing2Center2Start"
-noteOption= "STATE_READY_ODOMETRY_LAUNCH"
-time= "0.5"
-visionAligment= "SPEAKER"/>
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+time= "0.25"
+/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
@@ -25,6 +20,7 @@ visionAligment= "SPEAKER"/>
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2_B"
 noteOption= "STATE_FEEDER_INTAKE"
+pathUpdateOption="NOTE"
 time= "4.0"
 />
 
@@ -40,6 +36,7 @@ visionAligment= "SPEAKER"
 <primitive id= "DRIVE_PATH_PLANNER" 
 pathname= "BluePodiumWing2Center2_D"
 noteOption= "STATE_FEEDER_INTAKE"
+pathUpdateOption="NOTE"
 time= "3.0"
 />
 

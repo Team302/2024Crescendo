@@ -299,6 +299,7 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         configs.CurrentLimits.StatorCurrentLimit = 80.0;
         configs.CurrentLimits.StatorCurrentLimitEnable = true;
         configs.Feedback.SensorToMechanismRatio = m_gearRatio;
+        m_driveTalon->GetConfigurator().Apply(currconfig);
 
         /* Retry config apply up to 5 times, report if failure */
         ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;

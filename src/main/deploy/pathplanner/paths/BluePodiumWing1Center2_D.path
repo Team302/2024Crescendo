@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9066934025451485,
-        "y": 5.550936522700434
+        "x": 3.496977853684214,
+        "y": 5.30570665967878
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.171463749489552,
-        "y": 5.000527205048704
+        "x": 4.7617482006286185,
+        "y": 4.75529734202705
       },
       "isLocked": false,
       "linkedName": "bluepodiumwing1center2_cEnd"
