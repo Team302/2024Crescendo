@@ -293,13 +293,16 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
         configs.MotorOutput.PeakForwardDutyCycle = 1.0;
         configs.MotorOutput.PeakReverseDutyCycle = -1.0;
         configs.MotorOutput.DutyCycleNeutralDeadband = 0.0;
-        // Peak output of 40 A
-        configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
-        configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
+
         configs.CurrentLimits.StatorCurrentLimit = 80.0;
         configs.CurrentLimits.StatorCurrentLimitEnable = true;
+        configs.CurrentLimits.SupplyCurrentLimit = 60.0;
+        configs.CurrentLimits.SupplyCurrentLimitEnable = true;
+        configs.CurrentLimits.SupplyCurrentThreshold = 80.0;
+        configs.CurrentLimits.SupplyTimeThreshold = 0.15;
         configs.Feedback.SensorToMechanismRatio = m_gearRatio;
-        m_driveTalon->GetConfigurator().Apply(currconfig);
+
+        m_driveTalon->GetConfigurator().Apply(configs);
 
         /* Retry config apply up to 5 times, report if failure */
         ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
@@ -343,6 +346,11 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         // Peak output of 120 amps
         fxconfigs.TorqueCurrent.PeakForwardTorqueCurrent = 120;
         fxconfigs.TorqueCurrent.PeakReverseTorqueCurrent = -120;
+
+        fxconfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
+        fxconfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+        fxconfigs.CurrentLimits.SupplyCurrentThreshold = 80.0;
+        fxconfigs.CurrentLimits.SupplyTimeThreshold = 0.15;
 
         fxconfigs.Slot0.kP = m_turnKp;
         fxconfigs.Slot0.kI = m_turnKi;
