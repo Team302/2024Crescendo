@@ -185,6 +185,8 @@ private:
     wpi::log::DoubleLogEntry m_logPoseX;
     wpi::log::DoubleLogEntry m_logPoseY;
     wpi::log::DoubleLogEntry m_logPoseRotation;
+    wpi::log::StructLogEntry m_logPose2d;
+    wpi::log::StructLogEntry m_logPose3d;
     int m_logPoseXEntry;
     int m_logPoseYEntry;
     int m_logPoseRotationEntry;

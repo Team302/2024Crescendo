@@ -467,6 +467,7 @@ void SwerveChassis::DataLog()
         m_logPoseX = wpi::log::DoubleLogEntry(log, "/Pose/RobotPoseX");
         m_logPoseY = wpi::log::DoubleLogEntry(log, "/Pose/RobotPoseY");
         m_logPoseRotation = wpi::log::DoubleLogEntry(log, "/Pose/RobotPoseAngle");
+        m_logPose2d = wpi::log::StructLogEntry(log, "/Pose/RobotPose2d");
         m_initDataLog = true;
     }
     m_logPoseX.Append(pose.X().value());
