@@ -454,7 +454,7 @@ void SwerveChassis::ReadConstants(string configfilename)
                     }
                     else if (strcmp(attr.name(), "maxspeed") == 0)
                     {
-                        m_maxSpeed = units::velocity::feet_per_second_t(attr.as_double() / 12.0);
+                        m_maxSpeed = units::velocity::feet_per_second_t(attr.as_double() / 12.0); /// TO DO Need to get this from swerve module
                     }
                 }
             }

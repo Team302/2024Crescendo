@@ -193,7 +193,7 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
         else
             m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
 
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega Sp", omega.value());
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega Sp", omega.value() * (numbers::pi * units::length::meter_t(m_wheelDiameter).value()));
     }
     else // Run Open Loop
     {
@@ -203,7 +203,7 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 
         m_driveTalon->SetControl(out);
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega", m_driveTalon->GetVelocity().GetValue().value());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega", m_driveTalon->GetVelocity().GetValue().value() * (numbers::pi * units::length::meter_t(m_wheelDiameter).value()));
 }
 
 //==================================================================================
@@ -403,6 +403,10 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                     {
                         m_velocityControlled = attr.as_bool();
                         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Velocity Control", m_velocityControlled);
+                    }
+                    if (strcmp(attr.name(), "max_speed") == 0)
+                    {
+                        m_maxSpeed = units::velocity::meters_per_second_t(attr.as_double());
                     }
                     if (m_useFOC)
                     {
