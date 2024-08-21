@@ -24,9 +24,8 @@ frc::PIDController *ISwerveDriveOrientation::m_pid = new frc::PIDController(6.0,
 
 ISwerveDriveOrientation::ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption) : m_headingOption(headingOption)
 {
-    m_pid->SetSetpoint(0);
     m_pid->EnableContinuousInput(-180.0, 180.0);
-    m_pid->SetIZone(20.0);
+    m_pid->SetIZone(10.0);
     m_pid->SetIntegratorRange(-360.0, 360.0);
     m_pid->Reset();
 }
