@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -480,8 +479,4 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_networkTableName, string("Config File not found"), configfilename);
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "kS", m_driveKs);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "kF", m_driveKf);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "kP", m_driveKp);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "kI", m_driveKi);
 }
