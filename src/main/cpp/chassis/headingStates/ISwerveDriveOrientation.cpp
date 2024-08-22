@@ -46,7 +46,7 @@ units::angular_velocity::degrees_per_second_t ISwerveDriveOrientation::CalcHeadi
     }
 
     m_pid->SetP(gains.first);
-    if (units::math::abs(currentAngle - targetAngle) > units::angle::degree_t(2.5))
+    if (units::math::abs(currentAngle - targetAngle) > units::angle::degree_t(1.0))
         m_pid->SetI(gains.second);
     else
         m_pid->SetI(0);
