@@ -105,6 +105,7 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
     ResetYaw();
     ResetPose(frc::Pose2d());
     SetStoredHeading(units::angle::degree_t(0.0));
+    m_maxSpeed = m_frontLeft->GetMaxSpeed();
 }
 
 //==================================================================================
@@ -451,10 +452,6 @@ void SwerveChassis::ReadConstants(string configfilename)
                     else if (strcmp(attr.name(), "wheeldiameter") == 0)
                     {
                         m_wheelDiameter = units::length::inch_t(attr.as_double());
-                    }
-                    else if (strcmp(attr.name(), "maxspeed") == 0)
-                    {
-                        m_maxSpeed = units::velocity::feet_per_second_t(attr.as_double() / 12.0); /// TO DO Need to get this from swerve module
                     }
                 }
             }

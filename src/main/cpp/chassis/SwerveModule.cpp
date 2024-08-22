@@ -85,7 +85,6 @@ SwerveModule::SwerveModule(string canbusname,
                                                       m_activeState(),
                                                       m_networkTableName(networkTableName)
 {
-    ReadConstants(configfilename);
 
     Rotation2d ang{units::angle::degree_t(0.0)};
     m_activeState.angle = ang;
@@ -96,6 +95,7 @@ SwerveModule::SwerveModule(string canbusname,
     m_maxSpeed = attrs.maxSpeed;
     m_gearRatio = attrs.driveGearRatio;
 
+    ReadConstants(configfilename);
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
 }
