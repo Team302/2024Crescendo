@@ -185,25 +185,33 @@ void SwerveModule::RunCurrentState()
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
     m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.1) ? 0_mps : speed;
-    if (m_velocityControlled)
+    if (m_activeState.speed != 0_mps)
     {
-        units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
-        if (m_useFOC)
-            m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
-        else
-            m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
 
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega Sp", omega.value() * (numbers::pi * units::length::meter_t(m_wheelDiameter).value()));
-    }
-    else // Run Open Loop
-    {
-        auto percent = m_activeState.speed / m_maxSpeed;
-        DutyCycleOut out{percent};
-        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Percent", percent.value());
+        if (m_velocityControlled)
+        {
+            units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
+            if (m_useFOC)
+                m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
+            else
+                m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
 
-        m_driveTalon->SetControl(out);
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega Sp", omega.value() * (numbers::pi * units::length::meter_t(m_wheelDiameter).value()));
+        }
+        else // Run Open Loop
+        {
+            auto percent = m_activeState.speed / m_maxSpeed;
+            DutyCycleOut out{percent};
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Percent", percent.value());
+
+            m_driveTalon->SetControl(out);
+        }
     }
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega", m_driveTalon->GetVelocity().GetValue().value() * (numbers::pi * units::length::meter_t(m_wheelDiameter).value()));
+    else
+        m_driveTalon->SetControl(ctre::phoenix6::controls::NeutralOut());
+
+    Logger::GetLogger()
+        ->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega", m_driveTalon->GetVelocity().GetValue().value() * (numbers::pi * units::length::meter_t(m_wheelDiameter).value()));
 }
 
 //==================================================================================

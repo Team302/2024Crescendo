@@ -135,7 +135,7 @@ void HolonomicDrive::Run()
         {
             AlignToAmp();
         }
-        else if (isAlignWithStageSelected || m_stageDrive)
+        else if (isAlignWithStageSelected)
         {
             AlignToStage();
             m_previousDriveState = m_moveInfo.driveOption;
@@ -199,7 +199,6 @@ void HolonomicDrive::Run()
         if (abs(rotate) > 0.05)
         {
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
-            m_stageDrive = false;
         }
 
         CheckTipping(checkTipping);
