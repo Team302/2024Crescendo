@@ -3,9 +3,6 @@
 
 <auton>
 
-<primitive id= "RESET_POSITION_PATH_PLANNER"
-pathname= "BlueSubwooferWing3Center0_A"/>
-
 <snippet file= "ShootWhenStopManual.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"

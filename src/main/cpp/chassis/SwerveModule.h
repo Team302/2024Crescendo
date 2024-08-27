@@ -29,6 +29,8 @@
 #include "units/angular_velocity.h"
 #include "units/velocity.h"
 #include "utils/logging/LoggableItem.h"
+#include <frc/filter/SlewRateLimiter.h>
+#include <units/dimensionless.h>
 
 // Team 302 Includes
 #include "chassis/SwerveModuleConstants.h"
@@ -101,16 +103,31 @@ private:
 
     frc::SwerveModuleState m_activeState;
 
-    ctre::phoenix6::controls::PositionTorqueCurrentFOC m_torquePosition{0_tr, 0_tps, 0_A, 1, false};
-    ctre::phoenix6::controls::PositionVoltage m_voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
+    ctre::phoenix6::controls::PositionTorqueCurrentFOC m_positionTorque = ctre::phoenix6::controls::PositionTorqueCurrentFOC{0_tr}.WithSlot(0);
+    ctre::phoenix6::controls::PositionVoltage m_positionVoltage = ctre::phoenix6::controls::PositionVoltage{0_tr}.WithSlot(0);
+    ctre::phoenix6::controls::VelocityTorqueCurrentFOC m_velocityTorque = ctre::phoenix6::controls::VelocityTorqueCurrentFOC{0_tps}.WithSlot(0);
+    ctre::phoenix6::controls::VelocityVoltage m_velocityVoltage = ctre::phoenix6::controls::VelocityVoltage{0_tps}.WithSlot(0);
 
-    double m_turnKp = 5.0;
+    //  Turn Motor Gains
+    double m_turnKp = 0.0;
     double m_turnKi = 0.0;
     double m_turnKd = 0.0;
+    double m_turnKs = 0.0;
     double m_turnKf = 0.0;
+
+    // Drive Motor Gains
+    double m_driveKp = 0.0;
+    double m_driveKi = 0.0;
+    double m_driveKd = 0.0;
+    double m_driveKs = 0.0;
+    double m_driveKf = 0.0;
+
+    double m_gearRatio = 0.0;
     double m_turnCruiseVel = 0.0;
     double m_turnMaxAcc = 0.0;
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
-    units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(16.0);
+    units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(17.3);
+    bool m_velocityControlled = false;
+    bool m_useFOC = false;
     std::string m_networkTableName;
 };
