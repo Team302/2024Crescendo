@@ -49,7 +49,7 @@ void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 
             auto radianCorrection = m_controller.Calculate(currentAngle.value(), targetAngle.value());
 
-            correction = abs(radianCorrection) > 0.1 ? units::angular_velocity::radians_per_second_t(radianCorrection) : units::angular_velocity::radians_per_second_t(0.0);
+            correction = abs(radianCorrection) > m_correctionThreshold ? units::angular_velocity::radians_per_second_t(radianCorrection) : units::angular_velocity::radians_per_second_t(0.0);
             chassisMovement.chassisSpeeds.omega += correction;
 
             Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("maintain"), string("currentAngle"), units::angle::degree_t(currentAngle).value());

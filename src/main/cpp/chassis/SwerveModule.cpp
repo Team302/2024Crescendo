@@ -195,23 +195,16 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
                 m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
             else
                 m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
-
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega Sp", omega.value() * (numbers::pi * units::length::meter_t(m_wheelDiameter).value()));
         }
         else // Run Open Loop
         {
             auto percent = m_activeState.speed / m_maxSpeed;
             DutyCycleOut out{percent};
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Percent", percent.value());
-
             m_driveTalon->SetControl(out);
         }
     }
     else
         m_driveTalon->SetControl(ctre::phoenix6::controls::NeutralOut());
-
-    Logger::GetLogger()
-        ->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Omega", m_driveTalon->GetVelocity().GetValue().value() * (numbers::pi * units::length::meter_t(m_wheelDiameter).value()));
 }
 
 //==================================================================================
@@ -405,12 +398,10 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                     if (strcmp(attr.name(), "useFOC") == 0)
                     {
                         m_useFOC = attr.as_bool();
-                        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "useFOC", m_useFOC);
                     }
                     if (strcmp(attr.name(), "useVelocityControl") == 0)
                     {
                         m_velocityControlled = attr.as_bool();
-                        Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveModule", "Velocity Control", m_velocityControlled);
                     }
                     if (strcmp(attr.name(), "max_speed") == 0)
                     {
