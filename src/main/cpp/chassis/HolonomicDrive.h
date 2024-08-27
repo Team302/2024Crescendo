@@ -63,5 +63,4 @@ private:
 
     bool m_robotOrientedLatch = false;
     bool m_robotOrientedDrive = false;
-    bool m_stageDrive = false;
 };

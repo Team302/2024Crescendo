@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -65,6 +64,7 @@ using ctre::phoenix6::signals::InvertedValue;
 using ctre::phoenix6::signals::NeutralModeValue;
 using ctre::phoenix6::signals::SensorDirectionValue;
 
+using namespace ctre::phoenix6;
 //==================================================================================
 SwerveModule::SwerveModule(string canbusname,
                            SwerveModuleConstants::ModuleID id,
@@ -85,7 +85,6 @@ SwerveModule::SwerveModule(string canbusname,
                                                       m_activeState(),
                                                       m_networkTableName(networkTableName)
 {
-    ReadConstants(configfilename);
 
     Rotation2d ang{units::angle::degree_t(0.0)};
     m_activeState.angle = ang;
@@ -94,7 +93,9 @@ SwerveModule::SwerveModule(string canbusname,
     auto attrs = SwerveModuleConstants::GetSwerveModuleAttrs(type);
     m_wheelDiameter = attrs.wheelDiameter;
     m_maxSpeed = attrs.maxSpeed;
+    m_gearRatio = attrs.driveGearRatio;
 
+    ReadConstants(configfilename);
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
 }
@@ -140,7 +141,7 @@ SwerveModuleState SwerveModule::GetState() const
 frc::SwerveModulePosition SwerveModule::GetPosition() const
 {
     double rotations = 0.0;
-    rotations = m_driveTalon->GetPosition().GetValueAsDouble() / 6.12;
+    rotations = m_driveTalon->GetPosition().GetValueAsDouble();
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
 
@@ -183,13 +184,27 @@ void SwerveModule::RunCurrentState()
 /// @returns void
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
-    // Run Open Loop
-    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
-    // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
-    auto driveTarget = m_activeState.speed.to<double>() / (units::length::meter_t(m_wheelDiameter).to<double>() * numbers::pi);
-    auto percent = driveTarget / m_maxSpeed.to<double>();
-    DutyCycleOut out{percent};
-    m_driveTalon->SetControl(out);
+    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.1) ? 0_mps : speed;
+    if (m_activeState.speed != 0_mps)
+    {
+
+        if (m_velocityControlled)
+        {
+            units::angular_velocity::turns_per_second_t omega = units::angular_velocity::turns_per_second_t(m_activeState.speed.value() / (numbers::pi * units::length::meter_t(m_wheelDiameter).value())); // convert mps to unitless rps by taking the speed and dividing by the circumference of the wheel
+            if (m_useFOC)
+                m_driveTalon->SetControl(m_velocityTorque.WithVelocity(omega));
+            else
+                m_driveTalon->SetControl(m_velocityVoltage.WithVelocity(omega));
+        }
+        else // Run Open Loop
+        {
+            auto percent = m_activeState.speed / m_maxSpeed;
+            DutyCycleOut out{percent};
+            m_driveTalon->SetControl(out);
+        }
+    }
+    else
+        m_driveTalon->SetControl(ctre::phoenix6::controls::NeutralOut());
 }
 
 //==================================================================================
@@ -198,9 +213,11 @@ void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 /// @returns void
 void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
 {
-    PositionVoltage voltagePosition{0_tr, 0_tps, true, 0_V, 0, false};
     m_activeState.angle = targetAngle;
-    m_turnTalon->SetControl(voltagePosition.WithPosition(targetAngle));
+    if (m_useFOC)
+        m_turnTalon->SetControl(m_positionVoltage.WithPosition(targetAngle));
+    else
+        m_turnTalon->SetControl(m_positionTorque.WithPosition(targetAngle));
 }
 
 //==================================================================================
@@ -260,28 +277,45 @@ void SwerveModule::InitDriveMotor(bool driveInverted)
     {
         m_driveTalon->GetConfigurator().Apply(TalonFXConfiguration{}); // Apply Factory Defaults
 
-        MotorOutputConfigs motorconfig{};
-        motorconfig.Inverted = driveInverted ? InvertedValue::Clockwise_Positive : InvertedValue::CounterClockwise_Positive;
-        motorconfig.NeutralMode = NeutralModeValue::Brake;
-        motorconfig.PeakForwardDutyCycle = 1.0;
-        motorconfig.PeakReverseDutyCycle = -1.0;
-        motorconfig.DutyCycleNeutralDeadband = 0.0;
-        m_driveTalon->GetConfigurator().Apply(motorconfig);
+        configs::TalonFXConfiguration configs{};
 
-        CurrentLimitsConfigs currconfig{};
-        currconfig.StatorCurrentLimit = 80.0;
-        currconfig.StatorCurrentLimitEnable = true;
+        configs.Voltage.PeakForwardVoltage = 10.0;
+        configs.Voltage.PeakReverseVoltage = -10.0;
 
-        // currconfig.SupplyCurrentLimit = 40.0;
-        // currconfig.SupplyCurrentLimitEnable = true;
-        // currconfig.SupplyCurrentThreshold = 30.0;
-        // currconfig.SupplyTimeThreshold = 0.25;
-        m_driveTalon->GetConfigurator().Apply(currconfig);
+        /// TO DO : Need code gen updates to be able to be implemented
+        configs.Slot0.kS = m_driveKs; // To account for friction, static feedforward
+        configs.Slot0.kV = m_driveKf; // Kraken X60 is a 500 kV motor, 500 rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / rotation per second(Free wheeling)
+        configs.Slot0.kP = m_driveKp;
+        configs.Slot0.kI = m_driveKi;
+        configs.Slot0.kD = m_driveKd;
+        configs.MotorOutput.NeutralMode = NeutralModeValue::Brake;
+        configs.MotorOutput.Inverted = driveInverted ? InvertedValue::Clockwise_Positive : InvertedValue::CounterClockwise_Positive;
+        configs.MotorOutput.PeakForwardDutyCycle = 1.0;
+        configs.MotorOutput.PeakReverseDutyCycle = -1.0;
+        configs.MotorOutput.DutyCycleNeutralDeadband = 0.0;
 
-        VoltageConfigs voltconfig{};
-        voltconfig.PeakForwardVoltage = 11.0;
-        voltconfig.PeakReverseVoltage = -11.0;
-        m_driveTalon->GetConfigurator().Apply(voltconfig);
+        configs.CurrentLimits.StatorCurrentLimit = 80.0;
+        configs.CurrentLimits.StatorCurrentLimitEnable = true;
+        configs.CurrentLimits.SupplyCurrentLimit = 60.0;
+        configs.CurrentLimits.SupplyCurrentLimitEnable = true;
+        configs.CurrentLimits.SupplyCurrentThreshold = 80.0;
+        configs.CurrentLimits.SupplyTimeThreshold = 0.15;
+        configs.Feedback.SensorToMechanismRatio = m_gearRatio;
+
+        m_driveTalon->GetConfigurator().Apply(configs);
+
+        /* Retry config apply up to 5 times, report if failure */
+        ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
+        for (int i = 0; i < 5; ++i)
+        {
+            status = m_driveTalon->GetConfigurator().Apply(configs);
+            if (status.IsOK())
+                break;
+        }
+        if (!status.IsOK())
+        {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, "SwerveModule::InitDriveMotor", string("Could not apply configs, error code"), status.GetName());
+        }
 
         m_driveTalon->SetInverted(driveInverted);
     }
@@ -308,6 +342,15 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
 
         fxconfigs.Voltage.PeakForwardVoltage = 10.0;
         fxconfigs.Voltage.PeakReverseVoltage = -10.0;
+
+        // Peak output of 120 amps
+        fxconfigs.TorqueCurrent.PeakForwardTorqueCurrent = 120;
+        fxconfigs.TorqueCurrent.PeakReverseTorqueCurrent = -120;
+
+        fxconfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
+        fxconfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+        fxconfigs.CurrentLimits.SupplyCurrentThreshold = 80.0;
+        fxconfigs.CurrentLimits.SupplyTimeThreshold = 0.15;
 
         fxconfigs.Slot0.kP = m_turnKp;
         fxconfigs.Slot0.kI = m_turnKi;
@@ -336,7 +379,7 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
 }
 
 //==================================================================================
-void SwerveModule::ReadConstants(string configfilename)
+void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update the Code generator to add the both Velocity and Position Degree PID values
 {
     auto deployDir = frc::filesystem::GetDeployDirectory();
     auto filename = deployDir + string("/chassis/") + configfilename;
@@ -352,17 +395,84 @@ void SwerveModule::ReadConstants(string configfilename)
             {
                 for (pugi::xml_attribute attr = control.first_attribute(); attr; attr = attr.next_attribute())
                 {
-                    if (strcmp(attr.name(), "proportional") == 0)
+                    if (strcmp(attr.name(), "useFOC") == 0)
                     {
-                        m_turnKp = attr.as_double();
+                        m_useFOC = attr.as_bool();
                     }
-                    else if (strcmp(attr.name(), "integral") == 0)
+                    if (strcmp(attr.name(), "useVelocityControl") == 0)
                     {
-                        m_turnKi = attr.as_double();
+                        m_velocityControlled = attr.as_bool();
                     }
-                    else if (strcmp(attr.name(), "derivative") == 0)
+                    if (strcmp(attr.name(), "max_speed") == 0)
                     {
-                        m_turnKd = attr.as_double();
+                        m_maxSpeed = units::velocity::meters_per_second_t(attr.as_double());
+                    }
+                    if (m_useFOC)
+                    {
+                        if (strcmp(attr.name(), "turn_FOC_proportional") == 0)
+                        {
+                            m_turnKp = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "turn_FOC_integral") == 0)
+                        {
+                            m_turnKi = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "turn_FOC_derivative") == 0)
+                        {
+                            m_turnKd = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_proportional") == 0)
+                        {
+                            m_driveKp = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_integral") == 0)
+                        {
+                            m_driveKi = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_derivative") == 0)
+                        {
+                            m_driveKd = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_FOC_staticFeedForward") == 0)
+                        {
+                            m_driveKs = (attr.as_double());
+                        }
+                        m_driveKf = 0; // Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself
+                    }
+                    else
+                    {
+                        if (strcmp(attr.name(), "turn_proportional") == 0)
+                        {
+                            m_turnKp = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "turn_integral") == 0)
+                        {
+                            m_turnKi = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "turn_derivative") == 0)
+                        {
+                            m_turnKd = attr.as_double();
+                        }
+                        else if (strcmp(attr.name(), "drive_proportional") == 0)
+                        {
+                            m_driveKp = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_integral") == 0)
+                        {
+                            m_driveKi = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_derivative") == 0)
+                        {
+                            m_driveKd = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_staticFF") == 0)
+                        {
+                            m_driveKs = (attr.as_double());
+                        }
+                        else if (strcmp(attr.name(), "drive_feedforward") == 0)
+                        {
+                            m_driveKf = (attr.as_double());
+                        }
                     }
                 }
             }

@@ -3,6 +3,5 @@
   <attributes
     wheelbase="22.5"
     track="22.5"
-    wheeldiameter="4.0" 
-    maxspeed="207.6"/>
+    wheeldiameter="4.0"/>
 </swervechassis>

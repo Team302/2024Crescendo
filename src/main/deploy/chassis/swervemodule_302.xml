@@ -1,7 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <swervemodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <attributes
-    proportional="100.0"
-    integral="75.0"
-    derivative="0.0" />
+    useFOC="true"
+    useVelocityControl="true"
+    turn_proportional="100.0"
+    turn_integral="75.0"
+    turn_derivative="0.0"
+    turn_FOC_proportional="130.0"
+    turn_FOC_integral="85.0"
+    turn_FOC_derivative="0.0"
+    drive_staticFF="0.0"
+    drive_feedforward="0.0"
+    drive_proportional="0.0"
+    drive_integral="0.0"
+    drive_derivative="0.0"
+    drive_FOC_proportional="45.0"
+    drive_FOC_integral="20.0"
+    drive_FOC_derivative="0.0"
+    drive_FOC_staticFeedForward="3.25"
+    max_speed="4.5"
+  />
 </swervemodule>

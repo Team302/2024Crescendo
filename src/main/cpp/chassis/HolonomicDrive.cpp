@@ -114,7 +114,7 @@ void HolonomicDrive::Run()
         // teleop buttons to check for mode changes
         auto isResetPoseSelected = controller->IsButtonPressed(TeleopControlFunctions::RESET_POSITION);
         auto isAlignGamePieceSelected = controller->IsButtonPressed(TeleopControlFunctions::DRIVE_TO_NOTE);
-        auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::CLIMB_MODE);
+        auto isRobotOriented = controller->IsButtonPressed(TeleopControlFunctions::CLIMB_MODE) || controller->IsButtonPressed(TeleopControlFunctions::ROBOT_ORIENTED_DRIVE);
         auto isAlignWithSpeakerSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_SPEAKER);
         auto isAlignWithStageSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_STAGE);
         auto isAlignWithAmpSelected = controller->IsButtonPressed(TeleopControlFunctions::AUTO_AMP);
@@ -135,7 +135,7 @@ void HolonomicDrive::Run()
         {
             AlignToAmp();
         }
-        else if (isAlignWithStageSelected || m_stageDrive)
+        else if (isAlignWithStageSelected)
         {
             AlignToStage();
             m_previousDriveState = m_moveInfo.driveOption;
@@ -199,7 +199,6 @@ void HolonomicDrive::Run()
         if (abs(rotate) > 0.05)
         {
             m_moveInfo.headingOption = ChassisOptionEnums::HeadingOption::MAINTAIN;
-            m_stageDrive = false;
         }
 
         CheckTipping(checkTipping);

@@ -87,10 +87,8 @@ noteManager::noteManager(noteManagerGen *base, RobotConfigMgr::RobotIdentifier a
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::ClimbModeStatus);
 	m_robotState->RegisterForStateChanges(this, RobotStateChanges::StateChange::GameState);
 
-	m_launcherAnglePID.SetIZone(1.5);
-	m_launcherAnglePIDLowAngle.SetIZone(1.0);
+	m_launcherAnglePID.SetIZone(3.0);
 	m_launcherAnglePID.EnableContinuousInput(0.0, 360.0); // Enables continuous input on a range from 0 to 360, allows the CANCoder to roll over)
-	m_launcherAnglePIDLowAngle.EnableContinuousInput(0.0, 360.0);
 }
 
 void noteManager::RunCommonTasks()
@@ -366,16 +364,9 @@ void noteManager::SetManualLaunchTarget()
 
 void noteManager::UpdateLauncherAngleTarget()
 {
-	// if (GetLauncherAngleTarget().to<double>() < m_lowAnglePIDThreshold)
-	// {
-	// 	double percentOut = std::clamp(m_launcherAnglePIDLowAngle.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
-	// 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
-	// }
-	// else
-	// {
+
 	double percentOut = std::clamp(m_launcherAnglePID.Calculate(GetLauncherAngleFromEncoder().to<double>(), GetLauncherAngleTarget().to<double>()), -1.0, 1.0);
 	UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_ANGLE, percentOut);
-	// }
 }
 
 void noteManager::SetLauncherToProtectedPosition()
@@ -423,21 +414,5 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 {
 
 	units::angular_velocity::radians_per_second_t targetSpeed = (GetLauncherAngleFromEncoder() > units::angle::degree_t(10.0)) ? units::angular_velocity::radians_per_second_t(400.0) : units::angular_velocity::radians_per_second_t(500.0); // rad/sec based on passing with no chassis speed
-	/*auto chassisConfig = ChassisConfigMgr::GetInstance()->GetCurrentConfig();
-
-	if (chassisConfig != nullptr)
-	{
-		auto chassis = chassisConfig->GetSwerveChassis();
-		auto chassisSpeeds = chassis->GetChassisSpeeds();
-		auto rot2d = frc::Rotation2d(chassis->GetYaw());
-
-		auto fieldSpeeds = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassisSpeeds, rot2d); // don't know if you need to this?
-
-		units::velocity::meters_per_second_t vTan = units::velocity::meters_per_second_t(targetSpeed.value() * 0.0508); // 2 in radius of wheel in meters
-		units::velocity::meters_per_second_t vTanX = (FMSData::GetInstance()->GetAllianceColor() == frc::DriverStation::kBlue) ? (vTan * units::math::cos(GetLauncherAngleFromEncoder()) + fieldSpeeds.vx / units::velocity::meters_per_second_t(2.0)) : (vTan * units::math::cos(GetLauncherAngleFromEncoder()) - fieldSpeeds.vx / units::velocity::meters_per_second_t(2.0));
-
-		targetSpeed = units::angular_velocity::radians_per_second_t((vTanX / units::math::cos(GetLauncherAngleFromEncoder())).value() / 0.0508); // 2 in radius of wheel in meters
-	}*/
-
 	return targetSpeed;
 }
