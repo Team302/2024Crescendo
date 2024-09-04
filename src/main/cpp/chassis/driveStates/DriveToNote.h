@@ -36,6 +36,7 @@ class DriveToNote : public TrajectoryDrivePathPlanner
 {
 public:
     DriveToNote(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
+    std::string GetDriveStateName() const override;
 
     pathplanner::PathPlannerTrajectory CreateDriveToNote();
     pathplanner::PathPlannerTrajectory CreateDriveToNoteTrajectory(frc::Pose2d currentPose, frc::Pose2d notePose);

@@ -24,6 +24,8 @@ public:
     FaceCenterStage();
     ~FaceCenterStage() = default;
 
+    std::string GetHeadingStateName() const override;
+
 protected:
     DragonVision::VISION_ELEMENT GetVisionElement() const override;
 };

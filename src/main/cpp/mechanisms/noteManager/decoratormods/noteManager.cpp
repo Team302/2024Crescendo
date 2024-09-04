@@ -416,3 +416,21 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 	units::angular_velocity::radians_per_second_t targetSpeed = (GetLauncherAngleFromEncoder() > units::angle::degree_t(10.0)) ? units::angular_velocity::radians_per_second_t(400.0) : units::angular_velocity::radians_per_second_t(500.0); // rad/sec based on passing with no chassis speed
 	return targetSpeed;
 }
+
+void noteManager::DataLog()
+{
+	// TODO:  implement - see swervechassis for an example
+	/**
+		NOTE_MANAGER_HAS_VISION
+
+		NOTE_MANAGER_STATE
+
+		NOTE_MANAGER_TARGET_ANGLE_DEGREES,
+		NOTE_MANAGER_ACTUAL_ANGLE_DEGREES,
+		NOTE_MANAGER_TARGET_TOP_WHEEL_SPEED_RPM,
+		NOTE_MANAGER_TARGET_BOTTOM_WHEEL_SPEED_RPM,
+		NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM,
+		NOTE_MANAGER_ACTUAL_BOTTOM_WHEEL_SPEED_RPM,
+		NOTE_MANAGER_DISTANCE_FROM_SPEAKER_METERS
+	**/
+}

@@ -15,6 +15,8 @@
 
 #pragma once
 
+#include <string>
+
 // FRC Includes
 #include <frc/kinematics/SwerveModuleState.h>
 #include <frc/kinematics/ChassisSpeeds.h>
@@ -26,6 +28,7 @@ class FieldDrive : public RobotDrive
 {
 public:
     FieldDrive(RobotDrive *robotDrive);
+    std::string GetDriveStateName() const override;
 
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 

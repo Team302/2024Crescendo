@@ -22,6 +22,11 @@ FaceLeftStage::FaceLeftStage() : FaceTarget(ChassisOptionEnums::HeadingOption::F
 {
 }
 
+std::string FaceLeftStage::GetHeadingStateName() const
+{
+    return std::string("FaceLeftStage");
+}
+
 DragonVision::VISION_ELEMENT FaceLeftStage::GetVisionElement() const
 {
     return DragonVision::VISION_ELEMENT::LEFT_STAGE;

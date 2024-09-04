@@ -27,6 +27,9 @@ public:
     SpecifiedHeading();
     SpecifiedHeading(ChassisOptionEnums::HeadingOption option);
     ~SpecifiedHeading() = default;
+
+    std::string GetHeadingStateName() const override;
+
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 protected:

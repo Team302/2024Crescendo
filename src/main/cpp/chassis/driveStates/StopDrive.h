@@ -17,6 +17,7 @@
 
 // C++ Includes
 #include <array>
+#include <string>
 
 #include "frc/kinematics/SwerveModuleState.h"
 
@@ -34,6 +35,7 @@ public:
     StopDrive() = delete;
     StopDrive(RobotDrive *RobotDrive);
     ~StopDrive() = default;
+    std::string GetDriveStateName() const override;
 
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 

@@ -22,6 +22,11 @@ FaceCenterStage::FaceCenterStage() : FaceTarget(ChassisOptionEnums::HeadingOptio
 {
 }
 
+std::string FaceCenterStage::GetHeadingStateName() const
+{
+    return std::string("FaceCenterStage");
+}
+
 DragonVision::VISION_ELEMENT FaceCenterStage::GetVisionElement() const
 {
     return DragonVision::VISION_ELEMENT::CENTER_STAGE;

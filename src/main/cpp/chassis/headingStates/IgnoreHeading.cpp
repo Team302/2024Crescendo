@@ -23,6 +23,11 @@ IgnoreHeading::IgnoreHeading() : ISwerveDriveOrientation(ChassisOptionEnums::Hea
 {
 }
 
+std::string IgnoreHeading::GetHeadingStateName() const
+{
+    return std::string("IgnoreHeading");
+}
+
 void IgnoreHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     // update stored heading for transition to teleop from auton

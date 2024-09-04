@@ -39,7 +39,8 @@
 // forward declares
 
 class noteManager : public noteManagerGen,
-					public IRobotStateChangeSubscriber
+					public IRobotStateChangeSubscriber,
+					public DragonDataLogger
 {
 public:
 	// todo delete this once Joe creates and tests the functionality
@@ -102,6 +103,7 @@ public:
 	void SetTransitionFromHoldFeedToReady(bool state) { m_TransitionFromHoldFeedToReady = state; }
 
 	units::length::meter_t GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION option) const;
+	void DataLog() override;
 
 private:
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> GetRequiredLaunchParameters(DragonDriveTargetFinder::FINDER_OPTION option);

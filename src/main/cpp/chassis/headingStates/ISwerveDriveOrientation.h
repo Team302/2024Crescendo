@@ -15,8 +15,9 @@
 
 #pragma once
 
-#include "units/angle.h"
+#include <string>
 
+#include "units/angle.h"
 #include "frc/controller/PIDController.h"
 
 // Team302 Includes
@@ -28,6 +29,7 @@ class ISwerveDriveOrientation
 public:
     ISwerveDriveOrientation() = delete;
     ~ISwerveDriveOrientation() = default;
+    virtual std::string GetHeadingStateName() const = 0;
 
     ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption);
 

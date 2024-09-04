@@ -30,6 +30,12 @@ SpecifiedHeading::SpecifiedHeading(ChassisOptionEnums::HeadingOption option) : I
                                                                                m_targetAngle(units::angle::degree_t(0.0))
 {
 }
+
+std::string SpecifiedHeading::GetHeadingStateName() const
+{
+    return std::string("SpecifiedHeading");
+}
+
 void SpecifiedHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     m_targetAngle = GetTargetAngle(chassisMovement);

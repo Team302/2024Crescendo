@@ -15,7 +15,6 @@
 
 // Team302 Includes
 #include "chassis/ChassisMovement.h"
-#include "chassis/driveStates/AntiTip.h"
 #include "chassis/driveStates/RobotDrive.h"
 #include "chassis/driveStates/StopDrive.h"
 #include "chassis/configs/ChassisConfig.h"
@@ -26,6 +25,11 @@
 StopDrive::StopDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChassis()),
                                                m_robotDrive(robotDrive)
 {
+}
+
+std::string StopDrive::GetDriveStateName() const
+{
+    return std::string("StopDrive");
 }
 
 std::array<frc::SwerveModuleState, 4> StopDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)

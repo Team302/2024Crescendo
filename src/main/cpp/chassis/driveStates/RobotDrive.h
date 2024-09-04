@@ -14,6 +14,7 @@
 //====================================================================================================================================================
 
 #pragma once
+#include <string>
 
 #include "frc/kinematics/SwerveModuleState.h"
 #include "units/length.h"
@@ -32,6 +33,7 @@ public:
     RobotDrive() = delete;
     RobotDrive(SwerveChassis *chassis);
     ~RobotDrive() = default;
+    std::string GetDriveStateName() const override;
 
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 

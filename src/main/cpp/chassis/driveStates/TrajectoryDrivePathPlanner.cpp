@@ -57,6 +57,11 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
     m_prevPose = m_chassis != nullptr ? m_chassis->GetPose() : Pose2d();
 }
 
+std::string TrajectoryDrivePathPlanner::GetDriveStateName() const
+{
+    return std::string("TrajectoryDrivePathPlanner");
+}
+
 void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)
 {
     m_trajectoryStates.clear();
