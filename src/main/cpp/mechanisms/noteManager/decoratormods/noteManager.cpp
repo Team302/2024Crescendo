@@ -448,5 +448,42 @@ void noteManager::DataLog()
 	}
 
 	LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_HAS_VISION, HasVisionTarget());
+
+	auto sensor = getfrontIntakeSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_FRONT_SENSOR, sensor->Get());
+	}
+	sensor = getbackIntakeSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_BACK_SENSOR, sensor->Get());
+	}
+	sensor = getfeederSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_FEEDER_SENSOR, sensor->Get());
+	}
+	sensor = getlauncherSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_LAUNCHER_SENSOR, sensor->Get());
+	}
+	sensor = getplacerInSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_IN_SENSOR, sensor->Get());
+	}
+	sensor = getplacerMidSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_MID_SENSOR, sensor->Get());
+	}
+	sensor = getplacerOutSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_OUT_SENSOR, sensor->Get());
+	}
+
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_DISTANCE_FROM_SPEAKER_METERS, GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE).value());
 }

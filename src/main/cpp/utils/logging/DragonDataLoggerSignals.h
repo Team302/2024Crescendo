@@ -39,8 +39,14 @@ public:
 
     enum BoolSignals
     {
-        NOTE_MANAGER_HAS_VISION // TODO: should this be more generic; should this be part of a vision logging?
-        // TODO:  add banner sensors
+        NOTE_MANAGER_HAS_VISION, // TODO: should this be more generic; should this be part of a vision logging?
+        NOTE_MANAGER_FRONT_SENSOR,
+        NOTE_MANAGER_BACK_SENSOR,
+        NOTE_MANAGER_FEEDER_SENSOR,
+        NOTE_MANAGER_LAUNCHER_SENSOR,
+        NOTE_MANAGER_PLACER_IN_SENSOR,
+        NOTE_MANAGER_PLACER_MID_SENSOR,
+        NOTE_MANAGER_PLACER_OUT_SENSOR
     };
 
     enum DoubleSignals
@@ -91,6 +97,24 @@ private:
     // initialize these signals in the constructor
     wpi::log::BooleanLogEntry m_hasVision;
     bool m_currHasVision = false;
+
+    wpi::log::BooleanLogEntry m_frontSensor;
+    bool m_currFrontSensor = false;
+
+    wpi::log::BooleanLogEntry m_backSensor;
+    bool m_currBackSensor = false;
+
+    wpi::log::BooleanLogEntry m_feederSensor;
+    bool m_currFeederSensor = false;
+
+    wpi::log::BooleanLogEntry m_placerInSensor;
+    bool m_currPlacerInSensor = false;
+
+    wpi::log::BooleanLogEntry m_placerMidSensor;
+    bool m_currPlacerMidSensor = false;
+
+    wpi::log::BooleanLogEntry m_placerOutSensor;
+    bool m_currPlacerOutSensor = false;
 
     wpi::log::DoubleLogEntry m_storedHeading;
     double m_currStoredHeading{0.0};

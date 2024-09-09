@@ -32,6 +32,27 @@ DragonDataLoggerSignals::DragonDataLoggerSignals()
 {
     wpi::log::DataLog &log = frc::DataLogManager::GetLog();
 
+    m_hasVision = wpi::log::BooleanLogEntry(log, "/NoteManager/HasVision");
+    m_hasVision.Append(m_currHasVision);
+
+    m_frontSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/FrontSensor");
+    m_frontSensor.Append(m_currFrontSensor);
+
+    m_backSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/BackSensor");
+    m_backSensor.Append(m_currBackSensor);
+
+    m_feederSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/FeederSensor");
+    m_feederSensor.Append(m_currFeederSensor);
+
+    m_placerInSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/PlacerInSensor");
+    m_placerInSensor.Append(m_currPlacerInSensor);
+
+    m_placerMidSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/PlacerMidSensor");
+    m_placerMidSensor.Append(m_currPlacerMidSensor);
+
+    m_placerOutSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/PlacerOutSensor");
+    m_placerOutSensor.Append(m_currPlacerOutSensor);
+
     m_storedHeading = wpi::log::DoubleLogEntry(log, "/Chassis/StoredHeadingDegrees");
     m_storedHeading.Append(m_currStoredHeading);
     m_nmTargetAngle = wpi::log::DoubleLogEntry(log, "/NoteManager/TargetAngleDegrees");
@@ -48,9 +69,6 @@ DragonDataLoggerSignals::DragonDataLoggerSignals()
     m_nmBottomActual.Append(m_currNmBottomActual);
     m_distFromSpeaker = wpi::log::DoubleLogEntry(log, "/NoteManager/DistanceFromSpeakerMeters");
     m_distFromSpeaker.Append(m_currDistFromSpeaker);
-
-    m_hasVision = wpi::log::BooleanLogEntry(log, "/NoteManager/HasVision");
-    m_hasVision.Append(m_currHasVision);
 
     m_headingState = wpi::log::StringLogEntry(log, "/Chassis/HeadingState");
     m_headingState.Append(m_currHeadingState);
