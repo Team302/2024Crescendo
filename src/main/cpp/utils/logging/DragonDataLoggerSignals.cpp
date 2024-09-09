@@ -79,6 +79,7 @@ DragonDataLoggerSignals::DragonDataLoggerSignals()
 
     m_pose = wpi::log::StructLogEntry<frc::Pose2d>(log, "/Chassis/Pose");
     m_pose.Append(m_currPose);
+
     m_frontLeftTarget = wpi::log::StructLogEntry<frc::SwerveModuleState>(log, "/Chassis/TargetFrontLeftModuleState");
     m_frontLeftTarget.Append(m_currFrontLeftTarget);
     m_frontRightTarget = wpi::log::StructLogEntry<frc::SwerveModuleState>(log, "/Chassis/TargetFrontRighttModuleState");
