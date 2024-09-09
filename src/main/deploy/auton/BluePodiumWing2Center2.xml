@@ -10,41 +10,40 @@ time= "0.25"
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER" 
-pathname= "BluePodiumWing2Center2_A"
+choreoname= "BluePodiumWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "2.0"
-visionAligment= "SPEAKER"/>
-
-<snippet file= "ShootWhenStopAuto.xml"/>
-
-<primitive id= "DRIVE_PATH_PLANNER" 
-pathname= "BluePodiumWing2Center2_B"
-noteOption= "STATE_FEEDER_INTAKE"
-pathUpdateOption="NOTE"
-time= "4.0"
-/>
-
-<primitive id= "DRIVE_PATH_PLANNER" 
-pathname= "BluePodiumWing2Center2_C"
-noteOption= "STATE_FEEDER_INTAKE"
-time= "3.0"
-visionAligment= "SPEAKER"
 />
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER" 
-pathname= "BluePodiumWing2Center2_D"
+choreoname= "BluePodiumWing2Center2_B"
 noteOption= "STATE_FEEDER_INTAKE"
 pathUpdateOption="NOTE"
 time= "3.0"
 />
 
 <primitive id= "DRIVE_PATH_PLANNER" 
-pathname= "BluePodiumWing2Center2_E"
+choreoname= "BluePodiumWing2Center2_C"
+noteOption= "STATE_FEEDER_INTAKE"
+time= "2.0"
+/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+choreoname= "BluePodiumWing2Center2_D"
+noteOption= "STATE_FEEDER_INTAKE"
+pathUpdateOption="NOTE"
+time= "2.0"
+/>
+
+<primitive id= "DRIVE_PATH_PLANNER" 
+choreoname= "BluePodiumWing2Center2_E"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "3.0"
-visionAligment= "SPEAKER"/>
+/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
