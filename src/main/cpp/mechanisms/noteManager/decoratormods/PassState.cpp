@@ -82,3 +82,8 @@ bool PassState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PASS));
 }
+
+std::string PassState::GetNoteStateName() const
+{
+	return std::string("PassState");
+}

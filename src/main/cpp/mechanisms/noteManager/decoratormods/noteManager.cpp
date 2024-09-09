@@ -419,18 +419,34 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 
 void noteManager::DataLog()
 {
-	// TODO:  implement - see swervechassis for an example
-	/**
-		NOTE_MANAGER_HAS_VISION
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_ANGLE_DEGREES, m_LauncherAngleTarget.value());
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value());
+	auto currState = GetCurrentStatePtr();
+	if (currState != nullptr)
+	{
+		auto nmstate = dynamic_cast<INoteState *>(currState);
+		if (nmstate != nullptr)
+		{
+			LogStringData(DragonDataLoggerSignals::StringSignals::NOTE_MANAGER_STATE, nmstate->GetNoteStateName());
+		}
+	}
 
-		NOTE_MANAGER_STATE
+	units::angular_velocity::revolutions_per_minute_t rpm = GetLauncherTopWheelsTarget();
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_TOP_WHEEL_SPEED_RPM, rpm.value());
+	rpm = GetLauncherBottomWheelsTarget();
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_BOTTOM_WHEEL_SPEED_RPM, rpm.value());
 
-		NOTE_MANAGER_TARGET_ANGLE_DEGREES,
-		NOTE_MANAGER_ACTUAL_ANGLE_DEGREES,
-		NOTE_MANAGER_TARGET_TOP_WHEEL_SPEED_RPM,
-		NOTE_MANAGER_TARGET_BOTTOM_WHEEL_SPEED_RPM,
-		NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM,
-		NOTE_MANAGER_ACTUAL_BOTTOM_WHEEL_SPEED_RPM,
-		NOTE_MANAGER_DISTANCE_FROM_SPEAKER_METERS
-	**/
+	auto topmotor = GetMotorMech(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP);
+	if (topmotor != nullptr)
+	{
+		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM, topmotor->GetRPM().value());
+	}
+	auto bottommotor = GetMotorMech(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM);
+	if (bottommotor != nullptr)
+	{
+		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM, bottommotor->GetRPM().value());
+	}
+
+	LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_HAS_VISION, HasVisionTarget());
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_DISTANCE_FROM_SPEAKER_METERS, GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE).value());
 }

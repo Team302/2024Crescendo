@@ -158,3 +158,8 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason); // Remove logging after Note management is all verifed
 	return (transition);
 }
+
+std::string ReadyState::GetNoteStateName() const
+{
+	return std::string("ReadyState");
+}

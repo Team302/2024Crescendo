@@ -75,3 +75,8 @@ bool ExpelState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::EXPEL));
 }
+
+std::string ExpelState::GetNoteStateName() const
+{
+	return std::string("ExpelState");
+}

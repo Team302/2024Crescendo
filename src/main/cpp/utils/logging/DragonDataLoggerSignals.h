@@ -104,7 +104,7 @@ private:
     wpi::log::DoubleLogEntry m_nmTopTarget;
     double m_currNmTopTarget{0.0};
 
-    wpi::log::DoubleLogEntry m_nbBottomTarget;
+    wpi::log::DoubleLogEntry m_nmBottomTarget;
     double m_currNmBottomTarget{0.0};
 
     wpi::log::DoubleLogEntry m_nmTopActual;
@@ -126,6 +126,7 @@ private:
     std::string m_currNoteMgrState{""};
 
     wpi::log::StructLogEntry<frc::Pose2d> m_pose;
+    frc::Pose2d m_currPose{};
 
     wpi::log::StructLogEntry<frc::SwerveModuleState> m_frontLeftTarget;
     frc::SwerveModuleState m_currFrontLeftTarget{};

@@ -80,3 +80,8 @@ bool readyPassState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return (considerGamepadTransitions && ((distanceFromSpeaker >= m_passLaunchThreshold) || TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::READY_PASS)));
 }
+
+std::string readyPassState::GetNoteStateName() const
+{
+	return std::string("ReadyPassState");
+}

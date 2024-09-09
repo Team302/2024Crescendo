@@ -79,3 +79,8 @@ bool manualLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	return (AtTarget());
 }
+
+std::string manualLaunchState::GetNoteStateName() const
+{
+	return std::string("ManualLaunchState");
+}

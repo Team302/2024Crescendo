@@ -83,3 +83,8 @@ bool preparePlaceTrapState::IsTransitionCondition(bool considerGamepadTransition
 	return (considerGamepadTransitions && buttonsPressed && (m_mechanism->IsClimbMode())) ||
 		   ((currentState == m_mechanism->STATE_PREPARE_PLACE_AMP) && (m_mechanism->IsClimbMode()));
 }
+
+std::string preparePlaceTrapState::GetNoteStateName() const
+{
+	return std::string("PreparePlaceTrapState");
+}

@@ -88,7 +88,7 @@ void DragonDataLogger::LogDoubleData(DragonDataLoggerSignals::DoubleSignals sign
         case DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_BOTTOM_WHEEL_SPEED_RPM:
             if (std::abs(value - signals->m_currNmBottomTarget) > m_doubleTolerance)
             {
-                signals->m_nbBottomTarget.Append(value);
+                signals->m_nmBottomTarget.Append(value);
                 signals->m_currNmBottomTarget = value;
             }
             break;

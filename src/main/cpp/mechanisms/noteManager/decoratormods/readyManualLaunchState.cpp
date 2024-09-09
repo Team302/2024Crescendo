@@ -71,3 +71,8 @@ bool readyManualLaunchState::IsTransitionCondition(bool considerGamepadTransitio
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH) && m_mechanism->IsLauncherMode());
 }
+
+std::string readyManualLaunchState::GetNoteStateName() const
+{
+	return std::string("ReadyManualLaunchState");
+}
