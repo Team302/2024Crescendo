@@ -431,20 +431,20 @@ void noteManager::DataLog()
 		}
 	}
 
-	units::angular_velocity::radians_per_second_t rpm = GetLauncherTopWheelsTarget();
+	units::angular_velocity::revolutions_per_minute_t rpm = GetLauncherTopWheelsTarget();
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_TOP_WHEEL_SPEED_RPM, rpm.value());
 	rpm = GetLauncherBottomWheelsTarget();
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_BOTTOM_WHEEL_SPEED_RPM, rpm.value());
 
-	auto topmotor = GetMotorMech(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP);
+	auto topmotor = getlauncherTop();
 	if (topmotor != nullptr)
 	{
-		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM, topmotor->GetRPM().value());
+		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM, topmotor->GetRPS() * 60);
 	}
-	auto bottommotor = GetMotorMech(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM);
+	auto bottommotor = getlauncherBottom();
 	if (bottommotor != nullptr)
 	{
-		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM, bottommotor->GetRPM().value());
+		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM, bottommotor->GetRPS() * 60);
 	}
 
 	LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_HAS_VISION, HasVisionTarget());
