@@ -161,14 +161,14 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     // finally, get the value between -90 and 90
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
-    auto optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
-    optimizedState.speed *= (optimizedState.angle - currAngle).Cos(); // Cosine Compensation
+    m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
+    m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
 
     // Set Turn Target
-    SetTurnAngle(optimizedState.angle.Degrees());
+    SetTurnAngle(m_optimizedState.angle.Degrees());
 
     // Set Drive Target
-    SetDriveSpeed(optimizedState.speed);
+    SetDriveSpeed(m_optimizedState.speed);
 }
 
 //==================================================================================
