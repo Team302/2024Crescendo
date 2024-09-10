@@ -420,7 +420,7 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 void noteManager::DataLog()
 {
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_ANGLE_DEGREES, m_LauncherAngleTarget.value());
-	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value());
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value() > 359.0 ? 0.0 : GetLauncherAngleFromEncoder().value());
 	auto currState = GetCurrentStatePtr();
 	if (currState != nullptr)
 	{
@@ -431,7 +431,7 @@ void noteManager::DataLog()
 		}
 	}
 
-	units::angular_velocity::revolutions_per_minute_t rpm = GetLauncherTopWheelsTarget();
+	units::angular_velocity::radians_per_second_t rpm = GetLauncherTopWheelsTarget();
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_TOP_WHEEL_SPEED_RPM, rpm.value());
 	rpm = GetLauncherBottomWheelsTarget();
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_BOTTOM_WHEEL_SPEED_RPM, rpm.value());
