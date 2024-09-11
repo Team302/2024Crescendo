@@ -44,6 +44,7 @@ void ReadyState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("init"));
 	m_genState->Init();
+	m_mechanism->SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t(165));
 }
 
 void ReadyState::Run()

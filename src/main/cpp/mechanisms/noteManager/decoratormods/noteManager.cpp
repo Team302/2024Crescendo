@@ -236,7 +236,7 @@ bool noteManager::HasVisionTarget()
 	{
 		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
 		auto type = get<0>(distinfo);
-		if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && get<1>(distinfo) < units::length::meter_t(5.0))
+		if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && get<1>(distinfo) < units::length::meter_t(6.0))
 			return true;
 	}
 
@@ -257,9 +257,6 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 void noteManager::SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option)
 {
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters(option);
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Speed Target"), std::get<0>(launchParameters).value());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bottom Speed Target"), std::get<1>(launchParameters).value());
 
 	SetLauncherTopWheelsTarget(std::get<0>(launchParameters));
 	SetLauncherBottomWheelsTarget(std::get<1>(launchParameters));
@@ -420,7 +417,7 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 void noteManager::DataLog()
 {
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_ANGLE_DEGREES, m_LauncherAngleTarget.value());
-	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value() > 359.0 ? 0.0 : GetLauncherAngleFromEncoder().value());
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value() > 350.0 ? 0.0 : GetLauncherAngleFromEncoder().value());
 	auto currState = GetCurrentStatePtr();
 	if (currState != nullptr)
 	{
