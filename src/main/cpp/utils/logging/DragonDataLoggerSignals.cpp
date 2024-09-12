@@ -44,6 +44,9 @@ DragonDataLoggerSignals::DragonDataLoggerSignals()
     m_feederSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/FeederSensor");
     m_feederSensor.Append(m_currFeederSensor);
 
+    m_launcherSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/LauncherSensor");
+    m_launcherSensor.Append(m_currLauncherSensor);
+
     m_placerInSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/PlacerInSensor");
     m_placerInSensor.Append(m_currPlacerInSensor);
 
@@ -53,21 +56,23 @@ DragonDataLoggerSignals::DragonDataLoggerSignals()
     m_placerOutSensor = wpi::log::BooleanLogEntry(log, "/NoteManager/PlacerOutSensor");
     m_placerOutSensor.Append(m_currPlacerOutSensor);
 
-    m_storedHeading = wpi::log::DoubleLogEntry(log, "/Chassis/StoredHeadingDegrees");
+    m_storedHeading = wpi::log::DoubleLogEntry(log, "/Chassis/StoredHeading(Degrees)");
     m_storedHeading.Append(m_currStoredHeading);
-    m_nmTargetAngle = wpi::log::DoubleLogEntry(log, "/NoteManager/TargetAngleDegrees");
+    m_chassisYaw = wpi::log::DoubleLogEntry(log, "/Chassis/Yaw(Degrees)");
+    m_chassisYaw.Append(m_currChassisYaw);
+    m_nmTargetAngle = wpi::log::DoubleLogEntry(log, "/NoteManager/TargetAngle(Degrees)");
     m_nmTargetAngle.Append(m_currNmTargetAngle);
-    m_nmActualAngle = wpi::log::DoubleLogEntry(log, "/NoteManager/ActualAngleDegrees");
+    m_nmActualAngle = wpi::log::DoubleLogEntry(log, "/NoteManager/ActualAngle(Degrees)");
     m_nmActualAngle.Append(m_currNmActualAngle);
-    m_nmTopTarget = wpi::log::DoubleLogEntry(log, "/NoteManager/TargetTopWheelSpeedRevPerSec");
+    m_nmTopTarget = wpi::log::DoubleLogEntry(log, "/NoteManager/TargetTopWheelSpeed(RPM)");
     m_nmTopTarget.Append(m_currNmTopTarget);
-    m_nmBottomTarget = wpi::log::DoubleLogEntry(log, "/NoteManager/TargetBottomWheelSpeedRevPerSec");
+    m_nmBottomTarget = wpi::log::DoubleLogEntry(log, "/NoteManager/TargetBottomWheelSpeed(RPM)");
     m_nmBottomTarget.Append(m_currNmBottomTarget);
-    m_nmTopActual = wpi::log::DoubleLogEntry(log, "/NoteManager/ActualTopWheelSpeedRevPerSec");
+    m_nmTopActual = wpi::log::DoubleLogEntry(log, "/NoteManager/ActualTopWheelSpeed(RPM)");
     m_nmTopActual.Append(m_currNmTopActual);
-    m_nmBottomActual = wpi::log::DoubleLogEntry(log, "/NoteManager/ActualBottomWheelSpeedRevPerSec");
+    m_nmBottomActual = wpi::log::DoubleLogEntry(log, "/NoteManager/ActualBottomWheelSpeed(RPM)");
     m_nmBottomActual.Append(m_currNmBottomActual);
-    m_distFromSpeaker = wpi::log::DoubleLogEntry(log, "/NoteManager/DistanceFromSpeakerMeters");
+    m_distFromSpeaker = wpi::log::DoubleLogEntry(log, "/NoteManager/DistanceFromSpeaker(Meters)");
     m_distFromSpeaker.Append(m_currDistFromSpeaker);
 
     m_headingState = wpi::log::StringLogEntry(log, "/Chassis/HeadingState");

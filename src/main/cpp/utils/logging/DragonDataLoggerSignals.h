@@ -104,6 +104,9 @@ private:
     wpi::log::BooleanLogEntry m_backSensor;
     bool m_currBackSensor = false;
 
+    wpi::log::BooleanLogEntry m_launcherSensor;
+    bool m_currLauncherSensor = false;
+
     wpi::log::BooleanLogEntry m_feederSensor;
     bool m_currFeederSensor = false;
 
@@ -118,6 +121,9 @@ private:
 
     wpi::log::DoubleLogEntry m_storedHeading;
     double m_currStoredHeading{0.0};
+
+    wpi::log::DoubleLogEntry m_chassisYaw;
+    double m_currChassisYaw{0.0};
 
     wpi::log::DoubleLogEntry m_nmTargetAngle;
     double m_currNmTargetAngle{0.0};

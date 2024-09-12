@@ -441,7 +441,7 @@ void noteManager::DataLog()
 	auto bottommotor = getlauncherBottom();
 	if (bottommotor != nullptr)
 	{
-		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM, bottommotor->GetRPS() * 60);
+		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_BOTTOM_WHEEL_SPEED_RPM, bottommotor->GetRPS() * 60);
 	}
 
 	LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_HAS_VISION, HasVisionTarget());

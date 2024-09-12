@@ -37,9 +37,58 @@ void DragonDataLogger::LogBoolData(DragonDataLoggerSignals::BoolSignals signalID
             if (value != signals->m_currHasVision)
             {
                 signals->m_hasVision.Append(value);
+                signals->m_currHasVision = value;
             }
             break;
-
+        case DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_BACK_SENSOR:
+            if (value != signals->m_currBackSensor)
+            {
+                signals->m_backSensor.Append(value);
+                signals->m_currBackSensor = value;
+            }
+            break;
+        case DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_FEEDER_SENSOR:
+            if (value != signals->m_currFeederSensor)
+            {
+                signals->m_feederSensor.Append(value);
+                signals->m_currFeederSensor = value;
+            }
+            break;
+        case DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_FRONT_SENSOR:
+            if (value != signals->m_currFrontSensor)
+            {
+                signals->m_frontSensor.Append(value);
+                signals->m_currFrontSensor = value;
+            }
+            break;
+        case DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_LAUNCHER_SENSOR:
+            if (value != signals->m_currLauncherSensor)
+            {
+                signals->m_launcherSensor.Append(value);
+                signals->m_currLauncherSensor = value;
+            }
+            break;
+        case DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_IN_SENSOR:
+            if (value != signals->m_currPlacerInSensor)
+            {
+                signals->m_placerInSensor.Append(value);
+                signals->m_currPlacerInSensor = value;
+            }
+            break;
+        case DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_MID_SENSOR:
+            if (value != signals->m_currPlacerMidSensor)
+            {
+                signals->m_placerMidSensor.Append(value);
+                signals->m_currPlacerMidSensor = value;
+            }
+            break;
+        case DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_OUT_SENSOR:
+            if (value != signals->m_currPlacerOutSensor)
+            {
+                signals->m_placerOutSensor.Append(value);
+                signals->m_currPlacerOutSensor = value;
+            }
+            break;
         default:
             break;
         }
