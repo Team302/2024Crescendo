@@ -417,7 +417,7 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 void noteManager::DataLog()
 {
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_ANGLE_DEGREES, m_LauncherAngleTarget.value());
-	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value() > 350.0 ? 0.0 : GetLauncherAngleFromEncoder().value());
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value() > m_rollOverAngle ? 0.0 : GetLauncherAngleFromEncoder().value());
 	auto currState = GetCurrentStatePtr();
 	if (currState != nullptr)
 	{

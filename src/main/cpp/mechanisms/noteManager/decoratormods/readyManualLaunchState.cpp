@@ -45,8 +45,8 @@ void readyManualLaunchState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyManualLaunchState"), string("init"));
 
 	m_genState->Init();
-	m_mechanism->SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t(165.0));
-	m_mechanism->SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t(165.0));
+	m_mechanism->SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t(m_manualLaunchSpeedTarget));
+	m_mechanism->SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t(m_manualLaunchSpeedTarget));
 }
 
 void readyManualLaunchState::Run()

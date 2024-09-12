@@ -44,5 +44,6 @@ namespace noteManagerStates
 	private:
 		noteManagerAllStatesStateGen *m_genState;
 		noteManager *m_mechanism;
+		const double m_manualLaunchSpeedTarget = 400.0; 
 	};
 }

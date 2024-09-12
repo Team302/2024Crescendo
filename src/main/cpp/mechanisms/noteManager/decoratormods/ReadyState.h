@@ -48,5 +48,6 @@ namespace noteManagerStates
 		noteManager *m_mechanism;
 		double m_target = 0;
 		frc::Timer *m_launchTimer;
+		const double m_idleTarget = 165.0;
 	};
 }
