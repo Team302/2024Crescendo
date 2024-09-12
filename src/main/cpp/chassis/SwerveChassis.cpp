@@ -182,7 +182,7 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
         m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK]);
         m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK]);
     }
-
+    m_rotate = moveInfo.chassisSpeeds.omega;
     UpdateOdometry();
 }
 
@@ -456,6 +456,7 @@ void SwerveChassis::DataLog()
     LogPoseData(DragonDataLoggerSignals::PoseSingals::CURRENT_CHASSIS_POSE, GetPose());
 
     LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_STORED_HEADING_DEGREES, GetStoredHeading().value());
+    LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_YAW_DEGREES, GetYaw().value());
 
     frc::ChassisSpeeds targetSpeed;
     targetSpeed.vx = m_drive;

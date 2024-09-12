@@ -109,7 +109,13 @@ void DragonDataLogger::LogDoubleData(DragonDataLoggerSignals::DoubleSignals sign
                 signals->m_currStoredHeading = value;
             }
             break;
-
+        case DragonDataLoggerSignals::DoubleSignals::CHASSIS_YAW_DEGREES:
+            if (std::abs(value - signals->m_currChassisYaw) > m_doubleTolerance)
+            {
+                signals->m_chassisYaw.Append(value);
+                signals->m_currChassisYaw = value;
+            }
+            break;
         case DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_ANGLE_DEGREES:
             if (std::abs(value - signals->m_currNmTargetAngle) > m_doubleTolerance)
             {

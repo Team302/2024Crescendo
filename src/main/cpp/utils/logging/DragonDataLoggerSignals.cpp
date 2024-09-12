@@ -95,9 +95,9 @@ DragonDataLoggerSignals::DragonDataLoggerSignals()
     m_backRightTarget.Append(m_currBackRightTarget);
     m_frontLeftActual = wpi::log::StructLogEntry<frc::SwerveModuleState>(log, "/Chassis/ActualFrontLeftModuleState");
     m_frontLeftActual.Append(m_currFrontLeftActual);
-    m_frontRightActual = wpi::log::StructLogEntry<frc::SwerveModuleState>(log, "/Chassis/ActualFrontRightModuleState");
+    m_frontRightActual = wpi::log::StructLogEntry<frc::SwerveModuleState>(log, "/Chassis/ActualBackLeftModuleState");
     m_frontRightActual.Append(m_currFrontRightActual);
-    m_backLeftActual = wpi::log::StructLogEntry<frc::SwerveModuleState>(log, "/Chassis/ActualFrontRightModuleState");
+    m_backLeftActual = wpi::log::StructLogEntry<frc::SwerveModuleState>(log, "/Chassis/ActualBackLeftModuleState");
     m_backLeftActual.Append(m_currBackLeftActual);
     m_backRightActual = wpi::log::StructLogEntry<frc::SwerveModuleState>(log, "/Chassis/ActualBackRightModuleState");
     m_backRightActual.Append(m_currBackRightActual);
