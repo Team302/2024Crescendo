@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "auton.dtd">
+
+<auton>
+                
+<primitive id= "DO_NOTHING"
+    noteOption = "STATE_READY_ODOMETRY_LAUNCH"
+    time= "0.25"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    choreoname= "BlueAmpWing0Center3_A"
+    noteOption= "STATE_FEEDER_INTAKE"
+    time= "2.5"
+    pathUpdateOption="NOTE"
+    visionAligment= "SPEAKER"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    choreoname= "BlueAmpWing0Center3_B"
+    noteOption= "STATE_FEEDER_INTAKE"
+    time= "2.0"
+    pathUpdateOption="NOTE"
+    visionAligment= "SPEAKER"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    choreoname= "BlueAmpWing0Center3_C"
+    noteOption= "STATE_FEEDER_INTAKE"
+    time= "2.0"
+    pathUpdateOption="NOTE"
+    visionAligment= "SPEAKER"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    choreoname= "BlueAmpWing0Center3_D"
+    noteOption= "STATE_FEEDER_INTAKE"
+    time= "2.0"
+    pathUpdateOption="NOTE"
+    visionAligment= "SPEAKER"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    choreoname= "BlueAmpWing0Center3_E"
+    noteOption= "STATE_FEEDER_INTAKE"
+    time= "2.0"
+    pathUpdateOption="NOTE"
+    visionAligment= "SPEAKER"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    choreoname= "BlueAmpWing0Center3_F"
+    noteOption= "STATE_FEEDER_INTAKE"
+    time= "2.0"
+    pathUpdateOption="NOTE"
+    visionAligment= "SPEAKER"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+</auton> 
