@@ -39,12 +39,12 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_longpathHolonomicController(pathplanner::PIDConstants(1.95, 0.95, 0.0), //(0.65, 0.3755, 0.0)
                                                                                                                pathplanner::PIDConstants(3.0, 2.5, 0.0),
                                                                                                                robotDrive->GetChassis()->GetMaxSpeed(),
-                                                                                                               units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
+                                                                                                               units::length::inch_t(sqrt(((robotDrive->GetChassis()->GetWheelBase().to<double>() / 2.0) * (robotDrive->GetChassis()->GetWheelBase().to<double>() / 2.0) + (robotDrive->GetChassis()->GetTrack().to<double>() / 2.0) * (robotDrive->GetChassis()->GetTrack().to<double>() / 2.0)))),
                                                                                                                units::time::second_t(0.02)),
                                                                                  m_shortpathHolonomicController(pathplanner::PIDConstants(1.95, 0.95, 0.0),
                                                                                                                 pathplanner::PIDConstants(3.0, 2.5, 0.0),
                                                                                                                 robotDrive->GetChassis()->GetMaxSpeed(),
-                                                                                                                units::length::inch_t(sqrt((robotDrive->GetChassis()->GetWheelBase().to<double>() * robotDrive->GetChassis()->GetWheelBase().to<double>() + robotDrive->GetChassis()->GetTrack().to<double>() * robotDrive->GetChassis()->GetTrack().to<double>()))),
+                                                                                                                units::length::inch_t(sqrt(((robotDrive->GetChassis()->GetWheelBase().to<double>() / 2.0) * (robotDrive->GetChassis()->GetWheelBase().to<double>() / 2.0) + (robotDrive->GetChassis()->GetTrack().to<double>() / 2.0) * (robotDrive->GetChassis()->GetTrack().to<double>() / 2.0)))),
                                                                                                                 units::time::second_t(0.02)),
                                                                                  m_trajectoryStates(),
                                                                                  m_prevPose(),
@@ -55,6 +55,11 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
 
 {
     m_prevPose = m_chassis != nullptr ? m_chassis->GetPose() : Pose2d();
+}
+
+std::string TrajectoryDrivePathPlanner::GetDriveStateName() const
+{
+    return std::string("TrajectoryDrivePathPlanner");
 }
 
 void TrajectoryDrivePathPlanner::Init(ChassisMovement &chassisMovement)

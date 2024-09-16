@@ -23,8 +23,7 @@ class LoggableItemMgr
 {
 public:
     static LoggableItemMgr *GetInstance();
-    void RegisterLoggableItem(
-        LoggableItem *item);
+    void RegisterLoggableItem(LoggableItem *item);
     void LogData() const;
 
 private:

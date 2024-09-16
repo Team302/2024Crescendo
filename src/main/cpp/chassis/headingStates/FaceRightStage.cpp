@@ -13,7 +13,6 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-
 // Team302 Includes
 #include "chassis/headingStates/FaceRightStage.h"
 #include "chassis/headingStates/FaceTarget.h"
@@ -21,6 +20,11 @@
 
 FaceRightStage::FaceRightStage() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_RIGHT_STAGE)
 {
+}
+
+std::string FaceRightStage::GetHeadingStateName() const
+{
+    return std::string("FaceRightStage");
 }
 
 DragonVision::VISION_ELEMENT FaceRightStage::GetVisionElement() const

@@ -28,6 +28,11 @@ FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : Specif
 {
 }
 
+std::string FaceTarget::GetHeadingStateName() const
+{
+    return std::string("FaceTarget");
+}
+
 units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMovement) const
 {
     auto finder = DragonDriveTargetFinder::GetInstance();

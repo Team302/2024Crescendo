@@ -75,3 +75,8 @@ bool holdPlacerState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return (m_mechanism->getplacerInSensor()->Get() && m_mechanism->getplacerMidSensor()->Get());
 }
+
+std::string holdPlacerState::GetNoteStateName() const
+{
+	return std::string("HoldPlacerState");
+}

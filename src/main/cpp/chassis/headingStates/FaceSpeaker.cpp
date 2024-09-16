@@ -22,6 +22,11 @@ FaceSpeaker::FaceSpeaker() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_
 {
 }
 
+std::string FaceSpeaker::GetHeadingStateName() const
+{
+    return std::string("FaceSpeaker");
+}
+
 DragonVision::VISION_ELEMENT FaceSpeaker::GetVisionElement() const
 {
     return DragonVision::VISION_ELEMENT::SPEAKER;

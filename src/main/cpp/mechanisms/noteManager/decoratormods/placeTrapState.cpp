@@ -74,3 +74,8 @@ bool placeTrapState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PLACE)); //&& AtTarget());
 }
+
+std::string placeTrapState::GetNoteStateName() const
+{
+	return std::string("PlaceTrapState");
+}

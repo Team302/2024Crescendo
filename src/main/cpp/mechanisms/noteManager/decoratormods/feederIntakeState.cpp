@@ -72,3 +72,8 @@ bool feederIntakeState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return ((considerGamepadTransitions && buttonsPressed && m_mechanism->IsLauncherMode()));
 }
+
+std::string feederIntakeState::GetNoteStateName() const
+{
+	return std::string("FeederIntakeState");
+}

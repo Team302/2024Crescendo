@@ -51,6 +51,11 @@ void DriveToNote::Init(ChassisMovement &chassisMovement)
     InitFromTrajectory(chassisMovement, m_trajectory);
 }
 
+std::string DriveToNote::GetDriveStateName() const
+{
+    return std::string("DriveToNote");
+}
+
 void DriveToNote::InitFromTrajectory(ChassisMovement &chassisMovement, pathplanner::PathPlannerTrajectory trajectory)
 {
     m_trajectory = trajectory;

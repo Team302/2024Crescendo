@@ -17,6 +17,7 @@
 
 // C++ Includes
 #include <array>
+#include <string>
 
 // Team302 Includes
 #include "chassis/driveStates/ISwerveDriveState.h"
@@ -28,6 +29,7 @@ public:
     ~HoldDrive();
 
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
+    std::string GetDriveStateName() const override;
 
     void Init(ChassisMovement &chassisMovement) override;
 

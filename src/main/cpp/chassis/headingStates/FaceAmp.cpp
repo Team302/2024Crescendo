@@ -22,6 +22,10 @@ FaceAmp::FaceAmp() : FaceTarget(ChassisOptionEnums::HeadingOption::FACE_AMP)
 {
 }
 
+std::string FaceAmp::GetHeadingStateName() const
+{
+    return std::string("FaceAmp");
+}
 DragonVision::VISION_ELEMENT FaceAmp::GetVisionElement() const
 {
     return DragonVision::VISION_ELEMENT::AMP;

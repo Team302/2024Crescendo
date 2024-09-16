@@ -236,7 +236,7 @@ bool noteManager::HasVisionTarget()
 	{
 		auto distinfo = finder->GetDistance(DragonDriveTargetFinder::FINDER_OPTION::VISION_ONLY, DragonVision::VISION_ELEMENT::SPEAKER);
 		auto type = get<0>(distinfo);
-		if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && get<1>(distinfo) < units::length::meter_t(5.0))
+		if (type == DragonDriveTargetFinder::TARGET_INFO::VISION_BASED && get<1>(distinfo) < units::length::meter_t(6.0))
 			return true;
 	}
 
@@ -257,9 +257,6 @@ void noteManager::Update(RobotStateChanges::StateChange change, int value)
 void noteManager::SetLauncherTargetsForAutoLaunch(DragonDriveTargetFinder::FINDER_OPTION option)
 {
 	std::tuple<units::angular_velocity::radians_per_second_t, units::angular_velocity::radians_per_second_t, units::angle::degree_t> launchParameters = GetRequiredLaunchParameters(option);
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Speed Target"), std::get<0>(launchParameters).value());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bottom Speed Target"), std::get<1>(launchParameters).value());
 
 	SetLauncherTopWheelsTarget(std::get<0>(launchParameters));
 	SetLauncherBottomWheelsTarget(std::get<1>(launchParameters));
@@ -405,7 +402,7 @@ bool noteManager::HasNote() const
 	return true;
 }
 
-bool noteManager::isLauncherAtTargert()
+bool noteManager::isLauncherAtTarget()
 {
 	return units::math::abs((m_LauncherAngleTarget - GetLauncherAngleFromEncoder())) < m_angleTolerance;
 }
@@ -415,4 +412,75 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 
 	units::angular_velocity::radians_per_second_t targetSpeed = (GetLauncherAngleFromEncoder() > units::angle::degree_t(10.0)) ? units::angular_velocity::radians_per_second_t(400.0) : units::angular_velocity::radians_per_second_t(500.0); // rad/sec based on passing with no chassis speed
 	return targetSpeed;
+}
+
+void noteManager::DataLog()
+{
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_ANGLE_DEGREES, m_LauncherAngleTarget.value());
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value() > m_rollOverAngle ? 0.0 : GetLauncherAngleFromEncoder().value());
+	auto currState = GetCurrentStatePtr();
+	if (currState != nullptr)
+	{
+		auto nmstate = dynamic_cast<INoteState *>(currState);
+		if (nmstate != nullptr)
+		{
+			LogStringData(DragonDataLoggerSignals::StringSignals::NOTE_MANAGER_STATE, nmstate->GetNoteStateName());
+		}
+	}
+
+	units::angular_velocity::revolutions_per_minute_t rpm = GetLauncherTopWheelsTarget();
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_TOP_WHEEL_SPEED_RPM, rpm.value());
+	rpm = GetLauncherBottomWheelsTarget();
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_BOTTOM_WHEEL_SPEED_RPM, rpm.value());
+
+	auto topmotor = getlauncherTop();
+	if (topmotor != nullptr)
+	{
+		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_TOP_WHEEL_SPEED_RPM, topmotor->GetRPS() * 60);
+	}
+	auto bottommotor = getlauncherBottom();
+	if (bottommotor != nullptr)
+	{
+		LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_BOTTOM_WHEEL_SPEED_RPM, bottommotor->GetRPS() * 60);
+	}
+
+	LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_HAS_VISION, HasVisionTarget());
+
+	auto sensor = getfrontIntakeSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_FRONT_SENSOR, sensor->Get());
+	}
+	sensor = getbackIntakeSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_BACK_SENSOR, sensor->Get());
+	}
+	sensor = getfeederSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_FEEDER_SENSOR, sensor->Get());
+	}
+	sensor = getlauncherSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_LAUNCHER_SENSOR, sensor->Get());
+	}
+	sensor = getplacerInSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_IN_SENSOR, sensor->Get());
+	}
+	sensor = getplacerMidSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_MID_SENSOR, sensor->Get());
+	}
+	sensor = getplacerOutSensor();
+	if (sensor != nullptr)
+	{
+		LogBoolData(DragonDataLoggerSignals::BoolSignals::NOTE_MANAGER_PLACER_OUT_SENSOR, sensor->Get());
+	}
+
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_DISTANCE_FROM_SPEAKER_METERS, GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::FUSE_IF_POSSIBLE).value());
 }

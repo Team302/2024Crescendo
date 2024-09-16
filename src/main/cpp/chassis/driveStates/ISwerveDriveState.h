@@ -15,6 +15,8 @@
 
 #pragma once
 
+#include <string>
+
 // FRC Includes
 #include <frc/kinematics/SwerveModuleState.h>
 
@@ -29,6 +31,7 @@ public:
 
     /// @brief Initialize the state
     void virtual Init(ChassisMovement &chassisMovement) = 0;
+    virtual std::string GetDriveStateName() const = 0;
 
     /// @brief Calculate the swerve module states based on chassis movement and orientation option
     /// @return std::array<frc::SwerveModuleState*, 4> - 4 calculated swerve module states

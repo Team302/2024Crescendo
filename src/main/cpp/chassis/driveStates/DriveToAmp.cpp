@@ -36,6 +36,11 @@ DriveToAmp::DriveToAmp(RobotDrive *robotDrive,
     m_trajectoryDrivePathPlanner = trajectoryDrivePathPlanner;
 }
 
+std::string DriveToAmp::GetDriveStateName() const
+{
+    return std::string("DriveToAmp");
+}
+
 void DriveToAmp::Init(ChassisMovement &chassisMovement)
 {
     if (m_chassis != nullptr)

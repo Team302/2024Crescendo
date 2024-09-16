@@ -23,6 +23,8 @@
 #include "frc/geometry/Rotation2d.h"
 #include "units/angular_acceleration.h"
 #include "frc/kinematics/SwerveModulePosition.h"
+#include "frc/DataLogManager.h"
+// #include "wpi/DataLog.h"
 
 // Team 302 includes
 #include "chassis/driveStates/DriveToNote.h"
@@ -76,10 +78,6 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
                                                         m_backRight(backRight),
                                                         m_pigeon(pigeon),
                                                         m_robotDrive(nullptr),
-                                                        m_flState(),
-                                                        m_frState(),
-                                                        m_blState(),
-                                                        m_brState(),
                                                         m_frontLeftLocation(units::length::inch_t(22.5 / 2.0), units::length::inch_t(22.5 / 2.0)),
                                                         m_frontRightLocation(units::length::inch_t(22.5 / 2.0), units::length::inch_t(-22.5 / 2.0)),
                                                         m_backLeftLocation(units::length::inch_t(-22.5 / 2.0), units::length::inch_t(22.5 / 2.0)),
@@ -177,14 +175,14 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     m_currentDriveState = GetDriveState(moveInfo);
     if (m_currentDriveState != nullptr)
     {
-        auto states = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
+        m_targetStates = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
 
-        m_frontLeft->SetDesiredState(states[LEFT_FRONT]);
-        m_frontRight->SetDesiredState(states[RIGHT_FRONT]);
-        m_backLeft->SetDesiredState(states[LEFT_BACK]);
-        m_backRight->SetDesiredState(states[RIGHT_BACK]);
+        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT]);
+        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT]);
+        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK]);
+        m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK]);
     }
-
+    m_rotate = moveInfo.chassisSpeeds.omega;
     UpdateOdometry();
 }
 
@@ -293,20 +291,48 @@ void SwerveChassis::UpdateOdometry()
         auto useVision = (m_pigeon != nullptr && std::abs(GetRotationRateDegreesPerSecond()) < 720.0);
         if (useVision)
         {
-            std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(GetYaw(), // mtAngle.Degrees(),
-                                                                                        units::angular_velocity::degrees_per_second_t(0.0),
-                                                                                        units::angle::degree_t(0.0),
-                                                                                        units::angular_velocity::degrees_per_second_t(0.0),
-                                                                                        units::angle::degree_t(0.0),
-                                                                                        units::angular_velocity::degrees_per_second_t(0.0));
-
-            if (megaTag2Pose)
+            auto hasValidRotation = true;
+            auto rotation = GetYaw();
+            auto hadBrownOut = m_pigeon->GetStickyFault_Undervoltage().GetValue();
+            if (hadBrownOut)
             {
-                m_poseEstimator.SetVisionMeasurementStdDevs(megaTag2Pose->visionMeasurementStdDevs); // wpi::array<double, 3>(.7, .7, 9999999));
+                hasValidRotation = false;
 
-                m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
-                                                     megaTag2Pose.value().timeStamp);
-                updateWithVision = true;
+                auto visionPosition = m_vision->GetRobotPosition();
+                auto hasVisionPose = visionPosition.has_value();
+                if (hasVisionPose)
+                {
+                    rotation = visionPosition.value().estimatedPose.ToPose2d().Rotation().Degrees();
+                    m_pigeon->ClearStickyFault_Undervoltage();
+                    hasValidRotation = true;
+                    SetYaw(rotation);
+                    SetStoredHeading(rotation);
+                }
+            }
+            if (hasValidRotation)
+            {
+                std::optional<VisionPose> megaTag2Pose = m_vision->GetRobotPositionMegaTag2(rotation,
+                                                                                            units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                            units::angle::degree_t(0.0),
+                                                                                            units::angular_velocity::degrees_per_second_t(0.0),
+                                                                                            units::angle::degree_t(0.0),
+                                                                                            units::angular_velocity::degrees_per_second_t(0.0));
+
+                if (megaTag2Pose)
+                {
+                    if (hadBrownOut)
+                    {
+                        ResetPose(megaTag2Pose.value().estimatedPose.ToPose2d());
+                    }
+                    else
+                    {
+                        m_poseEstimator.SetVisionMeasurementStdDevs(megaTag2Pose->visionMeasurementStdDevs); // wpi::array<double, 3>(.7, .7, 9999999));
+
+                        m_poseEstimator.AddVisionMeasurement(megaTag2Pose.value().estimatedPose.ToPose2d(),
+                                                             megaTag2Pose.value().timeStamp);
+                    }
+                    updateWithVision = true;
+                }
             }
         }
     }
@@ -422,6 +448,52 @@ void SwerveChassis::LogInformation()
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current x position"), pose.X().to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current y position"), pose.Y().to<double>());
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("current rotation position"), pose.Rotation().Degrees().to<double>());
+}
+
+void SwerveChassis::DataLog()
+{
+
+    LogPoseData(DragonDataLoggerSignals::PoseSingals::CURRENT_CHASSIS_POSE, GetPose());
+
+    LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_STORED_HEADING_DEGREES, GetStoredHeading().value());
+    LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_YAW_DEGREES, GetYaw().value());
+
+    frc::ChassisSpeeds targetSpeed;
+    targetSpeed.vx = m_drive;
+    targetSpeed.vy = m_steer;
+    targetSpeed.omega = m_rotate;
+    LogChassisSpeedsData(DragonDataLoggerSignals::ChassisSpeedSignals::TARGET_SPEEDS, targetSpeed);
+
+    auto currFrontLeftState = m_frontLeft->GetState();
+    auto currFrontRightState = m_frontRight->GetState();
+    auto currBackLeftState = m_backLeft->GetState();
+    auto currBackRightState = m_backRight->GetState();
+    wpi::array<frc::SwerveModuleState, 4> states = {currFrontLeftState, currFrontRightState, currBackLeftState, currBackRightState};
+    auto currentSpeed = m_kinematics.ToChassisSpeeds(states);
+    LogChassisSpeedsData(DragonDataLoggerSignals::ChassisSpeedSignals::ACTUAL_SPEEDS, currentSpeed);
+
+    auto optFrontLeftState = m_frontLeft->GetOptimizedState();
+    auto optFrontRightState = m_frontRight->GetOptimizedState();
+    auto optBackLeftState = m_backLeft->GetOptimizedState();
+    auto optBackRightState = m_backRight->GetOptimizedState();
+    LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::TARGET_LEFT_FRONT_STATE, optFrontLeftState);
+    LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::TARGET_LEFT_BACK_STATE, optBackLeftState);
+    LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::TARGET_RIGHT_FRONT_STATE, optFrontRightState);
+    LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::TARGET_RIGHT_BACK_STATE, optBackRightState);
+
+    LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::ACTUAL_LEFT_FRONT_STATE, currFrontLeftState);
+    LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::ACTUAL_LEFT_BACK_STATE, currBackLeftState);
+    LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::ACTUAL_RIGHT_FRONT_STATE, currFrontRightState);
+    LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::ACTUAL_RIGHT_BACK_STATE, currBackRightState);
+
+    if (m_currentDriveState != nullptr)
+    {
+        LogStringData(DragonDataLoggerSignals::StringSignals::CHASSIS_DRIVE_STATE, m_currentDriveState->GetDriveStateName());
+    }
+    if (m_currentOrientationState != nullptr)
+    {
+        LogStringData(DragonDataLoggerSignals::StringSignals::CHASSIS_HEADING_STATE, m_currentOrientationState->GetHeadingStateName());
+    }
 }
 
 //==================================================================================

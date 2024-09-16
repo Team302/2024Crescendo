@@ -16,7 +16,6 @@
 
 #pragma once
 #include <map>
-// #include <memory>
 #include <string>
 
 #include "frc/estimator/SwerveDrivePoseEstimator.h"
@@ -29,6 +28,7 @@
 #include "units/angular_velocity.h"
 #include "units/length.h"
 #include "units/velocity.h"
+#include "wpi/DataLog.h"
 
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/driveStates/ISwerveDriveState.h"
@@ -37,13 +37,14 @@
 #include "chassis/SwerveModule.h"
 #include "chassis/ChassisMovement.h"
 #include "DragonVision/DragonVision.h"
+#include "utils/logging/DragonDataLogger.h"
 #include "utils/logging/LoggableItem.h"
 
 #include "ctre/phoenix6/Pigeon2.hpp"
 
 class RobotDrive;
 
-class SwerveChassis : public IChassis, public LoggableItem
+class SwerveChassis : public IChassis, public LoggableItem, public DragonDataLogger
 {
 public:
     /// @brief Construct a swerve chassis
@@ -125,6 +126,7 @@ public:
     double GetRotationRateDegreesPerSecond() const { return m_pigeon != nullptr ? m_pigeon->GetRate() : 0.0; }
 
     void LogInformation() override;
+    void DataLog() override;
 
 private:
     ISwerveDriveOrientation *GetHeadingState(const ChassisMovement &moveInfo);
@@ -140,11 +142,6 @@ private:
     RobotDrive *m_robotDrive;
     std::map<ChassisOptionEnums::DriveStateType, ISwerveDriveState *> m_driveStateMap;
     std::map<ChassisOptionEnums::HeadingOption, ISwerveDriveOrientation *> m_headingStateMap;
-
-    frc::SwerveModuleState m_flState;
-    frc::SwerveModuleState m_frState;
-    frc::SwerveModuleState m_blState;
-    frc::SwerveModuleState m_brState;
 
     units::length::inch_t m_wheelBase = units::length::inch_t(22.75);
     units::length::inch_t m_track = units::length::inch_t(22.75);
@@ -178,5 +175,7 @@ private:
     std::string m_networkTableName;
     bool m_isRotating = false;
     bool m_rotatingLatch = false;
+    bool m_initDataLog = false;
     DragonVision *m_vision;
+    std::array<frc::SwerveModuleState, 4U> m_targetStates;
 };

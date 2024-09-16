@@ -26,6 +26,12 @@ HoldDrive::HoldDrive()
     m_blState->angle = {units::angle::degree_t(135)};
     m_brState->angle = {units::angle::degree_t(-135)};
 }
+
+std::string HoldDrive::GetDriveStateName() const
+{
+    return std::string("HoldDrive");
+}
+
 std::array<frc::SwerveModuleState, 4> HoldDrive::UpdateSwerveModuleStates(
     ChassisMovement &chassisMovement)
 {

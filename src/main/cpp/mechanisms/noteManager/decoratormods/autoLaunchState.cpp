@@ -72,3 +72,8 @@ bool autoLaunchState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::AUTO_LAUNCH)) && readyToLaunch;
 }
+
+std::string autoLaunchState::GetNoteStateName() const
+{
+	return std::string("AutoLaunchState");
+}

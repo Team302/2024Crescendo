@@ -15,8 +15,9 @@
 
 #pragma once
 
-#include "units/angle.h"
+#include <string>
 
+#include "units/angle.h"
 #include "frc/controller/PIDController.h"
 
 // Team302 Includes
@@ -28,6 +29,7 @@ class ISwerveDriveOrientation
 public:
     ISwerveDriveOrientation() = delete;
     ~ISwerveDriveOrientation() = default;
+    virtual std::string GetHeadingStateName() const = 0;
 
     ISwerveDriveOrientation(ChassisOptionEnums::HeadingOption headingOption);
 
@@ -53,7 +55,7 @@ protected:
     ChassisOptionEnums::HeadingOption m_headingOption;
     units::angle::degree_t m_storedYaw;
 
-    const std::pair<double, double> kPSpecifiedHeading = {8.0, 12.5}; // kP, kI
+    const std::pair<double, double> kPSpecifiedHeading = {5.0, 10.0}; // kP, kI
 
     static frc::PIDController *m_pid;
 };

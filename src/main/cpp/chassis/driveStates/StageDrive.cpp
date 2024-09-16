@@ -35,6 +35,11 @@ StageDrive::StageDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChass
 {
 }
 
+std::string StageDrive::GetDriveStateName() const
+{
+    return std::string("StageDrive");
+}
+
 std::array<frc::SwerveModuleState, 4> StageDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
 {
     auto finder = DragonDriveTargetFinder::GetInstance();

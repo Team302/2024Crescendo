@@ -57,6 +57,8 @@ void readyPassState::Run()
 	units::angular_velocity::radians_per_second_t targetSpeed = m_mechanism->getlauncherTargetSpeed();
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_TOP, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
 	m_mechanism->UpdateTarget(RobotElementNames::MOTOR_CONTROLLER_USAGE::NOTE_MANAGER_LAUNCHER_BOTTOM, units::angular_velocity::revolutions_per_minute_t(targetSpeed));
+	m_mechanism->SetLauncherTopWheelsTarget(targetSpeed);
+	m_mechanism->SetLauncherBottomWheelsTarget(targetSpeed);
 
 	m_genState->Run();
 }
@@ -79,4 +81,9 @@ bool readyPassState::IsTransitionCondition(bool considerGamepadTransitions)
 	Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Specified Heading"), "distance", distanceFromSpeaker.value());
 
 	return (considerGamepadTransitions && ((distanceFromSpeaker >= m_passLaunchThreshold) || TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::READY_PASS)));
+}
+
+std::string readyPassState::GetNoteStateName() const
+{
+	return std::string("ReadyPassState");
 }

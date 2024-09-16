@@ -73,3 +73,8 @@ bool readyAutoLaunchState::IsTransitionCondition(bool considerGamepadTransitions
 	bool visionTargetAcquired = m_mechanism->HasVisionTarget(); // todo this will be set with std::optional<VisionData> optionalvisionData = m_vision->GetVisionData(DragonVision::VISION_ELEMENT::SPEAKER);
 	return (visionTargetAcquired);
 }
+
+std::string readyAutoLaunchState::GetNoteStateName() const
+{
+	return std::string("ReadyAutoLaunchState");
+}
