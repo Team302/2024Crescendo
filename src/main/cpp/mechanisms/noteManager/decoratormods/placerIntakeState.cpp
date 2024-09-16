@@ -78,3 +78,8 @@ bool placerIntakeState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return ((considerGamepadTransitions && buttonsPressed && m_mechanism->IsPlacerMode()));
 }
+
+std::string placerIntakeState::GetNoteStateName() const
+{
+	return std::string("PlacerIntakeState");
+}

@@ -82,3 +82,9 @@ bool preparePlaceAmpState::IsTransitionCondition(bool considerGamepadTransitions
 	return ((considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::PREP_PLACE) && (m_mechanism->IsClimbMode() == false)) ||
 			((currentState == m_mechanism->STATE_PREPARE_PLACE_TRAP) && (m_mechanism->IsClimbMode() == false)));
 }
+
+std::string preparePlaceAmpState::GetNoteStateName() const
+{
+	return std::string("PreparePlaceAmpState");
+}
+

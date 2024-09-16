@@ -90,3 +90,8 @@ bool holdFeederState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return ((feederSensor && launcherSensor && (currentState == m_mechanism->STATE_FEEDER_INTAKE)) || ((currentState == m_mechanism->STATE_READY_AUTO_LAUNCH) && visionTargetAcquired == false) || ((distanceFromSpeaker > m_odometryLaunchThreshold) && (currentState == m_mechanism->STATE_READY_ODOMETRY_LAUNCH)));
 }
+
+std::string holdFeederState::GetNoteStateName() const
+{
+	return std::string("HoldFeederState");
+}

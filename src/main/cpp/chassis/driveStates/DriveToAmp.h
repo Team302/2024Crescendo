@@ -31,6 +31,7 @@ class DriveToAmp : public TrajectoryDrivePathPlanner
 {
 public:
     DriveToAmp(RobotDrive *robotDrive, TrajectoryDrivePathPlanner *trajectoryDrivePathPlanner);
+    std::string GetDriveStateName() const override;
 
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(
         ChassisMovement &chassisMovement) override;

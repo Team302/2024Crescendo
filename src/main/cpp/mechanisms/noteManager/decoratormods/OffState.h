@@ -21,12 +21,12 @@
 #include "State.h"
 #include "mechanisms/noteManager/decoratormods/noteManager.h"
 #include "mechanisms/noteManager/generated/noteManagerAllStatesStateGen.h"
+#include "mechanisms/noteManager/decoratormods/INoteState.h"
 
-using namespace std;
 
 namespace noteManagerStates
 {
-	class OffState : public State
+	class OffState : public State, public INoteState
 	{
 	public:
 		OffState() = delete;
@@ -40,6 +40,7 @@ namespace noteManagerStates
 		void Exit() override;
 		bool AtTarget() override;
 		bool IsTransitionCondition(bool considerGamepadTransitions) override;
+		std::string GetNoteStateName() const override;
 
 	private:
 		noteManagerAllStatesStateGen *m_genState;

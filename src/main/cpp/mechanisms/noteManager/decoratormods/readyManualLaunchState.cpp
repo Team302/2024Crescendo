@@ -45,6 +45,8 @@ void readyManualLaunchState::Init()
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("readyManualLaunchState"), string("init"));
 
 	m_genState->Init();
+	m_mechanism->SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t(m_manualLaunchSpeedTarget));
+	m_mechanism->SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t(m_manualLaunchSpeedTarget));
 }
 
 void readyManualLaunchState::Run()
@@ -70,4 +72,9 @@ bool readyManualLaunchState::IsTransitionCondition(bool considerGamepadTransitio
 	// To get the current state use m_mechanism->GetCurrentState()
 
 	return (considerGamepadTransitions && TeleopControl::GetInstance()->IsButtonPressed(TeleopControlFunctions::MANUAL_LAUNCH) && m_mechanism->IsLauncherMode());
+}
+
+std::string readyManualLaunchState::GetNoteStateName() const
+{
+	return std::string("ReadyManualLaunchState");
 }

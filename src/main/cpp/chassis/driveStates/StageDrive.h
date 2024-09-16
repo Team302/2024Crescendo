@@ -26,6 +26,7 @@ class StageDrive : public RobotDrive
 {
 public:
     StageDrive(RobotDrive *robotDrive);
+    std::string GetDriveStateName() const override;
 
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 

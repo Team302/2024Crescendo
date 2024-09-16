@@ -53,6 +53,11 @@ std::array<frc::SwerveModuleState, 4> FieldDrive::UpdateSwerveModuleStates(Chass
     return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
+std::string FieldDrive::GetDriveStateName() const
+{
+    return std::string("FieldDrive");
+}
+
 void FieldDrive::Init(ChassisMovement &chassisMovement)
 {
 }

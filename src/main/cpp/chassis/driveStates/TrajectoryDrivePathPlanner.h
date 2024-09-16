@@ -15,6 +15,8 @@
 
 #pragma once
 
+#include <string>
+
 // FRC Includes
 #include "frc/Timer.h"
 
@@ -31,6 +33,7 @@ class TrajectoryDrivePathPlanner : public RobotDrive
 {
 public:
     TrajectoryDrivePathPlanner(RobotDrive *robotDrive);
+    std::string GetDriveStateName() const override;
 
     std::array<frc::SwerveModuleState, 4> UpdateSwerveModuleStates(ChassisMovement &chassisMovement) override;
 

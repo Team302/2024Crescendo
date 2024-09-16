@@ -44,6 +44,8 @@ void ReadyState::Init()
 {
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("ReadyState"), string("init"));
 	m_genState->Init();
+	m_mechanism->SetLauncherTopWheelsTarget(units::angular_velocity::radians_per_second_t(m_idleTarget));
+	m_mechanism->SetLauncherBottomWheelsTarget(units::angular_velocity::radians_per_second_t(m_idleTarget));
 }
 
 void ReadyState::Run()
@@ -157,4 +159,9 @@ bool ReadyState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Ready"), string("Transition Reason"), reason); // Remove logging after Note management is all verifed
 	return (transition);
+}
+
+std::string ReadyState::GetNoteStateName() const
+{
+	return std::string("ReadyState");
 }

@@ -28,6 +28,8 @@ public:
     MaintainHeading();
     ~MaintainHeading() = default;
 
+    std::string GetHeadingStateName() const override;
+
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 
 private:

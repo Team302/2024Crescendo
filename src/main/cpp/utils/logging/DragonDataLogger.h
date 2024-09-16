@@ -16,6 +16,9 @@
 
 #pragma once
 #include <string>
+#include "frc/kinematics/ChassisSpeeds.h"
+#include "frc/geometry/Pose2d.h"
+#include "utils/logging/DragonDataLoggerSignals.h"
 
 class DragonDataLogger
 {
@@ -26,5 +29,12 @@ public:
     virtual void DataLog() = 0;
 
 protected:
-    void LogDouble(std::string identifier, double value);
+    void LogBoolData(DragonDataLoggerSignals::BoolSignals signalID, bool value);
+    void LogDoubleData(DragonDataLoggerSignals::DoubleSignals signalID, double value);
+    void LogStringData(DragonDataLoggerSignals::StringSignals signalID, std::string value);
+    void LogPoseData(DragonDataLoggerSignals::PoseSingals signalID, frc::Pose2d value);
+    void LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals signalID, frc::SwerveModuleState value);
+    void LogChassisSpeedsData(DragonDataLoggerSignals::ChassisSpeedSignals signalID, frc::ChassisSpeeds value);
+
+    const double m_doubleTolerance = 0.001;
 };

@@ -107,3 +107,8 @@ bool OffState::IsTransitionCondition(bool considerGamepadTransitions)
 
 	return false;
 }
+
+std::string OffState::GetNoteStateName() const
+{
+	return std::string("OffState");
+}

@@ -14,6 +14,7 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include "utils/logging/DragonDataLoggerSignals.h"
 #include "utils/logging/DragonDataLoggerMgr.h"
 #include "frc/DataLogManager.h"
 #include "frc/DriverStation.h"
@@ -31,10 +32,11 @@ DragonDataLoggerMgr *DragonDataLoggerMgr::GetInstance()
     return DragonDataLoggerMgr::m_instance;
 }
 
-DragonDataLoggerMgr::DragonDataLoggerMgr() : m_items()
+DragonDataLoggerMgr::DragonDataLoggerMgr() : m_items() //, m_doubleDatalogSignals(), m_boolDatalogSignals(), m_stringDatalogSignals()
 {
     frc::DataLogManager::Start();
     frc::DriverStation::StartDataLog(frc::DataLogManager::GetLog());
+    DragonDataLoggerSignals::GetInstance();
 }
 
 DragonDataLoggerMgr::~DragonDataLoggerMgr()
@@ -53,4 +55,6 @@ void DragonDataLoggerMgr::PeriodicDataLog() const
     {
         item->DataLog();
     }
+    wpi::log::DataLog &log = frc::DataLogManager::GetLog();
+    log.Flush();
 }

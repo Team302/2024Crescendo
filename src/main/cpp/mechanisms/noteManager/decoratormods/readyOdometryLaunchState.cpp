@@ -74,3 +74,8 @@ bool readyOdometryLaunchState::IsTransitionCondition(bool considerGamepadTransit
 	units::length::meter_t distanceFromSpeaker = m_mechanism->GetDistanceFromSpeaker(DragonDriveTargetFinder::FINDER_OPTION::ODOMETRY_ONLY);
 	return ((distanceFromSpeaker < m_odometryLaunchThreshold) && (currentState == m_mechanism->STATE_HOLD_FEEDER));
 }
+
+std::string readyOdometryLaunchState::GetNoteStateName() const
+{
+	return std::string("ReadyOdometryLaunchState");
+}

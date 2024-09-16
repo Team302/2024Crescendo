@@ -19,7 +19,7 @@
 
 // Team302 Includes
 #include "chassis/ChassisMovement.h"
-#include "chassis/driveStates/AntiTip.h"
+#include "chassis/AntiTip.h"
 #include "chassis/configs/ChassisConfig.h"
 #include "chassis/configs/ChassisConfigMgr.h"
 #include "utils/FMSData.h"

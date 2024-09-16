@@ -33,7 +33,8 @@ public:
 
     FaceTarget(ChassisOptionEnums::HeadingOption headingOption);
     ~FaceTarget() = default;
-    // void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
+
+    std::string GetHeadingStateName() const override;
 
 protected:
     virtual DragonVision::VISION_ELEMENT GetVisionElement() const = 0;

@@ -28,6 +28,11 @@ FaceGamePiece::FaceGamePiece() : ISwerveDriveOrientation(ChassisOptionEnums::Hea
 {
 }
 
+std::string FaceGamePiece::GetHeadingStateName() const
+{
+    return std::string("FaceGamePiece");
+}
+
 void FaceGamePiece::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();

@@ -33,6 +33,11 @@ MaintainHeading::MaintainHeading() : ISwerveDriveOrientation(ChassisOptionEnums:
     m_controller.SetIZone(0.174533); // 10 degrees in radians
 }
 
+std::string MaintainHeading::GetHeadingStateName() const
+{
+    return std::string("MaintainHeading");
+}
+
 void MaintainHeading::UpdateChassisSpeeds(ChassisMovement &chassisMovement)
 {
     auto config = ChassisConfigMgr::GetInstance()->GetCurrentConfig();

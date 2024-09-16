@@ -16,7 +16,6 @@
 
 #pragma once
 #include <map>
-// #include <memory>
 #include <string>
 
 #include "frc/estimator/SwerveDrivePoseEstimator.h"
@@ -144,11 +143,6 @@ private:
     std::map<ChassisOptionEnums::DriveStateType, ISwerveDriveState *> m_driveStateMap;
     std::map<ChassisOptionEnums::HeadingOption, ISwerveDriveOrientation *> m_headingStateMap;
 
-    frc::SwerveModuleState m_flState;
-    frc::SwerveModuleState m_frState;
-    frc::SwerveModuleState m_blState;
-    frc::SwerveModuleState m_brState;
-
     units::length::inch_t m_wheelBase = units::length::inch_t(22.75);
     units::length::inch_t m_track = units::length::inch_t(22.75);
     units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(17.3);
@@ -182,13 +176,6 @@ private:
     bool m_isRotating = false;
     bool m_rotatingLatch = false;
     bool m_initDataLog = false;
-    wpi::log::DoubleLogEntry m_logPoseX;
-    wpi::log::DoubleLogEntry m_logPoseY;
-    wpi::log::DoubleLogEntry m_logPoseRotation;
-    wpi::log::StructLogEntry m_logPose2d;
-    wpi::log::StructLogEntry m_logPose3d;
-    int m_logPoseXEntry;
-    int m_logPoseYEntry;
-    int m_logPoseRotationEntry;
     DragonVision *m_vision;
+    std::array<frc::SwerveModuleState, 4U> m_targetStates;
 };

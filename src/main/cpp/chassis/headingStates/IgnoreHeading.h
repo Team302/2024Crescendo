@@ -26,5 +26,8 @@ class IgnoreHeading : public ISwerveDriveOrientation
 public:
     IgnoreHeading();
     ~IgnoreHeading();
+
+    std::string GetHeadingStateName() const override;
+
     void UpdateChassisSpeeds(ChassisMovement &chassisMovement) override;
 };

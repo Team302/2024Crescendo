@@ -67,6 +67,7 @@ public:
     /// @brief Get the current state of the module (speed of the wheel and angle of the wheel)
     /// @returns SwerveModuleState
     frc::SwerveModuleState GetState() const;
+    frc::SwerveModuleState GetOptimizedState() const { return m_optimizedState; }
     frc::SwerveModulePosition GetPosition() const;
 
     /// @brief Set the current state of the module (speed of the wheel and angle of the wheel)
@@ -102,6 +103,7 @@ private:
     ctre::phoenix6::hardware::CANcoder *m_turnCancoder;
 
     frc::SwerveModuleState m_activeState;
+    frc::SwerveModuleState m_optimizedState;
 
     ctre::phoenix6::controls::PositionTorqueCurrentFOC m_positionTorque = ctre::phoenix6::controls::PositionTorqueCurrentFOC{0_tr}.WithSlot(0);
     ctre::phoenix6::controls::PositionVoltage m_positionVoltage = ctre::phoenix6::controls::PositionVoltage{0_tr}.WithSlot(0);
