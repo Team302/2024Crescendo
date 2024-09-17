@@ -23,6 +23,7 @@ time= "0.5"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_FEEDER_INTAKE"
+headingOption= "FACE_SPEAKER"
 time= "0.5"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
