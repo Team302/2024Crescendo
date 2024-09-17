@@ -162,7 +162,7 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
     m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
-    m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
+    // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
 
     // Set Turn Target
     SetTurnAngle(m_optimizedState.angle.Degrees());
