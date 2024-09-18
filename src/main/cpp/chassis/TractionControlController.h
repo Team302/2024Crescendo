@@ -24,6 +24,7 @@
 #include "units/angular_velocity.h"
 #include "units/length.h"
 #include "units/velocity.h"
+#include "units/time.h"
 #include "frc/filter/Debouncer.h"
 
 // Team 302 Includes
@@ -39,9 +40,9 @@ public:
         ENABLED = 1
     };
 
-    TractionControlController(double staticCoF, double dynamicCoF, double optimalSlipRatio, double mass, double maxLinearSpeed);
+    TractionControlController(double staticCoF, double dynamicCoF, double optimalSlipRatio, double mass, units::velocity::meters_per_second_t maxLinearSpeed);
     void update(double speed, double angle);
-    double calculate(double velocityRequest, double inertialVelocity, double wheelSpeed);
+    units::velocity::meters_per_second_t calculate(units::velocity::meters_per_second_t velocityRequest, units::velocity::meters_per_second_t inertialVelocity, units::velocity::meters_per_second_t wheelSpeed);
     bool isSlipping() const;
 
 private:
@@ -49,14 +50,14 @@ private:
     static constexpr double MIN_SLIP_RATIO = 0.01;
     static constexpr double MAX_SLIP_RATIO = 0.40;
     static constexpr int SIGMOID_K = 10;
-    static constexpr units::velocity::meters_per_second_t INERTIAL_VELOCITY_THRESHOLD = units::velocity::meters_per_second_t(0.01);
+    static constexpr units::velocity::meters_per_second_t INERTIAL_VELOCITY_THRESHOLD{0.01};
     static constexpr double m_robotLoopRate_Hz = 50.0;
 
-    units::second_t MIN_SLIPPING_TIME = units::second_t(1.1);
+    units::second_t MIN_SLIPPING_TIME{1.1};
 
     double m_optimalSlipRatio;
     double m_mass;
-    double m_maxLinearSpeed;
+    units::velocity::meters_per_second_t m_maxLinearSpeed;
     double m_staticCoF;
     double m_dynamicCoF;
     double m_maxPredictedSlipRatio;

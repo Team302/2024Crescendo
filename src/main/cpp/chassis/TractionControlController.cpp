@@ -17,6 +17,7 @@
 
 // C++ Includes
 #include "algorithm"
+#include <cmath>
 
 // FRC Includes
 
@@ -27,13 +28,14 @@ TractionControlController::TractionControlController(double staticCoF,
                                                      double dynamicCoF,
                                                      double optimalSlipRatio,
                                                      double mass,
-                                                     double maxLinearSpeed) : m_staticCoF(staticCoF),
-                                                                              m_dynamicCoF(dynamicCoF),
-                                                                              m_optimalSlipRatio(optimalSlipRatio),
-                                                                              m_mass(mass / 4),
-                                                                              m_maxLinearSpeed(maxLinearSpeed),
-                                                                              m_maxPredictedSlipRatio((maxLinearSpeed * m_robotLoopRate_Hz) / (staticCoF * m_mass * 9.81)),
-                                                                              m_isSlipping(false), m_slippingDebouncer(MIN_SLIPPING_TIME, frc::Debouncer::DebounceType::kRising), m_state(State::ENABLED)
+                                                     units::velocity::meters_per_second_t maxLinearSpeed) : m_staticCoF(staticCoF),
+                                                                                                            m_dynamicCoF(dynamicCoF),
+                                                                                                            m_optimalSlipRatio(optimalSlipRatio),
+                                                                                                            m_mass(mass / 4.0),
+                                                                                                            m_maxLinearSpeed(maxLinearSpeed),
+                                                                                                            m_maxPredictedSlipRatio((maxLinearSpeed * m_robotLoopRate_Hz) / (staticCoF * m_mass * 9.81)),
+                                                                                                            m_isSlipping(false),
+                                                                                                            m_slippingDebouncer(MIN_SLIPPING_TIME, frc::Debouncer::DebounceType::kRising)
 {
     if (dynamicCoF > staticCoF)
     {
@@ -42,35 +44,28 @@ TractionControlController::TractionControlController(double staticCoF,
     m_optimalSlipRatio = std::clamp(optimalSlipRatio, MIN_SLIP_RATIO, MAX_SLIP_RATIO);
 }
 
-double TractionControlController::calculate(double velocityRequest, double inertialVelocity, double wheelSpeed)
+units::velocity::meters_per_second_t TractionControlController::calculate(units::velocity::meters_per_second_t velocityRequest, units::velocity::meters_per_second_t inertialVelocity, units::velocity::meters_per_second_t wheelSpeed)
 {
-    double velocityOutput = velocityRequest;
+    units::velocity::meters_per_second_t velocityOutput = velocityRequest;
 
-    inertialVelocity = std::abs(inertialVelocity);
-    double currentSlipRatio = std::abs(
-        inertialVelocity <= INERTIAL_VELOCITY_THRESHOLD.value()
-            ? wheelSpeed / m_maxLinearSpeed
-            : (std::abs(wheelSpeed) - inertialVelocity) / inertialVelocity);
-    m_isSlipping = m_slippingDebouncer.Calculate(
-        currentSlipRatio > m_optimalSlipRatio &&
-        std::abs(wheelSpeed) > m_maxLinearSpeed * m_optimalSlipRatio);
+    inertialVelocity = units::velocity::meters_per_second_t(std::abs(inertialVelocity.value()));
 
-    double desiredAcceleration = (velocityRequest - inertialVelocity) / m_robotLoopRate_Hz;
+    double currentSlipRatio = std::abs(inertialVelocity <= INERTIAL_VELOCITY_THRESHOLD ? wheelSpeed.value() / m_maxLinearSpeed.value()
+                                                                                       : (std::abs(wheelSpeed.value()) - inertialVelocity.value()) / inertialVelocity.value());
+
+    m_isSlipping = m_slippingDebouncer.Calculate(currentSlipRatio > m_optimalSlipRatio && std::abs(wheelSpeed.value()) > m_maxLinearSpeed.value() * m_optimalSlipRatio);
+
+    double desiredAcceleration = (velocityRequest.value() - inertialVelocity.value()) / m_robotLoopRate_Hz;
 
     double sigmoid = 1 / (1 + std::exp(-SIGMOID_K * std::clamp(2 * (currentSlipRatio - m_optimalSlipRatio) - 1, -1.0, 1.0)));
 
     double effectiveCoF = m_isSlipping ? m_staticCoF * (1 - sigmoid) + m_dynamicCoF * sigmoid : m_staticCoF;
 
-    double predictedSlipRatio = std::abs(
-                                    desiredAcceleration /
-                                    (inertialVelocity * 9.81 + effectiveCoF * m_mass * 9.81)) /
-                                m_maxPredictedSlipRatio;
+    double predictedSlipRatio = std::abs(desiredAcceleration / (inertialVelocity.value() * 9.81 + effectiveCoF * m_mass * 9.81)) / m_maxPredictedSlipRatio;
 
-    double velocityCorrection = (m_optimalSlipRatio - predictedSlipRatio) * VELOCITY_CORRECTION_SCALAR * m_state;
+    double velocityCorrection = (m_optimalSlipRatio - predictedSlipRatio) * VELOCITY_CORRECTION_SCALAR;
 
-    velocityOutput = std::clamp(velocityOutput + velocityCorrection, -m_maxLinearSpeed, m_maxLinearSpeed);
-
-    return velocityOutput;
+    return units::velocity::meters_per_second_t(std::clamp(velocityOutput.value() + velocityCorrection, -m_maxLinearSpeed.value(), m_maxLinearSpeed.value()));
 }
 
 bool TractionControlController::isSlipping() const
