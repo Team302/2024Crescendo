@@ -14,14 +14,14 @@
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.5"
     pathUpdateOption="NOTE"
-    visionAligment= "SPEAKER"/>
+    headingOption= "FACE_SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
     choreoname= "BlueSubwooferWing0Center3_B"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
-    visionAligment= "SPEAKER"/>
+    headingOption= "FACE_SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
@@ -30,14 +30,14 @@
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
-    visionAligment= "SPEAKER"/>
+    headingOption= "FACE_SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
     choreoname= "BlueSubwooferWing0Center3_D"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
-    visionAligment= "SPEAKER"/>
+    headingOption= "FACE_SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
@@ -46,14 +46,14 @@
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
-    visionAligment= "SPEAKER"/>
+    headingOption= "FACE_SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
     choreoname= "BlueSubwooferWing0Center3_F"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
-    visionAligment= "SPEAKER"/>
+    headingOption= "FACE_SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
