@@ -17,7 +17,7 @@
     drive_FOC_proportional="65.0"
     drive_FOC_integral="55.0"
     drive_FOC_derivative="0.0"
-    drive_FOC_staticFeedForward="15.0"
+    drive_FOC_staticFeedForward="12.0"
     max_speed="4.5"
   />
 </swervemodule>
