@@ -10,14 +10,14 @@
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    choreoname= "BlueAmpWing0Center3_A"
+    choreoname= "BlueSubwooferWing0Center3_A"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.5"
     pathUpdateOption="NOTE"
     visionAligment= "SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    choreoname= "BlueAmpWing0Center3_B"
+    choreoname= "BlueSubwooferWing0Center3_B"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
@@ -26,14 +26,14 @@
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    choreoname= "BlueAmpWing0Center3_C"
+    choreoname= "BlueSubwooferWing0Center3_C"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
     visionAligment= "SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    choreoname= "BlueAmpWing0Center3_D"
+    choreoname= "BlueSubwooferWing0Center3_D"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
@@ -42,14 +42,14 @@
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    choreoname= "BlueAmpWing0Center3_E"
+    choreoname= "BlueSubwooferWing0Center3_E"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
     visionAligment= "SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
-    choreoname= "BlueAmpWing0Center3_F"
+    choreoname= "BlueSubwooferWing0Center3_F"
     noteOption= "STATE_FEEDER_INTAKE"
     time= "2.0"
     pathUpdateOption="NOTE"
