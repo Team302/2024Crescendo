@@ -153,5 +153,5 @@ private:
 	const double m_lowAnglePIDThreshold = 10.0;
 	const double m_rollOverAngle = 350.0;
 
-	frc::PIDController m_launcherAnglePID = frc::PIDController(0.023, 0.00007, 0.0);
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0235, 0.000035, 0.0);
 };
