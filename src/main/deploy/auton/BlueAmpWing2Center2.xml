@@ -55,8 +55,6 @@ noteOption= "STATE_FEEDER_INTAKE"
 time= "2.85"
 visionAligment= "SPEAKER"/>
 
- <primitive id="DO_NOTHING"
-                noteOption="STATE_LOW_PASS"
-               time="0.5"/>
+<snippet file= "ShootWhenStopAuto.xml"/>
 
 </auton>

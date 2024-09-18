@@ -99,7 +99,7 @@ SwerveModule::SwerveModule(string canbusname,
     ReadConstants(configfilename);
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
-    m_tractionController = std::make_unique<TractionControlController>(1.2, 1.0, 0.4, 135.0, m_maxSpeed);
+    m_tractionController = std::make_unique<TractionControlController>(1.2, 1.0, 0.4, 145.0, m_maxSpeed);
 }
 
 //==================================================================================
