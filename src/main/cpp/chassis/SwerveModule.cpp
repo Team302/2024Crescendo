@@ -98,6 +98,8 @@ SwerveModule::SwerveModule(string canbusname,
     ReadConstants(configfilename);
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
+
+    m_tractionController(1.2, 1.0, 0.8, 135, m_maxSpeed)
 }
 
 //==================================================================================
