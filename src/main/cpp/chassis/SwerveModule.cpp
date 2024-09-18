@@ -164,7 +164,7 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
     m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
-    m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
+    // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
 
     m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed);
     //  Set Turn Target
@@ -188,7 +188,8 @@ void SwerveModule::RunCurrentState()
 /// @returns void
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
-    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.1) ? 0_mps : speed;
+    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
+    m_activeState.speed = units::velocity::meters_per_second_t(std::clamp(m_activeState.speed.value(), -m_maxSpeed.value(), m_maxSpeed.value()));
     if (m_activeState.speed != 0_mps)
     {
 
