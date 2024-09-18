@@ -177,9 +177,9 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     {
         m_targetStates = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
 
-        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT]);
-        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT]);
-        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK]);
+        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()));
+        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()));
+        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()));
         m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK]);
     }
     m_rotate = moveInfo.chassisSpeeds.omega;
@@ -436,6 +436,12 @@ units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed(
     auto angSpeed = units::angular_velocity::turns_per_second_t(GetMaxSpeed().to<double>() / circumference.to<double>());
     units::angular_velocity::radians_per_second_t retval = angSpeed;
     return retval;
+}
+
+//==================================================================================
+units::velocity::meters_per_second_t SwerveChassis::GetInertialVelocity()
+{
+    return units::velocity::meters_per_second_t(std::sqrt(m_pigeon)); /// PICK UP Here
 }
 
 //==================================================================================
