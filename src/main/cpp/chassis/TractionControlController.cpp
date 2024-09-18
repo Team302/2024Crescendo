@@ -46,9 +46,6 @@ double TractionControlController::calculate(double velocityRequest, double inert
 {
     double velocityOutput = velocityRequest;
 
-    if (!isEnabled())
-        return velocityOutput;
-
     inertialVelocity = std::abs(inertialVelocity);
     double currentSlipRatio = std::abs(
         inertialVelocity <= INERTIAL_VELOCITY_THRESHOLD
@@ -56,8 +53,7 @@ double TractionControlController::calculate(double velocityRequest, double inert
             : (std::abs(wheelSpeed) - inertialVelocity) / inertialVelocity);
     m_isSlipping = m_slippingDebouncer.Calculate(
         currentSlipRatio > m_optimalSlipRatio &&
-        std::abs(wheelSpeed) > m_maxLinearSpeed * m_optimalSlipRatio &&
-        isEnabled());
+        std::abs(wheelSpeed) > m_maxLinearSpeed * m_optimalSlipRatio);
 
     double desiredAcceleration = (velocityRequest - inertialVelocity) / m_robotLoopRate_Hz;
 
@@ -80,24 +76,4 @@ double TractionControlController::calculate(double velocityRequest, double inert
 bool TractionControlController::isSlipping() const
 {
     return m_isSlipping;
-}
-
-void TractionControlController::toggleTractionControl()
-{
-    m_state = static_cast<State>(!m_state);
-}
-
-void TractionControlController::enableTractionControl()
-{
-    m_state = State::ENABLED;
-}
-
-void TractionControlController::disableTractionControl()
-{
-    m_state = State::DISABLED;
-}
-
-bool TractionControlController::isEnabled() const
-{
-    return m_state == State::ENABLED;
 }

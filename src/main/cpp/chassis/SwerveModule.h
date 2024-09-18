@@ -73,13 +73,23 @@ public:
     /// @brief Set the current state of the module (speed of the wheel and angle of the wheel)
     /// @param [in] const SwerveModuleState& referenceState:   state to set the module to
     /// @returns void
-    void SetDesiredState(const frc::SwerveModuleState &state, units::velocity::meters_per_second_t() inertialVelocity, units::angular_velocity::degrees_per_second_t() rotateRate);
+    void SetDesiredState(const frc::SwerveModuleState &state, units::velocity::meters_per_second_t inertialVelocity, units::angular_velocity::degrees_per_second_t rotateRate, units::length::meter_t radius);
 
     void RunCurrentState();
 
+    /// @brief Calculate the real speed of the module incorporating the inertial velocity and rotate rate
+    /// * @param inertialVelocity Inertial velocity of robot (m/s)
+    /// * @param rotateRate Rotate rate of robot(degrees / s)
+    /// * @param radius Radius of swerve drive (center to the furtherest wheel)
+    /// @returns velcity::meters_per_second_t
+    units::velocity::meters_per_second_t CalculateRealSpeed(units::velocity::meters_per_second_t inertialVelocity, units::angular_velocity::radians_per_second_t rotateRate, units::length::meter_t radius);
+
     /// @brief Return which module this is
     /// @returns SwerveModuleConstants.ModuleID
-    SwerveModuleConstants::ModuleID GetModuleID() { return m_moduleID; }
+    SwerveModuleConstants::ModuleID GetModuleID()
+    {
+        return m_moduleID;
+    }
     units::length::inch_t GetWheelDiameter() const { return m_wheelDiameter; }
     units::velocity::feet_per_second_t GetMaxSpeed() const { return m_maxSpeed; }
 

@@ -43,10 +43,6 @@ public:
     void update(double speed, double angle);
     double calculate(double velocityRequest, double inertialVelocity, double wheelSpeed);
     bool isSlipping() const;
-    void toggleTractionControl();
-    void enableTractionControl();
-    void disableTractionControl();
-    bool isEnabled() const;
 
 private:
     static constexpr double VELOCITY_CORRECTION_SCALAR = 0.7;

@@ -104,6 +104,8 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
     ResetPose(frc::Pose2d());
     SetStoredHeading(units::angle::degree_t(0.0));
     m_maxSpeed = m_frontLeft->GetMaxSpeed();
+    m_velocityTimer.Reset();
+    m_radius = m_frontLeftLocation.Norm();
 }
 
 //==================================================================================
@@ -177,10 +179,10 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     {
         m_targetStates = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
 
-        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()));
-        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()));
-        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()));
-        m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK]);
+        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
     }
     m_rotate = moveInfo.chassisSpeeds.omega;
     UpdateOdometry();
@@ -441,7 +443,18 @@ units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed(
 //==================================================================================
 units::velocity::meters_per_second_t SwerveChassis::GetInertialVelocity()
 {
-    return units::velocity::meters_per_second_t(std::sqrt(m_pigeon)); /// PICK UP Here
+    units::acceleration::meters_per_second_squared_t accelerationX = m_pigeon->GetAccelerationX().GetValue();
+    units::acceleration::meters_per_second_squared_t accelerationY = m_pigeon->GetAccelerationY().GetValue();
+
+    units::time::second_t deltaTime = m_velocityTimer.Get();
+
+    m_velocityTimer.Reset();
+    m_velocityTimer.Start();
+
+    units::velocity::meters_per_second_t velocityX = accelerationX * deltaTime;
+    units::velocity::meters_per_second_t velocityY = accelerationY * deltaTime;
+
+    return units::velocity::meters_per_second_t(std::sqrt(std::pow(velocityX.to<double>(), 2) + std::pow(velocityY.to<double>(), 2)));
 }
 
 //==================================================================================
