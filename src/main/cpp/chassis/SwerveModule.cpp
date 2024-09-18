@@ -165,8 +165,8 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
     frc::SwerveModuleState currState = GetState();
 
-    m_optimizedState.speed = trajectoryController.calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), currState.speed());
-    // Set Turn Target
+    // m_optimizedState.speed = trajectoryController.calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), currState.speed());
+    //  Set Turn Target
     SetTurnAngle(m_optimizedState.angle.Degrees());
 
     // Set Drive Target
