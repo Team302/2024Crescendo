@@ -116,7 +116,7 @@ private:
     frc::SwerveModuleState m_activeState;
     frc::SwerveModuleState m_optimizedState;
 
-    TractionControlController &m_tractionController;
+    std::unique_ptr<TractionControlController> m_tractionController;
 
     ctre::phoenix6::controls::PositionTorqueCurrentFOC m_positionTorque = ctre::phoenix6::controls::PositionTorqueCurrentFOC{0_tr}.WithSlot(0);
     ctre::phoenix6::controls::PositionVoltage m_positionVoltage = ctre::phoenix6::controls::PositionVoltage{0_tr}.WithSlot(0);

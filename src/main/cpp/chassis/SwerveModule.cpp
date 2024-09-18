@@ -84,6 +84,7 @@ SwerveModule::SwerveModule(string canbusname,
                                                       m_turnCancoder(new CANcoder(canCoderID, canbusname)),
                                                       m_activeState(),
                                                       m_networkTableName(networkTableName)
+
 {
 
     Rotation2d ang{units::angle::degree_t(0.0)};
@@ -98,8 +99,7 @@ SwerveModule::SwerveModule(string canbusname,
     ReadConstants(configfilename);
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
-
-    m_tractionController(1.2, 1.0, 0.8, 135, m_maxSpeed)
+    m_tractionController = std::make_unique<TractionControlController>(1.2, 1.0, 0.4, 135.0, m_maxSpeed);
 }
 
 //==================================================================================
@@ -165,9 +165,8 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     Rotation2d currAngle = Rotation2d(angle);
     m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
     m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
-    frc::SwerveModuleState currState = GetState();
 
-    // m_optimizedState.speed = trajectoryController.calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), currState.speed());
+    m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed);
     //  Set Turn Target
     SetTurnAngle(m_optimizedState.angle.Degrees());
 
