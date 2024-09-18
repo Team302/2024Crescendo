@@ -48,7 +48,7 @@ double TractionControlController::calculate(double velocityRequest, double inert
 
     inertialVelocity = std::abs(inertialVelocity);
     double currentSlipRatio = std::abs(
-        inertialVelocity <= INERTIAL_VELOCITY_THRESHOLD
+        inertialVelocity <= INERTIAL_VELOCITY_THRESHOLD.value()
             ? wheelSpeed / m_maxLinearSpeed
             : (std::abs(wheelSpeed) - inertialVelocity) / inertialVelocity);
     m_isSlipping = m_slippingDebouncer.Calculate(
