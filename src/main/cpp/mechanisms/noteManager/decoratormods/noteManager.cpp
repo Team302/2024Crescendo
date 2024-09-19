@@ -105,6 +105,7 @@ void noteManager::RunCommonTasks()
 							 (currentState == m_noteManager->STATE_READY_ODOMETRY_LAUNCH) ||
 							 (currentState == m_noteManager->STATE_AUTO_LAUNCH) ||
 							 (currentState == m_noteManager->STATE_PASS) ||
+							 (currentState == m_noteManager->STATE_HOLD_FEEDER) ||
 							 (currentState == m_noteManager->STATE_READY_PASS) ||
 							 (currentState == m_noteManager->STATE_READY_MANUAL_LAUNCH) ||
 							 (currentState == m_noteManager->STATE_MANUAL_LAUNCH));
@@ -112,12 +113,6 @@ void noteManager::RunCommonTasks()
 	if (protectLauncher)
 		SetLauncherToProtectedPosition();
 
-	// Processing related to current monitor
-
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Angle"), GetLauncherAngleFromEncoder().value());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Target"), m_LauncherAngleTarget.value());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Top Speed"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60.0)).value());
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Launcher"), string("Bottom Speed"), units::angular_velocity::radians_per_second_t(units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60.0)).value());
 	// MonitorMotorCurrents();
 	UpdateLauncherAngleTarget();
 
@@ -276,12 +271,10 @@ bool noteManager::LauncherTargetsForAutoLaunchAchieved()
 {
 	units::angular_velocity::revolutions_per_minute_t topSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherTop()->GetRPS() * 60); // RPS is revs/sec not rad/sec
 	units::angular_velocity::revolutions_per_minute_t botSpeed = units::angular_velocity::revolutions_per_minute_t(getlauncherBottom()->GetRPS() * 60);
-	units::angle::degree_t launcherAngle = GetLauncherAngleFromEncoder();
 
 	bool wheelTargetSpeedAchieved = (topSpeed > (GetLauncherTopWheelsTarget() * 0.9)) && (botSpeed > (GetLauncherBottomWheelsTarget() * 0.9));
-	bool launcherTargetAngleAchieved = std::abs((launcherAngle - GetLauncherAngleTarget()).to<double>()) <= 0.5;
 
-	return launcherTargetAngleAchieved && wheelTargetSpeedAchieved;
+	return isLauncherAtTarget() && wheelTargetSpeedAchieved;
 }
 
 /// @brief
@@ -417,7 +410,8 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 void noteManager::DataLog()
 {
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_ANGLE_DEGREES, m_LauncherAngleTarget.value());
-	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder().value() > m_rollOverAngle ? 0.0 : GetLauncherAngleFromEncoder().value());
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, std::clamp(GetLauncherAngleFromEncoder().value(), 0.0, 150.0));
+
 	auto currState = GetCurrentStatePtr();
 	if (currState != nullptr)
 	{
