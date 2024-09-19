@@ -14,7 +14,7 @@ choreoname= "BlueAmpWing2Center2_A"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "1.0"
 pathUpdateOption="NOTE"
-visionAligment= "SPEAKER"/>
+headingOption= "FACE_SPEAKER"/>
 
 <primitive id= "DO_NOTHING"
 noteOption = "STATE_FEEDER_INTAKE"
@@ -39,7 +39,7 @@ choreoname= "BlueAmpWing2Center2_C"
 noteOption= "STATE_FEEDER_INTAKE"
 pathgains="ShortPath"
 time="2.5"
-visionAligment= "SPEAKER"/>
+headingOption= "FACE_SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
@@ -53,7 +53,7 @@ time= "2.5"/>
 pathname= "BlueAmpWing2Center2_E"
 noteOption= "STATE_FEEDER_INTAKE"
 time= "2.85"
-visionAligment= "SPEAKER"/>
+headingOption= "FACE_SPEAKER"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 

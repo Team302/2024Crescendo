@@ -15,6 +15,11 @@ noteOption= "STATE_FEEDER_INTAKE"
 time= "2.0"
 />
 
+<primitive id= "DO_NOTHING"
+noteOption = "STATE_FEEDER_INTAKE"
+headingOption= "FACE_SPEAKER"
+time= "0.5"/>
+
 <snippet file= "ShootWhenStopAuto.xml"/>
 
 <primitive id= "DRIVE_PATH_PLANNER" 
