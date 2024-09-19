@@ -339,7 +339,7 @@ void SwerveChassis::UpdateOdometry()
             }
         }
     }
-    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Update With Vision"), std::string("Update With Vision:"), updateWithVision);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Update With Vision"), std::string("Update With Vision:"), updateWithVision);
     LogInformation();
 }
 
