@@ -298,17 +298,17 @@ void Robot::LogSensorData()
         auto noteMgr = stateMgr != nullptr ? dynamic_cast<noteManagerGen *>(stateMgr) : nullptr;
         if (noteMgr != nullptr)
         {
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsIntake"), string("Front Intake"), noteMgr->getfrontIntakeSensor()->Get());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsIntake"), string("Back Intake"), noteMgr->getbackIntakeSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, ("SensorsIntake"), string("Front Intake"), noteMgr->getfrontIntakeSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("SensorsIntake"), string("Back Intake"), noteMgr->getbackIntakeSensor()->Get());
 
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsLauncher"), string("Feeder"), noteMgr->getfeederSensor()->Get());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsLauncher"), string("Launcher"), noteMgr->getlauncherSensor()->Get());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsLauncher"), string("LauncherAngleHomeSwitch"), noteMgr->getlauncherAngle()->IsReverseLimitSwitchClosed());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("SensorsLauncher"), string("Feeder"), noteMgr->getfeederSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("SensorsLauncher"), string("Launcher"), noteMgr->getlauncherSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("SensorsLauncher"), string("LauncherAngleHomeSwitch"), noteMgr->getlauncherAngle()->IsReverseLimitSwitchClosed());
 
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsPlacer"), string("PlacerIn"), noteMgr->getplacerInSensor()->Get());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsPlacer"), string("PlacerMid"), noteMgr->getplacerMidSensor()->Get());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsPlacer"), string("PlacerOut"), noteMgr->getplacerOutSensor()->Get());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("SensorsPlacer"), string("PlacerHomeSwitch"), noteMgr->getPlacer()->IsReverseLimitSwitchClosed());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("SensorsPlacer"), string("PlacerIn"), noteMgr->getplacerInSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("SensorsPlacer"), string("PlacerMid"), noteMgr->getplacerMidSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("SensorsPlacer"), string("PlacerOut"), noteMgr->getplacerOutSensor()->Get());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("SensorsPlacer"), string("PlacerHomeSwitch"), noteMgr->getPlacer()->IsReverseLimitSwitchClosed());
         }
     }
 }
@@ -323,25 +323,25 @@ void Robot::LogMotorData()
         auto noteMgr = stateMgr != nullptr ? dynamic_cast<noteManagerGen *>(stateMgr) : nullptr;
         if (noteMgr != nullptr)
         {
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsIntake"), string("Front Intake"), noteMgr->getfrontIntake()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsIntake"), string("Back Intake"), noteMgr->getbackIntake()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsIntake"), string("Transfer"), noteMgr->getTransfer()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, ("MotorDiagnosticsIntake"), string("Front Intake"), noteMgr->getfrontIntake()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsIntake"), string("Back Intake"), noteMgr->getbackIntake()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsIntake"), string("Transfer"), noteMgr->getTransfer()->GetCounts());
 
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsPlacer"), string("Elevator"), noteMgr->getElevator()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsPlacer"), string("Placer"), noteMgr->getPlacer()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsPlacer"), string("Elevator"), noteMgr->getElevator()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsPlacer"), string("Placer"), noteMgr->getPlacer()->GetCounts());
 
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Feeder"), noteMgr->getFeeder()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher angle"), units::angle::degree_t(noteMgr->getlauncherAngleEncoder()->GetAbsolutePosition()).value());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher top"), noteMgr->getlauncherTop()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsLauncher"), string("Launcher bottom"), noteMgr->getlauncherBottom()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsLauncher"), string("Feeder"), noteMgr->getFeeder()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsLauncher"), string("Launcher angle"), units::angle::degree_t(noteMgr->getlauncherAngleEncoder()->GetAbsolutePosition()).value());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsLauncher"), string("Launcher top"), noteMgr->getlauncherTop()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsLauncher"), string("Launcher bottom"), noteMgr->getlauncherBottom()->GetCounts());
         }
 
         stateMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::CLIMBER_MANAGER);
         auto climberMgr = stateMgr != nullptr ? dynamic_cast<ClimberManagerGen *>(stateMgr) : nullptr;
         if (climberMgr != nullptr)
         {
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsClimber"), string("Left climber"), climberMgr->getleftClimber()->GetCounts());
-            Logger::GetLogger()->LogDataDirectlyOverNT(string("MotorDiagnosticsClimber"), string("Right climber"), climberMgr->getrightClimber()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsClimber"), string("Left climber"), climberMgr->getleftClimber()->GetCounts());
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("MotorDiagnosticsClimber"), string("Right climber"), climberMgr->getrightClimber()->GetCounts());
         }
     }
 }
@@ -349,9 +349,9 @@ void Robot::LogMotorData()
 void Robot::LogCameraData()
 {
     // TODO: implement encoder logging for chassis
-    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("LAUNCHER Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LAUNCHE));
-    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("PLACER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::PINTAKE));
-    Logger::GetLogger()->LogDataDirectlyOverNT(string("LimelightDiagnostics"), string("LAUNCHER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LINTAKE));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LimelightDiagnostics"), string("LAUNCHER Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LAUNCHE));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LimelightDiagnostics"), string("PLACER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::PINTAKE));
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("LimelightDiagnostics"), string("LAUNCHER INTAKE Connected"), DragonVision::GetDragonVision()->HealthCheck(RobotElementNames::CAMERA_USAGE::LINTAKE));
 }
 
 void Robot::SimulationInit()
