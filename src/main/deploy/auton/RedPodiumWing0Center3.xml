@@ -12,30 +12,14 @@
 <primitive id= "DRIVE_PATH_PLANNER"
     choreoname= "BlueSubwooferWing0Center3_A"
     noteOption= "STATE_FEEDER_INTAKE"
-    time= "2.5"
+    time= "2.7"
     pathUpdateOption="NOTE"
     headingOption= "FACE_SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
     choreoname= "BlueSubwooferWing0Center3_B"
     noteOption= "STATE_FEEDER_INTAKE"
-    time= "2.0"
-    pathUpdateOption="NOTE"
-    headingOption= "FACE_SPEAKER"/>
-
-<snippet file= "ShootWhenStopAuto.xml"/>
-
-<primitive id= "DRIVE_PATH_PLANNER"
-    choreoname= "BlueSubwooferWing0Center3_C"
-    noteOption= "STATE_FEEDER_INTAKE"
-    time= "2.0"
-    pathUpdateOption="NOTE"
-    headingOption= "FACE_SPEAKER"/>
-
-<primitive id= "DRIVE_PATH_PLANNER"
-    choreoname= "BlueSubwooferWing0Center3_D"
-    noteOption= "STATE_FEEDER_INTAKE"
-    time= "2.0"
+    time= "5.0"
     pathUpdateOption="NOTE"
     headingOption= "FACE_SPEAKER"/>
 
@@ -44,14 +28,30 @@
 <primitive id= "DRIVE_PATH_PLANNER"
     choreoname= "BlueSubwooferWing0Center3_E"
     noteOption= "STATE_FEEDER_INTAKE"
-    time= "2.0"
+    time= "5.0"
     pathUpdateOption="NOTE"
     headingOption= "FACE_SPEAKER"/>
 
 <primitive id= "DRIVE_PATH_PLANNER"
     choreoname= "BlueSubwooferWing0Center3_F"
     noteOption= "STATE_FEEDER_INTAKE"
-    time= "2.0"
+    time= "5.0"
+    pathUpdateOption="NOTE"
+    headingOption= "FACE_SPEAKER"/>
+
+<snippet file= "ShootWhenStopAuto.xml"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    choreoname= "BlueSubwooferWing0Center3_C"
+    noteOption= "STATE_FEEDER_INTAKE"
+    time= "5.0"
+    pathUpdateOption="NOTE"
+    headingOption= "FACE_SPEAKER"/>
+
+<primitive id= "DRIVE_PATH_PLANNER"
+    choreoname= "BlueSubwooferWing0Center3_D"
+    noteOption= "STATE_FEEDER_INTAKE"
+    time= "5.0"
     pathUpdateOption="NOTE"
     headingOption= "FACE_SPEAKER"/>
 
