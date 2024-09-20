@@ -48,6 +48,7 @@
 #include "chassis/LogChassisMovement.h"
 #include "chassis/SwerveChassis.h"
 #include "utils/logging/Logger.h"
+#include "utils/AngleUtils.h"
 
 // Third Party Includes
 #include "pugixml/pugixml.hpp"
@@ -104,6 +105,8 @@ SwerveChassis::SwerveChassis(SwerveModule *frontLeft,
     ResetPose(frc::Pose2d());
     SetStoredHeading(units::angle::degree_t(0.0));
     m_maxSpeed = m_frontLeft->GetMaxSpeed();
+    m_velocityTimer.Reset();
+    m_radius = m_frontLeftLocation.Norm();
 }
 
 //==================================================================================
@@ -177,10 +180,10 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     {
         m_targetStates = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
 
-        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT]);
-        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT]);
-        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK]);
-        m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK]);
+        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK], GetInertialVelocity(), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
     }
     m_rotate = moveInfo.chassisSpeeds.omega;
     UpdateOdometry();
@@ -439,6 +442,23 @@ units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed(
 }
 
 //==================================================================================
+units::velocity::meters_per_second_t SwerveChassis::GetInertialVelocity()
+{
+    units::acceleration::meters_per_second_squared_t accelerationX = m_pigeon->GetAccelerationX().GetValue();
+    units::acceleration::meters_per_second_squared_t accelerationY = m_pigeon->GetAccelerationY().GetValue();
+
+    units::time::second_t deltaTime = m_velocityTimer.Get();
+
+    m_velocityTimer.Reset();
+    m_velocityTimer.Start();
+
+    units::velocity::meters_per_second_t velocityX = accelerationX * deltaTime;
+    units::velocity::meters_per_second_t velocityY = accelerationY * deltaTime;
+
+    return units::velocity::meters_per_second_t(std::sqrt(std::pow(velocityX.to<double>(), 2) + std::pow(velocityY.to<double>(), 2)));
+}
+
+//==================================================================================
 void SwerveChassis::LogInformation()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_networkTableName, string("Vx"), m_drive.to<double>());
@@ -456,7 +476,7 @@ void SwerveChassis::DataLog()
     LogPoseData(DragonDataLoggerSignals::PoseSingals::CURRENT_CHASSIS_POSE, GetPose());
 
     LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_STORED_HEADING_DEGREES, GetStoredHeading().value());
-    LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_YAW_DEGREES, GetYaw().value());
+    LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_YAW_DEGREES, AngleUtils::GetEquivAngle(GetYaw()).value());
 
     frc::ChassisSpeeds targetSpeed;
     targetSpeed.vx = m_drive;

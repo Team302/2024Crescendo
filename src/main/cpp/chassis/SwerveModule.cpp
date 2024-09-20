@@ -84,6 +84,7 @@ SwerveModule::SwerveModule(string canbusname,
                                                       m_turnCancoder(new CANcoder(canCoderID, canbusname)),
                                                       m_activeState(),
                                                       m_networkTableName(networkTableName)
+
 {
 
     Rotation2d ang{units::angle::degree_t(0.0)};
@@ -98,6 +99,7 @@ SwerveModule::SwerveModule(string canbusname,
     ReadConstants(configfilename);
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
+    m_tractionController = std::make_unique<TractionControlController>(1.2, 1.0, 0.4, 145.0, m_maxSpeed);
 }
 
 //==================================================================================
@@ -153,7 +155,7 @@ frc::SwerveModulePosition SwerveModule::GetPosition() const
 /// @brief Set the current state of the module (speed of the wheel and angle of the wheel)
 /// @param [in] const SwerveModuleState& targetState:   state to set the module to
 /// @returns void
-void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
+void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::velocity::meters_per_second_t inertialVelocity, units::angular_velocity::degrees_per_second_t rotateRate, units::length::meter_t radius)
 {
     // Update targets so the angle turned is less than 90 degrees
     // If the desired angle is less than 90 degrees from the target angle (e.g., -90 to 90 is the amount of turn), just use the angle and speed values
@@ -162,9 +164,10 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState)
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
     m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
-    m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
+    // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
 
-    // Set Turn Target
+    m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed);
+    //  Set Turn Target
     SetTurnAngle(m_optimizedState.angle.Degrees());
 
     // Set Drive Target
@@ -185,7 +188,8 @@ void SwerveModule::RunCurrentState()
 /// @returns void
 void SwerveModule::SetDriveSpeed(units::velocity::meters_per_second_t speed)
 {
-    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.1) ? 0_mps : speed;
+    m_activeState.speed = (abs(speed.to<double>() / m_maxSpeed.to<double>()) < 0.05) ? 0_mps : speed;
+    m_activeState.speed = units::velocity::meters_per_second_t(std::clamp(m_activeState.speed.value(), -m_maxSpeed.value(), m_maxSpeed.value()));
     if (m_activeState.speed != 0_mps)
     {
 
@@ -219,6 +223,19 @@ void SwerveModule::SetTurnAngle(units::angle::degree_t targetAngle)
         m_turnTalon->SetControl(m_positionVoltage.WithPosition(targetAngle));
     else
         m_turnTalon->SetControl(m_positionTorque.WithPosition(targetAngle));
+}
+//==================================================================================
+
+/**
+ * Get real speed of module
+ * @param inertialVelocity Inertial velocity of robot (m/s)
+ * @param rotateRate Rotate rate of robot (rad/s)
+ * @param radius Radius of swerve drive (center to the furtherest wheel)
+ * @return Speed of module (m/s)
+ */
+units::velocity::meters_per_second_t SwerveModule::CalculateRealSpeed(units::velocity::meters_per_second_t inertialVelocity, units::angular_velocity::radians_per_second_t rotateRate, units::length::meter_t radius)
+{
+    return units::velocity::meters_per_second_t(inertialVelocity.value() + rotateRate.value() * radius.value());
 }
 
 //==================================================================================

@@ -124,7 +124,7 @@ public:
 
     bool IsRotating() const { return m_isRotating; }
     double GetRotationRateDegreesPerSecond() const { return m_pigeon != nullptr ? m_pigeon->GetRate() : 0.0; }
-
+    units::velocity::meters_per_second_t GetInertialVelocity();
     void LogInformation() override;
     void DataLog() override;
 
@@ -147,6 +147,7 @@ private:
     units::length::inch_t m_track = units::length::inch_t(22.75);
     units::velocity::feet_per_second_t m_maxSpeed = units::velocity::feet_per_second_t(17.3);
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
+    units::length::meter_t m_radius;
 
     units::velocity::meters_per_second_t m_drive = units::velocity::meters_per_second_t(0.0);
     units::velocity::meters_per_second_t m_steer = units::velocity::meters_per_second_t(0.0);
@@ -178,4 +179,6 @@ private:
     bool m_initDataLog = false;
     DragonVision *m_vision;
     std::array<frc::SwerveModuleState, 4U> m_targetStates;
+
+    frc::Timer m_velocityTimer;
 };
