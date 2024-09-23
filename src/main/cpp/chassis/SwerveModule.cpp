@@ -166,7 +166,7 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
     // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
 
-    m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed);
+    // m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed);
     //  Set Turn Target
     SetTurnAngle(m_optimizedState.angle.Degrees());
 
