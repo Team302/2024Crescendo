@@ -98,7 +98,7 @@ void noteManagerBaseStateGen::SetTargetControl ( RobotElementNames::MOTOR_CONTRO
 void noteManagerBaseStateGen::SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::angular_velocity::revolutions_per_minute_t angVel )
 {
 	auto motormech = GetMotorMech ( identifier );
-	if ( motormech != nullptr )
+	if ( motormech != nullptr)
 	{
 		motormech->SetTargetControl ( controlConst, angVel );
 	}
@@ -111,7 +111,7 @@ void noteManagerBaseStateGen::SetTargetControl ( RobotElementNames::MOTOR_CONTRO
 void noteManagerBaseStateGen::SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::length::inch_t position )
 {
 	auto motormech = GetMotorMech ( identifier );
-	if ( motormech != nullptr )
+	if ( motormech != nullptr && IsEnabled(identifier))
 	{
 		motormech->SetTargetControl ( controlConst, position );
 	}
@@ -124,7 +124,7 @@ void noteManagerBaseStateGen::SetTargetControl ( RobotElementNames::MOTOR_CONTRO
 void noteManagerBaseStateGen::SetTargetControl ( RobotElementNames::MOTOR_CONTROLLER_USAGE identifier, ControlData *controlConst, units::velocity::feet_per_second_t velocity )
 {
 	auto motormech = GetMotorMech ( identifier );
-	if ( motormech != nullptr )
+	if ( motormech != nullptr && IsEnabled(identifier))
 	{
 		motormech->SetTargetControl ( controlConst, velocity );
 	}
@@ -149,6 +149,11 @@ void noteManagerBaseStateGen::SetTargetControl ( RobotElementNames::SERVO_USAGE 
 	{
 		servomech->SetTarget ( angle );
 	}
+}
+bool noteManagerBaseStateGen::IsEnabled (RobotElementNames::MOTOR_CONTROLLER_USAGE identifier)
+{
+	
+	return true;
 }
 
 void noteManagerBaseStateGen::Init()

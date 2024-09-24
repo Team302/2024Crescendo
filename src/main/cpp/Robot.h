@@ -29,6 +29,8 @@ class RobotState;
 class SomeMech;
 class RobotDefinition;
 class DragonDataLoggerMgr;
+#include "configs/RobotElementNames.h"
+#include <array>
 
 class Robot : public frc::TimedRobot
 {
@@ -59,6 +61,7 @@ private:
     void LogSensorData();
     void LogMotorData();
     void LogCameraData();
+    void ConfigureShuffleboardMotorControl();
 
     TeleopControl *m_controller;
     SwerveChassis *m_chassis;
@@ -73,4 +76,6 @@ private:
     RobotDefinition *m_robot;
     DragonDataLoggerMgr *m_datalogger;
     bool isFMSAttached = false;
+
+    std::array<bool, 18> m_MotorEnabledArray;
 };

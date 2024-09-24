@@ -30,6 +30,8 @@
 #include "utils/logging/LoggerEnums.h"
 #include "DragonVision/DragonVision.h"
 #include "utils/logging/DataTrace.h"
+#include "frc/smartdashboard/SmartDashboard.h"
+#include "frc/smartdashboard/SendableChooser.h"
 
 using std::string;
 
@@ -100,6 +102,7 @@ void Robot::RobotPeriodic()
  * if-else structure below with additional strings. If using the SendableChooser
  * make sure to add them to the chooser code above as well.
  */
+
 void Robot::AutonomousInit()
 {
     if (!isFMSAttached)
@@ -191,6 +194,7 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
+
     if (!isFMSAttached)
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TeleopPeriodic"), string("arrived"));
@@ -255,6 +259,11 @@ void Robot::DisabledPeriodic()
             }
         }
     }
+}
+void Robot::ConfigureShuffleboardMotorControl()
+{
+
+    m_MotorEnabledArray.fill(true);
 }
 void Robot::TestInit()
 {

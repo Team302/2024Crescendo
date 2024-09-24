@@ -111,7 +111,9 @@ void noteManager::RunCommonTasks()
 							 (currentState == m_noteManager->STATE_MANUAL_LAUNCH));
 
 	if (protectLauncher)
+	{
 		SetLauncherToProtectedPosition();
+	}
 
 	// MonitorMotorCurrents();
 	UpdateLauncherAngleTarget();

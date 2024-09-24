@@ -97,6 +97,8 @@ public:
 	virtual bool AtTargetSolenoidStates() const;
 	virtual bool AtTargetServoStates() const;
 
+	bool isEnabled(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier);
+
 	noteManagerGen *GetnoteManager() { return m_noteManager; }
 
 protected:
