@@ -177,6 +177,7 @@ private:
     bool m_isRotating = false;
     bool m_rotatingLatch = false;
     bool m_initDataLog = false;
+    double m_coseAngle = 0.707;
     DragonVision *m_vision;
     std::array<frc::SwerveModuleState, 4U> m_targetStates;
 

@@ -377,8 +377,7 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         fxconfigs.ClosedLoopGeneral.ContinuousWrap = true;
 
         fxconfigs.Feedback.FeedbackRemoteSensorID = m_turnCancoder->GetDeviceID();
-        // fxconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::SyncCANcoder;
-        fxconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::RemoteCANcoder;
+        fxconfigs.Feedback.FeedbackSensorSource = m_useFOC ? FeedbackSensorSourceValue::SyncCANcoder : FeedbackSensorSourceValue::RemoteCANcoder;
         fxconfigs.Feedback.SensorToMechanismRatio = attrs.sensorToMechanismRatio;
         fxconfigs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
         m_turnTalon->GetConfigurator().Apply(fxconfigs);

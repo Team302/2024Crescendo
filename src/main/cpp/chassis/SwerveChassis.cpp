@@ -435,7 +435,7 @@ units::velocity::meters_per_second_t SwerveChassis::GetMaxSpeed() const
 //==================================================================================
 units::angular_velocity::radians_per_second_t SwerveChassis::GetMaxAngularSpeed() const
 {
-    units::length::meter_t circumference = std::numbers::pi * m_wheelBase * .707 * 2.0;
+    units::length::meter_t circumference = std::numbers::pi * m_wheelBase * m_coseAngle;
     auto angSpeed = units::angular_velocity::turns_per_second_t(GetMaxSpeed().to<double>() / circumference.to<double>());
     units::angular_velocity::radians_per_second_t retval = angSpeed;
     return retval;
