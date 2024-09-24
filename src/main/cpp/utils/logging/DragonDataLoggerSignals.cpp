@@ -106,4 +106,13 @@ DragonDataLoggerSignals::DragonDataLoggerSignals()
     m_actualSpeeds.Append(m_currActualSpeeds);
     m_targetSpeeds = wpi::log::StructLogEntry<frc::ChassisSpeeds>(log, "/Chassis/TargetSpeed");
     m_targetSpeeds.Append(m_currActualSpeeds);
+
+    m_frontLeftSwerveModuleslip = wpi::log::BooleanLogEntry(log, "/Chassis/Front Left Swerve Module Slip");
+    m_frontLeftSwerveModuleslip.Append(m_currFrontLeftSwerveModuleslip);
+    m_frontRightSwerveModuleslip = wpi::log::BooleanLogEntry(log, "/Chassis/Front Right Swerve Module Slip");
+    m_frontRightSwerveModuleslip.Append(m_currFrontRightSwerveModuleslip);
+    m_backLeftSwerveModuleslip = wpi::log::BooleanLogEntry(log, "/Chassis/Back Left Swerve Module Slip");
+    m_backLeftSwerveModuleslip.Append(m_currBackLeftSwerveModuleslip);
+    m_backRightSwerveModuleslip = wpi::log::BooleanLogEntry(log, "/Chassis/Back Right Swerve Module Slip");
+    m_backRightSwerveModuleslip.Append(m_currBackRightSwerveModuleslip);
 }
