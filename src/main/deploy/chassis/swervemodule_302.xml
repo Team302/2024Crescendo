@@ -19,11 +19,10 @@
     drive_FOC_derivative="0.0"
     drive_FOC_staticFeedForward="12.0"
     max_speed="4.5"
-
-    static_CoF="1.2"
-    dynamic_CoF="1.0"
+    static_CoF="1.4"
+    dynamic_CoF="0.9"
     optimalSlipRatio="0.4"
-    mass="145.0"
+    mass="137.0"
 
   />
 </swervemodule>
