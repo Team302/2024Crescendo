@@ -410,7 +410,7 @@ units::angular_velocity::radians_per_second_t noteManager::getlauncherTargetSpee
 void noteManager::DataLog()
 {
 	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_TARGET_ANGLE_DEGREES, m_LauncherAngleTarget.value());
-	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, std::clamp(GetLauncherAngleFromEncoder().value(), 0.0, 150.0));
+	LogDoubleData(DragonDataLoggerSignals::DoubleSignals::NOTE_MANAGER_ACTUAL_ANGLE_DEGREES, GetLauncherAngleFromEncoder() > units::angle::degree_t(300.0) ? 0.0 : GetLauncherAngleFromEncoder().value());
 
 	auto currState = GetCurrentStatePtr();
 	if (currState != nullptr)

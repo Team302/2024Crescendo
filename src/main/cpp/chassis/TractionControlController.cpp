@@ -55,6 +55,15 @@ TractionControlController::TractionControlController(double staticCoF,
     m_optimalSlipRatio = std::clamp(optimalSlipRatio, MIN_SLIP_RATIO, MAX_SLIP_RATIO);
 }
 
+/**
+ * @brief      Calculate the velocity to be sent to the motor controller based on the requested velocity, the current inertial velocity, and the current wheel speed
+ * @param [in] velocityRequest - requested velocity
+ * @param [in] inertialVelocity - current inertial velocity
+ * @param [in] wheelSpeed       - current wheel speed
+ * @return     the velocity to be sent to the motor controller
+ *
+ * The TractionControlController object takes in the requested velocity, the current inertial velocity, and the current wheel speed and calculates the velocity to be sent to the motor controller based on the static and dynamic coefficients of friction, the optimal slip ratio, the mass of the robot, and the maximum linear speed of the robot to prevent slipping.
+ */
 units::velocity::meters_per_second_t TractionControlController::calculate(units::velocity::meters_per_second_t velocityRequest, units::velocity::meters_per_second_t inertialVelocity, units::velocity::meters_per_second_t wheelSpeed)
 {
     units::velocity::meters_per_second_t velocityOutput = velocityRequest;
