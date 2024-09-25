@@ -140,7 +140,7 @@ private:
 	const double m_similarDistToleranceMeters = 0.5;
 	bool m_TransitionFromHoldFeedToReady = false;
 	bool m_manualTargetChangeAllowed = true;
-	units::angle::degree_t m_angleTolerance = units::angle::degree_t(0.5);
+	units::angle::degree_t m_angleTolerance = units::angle::degree_t(0.75);
 	units::angular_velocity::radians_per_second_t m_manualLaunchingSpeed = units::angular_velocity::radians_per_second_t(450);
 	units::angular_velocity::radians_per_second_t m_autoLaunchingSpeed = units::angular_velocity::radians_per_second_t(620);
 
@@ -150,8 +150,6 @@ private:
 	const double m_autoLaunchCalcSecondDegree = 15.1;
 	const double m_autoLaunchCalcThirdDegree = -1.98;
 	const double m_autoLaunchCalcFourthDegree = 0.109;
-	const double m_lowAnglePIDThreshold = 10.0;
-	const double m_rollOverAngle = 350.0;
 
-	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0235, 0.000035, 0.0);
+	frc::PIDController m_launcherAnglePID = frc::PIDController(0.0185, 0.000035, 0.0);
 };

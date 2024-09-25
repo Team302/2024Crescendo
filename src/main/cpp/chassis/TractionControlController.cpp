@@ -23,7 +23,18 @@
 
 // Team 302 Includes
 #include "chassis/TractionControlController.h"
+#include "utils/logging/Logger.h"
 
+/**
+ * @brief      Construct a TractionControlController object
+ * @param [in] staticCoF       - static coefficient of friction
+ * @param [in] dynamicCoF      - dynamic coefficient of friction
+ * @param [in] optimalSlipRatio- optimal slip ratio
+ * @param [in] mass            - mass of the robot (lbs)
+ * @param [in] maxLinearSpeed  - maximum linear speed (m/s)
+ *
+ * The TractionControlController object takes in the static and dynamic coefficients of friction, the optimal slip ratio, the mass of the robot, and the maximum linear speed of the robot to generate a control output to prevent slipping.
+ */
 TractionControlController::TractionControlController(double staticCoF,
                                                      double dynamicCoF,
                                                      double optimalSlipRatio,
@@ -39,7 +50,7 @@ TractionControlController::TractionControlController(double staticCoF,
 {
     if (dynamicCoF > staticCoF)
     {
-        throw std::invalid_argument("Static CoF must be higher than dynamic CoF!");
+        Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, "TractionControlController", "Coefficent of Friction Error", "Static CoF must be higher than dynamic CoF!");
     }
     m_optimalSlipRatio = std::clamp(optimalSlipRatio, MIN_SLIP_RATIO, MAX_SLIP_RATIO);
 }

@@ -48,6 +48,7 @@
 #include "chassis/LogChassisMovement.h"
 #include "chassis/SwerveChassis.h"
 #include "utils/logging/Logger.h"
+#include "utils/AngleUtils.h"
 
 // Third Party Includes
 #include "pugixml/pugixml.hpp"
@@ -338,7 +339,7 @@ void SwerveChassis::UpdateOdometry()
             }
         }
     }
-    Logger::GetLogger()->LogDataDirectlyOverNT(std::string("Update With Vision"), std::string("Update With Vision:"), updateWithVision);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("Update With Vision"), std::string("Update With Vision:"), updateWithVision);
     LogInformation();
 }
 
@@ -475,7 +476,7 @@ void SwerveChassis::DataLog()
     LogPoseData(DragonDataLoggerSignals::PoseSingals::CURRENT_CHASSIS_POSE, GetPose());
 
     LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_STORED_HEADING_DEGREES, GetStoredHeading().value());
-    LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_YAW_DEGREES, GetYaw().value());
+    LogDoubleData(DragonDataLoggerSignals::DoubleSignals::CHASSIS_YAW_DEGREES, AngleUtils::GetEquivAngle(GetYaw()).value());
 
     frc::ChassisSpeeds targetSpeed;
     targetSpeed.vx = m_drive;

@@ -4042,7 +4042,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
                 <controlDataName>velocityRPS</controlDataName>
               </motorTarget>
@@ -4061,7 +4061,7 @@
                   <name>boolParameter</name>
                   <__units__ />
                   <type>Boolean</type>
-                  <value>true</value>
+                  <value>false</value>
                 </Enabled>
                 <controlDataName>velocityRPS</controlDataName>
               </motorTarget>

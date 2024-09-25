@@ -34,14 +34,8 @@ using namespace frc;
 class TractionControlController
 {
 public:
-    enum State
-    {
-        DISABLED = 0,
-        ENABLED = 1
-    };
-
     TractionControlController(double staticCoF, double dynamicCoF, double optimalSlipRatio, double mass, units::velocity::meters_per_second_t maxLinearSpeed);
-    void update(double speed, double angle);
+
     units::velocity::meters_per_second_t calculate(units::velocity::meters_per_second_t velocityRequest, units::velocity::meters_per_second_t inertialVelocity, units::velocity::meters_per_second_t wheelSpeed);
     bool isSlipping() const;
 
@@ -55,13 +49,12 @@ private:
 
     units::second_t MIN_SLIPPING_TIME{1.1};
 
+    double m_staticCoF;
+    double m_dynamicCoF;
     double m_optimalSlipRatio;
     double m_mass;
     units::velocity::meters_per_second_t m_maxLinearSpeed;
-    double m_staticCoF;
-    double m_dynamicCoF;
     double m_maxPredictedSlipRatio;
     bool m_isSlipping;
     frc::Debouncer m_slippingDebouncer;
-    State m_state;
 };
