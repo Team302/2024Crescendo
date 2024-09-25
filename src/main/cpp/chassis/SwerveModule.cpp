@@ -99,7 +99,7 @@ SwerveModule::SwerveModule(string canbusname,
     ReadConstants(configfilename);
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
-    m_tractionController = std::make_unique<TractionControlController>(1.2, 1.0, 0.4, 145.0, m_maxSpeed);
+    m_tractionController = std::make_unique<TractionControlController>(m_staticCoF, m_dynamicCoF, m_optimalSlipRatio, m_mass, m_maxSpeed);
 }
 
 //==================================================================================
@@ -423,6 +423,22 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                     if (strcmp(attr.name(), "max_speed") == 0)
                     {
                         m_maxSpeed = units::velocity::meters_per_second_t(attr.as_double());
+                    }
+                    if (strcmp(attr.name(), "static_CoF"))
+                    {
+                        m_staticCoF = (attr.as_double());
+                    }
+                    if (strcmp(attr.name(), "dynamic_CoF"))
+                    {
+                        m_dynamicCoF = (attr.as_double());
+                    }
+                    if (strcmp(attr.name(), "optimalSlipRatio"))
+                    {
+                        m_optimalSlipRatio = (attr.as_double());
+                    }
+                    if (strcmp(attr.name(), "mass"))
+                    {
+                        m_mass = (attr.as_double());
                     }
                     if (m_useFOC)
                     {
