@@ -124,7 +124,7 @@ public:
 
     bool IsRotating() const { return m_isRotating; }
     double GetRotationRateDegreesPerSecond() const { return m_pigeon != nullptr ? m_pigeon->GetRate() : 0.0; }
-    units::velocity::meters_per_second_t GetInertialVelocity();
+    units::velocity::meters_per_second_t GetInertialVelocity(units::velocity::meters_per_second_t xVelocityInput, units::velocity::meters_per_second_t yVelocityInput);
     void LogInformation() override;
     void DataLog() override;
 
@@ -153,9 +153,9 @@ private:
     units::velocity::meters_per_second_t m_steer = units::velocity::meters_per_second_t(0.0);
     units::angular_velocity::radians_per_second_t m_rotate = units::angular_velocity::radians_per_second_t(0.0);
 
-    static constexpr units::velocity::meters_per_second_t m_velocityDeadband = units::velocity::meters_per_second_t(0.025);
     static constexpr units::angular_velocity::radians_per_second_t m_angularDeadband = units::angular_velocity::radians_per_second_t(0.1);
-    static constexpr units::acceleration::meters_per_second_squared_t accelerationThreshold = 0.05_mps_sq;
+    static constexpr units::acceleration::meters_per_second_squared_t m_accelerationThreshold = 0.05_mps_sq;
+    static constexpr units::velocity::meters_per_second_t m_velocityThresold = units::velocity::meters_per_second_t(0.25);
 
     frc::Translation2d m_frontLeftLocation;
     frc::Translation2d m_frontRightLocation;
