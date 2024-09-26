@@ -37,6 +37,7 @@ using std::string;
 
 void Robot::RobotInit()
 {
+    Robot::ConfigureShuffleboardMotorControl();
     isFMSAttached = frc::DriverStation::IsFMSAttached();
 
     Logger::GetLogger()->PutLoggingSelectionsOnDashboard();
@@ -264,6 +265,9 @@ void Robot::ConfigureShuffleboardMotorControl()
 {
 
     m_MotorEnabledArray.fill(true);
+    // MotorControllerEnumtoStringMap[RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER] = std::string("CLIMBER_MANAGER_LEFT_CLIMBER");
+
+    frc::SmartDashboard::PutBoolean("NOTE_MANAGER_FRONT_INTAKE", m_MotorEnabledArray[0]);
 }
 void Robot::TestInit()
 {

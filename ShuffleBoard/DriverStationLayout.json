@@ -194,6 +194,32 @@
               "Layout/Label position": "BOTTOM",
               "_children": {}
             }
+          },
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/NOTE_MANAGER_FRONT_INTAKE",
+              "_title": "SmartDashboard/NOTE_MANAGER_FRONT_INTAKE",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/NOTE_MANAGER_FRONT_INTAKE",
+              "_title": "SmartDashboard/NOTE_MANAGER_FRONT_INTAKE",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -467,6 +493,19 @@
               "_type": "Network Table Tree",
               "_source0": "network_table:///Specified Heading",
               "_title": "Specified Heading",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/NOTE_MANAGER_FRONT_INTAKE",
+              "_title": "",
               "_glyph": 148,
               "_showGlyph": false
             }

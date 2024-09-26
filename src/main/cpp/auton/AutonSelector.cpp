@@ -65,9 +65,8 @@ string AutonSelector::GetSelectedAutoFile()
 
 	table.get()->PutString("determined name", autonfile);
 
-
 	bool fileExists = FileExists(autonfile);
-	bool fileValid =  FileValid(autonfile);
+	bool fileValid = FileValid(autonfile);
 
 	table.get()->PutBoolean("File Exists", fileExists);
 	table.get()->PutBoolean("File Valid", fileValid);
@@ -77,7 +76,7 @@ string AutonSelector::GetSelectedAutoFile()
 		autonfile = frc::filesystem::GetDeployDirectory();
 		autonfile += std::string("/auton/");
 		autonfile += GetAlianceColor();
-		autonfile += ("DefaultFile.xml");	
+		autonfile += ("DefaultFile.xml");
 	}
 
 	table.get()->PutString("actual file", autonfile);

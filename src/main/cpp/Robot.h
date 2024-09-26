@@ -30,7 +30,9 @@ class SomeMech;
 class RobotDefinition;
 class DragonDataLoggerMgr;
 #include "configs/RobotElementNames.h"
+#include "frc/smartdashboard/SmartDashboard.h"
 #include <array>
+#include <map>
 
 class Robot : public frc::TimedRobot
 {
@@ -77,5 +79,6 @@ private:
     DragonDataLoggerMgr *m_datalogger;
     bool isFMSAttached = false;
 
-    std::array<bool, 18> m_MotorEnabledArray;
+    std::array<bool, 10> m_MotorEnabledArray;
+    std::map<RobotElementNames::MOTOR_CONTROLLER_USAGE, std::string> MotorControllerEnumtoStringMap;
 };
