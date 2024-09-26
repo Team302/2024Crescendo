@@ -100,6 +100,10 @@ SwerveModule::SwerveModule(string canbusname,
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
     m_tractionController = std::make_unique<TractionControlController>(m_staticCoF, m_dynamicCoF, m_optimalSlipRatio, m_mass, m_maxSpeed);
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Static CoF", m_staticCoF);
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Dynamic CoF", m_dynamicCoF);
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Slip Ratio", m_optimalSlipRatio);
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Mass", m_mass);
 }
 
 //==================================================================================
@@ -165,9 +169,14 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     Rotation2d currAngle = Rotation2d(angle);
     m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
     // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Input Speed", m_optimizedState.speed.value());
 
     m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed);
     //  Set Turn Target
+
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Output Speed", m_optimizedState.speed.value());
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Real Speed", CalculateRealSpeed(inertialVelocity, rotateRate, radius).value());
+
     SetTurnAngle(m_optimizedState.angle.Degrees());
 
     // Set Drive Target
@@ -377,7 +386,7 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         fxconfigs.ClosedLoopGeneral.ContinuousWrap = true;
 
         fxconfigs.Feedback.FeedbackRemoteSensorID = m_turnCancoder->GetDeviceID();
-        fxconfigs.Feedback.FeedbackSensorSource = m_useFOC ? FeedbackSensorSourceValue::SyncCANcoder : FeedbackSensorSourceValue::RemoteCANcoder;
+        fxconfigs.Feedback.FeedbackSensorSource = m_useFOC ? FeedbackSensorSourceValue::FusedCANcoder : FeedbackSensorSourceValue::RemoteCANcoder;
         fxconfigs.Feedback.SensorToMechanismRatio = attrs.sensorToMechanismRatio;
         fxconfigs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
         m_turnTalon->GetConfigurator().Apply(fxconfigs);
@@ -416,27 +425,27 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                     {
                         m_useFOC = attr.as_bool();
                     }
-                    if (strcmp(attr.name(), "useVelocityControl") == 0)
+                    else if (strcmp(attr.name(), "useVelocityControl") == 0)
                     {
                         m_velocityControlled = attr.as_bool();
                     }
-                    if (strcmp(attr.name(), "max_speed") == 0)
+                    else if (strcmp(attr.name(), "max_speed") == 0)
                     {
                         m_maxSpeed = units::velocity::meters_per_second_t(attr.as_double());
                     }
-                    if (strcmp(attr.name(), "static_CoF"))
+                    else if (strcmp(attr.name(), "static_CoF") == 0)
                     {
                         m_staticCoF = (attr.as_double());
                     }
-                    if (strcmp(attr.name(), "dynamic_CoF"))
+                    else if (strcmp(attr.name(), "dynamic_CoF") == 0)
                     {
                         m_dynamicCoF = (attr.as_double());
                     }
-                    if (strcmp(attr.name(), "optimalSlipRatio"))
+                    else if (strcmp(attr.name(), "optimalSlipRatio") == 0)
                     {
                         m_optimalSlipRatio = (attr.as_double());
                     }
-                    if (strcmp(attr.name(), "mass"))
+                    else if (strcmp(attr.name(), "mass") == 0)
                     {
                         m_mass = (attr.as_double());
                     }

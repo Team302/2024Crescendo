@@ -149,6 +149,7 @@ private:
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
     units::length::meter_t m_radius;
 
+    units::velocity::meters_per_second_t m_currVelocity = units::velocity::meters_per_second_t(0.0);
     units::velocity::meters_per_second_t m_drive = units::velocity::meters_per_second_t(0.0);
     units::velocity::meters_per_second_t m_steer = units::velocity::meters_per_second_t(0.0);
     units::angular_velocity::radians_per_second_t m_rotate = units::angular_velocity::radians_per_second_t(0.0);

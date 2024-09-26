@@ -454,8 +454,9 @@ units::velocity::meters_per_second_t SwerveChassis::GetInertialVelocity()
 
     units::velocity::meters_per_second_t velocityX = accelerationX * deltaTime;
     units::velocity::meters_per_second_t velocityY = accelerationY * deltaTime;
+    m_currVelocity = m_currVelocity + units::velocity::meters_per_second_t{std::sqrt(std::pow(velocityX.to<double>(), 2) + std::pow(velocityY.to<double>(), 2))};
 
-    return units::velocity::meters_per_second_t(std::sqrt(std::pow(velocityX.to<double>(), 2) + std::pow(velocityY.to<double>(), 2)));
+    return;
 }
 
 //==================================================================================
