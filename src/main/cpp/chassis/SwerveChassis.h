@@ -149,13 +149,13 @@ private:
     units::length::inch_t m_wheelDiameter = units::length::inch_t(4.0);
     units::length::meter_t m_radius;
 
-    units::velocity::meters_per_second_t m_currVelocity = units::velocity::meters_per_second_t(0.0);
     units::velocity::meters_per_second_t m_drive = units::velocity::meters_per_second_t(0.0);
     units::velocity::meters_per_second_t m_steer = units::velocity::meters_per_second_t(0.0);
     units::angular_velocity::radians_per_second_t m_rotate = units::angular_velocity::radians_per_second_t(0.0);
 
     static constexpr units::velocity::meters_per_second_t m_velocityDeadband = units::velocity::meters_per_second_t(0.025);
     static constexpr units::angular_velocity::radians_per_second_t m_angularDeadband = units::angular_velocity::radians_per_second_t(0.1);
+    static constexpr units::acceleration::meters_per_second_squared_t accelerationThreshold = 0.05_mps_sq;
 
     frc::Translation2d m_frontLeftLocation;
     frc::Translation2d m_frontRightLocation;
@@ -183,4 +183,12 @@ private:
     std::array<frc::SwerveModuleState, 4U> m_targetStates;
 
     frc::Timer m_velocityTimer;
+
+    struct Velocity2D
+    {
+        units::velocity::meters_per_second_t x;
+        units::velocity::meters_per_second_t y;
+    };
+
+    Velocity2D m_currVelocity{0_mps, 0_mps}; // Store x and y components separately
 };

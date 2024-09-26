@@ -44,7 +44,7 @@ private:
     static constexpr double MIN_SLIP_RATIO = 0.01;
     static constexpr double MAX_SLIP_RATIO = 0.40;
     static constexpr int SIGMOID_K = 10;
-    static constexpr units::velocity::meters_per_second_t INERTIAL_VELOCITY_THRESHOLD{0.01};
+    static constexpr units::velocity::meters_per_second_t INERTIAL_VELOCITY_THRESHOLD{0.1};
     static constexpr double m_robotLoopRate_Hz = 50.0;
 
     units::second_t MIN_SLIPPING_TIME{1.1};

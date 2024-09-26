@@ -149,8 +149,6 @@ void SwerveChassis::ZeroAlignSwerveModules()
 /// @brief Drive the chassis
 void SwerveChassis::Drive(ChassisMovement &moveInfo)
 {
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "SwerveChassisYaw", string("Yaw"), GetYaw().value());
-
     m_drive = moveInfo.chassisSpeeds.vx;
     m_steer = moveInfo.chassisSpeeds.vy;
     m_rotate = moveInfo.chassisSpeeds.omega;
@@ -452,11 +450,25 @@ units::velocity::meters_per_second_t SwerveChassis::GetInertialVelocity()
     m_velocityTimer.Reset();
     m_velocityTimer.Start();
 
-    units::velocity::meters_per_second_t velocityX = accelerationX * deltaTime;
-    units::velocity::meters_per_second_t velocityY = accelerationY * deltaTime;
-    m_currVelocity = m_currVelocity + units::velocity::meters_per_second_t{std::sqrt(std::pow(velocityX.to<double>(), 2) + std::pow(velocityY.to<double>(), 2))};
+    // If both accelerations are below the threshold, set velocity to 0
+    if (units::math::abs(accelerationX) < accelerationThreshold &&
+        units::math::abs(accelerationY) < accelerationThreshold)
+    {
+        m_currVelocity = {0_mps, 0_mps};
+    }
+    else
+    {
+        m_currVelocity.x += accelerationX * deltaTime;
+        m_currVelocity.y += accelerationY * deltaTime;
+    }
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "X Speed", m_currVelocity.x.value());
+    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Y Speed", m_currVelocity.y.value());
+    // Calculate the magnitude of the accumulated velocity vector
+    units::velocity::meters_per_second_t velocityMagnitude = units::velocity::meters_per_second_t{
+        std::sqrt(std::pow(m_currVelocity.x.to<double>(), 2) + std::pow(m_currVelocity.y.to<double>(), 2))};
 
-    return;
+    // Return the magnitude of the velocity
+    return velocityMagnitude;
 }
 
 //==================================================================================

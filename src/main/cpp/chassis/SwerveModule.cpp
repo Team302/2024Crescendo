@@ -100,10 +100,6 @@ SwerveModule::SwerveModule(string canbusname,
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
     m_tractionController = std::make_unique<TractionControlController>(m_staticCoF, m_dynamicCoF, m_optimalSlipRatio, m_mass, m_maxSpeed);
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Static CoF", m_staticCoF);
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Dynamic CoF", m_dynamicCoF);
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Slip Ratio", m_optimalSlipRatio);
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Mass", m_mass);
 }
 
 //==================================================================================
