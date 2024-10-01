@@ -99,7 +99,7 @@ SwerveModule::SwerveModule(string canbusname,
     ReadConstants(configfilename);
     InitDriveMotor(driveInverted);
     InitTurnMotorEncoder(turnInverted, canCoderInverted, angleOffset, attrs);
-    m_tractionController = std::make_unique<TractionControlController>(1.2, 1.0, 0.4, 145.0, m_maxSpeed);
+    m_tractionController = std::make_unique<TractionControlController>(m_staticCoF, m_dynamicCoF, m_optimalSlipRatio, m_mass, m_maxSpeed);
 }
 
 //==================================================================================
@@ -164,9 +164,10 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
     m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
-    // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
 
-    m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed);
+    // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation ///TO DO: Investigate Cosine Compensation
+    // m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed); ///TO DO: Understand Traction Control
+
     //  Set Turn Target
     SetTurnAngle(m_optimizedState.angle.Degrees());
 
@@ -377,8 +378,7 @@ void SwerveModule::InitTurnMotorEncoder(bool turnInverted,
         fxconfigs.ClosedLoopGeneral.ContinuousWrap = true;
 
         fxconfigs.Feedback.FeedbackRemoteSensorID = m_turnCancoder->GetDeviceID();
-        // fxconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::SyncCANcoder;
-        fxconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue::RemoteCANcoder;
+        fxconfigs.Feedback.FeedbackSensorSource = m_useFOC ? FeedbackSensorSourceValue::FusedCANcoder : FeedbackSensorSourceValue::RemoteCANcoder;
         fxconfigs.Feedback.SensorToMechanismRatio = attrs.sensorToMechanismRatio;
         fxconfigs.Feedback.RotorToSensorRatio = attrs.rotorToSensorRatio;
         m_turnTalon->GetConfigurator().Apply(fxconfigs);
@@ -417,13 +417,29 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
                     {
                         m_useFOC = attr.as_bool();
                     }
-                    if (strcmp(attr.name(), "useVelocityControl") == 0)
+                    else if (strcmp(attr.name(), "useVelocityControl") == 0)
                     {
                         m_velocityControlled = attr.as_bool();
                     }
-                    if (strcmp(attr.name(), "max_speed") == 0)
+                    else if (strcmp(attr.name(), "max_speed") == 0)
                     {
                         m_maxSpeed = units::velocity::meters_per_second_t(attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "static_CoF") == 0)
+                    {
+                        m_staticCoF = (attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "dynamic_CoF") == 0)
+                    {
+                        m_dynamicCoF = (attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "optimalSlipRatio") == 0)
+                    {
+                        m_optimalSlipRatio = (attr.as_double());
+                    }
+                    else if (strcmp(attr.name(), "mass") == 0)
+                    {
+                        m_mass = (attr.as_double());
                     }
                     if (m_useFOC)
                     {

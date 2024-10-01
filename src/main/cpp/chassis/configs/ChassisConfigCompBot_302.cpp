@@ -31,6 +31,8 @@ void ChassisConfigCompBot_302::DefinePigeon()
     m_pigeon2 = new Pigeon2(0, m_canbusName);
     MountPoseConfigs config{};
     config.MountPoseYaw = 0;
+    config.MountPosePitch = 1.45;
+    config.MountPoseRoll = -1.88965;
     m_pigeon2->GetConfigurator().Apply(config);
     m_pigeon2->Reset();
     ctre::phoenix6::BaseStatusSignal::SetUpdateFrequencyForAll(200_Hz, m_pigeon2->GetYaw());
