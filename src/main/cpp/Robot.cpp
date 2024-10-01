@@ -37,8 +37,8 @@ using std::string;
 
 void Robot::RobotInit()
 {
-    Robot::ConfigureShuffleboardMotorControl();
     isFMSAttached = frc::DriverStation::IsFMSAttached();
+    m_motorControlButtons = MotorControlButtons::GetInstance();
 
     Logger::GetLogger()->PutLoggingSelectionsOnDashboard();
     if (!isFMSAttached)
@@ -261,14 +261,7 @@ void Robot::DisabledPeriodic()
         }
     }
 }
-void Robot::ConfigureShuffleboardMotorControl()
-{
 
-    m_MotorEnabledArray.fill(true);
-    // MotorControllerEnumtoStringMap[RobotElementNames::MOTOR_CONTROLLER_USAGE::CLIMBER_MANAGER_LEFT_CLIMBER] = std::string("CLIMBER_MANAGER_LEFT_CLIMBER");
-
-    frc::SmartDashboard::PutBoolean("NOTE_MANAGER_FRONT_INTAKE", m_MotorEnabledArray[0]);
-}
 void Robot::TestInit()
 {
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ArrivedAt"), string("TestInit"), string("arrived"));
@@ -401,6 +394,7 @@ void Robot::InitializeAutonOptions()
 }
 void Robot::InitializeDriveteamFeedback()
 {
+    m_motorControlButtons->Init();
     m_field = DragonField::GetInstance(); // TODO: move to drive team feedback
 }
 

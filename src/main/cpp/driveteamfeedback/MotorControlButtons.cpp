@@ -1,4 +1,3 @@
-
 //====================================================================================================================================================
 // Copyright 2024 Lake Orion Robotics FIRST Team 302
 //
@@ -14,56 +13,42 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#pragma once
-#include <driveteamfeedback/LEDStates.h>
-#include <robotstate/IRobotStateChangeSubscriber.h>
 #include "driveteamfeedback/MotorControlButtons.h"
 
-class DriverFeedback : public IRobotStateChangeSubscriber
+static MotorControlButtons *m_motorControlButtons = nullptr;
+
+MotorControlButtons *MotorControlButtons::GetInstance()
 {
-public:
-    void UpdateFeedback();
-
-    static DriverFeedback *GetInstance();
-
-    void UpdateLEDStates();
-
-    void UpdateCompressorState();
-
-    void Update(RobotStateChanges::StateChange change, int value) override;
-
-private:
-    void UpdateRumble();
-    void UpdateDiagnosticLEDs();
-    void CheckControllers();
-    void DisplayPressure() const;
-    void DisplayDesiredGamePiece();
-    void ResetRequests(void);
-    DriverFeedback();
-    ~DriverFeedback() = default;
-
-    bool m_AutonomousEnabled = false;
-    bool m_TeleopEnabled = false;
-
-    DragonLeds::Colors oldState = DragonLeds::WHITE;
-    DragonLeds::Colors currentState = DragonLeds::BLACK;
-
-    enum DriverFeedbackStates
+    if (m_motorControlButtons != nullptr)
     {
-        NONE
-    };
+        return m_motorControlButtons;
+    }
+    else
+    {
+        m_motorControlButtons = new MotorControlButtons();
+        return m_motorControlButtons;
+    }
+}
 
-    LEDStates *m_LEDStates = LEDStates::GetInstance();
-    MotorControlButtons *m_MotorControllerButtons = MotorControlButtons::GetInstance();
+void MotorControlButtons::Init()
+{
+    m_MotorEnabledArray.fill(true);
 
-    int m_controllerCounter = 0;
-    bool m_rumbleLauncher = false;
-    bool m_rumblePlacer = false;
-    bool m_rumbleIntake = false;
-    int m_rumbleLoopCounter = 0;
-    int m_firstloop = true;
+    for (int i = 0; i < MotorKeys.size(); i++)
+    {
+        frc::SmartDashboard::PutBoolean(MotorKeys[i], true);
+    }
+}
 
-    static DriverFeedback *m_instance;
-    RobotStateChanges::ScoringMode m_scoringMode = RobotStateChanges::ScoringMode::Launcher;
-    RobotStateChanges::ClimbMode m_climbMode = RobotStateChanges::ClimbMode::ClimbModeOff;
-};
+void MotorControlButtons::Run()
+{
+    for (int i = 0; i < MotorKeys.size(); i++)
+    {
+        m_MotorEnabledArray[i] = frc::SmartDashboard::GetBoolean(MotorKeys[i], m_MotorEnabledArray[i]);
+    }
+}
+
+bool MotorControlButtons::GetMotorEnabled(RobotElementNames::MOTOR_CONTROLLER_USAGE identifier)
+{
+    return m_MotorEnabledArray[identifier];
+}

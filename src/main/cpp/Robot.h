@@ -29,10 +29,7 @@ class RobotState;
 class SomeMech;
 class RobotDefinition;
 class DragonDataLoggerMgr;
-#include "configs/RobotElementNames.h"
-#include "frc/smartdashboard/SmartDashboard.h"
-#include <array>
-#include <map>
+class MotorControlButtons;
 
 class Robot : public frc::TimedRobot
 {
@@ -63,7 +60,6 @@ private:
     void LogSensorData();
     void LogMotorData();
     void LogCameraData();
-    void ConfigureShuffleboardMotorControl();
 
     TeleopControl *m_controller;
     SwerveChassis *m_chassis;
@@ -77,8 +73,6 @@ private:
     SomeMech *m_someMech;
     RobotDefinition *m_robot;
     DragonDataLoggerMgr *m_datalogger;
+    MotorControlButtons *m_motorControlButtons;
     bool isFMSAttached = false;
-
-    std::array<bool, 10> m_MotorEnabledArray;
-    std::map<RobotElementNames::MOTOR_CONTROLLER_USAGE, std::string> MotorControllerEnumtoStringMap;
 };

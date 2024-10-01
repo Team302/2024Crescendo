@@ -48,6 +48,7 @@ void DriverFeedback::UpdateFeedback()
     UpdateDiagnosticLEDs();
     UpdateLEDStates();
     CheckControllers();
+    m_MotorControllerButtons->Run();
 }
 
 void DriverFeedback::UpdateRumble()
