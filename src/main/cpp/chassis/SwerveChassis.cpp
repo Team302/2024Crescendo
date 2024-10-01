@@ -178,10 +178,10 @@ void SwerveChassis::Drive(ChassisMovement &moveInfo)
     {
         m_targetStates = m_currentDriveState->UpdateSwerveModuleStates(moveInfo);
 
-        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT], GetInertialVelocity(m_drive, m_steer), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
-        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT], GetInertialVelocity(m_drive, m_steer), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
-        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK], GetInertialVelocity(m_drive, m_steer), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
-        m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK], GetInertialVelocity(m_drive, m_steer), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_frontLeft->SetDesiredState(m_targetStates[LEFT_FRONT], GetInertialVelocity(moveInfo.chassisSpeeds.vx, moveInfo.chassisSpeeds.vy), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_frontRight->SetDesiredState(m_targetStates[RIGHT_FRONT], GetInertialVelocity(moveInfo.chassisSpeeds.vx, moveInfo.chassisSpeeds.vy), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_backLeft->SetDesiredState(m_targetStates[LEFT_BACK], GetInertialVelocity(moveInfo.chassisSpeeds.vx, moveInfo.chassisSpeeds.vy), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
+        m_backRight->SetDesiredState(m_targetStates[RIGHT_BACK], GetInertialVelocity(moveInfo.chassisSpeeds.vx, moveInfo.chassisSpeeds.vy), units::degrees_per_second_t(GetRotationRateDegreesPerSecond()), m_radius);
     }
     m_rotate = moveInfo.chassisSpeeds.omega;
     UpdateOdometry();
@@ -450,11 +450,11 @@ units::velocity::meters_per_second_t SwerveChassis::GetInertialVelocity(units::v
     m_velocityTimer.Reset();
     m_velocityTimer.Start();
 
-    bool noInput = (units::math::abs(xVelocityInput) < m_velocityThresold &&
-                    units::math::abs(yVelocityInput) < m_velocityThresold) &&;
+    bool noInput = (units::math::abs(xVelocityInput) < m_velocityThresold) && (units::math::abs(yVelocityInput) < m_velocityThresold);
+
     // If both accelerations are below the threshold, set velocity to 0
-    if ((units::math::abs(accelerationX) < m_accelerationThreshold &&
-         units::math::abs(accelerationY) < m_accelerationThreshold) &&
+    if (((units::math::abs(accelerationX) < m_accelerationThreshold) ||
+         (units::math::abs(accelerationY) < m_accelerationThreshold)) &&
         noInput)
     {
         m_currVelocity = {0_mps, 0_mps};
@@ -464,13 +464,9 @@ units::velocity::meters_per_second_t SwerveChassis::GetInertialVelocity(units::v
         m_currVelocity.x += accelerationX * deltaTime;
         m_currVelocity.y += accelerationY * deltaTime;
     }
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "X Input Velocity", xVelocityInput.value());
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Y Input Velocity", yVelocityInput.y.value());
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "X Velocity", m_currVelocity.x.value());
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Y Velocity", m_currVelocity.y.value());
+
     // Calculate the magnitude of the accumulated velocity vector
-    units::velocity::meters_per_second_t velocityMagnitude = units::velocity::meters_per_second_t{
-        std::sqrt(std::pow(m_currVelocity.x.to<double>(), 2) + std::pow(m_currVelocity.y.to<double>(), 2))};
+    units::velocity::meters_per_second_t velocityMagnitude = units::velocity::meters_per_second_t{std::sqrt(std::pow(m_currVelocity.x.to<double>(), 2) + std::pow(m_currVelocity.y.to<double>(), 2))};
 
     // Return the magnitude of the velocity
     return velocityMagnitude;

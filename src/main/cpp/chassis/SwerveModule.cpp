@@ -164,15 +164,11 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     units::angle::degree_t angle = m_turnCancoder->GetAbsolutePosition().GetValue();
     Rotation2d currAngle = Rotation2d(angle);
     m_optimizedState = SwerveModuleState::Optimize(targetState, currAngle);
-    // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Module Target Speed", m_optimizedState.speed.value());
 
-    m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed);
+    // m_optimizedState.speed *= (m_optimizedState.angle - currAngle).Cos(); // Cosine Compensation ///TO DO: Investigate Cosine Compensation
+    // m_optimizedState.speed = m_tractionController->calculate(m_optimizedState.speed, CalculateRealSpeed(inertialVelocity, rotateRate, radius), GetState().speed); ///TO DO: Understand Traction Control
+
     //  Set Turn Target
-
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Module Output Speed", m_optimizedState.speed.value());
-    Logger::GetLogger()->LogDataDirectlyOverNT("Traction Control", "Real Speed", CalculateRealSpeed(inertialVelocity, rotateRate, radius).value());
-
     SetTurnAngle(m_optimizedState.angle.Degrees());
 
     // Set Drive Target

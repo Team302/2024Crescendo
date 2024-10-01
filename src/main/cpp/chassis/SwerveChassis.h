@@ -154,7 +154,7 @@ private:
     units::angular_velocity::radians_per_second_t m_rotate = units::angular_velocity::radians_per_second_t(0.0);
 
     static constexpr units::angular_velocity::radians_per_second_t m_angularDeadband = units::angular_velocity::radians_per_second_t(0.1);
-    static constexpr units::acceleration::meters_per_second_squared_t m_accelerationThreshold = 0.05_mps_sq;
+    static constexpr units::acceleration::meters_per_second_squared_t m_accelerationThreshold = 0.5_mps_sq;
     static constexpr units::velocity::meters_per_second_t m_velocityThresold = units::velocity::meters_per_second_t(0.25);
 
     frc::Translation2d m_frontLeftLocation;
