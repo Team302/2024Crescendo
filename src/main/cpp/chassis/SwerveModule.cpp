@@ -174,6 +174,8 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     SetDriveSpeed(m_optimizedState.speed);
 }
 
+bool SwerveModule::IsSlipping() { return m_tractionController->isSlipping(); }
+
 //==================================================================================
 /// @brief Run the swerve module at the same speed and angle
 /// @returns void

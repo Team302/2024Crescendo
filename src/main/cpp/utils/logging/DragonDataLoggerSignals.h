@@ -46,7 +46,11 @@ public:
         NOTE_MANAGER_LAUNCHER_SENSOR,
         NOTE_MANAGER_PLACER_IN_SENSOR,
         NOTE_MANAGER_PLACER_MID_SENSOR,
-        NOTE_MANAGER_PLACER_OUT_SENSOR
+        NOTE_MANAGER_PLACER_OUT_SENSOR,
+        FRONT_LEFT_SWERVE_MODULE_SPLIPING,
+        FRONT_RIGHT_SWERVE_MODULE_SPLIPING,
+        BACK_LEFT_SWERVE_MODULE_SPLIPING,
+        BACK_RIGHT_SWERVE_MODULE_SPLIPING
     };
 
     enum DoubleSignals
@@ -119,6 +123,18 @@ private:
 
     wpi::log::BooleanLogEntry m_placerOutSensor;
     bool m_currPlacerOutSensor = false;
+
+    wpi::log::BooleanLogEntry m_frontLeftSwerveModuleslip;
+    bool m_currFrontLeftSwerveModuleslip = false;
+
+    wpi::log::BooleanLogEntry m_frontRightSwerveModuleslip;
+    bool m_currFrontRightSwerveModuleslip = false;
+
+    wpi::log::BooleanLogEntry m_backLeftSwerveModuleslip;
+    bool m_currBackLeftSwerveModuleslip = false;
+
+    wpi::log::BooleanLogEntry m_backRightSwerveModuleslip;
+    bool m_currBackRightSwerveModuleslip = false;
 
     wpi::log::DoubleLogEntry m_storedHeading;
     double m_currStoredHeading{0.0};
