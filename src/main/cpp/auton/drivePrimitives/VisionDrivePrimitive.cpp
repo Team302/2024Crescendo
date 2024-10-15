@@ -51,27 +51,6 @@ void VisionDrivePrimitive::Init(PrimitiveParams *params)
     m_timer->Start();
 
     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "m_pipelineMode", m_pipelineMode);
-
-    /*m_dragonVision = DragonVision::GetDragonVision();
-    if (m_dragonVision != nullptr)
-        //  m_dragonVision->setPipeline(m_pipelineMode);
-
-        if (m_chassis != nullptr)
-        {
-            switch (m_pipelineMode)
-            {
-                case DragonLimelight::PIPELINE_MODE::APRIL_TAG:
-                    m_headingOption = ChassisOptionEnums::HeadingOption::FACE_APRIL_TAG;
-                    break;
-                case DragonLimelight::PIPELINE_MODE::CONE:
-                case DragonCamera::PIPELINE::CUBE:
-                    m_headingOption = ChassisOptionEnums::HeadingOption::FACE_GAME_PIECE;
-                    break;
-                default:
-                    break;
-            }
-        }
-            */
 }
 
 void VisionDrivePrimitive::Run()
@@ -93,13 +72,5 @@ void VisionDrivePrimitive::Run()
 
 bool VisionDrivePrimitive::IsDone()
 {
-    /* bool done = false;
-
-     if (m_visionDrive != nullptr)
-         done = m_visionDrive->isAligned(m_pipelineMode);
-
-     Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, m_ntName, "ArrivedAtDone", done);
-
-     return done || m_timer->HasElapsed(units::time::second_t(m_timeout));*/
     return false;
 }

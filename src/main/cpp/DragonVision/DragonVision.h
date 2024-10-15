@@ -96,7 +96,7 @@ public:
 
     static frc::AprilTagFieldLayout m_aprilTagLayout;
 
-    void testAndLogVisionData();
+    // void testAndLogVisionData();
 
     bool HealthCheck(RobotElementNames::CAMERA_USAGE position);
 

@@ -137,7 +137,6 @@ public:
     void SetCrosshairPos(double crosshairPosX, double crosshairPosY);
     void SetSecondaryCrosshairPos(double crosshairPosX, double crosshairPosY);
 
-
     bool UpdatePipeline();
 
     void PrintValues(); // Prints out all values to ensure everything is working and connected

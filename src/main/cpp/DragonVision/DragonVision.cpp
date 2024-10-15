@@ -338,12 +338,6 @@ std::optional<VisionData> DragonVision::GetVisionDataFromElement(VISION_ELEMENT 
 		break;
 	}
 
-	// std::optional<VisionData> multiTagEstimate = MultiTagToElement(fieldElementPose);
-	// if (multiTagEstimate)
-	// {
-	// 	return multiTagEstimate;
-	// }
-
 	std::optional<VisionData> singleTagEstimate = SingleTagToElement(fieldElementPose, idToSearch);
 	if (singleTagEstimate)
 	{
@@ -416,7 +410,6 @@ std::optional<VisionData> DragonVision::MultiTagToElement(frc::Pose3d elementPos
 std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPose, int idToSearch)
 {
 	std::optional<VisionData> launcherAprilTagData = std::nullopt;
-	// std::optional<VisionData> selectedData = std::nullopt;
 
 	if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
 	{
@@ -432,34 +425,6 @@ std::optional<VisionData> DragonVision::SingleTagToElement(frc::Pose3d elementPo
 	if (launcherAprilTagData)
 	{
 		return launcherAprilTagData;
-
-		/* optional of the April Tag's 3D pose
-		std::optional<frc::Pose3d> optionalAprilTagPose = GetAprilTagLayout().GetTagPose(selectedData.value().tagId);
-
-		// get valid value of optionalAprilTagPose
-		if (optionalAprilTagPose)
-		{
-			// get the actual pose of the april tag from the optional
-			frc::Pose3d aprilTagPose = optionalAprilTagPose.value();
-
-			// get translation and rotation from visiondata
-			frc::Transform3d transformToAprilTag = selectedData.value().transformToTarget;
-
-			// translate from apriltag to robot to get robot field position
-			frc::Pose3d robotPose = aprilTagPose + transformToAprilTag.Inverse();
-
-			// create transformation from robot to field element
-			frc::Transform3d transformToElement = frc::Transform3d(robotPose, elementPose);
-
-			// rebundle into vision data with april tag thats used
-			std::optional<VisionData>
-				visionData = VisionData(transformToElement,
-										transformToElement.Translation(),
-										selectedData.value().rotationToTarget, // roll is 0, pitch and yaw are calculated
-										selectedData.value().tagId);
-			return visionData;
-		}
-		*/
 	}
 
 	return std::nullopt;
@@ -471,7 +436,6 @@ std::optional<VisionPose> DragonVision::GetRobotPosition()
 
 	if (!m_photonVisionOdometry)
 	{
-
 		// this is for single camera limelight odometry
 		if (m_dragonCameraMap[RobotElementNames::CAMERA_USAGE::LAUNCHE] != nullptr)
 		{
@@ -581,6 +545,7 @@ DragonCamera::PIPELINE DragonVision::GetPipeline(RobotElementNames::CAMERA_USAGE
  *
  *     DragonVision::GetDragonVision()->testAndLogVisionData();
  */
+/**
 void DragonVision::testAndLogVisionData()
 {
 	try
@@ -598,3 +563,4 @@ void DragonVision::testAndLogVisionData()
 		Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, std::string("testAndLogVisionData"), std::string("exception"), e.what());
 	}
 }
+**/
