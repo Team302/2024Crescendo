@@ -10,6 +10,7 @@ pathname= "BlueSubwooferWing3Center0_A"
 time = "3.0"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"
+visionAligment= "FACE_SPEAKER"
 />
 
 <snippet file= "ShootWhenStopAuto.xml"/>
