@@ -36,7 +36,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                  m_trajectory(),
                                                                                  m_robotDrive(robotDrive),
                                                                                  // TODO need to tune this also update radius as it is probably wrong
-                                                                                 m_longpathHolonomicController(pathplanner::PIDConstants(1.5, 0.65, 0.0), //(1.95, 0.95, 0.0)
+                                                                                 m_longpathHolonomicController(pathplanner::PIDConstants(1.45, 0.5, 0.0), //(1.95, 0.95, 0.0)
                                                                                                                pathplanner::PIDConstants(2.5, 2.0, 0.0),
                                                                                                                robotDrive->GetChassis()->GetMaxSpeed(),
                                                                                                                units::length::inch_t(sqrt(((robotDrive->GetChassis()->GetWheelBase().to<double>() / 2.0) * (robotDrive->GetChassis()->GetWheelBase().to<double>() / 2.0) + (robotDrive->GetChassis()->GetTrack().to<double>() / 2.0) * (robotDrive->GetChassis()->GetTrack().to<double>() / 2.0)))),
@@ -48,6 +48,7 @@ TrajectoryDrivePathPlanner::TrajectoryDrivePathPlanner(RobotDrive *robotDrive) :
                                                                                                                 units::time::second_t(0.02)),
                                                                                  m_trajectoryStates(),
                                                                                  m_prevPose(),
+
                                                                                  m_wasMoving(false),
                                                                                  m_timer(std::make_unique<frc::Timer>()),
                                                                                  m_whyDone("Trajectory isn't finished/Error"),
