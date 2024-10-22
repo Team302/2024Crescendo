@@ -78,6 +78,8 @@ public:
 
     void RunCurrentState();
 
+    bool IsSlipping();
+
     /// @brief Calculate the real speed of the module incorporating the inertial velocity and rotate rate
     /// * @param inertialVelocity Inertial velocity of robot (m/s)
     /// * @param rotateRate Rotate rate of robot(degrees / s)

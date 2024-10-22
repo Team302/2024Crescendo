@@ -496,6 +496,12 @@ void SwerveChassis::DataLog()
     auto optFrontRightState = m_frontRight->GetOptimizedState();
     auto optBackLeftState = m_backLeft->GetOptimizedState();
     auto optBackRightState = m_backRight->GetOptimizedState();
+
+    auto frontLeftSlip = m_frontLeft->IsSlipping();
+    auto frontRightSlip = m_frontRight->IsSlipping();
+    auto backLeftSlip = m_backLeft->IsSlipping();
+    auto backRightSlip = m_backRight->IsSlipping();
+
     LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::TARGET_LEFT_FRONT_STATE, optFrontLeftState);
     LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::TARGET_LEFT_BACK_STATE, optBackLeftState);
     LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::TARGET_RIGHT_FRONT_STATE, optFrontRightState);
@@ -505,6 +511,11 @@ void SwerveChassis::DataLog()
     LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::ACTUAL_LEFT_BACK_STATE, currBackLeftState);
     LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::ACTUAL_RIGHT_FRONT_STATE, currFrontRightState);
     LogSwerveModuleStateData(DragonDataLoggerSignals::SwerveStateSingals::ACTUAL_RIGHT_BACK_STATE, currBackRightState);
+
+    LogBoolData(DragonDataLoggerSignals::BoolSignals::FRONT_LEFT_SWERVE_MODULE_SPLIPING, frontLeftSlip);
+    LogBoolData(DragonDataLoggerSignals::BoolSignals::FRONT_RIGHT_SWERVE_MODULE_SPLIPING, frontRightSlip);
+    LogBoolData(DragonDataLoggerSignals::BoolSignals::BACK_LEFT_SWERVE_MODULE_SPLIPING, backLeftSlip);
+    LogBoolData(DragonDataLoggerSignals::BoolSignals::BACK_RIGHT_SWERVE_MODULE_SPLIPING, backRightSlip);
 
     if (m_currentDriveState != nullptr)
     {

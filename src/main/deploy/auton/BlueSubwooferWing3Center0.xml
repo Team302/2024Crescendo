@@ -10,6 +10,7 @@ pathname= "BlueSubwooferWing3Center0_A"
 time = "3.0"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"
+visionAligment= "FACE_SPEAKER"
 />
 
 <snippet file= "ShootWhenStopAuto.xml"/>
@@ -20,14 +21,6 @@ time = "3.5"
 noteOption="STATE_FEEDER_INTAKE"
 pathgains = "ShortPath"
 />
-
-<snippet file= "ShootWhenStopAuto.xml"/>
-
-<primitive id= "DRIVE_PATH_PLANNER"
-pathname= "BlueSubwooferWing3Center0_C"
-time = "3.65"
-noteOption="STATE_FEEDER_INTAKE"
-pathgains = "ShortPath"/>
 
 <snippet file= "ShootWhenStopAuto.xml"/>
 
