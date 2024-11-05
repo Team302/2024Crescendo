@@ -29,6 +29,7 @@
 #include "units/length.h"
 #include "units/velocity.h"
 #include "wpi/DataLog.h"
+#include "grpl/LaserCan.h"
 
 #include "chassis/ChassisOptionEnums.h"
 #include "chassis/driveStates/ISwerveDriveState.h"
@@ -128,6 +129,8 @@ public:
     void LogInformation() override;
     void DataLog() override;
 
+    std::optional<uint16_t> GetLaserValue();
+
 private:
     ISwerveDriveOrientation *GetHeadingState(const ChassisMovement &moveInfo);
     ISwerveDriveState *GetDriveState(ChassisMovement &moveInfo);
@@ -181,4 +184,7 @@ private:
     std::array<frc::SwerveModuleState, 4U> m_targetStates;
 
     frc::Timer m_velocityTimer;
+
+    grpl::LaserCan *m_laserCan = nullptr;
+    void DefineLaserCan(grpl::LaserCanRangingMode rangingMode, grpl::LaserCanROI roi, grpl::LaserCanTimingBudget timingBudget);
 };

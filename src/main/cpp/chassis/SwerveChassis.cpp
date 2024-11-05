@@ -565,3 +565,20 @@ void SwerveChassis::ReadConstants(string configfilename)
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, m_networkTableName, string("Config File not found"), configfilename);
     }
 }
+
+void SwerveChassis::DefineLaserCan(grpl::LaserCanRangingMode rangingMode, grpl::LaserCanROI roi, grpl::LaserCanTimingBudget timingBudget)
+{
+    m_laserCan = new grpl::LaserCan(m_pigeon->GetDeviceID());
+    m_laserCan->set_ranging_mode(rangingMode);
+    m_laserCan->set_roi(roi);
+    m_laserCan->set_timing_budget(timingBudget);
+}
+
+std::optional<uint16_t> SwerveChassis::GetLaserValue()
+{
+    std::optional<grpl::LaserCanMeasurement> distance = m_laserCan->get_measurement();
+    if (distance.has_value() && distance.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT)
+    {
+        return distance.value().distance_mm;
+    }
+}

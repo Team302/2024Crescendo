@@ -39,6 +39,7 @@
 // Third Party
 #include "ctre/phoenix6/TalonFX.hpp"
 #include "ctre/phoenix6/CANcoder.hpp"
+#include "grpl/LaserCan.h"
 
 class SwerveModule : public LoggableItem
 {
@@ -99,6 +100,8 @@ public:
     void StopMotors();
     void LogInformation() override;
 
+    std::optional<uint16_t> GetLaserValue();
+
 private:
     void InitDriveMotor(bool inverted);
     void InitTurnMotorEncoder(
@@ -147,4 +150,7 @@ private:
     bool m_velocityControlled = false;
     bool m_useFOC = false;
     std::string m_networkTableName;
+
+    void DefineLaserCan(grpl::LaserCanRangingMode rangingMode, grpl::LaserCanROI roi, grpl::LaserCanTimingBudget timingBudget);
+    grpl::LaserCan *m_laserCan;
 };
