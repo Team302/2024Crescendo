@@ -576,6 +576,10 @@ void SwerveChassis::DefineLaserCan(grpl::LaserCanRangingMode rangingMode, grpl::
 
 std::optional<uint16_t> SwerveChassis::GetLaserValue()
 {
+    if (m_laserCan == nullptr)
+    {
+        return std::nullopt;
+    }
     std::optional<grpl::LaserCanMeasurement> distance = m_laserCan->get_measurement();
     if (distance.has_value() && distance.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT)
     {
