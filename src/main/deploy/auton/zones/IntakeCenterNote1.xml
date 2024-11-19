@@ -3,8 +3,8 @@
 
 <auton>
       <zone ygrid1="Y_26"
-            xgrid1="X_A"
+            xgrid1="X_26"
             ygrid2="Y_28"
-            xgrid2="X_E"
-            noteOption="STATE_INTAKE_TO_FEEDER"/>
+            xgrid2="X_24"
+            noteOption="STATE_PREPARE_PLACE_AMP"/>
 </auton>
