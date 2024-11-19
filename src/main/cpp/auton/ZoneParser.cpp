@@ -59,8 +59,8 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
         {"X_23", AutonGrid::XGRID::X_23},
         {"X_24", AutonGrid::XGRID::X_24},
         {"X_25", AutonGrid::XGRID::X_25},
-        {"X_25", AutonGrid::XGRID::X_26},
-        {"X_25", AutonGrid::XGRID::X_27}};
+        {"X_26", AutonGrid::XGRID::X_26},
+        {"X_27", AutonGrid::XGRID::X_27}};
     static std::map<std::string, AutonGrid::YGRID> Y_xmlStringToGridEnumMap{
         {"Y_1", AutonGrid::YGRID::Y_1},
         {"Y_2", AutonGrid::YGRID::Y_2},
