@@ -59,7 +59,7 @@ public:
 
     enum YGRID
     {
-        NO_VALUE,
+        NONE,
         Y_1,
         Y_2,
         Y_3,
@@ -114,7 +114,7 @@ public:
         Y_52,
         Y_53,
         Y_54,
-        EXCEEDING_VALUE
+        EXCEEDED
 
     };
 
