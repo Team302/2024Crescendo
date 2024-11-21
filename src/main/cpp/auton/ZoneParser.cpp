@@ -34,88 +34,88 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
     auto hasError = false;
 
     static std::map<std::string, AutonGrid::XGRID> X_xmlStringToGridEnumMap{
-        {"X_1", AutonGrid::XGRID::X_1},
-        {"X_2", AutonGrid::XGRID::X_2},
-        {"X_3", AutonGrid::XGRID::X_3},
-        {"X_4", AutonGrid::XGRID::X_4},
-        {"X_5", AutonGrid::XGRID::X_5},
-        {"X_6", AutonGrid::XGRID::X_6},
-        {"X_7", AutonGrid::XGRID::X_7},
-        {"X_8", AutonGrid::XGRID::X_8},
-        {"X_9", AutonGrid::XGRID::X_9},
-        {"X_10", AutonGrid::XGRID::X_10},
-        {"X_11", AutonGrid::XGRID::X_11},
-        {"X_12", AutonGrid::XGRID::X_12},
-        {"X_13", AutonGrid::XGRID::X_13},
-        {"X_14", AutonGrid::XGRID::X_14},
-        {"X_15", AutonGrid::XGRID::X_15},
-        {"X_16", AutonGrid::XGRID::X_16},
-        {"X_17", AutonGrid::XGRID::X_17},
-        {"X_18", AutonGrid::XGRID::X_18},
-        {"X_19", AutonGrid::XGRID::X_19},
-        {"X_20", AutonGrid::XGRID::X_20},
-        {"X_21", AutonGrid::XGRID::X_21},
-        {"X_22", AutonGrid::XGRID::X_22},
-        {"X_23", AutonGrid::XGRID::X_23},
-        {"X_24", AutonGrid::XGRID::X_24},
-        {"X_25", AutonGrid::XGRID::X_25},
-        {"X_26", AutonGrid::XGRID::X_26},
-        {"X_27", AutonGrid::XGRID::X_27}};
+        {"1", AutonGrid::XGRID::X_1},
+        {"2", AutonGrid::XGRID::X_2},
+        {"3", AutonGrid::XGRID::X_3},
+        {"4", AutonGrid::XGRID::X_4},
+        {"5", AutonGrid::XGRID::X_5},
+        {"6", AutonGrid::XGRID::X_6},
+        {"7", AutonGrid::XGRID::X_7},
+        {"8", AutonGrid::XGRID::X_8},
+        {"9", AutonGrid::XGRID::X_9},
+        {"10", AutonGrid::XGRID::X_10},
+        {"11", AutonGrid::XGRID::X_11},
+        {"12", AutonGrid::XGRID::X_12},
+        {"13", AutonGrid::XGRID::X_13},
+        {"14", AutonGrid::XGRID::X_14},
+        {"15", AutonGrid::XGRID::X_15},
+        {"16", AutonGrid::XGRID::X_16},
+        {"17", AutonGrid::XGRID::X_17},
+        {"18", AutonGrid::XGRID::X_18},
+        {"19", AutonGrid::XGRID::X_19},
+        {"20", AutonGrid::XGRID::X_20},
+        {"21", AutonGrid::XGRID::X_21},
+        {"22", AutonGrid::XGRID::X_22},
+        {"23", AutonGrid::XGRID::X_23},
+        {"24", AutonGrid::XGRID::X_24},
+        {"25", AutonGrid::XGRID::X_25},
+        {"26", AutonGrid::XGRID::X_26},
+        {"27", AutonGrid::XGRID::X_27}};
     static std::map<std::string, AutonGrid::YGRID> Y_xmlStringToGridEnumMap{
-        {"Y_1", AutonGrid::YGRID::Y_1},
-        {"Y_2", AutonGrid::YGRID::Y_2},
-        {"Y_3", AutonGrid::YGRID::Y_3},
-        {"Y_4", AutonGrid::YGRID::Y_4},
-        {"Y_5", AutonGrid::YGRID::Y_5},
-        {"Y_6", AutonGrid::YGRID::Y_6},
-        {"Y_7", AutonGrid::YGRID::Y_7},
-        {"Y_8", AutonGrid::YGRID::Y_8},
-        {"Y_9", AutonGrid::YGRID::Y_9},
-        {"Y_10", AutonGrid::YGRID::Y_10},
-        {"Y_11", AutonGrid::YGRID::Y_11},
-        {"Y_12", AutonGrid::YGRID::Y_12},
-        {"Y_13", AutonGrid::YGRID::Y_13},
-        {"Y_14", AutonGrid::YGRID::Y_14},
-        {"Y_15", AutonGrid::YGRID::Y_15},
-        {"Y_16", AutonGrid::YGRID::Y_16},
-        {"Y_17", AutonGrid::YGRID::Y_17},
-        {"Y_18", AutonGrid::YGRID::Y_18},
-        {"Y_19", AutonGrid::YGRID::Y_19},
-        {"Y_20", AutonGrid::YGRID::Y_20},
-        {"Y_21", AutonGrid::YGRID::Y_21},
-        {"Y_22", AutonGrid::YGRID::Y_22},
-        {"Y_23", AutonGrid::YGRID::Y_23},
-        {"Y_24", AutonGrid::YGRID::Y_24},
-        {"Y_25", AutonGrid::YGRID::Y_25},
-        {"Y_26", AutonGrid::YGRID::Y_26},
-        {"Y_27", AutonGrid::YGRID::Y_27},
-        {"Y_28", AutonGrid::YGRID::Y_28},
-        {"Y_29", AutonGrid::YGRID::Y_29},
-        {"Y_30", AutonGrid::YGRID::Y_30},
-        {"Y_31", AutonGrid::YGRID::Y_31},
-        {"Y_32", AutonGrid::YGRID::Y_32},
-        {"Y_33", AutonGrid::YGRID::Y_33},
-        {"Y_34", AutonGrid::YGRID::Y_34},
-        {"Y_35", AutonGrid::YGRID::Y_35},
-        {"Y_36", AutonGrid::YGRID::Y_36},
-        {"Y_37", AutonGrid::YGRID::Y_37},
-        {"Y_38", AutonGrid::YGRID::Y_38},
-        {"Y_39", AutonGrid::YGRID::Y_39},
-        {"Y_40", AutonGrid::YGRID::Y_40},
-        {"Y_41", AutonGrid::YGRID::Y_41},
-        {"Y_42", AutonGrid::YGRID::Y_42},
-        {"Y_43", AutonGrid::YGRID::Y_43},
-        {"Y_44", AutonGrid::YGRID::Y_44},
-        {"Y_45", AutonGrid::YGRID::Y_45},
-        {"Y_46", AutonGrid::YGRID::Y_46},
-        {"Y_47", AutonGrid::YGRID::Y_47},
-        {"Y_48", AutonGrid::YGRID::Y_48},
-        {"Y_49", AutonGrid::YGRID::Y_49},
-        {"Y_50", AutonGrid::YGRID::Y_50},
-        {"Y_51", AutonGrid::YGRID::Y_51},
-        {"Y_52", AutonGrid::YGRID::Y_52},
-        {"Y_53", AutonGrid::YGRID::Y_53},
-        {"Y_54", AutonGrid::YGRID::Y_54}};
+        {"1", AutonGrid::YGRID::Y_1},
+        {"2", AutonGrid::YGRID::Y_2},
+        {"3", AutonGrid::YGRID::Y_3},
+        {"4", AutonGrid::YGRID::Y_4},
+        {"5", AutonGrid::YGRID::Y_5},
+        {"6", AutonGrid::YGRID::Y_6},
+        {"7", AutonGrid::YGRID::Y_7},
+        {"8", AutonGrid::YGRID::Y_8},
+        {"9", AutonGrid::YGRID::Y_9},
+        {"10", AutonGrid::YGRID::Y_10},
+        {"11", AutonGrid::YGRID::Y_11},
+        {"12", AutonGrid::YGRID::Y_12},
+        {"13", AutonGrid::YGRID::Y_13},
+        {"14", AutonGrid::YGRID::Y_14},
+        {"15", AutonGrid::YGRID::Y_15},
+        {"16", AutonGrid::YGRID::Y_16},
+        {"17", AutonGrid::YGRID::Y_17},
+        {"18", AutonGrid::YGRID::Y_18},
+        {"19", AutonGrid::YGRID::Y_19},
+        {"20", AutonGrid::YGRID::Y_20},
+        {"21", AutonGrid::YGRID::Y_21},
+        {"22", AutonGrid::YGRID::Y_22},
+        {"23", AutonGrid::YGRID::Y_23},
+        {"24", AutonGrid::YGRID::Y_24},
+        {"25", AutonGrid::YGRID::Y_25},
+        {"26", AutonGrid::YGRID::Y_26},
+        {"27", AutonGrid::YGRID::Y_27},
+        {"28", AutonGrid::YGRID::Y_28},
+        {"29", AutonGrid::YGRID::Y_29},
+        {"30", AutonGrid::YGRID::Y_30},
+        {"31", AutonGrid::YGRID::Y_31},
+        {"32", AutonGrid::YGRID::Y_32},
+        {"33", AutonGrid::YGRID::Y_33},
+        {"34", AutonGrid::YGRID::Y_34},
+        {"35", AutonGrid::YGRID::Y_35},
+        {"36", AutonGrid::YGRID::Y_36},
+        {"37", AutonGrid::YGRID::Y_37},
+        {"38", AutonGrid::YGRID::Y_38},
+        {"39", AutonGrid::YGRID::Y_39},
+        {"40", AutonGrid::YGRID::Y_40},
+        {"41", AutonGrid::YGRID::Y_41},
+        {"42", AutonGrid::YGRID::Y_42},
+        {"43", AutonGrid::YGRID::Y_43},
+        {"44", AutonGrid::YGRID::Y_44},
+        {"45", AutonGrid::YGRID::Y_45},
+        {"46", AutonGrid::YGRID::Y_46},
+        {"47", AutonGrid::YGRID::Y_47},
+        {"48", AutonGrid::YGRID::Y_48},
+        {"49", AutonGrid::YGRID::Y_49},
+        {"50", AutonGrid::YGRID::Y_50},
+        {"51", AutonGrid::YGRID::Y_51},
+        {"52", AutonGrid::YGRID::Y_52},
+        {"53", AutonGrid::YGRID::Y_53},
+        {"54", AutonGrid::YGRID::Y_54}};
 
     static std::map<std::string, ChassisOptionEnums::AutonChassisOptions> xmlStringToChassisOptionEnumMap{
         {"VISION_DRIVE_NOTE", ChassisOptionEnums::AutonChassisOptions::VISION_DRIVE_NOTE},
@@ -141,8 +141,9 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
     if (result)
     {
         xml_node auton = doc.root();
-        for (xml_node zonenode = auton.first_child(); zonenode; zonenode = zonenode.next_sibling())
+        for (xml_node zonenode = auton.first_child().first_child(); zonenode; zonenode = zonenode.next_sibling())
         {
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "PrimitiveParser", "ZoneNode", zonenode.name());
 
             AutonGrid::XGRID xgrid1 = AutonGrid::XGRID::NO_VALUE;
             AutonGrid::YGRID ygrid1 = AutonGrid::YGRID::NONE;
@@ -157,6 +158,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
 
             for (xml_attribute attr = zonenode.first_attribute(); attr; attr = attr.next_attribute())
             {
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), attr.name(), attr.value());
 
                 if (strcmp(attr.name(), "xgrid1") == 0)
                 {
@@ -212,7 +214,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                     if (itr != noteManagerGen::stringToSTATE_NAMESEnumMap.end())
                     {
                         noteChosenOption = itr->second;
-                        isNoteStateChanging = false;
+                        isNoteStateChanging = true;
                     }
                     else
                     {
@@ -247,6 +249,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
 
             if (!hasError) // if no error returns the zone parameters
             {
+
                 return (new ZoneParams(xgrid1,
                                        ygrid1,
                                        xgrid2,

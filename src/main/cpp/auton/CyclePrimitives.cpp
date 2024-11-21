@@ -98,6 +98,7 @@ void CyclePrimitives::Run()
 			if (params != nullptr)
 			{
 				auto zones = params->GetZones();
+
 				if (!zones.empty())
 				{
 					for (auto zone : zones)
@@ -107,6 +108,9 @@ void CyclePrimitives::Run()
 																			   zone->GetYGrid1(),
 																			   zone->GetYGrid2(),
 																			   m_chassis->GetPose());
+						Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsInZone"), isInZone);
+						Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsNoteStateChanging"), zone->IsNoteStateChanging());
+
 						if (isInZone)
 						{
 							auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
@@ -127,15 +131,6 @@ void CyclePrimitives::Run()
 							if (zone->GetAvoidOption() != ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION)
 							{
 								// TODO:  plug in avoid options
-							}
-
-							if (config != nullptr && zone->IsNoteStateChanging())
-							{
-								auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
-								if (noteMgr != nullptr)
-								{
-									noteMgr->SetCurrentState(zone->GetNoteOption(), true);
-								}
 							}
 						}
 					}

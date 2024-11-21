@@ -11,5 +11,8 @@
             <zone filename="IntakeCenterNote2.xml"/>
             <zone filename= "IntakeCenterNote3.xml"/>
             <zone filename="IntakeCenterNote4.xml"/>
+            <zone filename="IntakeCenterNote5.xml"/>
+
+        </primitive>
 
 </auton>
