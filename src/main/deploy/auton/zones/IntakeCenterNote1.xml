@@ -2,9 +2,9 @@
 <!DOCTYPE auton SYSTEM "zone.dtd">
 
 <auton>
-      <zone ygrid1="Y_26"
-            xgrid1="X_26"
-            ygrid2="Y_28"
-            xgrid2="X_24"
+      <zone ygrid1="26"
+            xgrid1="26"
+            ygrid2="28"
+            xgrid2="24"
             noteOption="STATE_PREPARE_PLACE_AMP"/>
 </auton>

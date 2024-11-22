@@ -38,11 +38,11 @@ bool AutonGrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygr
 // defining IsPoseInZone bool method and pulling in the arguements
 {
     // cast the enums xgrid1, etc to doubles
-    auto x = static_cast<double>((xgrid1));
-    auto y = static_cast<double>((ygrid1));
-    auto x2 = static_cast<double>((xgrid2));
-    auto y2 = static_cast<double>((ygrid2));
+    double x1 = static_cast<double>((xgrid1)) - 1.0;
+    double y1 = static_cast<double>((ygrid1)) - 1.0;
+    double x2 = static_cast<double>((xgrid2)) - 1.0;
+    double y2 = static_cast<double>((ygrid2)) - 1.0;
 
     // then it is determined wether or not the robotPose is in the zone defined by the 2 grids.
-    return ((robotPose.X()) <= m_gridRes * (x2) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y2) && (robotPose.Y()) >= m_gridRes * (y - 1));
+    return ((robotPose.X() <= (m_gridRes * x2)) && (robotPose.X() >= (m_gridRes * x1)) && (robotPose.Y() <= (m_gridRes * y2)) && (robotPose.Y() >= (m_gridRes * y1)));
 }

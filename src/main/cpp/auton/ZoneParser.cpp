@@ -153,6 +153,10 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
             bool isNoteStateChanging = false;
             noteManagerGen::STATE_NAMES noteChosenOption = noteManagerGen::STATE_NAMES::STATE_OFF;
             ChassisOptionEnums::AutonAvoidOptions avoidChosenOption = ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION;
+            int X1 = 0;
+            int Y1 = 0;
+            int X2 = 0;
+            int Y2 = 0;
 
             // looping through the zone xml attributes to define the location of a given zone (based on 2 sets grid coordinates)
 
@@ -165,7 +169,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                     auto itr = X_xmlStringToGridEnumMap.find(attr.value());
                     if (itr != X_xmlStringToGridEnumMap.end())
                     {
-                        xgrid1 = itr->second;
+                        X1 = attr.as_int();
                     }
                     else
                     {
@@ -177,7 +181,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                     auto itr = Y_xmlStringToGridEnumMap.find(attr.value());
                     if (itr != Y_xmlStringToGridEnumMap.end())
                     {
-                        ygrid1 = itr->second;
+                        Y1 = attr.as_int();
                     }
                     else
                     {
@@ -189,7 +193,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                     auto itr = X_xmlStringToGridEnumMap.find(attr.value());
                     if (itr != X_xmlStringToGridEnumMap.end())
                     {
-                        xgrid2 = itr->second;
+                        X2 = attr.as_int();
                     }
                     else
                     {
@@ -201,7 +205,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                     auto itr = Y_xmlStringToGridEnumMap.find(attr.value());
                     if (itr != Y_xmlStringToGridEnumMap.end())
                     {
-                        ygrid2 = itr->second;
+                        Y2 = attr.as_int();
                     }
                     else
                     {
@@ -249,6 +253,18 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
 
             if (!hasError) // if no error returns the zone parameters
             {
+                int temp = X1;
+                X1 = min(X1, X2);
+                X2 = max(temp, X2);
+
+                temp = Y1;
+                Y1 = min(Y1, Y2);
+                Y2 = max(temp, Y2);
+
+                xgrid1 = static_cast<AutonGrid::XGRID>(X1 + 1);
+                ygrid1 = static_cast<AutonGrid::YGRID>(Y1 + 1);
+                xgrid2 = static_cast<AutonGrid::XGRID>(X2 + 1);
+                ygrid2 = static_cast<AutonGrid::YGRID>(Y2 + 1);
 
                 return (new ZoneParams(xgrid1,
                                        ygrid1,
