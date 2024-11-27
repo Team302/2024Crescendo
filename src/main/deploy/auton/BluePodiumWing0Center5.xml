@@ -7,11 +7,7 @@
 
         <primitive id= "DRIVE_PATH_PLANNER"
             pathname= "Sabotage">
-            <zone filename = "IntakeCenterNote1.xml"/>
-            <zone filename="IntakeCenterNote2.xml"/>
-            <zone filename= "IntakeCenterNote3.xml"/>
             <zone filename="IntakeCenterNote4.xml"/>
-            <zone filename="IntakeCenterNote5.xml"/>
 
         </primitive>
 

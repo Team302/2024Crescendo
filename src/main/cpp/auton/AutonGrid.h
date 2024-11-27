@@ -26,7 +26,7 @@ class AutonGrid
 public:
     enum XGRID
     {
-        NO_VALUE,
+        NO_VALUE = -1,
         X_1,
         X_2,
         X_3,
@@ -59,7 +59,7 @@ public:
 
     enum YGRID
     {
-        NONE,
+        NONE = -1,
         Y_1,
         Y_2,
         Y_3,

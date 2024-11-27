@@ -98,6 +98,8 @@ void CyclePrimitives::Run()
 			if (params != nullptr)
 			{
 				auto zones = params->GetZones();
+				double temp = (double)zones.size();
+				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone Size"), temp);
 
 				if (!zones.empty())
 				{

@@ -253,6 +253,12 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
 
             if (!hasError) // if no error returns the zone parameters
             {
+
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ZoneParser"), string("X1"), X1);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ZoneParser"), string("X2"), X2);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ZoneParser"), string("Y1"), Y1);
+                Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("ZoneParser"), string("Y2"), Y2);
+
                 int temp = X1;
                 X1 = min(X1, X2);
                 X2 = max(temp, X2);
@@ -261,10 +267,10 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                 Y1 = min(Y1, Y2);
                 Y2 = max(temp, Y2);
 
-                xgrid1 = static_cast<AutonGrid::XGRID>(X1 + 1);
-                ygrid1 = static_cast<AutonGrid::YGRID>(Y1 + 1);
-                xgrid2 = static_cast<AutonGrid::XGRID>(X2 + 1);
-                ygrid2 = static_cast<AutonGrid::YGRID>(Y2 + 1);
+                xgrid1 = static_cast<AutonGrid::XGRID>(X1);
+                ygrid1 = static_cast<AutonGrid::YGRID>(Y1);
+                xgrid2 = static_cast<AutonGrid::XGRID>(X2);
+                ygrid2 = static_cast<AutonGrid::YGRID>(Y2);
 
                 return (new ZoneParams(xgrid1,
                                        ygrid1,
@@ -276,7 +282,7 @@ ZoneParams *ZoneParser::ParseXML(string fulldirfile)
                                        avoidChosenOption));
             }
 
-            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("ZoneParser"), string("ParseXML"), string("Has Error"));
+            Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR, string("PrimitiveParser"), string("ParseXML"), string("Has Error"));
         }
     }
     return nullptr; // if error, return nullptr
