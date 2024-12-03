@@ -67,6 +67,7 @@ CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 
 void CyclePrimitives::Init()
 {
+	m_counter = 0;
 	m_primParams.clear();
 	m_currentPrimSlot = 0; // Reset current prim
 	m_currentPrim = nullptr;
@@ -94,13 +95,18 @@ void CyclePrimitives::Run()
 
 		if (m_chassis != nullptr)
 		{
-			auto params = (m_currentPrimSlot < (int)m_primParams.size()) ? m_primParams[m_currentPrimSlot] : nullptr;
+			auto params = (m_currentPrimSlot < (int)m_primParams.size()) ? m_primParams[(m_currentPrimSlot != 0 ? m_currentPrimSlot - 1 : 0)] : nullptr;
+			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("CurrentPrimSlot "), m_currentPrimSlot);
+			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Prim Size "), (int)m_primParams.size());
+
 			if (params != nullptr)
 			{
 				auto zones = params->GetZones();
 				double temp = (double)zones.size();
 				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone Size"), temp);
-
+				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone 1 XGrid"), zones[0]->GetXGrid1());
+				m_counter++;
+				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Counter "), m_counter);
 				if (!zones.empty())
 				{
 					for (auto zone : zones)
@@ -110,8 +116,8 @@ void CyclePrimitives::Run()
 																			   zone->GetYGrid1(),
 																			   zone->GetYGrid2(),
 																			   m_chassis->GetPose());
-						Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsInZone"), isInZone);
 						Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsNoteStateChanging"), zone->IsNoteStateChanging());
+						Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsInZone"), isInZone);
 
 						if (isInZone)
 						{

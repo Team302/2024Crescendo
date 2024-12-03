@@ -44,10 +44,14 @@ bool AutonGrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygr
     double x2 = static_cast<double>((xgrid2));
     double y2 = static_cast<double>((ygrid2));
 
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "X1", x1);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "X2", x2);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Y1", y1);
-    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Y2", y2);
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "X1", units::length::meter_t(units::length::foot_t(x1)).value());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "X2", units::length::meter_t(units::length::foot_t(x2)).value());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Y1", units::length::meter_t(units::length::foot_t(y1)).value());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Y2", units::length::meter_t(units::length::foot_t(y2)).value());
+
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Robot X", robotPose.X().value());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Robot Y", robotPose.Y().value());
+    Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "InZone", ((robotPose.X() <= units::length::meter_t(x2)) && (robotPose.X() >= units::length::meter_t(x1)) && (robotPose.Y() <= units::length::meter_t(y2)) && (robotPose.Y() >= units::length::meter_t(y1))));
     // then it is determined wether or not the robotPose is in the zone defined by the 2 grids.
-    return ((robotPose.X() <= (m_gridRes * x2)) && (robotPose.X() >= (m_gridRes * x1)) && (robotPose.Y() <= (m_gridRes * y2)) && (robotPose.Y() >= (m_gridRes * y1)));
+    return ((robotPose.X() <= units::length::meter_t(x2)) && (robotPose.X() >= units::length::meter_t(x1)) && (robotPose.Y() <= units::length::meter_t(y2)) && (robotPose.Y() >= units::length::meter_t(y1)));
 }

@@ -27,6 +27,7 @@
 // Team 302 includes
 #include "chassis/ChassisOptionEnums.h"
 #include "State.h"
+#include "auton/ZoneParams.h"
 
 // Third Party Includes
 
@@ -66,4 +67,5 @@ private:
 	SwerveChassis *m_chassis;
 	static void SetMechanismStatesFromParam(PrimitiveParams *params);
 	ChassisOptionEnums::PathUpdateOption m_updatedHeadingOption;
+	int m_counter = 0;
 };
