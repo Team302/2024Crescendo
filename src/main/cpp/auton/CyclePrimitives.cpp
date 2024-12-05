@@ -71,8 +71,10 @@ void CyclePrimitives::Init()
 	m_primParams.clear();
 	m_currentPrimSlot = 0; // Reset current prim
 	m_currentPrim = nullptr;
+	m_zones.clear();
 
-	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("About to parse XML file "), m_autonSelector->GetSelectedAutoFile().c_str());
+	Logger::GetLogger()
+		->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("About to parse XML file "), m_autonSelector->GetSelectedAutoFile().c_str());
 
 	m_primParams = PrimitiveParser::ParseXML(m_autonSelector->GetSelectedAutoFile());
 	Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("nPrims"), double(m_primParams.size()));
@@ -95,51 +97,50 @@ void CyclePrimitives::Run()
 
 		if (m_chassis != nullptr)
 		{
-			auto params = (m_currentPrimSlot < (int)m_primParams.size()) ? m_primParams[(m_currentPrimSlot != 0 ? m_currentPrimSlot - 1 : 0)] : nullptr;
+
 			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("CurrentPrimSlot "), m_currentPrimSlot);
 			Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Prim Size "), (int)m_primParams.size());
 
-			if (params != nullptr)
+			if (!m_zones.empty())
 			{
-				auto zones = params->GetZones();
-				double temp = (double)zones.size();
+				int temp = (int)m_zones.size();
+
 				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone Size"), temp);
-				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone 1 XGrid"), zones[0]->GetXGrid1());
+				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone 1 XGrid"), m_zones[0]->GetXGrid1());
+
 				m_counter++;
+
 				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Counter "), m_counter);
-				if (!zones.empty())
+				for (auto zone : m_zones)
 				{
-					for (auto zone : zones)
+					auto isInZone = AutonGrid::GetInstance()->IsPoseInZone(zone->GetXGrid1(),
+																		   zone->GetXGrid2(),
+																		   zone->GetYGrid1(),
+																		   zone->GetYGrid2(),
+																		   m_chassis->GetPose());
+					Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsNoteStateChanging"), zone->IsNoteStateChanging());
+					Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsInZone"), isInZone);
+
+					if (isInZone)
 					{
-						auto isInZone = AutonGrid::GetInstance()->IsPoseInZone(zone->GetXGrid1(),
-																			   zone->GetXGrid2(),
-																			   zone->GetYGrid1(),
-																			   zone->GetYGrid2(),
-																			   m_chassis->GetPose());
-						Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsNoteStateChanging"), zone->IsNoteStateChanging());
-						Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsInZone"), isInZone);
-
-						if (isInZone)
+						auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
+						if (config != nullptr && zone->IsNoteStateChanging())
 						{
-							auto config = RobotConfigMgr::GetInstance()->GetCurrentConfig();
-							if (config != nullptr && zone->IsNoteStateChanging())
+							auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
+							if (noteMgr != nullptr)
 							{
-								auto noteMgr = config->GetMechanism(MechanismTypes::MECHANISM_TYPE::NOTE_MANAGER);
-								if (noteMgr != nullptr)
-								{
-									noteMgr->SetCurrentState(zone->GetNoteOption(), true);
-								}
+								noteMgr->SetCurrentState(zone->GetNoteOption(), true);
 							}
+						}
 
-							if (zone->GetChassisOption() != ChassisOptionEnums::AutonChassisOptions::NO_VISION)
-							{
-								// TODO:  plug in vision drive options
-							}
+						if (zone->GetChassisOption() != ChassisOptionEnums::AutonChassisOptions::NO_VISION)
+						{
+							// TODO:  plug in vision drive options
+						}
 
-							if (zone->GetAvoidOption() != ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION)
-							{
-								// TODO:  plug in avoid options
-							}
+						if (zone->GetAvoidOption() != ChassisOptionEnums::AutonAvoidOptions::NO_AVOID_OPTION)
+						{
+							// TODO:  plug in avoid options
 						}
 					}
 				}
@@ -182,6 +183,7 @@ void CyclePrimitives::GetNextPrim()
 			m_currentPrim->Init(currentPrimParam);
 
 			SetMechanismStatesFromParam(currentPrimParam);
+			m_zones = currentPrimParam->GetZones();
 
 			m_maxTime = currentPrimParam->GetTime();
 			m_timer->Reset();

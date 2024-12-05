@@ -68,4 +68,5 @@ private:
 	static void SetMechanismStatesFromParam(PrimitiveParams *params);
 	ChassisOptionEnums::PathUpdateOption m_updatedHeadingOption;
 	int m_counter = 0;
+	ZoneParamsVector m_zones;
 };
