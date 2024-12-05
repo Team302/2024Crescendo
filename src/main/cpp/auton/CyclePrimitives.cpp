@@ -67,7 +67,6 @@ CyclePrimitives::CyclePrimitives() : State(string("CyclePrimitives"), 0),
 
 void CyclePrimitives::Init()
 {
-	m_counter = 0;
 	m_primParams.clear();
 	m_currentPrimSlot = 0; // Reset current prim
 	m_currentPrim = nullptr;
@@ -105,12 +104,9 @@ void CyclePrimitives::Run()
 			{
 				int temp = (int)m_zones.size();
 
-				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone Size"), temp);
-				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone 1 XGrid"), m_zones[0]->GetXGrid1());
+				// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone Size"), temp);
+				// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone 1 XGrid"), m_zones[0]->GetXGrid1());
 
-				m_counter++;
-
-				Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("Counter "), m_counter);
 				for (auto zone : m_zones)
 				{
 					auto isInZone = AutonGrid::GetInstance()->IsPoseInZone(zone->GetXGrid1(),
@@ -118,8 +114,8 @@ void CyclePrimitives::Run()
 																		   zone->GetYGrid1(),
 																		   zone->GetYGrid2(),
 																		   m_chassis->GetPose());
-					Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsNoteStateChanging"), zone->IsNoteStateChanging());
-					Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsInZone"), isInZone);
+					// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsNoteStateChanging"), zone->IsNoteStateChanging());
+					// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsInZone"), isInZone);
 
 					if (isInZone)
 					{
