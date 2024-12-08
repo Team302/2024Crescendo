@@ -102,10 +102,6 @@ void CyclePrimitives::Run()
 
 			if (!m_zones.empty())
 			{
-				int temp = (int)m_zones.size();
-
-				// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone Size"), temp);
-				// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("PrimitiveParser"), string("Zone 1 XGrid"), m_zones[0]->GetXGrid1());
 
 				for (auto zone : m_zones)
 				{
@@ -114,8 +110,6 @@ void CyclePrimitives::Run()
 																		   zone->GetYGrid1(),
 																		   zone->GetYGrid2(),
 																		   m_chassis->GetPose());
-					// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsNoteStateChanging"), zone->IsNoteStateChanging());
-					// Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, string("CyclePrim"), string("IsInZone"), isInZone);
 
 					if (isInZone)
 					{
