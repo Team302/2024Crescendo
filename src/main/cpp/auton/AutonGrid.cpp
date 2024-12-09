@@ -44,16 +44,7 @@ bool AutonGrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygr
     double x2 = static_cast<double>((xgrid2));
     double y2 = static_cast<double>((ygrid2));
 
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "X1", units::length::meter_t(units::length::foot_t(x1)).value());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "X2", units::length::meter_t(units::length::foot_t(x2)).value());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Y1", units::length::meter_t(units::length::foot_t(y1)).value());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Y2", units::length::meter_t(units::length::foot_t(y2)).value());
-
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Robot X", robotPose.X().value());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "Robot Y", robotPose.Y().value());
-    // Logger::GetLogger()->LogData(LOGGER_LEVEL::PRINT, "Zones", "InZone", ((robotPose.X().value() >= units::length::meter_t(units::length::foot_t(x1)).value()) && (robotPose.X().value() <= units::length::meter_t(units::length::foot_t(x2)).value()) && (robotPose.Y().value() >= units::length::meter_t(units::length::foot_t(y1)).value()) && (robotPose.Y().value() <= units::length::meter_t(units::length::foot_t(y2)).value())));
-
     // then it is determined wether or not the robotPose is in the zone defined by the 2 grids.
-    return ((robotPose.X().value() >= units::length::meter_t(units::length::foot_t(x1)).value()) && (robotPose.X().value() <= units::length::meter_t(units::length::foot_t(x2)).value()) &&
-            (robotPose.Y().value() >= units::length::meter_t(units::length::foot_t(y1)).value()) && (robotPose.Y().value() <= units::length::meter_t(units::length::foot_t(y2)).value()));
+    return ((robotPose.X().value() >= units::length::meter_t(x1 * m_gridRes).value()) && (robotPose.X().value() <= units::length::meter_t(x2 * m_gridRes).value()) &&
+            (robotPose.Y().value() >= units::length::meter_t(y1 * m_gridRes).value()) && (robotPose.Y().value() <= units::length::meter_t(y2 * m_gridRes).value()));
 }
