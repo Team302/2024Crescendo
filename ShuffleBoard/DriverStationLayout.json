@@ -505,7 +505,7 @@
             "content": {
               "_type": "Toggle Button",
               "_source0": "network_table:///SmartDashboard/NOTE_MANAGER_FRONT_INTAKE",
-              "_title": "",
+              "_title": "/SmartDashboard/NOTE_MANAGER_FRONT_INTAKE",
               "_glyph": 148,
               "_showGlyph": false
             }
