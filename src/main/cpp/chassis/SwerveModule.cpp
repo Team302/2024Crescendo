@@ -174,6 +174,8 @@ void SwerveModule::SetDesiredState(const SwerveModuleState &targetState, units::
     SetDriveSpeed(m_optimizedState.speed);
 }
 
+bool SwerveModule::IsSlipping() { return m_tractionController->isSlipping(); }
+
 //==================================================================================
 /// @brief Run the swerve module at the same speed and angle
 /// @returns void
@@ -499,5 +501,26 @@ void SwerveModule::ReadConstants(string configfilename) /// TO DO need to update
     else
     {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, m_networkTableName, string("Config File not found"), configfilename);
+    }
+}
+
+void SwerveModule::DefineLaserCan(grpl::LaserCanRangingMode rangingMode, grpl::LaserCanROI roi, grpl::LaserCanTimingBudget timingBudget)
+{
+    m_laserCan = new grpl::LaserCan(m_driveTalon->GetDeviceID());
+    m_laserCan->set_ranging_mode(rangingMode);
+    m_laserCan->set_roi(roi);
+    m_laserCan->set_timing_budget(timingBudget);
+}
+
+std::optional<uint16_t> SwerveModule::GetLaserValue()
+{
+    if (m_laserCan == nullptr)
+    {
+        return std::nullopt;
+    }
+    std::optional<grpl::LaserCanMeasurement> distance = m_laserCan->get_measurement();
+    if (distance.has_value() && distance.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT)
+    {
+        return distance.value().distance_mm;
     }
 }
