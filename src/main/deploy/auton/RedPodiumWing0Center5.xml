@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE auton SYSTEM "auton.dtd">
 <auton>
-<primitive id= "RESET_POSITION_PATH_PLANNER"
-           pathname="Sab1"
-           noteOption="STATE_READY_AUTO_LAUNCH"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-    pathname= "Sab1"
-    time= "1.0"
-    noteOption="STATE_READY_AUTO_LAUNCH"
-    />
+    <primitive id= "RESET_POSITION_PATH_PLANNER"
+                pathname= "Sabotage"/>
 
-<snippet file= "ShootWhenStopAuto.xml"/>
+        <primitive id= "DRIVE_PATH_PLANNER"
+            pathname= "Sabotage">
+            <zone filename = "IntakeCenterNote1.xml"/>
+            <zone filename="IntakeCenterNote2.xml"/>
+            <zone filename= "IntakeCenterNote3.xml"/>
+            <zone filename="IntakeCenterNote4.xml"/>
+            <zone filename="IntakeCenterNote5.xml"/>
 
-<primitive id= "DRIVE_PATH_PLANNER"
-    pathname= "Sab2"
-    time= "12.0"
-    noteOption="STATE_OFF"
-    />
+        </primitive>
+
 </auton>

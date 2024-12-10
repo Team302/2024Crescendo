@@ -16,6 +16,7 @@
 // FRC Includes
 #include <frc/geometry/Pose2d.h>
 #include <math.h>
+#include "utils/logging/Logger.h"
 
 // Team302 Includes
 #include "auton/AutonGrid.h"
@@ -38,11 +39,12 @@ bool AutonGrid::IsPoseInZone(XGRID xgrid1, XGRID xgrid2, YGRID ygrid1, YGRID ygr
 // defining IsPoseInZone bool method and pulling in the arguements
 {
     // cast the enums xgrid1, etc to doubles
-    auto x = static_cast<double>((xgrid1));
-    auto y = static_cast<double>((ygrid1));
-    auto x2 = static_cast<double>((xgrid2));
-    auto y2 = static_cast<double>((ygrid2));
+    double x1 = static_cast<double>((xgrid1));
+    double y1 = static_cast<double>((ygrid1));
+    double x2 = static_cast<double>((xgrid2));
+    double y2 = static_cast<double>((ygrid2));
 
     // then it is determined wether or not the robotPose is in the zone defined by the 2 grids.
-    return ((robotPose.X()) <= m_gridRes * (x2) && (robotPose.X()) >= m_gridRes * (x - 1) && (robotPose.Y()) <= m_gridRes * (y2) && (robotPose.Y()) >= m_gridRes * (y - 1));
+    return ((robotPose.X().value() >= units::length::meter_t(x1 * m_gridRes).value()) && (robotPose.X().value() <= units::length::meter_t(x2 * m_gridRes).value()) &&
+            (robotPose.Y().value() >= units::length::meter_t(y1 * m_gridRes).value()) && (robotPose.Y().value() <= units::length::meter_t(y2 * m_gridRes).value()));
 }
