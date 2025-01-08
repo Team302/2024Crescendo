@@ -265,7 +265,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML(string fulldirfile)
 
                     if (!hasError)
                     {
-
                         for (xml_node child = primitiveNode.first_child(); child && !hasError; child = child.next_sibling())
                         {
 

@@ -69,5 +69,5 @@ bool InitializeState::AtTarget()
 bool InitializeState::IsTransitionCondition(bool considerGamepadTransitions)
 {
 	// To get the current state use m_mechanism->GetCurrentState()
-	return (m_mechanism->IsEnabled());
+	return (m_mechanism->IsEnabled() && false);
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE auton SYSTEM "zone.dtd">
+
+<auton>
+      <zone xgrid1="25"
+            ygrid1="7"
+            xgrid2="28"
+            ygrid2="11"
+            noteOption="STATE_PREPARE_PLACE_AMP"/>
+</auton>

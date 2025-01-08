@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.5637909985497394,
+        "y": 7.460326620116567
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.563790998549738,
+        "y": 7.460326620116567
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.284942222836145,
+        "y": 7.460326620116567
+      },
+      "prevControl": {
+        "x": 8.291593773275059,
+        "y": 7.7234372874567665
+      },
+      "nextControl": {
+        "x": 8.250826253128897,
+        "y": 6.1108253814102005
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.28,
+        "y": 2.4231375833055786
+      },
+      "prevControl": {
+        "x": 8.284744605059212,
+        "y": 3.287785371772753
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.25,
+    "maxAcceleration": 3.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Zone Test",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
