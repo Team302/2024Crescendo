@@ -36,4 +36,5 @@ public:
 
 private:
     RobotDrive *m_robotDrive;
+    double m_loopRate = 0.02;
 };

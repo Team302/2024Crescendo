@@ -33,40 +33,42 @@ PolarDrive::PolarDrive(RobotDrive *robotDrive) : RobotDrive(robotDrive->GetChass
 {
 }
 
-std::array<frc::SwerveModuleState, 4> PolarDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement) {
-    if (m_chassis != nullptr) {
+std::array<frc::SwerveModuleState, 4> PolarDrive::UpdateSwerveModuleStates(ChassisMovement &chassisMovement)
+{
+    if (m_chassis != nullptr)
+    {
         units::length::meter_t reefXPos = units::length::meter_t(4.5); // Reef center x-coordinate, needs updating based on alliance and use constants
-        units::length::meter_t reefYPos = units::length::meter_t(4.0);// Reef center y-coordinate, needs updating based on alliance and use constants
+        units::length::meter_t reefYPos = units::length::meter_t(4.0); // Reef center y-coordinate, needs updating based on alliance and use constants
 
         auto chassisSpeeds = chassisMovement.chassisSpeeds;
 
         frc::Pose2d currentPose = m_chassis->GetPose();
-        double xDiff = currentPose.X().value() - reefXPos.value(); // 7.0 is the x-coordinate of the orbit center
-        double yDiff = currentPose.Y().value() - reefYPos.value(); // 5.0 is the y-coordinate of the orbit center
+        double xDiff = currentPose.X().value() - reefXPos.value();
+        double yDiff = currentPose.Y().value() - reefYPos.value();
 
-        double radius = std::hypot(xDiff, yDiff); 
-        double angle = std::atan2(yDiff, xDiff); 
+        double radius = std::hypot(xDiff, yDiff);
+        double angle = std::atan2(yDiff, xDiff);
 
-        radius += chassisSpeeds.vx.value() * -1; // Negative since forward should decrease radius
+        // Adjust radius based on Vx (forward/backward motion)
+        radius += chassisSpeeds.vx.value() * m_loopRate * -1; // Negative since forward decreases radius
 
-        double tangentialVelocity = chassisSpeeds.vy.value() * radius; 
+        // Adjust angle based on Vy (lateral motion)
+        double angularVelocity = chassisSpeeds.vy.value() / radius; // Angular velocity in radians per second
+        angle += angularVelocity * m_loopRate;                      // Adjust angle for this loop iteration
 
-        chassisSpeeds.vx = units::velocity::meters_per_second_t(std::cos(angle) * tangentialVelocity); 
+        // Update chassisSpeeds to reflect the tangential motion
+        double tangentialVelocity = chassisSpeeds.vx.value(); // Tangential velocity from Vx input
+        chassisSpeeds.vx = units::velocity::meters_per_second_t(std::cos(angle) * tangentialVelocity);
         chassisSpeeds.vy = units::velocity::meters_per_second_t(std::sin(angle) * tangentialVelocity);
-        chassisSpeeds.omega = chassisSpeeds.vy / radius; // Adjust omega for smooth orbiting
 
         return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
-
-    } else {
+    }
+    else
+    {
         Logger::GetLogger()->LogData(LOGGER_LEVEL::ERROR_ONCE, string("PolarDrive"), string("chassis"), string("nullptr"));
     }
 
-    return m_robotDrive->UpdateSwerveModuleStates(chassisMovement); 
-}
-
-std::string PolarDrive::GetDriveStateName() const
-{
-    return std::string("PolarDrive");
+    return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
 void PolarDrive::Init(ChassisMovement &chassisMovement)
