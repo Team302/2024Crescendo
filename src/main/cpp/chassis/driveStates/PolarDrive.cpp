@@ -49,17 +49,20 @@ std::array<frc::SwerveModuleState, 4> PolarDrive::UpdateSwerveModuleStates(Chass
         double radius = std::hypot(xDiff, yDiff);
         double angle = std::atan2(yDiff, xDiff);
 
-        // Adjust radius based on Vx (forward/backward motion)
-        radius += chassisSpeeds.vx.value() * m_loopRate * -1; // Negative since forward decreases radius
+        // Radial velocity: Changes radius
+        double radialVelocity = chassisSpeeds.vx.value(); // Forward/backward motion directly affects radius
+        radius += radialVelocity * m_loopRate * -1;       // Negative since forward decreases radius
 
-        // Adjust angle based on Vy (lateral motion)
-        double angularVelocity = chassisSpeeds.vy.value() / radius; // Angular velocity in radians per second
-        angle += angularVelocity * m_loopRate;                      // Adjust angle for this loop iteration
+        // Angular velocity: Changes angle
+        double angularVelocity = chassisSpeeds.vy.value() / radius; // Clockwise/counter-clockwise motion
+        angle += angularVelocity * m_loopRate;
 
-        // Update chassisSpeeds to reflect the tangential motion
-        double tangentialVelocity = chassisSpeeds.vx.value(); // Tangential velocity from Vx input
-        chassisSpeeds.vx = units::velocity::meters_per_second_t(std::cos(angle) * tangentialVelocity);
-        chassisSpeeds.vy = units::velocity::meters_per_second_t(std::sin(angle) * tangentialVelocity);
+        // Convert polar velocities back to Cartesian
+        double vxNew = radialVelocity * std::cos(angle) - (radius * angularVelocity * std::sin(angle));
+        double vyNew = radialVelocity * std::sin(angle) + (radius * angularVelocity * std::cos(angle));
+
+        chassisSpeeds.vx = units::velocity::meters_per_second_t(vxNew);
+        chassisSpeeds.vy = units::velocity::meters_per_second_t(vyNew);
 
         return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
     }
