@@ -124,13 +124,17 @@ void HolonomicDrive::Run()
         auto isSlowMode = controller->IsButtonPressed(TeleopControlFunctions::SLOW_MODE);
         auto checkTipping = controller->IsButtonPressed(TeleopControlFunctions::TIPCORRECTION_TOGGLE);
         auto isTurnToPassAngle = controller->IsButtonPressed(TeleopControlFunctions::TURN_TO_PASS_ANGLE);
+        auto isPolarDriveSelected = controller->IsButtonPressed(TeleopControlFunctions::POLAR_DRIVE);
 
         // Switch Heading Option and Drive Mode
         if (isAlignGamePieceSelected)
         {
             DriveToGamePiece(forward, strafe, rotate);
         }
-
+        else if (isPolarDriveSelected)
+        {
+            PolarDrive();
+        }
         else if (isAlignWithAmpSelected)
         {
             AlignToAmp();
@@ -350,6 +354,11 @@ void HolonomicDrive::SlowMode()
     m_moveInfo.chassisSpeeds.vx *= m_slowModeMultiplier;
     m_moveInfo.chassisSpeeds.vy *= m_slowModeMultiplier;
     m_moveInfo.chassisSpeeds.omega *= m_slowModeMultiplier;
+}
+
+void HolonomicDrive::PolarDrive()
+{
+    m_moveInfo.driveOption = ChassisOptionEnums::DriveStateType::POLAR_DRIVE;
 }
 
 void HolonomicDrive::CheckTipping(bool isSelected)

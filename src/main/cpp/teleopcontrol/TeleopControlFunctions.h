@@ -57,6 +57,7 @@ public:
         MANUAL_MODE,
         SCORING_MODE,
         DRIVE_TO_NOTE,
+        POLAR_DRIVE,
 
         TURN_TO_PASS_ANGLE,
         READY,

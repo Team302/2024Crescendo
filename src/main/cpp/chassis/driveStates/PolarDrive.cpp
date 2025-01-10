@@ -74,6 +74,11 @@ std::array<frc::SwerveModuleState, 4> PolarDrive::UpdateSwerveModuleStates(Chass
     return m_robotDrive->UpdateSwerveModuleStates(chassisMovement);
 }
 
+std::string PolarDrive::GetDriveStateName() const
+{
+    return std::string("PolarDrive");
+}
+
 void PolarDrive::Init(ChassisMovement &chassisMovement)
 {
 }

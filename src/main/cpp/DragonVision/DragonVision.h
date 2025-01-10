@@ -55,6 +55,7 @@ public:
         RIGHT_STAGE,
         CENTER_STAGE,
         SOURCE,
+        REEF,
         NEAREST_APRILTAG
     };
 

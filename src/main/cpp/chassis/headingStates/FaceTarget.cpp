@@ -21,7 +21,7 @@
 #include "chassis/headingStates/FaceTarget.h"
 #include "frc/geometry/Pose2d.h"
 #include "utils/FMSData.h"
-
+#include "utils/AngleUtils.h"
 #include "utils/logging/Logger.h"
 
 FaceTarget::FaceTarget(ChassisOptionEnums::HeadingOption headingOption) : SpecifiedHeading(headingOption)
@@ -49,7 +49,18 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
             {
                 auto targetPose = get<1>(info);
 
-                units::angle::degree_t fieldRelativeAngle = (allianceColor == frc::DriverStation::Alliance::kBlue && GetVisionElement() == DragonVision::VISION_ELEMENT::SPEAKER) ? (units::angle::degree_t(180) + targetPose.Rotation().Degrees()) : targetPose.Rotation().Degrees();
+                units::angle::degree_t fieldRelativeAngle = (allianceColor == frc::DriverStation::Alliance::kBlue) ? (units::angle::degree_t(180) + targetPose.Rotation().Degrees()) : targetPose.Rotation().Degrees();
+
+                if (GetVisionElement() == DragonVision::VISION_ELEMENT::REEF)
+                {
+                    frc::Pose2d currentPose = chassis->GetPose();
+
+                    units::length::meter_t xDiff = currentPose.X() - targetPose.X();
+                    units::length::meter_t yDiff = currentPose.Y() - targetPose.Y();
+                    units::angle::degree_t angleToReefCenter = units::math::atan2(yDiff, xDiff) * 180.0 / M_PI;
+
+                    fieldRelativeAngle = DetermineReefFaceAngle(angleToReefCenter);
+                }
 
                 chassisMovement.yawAngle = fieldRelativeAngle;
                 return fieldRelativeAngle;
@@ -65,4 +76,9 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
     }
 
     return chassisMovement.yawAngle;
+}
+
+units::angle::degree_t DetermineReefFaceAngle(units::angle::degree_t angleToReefCenter)
+{
+    angleToReefCenter = AngleUtils::GetEquivAngle(angleToReefCenter); // gives an angle back -180 to 180 (which is what the robot fieldRelative angle will be within)
 }

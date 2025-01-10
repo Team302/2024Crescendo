@@ -29,6 +29,7 @@ public:
         FACE_RIGHT_STAGE,
         FACE_CENTER_STAGE,
         FACE_STAGE,
+        FACE_REEF,
         IGNORE
     };
 
@@ -36,6 +37,7 @@ public:
     {
         ROBOT_DRIVE,
         FIELD_DRIVE,
+        POLAR_DRIVE,
         TRAJECTORY_DRIVE_PLANNER,
         DRIVE_TO_NOTE,
         HOLD_DRIVE,
