@@ -59,14 +59,14 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
                     units::length::meter_t yDiff = targetPose.Y() - currentPose.Y();
                     units::angle::degree_t angleToReefCenter = units::math::atan2(yDiff, xDiff);
 
-                    // calcuating remainder to lock target angle to the face of the reef
-                    units::angle::degree_t remainder = units::math::fmod(angleToReefCenter, 60.0_deg);
-                    units::angle::degree_t closestMultiple = angleToReefCenter - remainder;
+                    // Adjust angleToReefCenter to be between -180 and 180 degrees
+                    angleToReefCenter = AngleUtils::GetEquivAngle(angleToReefCenter);
 
-                    if (remainder > 30.0_deg)
-                    {
-                        closestMultiple += 60_deg;
-                    }
+                    // Calculate the angle relative to the closest 60-degree increment
+                    units::angle::degree_t angleRelativeToFace = units::angle::degree_t(units::math::fmod(angleToReefCenter + 30.0_deg, 60.0_deg) - 30.0_deg);
+
+                    // Adjust the angle to the nearest 60-degree increment
+                    units::angle::degree_t closestMultiple = angleToReefCenter - angleRelativeToFace;
 
                     fieldRelativeAngle = AngleUtils::GetEquivAngle(closestMultiple);
                 }
