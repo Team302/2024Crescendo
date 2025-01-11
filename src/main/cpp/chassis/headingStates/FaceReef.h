@@ -25,6 +25,7 @@ public:
     ~FaceReef() = default;
 
     std::string GetHeadingStateName() const override;
+    units::angle::degree_t DetermineReefFaceAngle(units::angle::degree_t angleToReefCenter);
 
 protected:
     DragonVision::VISION_ELEMENT GetVisionElement() const override;

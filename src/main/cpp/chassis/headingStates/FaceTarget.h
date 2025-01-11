@@ -36,6 +36,9 @@ public:
 
     std::string GetHeadingStateName() const override;
 
+    // Define the base angle for each face of the hexagon
+    units::angle::degree_t m_faceAngleIncrement = 60_deg;
+
 protected:
     virtual DragonVision::VISION_ELEMENT GetVisionElement() const = 0;
     units::angle::degree_t GetTargetAngle(ChassisMovement &chassisMovement) const override;

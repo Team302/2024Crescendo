@@ -55,11 +55,20 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
                 {
                     frc::Pose2d currentPose = chassis->GetPose();
 
-                    units::length::meter_t xDiff = currentPose.X() - targetPose.X();
-                    units::length::meter_t yDiff = currentPose.Y() - targetPose.Y();
-                    units::angle::degree_t angleToReefCenter = units::math::atan2(yDiff, xDiff) * 180.0 / M_PI;
+                    units::length::meter_t xDiff = targetPose.X() - currentPose.X();
+                    units::length::meter_t yDiff = targetPose.Y() - currentPose.Y();
+                    units::angle::degree_t angleToReefCenter = units::math::atan2(yDiff, xDiff);
 
-                    fieldRelativeAngle = DetermineReefFaceAngle(angleToReefCenter);
+                    // calcuating remainder to lock target angle to the face of the reef
+                    units::angle::degree_t remainder = units::math::fmod(angleToReefCenter, 60.0_deg);
+                    units::angle::degree_t closestMultiple = angleToReefCenter - remainder;
+
+                    if (remainder > 30.0_deg)
+                    {
+                        closestMultiple += 60_deg;
+                    }
+
+                    fieldRelativeAngle = AngleUtils::GetEquivAngle(closestMultiple);
                 }
 
                 chassisMovement.yawAngle = fieldRelativeAngle;
@@ -76,9 +85,4 @@ units::angle::degree_t FaceTarget::GetTargetAngle(ChassisMovement &chassisMoveme
     }
 
     return chassisMovement.yawAngle;
-}
-
-units::angle::degree_t DetermineReefFaceAngle(units::angle::degree_t angleToReefCenter)
-{
-    angleToReefCenter = AngleUtils::GetEquivAngle(angleToReefCenter); // gives an angle back -180 to 180 (which is what the robot fieldRelative angle will be within)
 }
